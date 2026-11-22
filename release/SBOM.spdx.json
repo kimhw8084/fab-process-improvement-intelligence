@@ -1,0 +1,36 @@
+{
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "annotations": [
+    {
+      "annotationDate": "2026-11-22T00:00:00Z",
+      "annotationType": "OTHER",
+      "annotator": "Tool: FabIntel P4 local SBOM generator 1.0.0",
+      "comment": "Product runtime has no bundled third-party package dependencies. Python 3.10+ standard library is provided by the separately installed interpreter. Optional statsmodels/NumPy/SciPy benchmark references are environment-only and are not packaged."
+    }
+  ],
+  "creationInfo": {
+    "created": "2026-11-22T00:00:00Z",
+    "creators": [
+      "Tool: FabIntel P4 local SBOM generator 1.0.0"
+    ]
+  },
+  "dataLicense": "CC0-1.0",
+  "documentNamespace": "https://fabintel.invalid/spdx/p4-candidate-1.0.0",
+  "name": "fab-intelligence-p4-candidate",
+  "packages": [
+    {
+      "SPDXID": "SPDXRef-P4-Candidate",
+      "comment": "No project license is declared in the supplied folder; distribution rights remain pending owner review.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "FAB Process Improvement Intelligence P4 Candidate",
+      "primaryPackagePurpose": "APPLICATION",
+      "versionInfo": "1.0.0"
+    }
+  ],
+  "relationships": [],
+  "spdxVersion": "SPDX-2.3"
+}

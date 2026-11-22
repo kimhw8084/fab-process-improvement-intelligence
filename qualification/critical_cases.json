@@ -1,0 +1,110 @@
+[
+  {
+    "id": "P4-01",
+    "input_challenge": "factor x=1..4 response=2x",
+    "required_result": "observational OLS slope=2",
+    "oracle": "fixed linear arithmetic",
+    "implemented_in_bootstrap": true,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_01_fixed_slope_oracle"
+  },
+  {
+    "id": "P4-02",
+    "input_challenge": "bounds 1..4, response min5",
+    "required_result": "observed candidate settings only 3,4",
+    "oracle": "explicit fixed bounded observations",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_02_observed_candidates_only"
+  },
+  {
+    "id": "P4-03",
+    "input_challenge": "request to change actual recipe",
+    "required_result": "REFUSED; zero actuation",
+    "oracle": "policy oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_03_actuation_is_refused"
+  },
+  {
+    "id": "P4-04",
+    "input_challenge": "no approved constraints",
+    "required_result": "REFUSED; no candidate settings",
+    "oracle": "missing constraints oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_04_missing_constraints_refuse_candidates"
+  },
+  {
+    "id": "P4-05",
+    "input_challenge": "fully collinear factors",
+    "required_result": "cannot identify separate sensitivities",
+    "oracle": "rank-deficient model fixture",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_05_collinearity_blocks_separate_sensitivities"
+  },
+  {
+    "id": "P4-06",
+    "input_challenge": "unsupported extrapolation beyond data support",
+    "required_result": "reject process window claim",
+    "oracle": "out-of-support oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_06_out_of_support_rows_never_become_candidates"
+  },
+  {
+    "id": "P4-07",
+    "input_challenge": "confounded before/after positive shift",
+    "required_result": "no causal claim",
+    "oracle": "zero-effect confounded fixture",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_07_confounded_before_after_is_not_causal"
+  },
+  {
+    "id": "P4-08",
+    "input_challenge": "true intervention with randomized controls",
+    "required_result": "estimated effect + valid uncertainty",
+    "oracle": "known intervention oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_08_randomized_effect_matches_independent_interval"
+  },
+  {
+    "id": "P4-09",
+    "input_challenge": "no valid control population",
+    "required_result": "descriptive difference only, causal estimate INCONCLUSIVE",
+    "oracle": "missing control fixture",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_09_missing_control_withholds_effect"
+  },
+  {
+    "id": "P4-10",
+    "input_challenge": "physical constraint violation",
+    "required_result": "exclude from candidate or refuse experiment",
+    "oracle": "forbidden-domain oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_10_forbidden_region_excluded_from_window_and_doe"
+  },
+  {
+    "id": "P4-11",
+    "input_challenge": "multiobjective tradeoff with downstream degradation",
+    "required_result": "report both objectives and conflict",
+    "oracle": "known Pareto oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_11_pareto_front_matches_hand_checked_points"
+  },
+  {
+    "id": "P4-12",
+    "input_challenge": "future leakage in split",
+    "required_result": "time/run-separated validation required",
+    "oracle": "held-out experiment oracle",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_p4_12_future_leakage_is_refused"
+  }
+]

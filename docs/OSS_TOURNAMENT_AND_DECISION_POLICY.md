@@ -1,0 +1,9 @@
+# Scientific OSS reuse and engineering tournament
+
+Use this order: (1) existing approved host/MCP and standard-library/deterministic baseline; (2) mature, permissively licensed OSS that demonstrably provides required capability; (3) selective new research implementation only when held-out, identical-task tests prove a meaningful gain. Avoid needless agent-framework, web UI, database, and model duplication.
+
+Measure correctness/abstention (noncompensatory), required analyst minutes, latency p50/p95, peak memory, build/install burden, compatibility, operational requests/tokens, maintenance/licensing risk. Use actual dataset sizes and independent oracles. Freeze representative holdout data before comparison. For table discovery, challenge plain lexical search + approved graph first; evaluate CORE-T / schemagraph only if likely useful on approved semantic knowledge. Do not assume embedding retrieval outperforms lexical/schema graphs.
+
+Important candidate pool (verify latest upstream commits/licenses before vendoring): DuckDB, statsmodels, Pandera, SQLGlot (NOT access control), ruptures, River, PyOD, NetworkX, ocel-mine, scikit-image, PySAL/esda, scikit-learn, DoWhy, MAPIE, OR-Tools, Ax/BoTorch, PyMC, pymoo. Optional experimental software may have immature maintenance/compatibility. Prior research flagged AGPL/BSL/ELv2/transitive licensing concerns in several alternatives; no assumption of blanket commercial permission.
+
+Research budget policy: search only to resolve a live design or performance uncertainty; document alternatives and exact reason for choice in a short ADR. Do not perform perpetual broad GitHub hunting or measure quality by agent/tool count. Retain advanced component only if justified by objective incremental benefit, scientific requirement, or demonstrably lower operational cost.

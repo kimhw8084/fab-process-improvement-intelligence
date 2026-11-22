@@ -1,0 +1,61 @@
+{
+  "benchmark_version": "1.0.0",
+  "catalog_rows": 13000,
+  "engineering_user_baseline": "NOT_AVAILABLE; no eligible engineer study or human task-time baseline supplied",
+  "environment": {
+    "architecture": "arm64",
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]",
+    "release": "25.6.0",
+    "system": "Darwin"
+  },
+  "network": "not used",
+  "oss_reference": {
+    "absolute_differences": {
+      "intercept": 2.842170943040401e-14,
+      "pressure": 4.884981308350689e-15,
+      "pressure:temperature": 3.657814791798349e-15,
+      "temperature": 4.440892098500626e-16
+    },
+    "maximum_absolute_coefficient_difference": 2.842170943040401e-14,
+    "metrics": {
+      "p50_ms": 0.04029180854558945,
+      "p95_ms": 0.1150425523519516,
+      "peak_python_alloc_bytes_one_run": 7896,
+      "repeats": 25
+    },
+    "name": "statsmodels OLS",
+    "role": "benchmark-only; not imported by product runtime",
+    "version": "0.14.0"
+  },
+  "precommitted_protocol": "qualification/BENCHMARK_PLAN.md",
+  "reproducibility": "25 repetitions per task; deterministic input fixtures; perf_counter and tracemalloc",
+  "tasks": {
+    "integrated_analysis_1000_rows": {
+      "p50_ms": 0.8683744817972183,
+      "p95_ms": 0.9410828351974487,
+      "peak_python_alloc_bytes_one_run": 749662,
+      "repeats": 25
+    },
+    "integrated_analysis_18_rows": {
+      "p50_ms": 0.32137520611286163,
+      "p95_ms": 0.4057902842760086,
+      "peak_python_alloc_bytes_one_run": 60301,
+      "repeats": 25
+    },
+    "integrated_analysis_5000_rows": {
+      "p50_ms": 4.472582601010799,
+      "p95_ms": 4.598041996359825,
+      "peak_python_alloc_bytes_one_run": 3314753,
+      "repeats": 25
+    },
+    "synthetic_schema_catalog_13000_tables": {
+      "p50_ms": 8.244500495493412,
+      "p95_ms": 11.784041300415993,
+      "peak_python_alloc_bytes_one_run": 6522027,
+      "repeats": 25
+    }
+  },
+  "thresholds": "No latency or ROI thresholds invented; p50/p95 reported for later internal pre-registration."
+}

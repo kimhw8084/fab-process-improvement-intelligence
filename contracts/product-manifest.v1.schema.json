@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fabintel:product-manifest:1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "product_id",
+    "title",
+    "entrypoints",
+    "capabilities",
+    "dependencies",
+    "release_state"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "product_id": {
+      "enum": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ]
+    },
+    "title": {
+      "type": "string"
+    },
+    "entrypoints": {
+      "type": "object"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "release_state": {
+      "enum": [
+        "BOOTSTRAP_ONLY",
+        "CANDIDATE",
+        "EXTERNAL_TRANSFER_READY"
+      ]
+    }
+  }
+}

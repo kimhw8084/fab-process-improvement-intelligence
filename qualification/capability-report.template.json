@@ -1,0 +1,12 @@
+{
+  "contract_version": "1.0.0",
+  "environment": "INTERNAL_APPROVED_ONLY",
+  "operations": {
+    "discover": {"supported": false, "returns": []},
+    "semantics": {"supported": false, "returns": []},
+    "relationships": {"supported": false, "returns": []},
+    "read_bounded": {"supported": false, "returns": [], "read_only": false, "max_rows": 0, "max_seconds": 0},
+    "cancel": {"supported": false, "returns": []},
+    "audit": {"supported": false, "returns": []}
+  }
+}

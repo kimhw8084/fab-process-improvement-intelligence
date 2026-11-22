@@ -1,0 +1,27 @@
+{
+  "constraints_approved": true,
+  "request_actuation": false,
+  "bounds": [
+    1,
+    4
+  ],
+  "minimum_response": 5,
+  "observations": [
+    {
+      "factor": 1,
+      "response": 2
+    },
+    {
+      "factor": 2,
+      "response": 4
+    },
+    {
+      "factor": 3,
+      "response": 6
+    },
+    {
+      "factor": 4,
+      "response": 8
+    }
+  ]
+}

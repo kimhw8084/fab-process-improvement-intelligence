@@ -1,0 +1,21 @@
+{
+  "contract_version": "1.0.0",
+  "product_id": "p4",
+  "title": "FAB Process Improvement Intelligence",
+  "entrypoints": {
+    "cli": "python -m fabintel",
+    "ui_route": "/fab-intelligence/p4",
+    "analysis": "products.p4.engine:analyze"
+  },
+  "capabilities": [
+    "D01 observational sensitivity with support and rank diagnostics",
+    "D03 observed multiobjective Pareto tradeoffs",
+    "D02 constrained observed and replicated feasible settings",
+    "D04 seeded non-executing factorial experiment proposal",
+    "D05 randomized and difference-in-differences study estimates with design gates"
+  ],
+  "dependencies": [
+    "Python >=3.10 standard library only; no third-party runtime packages"
+  ],
+  "release_state": "CANDIDATE"
+}

@@ -1,0 +1,29 @@
+{
+  "checks": [
+    {
+      "errors": [],
+      "instance": "product.json",
+      "schema": "contracts/product-manifest.v1.schema.json",
+      "schema_sha256": "6c9758be247756afb0c80316b361412687c643e947418e2b598ccc148ba7d4d3",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "release/full_workflow_demo_evidence.json",
+      "schema": "contracts/evidence.v1.schema.json",
+      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "fixtures/full_workflow_demo.json",
+      "schema": "products/p4/investigation.v1.schema.json",
+      "schema_sha256": "28ed0790bac9de90d87b16f610c518be13e09db8937ed610b274d87ded6834c9",
+      "status": "PASS"
+    }
+  ],
+  "role": "qualification-only; not a runtime dependency",
+  "status": "PASS",
+  "validator": "python-jsonschema",
+  "validator_version": "4.19.2"
+}

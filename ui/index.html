@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>FAB Process Improvement Intelligence · P4</title>
+  <style>
+    :root{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#152d3e;background:#f2f6f7;font-synthesis:none}
+    *{box-sizing:border-box}body{margin:0}header{background:#102f3e;color:#f3fbfc;padding:20px max(22px,calc((100vw - 1240px)/2));border-bottom:4px solid #54c6ad}
+    .brand{font-size:.75rem;letter-spacing:.13em;text-transform:uppercase;color:#9fd9ce;font-weight:700}.heading{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-top:7px}.heading h1{font-size:clamp(1.4rem,3vw,2rem);line-height:1.15;margin:0}.heading p{margin:7px 0 0;color:#c5d8de}
+    .wrap{max-width:1240px;margin:22px auto;padding:0 20px 48px}.banner{border:1px solid #d7a948;border-left:5px solid #d7a948;background:#fff8e8;border-radius:8px;padding:12px 16px;margin-bottom:18px}.banner strong{color:#765000}.banner p{margin:4px 0 0;font-size:.92rem;line-height:1.5}
+    .layout{display:grid;grid-template-columns:minmax(300px,.95fr) minmax(360px,1.05fr);gap:18px;align-items:start}.card{background:#fff;border:1px solid #d8e2e4;border-radius:10px;padding:19px;box-shadow:0 2px 7px #112f3e0a}.card h2{font-size:1.1rem;margin:0 0 7px}.sub{margin:0 0 14px;color:#4e6673;font-size:.9rem;line-height:1.5}
+    textarea{display:block;width:100%;min-height:470px;resize:vertical;border:1px solid #adbec4;border-radius:7px;padding:13px;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;color:#122e3c;background:#fbfdfd}textarea:focus-visible,input:focus-visible,button:focus-visible{outline:3px solid #168b76;outline-offset:2px}
+    .actions{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}.button{appearance:none;border:1px solid #176c64;background:#176c64;color:#fff;border-radius:7px;padding:10px 13px;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer}.button.secondary{background:#fff;color:#155b56}.button.danger{border-color:#a34a38;background:#a34a38}.button:disabled{opacity:.55;cursor:not-allowed}.file-label{display:inline-flex;align-items:center;border:1px solid #aabcc2;border-radius:7px;padding:9px 12px;background:#fff;color:#24434f;font-size:.9rem;font-weight:600;cursor:pointer}input[type=file]{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+    .status{min-height:28px;margin:5px 0 0;padding:7px 10px;border-radius:5px;background:#edf3f4;color:#344f5b;font-size:.88rem}.status.error{background:#fff0ee;color:#8c3021}.status.good{background:#e9f7f2;color:#155d4d}.capabilities{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0}.tag{font-size:.75rem;font-weight:700;padding:5px 8px;border-radius:20px;background:#eaf3f4;color:#275263}
+    .findings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:15px 0}.finding{border:1px solid #dce6e7;border-radius:8px;padding:12px;min-height:94px}.finding h3{font-size:.82rem;letter-spacing:.04em;text-transform:uppercase;color:#176c64;margin:0 0 7px}.finding p{margin:0;font-size:.9rem;line-height:1.45;overflow-wrap:anywhere}.claim-list{padding-left:19px;margin:8px 0}.claim-list li{margin:5px 0;line-height:1.45;font-size:.9rem}.detail{border-top:1px solid #e0e8e9;margin-top:13px;padding-top:11px}.detail summary{cursor:pointer;font-weight:650;color:#245365;padding:5px 0}.detail pre{white-space:pre-wrap;overflow:auto;max-height:360px;background:#f5f8f8;border-radius:6px;padding:11px;font:11px/1.45 ui-monospace,monospace;word-break:break-word}.empty{color:#5a7079;font-size:.91rem;line-height:1.5}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    footer{margin-top:18px;color:#536d78;font-size:.83rem;line-height:1.5}a{color:#0e655d}.hidden{display:none!important}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}.heading{display:block}.findings{grid-template-columns:1fr 1fr}textarea{min-height:340px}}
+    @media(max-width:520px){.wrap{padding:0 11px 32px;margin:14px auto}.findings{grid-template-columns:1fr}.card{padding:15px}.actions>*{flex:1 1 auto;justify-content:center}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Fab Intelligence · P4 · shared evidence contract v1.0.0</div>
+    <div class="heading"><div><h1>Process improvement decision dossier</h1><p>Deterministic analysis with explicit evidence and review boundaries</p></div></div>
+  </header>
+  <main class="wrap">
+    <aside class="banner" aria-label="Product qualification status"><strong>CANDIDATE · SYNTHETIC MODE ONLY</strong><p>This local build has no Fab Insight connector. It accepts synthetic fixtures and displays their results as demonstrations. No manufacturing controls, recipe writes, or external network calls are available.</p></aside>
+    <div class="layout">
+      <section class="card" aria-labelledby="request-title">
+        <h2 id="request-title">1 · Engineering request</h2>
+        <p class="sub">Load the complete example or provide a JSON request with approved factor bounds, constraints, units, observations, and any study evidence. The browser sends it only to this loopback service.</p>
+        <div class="capabilities" aria-label="Included analysis capabilities"><span class="tag">D01 Sensitivity</span><span class="tag">D03 Tradeoffs</span><span class="tag">D02 Process window</span><span class="tag">D04 Experiment plan</span><span class="tag">D05 Effectiveness</span></div>
+        <label class="sr-only" for="request-json">Investigation request JSON</label>
+        <textarea id="request-json" spellcheck="false" aria-describedby="request-help" placeholder="Load the synthetic walkthrough or paste a JSON investigation request."></textarea>
+        <p id="request-help" class="sub">Input limit: 2 MiB. Each analysis is bounded to 5,000 observations, 10 factors, and 2,000 rows for Pareto comparison.</p>
+        <div class="actions">
+          <button class="button secondary" id="load-demo" type="button">Load synthetic walkthrough</button>
+          <label class="file-label" for="request-file">Open JSON file</label><input id="request-file" type="file" accept="application/json,.json">
+          <button class="button" id="run" type="button">Analyze dossier</button>
+          <button class="button danger" id="cancel" type="button" disabled>Cancel analysis</button>
+        </div>
+        <div id="run-status" class="status" role="status" aria-live="polite">Ready. Load the synthetic walkthrough or enter a request.</div>
+      </section>
+      <section class="card" aria-labelledby="results-title">
+        <h2 id="results-title">2 · Findings and evidence</h2>
+        <p class="sub">Review each section with the displayed limitations. Detailed method output and the complete evidence envelope remain available below.</p>
+        <div id="result-empty" class="empty">No dossier yet. Results will appear here after analysis.</div>
+        <div id="result-view" class="hidden">
+          <div id="result-status" class="status" role="status"></div>
+          <ul id="claims" class="claim-list" aria-label="Evidence claims"></ul>
+          <div class="findings">
+            <article class="finding"><h3>D01 · Sensitivity</h3><p id="d01">Not run.</p></article>
+            <article class="finding"><h3>D03 · Tradeoffs</h3><p id="d03">Not run.</p></article>
+            <article class="finding"><h3>D02 · Observed region</h3><p id="d02">Not run.</p></article>
+            <article class="finding"><h3>D02 · Replicated robustness</h3><p id="robust">Not estimated.</p></article>
+            <article class="finding"><h3>D04 · Experiment proposal</h3><p id="d04">Not requested.</p></article>
+            <article class="finding"><h3>D05 · Effect assessment</h3><p id="d05">Not requested.</p></article>
+          </div>
+          <div class="actions"><button class="button secondary" id="download-evidence" type="button">Download evidence JSON</button><button class="button secondary" id="download-request" type="button">Download request JSON</button></div>
+          <details class="detail"><summary>Inspect source, population, assumptions, and limitations</summary><pre id="source-inspector"></pre></details>
+          <details class="detail"><summary>Inspect complete method output and evidence envelope</summary><pre id="full-evidence"></pre></details>
+        </div>
+      </section>
+    </div>
+    <footer>Keyboard-operable controls and text alternatives are used throughout. The product does not invoke an LLM. Internal authorization, semantic relationships, source scope, and target-host accessibility remain unqualified pending authorized site-side testing.</footer>
+  </main>
+  <script>
+    "use strict";
+    const requestBox=document.getElementById("request-json"), statusBox=document.getElementById("run-status");
+    const runButton=document.getElementById("run"), cancelButton=document.getElementById("cancel");
+    let activeJob=null, latestEvidence=null, latestRequest=null;
+    const pause=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+    function setStatus(message,kind=""){statusBox.textContent=message;statusBox.className="status"+(kind?" "+kind:"");}
+    function text(id,value){document.getElementById(id).textContent=value;}
+    function pretty(value){return JSON.stringify(value,null,2);}
+    function saveJson(filename,value){const url=URL.createObjectURL(new Blob([pretty(value)+"\n"],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download=filename;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+    async function loadDemo(){setStatus("Loading the bundled synthetic walkthrough…");try{const response=await fetch("/fixtures/full_workflow_demo.json");if(!response.ok)throw new Error("Example fixture is unavailable.");requestBox.value=pretty(await response.json());setStatus("Synthetic walkthrough loaded. Review the assumptions, then analyze.","good");requestBox.focus();}catch(error){setStatus(error.message,"error");}}
+    document.getElementById("load-demo").addEventListener("click",loadDemo);
+    document.getElementById("request-file").addEventListener("change",async event=>{const file=event.target.files&&event.target.files[0];if(!file)return;if(file.size>2*1024*1024){setStatus("Request file exceeds the 2 MiB limit.","error");return;}try{requestBox.value=await file.text();JSON.parse(requestBox.value);setStatus("Request file loaded. Review its scope before analysis.","good");}catch(error){setStatus("Could not load valid JSON: "+error.message,"error");}});
+    function showEvidence(evidence){
+      latestEvidence=evidence;document.getElementById("result-empty").classList.add("hidden");document.getElementById("result-view").classList.remove("hidden");
+      const resultStatus=document.getElementById("result-status");resultStatus.textContent=`${evidence.status} · ${evidence.investigation_id} · ${evidence.mode}`;resultStatus.className="status "+(evidence.status==="VALID"?"good":"");
+      const claims=document.getElementById("claims");claims.replaceChildren();for(const item of evidence.claims||[]){const li=document.createElement("li");li.textContent=`${item.category} · ${item.certainty}: ${item.statement}`;claims.append(li);}if(!claims.children.length){const li=document.createElement("li");li.textContent="No positive claims. Review the refusal or inconclusive reason below.";claims.append(li);}
+      const dossier=(evidence.artifacts||[]).find(item=>item.type==="p4_decision_dossier")||{};
+      const d01=dossier.D01_sensitivity||{};const terms=d01.terms||{};text("d01",d01.status==="VALID"?`${d01.n} observations; terms ${Object.entries(terms).filter(([k])=>k!=="intercept").map(([k,v])=>`${k} ${v.estimate.toPrecision(4)} [${v.ci95.map(n=>n.toPrecision(3)).join(", ")}]`).join("; ")}. ${d01.interpretation||""}`:(d01.reason||d01.status||"Not run."));
+      const d03=dossier.D03_tradeoffs||{};text("d03",d03.status==="VALID"?`${d03.tradeoff_count} observed Pareto candidates across ${(d03.objective_metrics||[]).map(x=>x.metric).join(" and ")}. No unsupported downstream effects.`:(d03.reason||d03.status||"Not run."));
+      const d02=dossier.D02_observed_process_window||{};text("d02",d02.status==="VALID"?`${d02.candidate_count} observed candidates; factor boundaries ${pretty(d02.observed_factor_boundaries)}. ${d02.qualification}`:(d02.reason||d02.status||"Not run."));
+      const rb=dossier.D02_robust_observed_region||{};text("robust",rb.status==="VALID"?`${rb.count} observed settings pass every stated limit across at least ${rb.minimum_independent_units} distinct ${rb.independent_unit_field} values.`:(rb.reason||rb.qualification||rb.status||"Not estimated."));
+      const d04=dossier.D04_experiment_proposal||{};text("d04",d04.status==="PROPOSED"?`${d04.run_count} randomized factorial runs; executed=${d04.executed}; power status ${d04.power.status}. ${d04.power.claim||d04.power.qualification}`:(d04.reason||d04.status||"Not requested."));
+      const d05=dossier.D05_effectiveness||{};text("d05",d05.status==="ESTIMATED"?`${d05.design}: estimate ${d05.estimate.toPrecision(4)}, Welch-t interval ${pretty(d05.ci95_welch_t_approximation)}. Conditional study estimate only.`:(d05.reason||d05.status||"Not requested."));
+      text("source-inspector",pretty({mode:evidence.mode,sources:evidence.sources,populations:evidence.populations,units:evidence.units,assumptions:evidence.assumptions,limitations:evidence.limitations,provenance:evidence.provenance,counterevidence:evidence.counterevidence}));
+      text("full-evidence",pretty(evidence));
+    }
+    runButton.addEventListener("click",async()=>{
+      let request;try{request=JSON.parse(requestBox.value);if(!request||Array.isArray(request)||typeof request!=="object")throw new Error("Request must be a JSON object.");}catch(error){setStatus("Fix the request JSON before running: "+error.message,"error");requestBox.focus();return;}
+      latestRequest=request;runButton.disabled=true;cancelButton.disabled=false;setStatus("Starting bounded local analysis…");
+      try{const started=await fetch("/api/jobs",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(request)});const startBody=await started.json();if(!started.ok)throw new Error(startBody.error||"Could not start analysis.");activeJob=startBody.job_id;setStatus("Analysis running. Cancel is available; no external operation is running.");
+        while(activeJob){await pause(180);const response=await fetch(`/api/jobs/${encodeURIComponent(activeJob)}`);const job=await response.json();if(!response.ok)throw new Error(job.error||"Analysis status could not be read.");if(job.status==="RUNNING")continue;if(job.status==="COMPLETED"||job.status==="CANCELED"){showEvidence(job.result);setStatus(job.status==="CANCELED"?"Analysis cancelled; no result was committed.":"Analysis complete. Inspect each evidence section before reuse.",job.status==="COMPLETED"?"good":"");break;}throw new Error(job.error||"Analysis failed safely; input was not changed.");}
+      }catch(error){setStatus(error.message+" Retry after checking the request and local server status.","error");}finally{activeJob=null;runButton.disabled=false;cancelButton.disabled=true;}
+    });
+    cancelButton.addEventListener("click",async()=>{if(!activeJob)return;cancelButton.disabled=true;try{const response=await fetch(`/api/jobs/${encodeURIComponent(activeJob)}/cancel`,{method:"POST"});const body=await response.json();setStatus(body.cancel_requested?"Cancellation requested. Waiting for the local calculation to stop…":"This analysis is no longer running.");}catch(error){setStatus("Cancellation request failed: "+error.message,"error");}});
+    document.getElementById("download-evidence").addEventListener("click",()=>{if(latestEvidence)saveJson(`${latestEvidence.investigation_id}-evidence.json`,latestEvidence);});
+    document.getElementById("download-request").addEventListener("click",()=>{if(latestRequest)saveJson("p4-investigation-request.json",latestRequest);});
+  </script>
+</body>
+</html>

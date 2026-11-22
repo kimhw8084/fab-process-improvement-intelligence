@@ -1,0 +1,9 @@
+{
+  "positive_status": "VALID",
+  "claim_contains": "Observational slope = 2",
+  "negative_status": "REFUSED",
+  "candidate_observed": [
+    3,
+    4
+  ]
+}

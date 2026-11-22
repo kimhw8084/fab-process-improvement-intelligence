@@ -1,0 +1,172 @@
+{
+  "build_host": {
+    "architecture": "arm64",
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]"
+  },
+  "evaluated_commit": null,
+  "frozen_shared_contracts": {
+    "fingerprints_match_starter": {
+      "contracts/SHARED_ARCHITECTURE.md": true,
+      "contracts/adapter-operations.v1.json": true,
+      "contracts/evidence.v1.schema.json": true,
+      "contracts/product-manifest.v1.schema.json": true
+    },
+    "status": "PASS"
+  },
+  "gates": {
+    "E01": {
+      "evidence": [
+        "release/full_workflow_demo_evidence.json",
+        "release/TEST_LOG.txt"
+      ],
+      "scope": "synthetic end-to-end capability flow",
+      "status": "PASS"
+    },
+    "E02": {
+      "evidence": [
+        "tests/test_p4_scientific.py",
+        "fixtures/p4_independent_oracles.json",
+        "qualification/critical_cases.json",
+        "release/TEST_RESULTS.json"
+      ],
+      "scope": "12 fixed challenge cases and 100 seeded numeric cases",
+      "status": "PASS"
+    },
+    "E03": {
+      "evidence": [
+        "tests/test_p4_scientific.py",
+        "tests/test_offline_server.py"
+      ],
+      "scope": "unsafe, invalid, leakage, permission, cancellation and host/origin cases",
+      "status": "PASS"
+    },
+    "E04": {
+      "evidence": [
+        "contracts/",
+        "products/p4/investigation.v1.schema.json",
+        "release/SCHEMA_VALIDATION.json"
+      ],
+      "status": "PASS"
+    },
+    "E05": {
+      "evidence": [
+        "qualification/first_run.py",
+        "qualification/internal-capability-report.v1.schema.json"
+      ],
+      "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally",
+      "status": "PENDING_INTERNAL"
+    },
+    "E06": {
+      "evidence": [
+        "release/LICENSE_SECURITY_REVIEW.md",
+        "tests/test_p4_scientific.py"
+      ],
+      "scope": "deterministic model-off product; no LLM or external prompt/data path",
+      "status": "PASS"
+    },
+    "E07": {
+      "evidence": [
+        "release/UI_BROWSER_ACCEPTANCE.md",
+        "tests/test_offline_server.py"
+      ],
+      "reason": "local browser flow passed; keyboard-only, screen-reader and approved-host accessibility review remain unrun",
+      "status": "PENDING_FORMAL_ACCESSIBILITY"
+    },
+    "E08": {
+      "evidence": [
+        "release/NO_NETWORK_QUALIFICATION.md",
+        "release/OFFLINE_QUALIFICATION.json",
+        "qualification/offline_qualify.py"
+      ],
+      "reason": "company-approved target OS and approved-host egress policy were not supplied; site qualification remains pending",
+      "scope": "exact archive fresh-extracted with no-pip venv; checksum and 86 source files verified; doctor/demo/D01-D05 passed; OS sandbox denied network socket on macOS 26.6.2 arm64, Python 3.11.7",
+      "status": "PASS_BUILD_HOST_ONLY"
+    },
+    "E09": {
+      "evidence": [
+        "release/SBOM.spdx.json",
+        "release/LICENSE_SECURITY_REVIEW.md"
+      ],
+      "reason": "project distribution license is undeclared and no CVE scanner/database was available",
+      "status": "PENDING_LICENSE_AND_VULNERABILITY_REVIEW"
+    },
+    "E10": {
+      "evidence": [
+        "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+        "release/TRANSFER_BUNDLE.sha256",
+        "release/SOURCE_MANIFEST.sha256",
+        "release/BUILD_REPRODUCIBILITY.json",
+        "release/OFFLINE_QUALIFICATION.json",
+        "release/RUNBOOK_ROLLBACK_KILL_SWITCH.md"
+      ],
+      "scope": "deterministic archive hash, two byte-identical builds, verified source manifest and adjacent checksum, exact archive fresh-extraction runtime, rollback and kill-switch instructions",
+      "status": "PASS"
+    },
+    "E11": {
+      "evidence": [
+        "qualification/BENCHMARK_PLAN.md",
+        "release/BENCHMARK_REPORT.json"
+      ],
+      "reason": "synthetic latency is measured; no eligible engineer task-time, review-burden or ROI baseline exists",
+      "status": "PENDING_ENGINEER_BASELINE"
+    },
+    "E12": {
+      "evidence": [
+        "qualification/first_run.py",
+        "docs/INTERNAL_COMPANY_FIRST_RUN.md"
+      ],
+      "reason": "company MCP, host, policy owner and engineer qualification require authorized site testing",
+      "status": "PENDING_INTERNAL"
+    }
+  },
+  "integrated_demo": {
+    "capabilities": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05"
+    ],
+    "command": "python -m fabintel analyze --input fixtures/full_workflow_demo.json --output release/full_workflow_demo_evidence.json",
+    "evidence": "release/full_workflow_demo_evidence.json",
+    "mode": "SYNTHETIC_DEMO",
+    "result_status": "VALID",
+    "return_code": 0,
+    "status": "PASS"
+  },
+  "internal": {
+    "state": "PENDING_INTERNAL",
+    "unverified": [
+      "real MCP and auth scopes",
+      "source semantics and joins",
+      "company target OS and approved host",
+      "company data pilot",
+      "engineer acceptance",
+      "owner/legal transfer approval",
+      "literal R01-R53 and Golden standard"
+    ]
+  },
+  "known_critical_defects": [],
+  "product": "p4",
+  "release_blockers": [
+    "no actual authorized MCP connector",
+    "license ownership and distribution rights are not declared",
+    "vulnerability scan unavailable",
+    "company target OS and formal UX/user baselines not supplied"
+  ],
+  "schema_validation": {
+    "command_return_code": 0,
+    "evidence": "release/SCHEMA_VALIDATION.json",
+    "status": "PASS"
+  },
+  "state": "CANDIDATE",
+  "unit_tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "duration_seconds": 1.667,
+    "log": "release/TEST_LOG.txt",
+    "return_code": 0,
+    "status": "PASS",
+    "tests_run": 37
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "contract_version": "1.0.0",
+  "logical_operations": [
+    {
+      "name": "discover",
+      "requires": [
+        "permission_scope"
+      ],
+      "returns": [
+        "tool_versions",
+        "semantic_versions",
+        "limits",
+        "auth_scopes",
+        "audit_support"
+      ]
+    },
+    {
+      "name": "semantics",
+      "requires": [
+        "approved_source_ids",
+        "semantic_version"
+      ],
+      "returns": [
+        "column_definitions",
+        "grain",
+        "units",
+        "effectivity",
+        "approval"
+      ]
+    },
+    {
+      "name": "relationships",
+      "requires": [
+        "typed_entity_ids",
+        "time_window"
+      ],
+      "returns": [
+        "approved",
+        "keys",
+        "cardinality",
+        "grain",
+        "effectivity",
+        "source_reference"
+      ]
+    },
+    {
+      "name": "read_bounded",
+      "requires": [
+        "approved_plan",
+        "permission_context",
+        "limits"
+      ],
+      "returns": [
+        "typed_rows",
+        "audit_id",
+        "source_versions",
+        "truncation"
+      ]
+    },
+    {
+      "name": "cancel",
+      "requires": [
+        "operation_id"
+      ],
+      "returns": [
+        "confirmed_stopped"
+      ]
+    },
+    {
+      "name": "audit",
+      "requires": [
+        "operation_id"
+      ],
+      "returns": [
+        "permission_scope",
+        "sources",
+        "timestamps",
+        "query_hash"
+      ]
+    }
+  ]
+}

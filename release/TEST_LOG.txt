@@ -1,0 +1,42 @@
+test_bootstrap_cannot_fake_internal (test_contracts.ContractTests.test_bootstrap_cannot_fake_internal) ... ok
+test_bounded_reads (test_contracts.ContractTests.test_bounded_reads) ... ok
+test_catalog_scale_and_determinism (test_contracts.ContractTests.test_catalog_scale_and_determinism) ... ok
+test_no_fake_semantics (test_contracts.ContractTests.test_no_fake_semantics) ... ok
+test_refusal_requires_reason (test_contracts.ContractTests.test_refusal_requires_reason) ... ok
+test_unknown_product_rejected (test_contracts.ContractTests.test_unknown_product_rejected) ... ok
+test_deterministic (test_engine.EngineCase.test_deterministic) ... ok
+test_fixed_negative_oracle (test_engine.EngineCase.test_fixed_negative_oracle) ... ok
+test_fixed_positive_oracle (test_engine.EngineCase.test_fixed_positive_oracle) ... ok
+test_never_claim_caused_or_control (test_engine.EngineCase.test_never_claim_caused_or_control) ... ok
+test_cancel_endpoint_stops_large_local_job (test_offline_server.OfflineServerTests.test_cancel_endpoint_stops_large_local_job) ... ok
+test_host_and_origin_rejection (test_offline_server.OfflineServerTests.test_host_and_origin_rejection) ... ok
+test_ui_health_preflight_and_complete_job (test_offline_server.OfflineServerTests.test_ui_health_preflight_and_complete_job) ... ok
+test_cancellation_and_fake_internal_sources_fail_closed (test_p4_scientific.P4IndependentChallenges.test_cancellation_and_fake_internal_sources_fail_closed) ... ok
+test_contract_validator_rejects_unknown_evidence_properties (test_p4_scientific.P4IndependentChallenges.test_contract_validator_rejects_unknown_evidence_properties) ... ok
+test_doe_is_seeded_non_executing_and_budget_bounded (test_p4_scientific.P4IndependentChallenges.test_doe_is_seeded_non_executing_and_budget_bounded) ... ok
+test_internal_preflight_shape_never_claims_company_qualification (test_p4_scientific.P4IndependentChallenges.test_internal_preflight_shape_never_claims_company_qualification) ... ok
+test_p4_01_fixed_slope_oracle (test_p4_scientific.P4IndependentChallenges.test_p4_01_fixed_slope_oracle) ... ok
+test_p4_02_observed_candidates_only (test_p4_scientific.P4IndependentChallenges.test_p4_02_observed_candidates_only) ... ok
+test_p4_03_actuation_is_refused (test_p4_scientific.P4IndependentChallenges.test_p4_03_actuation_is_refused) ... ok
+test_p4_04_missing_constraints_refuse_candidates (test_p4_scientific.P4IndependentChallenges.test_p4_04_missing_constraints_refuse_candidates) ... ok
+test_p4_05_collinearity_blocks_separate_sensitivities (test_p4_scientific.P4IndependentChallenges.test_p4_05_collinearity_blocks_separate_sensitivities) ... ok
+test_p4_06_out_of_support_rows_never_become_candidates (test_p4_scientific.P4IndependentChallenges.test_p4_06_out_of_support_rows_never_become_candidates) ... ok
+test_p4_07_confounded_before_after_is_not_causal (test_p4_scientific.P4IndependentChallenges.test_p4_07_confounded_before_after_is_not_causal) ... ok
+test_p4_08_randomized_effect_matches_independent_interval (test_p4_scientific.P4IndependentChallenges.test_p4_08_randomized_effect_matches_independent_interval) ... ok
+test_p4_09_missing_control_withholds_effect (test_p4_scientific.P4IndependentChallenges.test_p4_09_missing_control_withholds_effect) ... ok
+test_p4_10_forbidden_region_excluded_from_window_and_doe (test_p4_scientific.P4IndependentChallenges.test_p4_10_forbidden_region_excluded_from_window_and_doe) ... ok
+test_p4_11_pareto_front_matches_hand_checked_points (test_p4_scientific.P4IndependentChallenges.test_p4_11_pareto_front_matches_hand_checked_points) ... ok
+test_p4_12_future_leakage_is_refused (test_p4_scientific.P4IndependentChallenges.test_p4_12_future_leakage_is_refused) ... ok
+test_seeded_one_hundred_case_slope_oracle (test_p4_scientific.P4IndependentChallenges.test_seeded_one_hundred_case_slope_oracle) ... ok
+test_source_claims_require_row_level_lineage (test_p4_scientific.P4IndependentChallenges.test_source_claims_require_row_level_lineage) ... ok
+test_manifest_declares_bootstrap_only (test_schema_and_ui.SourceContractTests.test_manifest_declares_bootstrap_only) ... ok
+test_no_remote_frontend_assets (test_schema_and_ui.SourceContractTests.test_no_remote_frontend_assets) ... ok
+test_schema_files_identify_version (test_schema_and_ui.SourceContractTests.test_schema_files_identify_version) ... ok
+test_known_slope (test_scientific_baseline.SpecializedTests.test_known_slope) ... ok
+test_missing_constraints (test_scientific_baseline.SpecializedTests.test_missing_constraints) ... ok
+test_only_observed_candidates (test_scientific_baseline.SpecializedTests.test_only_observed_candidates) ... ok
+
+----------------------------------------------------------------------
+Ran 37 tests in 1.667s
+
+OK

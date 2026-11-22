@@ -1,0 +1,398 @@
+{
+  "constraints_approved": true,
+  "context": {
+    "equipment": "SYN-TOOL",
+    "process_step": "SYN-ETCH",
+    "product": "SYN-PRODUCT"
+  },
+  "effectiveness": {
+    "authorization_id": "SYN-APPROVAL-001",
+    "authorized": true,
+    "design": "randomized",
+    "intervention_id": "SYN-CHANGE-001",
+    "metric": "quality_index",
+    "observations": [
+      {
+        "group": "treatment",
+        "quality_index": 89,
+        "unit_id": "SYN-T-1"
+      },
+      {
+        "group": "treatment",
+        "quality_index": 90,
+        "unit_id": "SYN-T-2"
+      },
+      {
+        "group": "treatment",
+        "quality_index": 91,
+        "unit_id": "SYN-T-3"
+      },
+      {
+        "group": "treatment",
+        "quality_index": 90,
+        "unit_id": "SYN-T-4"
+      },
+      {
+        "group": "control",
+        "quality_index": 85,
+        "unit_id": "SYN-C-1"
+      },
+      {
+        "group": "control",
+        "quality_index": 86,
+        "unit_id": "SYN-C-2"
+      },
+      {
+        "group": "control",
+        "quality_index": 84,
+        "unit_id": "SYN-C-3"
+      },
+      {
+        "group": "control",
+        "quality_index": 85,
+        "unit_id": "SYN-C-4"
+      }
+    ],
+    "randomization_evidence": "SYN-RANDOMIZATION-001",
+    "randomized": true
+  },
+  "experiment_design": {
+    "blocks": 2,
+    "minimum_detectable_effect": 2,
+    "noise_sd": 1,
+    "replicates": 2,
+    "run_budget": 8,
+    "seed": 20261122
+  },
+  "factors": [
+    {
+      "approved": true,
+      "bounds": [
+        1,
+        3
+      ],
+      "name": "pressure",
+      "role": "controllable",
+      "unit": "synthetic pressure unit"
+    },
+    {
+      "approved": true,
+      "bounds": [
+        40,
+        50
+      ],
+      "name": "temperature",
+      "role": "controllable",
+      "unit": "synthetic temperature unit"
+    }
+  ],
+  "grain": "one synthetic wafer observation at one process instance",
+  "metrics": [
+    {
+      "direction": "maximize",
+      "min": 85,
+      "name": "yield_index",
+      "unit": "synthetic index"
+    },
+    {
+      "direction": "minimize",
+      "max": 2.8,
+      "name": "defect_rate",
+      "unit": "synthetic rate"
+    }
+  ],
+  "model": {
+    "interactions": true,
+    "quadratic": false
+  },
+  "objective": "Synthetic walkthrough: examine observed yield and defect tradeoffs under approved demo bounds",
+  "objectives": [
+    {
+      "direction": "maximize",
+      "metric": "yield_index"
+    },
+    {
+      "direction": "minimize",
+      "metric": "defect_rate"
+    }
+  ],
+  "observations": [
+    {
+      "event_ts": "2026-01-01T12:00:00+00:00",
+      "factors": {
+        "pressure": 1.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-001",
+      "lot_id": "SYN-LOT-01",
+      "metrics": {
+        "defect_rate": 1.3,
+        "yield_index": 82.6
+      },
+      "wafer_id": "SYN-WAFER-001"
+    },
+    {
+      "event_ts": "2026-01-02T12:00:00+00:00",
+      "factors": {
+        "pressure": 1.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-002",
+      "lot_id": "SYN-LOT-01",
+      "metrics": {
+        "defect_rate": 1.4,
+        "yield_index": 83.0
+      },
+      "wafer_id": "SYN-WAFER-002"
+    },
+    {
+      "event_ts": "2026-01-03T12:00:00+00:00",
+      "factors": {
+        "pressure": 1.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-003",
+      "lot_id": "SYN-LOT-01",
+      "metrics": {
+        "defect_rate": 1.5,
+        "yield_index": 83.4
+      },
+      "wafer_id": "SYN-WAFER-003"
+    },
+    {
+      "event_ts": "2026-01-04T12:00:00+00:00",
+      "factors": {
+        "pressure": 1.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-004",
+      "lot_id": "SYN-LOT-02",
+      "metrics": {
+        "defect_rate": 2.3,
+        "yield_index": 79.6
+      },
+      "wafer_id": "SYN-WAFER-004"
+    },
+    {
+      "event_ts": "2026-01-05T12:00:00+00:00",
+      "factors": {
+        "pressure": 1.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-005",
+      "lot_id": "SYN-LOT-02",
+      "metrics": {
+        "defect_rate": 2.4,
+        "yield_index": 80.0
+      },
+      "wafer_id": "SYN-WAFER-005"
+    },
+    {
+      "event_ts": "2026-01-06T12:00:00+00:00",
+      "factors": {
+        "pressure": 1.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-006",
+      "lot_id": "SYN-LOT-02",
+      "metrics": {
+        "defect_rate": 2.5,
+        "yield_index": 80.4
+      },
+      "wafer_id": "SYN-WAFER-006"
+    },
+    {
+      "event_ts": "2026-01-07T12:00:00+00:00",
+      "factors": {
+        "pressure": 2.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-007",
+      "lot_id": "SYN-LOT-02",
+      "metrics": {
+        "defect_rate": 1.7,
+        "yield_index": 85.6
+      },
+      "wafer_id": "SYN-WAFER-007"
+    },
+    {
+      "event_ts": "2026-01-08T12:00:00+00:00",
+      "factors": {
+        "pressure": 2.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-008",
+      "lot_id": "SYN-LOT-03",
+      "metrics": {
+        "defect_rate": 1.8,
+        "yield_index": 86.0
+      },
+      "wafer_id": "SYN-WAFER-008"
+    },
+    {
+      "event_ts": "2026-01-09T12:00:00+00:00",
+      "factors": {
+        "pressure": 2.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-009",
+      "lot_id": "SYN-LOT-03",
+      "metrics": {
+        "defect_rate": 1.9,
+        "yield_index": 86.4
+      },
+      "wafer_id": "SYN-WAFER-009"
+    },
+    {
+      "event_ts": "2026-01-10T12:00:00+00:00",
+      "factors": {
+        "pressure": 2.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-010",
+      "lot_id": "SYN-LOT-03",
+      "metrics": {
+        "defect_rate": 2.7,
+        "yield_index": 82.6
+      },
+      "wafer_id": "SYN-WAFER-010"
+    },
+    {
+      "event_ts": "2026-01-11T12:00:00+00:00",
+      "factors": {
+        "pressure": 2.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-011",
+      "lot_id": "SYN-LOT-03",
+      "metrics": {
+        "defect_rate": 2.8,
+        "yield_index": 83.0
+      },
+      "wafer_id": "SYN-WAFER-011"
+    },
+    {
+      "event_ts": "2026-01-12T12:00:00+00:00",
+      "factors": {
+        "pressure": 2.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-012",
+      "lot_id": "SYN-LOT-04",
+      "metrics": {
+        "defect_rate": 2.9,
+        "yield_index": 83.4
+      },
+      "wafer_id": "SYN-WAFER-012"
+    },
+    {
+      "event_ts": "2026-01-13T12:00:00+00:00",
+      "factors": {
+        "pressure": 3.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-013",
+      "lot_id": "SYN-LOT-04",
+      "metrics": {
+        "defect_rate": 2.1,
+        "yield_index": 88.6
+      },
+      "wafer_id": "SYN-WAFER-013"
+    },
+    {
+      "event_ts": "2026-01-14T12:00:00+00:00",
+      "factors": {
+        "pressure": 3.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-014",
+      "lot_id": "SYN-LOT-04",
+      "metrics": {
+        "defect_rate": 2.2,
+        "yield_index": 89.0
+      },
+      "wafer_id": "SYN-WAFER-014"
+    },
+    {
+      "event_ts": "2026-01-15T12:00:00+00:00",
+      "factors": {
+        "pressure": 3.0,
+        "temperature": 40.0
+      },
+      "id": "SYN-OBS-015",
+      "lot_id": "SYN-LOT-04",
+      "metrics": {
+        "defect_rate": 2.3,
+        "yield_index": 89.4
+      },
+      "wafer_id": "SYN-WAFER-015"
+    },
+    {
+      "event_ts": "2026-01-16T12:00:00+00:00",
+      "factors": {
+        "pressure": 3.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-016",
+      "lot_id": "SYN-LOT-05",
+      "metrics": {
+        "defect_rate": 3.1,
+        "yield_index": 85.6
+      },
+      "wafer_id": "SYN-WAFER-016"
+    },
+    {
+      "event_ts": "2026-01-17T12:00:00+00:00",
+      "factors": {
+        "pressure": 3.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-017",
+      "lot_id": "SYN-LOT-05",
+      "metrics": {
+        "defect_rate": 3.2,
+        "yield_index": 86.0
+      },
+      "wafer_id": "SYN-WAFER-017"
+    },
+    {
+      "event_ts": "2026-01-18T12:00:00+00:00",
+      "factors": {
+        "pressure": 3.0,
+        "temperature": 50.0
+      },
+      "id": "SYN-OBS-018",
+      "lot_id": "SYN-LOT-05",
+      "metrics": {
+        "defect_rate": 3.3,
+        "yield_index": 86.4
+      },
+      "wafer_id": "SYN-WAFER-018"
+    }
+  ],
+  "primary_metric": "yield_index",
+  "robustness": {
+    "independent_unit_field": "wafer_id",
+    "min_independent_units": 3
+  },
+  "sampling_unit": "synthetic wafer",
+  "timestamp_semantics": "UTC ISO-8601 fixture timestamps",
+  "validation_split": {
+    "split_type": "time",
+    "test_groups": [
+      "SYN-HOLDOUT-LOT-1"
+    ],
+    "test_timestamps": [
+      "2026-01-03T00:00:00Z",
+      "2026-01-04T00:00:00Z"
+    ],
+    "train_groups": [
+      "SYN-TRAIN-LOT-1",
+      "SYN-TRAIN-LOT-2"
+    ],
+    "train_timestamps": [
+      "2026-01-01T00:00:00Z",
+      "2026-01-02T00:00:00Z"
+    ]
+  }
+}

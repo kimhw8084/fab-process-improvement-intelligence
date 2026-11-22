@@ -1,0 +1,23 @@
+{
+  "environment": "INTERNAL_APPROVED_ONLY",
+  "mcp": {
+    "endpoint": "REPLACE_WITH_APPROVED_INTRANET_ENDPOINT",
+    "authentication_reference": "USE_APPROVED_SECRET_STORE_REFERENCE",
+    "approved_semantic_version": "DISCOVER_AT_COMPANY"
+  },
+  "model": {
+    "base_url": "REPLACE_WITH_APPROVED_INTRANET_MODEL_ENDPOINT",
+    "model_name": "DISCOVER_APPROVED_MODEL",
+    "authentication_reference": "USE_APPROVED_SECRET_STORE_REFERENCE"
+  },
+  "limits": {
+    "max_rows": 1000,
+    "max_seconds": 30,
+    "read_only": true
+  },
+  "audit": {
+    "enabled": true,
+    "reference": "APPROVED_AUDIT_SINK"
+  },
+  "notes": "TEMPLATE ONLY. The included bootstrap performs NO external networking or real MCP operations."
+}

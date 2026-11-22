@@ -1,0 +1,14 @@
+{
+  "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+  "builds": 2,
+  "commands": [
+    "python qualification/build_transfer_bundle.py",
+    "python qualification/build_transfer_bundle.py"
+  ],
+  "method": "sorted paths, fixed ZIP timestamps, fixed file metadata, no generated output inside the archive",
+  "sha256_by_build": [
+    "97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64",
+    "97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64"
+  ],
+  "status": "PASS"
+}

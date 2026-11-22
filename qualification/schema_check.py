@@ -1,0 +1,43 @@
+"""Optional offline JSON Schema validation using a locally installed jsonschema package."""
+import hashlib
+import importlib.metadata
+import json
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+
+def main():
+    try:
+        from jsonschema import Draft202012Validator
+    except ImportError:
+        print(json.dumps({"status": "SKIPPED", "reason": "jsonschema is not installed; it is not a product dependency"}, indent=2))
+        return 0
+    checks = [
+        ("contracts/product-manifest.v1.schema.json", "product.json"),
+        ("contracts/evidence.v1.schema.json", "release/full_workflow_demo_evidence.json"),
+        ("products/p4/investigation.v1.schema.json", "fixtures/full_workflow_demo.json"),
+    ]
+    results = []
+    for schema_rel, instance_rel in checks:
+        schema_path, instance_path = ROOT / schema_rel, ROOT / instance_rel
+        schema_bytes = schema_path.read_bytes()
+        schema = json.loads(schema_bytes)
+        instance = json.loads(instance_path.read_text(encoding="utf-8"))
+        validator = Draft202012Validator(schema)
+        errors = sorted(validator.iter_errors(instance), key=lambda error: list(map(str, error.absolute_path)))
+        results.append({"schema": schema_rel, "schema_sha256": hashlib.sha256(schema_bytes).hexdigest(),
+                        "instance": instance_rel, "status": "PASS" if not errors else "FAIL",
+                        "errors": [error.message for error in errors]})
+    report = {"status": "PASS" if all(item["status"] == "PASS" for item in results) else "FAIL",
+              "validator": "python-jsonschema", "validator_version": importlib.metadata.version("jsonschema"),
+              "role": "qualification-only; not a runtime dependency", "checks": results}
+    output = ROOT / "release" / "SCHEMA_VALIDATION.json"
+    output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    print(json.dumps(report, indent=2, sort_keys=True))
+    return 0 if report["status"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

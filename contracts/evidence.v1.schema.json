@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fabintel:evidence:1.0.0",
+  "title": "Fab Intelligence Evidence Envelope v1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "investigation_id",
+    "product_id",
+    "mode",
+    "status",
+    "claims",
+    "sources",
+    "assumptions",
+    "limitations",
+    "provenance"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "investigation_id": {
+      "type": "string"
+    },
+    "product_id": {
+      "enum": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ]
+    },
+    "mode": {
+      "enum": [
+        "SYNTHETIC_DEMO",
+        "INTERNAL_AUTHORIZED"
+      ]
+    },
+    "status": {
+      "enum": [
+        "VALID",
+        "PARTIAL",
+        "INCONCLUSIVE",
+        "REFUSED",
+        "ERROR"
+      ]
+    },
+    "claim_category": {
+      "enum": [
+        "DESCRIPTIVE",
+        "ASSOCIATION",
+        "PREDICTION",
+        "CAUSAL_ESTIMATE",
+        "INTERVENTION_VALIDATED",
+        "NONE"
+      ]
+    },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "statement",
+          "category",
+          "source_ids",
+          "method",
+          "certainty"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "statement": {
+            "type": "string"
+          },
+          "category": {
+            "enum": [
+              "DESCRIPTIVE",
+              "ASSOCIATION",
+              "PREDICTION",
+              "CAUSAL_ESTIMATE",
+              "INTERVENTION_VALIDATED"
+            ]
+          },
+          "source_ids": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "method": {
+            "type": "string"
+          },
+          "certainty": {
+            "enum": [
+              "SUPPORTED",
+              "CONDITIONAL",
+              "INCONCLUSIVE"
+            ]
+          }
+        }
+      }
+    },
+    "sources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "approved_semantic_version",
+          "grain",
+          "source_hash"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "approved_semantic_version": {
+            "type": "string"
+          },
+          "grain": {
+            "type": "string"
+          },
+          "source_hash": {
+            "type": "string"
+          },
+          "permissions_ref": {
+            "type": "string"
+          },
+          "observed_at": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "populations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "units": {
+      "type": "object"
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "counterevidence": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "uncertainty": {
+      "type": "object"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "engine_version",
+        "input_sha256"
+      ],
+      "properties": {
+        "engine_version": {
+          "type": "string"
+        },
+        "input_sha256": {
+          "type": "string"
+        },
+        "semantic_catalog_version": {
+          "type": "string"
+        },
+        "created_at_utc": {
+          "type": "string"
+        },
+        "method_version": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

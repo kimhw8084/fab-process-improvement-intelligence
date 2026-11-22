@@ -1,0 +1,13 @@
+gate,acceptance,evidence,initial_status
+E01,"Full integrated scientific workflow, all features","Functional E2E cases, no placeholder critical paths",NOT_RUN
+E02,Independent positive and numeric oracle,Independent fixed expected outputs + held-out cases,NOT_RUN
+E03,Adversarial false claim / refusal,All critical negative examples blocked,NOT_RUN
+E04,"Frozen schema, APIs and compatibility",Schema validation + contract fingerprints,NOT_RUN
+E05,Actual read-only authorization + provenance,"Denial tests, audit + source lineage",NOT_RUN
+E06,LLM optional + prompt injection boundary,"Mock invalid model output, deterministic fallback",NOT_RUN
+E07,Engineer UX and accessibility,"Keyboard, errors, chart/table alternatives, recovery",NOT_RUN
+E08,No-network platform install/runtime,Fresh matched OS/arch install with network isolation,NOT_RUN
+E09,Supply-chain/license/security scan,"SBOM, license approvals, time-stamped CVE DB",NOT_RUN
+E10,"Archive reproducibility, rollback, stop","Hashes, rerun unpack tests, kill switch",NOT_RUN
+E11,"Performance, resource and user work","Pre-set baseline comparisons, p95 and user effort",NOT_RUN
+E12,Minimal authorized internal adaptation,Qualify-internal real MCP checklist + guided first result,NOT_RUN

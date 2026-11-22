@@ -1,0 +1,484 @@
+{
+  "artifacts": [
+    {
+      "D01_sensitivity": {
+        "diagnostic_warnings": [],
+        "factor_support": {
+          "pressure": {
+            "approved_bounds": [
+              1.0,
+              3.0
+            ],
+            "n": 18,
+            "observed_range": [
+              1.0,
+              3.0
+            ],
+            "unique_levels": 3,
+            "unsupported_extrapolation": true
+          },
+          "temperature": {
+            "approved_bounds": [
+              40.0,
+              50.0
+            ],
+            "n": 18,
+            "observed_range": [
+              40.0,
+              50.0
+            ],
+            "unique_levels": 2,
+            "unsupported_extrapolation": true
+          }
+        },
+        "inference_assumptions": [
+          "independent observations",
+          "homoskedastic OLS standard errors"
+        ],
+        "interpretation": "observational association; coefficients do not estimate intervention response",
+        "metric": "yield_index",
+        "n": 18,
+        "pairwise_factor_correlations": {
+          "pressure|temperature": 0.0
+        },
+        "r_squared": 0.9872357399282007,
+        "residual_df": 14,
+        "residual_sd": 0.37032803990902585,
+        "residual_variance_ratio": 1.0,
+        "status": "VALID",
+        "terms": {
+          "intercept": {
+            "ci95": [
+              84.31276905017752,
+              84.68723094982248
+            ],
+            "estimate": 84.5,
+            "standard_error": 0.0872871560943982
+          },
+          "pressure": {
+            "ci95": [
+              2.770689854439139,
+              3.2293101455608655
+            ],
+            "estimate": 3.000000000000002,
+            "standard_error": 0.10690449676497128
+          },
+          "pressure:temperature": {
+            "ci95": [
+              -0.04586202911217268,
+              0.04586202911217268
+            ],
+            "estimate": 0.0,
+            "standard_error": 0.021380899352994257
+          },
+          "temperature": {
+            "ci95": [
+              -0.3374461899644968,
+              -0.26255381003550315
+            ],
+            "estimate": -0.3,
+            "standard_error": 0.01745743121887964
+          }
+        }
+      },
+      "D02_observed_process_window": {
+        "approved_factor_bounds": {
+          "pressure": [
+            1.0,
+            3.0
+          ],
+          "temperature": [
+            40.0,
+            50.0
+          ]
+        },
+        "candidate_count": 6,
+        "candidate_factor_values": {
+          "pressure": [
+            2.0,
+            3.0
+          ],
+          "temperature": [
+            40.0
+          ]
+        },
+        "candidate_observation_ids": [
+          "SYN-OBS-007",
+          "SYN-OBS-008",
+          "SYN-OBS-009",
+          "SYN-OBS-013",
+          "SYN-OBS-014",
+          "SYN-OBS-015"
+        ],
+        "excluded_forbidden_or_out_of_domain": 12,
+        "extrapolation": "none; unobserved settings are not candidates",
+        "method": "observed_feasible_filter",
+        "observed_covariate_ranges": {},
+        "observed_factor_boundaries": {
+          "pressure": [
+            2.0,
+            3.0
+          ],
+          "temperature": [
+            40.0,
+            40.0
+          ]
+        },
+        "qualification": "observed candidates only; not a validated production window",
+        "status": "VALID"
+      },
+      "D02_robust_observed_region": {
+        "count": 2,
+        "independent_unit_field": "wafer_id",
+        "method": "worst_observed_replicate_filter",
+        "minimum_independent_units": 3,
+        "qualification": "only replicated observed settings passing every stated limit; not production-qualified",
+        "robust_observed_settings": [
+          {
+            "factors": {
+              "pressure": 2.0,
+              "temperature": 40.0
+            },
+            "independent_units": 3,
+            "observation_count": 3,
+            "observed_worst_case": {
+              "defect_rate": 1.9,
+              "yield_index": 85.6
+            }
+          },
+          {
+            "factors": {
+              "pressure": 3.0,
+              "temperature": 40.0
+            },
+            "independent_units": 3,
+            "observation_count": 3,
+            "observed_worst_case": {
+              "defect_rate": 2.3,
+              "yield_index": 88.6
+            }
+          }
+        ],
+        "status": "VALID"
+      },
+      "D03_tradeoffs": {
+        "objective_metrics": [
+          {
+            "direction": "maximize",
+            "metric": "yield_index"
+          },
+          {
+            "direction": "minimize",
+            "metric": "defect_rate"
+          }
+        ],
+        "pareto_observation_ids": [
+          "SYN-OBS-007",
+          "SYN-OBS-008",
+          "SYN-OBS-009",
+          "SYN-OBS-013",
+          "SYN-OBS-014",
+          "SYN-OBS-015"
+        ],
+        "pareto_values": [
+          {
+            "defect_rate": 1.7,
+            "id": "SYN-OBS-007",
+            "yield_index": 85.6
+          },
+          {
+            "defect_rate": 1.8,
+            "id": "SYN-OBS-008",
+            "yield_index": 86.0
+          },
+          {
+            "defect_rate": 1.9,
+            "id": "SYN-OBS-009",
+            "yield_index": 86.4
+          },
+          {
+            "defect_rate": 2.1,
+            "id": "SYN-OBS-013",
+            "yield_index": 88.6
+          },
+          {
+            "defect_rate": 2.2,
+            "id": "SYN-OBS-014",
+            "yield_index": 89.0
+          },
+          {
+            "defect_rate": 2.3,
+            "id": "SYN-OBS-015",
+            "yield_index": 89.4
+          }
+        ],
+        "qualification": "observed Pareto set; no unsupported downstream effects",
+        "scope": "observed supplied scope",
+        "status": "VALID",
+        "tradeoff_count": 6
+      },
+      "D04_experiment_proposal": {
+        "actuation": "none",
+        "authorization_fields": [
+          "engineer_approval_id",
+          "process_owner_approval_id",
+          "safety_review_id"
+        ],
+        "blocking": {
+          "assignment": "round-robin after seeded randomization",
+          "count": 2
+        },
+        "design": "randomized full factorial at approved bounds",
+        "executed": false,
+        "factors": [
+          "pressure",
+          "temperature"
+        ],
+        "power": {
+          "alpha": 0.05,
+          "available_independent_units_per_level": 4,
+          "balanced_level_counts": {
+            "pressure": {
+              "1.0": 4,
+              "3.0": 4
+            },
+            "temperature": {
+              "40.0": 4,
+              "50.0": 4
+            }
+          },
+          "method": "balanced two-level main-effect normal approximation",
+          "minimum_detectable_effect": 2,
+          "noise_sd_assumption": 1,
+          "power": 0.8,
+          "qualification": "planning approximation for a balanced two-level contrast; not a power guarantee for the full factorial; engineer/statistician review required",
+          "required_independent_units_per_arm": 4,
+          "run_budget_adequate_for_reference_contrast": true,
+          "status": "APPROXIMATE"
+        },
+        "randomization_seed": 20261122,
+        "run_count": 8,
+        "runs": [
+          {
+            "block": 1,
+            "pressure": 3.0,
+            "replicate": 1,
+            "run_order": 1,
+            "temperature": 40.0
+          },
+          {
+            "block": 2,
+            "pressure": 1.0,
+            "replicate": 1,
+            "run_order": 2,
+            "temperature": 50.0
+          },
+          {
+            "block": 1,
+            "pressure": 3.0,
+            "replicate": 2,
+            "run_order": 3,
+            "temperature": 40.0
+          },
+          {
+            "block": 2,
+            "pressure": 1.0,
+            "replicate": 1,
+            "run_order": 4,
+            "temperature": 40.0
+          },
+          {
+            "block": 1,
+            "pressure": 1.0,
+            "replicate": 2,
+            "run_order": 5,
+            "temperature": 40.0
+          },
+          {
+            "block": 2,
+            "pressure": 3.0,
+            "replicate": 2,
+            "run_order": 6,
+            "temperature": 50.0
+          },
+          {
+            "block": 1,
+            "pressure": 1.0,
+            "replicate": 2,
+            "run_order": 7,
+            "temperature": 50.0
+          },
+          {
+            "block": 2,
+            "pressure": 3.0,
+            "replicate": 1,
+            "run_order": 8,
+            "temperature": 50.0
+          }
+        ],
+        "status": "PROPOSED"
+      },
+      "D05_effectiveness": {
+        "assumptions": [
+          "valid documented random allocation",
+          "independent units",
+          "no interference",
+          "consistent outcome measurement"
+        ],
+        "causal_claim": true,
+        "ci95_welch_t_approximation": [
+          3.587223891292986,
+          6.412776108707014
+        ],
+        "control_n": 4,
+        "design": "randomized two-arm difference in means",
+        "estimate": 5.0,
+        "intervention_id": "SYN-CHANGE-001",
+        "metric": "quality_index",
+        "qualification": "study estimate only; normal outcome approximation; not production qualification",
+        "se": 0.5773502691896257,
+        "status": "ESTIMATED",
+        "treatment_n": 4,
+        "welch_df": 6.0
+      },
+      "context": {
+        "equipment": "SYN-TOOL",
+        "process_step": "SYN-ETCH",
+        "product": "SYN-PRODUCT"
+      },
+      "objective": "Synthetic walkthrough: examine observed yield and defect tradeoffs under approved demo bounds",
+      "review_fields": [
+        "objective",
+        "source and population eligibility",
+        "factor roles and units",
+        "constraints",
+        "assumptions",
+        "counterevidence",
+        "approval IDs"
+      ],
+      "source_inspection": {
+        "approved_company_semantics": false,
+        "mode": "SYNTHETIC_DEMO",
+        "permissions": "synthetic only",
+        "sources": []
+      },
+      "type": "p4_decision_dossier",
+      "validation_split": {
+        "generalization_claim": "limited to supplied time/group holdout",
+        "group_disjoint": true,
+        "status": "VALID",
+        "test_start": "2026-01-03T00:00:00+00:00",
+        "train_end": "2026-01-02T00:00:00+00:00"
+      }
+    }
+  ],
+  "assumptions": [
+    "All observations and source references are supplied synthetic fixtures.",
+    "No actuation, recipe recommendation, or real company-data access is available."
+  ],
+  "claims": [
+    {
+      "category": "ASSOCIATION",
+      "certainty": "SUPPORTED",
+      "method": "ols_pivoted_gauss_jordan",
+      "source_ids": [],
+      "statement": "Adjusted observational associations were estimated for 2 factors on 18 observations; no coefficient is a causal effect."
+    },
+    {
+      "category": "DESCRIPTIVE",
+      "certainty": "CONDITIONAL",
+      "method": "observed_feasible_filter",
+      "source_ids": [],
+      "statement": "Observed feasible candidates: 6 rows within approved bounds and metric constraints."
+    },
+    {
+      "category": "DESCRIPTIVE",
+      "certainty": "CONDITIONAL",
+      "method": "observed_pareto_filter",
+      "source_ids": [],
+      "statement": "Observed multiobjective Pareto set contains 6 candidates."
+    },
+    {
+      "category": "DESCRIPTIVE",
+      "certainty": "CONDITIONAL",
+      "method": "seeded_factorial_design",
+      "source_ids": [],
+      "statement": "A non-executing randomized full factorial at approved bounds proposal contains 8 runs."
+    },
+    {
+      "category": "CAUSAL_ESTIMATE",
+      "certainty": "CONDITIONAL",
+      "method": "randomized two-arm difference in means",
+      "source_ids": [],
+      "statement": "Synthetic-data randomized two-arm difference in means estimate for quality_index = 5 (95% Welch-t interval approximation [3.58722, 6.41278])."
+    }
+  ],
+  "counterevidence": [
+    {
+      "check": "extrapolation",
+      "result": "none; unobserved settings are not candidates"
+    },
+    {
+      "check": "study-design validity",
+      "result": "randomized two-arm difference in means"
+    },
+    {
+      "check": "temporal/group holdout",
+      "result": "VALID"
+    }
+  ],
+  "investigation_id": "SYN-p4-ac96300baab2",
+  "limitations": [
+    "Synthetic demonstration only; no company sources, permissions, or engineering approval were used.",
+    "Associations are not intervention effects; observed feasible points are not production recipes."
+  ],
+  "mode": "SYNTHETIC_DEMO",
+  "populations": [
+    {
+      "grain": "one synthetic wafer observation at one process instance",
+      "n": 18,
+      "sampled_unit": "synthetic wafer",
+      "timestamp_semantics": "UTC ISO-8601 fixture timestamps"
+    }
+  ],
+  "product_id": "p4",
+  "provenance": {
+    "engine_version": "1.0.0",
+    "input_sha256": "ac96300baab29fd8eb7f649407c15db65d7f3ada65bdcbadc9259b3471890a4c",
+    "method_version": "p4-deterministic-1",
+    "semantic_catalog_version": "SYNTHETIC-1"
+  },
+  "schema_version": "1.0.0",
+  "sources": [],
+  "status": "VALID",
+  "transformations": [
+    {
+      "id": "p4-deterministic-1",
+      "method": "standard-library OLS, observed constraint filters, Pareto dominance, seeded full factorial, study-design gate"
+    }
+  ],
+  "uncertainty": {
+    "effectiveness": {
+      "ci95_welch_t_approximation": [
+        3.587223891292986,
+        6.412776108707014
+      ],
+      "se": 0.5773502691896257
+    },
+    "sensitivity": {
+      "diagnostic_warnings": [],
+      "residual_df": 14,
+      "residual_sd": 0.37032803990902585
+    }
+  },
+  "units": {
+    "factors": {
+      "pressure": "synthetic pressure unit",
+      "temperature": "synthetic temperature unit"
+    },
+    "metrics": {
+      "defect_rate": "synthetic rate",
+      "yield_index": "synthetic index"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+.vscode/
+synthetic_catalog.json
+company-config.json
+*.secret
+coverage/

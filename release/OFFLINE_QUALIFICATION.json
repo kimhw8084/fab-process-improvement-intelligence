@@ -1,0 +1,28 @@
+{
+  "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+  "archive_checksum_verified": true,
+  "archive_sha256": "97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64",
+  "commands": [
+    "python -m fabintel doctor",
+    "python -m fabintel demo",
+    "python -m fabintel analyze --input fixtures/full_workflow_demo.json",
+    "python qualification/network_deny_probe.py"
+  ],
+  "dependency_install": "none; fresh venv has no pip and no third-party packages",
+  "host": {
+    "machine": "arm64",
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]"
+  },
+  "install_mode": "fresh ZIP extraction + venv without pip",
+  "network_policy": "must be enforced by caller OS sandbox",
+  "network_policy_probe": {
+    "errno": 1,
+    "network_access": false,
+    "status": "DENIED"
+  },
+  "result": "PASS",
+  "source_files_verified": 86,
+  "state": "PASS",
+  "workflow_status": "VALID"
+}

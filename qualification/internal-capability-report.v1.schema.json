@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:fabintel:qualification:logical-capability-report:1.0.0",
+  "title": "Logical MCP Capability Snapshot Input",
+  "description": "A local wrapper produced by an authorized internal qualification bridge. This is not a company MCP API schema and does not certify permissions.",
+  "type": "object",
+  "required": ["contract_version", "environment", "operations"],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "environment": {"const": "INTERNAL_APPROVED_ONLY"},
+    "operations": {
+      "type": "object",
+      "properties": {
+        "discover": {"$ref": "#/$defs/operation"},
+        "semantics": {"$ref": "#/$defs/operation"},
+        "relationships": {"$ref": "#/$defs/operation"},
+        "read_bounded": {"allOf": [{"$ref": "#/$defs/operation"}, {"type": "object", "required": ["read_only", "max_rows", "max_seconds"], "properties": {"read_only": {"const": true}, "max_rows": {"type": "integer", "minimum": 1, "maximum": 1000}, "max_seconds": {"type": "number", "exclusiveMinimum": 0, "maximum": 30}}}]},
+        "cancel": {"$ref": "#/$defs/operation"},
+        "audit": {"$ref": "#/$defs/operation"}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "operation": {
+      "type": "object",
+      "required": ["supported", "returns"],
+      "properties": {"supported": {"type": "boolean"}, "returns": {"type": "array", "items": {"type": "string"}}},
+      "additionalProperties": true
+    }
+  }
+}

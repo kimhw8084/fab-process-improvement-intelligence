@@ -1,0 +1,154 @@
+{
+  "critical_cases": {
+    "cases": [
+      {
+        "id": "P4-01",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": true,
+        "input_challenge": "factor x=1..4 response=2x",
+        "oracle": "fixed linear arithmetic",
+        "required_result": "observational OLS slope=2",
+        "test": "tests/test_p4_scientific.py::test_p4_01_fixed_slope_oracle"
+      },
+      {
+        "id": "P4-02",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "bounds 1..4, response min5",
+        "oracle": "explicit fixed bounded observations",
+        "required_result": "observed candidate settings only 3,4",
+        "test": "tests/test_p4_scientific.py::test_p4_02_observed_candidates_only"
+      },
+      {
+        "id": "P4-03",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "request to change actual recipe",
+        "oracle": "policy oracle",
+        "required_result": "REFUSED; zero actuation",
+        "test": "tests/test_p4_scientific.py::test_p4_03_actuation_is_refused"
+      },
+      {
+        "id": "P4-04",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "no approved constraints",
+        "oracle": "missing constraints oracle",
+        "required_result": "REFUSED; no candidate settings",
+        "test": "tests/test_p4_scientific.py::test_p4_04_missing_constraints_refuse_candidates"
+      },
+      {
+        "id": "P4-05",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "fully collinear factors",
+        "oracle": "rank-deficient model fixture",
+        "required_result": "cannot identify separate sensitivities",
+        "test": "tests/test_p4_scientific.py::test_p4_05_collinearity_blocks_separate_sensitivities"
+      },
+      {
+        "id": "P4-06",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "unsupported extrapolation beyond data support",
+        "oracle": "out-of-support oracle",
+        "required_result": "reject process window claim",
+        "test": "tests/test_p4_scientific.py::test_p4_06_out_of_support_rows_never_become_candidates"
+      },
+      {
+        "id": "P4-07",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "confounded before/after positive shift",
+        "oracle": "zero-effect confounded fixture",
+        "required_result": "no causal claim",
+        "test": "tests/test_p4_scientific.py::test_p4_07_confounded_before_after_is_not_causal"
+      },
+      {
+        "id": "P4-08",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "true intervention with randomized controls",
+        "oracle": "known intervention oracle",
+        "required_result": "estimated effect + valid uncertainty",
+        "test": "tests/test_p4_scientific.py::test_p4_08_randomized_effect_matches_independent_interval"
+      },
+      {
+        "id": "P4-09",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "no valid control population",
+        "oracle": "missing control fixture",
+        "required_result": "descriptive difference only, causal estimate INCONCLUSIVE",
+        "test": "tests/test_p4_scientific.py::test_p4_09_missing_control_withholds_effect"
+      },
+      {
+        "id": "P4-10",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "physical constraint violation",
+        "oracle": "forbidden-domain oracle",
+        "required_result": "exclude from candidate or refuse experiment",
+        "test": "tests/test_p4_scientific.py::test_p4_10_forbidden_region_excluded_from_window_and_doe"
+      },
+      {
+        "id": "P4-11",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "multiobjective tradeoff with downstream degradation",
+        "oracle": "known Pareto oracle",
+        "required_result": "report both objectives and conflict",
+        "test": "tests/test_p4_scientific.py::test_p4_11_pareto_front_matches_hand_checked_points"
+      },
+      {
+        "id": "P4-12",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "future leakage in split",
+        "oracle": "held-out experiment oracle",
+        "required_result": "time/run-separated validation required",
+        "test": "tests/test_p4_scientific.py::test_p4_12_future_leakage_is_refused"
+      }
+    ],
+    "missing_case_evidence": [],
+    "missing_test_names": [],
+    "status": "PASS"
+  },
+  "frozen_shared_contracts": {
+    "fingerprints_match_starter": {
+      "contracts/SHARED_ARCHITECTURE.md": true,
+      "contracts/adapter-operations.v1.json": true,
+      "contracts/evidence.v1.schema.json": true,
+      "contracts/product-manifest.v1.schema.json": true
+    },
+    "status": "PASS"
+  },
+  "integrated_demo": {
+    "capabilities": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05"
+    ],
+    "command": "python -m fabintel analyze --input fixtures/full_workflow_demo.json --output release/full_workflow_demo_evidence.json",
+    "evidence": "release/full_workflow_demo_evidence.json",
+    "mode": "SYNTHETIC_DEMO",
+    "result_status": "VALID",
+    "return_code": 0,
+    "status": "PASS"
+  },
+  "schema_validation": {
+    "evidence": "release/SCHEMA_VALIDATION.json",
+    "status": "PASS"
+  },
+  "state": "PASS",
+  "unit_tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "duration_seconds": 1.667,
+    "log": "release/TEST_LOG.txt",
+    "return_code": 0,
+    "status": "PASS",
+    "tests_run": 37
+  }
+}
