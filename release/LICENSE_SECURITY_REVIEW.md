@@ -7,12 +7,13 @@ Review date: 2026-11-22. Scope: source and offline package in this folder, not t
 - Product runtime: Python standard library only. No Python package installation or JavaScript package tree is required.
 - UI: plain HTML/CSS/JavaScript; no remote fonts, scripts, icons, telemetry, or CDNs.
 - Product SBOM: `release/SBOM.spdx.json`. It marks the product's declared/concluded license `NOASSERTION` because the supplied project has no root `LICENSE` file.
-- `statsmodels` 0.14.0, NumPy 1.26.4, and SciPy 1.11.4 are installed on the build host and were used only for an optional numerical benchmark comparison. They are not copied into the product ZIP and are not runtime dependencies. No wheelhouse or transitive package tree is bundled.
+- Optional benchmark and independent-reference packages are pinned in `qualification/benchmark-requirements.txt`; they are not copied into the product runtime and no wheelhouse or transitive package tree is bundled. A previous `pip-audit` review found scikit-learn 1.2.2 affected by CVE-2024-5206; the pin is updated to 1.5.2. The complete resolved 20-package optional tree, including pinned statsmodels 0.15.0 for independent covariance references, passed a fresh audit with zero known advisories. See `release/DEPENDENCY_AUDIT.json`.
 - **Distribution rights are not cleared.** The initial launchkit did not declare a license or ownership notice. Do not interpret this ZIP as a grant to redistribute. Owner/legal review is a release blocker.
 
 ## Security review performed
 
-- Analysis is deterministic and read-only. There is no SQL path, process-control operation, recipe write, model call, outbound HTTP client, or data upload path.
+- The analysis engine and UI make no outbound connections and perform no SQL, recipe write, model call, or actuation. A separate optional MCP adapter now supports explicit stdio and Streamable HTTP transports when invoked with a site-owned configuration. `mcp-test` uses only the bundled synthetic mock; no company endpoint, credentials, mapping, or data were used here.
+- The optional HTTP adapter is a network client: it enforces exact host allowlists, rejects redirects and non-loopback cleartext HTTP, uses bounded payloads/timeouts, and reads bearer credentials only from a named environment variable. The stdio adapter starts an explicit argument-vector subprocess without a shell, passes only essential environment variables by default, and permits additional secrets only through an explicit child-name-to-local-variable mapping. This code has protocol and environment-isolation tests, but has not had an independent security audit or company egress/authentication review.
 - UI server binds to IPv4 loopback only, validates `Host`, rejects cross-origin requests, sets a restrictive content security policy, accepts at most 2 MiB per request, and writes no request body to access logs.
 - Runtime bounds: 5,000 observations, 10 factors, 2,000 eligible Pareto rows, two active analysis jobs, 16 retained job records, 10,000 DOE runs.
 - CLI/UI errors avoid returning Python tracebacks or request bodies. Browser rendering uses text nodes for evidence and does not interpret retrieved input as HTML or code.
@@ -21,9 +22,9 @@ Review date: 2026-11-22. Scope: source and offline package in this folder, not t
 
 ## Checks not run / remaining gates
 
-- `syft`, `grype`, `pip-audit`, and `osv-scanner` are not installed in the build environment. No vulnerability database was available, so there is no CVE scan or scan timestamp. The shipped runtime dependency list is empty beyond Python's own standard library.
+- The shipped runtime has no third-party Python dependencies. A fresh pip-audit scan of the full optional qualification dependency tree found zero known package advisories after the scikit-learn pin remediation, recorded in `release/DEPENDENCY_AUDIT.json`. This package audit does not replace source-code review, interpreter/OS scanning, or legal review.
 - No root license, copyright ownership evidence, legal approval, or company transfer approval is supplied.
-- No actual authorized MCP/user permission check, internal threat review, target-host authentication test, or company security-owner signoff is possible here.
+- No actual authorized MCP/user permission check, internal threat review, target-host authentication test, or company security-owner signoff is possible here. The synthetic mock does not qualify company semantics or permissions.
 - The UI was exercised in the local browser, but formal WCAG/screen-reader testing on the approved company host is pending.
 
-**Gate result: CANDIDATE. E09 remains pending; no security or legal clearance is claimed.**
+**Gate result: CANDIDATE. E09 remains pending; no security or legal clearance is claimed. Public distribution is not approved.**

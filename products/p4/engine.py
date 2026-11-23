@@ -9,8 +9,12 @@ from statistics import mean, variance
 from typing import Any
 
 from fabintel.contracts import claim, envelope, validate_envelope
+from products.p4.regression import fit_linear_model, critical_t_975, ModelError, RegressionCancelled
+from products.p4.window import explore_window, WindowError
+from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
+from products.p4.design import assign_blocks, propose_design
 
-ENGINE_VERSION = "1.0.0"
+ENGINE_VERSION = "1.1.0"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10
@@ -199,69 +203,8 @@ def _design(rows, factor_names, include_interactions=False, include_quadratic=Fa
 
 
 def _fit_ols(rows, factor_names, metric, options, factor_defs, cancel=None):
-    labels, x = _design(rows, factor_names, options.get("interactions") is True,
-                        options.get("quadratic") is True)
-    y = [r["metrics"][metric] for r in rows]
-    p = len(labels)
-    if len(rows) <= p:
-        return {"status": "INCONCLUSIVE", "reason": "insufficient residual degrees of freedom",
-                "n": len(rows), "terms": labels}
-    xtx = [[sum(row[i] * row[j] for row in x) for j in range(p)] for i in range(p)]
-    xty = [sum(x[k][i] * y[k] for k in range(len(rows))) for i in range(p)]
-    beta = _solve(xtx, xty)
-    inv = _inverse(xtx)
-    if beta is None or inv is None:
-        return {"status": "INCONCLUSIVE", "reason": "rank-deficient design; separate sensitivities are not identifiable",
-                "n": len(rows), "terms": labels, "rank_deficient": True}
-    residuals = [y[k] - sum(x[k][j] * beta[j] for j in range(p)) for k in range(len(rows))]
-    df = len(rows) - p
-    mse = sum(e * e for e in residuals) / df
-    tcrit = _critical95(df)
-    estimates = {}
-    for j, label in enumerate(labels):
-        _check_cancel(cancel)
-        se = sqrt(max(0.0, mse * inv[j][j]))
-        estimates[label] = {"estimate": beta[j], "standard_error": se,
-                            "ci95": [beta[j] - tcrit * se, beta[j] + tcrit * se]}
-    mean_y = mean(y)
-    r2den = sum((v - mean_y) ** 2 for v in y)
-    r2 = 1 - sum(e * e for e in residuals) / r2den if r2den else None
-    # Descriptive diagnostics only; thresholds are alarms, not scientific tests.
-    correlations = {}
-    for a, b in combinations(factor_names, 2):
-        av = [r["factors"][a] for r in rows]
-        bv = [r["factors"][b] for r in rows]
-        av_mean, bv_mean = mean(av), mean(bv)
-        da = sqrt(sum((v - av_mean) ** 2 for v in av))
-        db = sqrt(sum((v - bv_mean) ** 2 for v in bv))
-        corr = sum((av[i] - av_mean) * (bv[i] - bv_mean) for i in range(len(rows))) / (da * db) if da and db else None
-        correlations[f"{a}|{b}"] = corr
-    warnings = [f"high pairwise factor correlation: {key}" for key, value in correlations.items()
-                if value is not None and abs(value) >= 0.95]
-    support = {}
-    for name in factor_names:
-        values = [r["factors"][name] for r in rows]
-        bounds = _approved_bounds(factor_defs[name]) if factor_defs[name].get("role", "controllable") == "controllable" else None
-        support[name] = {"n": len(values), "unique_levels": len(set(values)), "observed_range": [min(values), max(values)],
-                         "approved_bounds": bounds, "unsupported_extrapolation": True}
-    # Residual variance split at the median primary factor is a coarse heterogeneity flag.
-    variance_ratio = None
-    if len(factor_names) and len(rows) >= 6:
-        primary = factor_names[0]
-        ordered = sorted(enumerate(rows), key=lambda pair: pair[1]["factors"][primary])
-        mid = len(ordered) // 2
-        lores, hires = [residuals[i] for i, _ in ordered[:mid]], [residuals[i] for i, _ in ordered[mid:]]
-        if len(lores) > 1 and len(hires) > 1:
-            va, vb = variance(lores), variance(hires)
-            variance_ratio = max(va, vb) / max(min(va, vb), 1e-15)
-            if variance_ratio >= 10:
-                warnings.append("residual variance differs by at least 10x across the primary-factor halves")
-    return {"status": "VALID", "n": len(rows), "residual_df": df, "metric": metric,
-            "terms": estimates, "r_squared": r2, "residual_sd": sqrt(mse),
-            "pairwise_factor_correlations": correlations, "residual_variance_ratio": variance_ratio,
-            "factor_support": support, "inference_assumptions": ["independent observations", "homoskedastic OLS standard errors"],
-            "diagnostic_warnings": warnings,
-            "interpretation": "observational association; coefficients do not estimate intervention response"}
+    report, _model = fit_linear_model(rows, factor_defs, metric, options, cancel=cancel)
+    return report
 
 
 def _metric_pass(value, definition):
@@ -374,40 +317,28 @@ def _robust_window(rows, fdefs, mdefs, data, feasible):
             "qualification": "only replicated observed settings passing every stated limit; not production-qualified"}
 
 
-def _pareto(rows, mdefs, data, cancel=None):
+def _pareto(rows, mdefs, fdefs, data, cancel=None):
     objectives = data.get("objectives")
     if objectives is None:
         objectives = [{"metric": n, "direction": d.get("direction", "maximize")} for n, d in mdefs.items()]
     if not isinstance(objectives, list) or not objectives:
         return {"status": "LIMITED_SCOPE", "reason": "no objective metrics supplied", "pareto_observation_ids": []}
+    if any(not isinstance(obj, dict) for obj in objectives):
+        raise ValueError("each objective must be an object")
     for obj in objectives:
         if obj.get("metric") not in mdefs or obj.get("direction", "maximize") not in ("maximize", "minimize"):
             raise ValueError("objectives must reference defined metrics and valid directions")
+    if len({obj["metric"] for obj in objectives}) != len(objectives):
+        raise ValueError("objective metrics must be unique")
     multi = data.get("multi_step") is True
-    link = data.get("linkage", {})
-    if multi and (not isinstance(link, dict) or link.get("approved") is not True or link.get("temporally_valid") is not True):
-        return {"status": "LIMITED_SCOPE", "reason": "approved time-valid downstream linkage is absent",
-                "pareto_observation_ids": [], "downstream_claim": "withheld"}
-    if len(objectives) < 2 and not multi:
-        return {"status": "NOT_REQUESTED", "reason": "multiple objectives were not supplied", "pareto_observation_ids": []}
-    valid_rows = [r for r in rows if all(_metric_pass(r["metrics"][n], mdefs[n]) for n in mdefs)]
-    if len(valid_rows) > MAX_PARETO_ROWS:
+    if len(rows) > MAX_PARETO_ROWS:
         return {"status": "REFUSED", "reason": f"multiobjective comparison is bounded to {MAX_PARETO_ROWS} eligible observations",
                 "pareto_observation_ids": []}
-    def dominates(a, b):
-        av = [a["metrics"][o["metric"]] * (1 if o.get("direction", "maximize") == "maximize" else -1) for o in objectives]
-        bv = [b["metrics"][o["metric"]] * (1 if o.get("direction", "maximize") == "maximize" else -1) for o in objectives]
-        return all(x >= y for x, y in zip(av, bv)) and any(x > y for x, y in zip(av, bv))
-    front = []
-    for i, row in enumerate(valid_rows):
-        _check_cancel(cancel)
-        if not any(other_i != i and dominates(other, row) for other_i, other in enumerate(valid_rows)):
-            front.append(row)
-    return {"status": "VALID" if len(objectives) > 1 else "LIMITED_SCOPE", "objective_metrics": objectives,
-            "pareto_observation_ids": [r["id"] for r in front],
-            "pareto_values": [{"id": r["id"], **r["metrics"]} for r in front],
-            "tradeoff_count": len(front), "scope": "approved cross-step" if multi else "observed supplied scope",
-            "qualification": "observed Pareto set; no unsupported downstream effects"}
+    if multi:
+        return cross_step_tradeoffs(rows, mdefs, data, cancel)
+    if len(objectives) < 2 and not multi:
+        return {"status": "NOT_REQUESTED", "reason": "multiple objectives were not supplied", "pareto_observation_ids": []}
+    return observed_tradeoffs(rows, mdefs, fdefs, data, objectives, cancel)
 
 
 def _power_assumption(design, runs, controls):
@@ -442,11 +373,11 @@ def _mean_difference_interval(treated, control):
     se = sqrt(a + b)
     denominator = (a * a / (len(treated) - 1)) + (b * b / (len(control) - 1))
     df = (a + b) ** 2 / denominator if denominator else 1000
-    tcrit = _critical95(max(1, int(df)))
+    tcrit = critical_t_975(max(1.0, df))
     return estimate, se, df, [estimate - tcrit * se, estimate + tcrit * se]
 
 
-def _experiment_design(fdefs, data, cancel=None):
+def _experiment_design(fdefs, data, rows=None, mdefs=None, cancel=None):
     spec = data.get("experiment_design")
     if not spec:
         return {"status": "NOT_REQUESTED", "executed": False}
@@ -462,6 +393,10 @@ def _experiment_design(fdefs, data, cancel=None):
     replicates = spec.get("replicates", 1)
     if not isinstance(budget, int) or isinstance(budget, bool) or budget < 1 or not isinstance(replicates, int) or replicates < 1:
         return {"status": "REFUSED", "reason": "positive integer run_budget and replicates are required", "executed": False}
+    strategy = spec.get("strategy", "full_factorial")
+    if strategy != "full_factorial":
+        return propose_design(strategy, controls, bounds, spec, data.get("forbidden_regions", []),
+                              rows=rows, metric_defs=mdefs, model_options=data.get("model", {}), cancel=cancel)
     forbidden = data.get("forbidden_regions", [])
     corners = list(product(*[(bounds[n][0], bounds[n][1]) for n in controls]))
     if len(corners) > 1024:
@@ -489,13 +424,11 @@ def _experiment_design(fdefs, data, cancel=None):
     block_count = spec.get("blocks", 1)
     if not isinstance(block_count, int) or isinstance(block_count, bool) or block_count < 1 or block_count > len(runs):
         return {"status": "REFUSED", "reason": "blocks must be a positive integer", "executed": False}
-    for i, run in enumerate(runs):
-        run["run_order"] = i + 1
-        run["block"] = (i % block_count) + 1
+    blocking = assign_blocks(runs, controls, block_count, seed, cancel=cancel)
     power = _power_assumption(spec, runs, controls)
     return {"status": "PROPOSED", "design": "randomized full factorial at approved bounds",
             "factors": controls, "run_count": len(runs), "runs": runs,
-            "randomization_seed": seed, "blocking": {"count": block_count, "assignment": "round-robin after seeded randomization"},
+            "randomization_seed": seed, "blocking": blocking,
             "power": power, "authorization_fields": ["engineer_approval_id", "process_owner_approval_id", "safety_review_id"],
             "executed": False, "actuation": "none"}
 
@@ -518,51 +451,200 @@ def _effectiveness(data):
                 not str(study.get("authorization_id", "")).startswith("SYN-") or
                 not str(study.get("randomization_evidence", "")).startswith("SYN-")):
             return {"status": "INCONCLUSIVE", "reason": "random allocation evidence, authorization ID, and documented intervention ID are required", "causal_claim": False}
-        if any(not _finite_number(r.get(metric)) or r.get("group") not in ("treatment", "control") for r in records):
-            return {"status": "INCONCLUSIVE", "reason": "each randomized unit needs one finite outcome and a valid assignment", "causal_claim": False}
-        units = [r.get("unit_id") for r in records]
-        if any(unit is None for unit in units) or len(set(map(str, units))) != len(units):
-            return {"status": "INCONCLUSIVE", "reason": "randomized analysis requires one outcome per unique independent unit", "causal_claim": False}
-        treated = [float(r[metric]) for r in records if r.get("group") == "treatment" and _finite_number(r.get(metric))]
-        control = [float(r[metric]) for r in records if r.get("group") == "control" and _finite_number(r.get(metric))]
+        if any(r.get("group") not in ("treatment", "control") for r in records):
+            return {"status": "INCONCLUSIVE", "reason": "every randomized unit needs a valid assigned group", "causal_claim": False}
+        ledger = study.get("assignment_ledger")
+        if not isinstance(ledger, list) or not ledger or any(not isinstance(item, dict) for item in ledger):
+            return {"status": "INCONCLUSIVE", "reason": "randomized study requires an assignment_ledger to establish denominators and detect missing units", "causal_claim": False}
+        ledger_ids = [item.get("unit_id") for item in ledger]
+        if (any(unit is None or str(unit) == "" for unit in ledger_ids) or len(set(map(str, ledger_ids))) != len(ledger_ids)
+                or any(item.get("group") not in ("treatment", "control") for item in ledger)):
+            return {"status": "INCONCLUSIVE", "reason": "assignment_ledger requires unique unit IDs and valid randomized groups", "causal_claim": False}
+        observed_ids = [r.get("unit_id") for r in records]
+        if any(unit is None or str(unit) == "" for unit in observed_ids) or len(set(map(str, observed_ids))) != len(observed_ids):
+            return {"status": "INCONCLUSIVE", "reason": "randomized analysis requires one record per unique assigned independent unit", "causal_claim": False}
+        ledger_groups = {str(item["unit_id"]): item["group"] for item in ledger}
+        if any(str(row["unit_id"]) not in ledger_groups or ledger_groups[str(row["unit_id"])] != row["group"] for row in records):
+            return {"status": "INCONCLUSIVE", "reason": "study observations do not match the randomized assignment ledger", "causal_claim": False}
+        observed_by_id = {str(row["unit_id"]): row for row in records}
+        complete_records = [observed_by_id.get(str(item["unit_id"]), {"unit_id": item["unit_id"], "group": item["group"]})
+                           for item in ledger]
+        assigned = {group: [r for r in complete_records if r["group"] == group] for group in ("treatment", "control")}
+        observed = {group: [float(r[metric]) for r in units_for_group if _finite_number(r.get(metric))]
+                    for group, units_for_group in assigned.items()}
+        attrition = {group: {"assigned": len(assigned[group]), "observed": len(observed[group]),
+                             "missing_outcome": len(assigned[group])-len(observed[group]),
+                             "rate": (len(assigned[group])-len(observed[group]))/len(assigned[group]) if assigned[group] else None}
+                    for group in assigned}
+        cointerventions = {group: {str(row.get("concurrent_intervention_id", "none")) for row in members}
+                           for group, members in assigned.items()}
+        if study.get("differential_concurrent_intervention") is True or cointerventions["treatment"] != cointerventions["control"]:
+            return {"status": "INCONCLUSIVE", "reason": "concurrent intervention differs by randomized arm",
+                    "attrition": attrition, "causal_claim": False}
+        if any(attrition[group]["missing_outcome"] for group in attrition):
+            bounds = study.get("outcome_bounds")
+            if (not isinstance(bounds, list) or len(bounds) != 2 or any(not _finite_number(v) for v in bounds)
+                    or bounds[0] > bounds[1]):
+                return {"status": "INCONCLUSIVE", "reason": "outcome attrition requires engineer-supplied finite outcome_bounds; point estimate withheld",
+                        "attrition": attrition, "causal_claim": False}
+            arm_bounds = {}
+            for group in assigned:
+                if not assigned[group]:
+                    return {"status": "INCONCLUSIVE", "reason": "both randomized arms need assigned units", "attrition": attrition, "causal_claim": False}
+                missing = attrition[group]["missing_outcome"]
+                observed_sum = sum(observed[group])
+                arm_bounds[group] = [(observed_sum+missing*bounds[0])/len(assigned[group]),
+                                     (observed_sum+missing*bounds[1])/len(assigned[group])]
+            return {"status": "BOUNDED", "design": "randomized intention-to-treat worst-case attrition bounds",
+                    "metric": metric, "attrition": attrition, "outcome_bounds": bounds,
+                    "treatment_mean_bounds": arm_bounds["treatment"], "control_mean_bounds": arm_bounds["control"],
+                    "effect_identification_bounds": [arm_bounds["treatment"][0]-arm_bounds["control"][1],
+                                                      arm_bounds["treatment"][1]-arm_bounds["control"][0]],
+                    "causal_claim": False,
+                    "qualification": "worst-case bounds only; no point effect or causal certainty is claimed"}
+        treated, control = observed["treatment"], observed["control"]
         if len(treated) < 2 or len(control) < 2:
-            return {"status": "INCONCLUSIVE", "reason": "at least two independent units per randomized arm are required", "causal_claim": False}
+            return {"status": "INCONCLUSIVE", "reason": "at least two independent units per randomized arm are required", "attrition": attrition, "causal_claim": False}
         estimate, se, df, interval = _mean_difference_interval(treated, control)
+        baseline = {}
+        baseline_fields = study.get("baseline_covariates", [])
+        if baseline_fields and (not isinstance(baseline_fields, list) or any(not isinstance(field, str) for field in baseline_fields)):
+            return {"status": "INCONCLUSIVE", "reason": "baseline_covariates must be a list of field names", "causal_claim": False}
+        for field in baseline_fields:
+            if any(not _finite_number(row.get(field)) for row in records):
+                baseline[field] = {"status": "NOT_AVAILABLE"}
+                continue
+            values = {group: [float(row[field]) for row in assigned[group]] for group in assigned}
+            pool_var = ((len(values["treatment"])-1)*variance(values["treatment"])
+                        +(len(values["control"])-1)*variance(values["control"]))/(len(records)-2)
+            smd = (mean(values["treatment"])-mean(values["control"]))/sqrt(pool_var) if pool_var > 0 else None
+            baseline[field] = {"standardized_mean_difference": smd,
+                               "imbalance_flag_abs_smd_over_0_1": abs(smd) > 0.1 if smd is not None else None}
         return {"status": "ESTIMATED", "design": "randomized two-arm difference in means", "metric": metric,
                 "intervention_id": study["intervention_id"], "treatment_n": len(treated), "control_n": len(control),
                 "estimate": estimate, "se": se, "welch_df": df, "ci95_welch_t_approximation": interval,
+                "attrition": attrition, "baseline_balance": baseline,
                 "causal_claim": True, "assumptions": ["valid documented random allocation", "independent units", "no interference", "consistent outcome measurement"],
-                "qualification": "study estimate only; normal outcome approximation; not production qualification"}
+                "diagnostics": {"small_sample_warning": min(len(treated), len(control)) < 10,
+                                "assignment_unit_count": len(ledger_ids), "concurrent_intervention_ids": {group: sorted(values) for group, values in cointerventions.items()}},
+                "sensitivity": {"type": "outcome_attrition", "missing_outcomes": 0,
+                                "qualification": "report outcome_bounds to compute worst-case attrition bounds if missingness is present"},
+                "qualification": "conditional randomized study estimate; small samples and baseline imbalance require review; not production qualification"}
     if design == "difference_in_differences":
-        if (not str(study.get("parallel_trends_evidence", "")).startswith("SYN-") or
-                not str(study.get("authorization_id", "")).startswith("SYN-") or
+        if (not str(study.get("authorization_id", "")).startswith("SYN-") or
                 not str(study.get("intervention_id", "")).startswith("SYN-")):
-            return {"status": "INCONCLUSIVE", "reason": "parallel-trends evidence is absent", "causal_claim": False}
-        if any(not _finite_number(row.get(metric)) or row.get("group") not in ("treatment", "control") or
-               row.get("period") not in ("pre", "post") for row in records):
-            return {"status": "INCONCLUSIVE", "reason": "each DiD outcome needs a finite value, group, and pre/post period", "causal_claim": False}
-        by_unit = {}
+            return {"status": "INCONCLUSIVE", "reason": "documented authorized intervention is required", "causal_claim": False}
+        if any(row.get("group") not in ("treatment", "control") or row.get("period") not in ("pre2", "pre", "post") for row in records):
+            return {"status": "INCONCLUSIVE", "reason": "DiD requires group and periods pre2, pre, and/or post", "causal_claim": False}
+        ledger = study.get("assignment_ledger")
+        if not isinstance(ledger, list) or not ledger or any(not isinstance(item, dict) for item in ledger):
+            return {"status": "INCONCLUSIVE", "reason": "DiD requires an assignment ledger to establish the independent-unit denominator", "causal_claim": False}
+        ledger_ids = [item.get("unit_id") for item in ledger]
+        if (any(unit is None or str(unit) == "" for unit in ledger_ids) or len(set(map(str, ledger_ids))) != len(ledger_ids)
+                or any(item.get("group") not in ("treatment", "control") for item in ledger)):
+            return {"status": "INCONCLUSIVE", "reason": "DiD assignment ledger requires unique unit IDs and valid groups", "causal_claim": False}
+        ledger_groups = {str(item["unit_id"]): item["group"] for item in ledger}
+        if set(ledger_groups.values()) != {"treatment", "control"}:
+            return {"status": "INCONCLUSIVE", "reason": "DiD assignment ledger must include both groups", "causal_claim": False}
+        by_unit = {unit: {"group": group} for unit, group in ledger_groups.items()}
         for row in records:
-            if row.get("period") in ("pre", "post") and row.get("group") in ("treatment", "control") and _finite_number(row.get(metric)):
-                unit = row.get("unit_id")
-                if unit is None:
-                    return {"status": "INCONCLUSIVE", "reason": "DiD requires independent unit IDs", "causal_claim": False}
-                entry = by_unit.setdefault(unit, {"group": row["group"]})
-                if entry["group"] != row["group"] or row["period"] in entry:
-                    return {"status": "INCONCLUSIVE", "reason": "DiD unit assignments and pre/post records must be unique", "causal_claim": False}
-                entry[row["period"]] = float(row[metric])
+            unit = row.get("unit_id")
+            if unit is None or str(unit) == "":
+                return {"status": "INCONCLUSIVE", "reason": "DiD requires independent unit IDs", "causal_claim": False}
+            unit = str(unit)
+            if unit not in ledger_groups or ledger_groups[unit] != row["group"]:
+                return {"status": "INCONCLUSIVE", "reason": "DiD observations do not match the assignment ledger", "causal_claim": False}
+            entry = by_unit[unit]
+            if entry["group"] != row["group"] or row["period"] in entry:
+                return {"status": "INCONCLUSIVE", "reason": "DiD assignments and period records must be unique", "causal_claim": False}
+            entry[row["period"]] = float(row[metric]) if _finite_number(row.get(metric)) else None
+        attrition = {group: {"assigned": 0, "complete_pre_post": 0, "complete_pretrend": 0}
+                    for group in ("treatment", "control")}
         changes = {group: [] for group in ("treatment", "control")}
         for unit, val in by_unit.items():
-            if unit is not None and "pre" in val and "post" in val:
-                changes[val["group"]].append(val["post"] - val["pre"])
+            group = val["group"]
+            attrition[group]["assigned"] += 1
+            if _finite_number(val.get("pre")) and _finite_number(val.get("post")):
+                changes[group].append(val["post"] - val["pre"])
+                attrition[group]["complete_pre_post"] += 1
+            if _finite_number(val.get("pre2")) and _finite_number(val.get("pre")):
+                attrition[group]["complete_pretrend"] += 1
         t, c = changes["treatment"], changes["control"]
         if len(t) < 2 or len(c) < 2:
-            return {"status": "INCONCLUSIVE", "reason": "DiD requires two complete independent units per group", "causal_claim": False}
+            return {"status": "INCONCLUSIVE", "reason": "DiD requires two complete independent units per group", "attrition": attrition, "causal_claim": False}
+        if any(attrition[group]["complete_pre_post"] != attrition[group]["assigned"] for group in attrition):
+            return {"status": "INCONCLUSIVE", "reason": "incomplete DiD outcome panels are not imputed; causal and point estimates withheld",
+                    "attrition": attrition, "causal_claim": False}
         estimate, se, df, interval = _mean_difference_interval(t, c)
+        pretrend = {"status": "NOT_ESTIMABLE", "reason": "at least two pre-intervention periods are required"}
+        trend_t, trend_c = [], []
+        for val in by_unit.values():
+            if _finite_number(val.get("pre2")) and _finite_number(val.get("pre")):
+                delta = val["pre"]-val["pre2"]
+                (trend_t if val["group"] == "treatment" else trend_c).append(delta)
+        if len(trend_t) >= 2 and len(trend_c) >= 2:
+            trend_estimate, trend_se, trend_df, trend_interval = _mean_difference_interval(trend_t, trend_c)
+            equivalence_bound = study.get("pretrend_equivalence_bound")
+            equivalence_source = study.get("pretrend_equivalence_bound_source")
+            equivalence_method = study.get("pretrend_equivalence_bound_method")
+            complete_pretrend = all(attrition[group]["complete_pretrend"] == attrition[group]["assigned"]
+                                    for group in attrition)
+            documented_equivalence_bound = (_finite_number(equivalence_bound) and equivalence_bound >= 0
+                                            and isinstance(equivalence_source, str) and bool(equivalence_source.strip())
+                                            and isinstance(equivalence_method, str) and bool(equivalence_method.strip()))
+            within_bound = (documented_equivalence_bound and trend_interval[0] >= -equivalence_bound
+                            and trend_interval[1] <= equivalence_bound)
+            trend_status = ("INCOMPLETE_COVERAGE" if not complete_pretrend else
+                            "WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND_NOT_PROOF" if within_bound else
+                            "NOT_WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND" if documented_equivalence_bound else
+                            "EQUIVALENCE_BOUND_NOT_DOCUMENTED")
+            pretrend = {"status": trend_status, "estimate": trend_estimate, "se": trend_se,
+                        "welch_df": trend_df, "ci95": trend_interval,
+                        "equivalence_bound": equivalence_bound,
+                        "equivalence_bound_source": equivalence_source,
+                        "equivalence_bound_method": equivalence_method,
+                        "complete_coverage": complete_pretrend,
+                        "complete_units": {"treatment": len(trend_t), "control": len(trend_c)}}
+        trend_bound = study.get("differential_trend_bound")
+        trend_bound_source = study.get("differential_trend_bound_source")
+        trend_bound_method = study.get("differential_trend_bound_method")
+        documented_sensitivity_bound = (_finite_number(trend_bound) and trend_bound >= 0
+                                        and isinstance(trend_bound_source, str) and bool(trend_bound_source.strip())
+                                        and isinstance(trend_bound_method, str) and bool(trend_bound_method.strip()))
+        sensitivity = ({"differential_trend_bound": trend_bound,
+                        "bound_source": trend_bound_source, "bound_method": trend_bound_method,
+                        "effect_range_under_bound": [estimate-trend_bound, estimate+trend_bound],
+                        "ci95_under_bound": [interval[0]-trend_bound, interval[1]+trend_bound],
+                        "point_estimate_tipping_point_abs_trend": abs(estimate),
+                        "ci95_tipping_point_abs_trend": max(0.0, abs(estimate)-max(abs(interval[0]-estimate), abs(interval[1]-estimate)))}
+                       if documented_sensitivity_bound else
+                       {"reason": "supply a nonnegative differential_trend_bound with its source and method for quantitative sensitivity"})
+        minimum_units_for_conditional_interpretation = 10
+        adequate_sample = min(len(t), len(c)) >= minimum_units_for_conditional_interpretation
+        concurrent_intervention_ids = {group: {str(row.get("concurrent_intervention_id", "none"))
+                                               for row in records if row.get("group") == group}
+                                       for group in ("treatment", "control")}
+        differential_concurrent_intervention = (study.get("differential_concurrent_intervention") is True
+                                                or concurrent_intervention_ids["treatment"] != concurrent_intervention_ids["control"])
+        sensitivity_interval = sensitivity.get("ci95_under_bound")
+        direction_supported = (sensitivity_interval is not None
+                               and (sensitivity_interval[0] > 0 or sensitivity_interval[1] < 0))
+        causal_ready = (pretrend.get("status") == "WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND_NOT_PROOF"
+                        and documented_sensitivity_bound and adequate_sample
+                        and not differential_concurrent_intervention and direction_supported)
         return {"status": "ESTIMATED", "design": design, "metric": metric, "treatment_n": len(t), "control_n": len(c),
                 "estimate": estimate, "se": se, "welch_df": df, "ci95_welch_t_approximation": interval,
-                "causal_claim": True, "assumptions": ["documented parallel trends", "no differential concurrent intervention", "independent units", "consistent outcome measurement"],
-                "qualification": "study estimate only; parallel-trends sensitivity analysis and engineer review required"}
+                "causal_claim": causal_ready, "attrition": attrition, "pretrend_diagnostic": pretrend,
+                "sensitivity": sensitivity, "assumptions": ["parallel trends cannot be proven by pretrend data",
+                    "no differential concurrent intervention", "independent units", "consistent outcome measurement"],
+                "diagnostics": {"small_sample_warning": min(len(t), len(c)) < 10,
+                                "minimum_units_for_conditional_interpretation": minimum_units_for_conditional_interpretation,
+                                "pretrend_coverage_complete": pretrend.get("complete_coverage", False),
+                                "differential_concurrent_intervention": differential_concurrent_intervention,
+                                "concurrent_intervention_ids": {group: sorted(values) for group, values in concurrent_intervention_ids.items()},
+                                "effect_direction_supported_under_trend_bound": direction_supported},
+                "reason": None if causal_ready else "DiD point estimate is descriptive; causal interpretation withheld because design diagnostics or sensitivity bound are incomplete",
+                "qualification": "conditional study estimate; parallel-trends sensitivity and engineer review required"}
     vals = [r.get(metric) for r in records if _finite_number(r.get(metric))]
     before = [r[metric] for r in records if r.get("period") == "pre" and _finite_number(r.get(metric))]
     after = [r[metric] for r in records if r.get("period") == "post" and _finite_number(r.get(metric))]
@@ -626,8 +708,10 @@ def _validate_lineage(rows, sources, data):
             continue
         if len(refs) > 1:
             linkage = data.get("linkage", {})
-            if not isinstance(linkage, dict) or linkage.get("approved") is not True or linkage.get("temporally_valid") is not True:
-                raise ValueError("multi-source observations require an approved, time-valid relationship reference")
+            if (not isinstance(linkage, dict) or linkage.get("approved") is not True
+                    or not str(linkage.get("relationship_id", "")).startswith("SYN-")
+                    or not str(linkage.get("approval_reference", "")).startswith("SYN-")):
+                raise ValueError("multi-source observations require an explicit versioned relationship contract reference")
         used.update(refs)
     if sources and used != known:
         raise ValueError("source references must exactly match the sources used by observations")
@@ -662,15 +746,20 @@ def analyze(data: dict[str, Any], *, cancel=None):
         options = data.get("model", {})
         if not isinstance(options, dict):
             raise ValueError("model options must be an object")
-        factor_names = list(fdefs)
-        sensitivity = _fit_ols(rows, factor_names, primary_metric, options, fdefs, cancel)
+        sensitivity, sensitivity_model = fit_linear_model(rows, fdefs, primary_metric, options, cancel=cancel)
         feasible = _process_window(rows, fdefs, mdefs, data, cancel)
+        supported_region = (explore_window(rows, fdefs, mdefs, data, cancel)
+                            if isinstance(data.get("factors"), list) else {"status": "NOT_REQUESTED", "grid": [], "candidate_cells": []})
         robustness = _robust_window(rows, fdefs, mdefs, data, feasible)
-        tradeoffs = _pareto(rows, mdefs, data, cancel)
-        doe = _experiment_design(fdefs, data, cancel)
+        tradeoffs = _pareto(rows, mdefs, fdefs, data, cancel)
+        doe = _experiment_design(fdefs, data, rows, mdefs, cancel)
         effect = _effectiveness(data)
         split = _validate_time_split(data.get("validation_split"))
     except AnalysisCancelled:
+        return envelope("p4", data, "REFUSED", [], ["Analysis was cancelled before a result was produced; no external operation was started."])
+    except RegressionCancelled:
+        return envelope("p4", data, "REFUSED", [], ["Analysis was cancelled before a result was produced; no external operation was started."])
+    except InterruptedError:
         return envelope("p4", data, "REFUSED", [], ["Analysis was cancelled before a result was produced; no external operation was started."])
     except (ValueError, TypeError, KeyError, OverflowError) as exc:
         return envelope("p4", data, "REFUSED", [], [f"Invalid or unsupported investigation: {exc}"])
@@ -681,18 +770,38 @@ def analyze(data: dict[str, Any], *, cancel=None):
     partial = False
     if sensitivity.get("status") == "VALID":
         terms = sensitivity["terms"]
-        if len(factor_names) == 1 and "factor" in terms:
+        fit_factors = sensitivity.get("model_specification", {}).get("factors", list(fdefs))
+        if len(fit_factors) == 1 and "factor" in terms:
             estimate = terms["factor"]["estimate"]
-            observed = feasible.get("candidate_factor_values", {}).get(factor_names[0], [])
+            observed = feasible.get("candidate_factor_values", {}).get(fit_factors[0], [])
             statement = f"Observational slope = {estimate:g} response units/factor unit; observed candidate settings meeting threshold = {observed}."
         else:
-            statement = f"Adjusted observational associations were estimated for {len(factor_names)} factors on {len(rows)} observations; no coefficient is a causal effect."
-        claims.append(claim(statement, category="ASSOCIATION", method="ols_pivoted_gauss_jordan", source_ids=source_ids,
+            statement = f"Adjusted observational associations were estimated for {len(fit_factors)} factors on {len(rows)} observations; no coefficient is a causal effect."
+        claims.append(claim(statement, category="ASSOCIATION", method="robust_linear_model", source_ids=source_ids,
                             certainty="SUPPORTED" if sensitivity.get("residual_df", 0) > 0 else "CONDITIONAL"))
+    elif sensitivity.get("diagnostics", {}).get("degenerate_residual_variation"):
+        fit_factors = sensitivity.get("model_specification", {}).get("factors", [])
+        if len(fit_factors) == 1 and fit_factors[0] in sensitivity.get("terms", {}):
+            factor = fit_factors[0]
+            estimate = sensitivity["terms"][factor]["estimate"]
+            observed = feasible.get("candidate_factor_values", {}).get(factor, [])
+            statement = (f"Observational slope = {estimate:g} response units/factor unit; observed candidate settings meeting threshold = {observed}. "
+                         "Exact-fit residuals did not support inferential intervals.")
+        else:
+            statement = "Factor point estimates were identified, but exact-fit residuals did not support inferential intervals."
+        claims.append(claim(statement,
+                            category="ASSOCIATION", method="rank-identified_model_without_estimable_residual_variation",
+                            source_ids=source_ids, certainty="CONDITIONAL"))
     else:
         partial = True
         claims.append(claim("Separate factor sensitivities could not be identified from this design.", category="ASSOCIATION",
-                            method="ols_rank_diagnostic", source_ids=source_ids, certainty="INCONCLUSIVE"))
+                            method="qr_rank_diagnostic", source_ids=source_ids, certainty="INCONCLUSIVE"))
+    if supported_region.get("status") == "VALID":
+        claims.append(claim(f"A supported response-surface region contains {supported_region['candidate_count']} conservative candidate cells; the cells are advisory and remain subject to engineer review.",
+                            category="DESCRIPTIVE", method=supported_region["method"], source_ids=source_ids,
+                            certainty="CONDITIONAL"))
+    elif supported_region.get("status") not in ("NOT_REQUESTED",):
+        partial = True
     if feasible.get("status") == "VALID":
         claims.append(claim(f"Observed feasible candidates: {feasible['candidate_count']} rows within approved bounds and metric constraints.",
                             category="DESCRIPTIVE", method="observed_feasible_filter", source_ids=source_ids,
@@ -705,7 +814,7 @@ def analyze(data: dict[str, Any], *, cancel=None):
         claims.append(claim(f"Observed multiobjective Pareto set contains {tradeoffs['tradeoff_count']} candidates.",
                             category="DESCRIPTIVE", method="observed_pareto_filter", source_ids=source_ids,
                             certainty="CONDITIONAL"))
-    elif tradeoffs.get("status") == "LIMITED_SCOPE" and (len(mdefs) > 1 or data.get("multi_step") is True):
+    elif tradeoffs.get("status") in ("LIMITED_SCOPE", "REFUSED") and (len(mdefs) > 1 or data.get("multi_step") is True):
         partial = True
     if doe.get("status") == "PROPOSED":
         claims.append(claim(f"A non-executing {doe['design']} proposal contains {doe['run_count']} runs.",
@@ -725,14 +834,16 @@ def analyze(data: dict[str, Any], *, cancel=None):
     out = envelope("p4", data, "PARTIAL" if partial else "VALID", claims, limitations,
                    assumptions=["All observations and source references are supplied synthetic fixtures.",
                                 "No actuation, recipe recommendation, or real company-data access is available."], sources=sources)
-    out["provenance"].update({"engine_version": ENGINE_VERSION, "method_version": "p4-deterministic-1"})
+    out["provenance"].update({"engine_version": ENGINE_VERSION, "method_version": "p4-robust-surface-1"})
     out["populations"] = [{"n": len(rows), "grain": data.get("grain", "one supplied observation row"),
                            "sampled_unit": data.get("sampling_unit", "not specified"),
                            "timestamp_semantics": data.get("timestamp_semantics", "not specified")}]
     out["units"] = {"factors": {n: f.get("unit", "unspecified") for n, f in fdefs.items()},
                     "metrics": {n: f.get("unit", "unspecified") for n, f in mdefs.items()}}
-    out["transformations"] = [{"id": "p4-deterministic-1", "method": "standard-library OLS, observed constraint filters, Pareto dominance, seeded full factorial, study-design gate"}]
-    out["uncertainty"] = {"sensitivity": {k: v for k, v in sensitivity.items() if k in ("residual_sd", "residual_df", "diagnostic_warnings")},
+    out["transformations"] = [{"id": "p4-robust-surface-1", "method": "pivoted QR regression with HC3 or declared cluster sandwich covariance, observed filters, supported 1D/2D predictive grid, explicit study-design gates"}]
+    out["uncertainty"] = {"sensitivity": {k: v for k, v in sensitivity.items() if k in ("residual_sd", "residual_df", "diagnostic_warnings", "inference", "diagnostics")},
+                          "supported_region": {"status": supported_region.get("status"), "region_counts": supported_region.get("region_counts"),
+                                               "uncertainty_rule": supported_region.get("uncertainty_rule")},
                           "effectiveness": {k: effect.get(k) for k in ("se", "ci95_welch_t_approximation") if k in effect}}
     out["counterevidence"] = [{"check": "extrapolation", "result": feasible.get("extrapolation", "not applicable")},
                               {"check": "study-design validity", "result": effect.get("reason", effect.get("design", "not requested"))},
@@ -741,7 +852,8 @@ def analyze(data: dict[str, Any], *, cancel=None):
                          "context": data.get("context", {}), "source_inspection": {"mode": "SYNTHETIC_DEMO", "sources": sources,
                              "permissions": "synthetic only", "approved_company_semantics": False},
                          "D01_sensitivity": sensitivity, "D03_tradeoffs": tradeoffs,
-                         "D02_observed_process_window": feasible, "D02_robust_observed_region": robustness,
+                         "D02_observed_process_window": feasible, "D02_supported_region": supported_region,
+                         "D02_robust_observed_region": robustness,
                          "D04_experiment_proposal": doe,
                          "D05_effectiveness": effect, "validation_split": split,
                          "review_fields": ["objective", "source and population eligibility", "factor roles and units", "constraints", "assumptions", "counterevidence", "approval IDs"]}]

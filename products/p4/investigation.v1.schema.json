@@ -17,12 +17,74 @@
     "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
     "robustness": {"type": "object", "properties": {"min_independent_units": {"type": "integer", "minimum": 2}, "independent_unit_field": {"type": "string"}}, "additionalProperties": false},
     "forbidden_regions": {"type": "array", "items": {"type": "object"}},
-    "experiment_design": {"type": "object"},
-    "effectiveness": {"type": "object"},
+    "experiment_design": {
+      "type": "object",
+      "properties": {
+        "strategy": {"enum": ["full_factorial", "fractional_factorial", "latin_hypercube", "d_optimal", "next_best"]},
+        "run_budget": {"type": "integer", "minimum": 1}, "replicates": {"type": "integer", "minimum": 1},
+        "blocks": {"type": "integer", "minimum": 1}, "seed": {"type": "integer"},
+        "candidate_levels": {"type": "integer", "minimum": 2, "maximum": 41},
+        "target_metric": {"type": "string"}, "independent_unit_field": {"type": "string"},
+        "min_independent_units": {"type": "integer", "minimum": 3}, "fixed_effects": {"type": "object"},
+        "maximum_grouped_validation_rmse": {"type": "number", "exclusiveMinimum": 0},
+        "noise_sd": {"type": "number", "exclusiveMinimum": 0},
+        "minimum_detectable_effect": {"type": "number", "exclusiveMinimum": 0}
+      },
+      "additionalProperties": false
+    },
+    "window_exploration": {
+      "type": "object",
+      "properties": {
+        "factors": {"type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
+        "fixed_settings": {"type": "object", "additionalProperties": {"type": "number"}},
+        "fixed_effects": {"type": "object"},
+        "independent_unit_field": {"type": "string", "minLength": 1},
+        "min_independent_units": {"type": "integer", "minimum": 3},
+        "grid_points": {"type": "integer", "minimum": 5, "maximum": 41},
+        "min_support_points": {"type": "integer", "minimum": 2},
+        "max_support_radius": {"type": "number", "exclusiveMinimum": 0, "maximum": 2}
+      },
+      "additionalProperties": false
+    },
+    "effectiveness": {
+      "type": "object",
+      "properties": {
+        "authorized": {"type": "boolean"}, "design": {"enum": ["randomized", "difference_in_differences", "before_after"]},
+        "metric": {"type": "string"}, "observations": {"type": "array", "items": {"type": "object"}},
+        "assignment_ledger": {"type": "array", "items": {"type": "object", "required": ["unit_id", "group"],
+          "properties": {"unit_id": {"type": "string"}, "group": {"enum": ["treatment", "control"]}}, "additionalProperties": false}},
+        "outcome_bounds": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        "baseline_covariates": {"type": "array", "items": {"type": "string"}},
+        "differential_trend_bound": {"type": "number", "minimum": 0},
+        "differential_trend_bound_source": {"type": "string", "minLength": 1},
+        "differential_trend_bound_method": {"type": "string", "minLength": 1},
+        "pretrend_equivalence_bound": {"type": "number", "minimum": 0},
+        "pretrend_equivalence_bound_source": {"type": "string", "minLength": 1},
+        "pretrend_equivalence_bound_method": {"type": "string", "minLength": 1},
+        "differential_concurrent_intervention": {"type": "boolean"},
+        "intervention_id": {"type": "string"}, "authorization_id": {"type": "string"},
+        "randomization_evidence": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
     "validation_split": {"type": "object"},
     "multi_step": {"type": "boolean"},
-    "linkage": {"type": "object"},
-    "model": {"type": "object"},
+    "linkage": {"$ref": "#/$defs/relationship_contract"},
+    "model": {
+      "type": "object",
+      "properties": {
+        "factor_fields": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "covariance": {"enum": ["HC3", "cluster", "classical"]},
+        "cluster_field": {"type": "string", "minLength": 1},
+        "minimum_clusters": {"type": "integer", "minimum": 10},
+        "fixed_effect_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
+        "fixed_effect_interactions": {"type": "array", "uniqueItems": true, "items": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}}},
+        "max_fixed_effect_levels": {"type": "integer", "minimum": 2, "maximum": 100},
+        "interactions": {"oneOf": [{"type": "boolean"}, {"type": "array", "items": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}}}]},
+        "quadratic": {"oneOf": [{"type": "boolean"}, {"type": "array", "uniqueItems": true, "items": {"type": "string"}}]}
+      },
+      "additionalProperties": false
+    },
     "grain": {"type": "string"},
     "sampling_unit": {"type": "string"},
     "timestamp_semantics": {"type": "string"},
@@ -59,6 +121,23 @@
     "source": {
       "type": "object", "required": ["id", "approved_semantic_version", "grain", "source_hash"],
       "properties": {"id": {"type": "string", "pattern": "^SYN-"}, "approved_semantic_version": {"type": "string", "pattern": "^SYNTHETIC-"}, "grain": {"type": "string"}, "source_hash": {"type": "string", "pattern": "^[0-9a-fA-F]{64}$"}, "permissions_ref": {"type": "string"}, "observed_at": {"type": "string"}},
+      "additionalProperties": false
+    },
+    "relationship_step": {
+      "type": "object", "required": ["source_id", "key_field", "event_time_field", "population_field", "population_id", "metric_field", "metric"],
+      "properties": {"source_id": {"type": "string", "pattern": "^SYN-"}, "key_field": {"type": "string"},
+        "event_time_field": {"type": "string"}, "population_field": {"type": "string"},
+        "population_id": {"type": "string"}, "metric_field": {"type": "string"}, "metric": {"type": "string"}},
+      "additionalProperties": false
+    },
+    "relationship_contract": {
+      "type": "object", "required": ["approved", "relationship_id", "contract_version", "approval_reference", "upstream", "downstream", "maximum_lag_seconds", "unit_field", "decision_factors"],
+      "properties": {"approved": {"const": true}, "relationship_id": {"type": "string", "pattern": "^SYN-"},
+        "contract_version": {"const": "1.0.0"}, "approval_reference": {"type": "string", "pattern": "^SYN-"},
+        "upstream": {"$ref": "#/$defs/relationship_step"}, "downstream": {"$ref": "#/$defs/relationship_step"},
+        "maximum_lag_seconds": {"type": "number", "exclusiveMinimum": 0}, "unit_field": {"type": "string"},
+        "decision_factors": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string"}},
+        "minimum_independent_units": {"type": "integer", "minimum": 3}},
       "additionalProperties": false
     }
   }

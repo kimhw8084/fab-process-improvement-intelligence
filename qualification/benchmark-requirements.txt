@@ -1,0 +1,7 @@
+# Optional, qualification-only alternatives. Never installed by product bootstrap.
+numpy==1.26.4
+scipy==1.11.4
+scikit-learn==1.5.2
+pyDOE3==1.6.2
+scikit-optimize==0.10.2
+statsmodels==0.15.0

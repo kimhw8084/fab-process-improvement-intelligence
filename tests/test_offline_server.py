@@ -1,5 +1,4 @@
 """Exercise the loopback API, host checks, data boundary, and cancel endpoint."""
-import copy
 import json
 import threading
 import time
@@ -7,6 +6,7 @@ import unittest
 from pathlib import Path
 from urllib.error import HTTPError
 from urllib.request import Request, urlopen
+from unittest.mock import patch
 
 from fabintel.server import LocalServer
 
@@ -73,26 +73,30 @@ class OfflineServerTests(unittest.TestCase):
         self.assertEqual(origin_error.exception.code, 403)
 
     def test_cancel_endpoint_stops_large_local_job(self):
-        request = copy.deepcopy(self.demo)
-        rows = []
-        for i in range(5000):
-            rows.append({"id": f"SYN-CANCEL-{i:05d}", "wafer_id": f"SYN-W-{i:05d}",
-                         "factors": {"pressure": float(i % 3 + 1), "temperature": float(40 + i % 2 * 10)},
-                         "metrics": {"yield_index": 80.0 + i % 10, "defect_rate": 1.0 + i % 5}})
-        request["observations"] = rows
-        _, started = self.post_json(self.base + "/api/jobs", request)
-        req = Request(self.base + f"/api/jobs/{started['job_id']}/cancel", data=b"", method="POST")
-        with urlopen(req, timeout=5) as response:
-            cancel = json.loads(response.read())
-        self.assertTrue(cancel["cancel_requested"])
-        deadline = time.time() + 5
-        while time.time() < deadline:
-            _, job = self.get_json(self.base + started["poll"])
-            if job["status"] != "RUNNING":
-                break
-            time.sleep(0.02)
-        self.assertEqual(job["status"], "CANCELED")
-        self.assertEqual(job["result"]["status"], "REFUSED")
+        started_analyze = threading.Event()
+
+        def cancellable_analysis(_payload, cancel=None):
+            started_analyze.set()
+            deadline = time.time() + 5
+            while time.time() < deadline and not cancel():
+                time.sleep(0.005)
+            return {"status": "REFUSED", "claims": [], "artifacts": []}
+
+        with patch("fabintel.server.analyze", side_effect=cancellable_analysis):
+            _, started = self.post_json(self.base + "/api/jobs", self.demo)
+            self.assertTrue(started_analyze.wait(2), "analysis worker did not start")
+            req = Request(self.base + f"/api/jobs/{started['job_id']}/cancel", data=b"", method="POST")
+            with urlopen(req, timeout=5) as response:
+                cancel = json.loads(response.read())
+            self.assertTrue(cancel["cancel_requested"])
+            deadline = time.time() + 5
+            while time.time() < deadline:
+                _, job = self.get_json(self.base + started["poll"])
+                if job["status"] != "RUNNING":
+                    break
+                time.sleep(0.01)
+            self.assertEqual(job["status"], "CANCELED")
+            self.assertEqual(job["result"]["status"], "REFUSED")
 
 
 if __name__ == "__main__":

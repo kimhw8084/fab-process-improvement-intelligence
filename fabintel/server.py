@@ -87,8 +87,11 @@ class JobStore:
 def preflight_report():
     return {"status": "PENDING_INTERNAL", "network_requests": 0, "adapter": "synthetic_only",
             "required_logical_operations": ["discover", "semantics", "relationships", "read_bounded", "cancel", "audit"],
+            "configurable_mcp_transport": {"transports": ["stdio", "streamable_http"],
+                "external_mock_command": "python -m fabintel mcp-test",
+                "site_qualification_command": "python -m fabintel site-mcp-qualify --config <site-config> --site-approval-reference <approved-ref> --authorized-site-test"},
             "reasons": ["No approved Fab Insight MCP capability report or connector is available in this package.",
-                        "Target OS, authentication, approved UI host, and semantic mappings require internal verification."]}
+                        "Actual host, authentication, approved source semantics, tool names, permissions, and relationships require site-side configuration and qualification."]}
 
 
 class Handler(BaseHTTPRequestHandler):

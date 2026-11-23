@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parent.parent
 
 def main():
     try:
-        from jsonschema import Draft202012Validator
+        from jsonschema import Draft202012Validator, FormatChecker
     except ImportError:
         print(json.dumps({"status": "SKIPPED", "reason": "jsonschema is not installed; it is not a product dependency"}, indent=2))
         return 0
@@ -18,6 +18,8 @@ def main():
         ("contracts/product-manifest.v1.schema.json", "product.json"),
         ("contracts/evidence.v1.schema.json", "release/full_workflow_demo_evidence.json"),
         ("products/p4/investigation.v1.schema.json", "fixtures/full_workflow_demo.json"),
+        ("requirements/site-mcp-config.v1.schema.json", "requirements/synthetic-mcp-mapping.v1.json"),
+        ("requirements/site-mcp-config.v1.schema.json", "requirements/company-config.template.json"),
     ]
     results = []
     for schema_rel, instance_rel in checks:
@@ -25,7 +27,7 @@ def main():
         schema_bytes = schema_path.read_bytes()
         schema = json.loads(schema_bytes)
         instance = json.loads(instance_path.read_text(encoding="utf-8"))
-        validator = Draft202012Validator(schema)
+        validator = Draft202012Validator(schema, format_checker=FormatChecker())
         errors = sorted(validator.iter_errors(instance), key=lambda error: list(map(str, error.absolute_path)))
         results.append({"schema": schema_rel, "schema_sha256": hashlib.sha256(schema_bytes).hexdigest(),
                         "instance": instance_rel, "status": "PASS" if not errors else "FAIL",

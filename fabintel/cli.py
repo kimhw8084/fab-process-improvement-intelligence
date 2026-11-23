@@ -44,11 +44,19 @@ def main():
     catalog.add_argument("--output", default="")
     web = commands.add_parser("serve", help="serve the offline engineer UI on loopback only")
     web.add_argument("--port", type=int, default=8765)
+    mcp_test = commands.add_parser("mcp-test", help="exercise configured MCP transports only against an explicit synthetic test config")
+    mcp_test.add_argument("--config", default=str(BASE / "requirements" / "synthetic-mcp-mapping.v1.json"))
+    site_test = commands.add_parser("site-mcp-qualify", help="run site-owned MCP checks after explicit company authorization")
+    site_test.add_argument("--config", required=True)
+    site_test.add_argument("--site-approval-reference", required=True)
+    site_test.add_argument("--authorized-site-test", action="store_true", required=True,
+                           help="explicitly confirms that the operator has approval for this read-only site test")
+    site_test.add_argument("--output", default="", help="write the local qualification report to this file")
     args = parser.parse_args()
 
     if args.command == "doctor":
         obj = {"state": "CANDIDATE", "external_transfer_ready": False, "internal_state": "PENDING_INTERNAL",
-               "product_id": "p4", "engine_version": "1.0.0", "dependencies": "Python standard library only",
+               "product_id": "p4", "engine_version": "1.1.0", "dependencies": "Python standard library only",
                "network": "none in CLI; UI binds to 127.0.0.1", "note": "See release/GATE_REPORT.json for evidence and remaining gates."}
     elif args.command == "preflight":
         obj = preflight_report()
@@ -73,11 +81,51 @@ def main():
             parser.error("--port must be between 1024 and 65535")
         serve(args.port)
         return
+    elif args.command == "mcp-test":
+        from fabintel.mcp_client import configured_adapter, load_site_config
+        config = load_site_config(args.config)
+        if config.get("environment") != "SYNTHETIC_TEST_ONLY":
+            parser.error("mcp-test accepts only SYNTHETIC_TEST_ONLY configs; company-side qualification remains manual and pending")
+        adapter = configured_adapter(config, allow_synthetic_test=True)
+        try:
+            discovery = adapter.call("discover", {"permission_scope": "SYNTHETIC_READ"})
+            sources = config.get("approved_source_ids", [])
+            semantic = adapter.call("semantics", {"approved_source_ids": sources[:1],
+                                                   "semantic_version": (config.get("approved_semantic_versions") or [None])[0]})
+            relationship = adapter.call("relationships", {"typed_entity_ids": sources[:2], "time_window": {"scope": "SYNTHETIC_TEST"}})
+            bounded = adapter.call("read_bounded", {"approved_plan": {"source_ids": sources[:1], "synthetic_rows": [{"unit_id": "SYNTHETIC-TEST-ROW"}]},
+                "permission_context": {"scope": "SYNTHETIC_READ"}, "limits": {"max_rows": 1, "read_only": True}})
+            canceled = adapter.call("cancel", {"operation_id": "SYN-OP-STOPPED"})
+            audit = adapter.call("audit", {"operation_id": "SYN-OP-1"})
+            obj = {"status": "SYNTHETIC_TRANSPORT_PASS", "internal_qualification": "PENDING_INTERNAL",
+                   "protocol_version": adapter.client.negotiated_version, "discovered_tool_count": len(adapter.client.tools),
+                   "operations": {"discover": bool(discovery.get("tool_versions")), "semantics": bool(semantic.get("approval")),
+                                  "relationships": bool(relationship.get("approved")), "read_bounded": len(bounded.get("typed_rows", [])) == 1,
+                                  "cancel": canceled.get("confirmed_stopped") is True, "audit": len(audit.get("query_hash", "")) == 64},
+                   "scope": "synthetic MCP server and synthetic semantic mappings only; no company endpoint or data was contacted"}
+        finally:
+            adapter.client.close()
+        if not all(obj["operations"].values()):
+            obj["status"] = "SYNTHETIC_TRANSPORT_FAIL"
+    elif args.command == "site-mcp-qualify":
+        from fabintel.mcp_client import load_site_config
+        from qualification.site_mcp_qualification import qualify
+        config = load_site_config(args.config)
+        obj = qualify(config, site_approval_reference=args.site_approval_reference)
+        if args.output:
+            _write_json(args.output, obj)
+            print(f"WROTE local internal qualification report: {args.output}", file=sys.stderr)
+            return 0 if obj["status"] == "SITE_TESTS_COMPLETED_PENDING_SIGNOFF" else 1
     else:
         data = _read_json(BASE / "fixtures" / "case_positive.json")
         obj = analyze(data)
         validate_envelope(obj)
     print(json.dumps(obj, indent=2, sort_keys=True, allow_nan=False))
+    if args.command == "mcp-test":
+        return 0 if obj.get("status") == "SYNTHETIC_TRANSPORT_PASS" else 1
+    if args.command == "site-mcp-qualify":
+        return 0 if obj.get("status") == "SITE_TESTS_COMPLETED_PENDING_SIGNOFF" else 1
+    return 0
 
 
 if __name__ == "__main__":

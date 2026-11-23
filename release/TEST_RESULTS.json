@@ -114,6 +114,20 @@
     "missing_test_names": [],
     "status": "PASS"
   },
+  "d04_oss_benchmark": {
+    "d_optimal_efficiency_percent": 99.99999999999997,
+    "evidence": "release/D04_OSS_COMPARISON.json",
+    "multimodal_next_best_acceptance_fraction": 0.0,
+    "p4_latin_hypercube_all_seeds_stratified": 1.0,
+    "runtime_dependencies_added": false,
+    "status": "PASS"
+  },
+  "dependency_audit": {
+    "evidence": "release/DEPENDENCY_AUDIT.json",
+    "scope": "optional benchmark dependency tree; product runtime has no third-party Python packages",
+    "status": "PASS",
+    "vulnerabilities_found": 0
+  },
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -143,12 +157,33 @@
     "status": "PASS"
   },
   "state": "PASS",
+  "synthetic_mcp_external_mock": {
+    "evidence": "requirements/synthetic-mcp-mapping.v1.json",
+    "result": {
+      "discovered_tool_count": 6,
+      "internal_qualification": "PENDING_INTERNAL",
+      "operations": {
+        "audit": true,
+        "cancel": true,
+        "discover": true,
+        "read_bounded": true,
+        "relationships": true,
+        "semantics": true
+      },
+      "protocol_version": "2025-11-25",
+      "scope": "synthetic MCP server and synthetic semantic mappings only; no company endpoint or data was contacted",
+      "status": "SYNTHETIC_TRANSPORT_PASS"
+    },
+    "status": "PASS"
+  },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 1.667,
+    "duration_seconds": 30.509,
     "log": "release/TEST_LOG.txt",
+    "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 37
+    "tests_run": 83,
+    "tests_skipped": 0
   }
 }

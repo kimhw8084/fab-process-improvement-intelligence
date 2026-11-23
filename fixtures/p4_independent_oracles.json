@@ -13,11 +13,11 @@
     "expected_difference": 5.0,
     "expected_standard_error": 0.5773502691896257,
     "expected_welch_degrees_of_freedom": 6.0,
-    "expected_95_percent_interval": [3.587223891292986, 6.412776108707014]
+    "expected_95_percent_interval": [3.587274785417809, 6.412725214582191]
   },
   "P4-09": {"expected_causal_claim": false, "expected_design_status": "INCONCLUSIVE"},
   "P4-10": {"expected_forbidden_setting_in_candidates": false, "expected_forbidden_setting_in_experiment_plan": false},
-  "P4-11": {"expected_pareto_ids": ["SYN-PARETO-A", "SYN-PARETO-B"]},
+  "P4-11": {"expected_pareto_setting_ids": ["SYN-SETTING-1", "SYN-SETTING-2"]},
   "P4-12": {"expected_split_status": "REFUSED", "expected_reason_contains": "temporal leakage"},
   "property_sweep": {"seed": 20261122, "cases": 100, "expected": "independently calculated OLS slope matches within 1e-9"}
 }

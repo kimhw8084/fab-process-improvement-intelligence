@@ -1,18 +1,19 @@
-# P4 benchmark protocol (precommitted)
+# P4 benchmark protocol v2 (precommitted)
 
-Created before collecting the P4 benchmark result. This is a local software benchmark, not a FAB task-time or ROI study.
+Protocol v2 was frozen on 2026-11-22 before collecting the refreshed result in `release/BENCHMARK_REPORT.json`. This is a local software benchmark, not a FAB task-time or ROI study.
 
 ## Environment and tasks
 
-- Host: record actual `platform.platform()`, CPU architecture, Python version, and processor with each run.
-- Python runtime target for this candidate: standard library on Python 3.10+; current build host is verified separately in `release/NO_NETWORK_QUALIFICATION.md`.
-- Fixed task set: integrated synthetic P4 request (18 observations), single-response sensitivity requests (1,000 and 5,000 observations), and deterministic 13,000-schema catalog generation.
-- Repetitions: 25 per task; p50 and nearest-rank p95 wall time, plus `tracemalloc` peak Python allocations for one run.
-- Scientific reference: fixed independent arithmetic/property suite; where installed, statsmodels OLS on the identical centered design matrix is an additional benchmark-only comparison. Product code must remain usable if it is absent.
-- No public network, company data, or company MCP calls occur during the benchmark.
+- Record actual OS, CPU architecture, Python version, and processor with each run. Current host qualification is in `release/NO_NETWORK_QUALIFICATION.md`.
+- Product runtime target: Python 3.10+ standard library; optional benchmark and independent-reference tools are isolated to `qualification/benchmark-requirements.txt`.
+- Measure 25 repetitions per task with `perf_counter`, report median and nearest-rank p95 wall time, and one-run `tracemalloc` peak allocation.
+- Tasks: the integrated 540-observation / 60-independent-lot D01–D05 walkthrough; generated single-metric sensitivity workloads at 18, 1,000, and 5,000 observations; and a 13,000-row schema-catalog construction task. The catalog contains table metadata, not populated data tables.
+- Compare D01 coefficients on the same 540 fixed synthetic observations and the same centered first-order interaction model against statsmodels OLS; report coefficient deltas and reference-fit runtime. This isolates the arithmetic comparison from the full demo's chamber, quadratic, and clustered settings.
+- `qualification/run_release_checks.py` fails if any scientific test is skipped. Install the pinned optional qualification requirements before running the full test suite.
+- No company data, live MCP call, equipment action, or public network call occurs in the benchmark workload. Dependency advisory lookup is a separate qualification step.
 
 ## Measurements and interpretation
 
-Report coefficients and absolute coefficient differences, candidate catalog size, p50/p95 milliseconds, and peak Python allocations. No absolute latency, yield, engineer-minute, or ROI target is set without a measured engineering task baseline. A large speedup cannot compensate for a false causal, join, or safety claim. The 5,000-row cap and 2,000-row Pareto cap are defensive implementation bounds, not throughput qualification.
+Report input size, VALID result status, p50/p95 milliseconds, peak Python allocations, and the exact host. The OLS comparison must use identical observations, centered main effects, and one two-factor interaction; maximum coefficient difference is the numerical parity measure. No absolute latency, yield, engineer-minute, or ROI target is invented without a measured engineering-task baseline.
 
-Human task time, correction burden, case success, review effort, and ROI remain pending an authorized engineer study with pre-registered comparable tasks.
+The 5,000-row analysis cap and 2,000-row Pareto cap are defensive implementation limits, not throughput qualification. Human task time, correction burden, case success, review effort, and ROI remain pending an authorized engineer study with pre-registered comparable tasks.

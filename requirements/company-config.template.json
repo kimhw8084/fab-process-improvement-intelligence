@@ -1,23 +1,17 @@
 {
+  "config_version": "1.0.0",
   "environment": "INTERNAL_APPROVED_ONLY",
-  "mcp": {
-    "endpoint": "REPLACE_WITH_APPROVED_INTRANET_ENDPOINT",
-    "authentication_reference": "USE_APPROVED_SECRET_STORE_REFERENCE",
-    "approved_semantic_version": "DISCOVER_AT_COMPANY"
+  "qualification_status": "PENDING_INTERNAL",
+  "site_approval_reference": "",
+  "approved_source_ids": [],
+  "approved_semantic_versions": [],
+  "qualification_inputs": {},
+  "transport": {
+    "type": "streamable_http",
+    "endpoint": "https://site-approval-required.invalid/mcp",
+    "allowed_hosts": ["site-approval-required.invalid"],
+    "bearer_token_env": "SITE_APPROVED_MCP_BEARER_TOKEN",
+    "timeout_seconds": 30
   },
-  "model": {
-    "base_url": "REPLACE_WITH_APPROVED_INTRANET_MODEL_ENDPOINT",
-    "model_name": "DISCOVER_APPROVED_MODEL",
-    "authentication_reference": "USE_APPROVED_SECRET_STORE_REFERENCE"
-  },
-  "limits": {
-    "max_rows": 1000,
-    "max_seconds": 30,
-    "read_only": true
-  },
-  "audit": {
-    "enabled": true,
-    "reference": "APPROVED_AUDIT_SINK"
-  },
-  "notes": "TEMPLATE ONLY. The included bootstrap performs NO external networking or real MCP operations."
+  "operations": {}
 }

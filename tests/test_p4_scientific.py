@@ -114,11 +114,11 @@ class P4IndependentChallenges(unittest.TestCase):
                              for run in part["D04_experiment_proposal"]["runs"]))
 
     def test_p4_11_pareto_front_matches_hand_checked_points(self):
-        rows = [
-            {"id": "SYN-PARETO-A", "factors": {"x": 1}, "metrics": {"yield": 10, "defect": 5}},
-            {"id": "SYN-PARETO-B", "factors": {"x": 2}, "metrics": {"yield": 8, "defect": 3}},
-            {"id": "SYN-PARETO-C", "factors": {"x": 3}, "metrics": {"yield": 7, "defect": 7}},
-        ]
+        rows = []
+        for tag, x, y, defect in (("A", 1, 10, 5), ("B", 2, 8, 3), ("C", 3, 7, 7)):
+            for replicate, noise in enumerate((-0.1, 0.0, 0.1), 1):
+                rows.append({"id": f"SYN-PARETO-{tag}-{replicate}", "factors": {"x": x},
+                             "metrics": {"yield": y+noise, "defect": defect-noise}, "unit_id": f"SYN-{tag}-{replicate}"})
         request = {"objective": "Synthetic Pareto check", "context": {"process_step": "SYN-STEP"},
                    "grain": "one synthetic row", "sampling_unit": "synthetic wafer", "timestamp_semantics": "UTC",
                    "constraints_approved": True,
@@ -126,9 +126,9 @@ class P4IndependentChallenges(unittest.TestCase):
                    "metrics": [{"name": "yield", "unit": "u", "direction": "maximize"},
                                {"name": "defect", "unit": "u", "direction": "minimize"}],
                    "objectives": [{"metric": "yield", "direction": "maximize"}, {"metric": "defect", "direction": "minimize"}],
-                   "observations": rows}
+                   "robustness": {"independent_unit_field": "unit_id"}, "observations": rows}
         result = analyze(request)
-        self.assertEqual(dossier(result)["D03_tradeoffs"]["pareto_observation_ids"], self.oracle["P4-11"]["expected_pareto_ids"])
+        self.assertEqual(dossier(result)["D03_tradeoffs"]["pareto_setting_ids"], self.oracle["P4-11"]["expected_pareto_setting_ids"])
 
     def test_p4_12_future_leakage_is_refused(self):
         request = copy.deepcopy(self.full)

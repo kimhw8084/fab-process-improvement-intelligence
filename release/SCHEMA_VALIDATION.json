@@ -18,7 +18,21 @@
       "errors": [],
       "instance": "fixtures/full_workflow_demo.json",
       "schema": "products/p4/investigation.v1.schema.json",
-      "schema_sha256": "28ed0790bac9de90d87b16f610c518be13e09db8937ed610b274d87ded6834c9",
+      "schema_sha256": "70c7bd48451cccf7b2738e3ba1a66973b0145d00f57ae550dbd987fd5ff98837",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "requirements/synthetic-mcp-mapping.v1.json",
+      "schema": "requirements/site-mcp-config.v1.schema.json",
+      "schema_sha256": "6dd8181f4fc907269b8ad9f7dbbe6ce58687a71782ba11edc7a9ffb7451ecd9c",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "requirements/company-config.template.json",
+      "schema": "requirements/site-mcp-config.v1.schema.json",
+      "schema_sha256": "6dd8181f4fc907269b8ad9f7dbbe6ce58687a71782ba11edc7a9ffb7451ecd9c",
       "status": "PASS"
     }
   ],

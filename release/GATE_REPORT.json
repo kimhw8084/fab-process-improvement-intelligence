@@ -4,7 +4,21 @@
     "os": "macOS-26.6.2-arm64-arm-64bit",
     "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]"
   },
-  "evaluated_commit": null,
+  "d04_oss_benchmark": {
+    "d_optimal_efficiency_percent": 99.99999999999997,
+    "evidence": "release/D04_OSS_COMPARISON.json",
+    "multimodal_next_best_acceptance_fraction": 0.0,
+    "p4_latin_hypercube_all_seeds_stratified": 1.0,
+    "runtime_dependencies_added": false,
+    "status": "PASS"
+  },
+  "dependency_audit": {
+    "evidence": "release/DEPENDENCY_AUDIT.json",
+    "scope": "optional benchmark dependency tree; product runtime has no third-party Python packages",
+    "status": "PASS",
+    "vulnerabilities_found": 0
+  },
+  "evaluated_commit": "d16ec28fef00541cbd11b79a5b29b4bf9bf2672e",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -26,11 +40,16 @@
     "E02": {
       "evidence": [
         "tests/test_p4_scientific.py",
+        "tests/test_d01_d02_independent.py",
+        "tests/test_d03_relationships.py",
+        "tests/test_d04_designs.py",
+        "tests/test_d05_studies.py",
         "fixtures/p4_independent_oracles.json",
         "qualification/critical_cases.json",
+        "release/D04_OSS_COMPARISON.json",
         "release/TEST_RESULTS.json"
       ],
-      "scope": "12 fixed challenge cases and 100 seeded numeric cases",
+      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, multiobjective and failed-experiment cases, invalid-assumption refusals, and fixed synthetic D04 OSS benchmarks",
       "status": "PASS"
     },
     "E03": {
@@ -60,9 +79,10 @@
     "E06": {
       "evidence": [
         "release/LICENSE_SECURITY_REVIEW.md",
-        "tests/test_p4_scientific.py"
+        "tests/test_mcp_transport.py",
+        "requirements/synthetic-mcp-mapping.v1.json"
       ],
-      "scope": "deterministic model-off product; no LLM or external prompt/data path",
+      "scope": "model-off product; MCP JSON-RPC stdio and Streamable HTTP mapping exercised against synthetic mock; company tool names/permissions/source semantics remain unconfigured",
       "status": "PASS"
     },
     "E07": {
@@ -76,32 +96,30 @@
     "E08": {
       "evidence": [
         "release/NO_NETWORK_QUALIFICATION.md",
-        "release/OFFLINE_QUALIFICATION.json",
         "qualification/offline_qualify.py"
       ],
-      "reason": "company-approved target OS and approved-host egress policy were not supplied; site qualification remains pending",
-      "scope": "exact archive fresh-extracted with no-pip venv; checksum and 86 source files verified; doctor/demo/D01-D05 passed; OS sandbox denied network socket on macOS 26.6.2 arm64, Python 3.11.7",
-      "status": "PASS_BUILD_HOST_ONLY"
+      "reason": "a local-host offline bundle run is recorded separately; the company target OS remains unknown",
+      "status": "PENDING_TARGET_OS"
     },
     "E09": {
+      "dependency_audit": "PASS",
       "evidence": [
         "release/SBOM.spdx.json",
+        "release/DEPENDENCY_AUDIT.json",
         "release/LICENSE_SECURITY_REVIEW.md"
       ],
-      "reason": "project distribution license is undeclared and no CVE scanner/database was available",
-      "status": "PENDING_LICENSE_AND_VULNERABILITY_REVIEW"
+      "reason": "the optional benchmark dependency tree has a clean package-advisory scan; source-code/OS security review and owner/legal distribution rights remain unresolved",
+      "status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW"
     },
     "E10": {
       "evidence": [
-        "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
         "release/TRANSFER_BUNDLE.sha256",
-        "release/SOURCE_MANIFEST.sha256",
         "release/BUILD_REPRODUCIBILITY.json",
         "release/OFFLINE_QUALIFICATION.json",
-        "release/RUNBOOK_ROLLBACK_KILL_SWITCH.md"
+        "qualification/build_transfer_bundle.py"
       ],
-      "scope": "deterministic archive hash, two byte-identical builds, verified source manifest and adjacent checksum, exact archive fresh-extraction runtime, rollback and kill-switch instructions",
-      "status": "PASS"
+      "reason": "the exact current archive, reproducible build and fresh extracted offline runtime must all match",
+      "status": "PENDING_FINAL_ARCHIVE"
     },
     "E11": {
       "evidence": [
@@ -152,7 +170,7 @@
   "release_blockers": [
     "no actual authorized MCP connector",
     "license ownership and distribution rights are not declared",
-    "vulnerability scan unavailable",
+    "independent source security review not completed",
     "company target OS and formal UX/user baselines not supplied"
   ],
   "schema_validation": {
@@ -161,12 +179,37 @@
     "status": "PASS"
   },
   "state": "CANDIDATE",
+  "synthetic_mcp_external_mock": {
+    "evidence": [
+      "fabintel/mcp_client.py",
+      "fabintel/mock_mcp_server.py",
+      "requirements/synthetic-mcp-mapping.v1.json"
+    ],
+    "result": {
+      "discovered_tool_count": 6,
+      "internal_qualification": "PENDING_INTERNAL",
+      "operations": {
+        "audit": true,
+        "cancel": true,
+        "discover": true,
+        "read_bounded": true,
+        "relationships": true,
+        "semantics": true
+      },
+      "protocol_version": "2025-11-25",
+      "scope": "synthetic MCP server and synthetic semantic mappings only; no company endpoint or data was contacted",
+      "status": "SYNTHETIC_TRANSPORT_PASS"
+    },
+    "status": "PASS"
+  },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 1.667,
+    "duration_seconds": 30.509,
     "log": "release/TEST_LOG.txt",
+    "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 37
+    "tests_run": 83,
+    "tests_skipped": 0
   }
 }

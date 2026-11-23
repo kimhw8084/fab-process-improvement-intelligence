@@ -1,0 +1,21 @@
+{
+  "config_version": "1.0.0",
+  "environment": "SYNTHETIC_TEST_ONLY",
+  "qualification_status": "PENDING_INTERNAL",
+  "approved_source_ids": ["SYNTHETIC-SOURCE-A", "SYNTHETIC-SOURCE-B"],
+  "approved_semantic_versions": ["SYNTHETIC-SEMANTICS-1"],
+  "transport": {
+    "type": "stdio",
+    "command": ["python3", "-m", "fabintel.mock_mcp_server"],
+    "cwd": "..",
+    "timeout_seconds": 10
+  },
+  "operations": {
+    "discover": {"tool_name": "synthetic.test.discover", "input_map": {"permission_scope": "permission_scope"}, "result_map": {"tool_versions": "tool_versions", "semantic_versions": "semantic_versions", "limits": "limits", "auth_scopes": "auth_scopes", "audit_support": "audit_support"}},
+    "semantics": {"tool_name": "synthetic.test.semantics", "input_map": {"source_ids": "approved_source_ids", "semantic_version": "semantic_version"}, "result_map": {"column_definitions": "column_definitions", "grain": "grain", "units": "units", "effectivity": "effectivity", "approval": "approval"}},
+    "relationships": {"tool_name": "synthetic.test.relationships", "input_map": {"typed_entity_ids": "typed_entity_ids", "time_window": "time_window"}, "result_map": {"approved": "approved", "keys": "keys", "cardinality": "cardinality", "grain": "grain", "effectivity": "effectivity", "source_reference": "source_reference"}},
+    "read_bounded": {"tool_name": "synthetic.test.read_bounded", "input_map": {"approved_plan": "approved_plan", "permission_context": "permission_context", "limits": "limits"}, "result_map": {"typed_rows": "typed_rows", "audit_id": "audit_id", "source_versions": "source_versions", "truncation": "truncation"}},
+    "cancel": {"tool_name": "synthetic.test.cancel", "input_map": {"operation_id": "operation_id"}, "result_map": {"confirmed_stopped": "confirmed_stopped"}},
+    "audit": {"tool_name": "synthetic.test.audit", "input_map": {"operation_id": "operation_id"}, "result_map": {"permission_scope": "permission_scope", "sources": "sources", "timestamps": "timestamps", "query_hash": "query_hash"}}
+  }
+}

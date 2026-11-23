@@ -19,7 +19,7 @@ for _ in range(2):
 report = {"status": "PASS" if hashes[0] == hashes[1] else "FAIL", "builds": 2,
           "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip", "sha256_by_build": hashes,
           "commands": ["python qualification/build_transfer_bundle.py"] * 2,
-          "method": "sorted paths, fixed ZIP timestamps, fixed file metadata, no generated output inside the archive"}
+          "method": "sorted paths, fixed ZIP timestamps and file metadata; dynamic/self-referential qualification reports remain beside the archive"}
 (ROOT / "release" / "BUILD_REPRODUCIBILITY.json").write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 print(json.dumps(report, indent=2, sort_keys=True))
 raise SystemExit(0 if report["status"] == "PASS" else 1)

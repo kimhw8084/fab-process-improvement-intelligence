@@ -1,0 +1,223 @@
+{
+  "d_optimal": {
+    "protocol": {
+      "candidate_grid": "3 x 3 equally spaced levels on [-1, 1]^2",
+      "criterion": "D-efficiency relative to exhaustive exact optimum",
+      "exact_designs_enumerated": 84,
+      "model": "intercept plus two linear main effects",
+      "random_design_count": 500,
+      "random_seed": 81731,
+      "runs": 6
+    },
+    "results": {
+      "exact_optimum_log_determinant": 4.969813299576001,
+      "p4_greedy": {
+        "D_efficiency_percent": 99.99999999999997,
+        "log_determinant": 4.969813299576
+      },
+      "pyDOE3_detmax": {
+        "D_efficiency_percent": 100.0,
+        "log_determinant": 4.969813299576001,
+        "reported_D_efficiency_percent": 87.3580464736299
+      },
+      "seeded_random_unique_designs": {
+        "D_efficiency_percent": {
+          "count": 500,
+          "mean": 80.49790966651055,
+          "median": 80.09825889508888,
+          "p95": 99.06536587938548
+        },
+        "fraction_full_rank": 1.0
+      }
+    }
+  },
+  "dependency_decision": "benchmark packages are not product dependencies; the product remains standard-library-only. Basic P4 LHS retains exact marginal stratification and is comparable to SciPy basic LHS but not SciPy random-cd. P4 finite-grid D-optimal design equals the enumerated optimum in the tested case and ties pyDOE3 detmax. Sequential proposals require grouped holdout to meet an engineer-specified maximum RMSE; out-of-tolerance cases are refused.",
+  "latin_hypercube": {
+    "protocol": {
+      "dimensions": 4,
+      "metrics": "SciPy centered discrepancy (lower better), max absolute linear correlation (lower better), exact marginal strata retention",
+      "runs": 32,
+      "seed_count": 64,
+      "seed_end_inclusive": 20261185,
+      "seed_start": 20261122
+    },
+    "results": {
+      "p4_basic": {
+        "centered_discrepancy": {
+          "count": 64,
+          "mean": 0.007756238056295172,
+          "median": 0.007309997889118902,
+          "p95": 0.010160708251192085
+        },
+        "max_abs_correlation": {
+          "count": 64,
+          "mean": 0.29493044790471135,
+          "median": 0.3018460580700445,
+          "p95": 0.4357095772676939
+        },
+        "stratified_seed_fraction": 1.0
+      },
+      "scipy_basic": {
+        "centered_discrepancy": {
+          "count": 64,
+          "mean": 0.007915418777553612,
+          "median": 0.007753143486080916,
+          "p95": 0.010444622262339776
+        },
+        "max_abs_correlation": {
+          "count": 64,
+          "mean": 0.30467454815774,
+          "median": 0.3046501287554874,
+          "p95": 0.4782993556208235
+        },
+        "stratified_seed_fraction": 1.0
+      },
+      "scipy_random_cd": {
+        "centered_discrepancy": {
+          "count": 64,
+          "mean": 0.0030980209499104454,
+          "median": 0.0030865942810873737,
+          "p95": 0.003288797538391952
+        },
+        "max_abs_correlation": {
+          "count": 64,
+          "mean": 0.03899697720084318,
+          "median": 0.03782811263440162,
+          "p95": 0.058968054508865254
+        },
+        "stratified_seed_fraction": 1.0
+      }
+    }
+  },
+  "qualification_only_dependencies": {
+    "numpy": "1.26.4",
+    "pyDOE3": "1.6.2",
+    "scikit-learn": "1.5.2",
+    "scikit-optimize": "0.10.2",
+    "scipy": "1.11.4"
+  },
+  "reference_documentation": [
+    "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.qmc.LatinHypercube.html",
+    "https://pydoe3.readthedocs.io/en/stable/reference/doe_optimal/",
+    "https://scikit-optimize.readthedocs.io/en/latest/auto_examples/bayesian-optimization.html"
+  ],
+  "sequential_next_best": {
+    "limitations": [
+      "synthetic known functions do not represent fab process heterogeneity",
+      "P4 uses a quadratic response family; scikit-optimize uses a Gaussian-process surrogate",
+      "the benchmark assesses one proposal only and does not establish engineering value"
+    ],
+    "overall": {
+      "p4": {
+        "acceptance_fraction": 0.6666666666666666,
+        "grouped_cv_rmse_when_accepted": {
+          "count": 64,
+          "mean": 0.026793706127851525,
+          "median": 0.02677394152658673,
+          "p95": 0.027188483511104797
+        },
+        "true_function_regret_when_accepted": {
+          "count": 64,
+          "mean": 3.7488749999980975e-05,
+          "median": 3.7488749999980975e-05,
+          "p95": 4.499999999996174e-05
+        }
+      },
+      "skopt": {
+        "count": 96,
+        "mean": 0.042357512396238764,
+        "median": 0.010170961066115147,
+        "p95": 0.12501391118933342
+      }
+    },
+    "paired_p4_lower_regret_fraction_when_accepted": 0.765625,
+    "protocol": {
+      "P4": "quadratic OLS with cluster sandwich; one step, 41-point supported grid, five-fold grouped CV, engineer-specified max RMSE 0.10, mean-estimation EI",
+      "functions": [
+        "smooth_quadratic",
+        "asymmetric_quadratic",
+        "multimodal"
+      ],
+      "initial_design": [
+        0,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "replicates_per_setting": 36,
+      "scikit_optimize": "GP posterior expected improvement; continuous bounded domain, seeded acquisition sampling",
+      "score": "one-step true-function simple regret (lower is better)",
+      "seed_count_per_function": 32,
+      "seed_end_inclusive": 20261153,
+      "seed_start": 20261122
+    },
+    "results_by_function": {
+      "asymmetric_quadratic": {
+        "p4": {
+          "accepted_fraction": 1.0,
+          "grouped_cv_rmse_when_accepted": {
+            "count": 32,
+            "mean": 0.027003812793976966,
+            "median": 0.02699883377694247,
+            "p95": 0.02726762712513321
+          },
+          "refusal_reasons": [],
+          "true_function_regret_when_accepted": {
+            "count": 32,
+            "mean": 2.9977500000000212e-05,
+            "median": 2.9977500000000212e-05,
+            "p95": 2.9977500000000212e-05
+          }
+        },
+        "skopt": {
+          "count": 32,
+          "mean": 3.1976971882483746e-05,
+          "median": 3.119929160344537e-05,
+          "p95": 4.588232675950543e-05
+        }
+      },
+      "multimodal": {
+        "p4": {
+          "accepted_fraction": 0.0,
+          "grouped_cv_rmse_when_accepted": null,
+          "refusal_reasons": [
+            "next_best refuses because grouped held-out error exceeds maximum_grouped_validation_rmse"
+          ],
+          "true_function_regret_when_accepted": null
+        },
+        "skopt": {
+          "count": 32,
+          "mean": 0.11683024218816573,
+          "median": 0.11132170148945822,
+          "p95": 0.13240762976958886
+        }
+      },
+      "smooth_quadratic": {
+        "p4": {
+          "accepted_fraction": 1.0,
+          "grouped_cv_rmse_when_accepted": {
+            "count": 32,
+            "mean": 0.026583599461726087,
+            "median": 0.02657245694430116,
+            "p95": 0.02683994264876054
+          },
+          "refusal_reasons": [],
+          "true_function_regret_when_accepted": {
+            "count": 32,
+            "mean": 4.499999999996174e-05,
+            "median": 4.499999999996174e-05,
+            "p95": 4.499999999996174e-05
+          }
+        },
+        "skopt": {
+          "count": 32,
+          "mean": 0.010210318028668064,
+          "median": 0.010170961066115147,
+          "p95": 0.010533408624214702
+        }
+      }
+    }
+  },
+  "status": "PASS"
+}

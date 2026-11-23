@@ -9,7 +9,9 @@ ARCHIVE = RELEASE / "FAB_INTELLIGENCE_P4_CANDIDATE.zip"
 MANIFEST = RELEASE / "SOURCE_MANIFEST.sha256"
 CHECKSUM = RELEASE / "TRANSFER_BUNDLE.sha256"
 EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE_QUALIFICATION.json",
-            RELEASE / "BUILD_REPRODUCIBILITY.json"}
+            RELEASE / "BUILD_REPRODUCIBILITY.json", RELEASE / "GATE_REPORT.json",
+            RELEASE / "TEST_LOG.txt", RELEASE / "TEST_RESULTS.json",
+            RELEASE / "SCHEMA_VALIDATION.json"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
 
 
