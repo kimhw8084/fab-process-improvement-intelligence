@@ -140,7 +140,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "052ea702bf0d6473af5a848c19358cafbf1331d2",
+  "evaluated_commit": "607cf958754e9f9176a98cd811161569f390cd6a",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -189,7 +189,7 @@
         "release/TEST_RESULTS.json"
       ],
       "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks",
-      "status": "PASS"
+      "status": "FAIL"
     },
     "E03": {
       "evidence": [
@@ -349,12 +349,12 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "052ea702bf0d6473af5a848c19358cafbf1331d2",
-    "product_code_unchanged_after_benchmark": true,
-    "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "addfea3cc52575b906bb27d0278a7453bca038347060861ea68e9370dcbd1c6b",
+    "package_source_snapshot": "607cf958754e9f9176a98cd811161569f390cd6a",
+    "product_code_unchanged_after_benchmark": false,
+    "product_source_manifest_matches": false,
+    "product_source_manifest_sha256": "37ee7575e90360004588c8e171b4452c74d8092a4997979180e9ff1c0a8ee703",
     "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
-    "status": "PASS"
+    "status": "FAIL"
   },
   "source_security_scan": {
     "evidence": "release/SOURCE_SECURITY_SCAN.json",
@@ -407,12 +407,12 @@
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 12.683,
+    "duration_seconds": 12.822,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 198,
+    "tests_run": 199,
     "tests_skipped": 0
   }
 }

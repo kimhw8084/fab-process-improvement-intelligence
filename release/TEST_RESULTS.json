@@ -335,12 +335,12 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "052ea702bf0d6473af5a848c19358cafbf1331d2",
-    "product_code_unchanged_after_benchmark": true,
-    "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "addfea3cc52575b906bb27d0278a7453bca038347060861ea68e9370dcbd1c6b",
+    "package_source_snapshot": "607cf958754e9f9176a98cd811161569f390cd6a",
+    "product_code_unchanged_after_benchmark": false,
+    "product_source_manifest_matches": false,
+    "product_source_manifest_sha256": "37ee7575e90360004588c8e171b4452c74d8092a4997979180e9ff1c0a8ee703",
     "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
-    "status": "PASS"
+    "status": "FAIL"
   },
   "source_security_scan": {
     "evidence": "release/SOURCE_SECURITY_SCAN.json",
@@ -351,7 +351,7 @@
     "tool": "Bandit",
     "version": "1.9.4"
   },
-  "state": "PASS",
+  "state": "FAIL",
   "synthetic_mcp_external_mock": {
     "evidence": "requirements/synthetic-mcp-mapping.v1.json",
     "result": {
@@ -389,12 +389,12 @@
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 12.683,
+    "duration_seconds": 12.822,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 198,
+    "tests_run": 199,
     "tests_skipped": 0
   }
 }

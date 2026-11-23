@@ -41,6 +41,7 @@ test_independent_unit_cannot_cross_evaluation_and_calibration (test_d01_d02_inde
 test_invalid_forbidden_region_fails_closed (test_d01_d02_independent.SupportedWindowQualification.test_invalid_forbidden_region_fails_closed) ... ok
 test_local_group_calibration_covers_separately_heldout_nonlinear_lots (test_d01_d02_independent.SupportedWindowQualification.test_local_group_calibration_covers_separately_heldout_nonlinear_lots) ... ok
 test_new_tool_shift_in_heldout_groups_withholds_candidate_window (test_d01_d02_independent.SupportedWindowQualification.test_new_tool_shift_in_heldout_groups_withholds_candidate_window) ... ok
+test_numeric_lot_identity_cannot_cross_partitions_through_int_float_alias (test_d01_d02_independent.SupportedWindowQualification.test_numeric_lot_identity_cannot_cross_partitions_through_int_float_alias) ... ok
 test_omitted_control_is_fixed_in_the_fitted_population (test_d01_d02_independent.SupportedWindowQualification.test_omitted_control_is_fixed_in_the_fitted_population) ... ok
 test_outside_observed_hull_is_extrapolated_and_never_a_candidate (test_d01_d02_independent.SupportedWindowQualification.test_outside_observed_hull_is_extrapolated_and_never_a_candidate) ... ok
 test_partition_shift_diagnostic_uses_independent_units_and_flags_mixed_strata (test_d01_d02_independent.SupportedWindowQualification.test_partition_shift_diagnostic_uses_independent_units_and_flags_mixed_strata) ... ok
@@ -128,7 +129,26 @@ test_never_claim_caused_or_control (test_engine.EngineCase.test_never_claim_caus
 test_mcp_permission_refusal_is_empty_and_bridge_sources_match_fingerprints (test_mcp_panel_bridge_fixture.McpPanelBridgeFixtureTests.test_mcp_permission_refusal_is_empty_and_bridge_sources_match_fingerprints) ... ok
 test_mcp_success_envelope_has_all_five_capabilities_and_exact_source_provenance (test_mcp_panel_bridge_fixture.McpPanelBridgeFixtureTests.test_mcp_success_envelope_has_all_five_capabilities_and_exact_source_provenance) ... ok
 test_endpoint_allowlist_and_cleartext_network_policy (test_mcp_transport.McpHttpQualification.test_endpoint_allowlist_and_cleartext_network_policy) ... ok
-test_streamable_http_sse_handshake_and_mapping (test_mcp_transport.McpHttpQualification.test_streamable_http_sse_handshake_and_mapping) ... ok
+test_streamable_http_sse_handshake_and_mapping (test_mcp_transport.McpHttpQualification.test_streamable_http_sse_handshake_and_mapping) ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 55350)
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/anaconda3/lib/python3.11/socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/anaconda3/lib/python3.11/socketserver.py", line 755, in __init__
+    self.handle()
+  File "/opt/anaconda3/lib/python3.11/http/server.py", line 438, in handle
+    self.handle_one_request()
+  File "/opt/anaconda3/lib/python3.11/http/server.py", line 404, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/socket.py", line 706, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 54] Connection reset by peer
+----------------------------------------
+ok
 test_company_pending_config_is_rejected_before_any_transport_is_started (test_mcp_transport.McpStdioQualification.test_company_pending_config_is_rejected_before_any_transport_is_started) ... ok
 test_initialize_pagination_and_all_contract_mappings (test_mcp_transport.McpStdioQualification.test_initialize_pagination_and_all_contract_mappings) ... ok
 test_missing_discovered_mapping_and_missing_result_mapping_fail_closed (test_mcp_transport.McpStdioQualification.test_missing_discovered_mapping_and_missing_result_mapping_fail_closed) ... ok
@@ -199,6 +219,6 @@ test_p4_contribution_matches_p1_ui_module_contract (test_shared_ui_contract.Shar
 test_p4_scatter_payload_matches_p1_chart_contract (test_shared_ui_contract.SharedUiContractTests.test_p4_scatter_payload_matches_p1_chart_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 198 tests in 12.683s
+Ran 199 tests in 12.822s
 
 OK

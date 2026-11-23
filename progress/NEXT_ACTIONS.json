@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "fabc7d52db5b331264854048083d3db0f4292fb3",
+  "as_of_source_commit": "607cf958754e9f9176a98cd811161569f390cd6a",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,9 +15,9 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 8,
-    "task": "Rebuild exact-current-source release evidence after D02 code and disposable P1 composition-evidence refresh. Reproduce in two detached worktrees, run fresh no-pip extraction under OS network denial, and rerun full release gates. Then resume D02 candidate-selection and calibration audit.",
-    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
+    "priority": 1,
+    "task": "Audit D02 adaptive candidate selection against its existing independent benchmark. Inspect whether the 76 advisory pointwise candidates can be materially misclassified under selection after local calibration; add a genuinely held-out selection/coverage stress case only for a concrete untested failure mode. Preserve abstention and no-conditional-coverage claims. Then run focused and full regressions.",
+    "first_command": "rtk sed -n '1,280p' qualification/benchmark_d02_adaptive_selection.py && rtk cat qualification/results/D02_ADAPTIVE_SELECTION_BENCHMARK.json",
     "inspect": [
       "products/p4/ui/P4Panel.tsx",
       "products/p4/ui/P4Panel.test.tsx",
@@ -55,8 +55,8 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 199_CURRENT_TESTS_PASS",
-      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. At P4 source 3b9e42c, full Python suite ran 199 tests, 0 failures/skips; refreshed disposable P1 route test also passes 11 cases. Company authorization and P1 server-side MCP lifecycle remain pending."
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 199_CURRENT_RELEASE_TESTS_PASS",
+      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. Current exact-source release run at 607cf95: 199 Python tests, 0 failures/skips; P1 host-side routes 11 PASS. Company authorization and P1 server-side MCP lifecycle remain pending."
     },
     {
       "priority": 7,
@@ -65,12 +65,12 @@
     },
     {
       "priority": 8,
-      "status": "STALE_AFTER_D02_AND_P1_EVIDENCE_REFRESH; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
-      "task": "Last exact archive source fabc7d52db5b331264854048083d3db0f4292fb3 had 214 files, ZIP SHA-256 84b973941677e70cc083d4219110d8d3b3175ed46625432fde5c44623977e6b7, two matching clean builds and fresh no-pip network-denied extraction. Full runner passed 199 tests and E10 but saw outdated P1 host composition hashes. The disposable P1 overlay/pin/evidence fingerprint are now refreshed; rebuild and rerun all gates to bind this evidence."
+      "status": "E10_PASS_AT_607CF95; CANDIDATE; COMPANY_AND_ACCESSIBILITY_GATES_PENDING",
+      "task": "Exact artifact source 607cf958754e9f9176a98cd811161569f390cd6a; 214 files, ZIP SHA-256 053d3c6d9e85039b4cc2f2164132a85bf0feb88a8b99ff0324ed3404cc94ec35 (9,235,631 bytes), source manifest SHA-256 a3ca1f85f25123c55432ab1059c5ec7a95cd55884db982634db64f168e06fd3a. Two detached clean builds match; fresh no-pip network-denied extraction passed; full runner passed 199 tests/0 skipped, refreshed disposable P1 host composition, and E10. Workflow remains PARTIAL with D03 LIMITED_SCOPE, D04 PROPOSED, D05 ESTIMATED. Internal authorization, formal accessibility, target OS, security/legal transfer review and ROI remain pending."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "P4 source fabc7d52db5b331264854048083d3db0f4292fb3 verified with 199 Python tests and refreshed disposable P1 overlay evidence; current archive is stale pending rebuild; local checkpoint is ready for commit; generated qualification/results JSON screens are excluded from package; no remote update",
+  "worktree_state": "Exact current-source archive and release evidence qualified at 607cf958754e9f9176a98cd811161569f390cd6a; generated qualification/results JSON screens remain excluded from package; local release-evidence checkpoint pending commit; no remote update",
   "active_uncommitted_changes": false
 }
