@@ -3,6 +3,8 @@ import json
 import unittest
 from pathlib import Path
 
+from qualification.build_transfer_bundle import source_files
+
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -34,6 +36,11 @@ class SourceContractTests(unittest.TestCase):
         self.assertIn("<table>", source)
         self.assertIn("renderChart", source)
         self.assertIn("exact values and setting identifiers are listed in the table", source.lower())
+
+    def test_retired_standalone_shell_is_not_in_the_transfer_bundle(self):
+        packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
+        self.assertFalse(any(name.startswith("qualification/evidence/legacy/") for name in packaged))
+        self.assertTrue((ROOT / "qualification" / "evidence" / "legacy" / "index.html").is_file())
 
 
 if __name__ == "__main__":

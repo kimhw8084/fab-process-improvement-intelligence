@@ -22,6 +22,7 @@ EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE
             RELEASE / "TEST_LOG.txt", RELEASE / "TEST_RESULTS.json", BUILD_METADATA,
             RELEASE / "SCHEMA_VALIDATION.json"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
+EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/",)
 
 
 def git(*args):
@@ -43,7 +44,10 @@ def source_files():
             continue
         path = ROOT / os.fsdecode(item)
         relative_parts = path.relative_to(ROOT).parts
+        relative = path.relative_to(ROOT).as_posix()
         if path in EXCLUDED or path == MANIFEST:
+            continue
+        if relative.startswith(EXCLUDED_SOURCE_PREFIXES):
             continue
         if any(part in SKIP_DIRS for part in relative_parts):
             continue

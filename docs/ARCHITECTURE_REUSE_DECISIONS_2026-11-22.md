@@ -27,7 +27,7 @@ The SDK and exact transitive hashes are an **optional** offline MCP extra. The b
 
 P4 retains its deterministic engine and preserved held-out/refusal fixtures. Existing independent D01–D05 and OSS comparisons remain in their qualified scope; the SciPy, pyDOE3, scikit-optimize, and statsmodels comparisons are benchmark-only and do not become product dependencies. Reuse is accepted only where the fixed oracle demonstrates the improvement. The suite UI tests use the P1 React/toolchain as a test fixture; their versions and lock remain P1-owned.
 
-The loopback HTTP server is retained as a synthetic integration fixture for engine jobs and cancellation, but no longer serves HTML and is not a deployable product backend. The P4 production-facing interface remains the deterministic Python analysis function and CLI until the suite host is available.
+The loopback HTTP server is retained as a synthetic integration fixture for engine jobs and cancellation, but no longer serves HTML and is not a deployable product backend. The retired standalone page is retained only as local legacy evidence and is excluded from the transfer bundle. The P4 production-facing interface remains the deterministic Python analysis function and CLI until the suite host is available.
 
 ## Integration ownership and unresolved checks
 
