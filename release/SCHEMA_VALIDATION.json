@@ -18,7 +18,7 @@
       "errors": [],
       "instance": "fixtures/full_workflow_demo.json",
       "schema": "products/p4/investigation.v1.schema.json",
-      "schema_sha256": "5df2c7ea30732b483899f54f4b6a16759daa1542beb084def1a1c1f74d337b5f",
+      "schema_sha256": "8a4607f05fe9424d4f29d4065c4f332b6fb50aedfcae66e99004823b5998457c",
       "status": "PASS"
     },
     {

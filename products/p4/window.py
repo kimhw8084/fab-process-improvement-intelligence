@@ -95,10 +95,16 @@ def _split_calibration(rows, unit_field, config, minimum_calibration_units):
     allowed_partitions = (training_value, calibration_value) + ((evaluation_value,) if evaluation_value is not None else ())
     for row in rows:
         try:
-            unit = _unit_key(_get_field(row, group_field))
+            unit_value = _get_field(row, group_field)
             partition = _get_field(row, partition_field)
         except (KeyError, ValueError):
             return None, "calibration group or partition field is missing", None, None
+        if (unit_value is None or isinstance(unit_value, bool)
+                or (isinstance(unit_value, str) and not unit_value.strip())
+                or (isinstance(unit_value, float) and not isfinite(unit_value))
+                or not isinstance(unit_value, (str, int, float))):
+            return None, "the independent unit field contains a null, empty, or non-scalar identifier", None, None
+        unit = _unit_key(unit_value)
         if partition not in allowed_partitions:
             return None, "every eligible row must be assigned to a declared training, calibration, or evaluation partition", None, None
         partitions_by_unit.setdefault(unit, set()).add(partition)
@@ -170,6 +176,11 @@ def _validate_window_precommit(plan, metrics, model_factors):
             or len(metric_family) != len(set(metric_family)) or set(metric_family) != set(metrics)):
         return None, {"status": "PRECOMMIT_METRIC_FAMILY_MISMATCH",
                       "reason": "the precommitted metric family must exactly match every constrained D02 metric"}
+    observations_per_setting = plan.get("observations_per_setting", 1)
+    if (not isinstance(observations_per_setting, int) or isinstance(observations_per_setting, bool)
+            or not 1 <= observations_per_setting <= 5000):
+        return None, {"status": "PRECOMMIT_REPLICATE_COUNT_INVALID",
+                      "reason": "observations_per_setting must be a precommitted integer from 1 to 5000"}
     panel = plan.get("exact_setting_panel")
     if not isinstance(panel, list) or not panel or len(panel) > 1681:
         return None, {"status": "PRECOMMIT_PANEL_INVALID",
@@ -191,10 +202,12 @@ def _validate_window_precommit(plan, metrics, model_factors):
         "model_selection_reference": plan["model_selection_reference"],
         "threshold_selection_reference": plan["threshold_selection_reference"],
         "metric_family": sorted(metric_family),
+        "observations_per_setting": observations_per_setting,
         "exact_setting_panel": [dict(zip(model_factors, setting)) for setting in ordered],
     }
     digest = sha256(json.dumps(normalized_plan, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
     return {"keys": set(ordered), "settings": normalized_plan["exact_setting_panel"],
+            "observations_per_setting": observations_per_setting,
             "evidence": {**normalized_plan, "status": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
                          "plan_sha256": digest}}, None
 
@@ -216,6 +229,7 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
 
     group_errors = {}
     group_settings = {}
+    group_setting_counts = {}
     for row in calibration_rows:
         try:
             unit = _unit_key(_get_field(row, group_field))
@@ -227,6 +241,8 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
             observed = row["metrics"]
             group_errors.setdefault(unit, {metric: [] for metric in metrics})
             group_settings.setdefault(unit, set()).add(setting)
+            setting_counts = group_setting_counts.setdefault(unit, {})
+            setting_counts[setting] = setting_counts.get(setting, 0) + 1
             for metric in metrics:
                 prediction = models[metric].predict(factors, fixed_effects)
                 estimate = prediction.get("estimate")
@@ -252,6 +268,18 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
                 "declared_exact_setting_count": len(checked_plan["keys"]),
                 "observed_exact_setting_count": len(setting_sets[0]), "metric_quantiles": {},
                 "precommit": checked_plan["evidence"]}
+    expected_observations = checked_plan["observations_per_setting"]
+    count_mismatches = [unit for unit, counts in group_setting_counts.items()
+                        if any(counts.get(setting, 0) != expected_observations
+                               for setting in checked_plan["keys"])]
+    if count_mismatches:
+        return {"status": "INCOMPLETE_CALIBRATION_PANEL",
+                "reason": "every independent calibration unit must match the precommitted observation count at every exact setting",
+                "calibration_unit_count": len(group_errors),
+                "replicate_count_mismatch_unit_count": len(count_mismatches),
+                "observations_per_setting": expected_observations,
+                "declared_exact_setting_count": len(checked_plan["keys"]),
+                "metric_quantiles": {}, "precommit": checked_plan["evidence"]}
     count = len(group_errors)
     per_metric_alpha = alpha / len(metrics)
     rank = ceil((count + 1) * (1.0 - per_metric_alpha))
@@ -275,16 +303,17 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
             "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
             "order_statistic_rank": rank,
             "metric_quantiles": quantiles,
+            "observations_per_setting": expected_observations,
             "common_exact_settings": ordered_settings,
             "precommit": checked_plan["evidence"],
             "scope": "one future independent unit across the complete common exact-setting panel and all declared constrained metrics",
             "assumption_conditional_statement": (
                 "Under exchangeability of independent calibration and future units, identical complete setting panels, "
-                "a model, metric family, exact-setting panel, and thresholds fixed before calibration outcomes were inspected, the "
+                "a model, metric family, exact-setting panel, observations per setting, and thresholds fixed before calibration outcomes were inspected, the "
                 "split-conformal maximum-score construction targets at least 95% marginal simultaneous predictive "
-                "coverage for this finite exact-setting panel. These assumptions and source split provenance are not "
+                "coverage for this finite exact-setting panel with the declared observation count at each setting. These assumptions and source split provenance are not "
                 "verified here; this is not conditional, interpolated-region, or production-population coverage."),
-            "limitations": ["exact calibration-observed settings only; no interpolation or extrapolation",
+            "limitations": ["exact calibration-observed settings and precommitted observation counts only; no interpolation or extrapolation",
                            "does not establish conditional coverage or target-population exchangeability",
                            "caller-supplied split and precommit references are unauthenticated; the exact plan bytes are hash-recorded"]}
 
@@ -298,6 +327,61 @@ def _wilson_interval(successes, trials, z=1.959963984540054):
     center = (proportion + z*z/(2*trials)) / denominator
     half_width = z * sqrt((proportion*(1-proportion) + z*z/(4*trials))/trials) / denominator
     return [max(0.0, center-half_width), min(1.0, center+half_width)]
+
+
+def _evaluation_panel_compatibility(rows, unit_field, model_factors, setting_panel, observations_per_setting):
+    """Report whether held-out units match the declared exact-panel row structure."""
+    if not rows:
+        return {"status": "NOT_PROVIDED", "evaluation_unit_count": 0,
+                "matching_units": None, "mismatched_units": None, "unassignable_units": None,
+                "expected_observations_per_setting": observations_per_setting,
+                "interpretation": "no independent evaluation panel was provided"}
+    panel_keys = {tuple(setting[name] for name in model_factors) for setting in setting_panel}
+    counts_by_unit = {}
+    invalid_units = set()
+    evaluation_units = set()
+    outside_panel_rows = 0
+    for row in rows:
+        try:
+            unit = _unit_key(_get_field(row, unit_field))
+        except (KeyError, TypeError, ValueError):
+            continue
+        evaluation_units.add(unit)
+        try:
+            factors = row["factors"]
+            setting = tuple(factors[name] for name in model_factors)
+            if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value)
+                   for value in setting):
+                raise ValueError("non-numeric setting")
+        except (KeyError, TypeError, ValueError):
+            invalid_units.add(unit)
+            continue
+        if setting not in panel_keys:
+            outside_panel_rows += 1
+            continue
+        counts = counts_by_unit.setdefault(unit, {})
+        counts[setting] = counts.get(setting, 0) + 1
+    unassignable_unit_keys = (evaluation_units - set(counts_by_unit)) | invalid_units
+    unassignable_units = len(unassignable_unit_keys)
+    matching_units = 0
+    mismatched_units = 0
+    for unit, counts in counts_by_unit.items():
+        if unit in invalid_units:
+            continue
+        matches = (set(counts) == panel_keys
+                   and all(counts.get(setting, 0) == observations_per_setting for setting in panel_keys))
+        matching_units += int(matches)
+        mismatched_units += int(not matches)
+    status = ("OBSERVED_PANEL_STRUCTURE_MISMATCH" if mismatched_units or unassignable_units
+              else "DESCRIPTIVE_PANEL_STRUCTURE_MATCH" if matching_units else "INSUFFICIENT_EXACT_PANEL_UNITS")
+    return {"status": status, "evaluation_unit_count": len(evaluation_units),
+            "matching_units": matching_units, "mismatched_units": mismatched_units,
+            "unassignable_units": unassignable_units,
+            "expected_observations_per_setting": observations_per_setting,
+            "outside_panel_rows": outside_panel_rows,
+            "interpretation": (
+                "descriptive comparison of held-out row counts with the declared exact-setting panel; "
+                "a match does not establish exchangeability or future observation structure")}
 
 
 def _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
@@ -925,6 +1009,16 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         calibration_report["calibration_value"], calibration_report.get("evaluation_value"))
     simultaneous_candidates = [cell for cell in grid if cell["simultaneous_supported_candidate"]]
     simultaneous_summary = dict(simultaneous_calibration)
+    if simultaneous_calibration.get("status") == "AVAILABLE":
+        simultaneous_summary["independent_evaluation_panel_compatibility"] = _evaluation_panel_compatibility(
+            evaluation_rows, unit_field, model_factors,
+            simultaneous_calibration["common_exact_settings"],
+            simultaneous_calibration["observations_per_setting"])
+    else:
+        simultaneous_summary["independent_evaluation_panel_compatibility"] = {
+            "status": "NOT_AVAILABLE",
+            "reason": simultaneous_calibration.get("reason", "the finite exact-setting calibration band is unavailable"),
+            "interpretation": "evaluation panel structure cannot be compared with an unavailable precommitted band"}
     simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)
     simultaneous_summary["pointwise_supported_candidate_count"] = len(candidates)
     simultaneous_summary["status_scope"] = (

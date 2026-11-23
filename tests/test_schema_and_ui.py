@@ -15,8 +15,20 @@ class SourceContractTests(unittest.TestCase):
         calibration = schema["properties"]["window_exploration"]["properties"]["calibration"]
         self.assertEqual(calibration["properties"]["evaluation_value"]["type"], "string")
         self.assertNotIn("evaluation_value", calibration["required"])
+        precommit = calibration["properties"]["precommit"]["properties"]
+        self.assertEqual(precommit["observations_per_setting"]["minimum"], 1)
+        self.assertNotIn("observations_per_setting", calibration["properties"]["precommit"]["required"])
         fixture = json.loads((ROOT / "fixtures" / "full_workflow_demo.json").read_text(encoding="utf-8"))
         self.assertEqual(fixture["window_exploration"]["calibration"]["evaluation_value"], "EVALUATION")
+
+    def test_bounded_d03_envelope_requires_declared_candidate_family_and_metric_units(self):
+        schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        contract = schema["properties"]["familywise_mean_bounds"]
+        self.assertEqual(set(contract["required"]), {
+            "precommit_reference", "bounds_source_reference", "candidate_setting_ids", "metric_units", "metric_bounds"
+        })
+        self.assertTrue(contract["properties"]["candidate_setting_ids"]["uniqueItems"])
+        self.assertEqual(contract["properties"]["metric_bounds"]["additionalProperties"]["maxItems"], 2)
 
     def test_schema_files_identify_version(self):
         for name in ("evidence.v1.schema.json", "product-manifest.v1.schema.json"):

@@ -37,7 +37,7 @@ const evidence: P4Evidence = {
     selection_warning: "Selection among cells can inflate false-feasible findings; simultaneous coverage is not established.",
     data_roles: { model_fitting: "TRAIN", model_selection: "NOT_PERFORMED_BY_ENGINE", threshold_selection: "PRESPECIFIED" },
     uncertainty_scope: { formal_coverage_claim: "NONE_ESTABLISHED", simultaneous_coverage_over_searched_grid: "NOT_ESTABLISHED" },
-    simultaneous_exact_setting_screen: { status: "AVAILABLE", status_scope: "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY", calibration_unit_count: 20, familywise_alpha: 0.05, scope: "one future independent unit across a finite exact-setting panel", limitations: ["no interpolation coverage", "exchangeability unverified"] },
+    simultaneous_exact_setting_screen: { status: "AVAILABLE", status_scope: "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY", calibration_unit_count: 20, familywise_alpha: 0.05, scope: "one future independent unit across a finite exact-setting panel", independent_evaluation_panel_compatibility: { status: "OBSERVED_PANEL_STRUCTURE_MISMATCH", evaluation_unit_count: 10, mismatched_units: 10, expected_observations_per_setting: 1, interpretation: "held-out row counts differ from the declared calibration panel" }, limitations: ["no interpolation coverage", "exchangeability unverified"] },
     uncertainty_rule: "All local group-held-out empirical intervals using a 95% order-statistic rank satisfy the explicit metric limits; this does not guarantee conditional coverage.",
     calibration: { method: "local_grouped_holdout_absolute_error", coverage_guarantee: "none; local selection does not establish conditional coverage", group_field: "lot_id", training_unit_count: 30, calibration_unit_count: 20, minimum_local_calibration_units: 19, split_reference: "SYN-DO02-INTERLEAVED-001" },
     independent_candidate_evaluation: { status: "DESCRIPTIVE", evaluated_candidate_count: 1, unevaluated_candidate_count: 0, method: "No population or simultaneous guarantee.",
@@ -60,13 +60,16 @@ const evidence: P4Evidence = {
     grid: d02Grid, candidate_cells: [d02Grid[0]] },
   D03_tradeoffs: { status: "VALID", qualification: "Descriptive setting means; uncertainty is shown in the table.", causal_claim: false,
     pareto_status_scope: "mean-based observed front; marginal interval separation is diagnostic only and is not multiplicity-adjusted",
-    familywise_mean_envelope: { status: "AVAILABLE_APPROXIMATE_BONFERRONI_ENVELOPE", familywise_confidence_target: 0.95, mean_parameter_count: 2 },
-    objective_metrics: [{ metric: "yield_index", direction: "maximize" }, { metric: "defect_rate", direction: "minimize" }],
+    familywise_mean_envelope: { status: "AVAILABLE_APPROXIMATE_BONFERRONI_ENVELOPE", familywise_confidence_target: 0.95, mean_parameter_count: 2,
+      method: "Bonferroni simultaneous independent-unit Student-t mean rectangles" },
+    objective_metrics: [{ metric: "yield_index", direction: "maximize", unit: "index" }, { metric: "defect_rate", direction: "minimize", unit: "count" }],
     pareto_setting_ids: ["SYN-SETTING-01"], pareto_values: [{ id: "SYN-SETTING-01", yield_index: 88.2, defect_rate: 1.3 }],
     candidate_settings: [{ id: "SYN-SETTING-01", factors: { pressure: 2 }, independent_units: 12,
       means: { yield_index: 88.2, defect_rate: 1.3 },
-      uncertainty: { yield_index: { marginal_ci95: [87.9, 88.5], familywise_ci95: [87.7, 88.7] },
-        defect_rate: { marginal_ci95: [1.1, 1.5], familywise_ci95: [1.0, 1.6] } },
+      uncertainty: { yield_index: { marginal_ci95: [87.9, 88.5], familywise_ci95: [87.7, 88.7],
+          unit_value_min: 87.5, unit_value_max: 89, familywise_ci95_method: "Bonferroni simultaneous independent-unit Student-t mean rectangles" },
+        defect_rate: { marginal_ci95: [1.1, 1.5], familywise_ci95: [1.0, 1.6],
+          unit_value_min: 1.0, unit_value_max: 1.7, familywise_ci95_method: "Bonferroni simultaneous independent-unit Student-t mean rectangles" } },
       mean_pareto_status: "NONDOMINATED_BY_MEANS", uncertainty_dominance_status: "NO_INTERVAL_SEPARATED_DOMINATOR",
       familywise_dominance_status: "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR", familywise_dominated_by: [] }],
   },
@@ -140,6 +143,8 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getByText(/Selection among cells can inflate false-feasible findings/)).toBeTruthy();
     expect(within(d02).getByText(/Independent candidate evaluation/)).toBeTruthy();
     expect(within(d02).getByText("Simultaneous exact-setting calibration")).toBeTruthy();
+    expect(within(d02).getByText(/OBSERVED_PANEL_STRUCTURE_MISMATCH/)).toBeTruthy();
+    expect(within(d02).getByText(/expected_observations_per_setting/)).toBeTruthy();
     const population = within(d02).getByRole("table", {
       name: "Independent-unit population strata by partition; descriptive, not an exchangeability test",
     });
@@ -195,7 +200,9 @@ describe("P4 headless suite module", () => {
     expect(screen.getByRole("rowheader", { name: "SYN-SETTING-01" })).toBeTruthy();
     expect(screen.getByText(/marginal 95% interval \[87.9,88.5\]/)).toBeTruthy();
     expect(screen.getByText("Family-wise mean uncertainty envelope")).toBeTruthy();
-    expect(screen.getByText(/Bonferroni family-wise mean interval \[87.7,88.7\]/)).toBeTruthy();
+    expect(screen.getByText(/family-wise mean interval \[87.7,88.7\]/)).toBeTruthy();
+    expect(screen.getByText(/independent-unit range 87.5 to 89/)).toBeTruthy();
+    expect(screen.getByText(/Objectives: yield_index \(maximize, index\); defect_rate \(minimize, count\)/)).toBeTruthy();
     expect(screen.getAllByText(/NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR/).length).toBeGreaterThan(0);
     expect(screen.getAllByText(/not multiplicity-adjusted/).length).toBeGreaterThan(0);
     expect(screen.getByText("No causal claim is made from these observed tradeoffs.")).toBeTruthy();

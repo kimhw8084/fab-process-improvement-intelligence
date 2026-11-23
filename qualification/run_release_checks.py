@@ -187,6 +187,105 @@ def main():
                         "d_optimal_efficiency_percent": d_opt.get("p4_greedy", {}).get("D_efficiency_percent"),
                         "p4_latin_hypercube_all_seeds_stratified": lhs.get("p4_basic", {}).get("stratified_seed_fraction"),
                         "multimodal_next_best_acceptance_fraction": sequential.get("results_by_function", {}).get("multimodal", {}).get("p4", {}).get("accepted_fraction")}
+    d02_replicate_path = ROOT / "qualification" / "results" / "D02_REPLICATION_SHIFT_BENCHMARK.json"
+    d02_replicate_run, _ = run([sys.executable, "-m", "qualification.benchmark_d02_replicate_shift",
+                                "--output", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json"])
+    d02_replicate = json.loads(d02_replicate_path.read_text(encoding="utf-8")) if d02_replicate_path.exists() else {}
+    d02_replicate_scenarios = d02_replicate.get("scenarios", {})
+    d02_window_hash = hashlib.sha256((ROOT / "products" / "p4" / "window.py").read_bytes()).hexdigest()
+    d02_replicate_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d02_replicate_shift.py").read_bytes()).hexdigest()
+    d02_replicate_pass = (
+        d02_replicate_run.returncode == 0
+        and d02_replicate.get("schema") == "p4-d02-replicate-shift-benchmark/v1"
+        and d02_replicate.get("trials", 0) >= 1000
+        and d02_replicate.get("product_source_sha256") == d02_window_hash
+        and d02_replicate.get("benchmark_script_sha256") == d02_replicate_script_hash
+        and set(d02_replicate_scenarios) == {"1", "2", "4"}
+        and d02_replicate_scenarios.get("1", {}).get("wilson95", [0, 0])[0] <= 0.95
+        and d02_replicate_scenarios.get("1", {}).get("wilson95", [0, 0])[1] >= 0.95
+        and d02_replicate_scenarios.get("2", {}).get("coverage", 1) < 0.93
+        and d02_replicate_scenarios.get("4", {}).get("coverage", 1) < 0.86
+    )
+    d02_replicate_result = {
+        "status": "PASS" if d02_replicate_pass else "FAIL",
+        "evidence": "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
+        "source_hash_matches": d02_replicate.get("product_source_sha256") == d02_window_hash,
+        "trials": d02_replicate.get("trials"),
+        "coverage_by_future_observations_per_setting": {
+            key: item.get("coverage") for key, item in d02_replicate_scenarios.items()},
+        "runtime_dependencies_added": False,
+        "scope": "independent iid finite-panel oracle; replication-shift challenge only"
+    }
+    d02_simultaneous_path = ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json"
+    d02_simultaneous_run, _ = run([sys.executable, "-m", "qualification.benchmark_d02_simultaneous",
+                                   "--output", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json"])
+    d02_simultaneous = json.loads(d02_simultaneous_path.read_text(encoding="utf-8")) if d02_simultaneous_path.exists() else {}
+    d02_simultaneous_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d02_simultaneous.py").read_bytes()).hexdigest()
+    d02_coverage = d02_simultaneous.get("joint_exact_panel_coverage", {})
+    d02_false_feasible = d02_simultaneous.get("post_selection_false_feasible", {})
+    d02_simultaneous_pass = (
+        d02_simultaneous_run.returncode == 0
+        and d02_simultaneous.get("schema") == "p4-d02-simultaneous-calibration-benchmark/v1"
+        and d02_simultaneous.get("trials", 0) >= 500
+        and d02_simultaneous.get("product_window_sha256") == d02_window_hash
+        and d02_simultaneous.get("benchmark_script_sha256") == d02_simultaneous_script_hash
+        and d02_coverage.get("wilson95_miss_rate", [0, 1])[1] <= 0.08
+        and d02_false_feasible.get("wilson95_unconditional", [0, 1])[1] <= 0.05
+    )
+    d02_simultaneous_result = {
+        "status": "PASS" if d02_simultaneous_pass else "FAIL",
+        "evidence": "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
+        "source_hash_matches": d02_simultaneous.get("product_window_sha256") == d02_window_hash,
+        "trials": d02_simultaneous.get("trials"),
+        "joint_panel_coverage": d02_coverage.get("rate"),
+        "joint_panel_miss_wilson95": d02_coverage.get("wilson95_miss_rate"),
+        "post_selection_false_feasible_unconditional": d02_false_feasible.get("unconditional_rate"),
+        "runtime_dependencies_added": False,
+        "scope": "independent nonlinear correlated-lot synthetic challenge under complete-panel assumptions"
+    }
+    d03_benchmark_path = ROOT / "qualification" / "results" / "D03_BOUNDED_MEAN_BENCHMARK.json"
+    d03_benchmark_run, _ = run([sys.executable, "-m", "qualification.benchmark_d03_bounded_mean",
+                                "--output", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json"])
+    d03_benchmark = json.loads(d03_benchmark_path.read_text(encoding="utf-8")) if d03_benchmark_path.exists() else {}
+    d03_current_hashes, d03_current_manifest = product_source_fingerprint()
+    d03_script_hash = hashlib.sha256((ROOT / "qualification" / "benchmark_d03_bounded_mean.py").read_bytes()).hexdigest()
+    d03_scenarios = d03_benchmark.get("scenario_results", {})
+    d03_bounded_pass = (
+        d03_benchmark_run.returncode == 0
+        and d03_benchmark.get("schema") == "p4-d03-bounded-mean-benchmark/v1"
+        and d03_benchmark.get("status") == "PASS"
+        and d03_benchmark.get("objective_family_size") == 8
+        and d03_benchmark.get("product_source_sha256") == d03_current_hashes
+        and d03_benchmark.get("product_source_manifest_sha256") == d03_current_manifest
+        and d03_benchmark.get("qualification_script_sha256") == d03_script_hash
+        and set(d03_scenarios) == {"30", "60"}
+        and all(
+            item.get("trials", 0) >= 200
+            and item.get("methods", {}).get("bounded_hoeffding", {}).get("joint_mean_coverage_wilson95", [0])[0] >= 0.95
+            and item.get("methods", {}).get("bounded_hoeffding", {}).get("false_familywise_dominance_rate", 1) <= 0.05
+            for item in d03_scenarios.values())
+    )
+    d03_benchmark_result = {
+        "status": "PASS" if d03_bounded_pass else "FAIL",
+        "evidence": "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json",
+        "source_fingerprint_matches": (d03_benchmark.get("product_source_sha256") == d03_current_hashes
+                                        and d03_benchmark.get("product_source_manifest_sha256") == d03_current_manifest),
+        "trials_by_sample_size": {key: item.get("trials") for key, item in d03_scenarios.items()},
+        "bounded_joint_coverage_wilson95_lower_by_sample_size": {
+            key: item.get("methods", {}).get("bounded_hoeffding", {}).get("joint_mean_coverage_wilson95", [None])[0]
+            for key, item in d03_scenarios.items()},
+        "bonferroni_t_joint_coverage_by_sample_size": {
+            key: item.get("methods", {}).get("bonferroni_t", {}).get("joint_mean_coverage_rate")
+            for key, item in d03_scenarios.items()},
+        "bounded_to_t_mean_width_ratio_by_sample_size": {
+            key: (item.get("methods", {}).get("bounded_hoeffding", {}).get("mean_interval_width", 0)
+                  / max(item.get("methods", {}).get("bonferroni_t", {}).get("mean_interval_width", 1e-300), 1e-300))
+            for key, item in d03_scenarios.items()},
+        "runtime_dependencies_added": False,
+        "scope": "independent skewed bounded synthetic challenge with correlated repeated lots; finite evidence only"
+    }
     performance_path = ROOT / "release" / "BENCHMARK_REPORT.json"
     performance = json.loads(performance_path.read_text(encoding="utf-8")) if performance_path.exists() else {}
     performance_source_commit = performance.get("source_commit", "")
@@ -325,7 +424,8 @@ def main():
                               "independent_human_review": "PENDING"}
 
     qualification_pass = (test_pass and demo_result["status"] == "PASS" and schema_status == "PASS"
-                          and frozen_pass and critical_pass and mcp_pass and mcp_sdk_pass
+                          and frozen_pass and critical_pass and d02_replicate_pass and d02_simultaneous_pass
+                          and d03_bounded_pass and mcp_pass and mcp_sdk_pass
                           and dependency_audit_pass and d04_pass and performance_pass
                           and ui_component_pass and security_pass)
     results = {"state": "PASS" if qualification_pass else "FAIL",
@@ -338,6 +438,9 @@ def main():
                                                   "version": sdk_report.get("installed_mcp_version"),
                                                   "protocol_tests": sdk_report.get("protocol_tests_run")},
                "d04_oss_benchmark": benchmark_result,
+               "d02_replicate_shift_benchmark": d02_replicate_result,
+               "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
+               "d03_bounded_mean_benchmark": d03_benchmark_result,
                "scientific_performance_benchmark": performance_result,
                "dependency_audit": dependency_audit_result,
                "ui_module_qualification": ui_result,
@@ -361,6 +464,9 @@ def main():
                                                       "requirements/synthetic-mcp-mapping.v1.json"],
                                          "result": mcp_result},
         "d04_oss_benchmark": benchmark_result,
+        "d02_replicate_shift_benchmark": d02_replicate_result,
+        "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
+        "d03_bounded_mean_benchmark": d03_benchmark_result,
         "scientific_performance_benchmark": performance_result,
         "dependency_audit": dependency_audit_result,
         "ui_module_qualification": ui_result,
@@ -370,7 +476,7 @@ def main():
         "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
         "gates": {
             "E01": {"status": "PASS" if demo_result["status"] == "PASS" else "FAIL", "evidence": ["release/full_workflow_demo_evidence.json", "release/TEST_LOG.txt"], "scope": "synthetic end-to-end capability flow"},
-            "E02": {"status": "PASS" if critical_pass and d04_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels coefficient parity, and fixed synthetic D04 OSS benchmarks"},
+            "E02": {"status": "PASS" if critical_pass and d02_replicate_pass and d02_simultaneous_pass and d04_pass and d03_bounded_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D02 calibration replicate-shift and nonlinear correlated-lot finite-panel challenges, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels coefficient parity, and fixed synthetic D04 OSS benchmarks"},
             "E03": {"status": "PASS" if critical_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_offline_server.py"], "scope": "unsafe, invalid, leakage, permission, cancellation and host/origin cases"},
             "E04": {"status": "PASS" if frozen_pass and schema_status == "PASS" else "FAIL", "evidence": ["contracts/", "products/p4/investigation.v1.schema.json", "release/SCHEMA_VALIDATION.json"]},
             "E05": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "qualification/internal-capability-report.v1.schema.json"], "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally"},

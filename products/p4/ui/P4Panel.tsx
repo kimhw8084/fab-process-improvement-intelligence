@@ -307,11 +307,11 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
     <KeyValueTable label="Constraint eligibility and excluded population" value={result?.constraint_exclusion_audit} />
     <KeyValueTable label="Family-wise mean uncertainty envelope" value={result?.familywise_mean_envelope} />
     {typeof result?.selection_warning === "string" && <p role="note">{text(result.selection_warning)}</p>}
-    <p>Objective directions: {objectives.map((item) => `${text(item.metric)} (${text(item.direction)})`).join("; ") || "not provided"}.</p>
+    <p>Objectives: {objectives.map((item) => `${text(item.metric)} (${text(item.direction)}, ${text(item.unit || "unit unspecified")})`).join("; ") || "not provided"}.</p>
     {chart && <AccessibleChart model={chart} renderChart={renderChart} />}
     <table>
-      <caption>Observed candidate setting means, marginal intervals, and a separate family-wise mean-rectangle diagnostic</caption>
-      <thead><tr><th scope="col">Setting</th><th scope="col">Factor values</th><th scope="col">Independent units</th>{objectives.map((item) => <th scope="col" key={text(item.metric)}>{text(item.metric)} mean, marginal and family-wise intervals</th>)}<th scope="col">Mean Pareto status</th><th scope="col">Marginal interval-separated dominance</th><th scope="col">Family-wise rectangle dominance</th></tr></thead>
+      <caption>Observed candidate setting means, marginal intervals, and separate family-wise mean-rectangle diagnostics</caption>
+      <thead><tr><th scope="col">Setting</th><th scope="col">Factor values</th><th scope="col">Independent units</th>{objectives.map((item) => <th scope="col" key={text(item.metric)}>{text(item.metric)} ({text(item.unit || "unit unspecified")}) mean, marginal and family-wise intervals</th>)}<th scope="col">Mean Pareto status</th><th scope="col">Marginal interval-separated dominance</th><th scope="col">Family-wise rectangle dominance</th></tr></thead>
       <tbody>{rows.map((row, index) => {
         const id = text(row.id);
         const paretoIds = asList(result?.pareto_setting_ids).map(text);
@@ -319,7 +319,7 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
           {objectives.map((item) => {
             const metric = text(item.metric);
             const estimate = asObject(asObject(row.uncertainty)[metric]);
-            return <td key={metric}>{text(asObject(row.means)[metric])}; marginal 95% interval {text(estimate.marginal_ci95)}; Bonferroni family-wise mean interval {text(estimate.familywise_ci95)}</td>;
+            return <td key={metric}>{text(asObject(row.means)[metric])}; independent-unit range {text(estimate.unit_value_min)} to {text(estimate.unit_value_max)}; marginal 95% interval {text(estimate.marginal_ci95)}; family-wise mean interval {text(estimate.familywise_ci95)} ({text(estimate.familywise_ci95_method || asObject(result?.familywise_mean_envelope).method || "method unavailable")})</td>;
           })}
           <td>{text(row.mean_pareto_status || (paretoIds.includes(id) ? "NONDOMINATED_BY_MEANS" : "DOMINATED_BY_MEANS"))}</td>
           <td>{text(row.uncertainty_dominance_status)}</td>

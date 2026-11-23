@@ -2,15 +2,15 @@
   "disposable_composition": {
     "additional_p4_source_sha256": {
       "fixtures/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
-      "products/p4/investigation.v1.schema.json": "0931ba5e55452bd63062c39c47a1cd4a1fb8260db0e04e22aac602b93d4f812d",
+      "products/p4/investigation.v1.schema.json": "8a4607f05fe9424d4f29d4065c4f332b6fb50aedfcae66e99004823b5998457c",
       "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
-      "products/p4/window.py": "292a5af849d29d713915b2c7ac1010bd94effffe0703932963e1262dea146e45",
+      "products/p4/window.py": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8",
       "qualification/build_demo_fixture.py": "48b346e5dfc60c0106dbd3109cdc35e288aa623b6c02984ecfc39bfe8f016e06"
     },
     "current_p4_source": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-      "panel_sha256": "e977d7197cf95f53d0ac3d276f24ae0cd906c0f68fd49afe691729b6b465ce6d",
-      "panel_test_sha256": "5e5091d72d68b189b6bd34597f302c109e1f74044e887166193b4dc2bdaba525"
+      "panel_sha256": "34bd7f860ec55a9f4ca533469748ffb559ca45ca2558f80206f0cd357c298da5",
+      "panel_test_sha256": "e44093363cceb5a8ff3fd9578178fcee2aa6dd6b3c98b47c305ddb1445ba2ef1"
     },
     "p4_registry_pin": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
@@ -29,7 +29,7 @@
         "contracts/suite-ui-module.v1.schema.json": "e3f0da372a2528d993a8a1555403c6e115df7256edfc8cfc0f09be3995e17c4f",
         "contracts/suite-ui.types.ts": "dfc3d3cfee90da1f4ab1773c22e032081b5db99abd9bff4b1c2031d0a4e43890",
         "fixtures/p4/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
-        "integration/product-source-registry.v1.json": "32031696dca26281b599378991ced054d7736bd0878e60f30fc3c5371f704c96",
+        "integration/product-source-registry.v1.json": "8a0b4b11a72418da825b2f910075e7300a185beb85d562ea437ce6b4f224a7c1",
         "integration/suite-ui-e2e.v1.json": "2522a81960bcf69da939269cb68469371ce6676c31725c3a30d8efa8d5e9f1ac",
         "package-lock.json": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
         "package.json": "82415b23fd078424ef3c010e213052d575b012dd6f2a9ff0f932bad71e700f07",
@@ -41,16 +41,16 @@
         "products/p1/ui/suite.css": "d1d80dd866d85d02003b1a48bdd1a3cbd8e4bd16432eae1e39ab0ec0f1e44c81",
         "products/p1/ui/suiteSpatialMap.test.ts": "63b59654a33c32b1956d6d3ec90d9339d67d17e40de3c47055f45169cb7a19b9",
         "products/p1/ui/suiteSpatialMap.ts": "495c1bce7415de23fa3ba291798d001d9c5a5248340371ab2bdeeea6c6891df1",
-        "products/p4/ui/P4Panel.tsx": "e977d7197cf95f53d0ac3d276f24ae0cd906c0f68fd49afe691729b6b465ce6d",
+        "products/p4/ui/P4Panel.tsx": "34bd7f860ec55a9f4ca533469748ffb559ca45ca2558f80206f0cd357c298da5",
         "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
-        "tests/test_suite_host.py": "7b9085940849c4121305e1900117f87d4e61196a3ab3c1bf07412cd7a4825dc8",
+        "tests/test_suite_host.py": "ef2baec2a2f18015e5d0930a5446e52a24c795fc151ef761d993e515e68d366d",
         "tsconfig.json": "a6a2994c6c1db73d909e2779dc8643a71adb296598b24232a4649e15c10ead54",
         "vite.config.ts": "b245f9400583490162c429b1ad7b7ad5492261db11f1f4d310f3c0009557bf31"
       },
       "files": 28,
-      "manifest_sha256": "c2b2fb1ca3e67df162b1ba661234bc46a469d99c5d4a8d5d6452f546a0b02bcd",
+      "manifest_sha256": "58ad006211c3fdba53e06266f24407c3938638ebd2cb4df851687a2619110d8e",
       "scope": "28 explicitly listed suite contracts, shared P1 UI/host implementation and tests, frontend build configuration, P4 contribution/panel, and P4 synthetic workflow fixture. This is an integrity digest of the disposable composition evidence, not an authoritative P1 source revision.",
-      "sha256": "c2b2fb1ca3e67df162b1ba661234bc46a469d99c5d4a8d5d6452f546a0b02bcd"
+      "sha256": "58ad006211c3fdba53e06266f24407c3938638ebd2cb4df851687a2619110d8e"
     }
   },
   "executed_checks": {
@@ -98,7 +98,20 @@
         "unevaluated_candidates": 73,
         "visible": true
       },
+      "d03_current_source_observation": {
+        "accessible_data_table_present": true,
+        "familywise_envelope": "NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION",
+        "independent_unit_ranges_and_interval_method_visible": true,
+        "interpretation": "Observed mean frontier only; whole-unit constraint selection excludes 600 synthetic units and no causal or population claim is made.",
+        "objective_units_visible": true,
+        "pareto_chart_rendered_by_shared_p1_renderer": true,
+        "status": "LIMITED_SCOPE"
+      },
       "evidence_status": "PARTIAL",
+      "latest_d02_row_count_change": {
+        "evidence": "P4 panel test and current P1 host-route test only",
+        "status": "NOT_BROWSER_REOBSERVED"
+      },
       "permission_refusal": "REFUSED; synthetic host denied access, fixture values were suppressed, and analysis was not performed.",
       "route": "/fab-intelligence/p4",
       "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
@@ -111,18 +124,19 @@
       "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending."
     ],
     "p1_frontend_tests": {
-      "command": "npm test",
+      "command": "npm test -- --run",
       "status": "PASS",
-      "tests": 39
+      "tests": 51
     },
     "p1_host_route_tests": {
       "command": "python -m unittest tests.test_suite_host -q",
+      "current_p4_source": "window.py, investigation.v1.schema.json, all six P4 support modules, and P4 panel test are hash-pinned in disposable host",
       "p4_source_pins": "PASS",
       "status": "PASS",
       "tests": 11
     },
     "p1_production_build": {
-      "bundle_bytes_uncompressed": 799750,
+      "bundle_bytes_uncompressed": 799976,
       "command": "npm run build",
       "status": "PASS",
       "warning": "single shared ECharts bundle exceeds 500 KB advisory"
@@ -133,15 +147,18 @@
     },
     "p4_panel_tests": {
       "command": "python qualification/ui_component_check.py --suite-root <P1 snapshot>",
+      "contract_snapshot_match": true,
       "status": "PASS",
-      "tests": 12
+      "tests": 12,
+      "typecheck": "PASS"
     }
   },
   "limitations": [
     "P1 source has no resolvable Git revision; the 28-file fingerprint is an explicit integrity digest of the disposable composition evidence and not an authoritative source identity.",
     "Disposable registry and route test pin updates are local fixture changes, not upstream P1 changes.",
     "The demo has an independent 10-lot D02 evaluation set for the fixed chamber, but only 3 of 76 supported candidates have exact setting outcomes; complete-set evaluation is withheld.",
-    "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending."
+    "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending.",
+    "The D02 observation-count diagnostic was added after the last browser visual check; the current source is verified by the P4 panel test and P1 host-route tests, but that specific new diagnostic was not re-observed in the browser."
   ],
   "p1_source": {
     "git_metadata_present": true,

@@ -13,6 +13,21 @@
     "metrics": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/metric"}},
     "primary_metric": {"type": "string"},
     "objectives": {"type": "array", "items": {"type": "object", "required": ["metric", "direction"], "properties": {"metric": {"type": "string"}, "direction": {"enum": ["maximize", "minimize"]}}, "additionalProperties": false}},
+    "familywise_mean_bounds": {
+      "type": "object",
+      "required": ["precommit_reference", "bounds_source_reference", "candidate_setting_ids", "metric_units", "metric_bounds"],
+      "properties": {
+        "precommit_reference": {"type": "string", "minLength": 1},
+        "bounds_source_reference": {"type": "string", "minLength": 1},
+        "candidate_setting_ids": {"type": "array", "minItems": 2, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "metric_units": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "string", "minLength": 1}},
+        "metric_bounds": {
+          "type": "object", "minProperties": 1,
+          "additionalProperties": {"type": "array", "minItems": 2, "maxItems": 2, "items": {"type": "number"}}
+        }
+      },
+      "additionalProperties": false
+    },
     "observations": {"type": "array", "minItems": 1, "maxItems": 5000, "items": {"$ref": "#/$defs/observation"}},
     "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
     "robustness": {"type": "object", "properties": {"min_independent_units": {"type": "integer", "minimum": 2}, "independent_unit_field": {"type": "string"}}, "additionalProperties": false},
@@ -77,6 +92,7 @@
                 "plan_reference": {"type": "string", "minLength": 1},
                 "model_selection_reference": {"type": "string", "minLength": 1},
                 "threshold_selection_reference": {"type": "string", "minLength": 1},
+                "observations_per_setting": {"type": "integer", "minimum": 1, "maximum": 5000},
                 "metric_family": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
                 "exact_setting_panel": {
                   "type": "array", "minItems": 1, "maxItems": 1681,

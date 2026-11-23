@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from itertools import combinations
-from math import isfinite, sqrt
+from math import isfinite, log, sqrt
 from statistics import NormalDist, mean, variance
 import json
 
@@ -103,7 +103,8 @@ def _familywise_t_critical(df, family_size):
 
 
 def _familywise_mean_envelope(candidates, objectives, *, allow=True,
-                              unavailable_status="NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION"):
+                              unavailable_status="NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION",
+                              bounded_contract=None, metric_units=None):
     family_size = len(candidates) * len(objectives)
     summary = {"status": "NOT_AVAILABLE", "familywise_alpha": 0.05,
                "mean_parameter_count": family_size,
@@ -125,6 +126,123 @@ def _familywise_mean_envelope(candidates, objectives, *, allow=True,
     if family_size < 1:
         summary["status"] = "NO_ESTIMABLE_OBJECTIVE_MEANS"
         return summary, []
+    if bounded_contract is not None:
+        summary["method"] = "distribution-free two-sided Hoeffding mean rectangles with Bonferroni allocation"
+        if not isinstance(bounded_contract, dict):
+            summary["status"] = "INVALID_BOUNDED_MEAN_CONTRACT"
+            summary["reason"] = "familywise_mean_bounds must be an object"
+            return summary, []
+        plan_reference = bounded_contract.get("precommit_reference")
+        bounds_reference = bounded_contract.get("bounds_source_reference")
+        precommitted_candidates = bounded_contract.get("candidate_setting_ids")
+        bounds = bounded_contract.get("metric_bounds")
+        declared_units = bounded_contract.get("metric_units")
+        if (not isinstance(plan_reference, str) or not plan_reference.strip()
+                or not isinstance(bounds_reference, str) or not bounds_reference.strip()):
+            summary["status"] = "INVALID_BOUNDED_MEAN_CONTRACT"
+            summary["reason"] = "non-empty precommit and hard-bounds source references are required"
+            return summary, []
+        metric_names = [objective["metric"] for objective in objectives]
+        expected_metrics = set(metric_names)
+        if len(expected_metrics) != len(metric_names):
+            summary["status"] = "INVALID_BOUNDED_MEAN_METRIC_FAMILY"
+            summary["reason"] = "objective metrics must be unique in a bounded family"
+            return summary, []
+        actual_candidates = [candidate.get("id") for candidate in candidates]
+        if (not isinstance(precommitted_candidates, list)
+                or any(not isinstance(value, str) or not value.strip() for value in precommitted_candidates)
+                or len(precommitted_candidates) != len(set(precommitted_candidates))
+                or len(precommitted_candidates) != len(actual_candidates)
+                or set(precommitted_candidates) != set(actual_candidates)):
+            summary["status"] = "PRECOMMITTED_SETTING_FAMILY_MISMATCH"
+            summary["reason"] = "bounded inference requires an exact, unique precommitted candidate setting ID family"
+            return summary, []
+        if not isinstance(bounds, dict) or set(bounds) != expected_metrics:
+            summary["status"] = "INVALID_BOUNDED_MEAN_METRIC_FAMILY"
+            summary["reason"] = "hard bounds must be supplied for exactly the declared objective metrics"
+            return summary, []
+        if (not isinstance(declared_units, dict) or set(declared_units) != expected_metrics
+                or any(not isinstance(declared_units.get(metric), str) or not declared_units[metric].strip()
+                       or declared_units[metric] != (metric_units or {}).get(metric)
+                       for metric in expected_metrics)):
+            summary["status"] = "INVALID_BOUNDED_MEAN_METRIC_UNITS"
+            summary["reason"] = "hard-bound metric units must exactly match the declared objective metric units"
+            return summary, []
+        normalized_bounds = {}
+        for metric, pair in bounds.items():
+            if (not isinstance(pair, (list, tuple)) or len(pair) != 2
+                    or any(isinstance(value, bool) or not isinstance(value, (int, float))
+                           or not isfinite(value) for value in pair)
+                    or pair[0] >= pair[1] or not isfinite(pair[1]-pair[0])):
+                summary["status"] = "INVALID_BOUNDED_MEAN_RANGE"
+                summary["reason"] = f"hard support bounds for {metric} must be finite [minimum, maximum] values"
+                return summary, []
+            normalized_bounds[metric] = [float(pair[0]), float(pair[1])]
+        for candidate in candidates:
+            n = candidate.get("independent_units", 0)
+            if isinstance(n, bool) or not isinstance(n, int) or n < 1:
+                summary["status"] = "INVALID_BOUNDED_MEAN_SAMPLE_SIZE"
+                return summary, []
+            for metric in metric_names:
+                estimate = candidate.get("uncertainty", {}).get(metric, {})
+                observed_min = estimate.get("unit_value_min")
+                observed_max = estimate.get("unit_value_max")
+                lower, upper = normalized_bounds[metric]
+                if (not isinstance(observed_min, (int, float)) or isinstance(observed_min, bool)
+                        or not isinstance(observed_max, (int, float)) or isinstance(observed_max, bool)
+                        or not isfinite(observed_min) or not isfinite(observed_max)
+                        or observed_min < lower or observed_max > upper):
+                    summary["status"] = "OBSERVED_UNIT_VALUE_OUTSIDE_SUPPLIED_HARD_BOUNDS"
+                    summary["reason"] = f"observed independent-unit values for {metric} are not contained in the supplied hard bounds"
+                    return summary, []
+        alpha = 0.05
+        for candidate in candidates:
+            n = candidate["independent_units"]
+            for metric in metric_names:
+                estimate = candidate["uncertainty"][metric]
+                lower, upper = normalized_bounds[metric]
+                radius = (upper-lower) * sqrt(log(2.0*family_size/alpha)/(2.0*n))
+                estimate["familywise_ci95"] = [max(lower, estimate["mean"]-radius),
+                                                min(upper, estimate["mean"]+radius)]
+                estimate["familywise_ci95_method"] = "two-sided Hoeffding bound with Bonferroni allocation"
+                estimate["familywise_half_width"] = radius
+        pairs = []
+        dominators = {candidate["id"]: [] for candidate in candidates}
+        for candidate in candidates:
+            for other in candidates:
+                if other is candidate:
+                    continue
+                if _interval_separated_dominates(other, candidate, objectives, "familywise_ci95"):
+                    dominators[candidate["id"]].append(other["id"])
+                    pairs.append({"dominant_setting_id": other["id"],
+                                  "dominated_setting_id": candidate["id"],
+                                  "scope": "Bonferroni_Hoeffding_bounded_mean_rectangles"})
+        for candidate in candidates:
+            candidate["familywise_dominated_by"] = sorted(dominators[candidate["id"]])
+            candidate["familywise_dominance_status"] = (
+                "FAMILYWISE_INTERVAL_SEPARATED_DOMINATED" if dominators[candidate["id"]]
+                else "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR")
+        summary.update({"status": "AVAILABLE_BOUNDED_HOEFFDING_ENVELOPE",
+                        "familywise_alpha": alpha,
+                        "familywise_confidence_target": 1.0-alpha,
+                        "method": "distribution-free two-sided Hoeffding mean rectangles with Bonferroni allocation",
+                        "mean_parameter_count": family_size,
+                        "precommitted_candidate_setting_ids": sorted(precommitted_candidates),
+                        "hard_bounds_units": {metric: declared_units[metric] for metric in sorted(expected_metrics)},
+                        "hard_bounds": normalized_bounds,
+                        "hard_bounds_source_reference": bounds_reference,
+                        "precommit_reference": plan_reference,
+                        "source_qualification_status": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
+                        "assumptions": ["independent sampling units are independent draws from each stated target population",
+                                        "each independent-unit aggregated objective value lies within its supplied hard bounds",
+                                        "candidate settings and the objective family were fixed before mean outcomes were inspected",
+                                        "no outcome-based exclusions were made"],
+                        "limitations": ["the bound source and precommit timing are not authenticated by P4",
+                                        "distribution-free intervals can be wide, especially for broad engineering bounds",
+                                        "bounds apply to the independent-unit aggregated objective, not an individual replicate",
+                                        "interval separation is not a causal effect or population-compatibility check"],
+                        "interpretation": "finite-sample family-wise mean confidence is conditional on independent units, truthful supplied support bounds, and a fixed setting/objective family; no distribution shape assumption is required"})
+        return summary, pairs
     if family_size > 40:
         summary["status"] = "NOT_AVAILABLE_FAMILY_EXCEEDS_40_MEANS"
         return summary, []
@@ -154,6 +272,8 @@ def _familywise_mean_envelope(candidates, objectives, *, allow=True,
             estimate["familywise_ci95"] = [estimate["mean"]-critical*se,
                                             estimate["mean"]+critical*se]
             estimate["familywise_critical_value"] = critical
+            estimate["familywise_ci95_method"] = "Bonferroni simultaneous independent-unit Student-t mean rectangles with conservative critical approximation"
+            estimate["familywise_half_width"] = critical*se
     pairs = []
     dominators = {candidate["id"]: [] for candidate in candidates}
     for candidate in candidates:
@@ -279,7 +399,8 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
             else:
                 critical = critical_t_975(len(values)-1)
                 interval = [avg-critical*se, avg+critical*se]
-            estimates[metric] = {"mean": avg, "standard_error": se, "marginal_ci95": interval}
+            estimates[metric] = {"mean": avg, "standard_error": se, "marginal_ci95": interval,
+                                 "unit_value_min": min(values), "unit_value_max": max(values)}
         candidates.append({"id": "SYN-SETTING-"+"-".join(f"{value:g}" for value in setting),
                            "factors": dict(zip(controls, setting)), "independent_units": len(unit_rows),
                            "constraint_eligibility": setting_audit[setting],
@@ -301,7 +422,9 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
     familywise_envelope, familywise_dominance = _familywise_mean_envelope(
         candidates, objectives, allow=excluded_units_total == 0 and identical_unit_cohorts,
         unavailable_status=("NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION"
-                            if excluded_units_total else "NOT_AVAILABLE_INCOMPATIBLE_INDEPENDENT_UNIT_COHORTS"))
+                            if excluded_units_total else "NOT_AVAILABLE_INCOMPATIBLE_INDEPENDENT_UNIT_COHORTS"),
+        bounded_contract=data.get("familywise_mean_bounds"),
+        metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
     familywise_envelope["population_compatibility"] = (
         "IDENTICAL_INDEPENDENT_UNIT_SET_AT_EVERY_INCLUDED_SETTING" if identical_unit_cohorts
         else "SETTING_SPECIFIC_INDEPENDENT_UNIT_SETS_DIFFER")
@@ -309,7 +432,9 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
                          "Excluded unit counts are shown; candidate means describe only the eligible subset and may not be comparable to the full source population.") if excluded_units_total else None
     return {"status": "VALID" if uncertainty_available and excluded_units_total == 0 else "LIMITED_SCOPE",
             "method": "independent-unit-aggregated-Pareto-with-marginal-t-intervals",
-            "objective_metrics": objectives, "decision_factors": controls, "independent_unit_field": unit_field,
+            "objective_metrics": [{**objective, "unit": metric_defs[objective["metric"]].get("unit")}
+                                  for objective in objectives],
+            "decision_factors": controls, "independent_unit_field": unit_field,
             "minimum_independent_units": minimum_units, "candidate_settings": candidates,
             "constraint_exclusion_audit": exclusion_audit, "selection_warning": selection_warning,
             "pareto_setting_ids": mean_front_ids, "mean_pareto_setting_ids": mean_front_ids,
@@ -472,7 +597,8 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             se = sqrt(variance(values)/n) if n > 1 else None
             critical = critical_t_975(n-1)
             estimates[metric] = {"mean": avg, "standard_error": se,
-                                 "marginal_ci95": [avg-critical*se, avg+critical*se]}
+                                 "marginal_ci95": [avg-critical*se, avg+critical*se],
+                                 "unit_value_min": min(values), "unit_value_max": max(values)}
         up_values = [member["metrics"][upstream["metric"]] for member in members]
         down_values = [member["metrics"][downstream["metric"]] for member in members]
         paired_covariance = sum((a-mean(up_values))*(b-mean(down_values)) for a, b in zip(up_values, down_values))/(n-1) if n > 1 else None
@@ -490,7 +616,9 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     mean_front_ids = [candidate["id"] for candidate in front]
     interval_dominance = _uncertainty_dominance_audit(candidates, objectives, set(mean_front_ids))
     familywise_envelope, familywise_dominance = _familywise_mean_envelope(
-        candidates, objectives, allow=excluded_units_total == 0)
+        candidates, objectives, allow=excluded_units_total == 0,
+        bounded_contract=data.get("familywise_mean_bounds"),
+        metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
     familywise_envelope["population_compatibility"] = (
         "DECLARED_MATCHING_POPULATION_ID_IN_SYNTHETIC_APPROVED_RELATIONSHIP"
         if upstream["population_id"] == downstream["population_id"] else "NOT_ESTABLISHED")
@@ -506,7 +634,9 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             "relationship_id": link["relationship_id"], "relationship_contract_version": link["contract_version"],
             "approval_reference": link["approval_reference"], "population_id": upstream["population_id"],
             "upstream_source_id": upstream["source_id"], "downstream_source_id": downstream["source_id"],
-            "objective_metrics": objectives, "minimum_independent_units": minimum_units,
+            "objective_metrics": [{**objective, "unit": metric_defs[objective["metric"]].get("unit")}
+                                  for objective in objectives],
+            "minimum_independent_units": minimum_units,
             "compatible_paired_units": len(seen_units),
             "eligible_paired_units": sum(item["eligible_independent_units"] for item in setting_audit.values()),
             "candidate_settings": candidates,

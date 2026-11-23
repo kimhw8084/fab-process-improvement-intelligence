@@ -1,0 +1,100 @@
+{
+  "bounds_contract": "Synthetic generator support is [0,1] in the declared metric units. Product callers must supply independently justified hard bounds; P4 never infers them from observed extrema and never authenticates references.",
+  "candidate_settings": [
+    "SYN-SETTING-1",
+    "SYN-SETTING-2",
+    "SYN-SETTING-3",
+    "SYN-SETTING-4"
+  ],
+  "generator": "Highly right-skewed quality Beta(0.45,2) and reflected defect; a shared lot component induces cross-setting correlation while preserving independent lots and the exact marginal means.",
+  "limitations": [
+    "Monte Carlo evidence on one bounded skewed generator does not prove distribution-free coverage; the theorem depends on independent units and truthful hard support bounds.",
+    "Candidate IDs and metric family are matched exactly at runtime, but the supplied precommit reference is not authenticated.",
+    "Wide Hoeffding intervals can prevent useful dominance decisions; interval separation is neither causal nor population harmonization."
+  ],
+  "objective_family_size": 8,
+  "product_source_manifest_sha256": "65a9f988a38b2be67dec4c9d24999b335a3857ed2e9a54fa0d20f0e196e55f35",
+  "product_source_sha256": {
+    "fabintel/__init__.py": "1701050bc6b2245204dd74ba9829f6216b6d6689bf5ae78305ab0bbd1b0cf288",
+    "fabintel/__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+    "fabintel/catalog.py": "5d1ec6b292e755cf38a77789ef308310ed42ff5ed9adc2a121c85a8150bd44b0",
+    "fabintel/cli.py": "a0c51f89509bf13cc5ce1d40ae1402c5739aa636ff8b5e79567ee4307e3a1be0",
+    "fabintel/contracts.py": "9862bf8601878e5883c23cbbdf7b96d9bf9508e29a4d8faa984afdb0dcf94719",
+    "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
+    "fabintel/mock_mcp.py": "e72fe85913b9f87d138f5fe0b480b6eaff1d289b099a9600c4f823eed2d46f2e",
+    "fabintel/mock_mcp_server.py": "60a3a6995cdba50cb23c4f355241169fcc1b025fb3ed056276f5ce567ef5ea88",
+    "fabintel/project.py": "5cf402b86d6ebf03b0e1faa1bbe8491159a18ce0947059941e342fccd3a8c00e",
+    "fabintel/qualification.py": "bb39e8f382f932980336b5ea789ec680f60fbbcb70dc4dc6ad7adb7a9aaaf574",
+    "fabintel/server.py": "21b206fcf34770d576d67b560ae894dce87e674ff4889c8f0308f1953ea41148",
+    "products/p4/__init__.py": "4451db1476259ee70e30fbfc26e713d13235887665d44bf15366afa160cc1a43",
+    "products/p4/design.py": "4bc9db72bfc79b20ef6326643135f47e8fc92b6744da5c3e502effbfe143e4c6",
+    "products/p4/engine.py": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
+    "products/p4/mcp_workflow.py": "79d9c0ec09d7f214592bdd5db2c21442ef017d55aed1d3a0fd2630bd0c58aed3",
+    "products/p4/regression.py": "99ffed86f9bd755f6cdcbcbec63d060e7081f6b7b6fe9b7fb6ca795415b8730d",
+    "products/p4/tradeoffs.py": "c10f188a4553fe00a16bb41d501d93107aef4e524ac59ab660dcda8c56df94f7",
+    "products/p4/window.py": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8"
+  },
+  "qualification_script_sha256": "6e21ac78c588d8bbff19dcd00e6e5ad8af705a8a423d590f82f5aff417cb2529",
+  "scenario_results": {
+    "30": {
+      "independent_units_per_setting": 30,
+      "methods": {
+        "bonferroni_t": {
+          "false_familywise_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.918,
+          "joint_mean_coverage_wilson95": [
+            0.8906451408426114,
+            0.9389809105315311
+          ],
+          "mean_interval_width": 0.16358625155614717
+        },
+        "bounded_hoeffding": {
+          "false_familywise_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 1.0,
+          "joint_mean_coverage_wilson95": [
+            0.9923756595384479,
+            1.0
+          ],
+          "mean_interval_width": 0.49252151119283366
+        }
+      },
+      "trials": 500,
+      "true_means": {
+        "defect": 0.8163265306122449,
+        "quality": 0.18367346938775508
+      }
+    },
+    "60": {
+      "independent_units_per_setting": 60,
+      "methods": {
+        "bonferroni_t": {
+          "false_familywise_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.96,
+          "joint_mean_coverage_wilson95": [
+            0.9390264041651492,
+            0.9739592026102227
+          ],
+          "mean_interval_width": 0.11265168001708264
+        },
+        "bounded_hoeffding": {
+          "false_familywise_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 1.0,
+          "joint_mean_coverage_wilson95": [
+            0.9923756595384479,
+            1.0
+          ],
+          "mean_interval_width": 0.40337240614196535
+        }
+      },
+      "trials": 500,
+      "true_means": {
+        "defect": 0.8163265306122449,
+        "quality": 0.18367346938775508
+      }
+    }
+  },
+  "schema": "p4-d03-bounded-mean-benchmark/v1",
+  "seed": 20261123,
+  "status": "PASS",
+  "support": "Each independent-lot aggregate is a convex combination of Beta draws and lies in [0,1]."
+}

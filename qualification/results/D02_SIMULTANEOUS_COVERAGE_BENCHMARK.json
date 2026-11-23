@@ -42,6 +42,7 @@
       },
       "fixed_effects": {},
       "inference": {
+        "cluster_nesting": null,
         "confidence_level": 0.95,
         "covariance": "cluster",
         "covariance_auto_selected_for_repeated_units": false,
@@ -189,6 +190,7 @@
       },
       "fixed_effects": {},
       "inference": {
+        "cluster_nesting": null,
         "confidence_level": 0.95,
         "covariance": "cluster",
         "covariance_auto_selected_for_repeated_units": false,
@@ -291,6 +293,7 @@
       }
     }
   },
+  "benchmark_script_sha256": "58a475233ac5a8555f8f5905c3a84c0a5417fe76af33233d818222e3e2248a75",
   "calibration_units_per_trial": 39,
   "candidate_thresholds": {
     "defect": {
@@ -348,6 +351,7 @@
       0.0038267584855551234
     ]
   },
+  "product_window_sha256": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8",
   "schema": "p4-d02-simultaneous-calibration-benchmark/v1",
   "seed": 20261123,
   "training_units": 40,

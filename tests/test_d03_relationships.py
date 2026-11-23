@@ -1,5 +1,6 @@
 """Independent fail-closed and numeric qualification for cross-step tradeoffs."""
 import copy
+from math import log, sqrt
 import unittest
 
 from products.p4.tradeoffs import _familywise_t_critical, cross_step_tradeoffs, observed_tradeoffs
@@ -226,6 +227,66 @@ class CrossStepTradeoffQualification(unittest.TestCase):
         self.assertTrue(all(item["uncertainty"]["yield"]["familywise_ci95"] is None
                             for item in result["candidate_settings"]))
 
+    def test_bounded_familywise_envelope_uses_exact_prespecified_family_and_units(self):
+        data = copy.deepcopy(self.data)
+        data["familywise_mean_bounds"] = {
+            "precommit_reference": "SYN-PLAN-01",
+            "bounds_source_reference": "SYN-RANGE-01",
+            "candidate_setting_ids": ["SYN-SETTING-1", "SYN-SETTING-2", "SYN-SETTING-3"],
+            "metric_units": {"yield": "%", "defect": "count"},
+            "metric_bounds": {"yield": [60, 100], "defect": [0, 10]},
+        }
+        result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
+        envelope = result["familywise_mean_envelope"]
+        self.assertEqual(envelope["status"], "AVAILABLE_BOUNDED_HOEFFDING_ENVELOPE")
+        self.assertEqual(envelope["source_qualification_status"], "CALLER_SUPPLIED_NOT_AUTHENTICATED")
+        self.assertEqual(envelope["precommitted_candidate_setting_ids"],
+                         ["SYN-SETTING-1", "SYN-SETTING-2", "SYN-SETTING-3"])
+        self.assertEqual(envelope["hard_bounds_units"], {"defect": "count", "yield": "%"})
+        setting = result["candidate_settings"][0]
+        expected = 40 * sqrt(log(2 * 6 / 0.05) / (2 * 30))
+        self.assertAlmostEqual(setting["uncertainty"]["yield"]["familywise_half_width"], expected)
+        self.assertEqual(setting["uncertainty"]["yield"]["familywise_ci95_method"],
+                         "two-sided Hoeffding bound with Bonferroni allocation")
+
+    def test_bounded_envelope_refuses_a_different_or_incomplete_candidate_family(self):
+        data = copy.deepcopy(self.data)
+        data["familywise_mean_bounds"] = {
+            "precommit_reference": "SYN-PLAN-01",
+            "bounds_source_reference": "SYN-RANGE-01",
+            "candidate_setting_ids": ["SYN-SETTING-1", "SYN-SETTING-2"],
+            "metric_units": {"yield": "%", "defect": "count"},
+            "metric_bounds": {"yield": [60, 100], "defect": [0, 10]},
+        }
+        result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "PRECOMMITTED_SETTING_FAMILY_MISMATCH")
+        self.assertTrue(all(candidate["uncertainty"]["yield"]["familywise_ci95"] is None
+                            for candidate in result["candidate_settings"]))
+
+    def test_bounded_envelope_refuses_bad_bounds_units_and_observed_outliers_without_fallback(self):
+        contract = {
+            "precommit_reference": "SYN-PLAN-01",
+            "bounds_source_reference": "SYN-RANGE-01",
+            "candidate_setting_ids": ["SYN-SETTING-1", "SYN-SETTING-2", "SYN-SETTING-3"],
+            "metric_units": {"yield": "%", "defect": "count"},
+            "metric_bounds": {"yield": [60, 100], "defect": [0, 10]},
+        }
+        for mutate, expected in (
+            (lambda c: c["metric_bounds"].pop("defect"), "INVALID_BOUNDED_MEAN_METRIC_FAMILY"),
+            (lambda c: c["metric_units"].update({"yield": "fraction"}), "INVALID_BOUNDED_MEAN_METRIC_UNITS"),
+            (lambda c: c["metric_bounds"].update({"yield": [80, 84]}),
+             "OBSERVED_UNIT_VALUE_OUTSIDE_SUPPLIED_HARD_BOUNDS"),
+        ):
+            with self.subTest(expected=expected):
+                data = copy.deepcopy(self.data)
+                data["familywise_mean_bounds"] = copy.deepcopy(contract)
+                mutate(data["familywise_mean_bounds"])
+                result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
+                self.assertEqual(result["familywise_mean_envelope"]["status"], expected)
+                self.assertTrue(all(candidate["uncertainty"]["yield"]["familywise_ci95"] is None
+                                    for candidate in result["candidate_settings"]))
+
     def test_familywise_t_critical_matches_independent_scipy_oracle_on_supported_domain(self):
         try:
             from scipy.stats import t as student_t
@@ -257,6 +318,13 @@ class CrossStepTradeoffQualification(unittest.TestCase):
             "primary_metric": "yield",
             "objectives": [{"metric": "yield", "direction": "maximize"},
                            {"metric": "defect", "direction": "minimize"}],
+            "familywise_mean_bounds": {
+                "precommit_reference": "SYN-ENGINE-PLAN-01",
+                "bounds_source_reference": "SYN-ENGINE-RANGE-01",
+                "candidate_setting_ids": ["SYN-SETTING-1", "SYN-SETTING-2", "SYN-SETTING-3"],
+                "metric_units": {"yield": "%", "defect": "count"},
+                "metric_bounds": {"yield": [0, 100], "defect": [0, 10]},
+            },
             "sources": [{"id": "SYN-UPSTREAM", "approved_semantic_version": "SYNTHETIC-1.0",
                          "grain": "synthetic upstream event", "source_hash": "a" * 64},
                         {"id": "SYN-DOWNSTREAM", "approved_semantic_version": "SYNTHETIC-1.0",
@@ -290,6 +358,10 @@ class CrossStepTradeoffQualification(unittest.TestCase):
         self.assertEqual(tradeoffs["compatible_paired_units"], 90)
         self.assertEqual(tradeoffs["pareto_observation_ids"], ["SYN-SETTING-2", "SYN-SETTING-3"])
         self.assertFalse(tradeoffs["causal_claim"])
+        self.assertEqual(tradeoffs["familywise_mean_envelope"]["status"],
+                         "AVAILABLE_BOUNDED_HOEFFDING_ENVELOPE")
+        self.assertEqual(tradeoffs["familywise_mean_envelope"]["hard_bounds_units"],
+                         {"defect": "count", "yield": "%"})
 
 
 if __name__ == "__main__":

@@ -371,6 +371,68 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(result["simultaneous_exact_setting_screen"]["status"], "INCOMPLETE_CALIBRATION_PANEL")
         self.assertEqual(result["simultaneous_candidate_count"], 0)
 
+    def test_simultaneous_band_requires_precommitted_observation_count_per_setting(self):
+        rows, factors, data = self._dataset()
+        calibration_rows = [item for item in rows if item["analysis_partition"] == "CALIBRATION"]
+        for item in calibration_rows:
+            duplicate = dict(item, id=f"{item['id']}-REPLICATE", factors=dict(item["factors"]),
+                             metrics=dict(item["metrics"]))
+            duplicate["metrics"]["quality"] += 0.005
+            rows.append(duplicate)
+
+        implicit_single = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(implicit_single["status"], "INCOMPLETE_CALIBRATION_PANEL")
+        self.assertEqual(implicit_single["observations_per_setting"], 1)
+        self.assertEqual(implicit_single["replicate_count_mismatch_unit_count"], 20)
+
+        data["window_exploration"]["calibration"]["precommit"]["observations_per_setting"] = 2
+        declared_replicates = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(declared_replicates["status"], "AVAILABLE")
+        self.assertEqual(declared_replicates["observations_per_setting"], 2)
+        self.assertEqual(declared_replicates["precommit"]["observations_per_setting"], 2)
+
+        missing_replicate_id = f"{calibration_rows[0]['id']}-REPLICATE"
+        one_missing_replicate = [dict(item, factors=dict(item["factors"]), metrics=dict(item["metrics"]))
+                                 for item in rows if item["id"] != missing_replicate_id]
+        mismatched = explore_window(one_missing_replicate, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(mismatched["status"], "INCOMPLETE_CALIBRATION_PANEL")
+        self.assertEqual(mismatched["replicate_count_mismatch_unit_count"], 1)
+        self.assertIn("observation count", mismatched["reason"])
+
+        data["window_exploration"]["calibration"]["precommit"]["observations_per_setting"] = True
+        invalid_count = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(invalid_count["status"], "PRECOMMIT_REPLICATE_COUNT_INVALID")
+
+    def test_evaluation_observation_count_shift_is_reported_without_selection_leakage(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["analysis_partition"] = "TRAIN" if lot < 20 else "CALIBRATION" if lot < 40 else "EVALUATION"
+        data["model"]["minimum_clusters"] = 20
+        data["window_exploration"]["min_independent_units"] = 20
+        calibration = data["window_exploration"]["calibration"]
+        calibration["evaluation_value"] = "EVALUATION"
+        calibration["split_reference"] = "SYN-REPLICATE-SHIFT-EVALUATION-001"
+
+        matched = explore_window(rows, factors, METRIC, data)
+        expected_candidates = [cell["factors"] for cell in matched["candidate_cells"]]
+        matched_structure = matched["simultaneous_exact_setting_screen"]["independent_evaluation_panel_compatibility"]
+        self.assertEqual(matched_structure["status"], "DESCRIPTIVE_PANEL_STRUCTURE_MATCH")
+        self.assertEqual(matched_structure["matching_units"], 10)
+
+        shifted_rows = [dict(item, factors=dict(item["factors"]), metrics=dict(item["metrics"])) for item in rows]
+        evaluation_rows = [item for item in shifted_rows if item["analysis_partition"] == "EVALUATION"]
+        for item in evaluation_rows:
+            duplicate = dict(item, id=f"{item['id']}-REPLICATE", factors=dict(item["factors"]),
+                             metrics=dict(item["metrics"]))
+            shifted_rows.append(duplicate)
+        shifted = explore_window(shifted_rows, factors, METRIC, data)
+        shifted_structure = shifted["simultaneous_exact_setting_screen"]["independent_evaluation_panel_compatibility"]
+        self.assertEqual(shifted_structure["status"], "OBSERVED_PANEL_STRUCTURE_MISMATCH")
+        self.assertEqual(shifted_structure["mismatched_units"], 10)
+        self.assertEqual([cell["factors"] for cell in shifted["candidate_cells"]], expected_candidates)
+        self.assertEqual(shifted["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+
     def test_simultaneous_band_requires_a_precommitted_complete_panel(self):
         rows, factors, data = self._dataset()
         data["window_exploration"]["calibration"].pop("precommit")
@@ -596,6 +658,16 @@ class SupportedWindowQualification(unittest.TestCase):
         result = explore_window(rows, factors, METRIC, data)
         self.assertEqual(result["status"], "INCONCLUSIVE")
         self.assertIn("crosses the training and calibration", result["reason"])
+
+    def test_d02_rejects_null_blank_and_composite_independent_unit_ids(self):
+        for invalid in (None, "   ", {"lot": "LOT-INVALID"}):
+            with self.subTest(invalid=invalid):
+                rows, factors, data = self._dataset()
+                next(row for row in rows if row["analysis_partition"] == "CALIBRATION")["lot_id"] = invalid
+                result = explore_window(rows, factors, METRIC, data)
+                self.assertEqual(result["status"], "INCONCLUSIVE")
+                self.assertIn("null, empty, or non-scalar", result["reason"])
+                self.assertEqual(result["candidate_cells"], [])
 
     def test_calibration_outcomes_change_uncertainty_without_leaking_into_model_fit(self):
         rows, factors, data = self._dataset()

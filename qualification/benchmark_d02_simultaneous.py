@@ -9,6 +9,7 @@ exchangeability or interpolation coverage.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import random
@@ -23,10 +24,12 @@ SETTINGS = [(float(pressure), float(power)) for pressure in (0, 1, 2) for power 
 FACTORS = {"pressure": {"role": "controllable", "unit": "kPa"},
            "power": {"role": "controllable", "unit": "W"}}
 METRICS = ("quality", "defect")
+ROOT = Path(__file__).resolve().parents[1]
 BOUNDS = {"quality": {"min": 0.15}, "defect": {"max": 0.24}}
 PRECOMMIT = {"plan_reference": "BENCHMARK-PRECOMMIT-001",
              "model_selection_reference": "BENCHMARK-FROZEN-MODEL-001",
              "threshold_selection_reference": "BENCHMARK-FROZEN-LIMITS-001",
+             "observations_per_setting": 1,
              "metric_family": list(METRICS),
              "exact_setting_panel": [
                  {"pressure": pressure, "power": power} for pressure, power in SETTINGS]}
@@ -132,6 +135,8 @@ def run_benchmark(trials: int = 1000, seed: int = 20261123):
         "generator": "fixed-known nonlinear quality/defect surfaces with correlated lot shocks and factor-dependent noise",
         "seed": seed,
         "trials": trials,
+        "product_window_sha256": hashlib.sha256((ROOT / "products" / "p4" / "window.py").read_bytes()).hexdigest(),
+        "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "training_units": 40,
         "calibration_units_per_trial": 39,
         "future_units_per_trial": 1,

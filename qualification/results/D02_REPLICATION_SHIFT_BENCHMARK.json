@@ -1,0 +1,51 @@
+{
+  "benchmark_script_sha256": "335c5186db865392c7c8bd180d721b89bb6bf0e6f3001b17064a38ee335838b6",
+  "calibration_observations_per_setting": 1,
+  "calibration_units": 39,
+  "exact_settings": 9,
+  "generator": "iid standard-normal residuals; 39 independent calibration units and one future unit per trial",
+  "limitations": [
+    "this is a fixed-generator challenge of panel row-count shift, not process evidence",
+    "coverage applies only when calibration and future independent-unit panel structures are exchangeable",
+    "the product can diagnose an observed evaluation-panel mismatch but cannot verify an unobserved future sampling plan"
+  ],
+  "method": "independent split-conformal maximum absolute normal residual oracle over nine exact settings",
+  "order_statistic_rank": 38,
+  "product_source_sha256": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8",
+  "scenarios": {
+    "1": {
+      "coverage": 0.9456,
+      "covered": 4728,
+      "matches_precommitted_count": true,
+      "observations_per_setting": 1,
+      "wilson95": [
+        0.938964415086006,
+        0.9515514089405591
+      ]
+    },
+    "2": {
+      "coverage": 0.8978,
+      "covered": 4489,
+      "matches_precommitted_count": false,
+      "observations_per_setting": 2,
+      "wilson95": [
+        0.8890961631332074,
+        0.9058930531993054
+      ]
+    },
+    "4": {
+      "coverage": 0.8194,
+      "covered": 4097,
+      "matches_precommitted_count": false,
+      "observations_per_setting": 4,
+      "wilson95": [
+        0.8084933020477651,
+        0.8298162899497326
+      ]
+    }
+  },
+  "schema": "p4-d02-replicate-shift-benchmark/v1",
+  "seed": 20261123,
+  "target_coverage": 0.95,
+  "trials": 5000
+}

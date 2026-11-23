@@ -1,26 +1,28 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "361dcd64d468f294cc2991120cad5353316c4b23",
+  "as_of_source_commit": "2fa35189fdc60312eba8e8cca7809100aee60b87",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 1,
-    "task": "Commit the freshly generated dependency advisory report, current-source Bandit report, corrected license/security scope note and refreshed ledgers locally. Restore the older archive and volatile gate/test/schema/reproducibility outputs, remove release/SOURCE_BUILD.json, then build/reproduce/offline-qualify a new artifact containing the current security evidence and rerun the release runner to verify E10. After that, continue with an independent scientific challenge; do not stop at packaging.",
+    "task": "Review and locally commit the D02 exact-panel observation-count and independent-unit identity guards plus the D03 bounded mean-envelope implementation, tests, benchmarks, current disposable P1 source pins, and ledgers. Then regenerate exact-source performance/security evidence and run release qualification; do not publish.",
     "inspect": [
       "products/p4/window.py",
+      "products/p4/tradeoffs.py",
       "products/p4/investigation.v1.schema.json",
-      "qualification/build_demo_fixture.py",
+      "qualification/benchmark_d02_replicate_shift.py",
+      "qualification/benchmark_d02_simultaneous.py",
+      "qualification/benchmark_d03_bounded_mean.py",
       "qualification/run_release_checks.py",
-      "qualification/benchmark.py",
       "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
     "first_command": "rtk git diff --check",
-    "acceptance": "Current Bandit 1.9.4 report is bound to product source commit 361dcd64\u2026, has 8 low B311 deterministic-PRNG findings with documented dispositions and zero medium/high; current pip-audit 2.10.1 covers 48 optional package instances with 0 known advisories at its recorded timestamp. Existing archive 5c3c00e2\u2026 had E10 PASS but predates these evidence files. Rebuilt archive needs matching source manifest, two identical detached-worktree builds, fresh --without-pip extraction and network-denied probe. Owner/legal/manual security gates remain pending; no publication."
+    "acceptance": "Current full Python suite: 172 PASS, 0 skipped; D02 replicate guard/refusal tests pass; schema check PASS; P4 panel 12 tests/typecheck PASS; disposable P1 host-route 11 PASS and frontend 51/typecheck/build PASS. D02 fixed iid panel oracle: 966/1000 joint panel coverage (Wilson95 0.953-0.976), 0/1000 false-feasible; separate 5000-trial row-count shift: 94.56% at matching one row, 89.78% at two, 81.94% at four. Current archive and source-bound performance/security reports are stale and must be rebuilt/refreshed after commit. The D02 count diagnostic has not been re-observed in browser; company-only gates remain PENDING_INTERNAL."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS_AND_HELDOUT_DEMO",
-      "task": "D02 retains advisory pointwise screening, assumption-conditional finite exact-setting max-score band, multiplicity warning and independent-unit composition diagnostics. Missing/empty evaluation now reports NOT_PROVIDED/INSUFFICIENT_ASSIGNABLE_UNITS with null counts rather than zero. The full synthetic workflow uses 30 train / 20 calibration / 10 matching-chamber evaluation lots; 3/76 selected candidates have exact evaluation rows, so the complete-set audit is withheld. At one exact setting 0/10 were observed infeasible, descriptive Wilson95 [0, 0.2775]; no coverage or manufacturing-population claim. Cross-lot/tool/time and nonlinear failure oracles remain synthetic."
+      "status": "IMPLEMENTED_WITH_LIMITS; REPLICATE_STRUCTURE_AND_UNIT_ID_GUARDS",
+      "task": "D02 retains pointwise advisory screening, assumption-conditional exact-setting max-score calibration, independent evaluation and tool/time/strata diagnostics. Calibration precommit fixes observations per panel setting (legacy default one); row-count mismatches and null/blank/composite unit IDs withhold the finite band. Held-out observation structure is reported descriptively without candidate-selection leakage. Independent 5000-trial normal challenge: 94.56% matched count, 89.78% at two future rows/setting and 81.94% at four. 1000-trial nonlinear/correlated exact-panel challenge: 966/1000 joint coverage (Wilson95 0.953-0.976), zero false-feasible units; assumptions remain unverified."
     },
     {
       "priority": 2,
@@ -29,8 +31,8 @@
     },
     {
       "priority": 3,
-      "status": "IMPLEMENTED_WITH_LIMITS",
-      "task": "D03 observed path requires identical typed independent-unit sets for its family-wise envelope; missing/unsupported IDs fail closed, and a deterministic type-collision challenge showed why integer 1 and string '1' must remain distinct. Approved cross-step path requires the same declared synthetic population ID. Bonferroni rectangles cover the complete candidate/objective mean family under bounded sample/family and approximate-normal assumptions; SciPy paired bootstrap was benchmarked and rejected for undercoverage. Mean front remains descriptive and no company relation is approved."
+      "status": "IMPLEMENTED_WITH_LIMITS; OPTIONAL_BOUNDED_ENVELOPE",
+      "task": "D03 retains the approximate-normal t rectangle by default and adds a distribution-free Hoeffding/Bonferroni mean envelope when caller supplies exact setting family, units, hard aggregate bounds and references. Invalid contracts abstain without fallback. 500-trial skewed correlated challenge: t joint coverage 91.8% at n=30 and 96.0% at n=60; Hoeffding 100% both with Wilson lower 0.992 and 3.0-3.6x interval width. Synthetic only; source bounds/population and relationship authority remain unverified."
     },
     {
       "priority": 4,
@@ -61,10 +63,10 @@
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
-    "company-approved target OS/host/network policy",
-    "real FAB data, engineer acceptance and ROI",
+    "company-approved target OS and network policies",
+    "real manufacturing data and engineer ROI baseline",
     "company legal, security and production approvals",
-    "P1 current integrated host and capability contract ownership"
+    "P1 owner/source revision and authoritative suite capability contract"
   ],
   "never_do": [
     "publish or push",
