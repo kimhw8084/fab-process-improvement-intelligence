@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "59bade4b6a2b814544dce8bf7a9bf36e08009af4",
+  "as_of_source_commit": "cd8a357509553cf417b6cb7d04f0df7d5bda8cf4",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,15 +16,17 @@
   ],
   "next_executable_action": {
     "priority": 0,
-    "task": "Commit release/BENCHMARK_REPORT.json and the progress checkpoint. Run qualification/run_release_checks.py against the resulting source and verify 201 tests (or actual count), the D03 zero-variance challenge, E02, P1 composition, and explicit pending states. Then rebuild the archive from the clean source, reproduce twice, perform fresh offline network-denied extraction, and rerun for E10.",
+    "task": "Commit the refreshed P1 evidence and progress update. Then rebuild the exact archive at the resulting clean source, compare two detached clean builds and sidecars, run fresh no-pip offline qualification under OS network denial, and rerun qualification/run_release_checks.py to confirm E02/E10 together. Continue scientific backlog after the package gate.",
     "first_command": "rtk git status --short && rtk git diff --check",
     "inspect": [
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
       "release/BENCHMARK_REPORT.json",
       "qualification/run_release_checks.py",
-      "qualification/benchmark_d03_zero_variance.py",
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
+      "qualification/build_transfer_bundle.py",
+      "qualification/check_reproducibility.py",
+      "qualification/offline_qualify.py"
     ],
-    "acceptance": "Only report executed outcomes. The exact archive is still stale; company and authoritative P1/accessibility/security/target/ROI gates remain pending."
+    "acceptance": "Record actual counts/statuses. Archive remains local candidate only; pending company/security/accessibility/distribution/target-host/ROI gates remain pending."
   },
   "ordered_queue": [
     {
@@ -54,22 +56,22 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 199_CURRENT_RELEASE_TESTS_PASS",
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 201_CURRENT_RELEASE_TESTS_PASS",
       "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. Current exact-source release run at 607cf95: 199 Python tests, 0 failures/skips; P1 host-side routes 11 PASS. Company authorization and P1 server-side MCP lifecycle remain pending."
     },
     {
       "priority": 7,
-      "status": "CURRENT_P4_SOURCE_HOST_TESTS_PASS; BROWSER_SUCCESS_REFUSAL_KEYBOARD_OBSERVED_ON_RECORDED_SNAPSHOT; FOCUS_CONTRAST_CHANGE_PROPOSED; OWNER_ACCEPTANCE_PENDING",
-      "task": "Refreshed disposable P1 composition manifest has 29 files and SHA-256 84e4025fdf09880c846545ee00ff3fb2eeef218d699d69d91251d6e67949b03c. Current P4 source overlay passes P1 host routes 11, frontend 45, P4 panel 18, typecheck and build. Browser at 127.0.0.1:8770 observed synthetic request completion, D01-D05, accessible exact-values table, keyboard provenance disclosure and refusal suppression on its recorded P1 snapshot; browser not re-observed after backend-only D02 identity fix. Selected shared stylesheet text pairs pass CSS screening; focus indicator is 1.804:1 on body and 1.940:1 on white surfaces; CHANGE-003 asks P1 owner to review. Screen is not WCAG conformance. P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal screen-reader/accessibility review."
+      "status": "CURRENT_P4_SOURCE_HOST_TESTS_PASS; BROWSER_SUCCESS_REFUSAL_KEYBOARD_OBSERVED_ON_RECORDED_SNAPSHOT; D03_UI_TEXT_UPDATED; OWNER_ACCEPTANCE_PENDING",
+      "task": "Refreshed disposable P1 composition manifest has 29 files and SHA-256 dddf7fcd392e19ae1679806ad2bf4f78e7dadaa4f87a260d6c022651eb7a2dfd. Current P4 source overlay passes P1 host routes 11, frontend 45, P4 panel 18, typecheck and build. Browser at 127.0.0.1:8770 observed synthetic request completion, D01-D05, accessible exact-values table, keyboard provenance disclosure and refusal suppression on its recorded P1 snapshot; browser not re-observed after backend-only D02 identity fix. Selected shared stylesheet text pairs pass CSS screening; focus indicator is 1.804:1 on body and 1.940:1 on white surfaces; CHANGE-003 asks P1 owner to review. Screen is not WCAG conformance. P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal screen-reader/accessibility review."
     },
     {
       "priority": 8,
-      "status": "E10_PASS_AT_F2A403A; CANDIDATE; COMPANY_AND_ACCESSIBILITY_GATES_PENDING",
-      "task": "Exact artifact source f2a403a08673c8b33e8c422adba50482431382fb; 214 files, ZIP SHA-256 aaca8b437cf8f861e5fc1dec04514c52d658f4367c65a40c2ab9a861fc0efa52 (9,236,539 bytes), manifest SHA-256 42276b0fd413f51f3b67b391730c646d5c9a872df93a070dddb3726a539bb1f9. Two clean detached builds match; fresh no-pip network-denied extraction passed; release runner passed 199 tests/0 skipped, D02 adaptive-selection hazard and current disposable P1 composition; E10 PASS. Gate remains CANDIDATE because internal authority, P1 owner/formal accessibility, target OS, legal/security transfer and ROI remain unverified."
+      "status": "E02_PASS_AT_CD8A357; E10_PENDING_FINAL_ARCHIVE; CANDIDATE; COMPANY_AND_ACCESSIBILITY_GATES_PENDING",
+      "task": "The last exact artifact remains at b293011 with ZIP SHA-256 5d382c5533cba9f30cb0f3ac030e8e3b4854fdeee9706e53740477297c7cb797. It is stale after D03. Current cd8a357 full runner passed 201 tests/0 skipped and E02; rebuild/reproduce/offline-qualify the exact new archive and rerun to establish E10. State remains CANDIDATE."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D03 source 7dd2de5 and P1 snapshot evidence committed; performance benchmark regenerated at 59bade4 with current product source fingerprint; benchmark report/progress pending commit; full scientific runner and exact current archive pending",
+  "worktree_state": "Full current-source suite at cd8a357 passed 201 tests/0 skipped; E02 PASS including D03 rare-event benchmark; E10 pending final archive; P1 evidence now records current test result and progress/source-bound evidence need commit; no remote update",
   "active_uncommitted_changes": true
 }

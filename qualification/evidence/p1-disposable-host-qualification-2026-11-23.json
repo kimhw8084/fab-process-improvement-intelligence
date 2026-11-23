@@ -187,7 +187,7 @@
       "p1_frontend_tests": "PASS; 46 tests after D03 uncertainty-message change",
       "p1_production_build": "PASS; 800516-byte shared ECharts bundle; existing >500 KB advisory",
       "p1_typecheck": "PASS after D03 UI change",
-      "p4_full_python_unittest": "NOT_RUN_AFTER_D03_CHANGE; last exact source run 200 tests at b293011 before D03 correction",
+      "p4_full_python_unittest": "PASS; 201 tests, 0 skipped at source commit cd8a357509553cf417b6cb7d04f0df7d5bda8cf4",
       "p4_panel_tests": "PASS; 19 component tests and strict typecheck against P1 lock/toolchain",
       "p4_source_commit": "7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e"
     },
@@ -261,7 +261,7 @@
     "Disposable registry and route-test pin updates are local fixture changes, not upstream P1 changes.",
     "P1 owner confirmation, formal accessibility and screen-reader review, target-host qualification, company permissions, source mappings, and actual endpoint behavior remain pending.",
     "D02 independent exact-setting evaluation covers only 3 of 76 selected candidates; complete-set coverage is withheld and no conditional coverage is claimed.",
-    "The D03 zero-variance uncertainty message and backend correction passed P4 component/typecheck and P1 route/frontend/type/build checks; browser was not re-observed after this source change."
+    "D03 zero-variance source correction passed 20 focused relationship tests, P4 panel 19/typecheck, P1 host routes 11 and frontend 46/typecheck/build; current full Python suite then passed 201 tests/0 skipped at source cd8a357509553cf417b6cb7d04f0df7d5bda8cf4. Browser was not re-observed after the D03 change."
   ],
   "p1_source": {
     "git_metadata_present": false,
