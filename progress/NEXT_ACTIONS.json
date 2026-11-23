@@ -15,9 +15,9 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 8,
-    "task": "Rebuild and independently requalify the transfer archive because source commits cd3d11d and 70bcb14 postdate the previously qualified artifact. Verify exact source binding, two clean rebuilds, fresh no-pip extraction under OS network denial and current full release gates; repair any failures. Then continue external P1 lifecycle/accessibility and scientific gaps without publishing.",
-    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
+    "priority": 1,
+    "task": "Audit D02 process-window calibration and candidate-selection logic for adaptive selection leakage, small-sample order-statistic limitations and unsupported-region classification. Use the independent qualifications to choose one concrete unresolved case, add an adversarial held-out test, repair the method or narrow its claims, then run focused and full tests.",
+    "first_command": "rtk sed -n '1,280p' products/p4/window.py && rtk rg -n 'candidate|calibrat|order.stat|selection|unsupported|holdout|coverage' tests/test_d01_d02_independent.py qualification",
     "inspect": [
       "products/p4/ui/P4Panel.tsx",
       "products/p4/ui/P4Panel.test.tsx",
@@ -55,8 +55,8 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 194_CURRENT_WORKTREE_TESTS_PASS",
-      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. The pinned full Python worktree suite currently runs 194 tests with 0 failures. Company authorization and P1 server-side MCP lifecycle remain pending."
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 198_CURRENT_RELEASE_TESTS_PASS",
+      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. Full release run at source 052ea70 executed 198 tests with 0 failures/skips. Company authorization and P1 server-side MCP lifecycle remain pending."
     },
     {
       "priority": 7,
@@ -65,12 +65,12 @@
     },
     {
       "priority": 8,
-      "status": "STALE_AFTER_SOURCE_CHANGE; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
-      "task": "Historical artifact source commit 4261d394c1e4f735079ec33c76b371ff386143ce, 213 source files, ZIP SHA-256 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3 (9,309,496 bytes), source manifest SHA-256 a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0. Its two clean rebuilds and offline network-denied qualification were valid at that older source only. Commits cd3d11d and 70bcb14 changed packaged code/tests; E10 is stale. At 70bcb14 full suite is 198 PASS, but exact archive, reproducibility, fresh offline run and E10 have not yet been rerun."
+      "status": "E10_PASS_AT_052EA70; CANDIDATE; COMPANY_AND_AUTHORITATIVE_HOST_GATES_PENDING",
+      "task": "Current artifact source commit 052ea702bf0d6473af5a848c19358cafbf1331d2, 214 source files, ZIP SHA-256 d4c31b5a6f401860075d1ec06a067ac50ebe269e1b1d934cca348174ad0e471a (9,234,863 bytes). Two detached clean rebuilds matched; source manifest SHA-256 da7f307f96a3e971cea5a7a7ff2b89ffc4d1be1c7c5622d69805ba8ee1ef8823. Fresh no-pip extraction and macOS network-denied qualification passed; network probe returned DENIED. Current full runner: 198 tests PASS/0 skipped, schema/demo and local UI checks PASS, E10 PASS. Workflow evidence remains PARTIAL with D03 LIMITED_SCOPE, D04 PROPOSED, D05 ESTIMATED; gate remains CANDIDATE pending internal, accessibility, target-host and distribution approvals."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "tracked source clean at 70bcb14f9978106ff7cdcb4d54489ae7acd19912; generated local qualification/results JSON sidecars are excluded from package; historical ZIP remains bound to 4261d394c1e4f735079ec33c76b371ff386143ce; no remote update",
+  "worktree_state": "current release evidence has been regenerated for archive source 052ea702bf0d6473af5a848c19358cafbf1331d2; local checkpoint/evidence changes are ready for local commit; generated qualification/results JSON sidecars are excluded from package; no remote update",
   "active_uncommitted_changes": false
 }

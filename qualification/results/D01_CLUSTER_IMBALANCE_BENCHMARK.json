@@ -137,7 +137,7 @@
   },
   "schema": "p4-d01-cluster-imbalance-benchmark/v1",
   "seed": 781041,
-  "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
+  "source_commit": "052ea702bf0d6473af5a848c19358cafbf1331d2",
   "synthetic_only": true,
   "trials_per_scenario": 1200
 }

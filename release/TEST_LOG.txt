@@ -1,3 +1,7 @@
+test_contrast_ratio_reference_values (test_accessibility_contrast_check.SharedHostContrastTests.test_contrast_ratio_reference_values) ... ok
+test_good_host_screen_resolves_variables_and_hashes_snapshot (test_accessibility_contrast_check.SharedHostContrastTests.test_good_host_screen_resolves_variables_and_hashes_snapshot) ... ok
+test_host_focus_ring_failure_is_not_hidden_by_passing_text_pairs (test_accessibility_contrast_check.SharedHostContrastTests.test_host_focus_ring_failure_is_not_hidden_by_passing_text_pairs) ... ok
+test_unresolvable_host_declaration_fails_instead_of_assuming_colors (test_accessibility_contrast_check.SharedHostContrastTests.test_unresolvable_host_declaration_fails_instead_of_assuming_colors) ... ok
 test_bootstrap_cannot_fake_internal (test_contracts.ContractTests.test_bootstrap_cannot_fake_internal) ... ok
 test_bounded_reads (test_contracts.ContractTests.test_bounded_reads) ... ok
 test_catalog_scale_and_determinism (test_contracts.ContractTests.test_catalog_scale_and_determinism) ... ok
@@ -195,6 +199,6 @@ test_p4_contribution_matches_p1_ui_module_contract (test_shared_ui_contract.Shar
 test_p4_scatter_payload_matches_p1_chart_contract (test_shared_ui_contract.SharedUiContractTests.test_p4_scatter_payload_matches_p1_chart_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 194 tests in 12.811s
+Ran 198 tests in 12.683s
 
 OK
