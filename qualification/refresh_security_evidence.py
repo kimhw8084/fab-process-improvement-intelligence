@@ -76,7 +76,7 @@ def main():
     (ROOT / "release" / "DEPENDENCY_AUDIT.json").write_text(
         json.dumps(dep_report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
-    bandit_version = subprocess.run([args.bandit, "--version"], capture_output=True, text=True, check=True).stdout.strip()
+    bandit_version = subprocess.run([args.bandit, "--version"], capture_output=True, text=True, check=True).stdout.splitlines()[0].split()[-1]
     bandit_command = [args.bandit, "-r", "fabintel", "products/p4", "-f", "json", "--exit-zero"]
     bandit_result, raw = run_json(bandit_command)
     findings = raw.get("results", [])
@@ -91,7 +91,7 @@ def main():
         "results": findings,
         "review": {
             "command": "bandit -r fabintel products/p4 -f json --exit-zero",
-            "tool": "Bandit", "tool_version": bandit_version.split()[-1],
+            "tool": "Bandit", "tool_version": bandit_version,
             "finding_count": len(findings), "high_or_medium_findings": high_or_medium,
             "finding_dispositions_cover_all_reported_findings": dispositioned,
             "low_finding_dispositions": [{"test_id": key, "disposition": DISPOSITIONS[key]}
