@@ -6,10 +6,10 @@ import re
 import subprocess
 import sys
 from pathlib import Path
-from qualification.benchmark import product_source_fingerprint
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
+from qualification.benchmark import product_source_fingerprint  # noqa: E402
 
 
 def run(command):
@@ -33,6 +33,18 @@ def benchmark_matches_product_sources(performance):
     current_files, current_manifest = product_source_fingerprint()
     return (performance.get("product_source_sha256") == current_files
             and performance.get("product_source_manifest_sha256") == current_manifest)
+
+
+def benchmark_workflow_is_qualified(performance):
+    workflow = performance.get("result_checks", {}).get("integrated_full_workflow_demo_900_rows", {})
+    statuses = workflow.get("capability_statuses", {})
+    acceptable = {"D01": {"VALID", "INCONCLUSIVE"}, "D02": {"VALID", "INCONCLUSIVE"},
+                  "D03": {"VALID", "LIMITED_SCOPE"}, "D04": {"PROPOSED", "INCONCLUSIVE"},
+                  "D05": {"ESTIMATED", "INCONCLUSIVE"}}
+    return (workflow.get("status") in {"VALID", "PARTIAL"}
+            and workflow.get("qualification_status") == "PASS"
+            and set(statuses) == set(acceptable)
+            and all(statuses[name] in allowed for name, allowed in acceptable.items()))
 
 
 def archive_qualification_pass(evaluated_commit):
@@ -195,7 +207,7 @@ def main():
         performance.get("benchmark_version") == "3.0.0"
         and source_is_ancestor
         and product_paths_unchanged
-        and workflow_perf.get("status") == "VALID"
+        and benchmark_workflow_is_qualified(performance)
         and workflow_perf.get("observations") == 900
         and workflow_perf.get("independent_lots") == 100
         and all(scaling.get(f"single_metric_sensitivity_{n}_rows", {}).get("D01_status") == "VALID"

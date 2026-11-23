@@ -2,7 +2,7 @@
 import unittest
 
 from qualification.benchmark import integrated_demo_is_qualified, product_source_fingerprint
-from qualification.run_release_checks import benchmark_matches_product_sources
+from qualification.run_release_checks import benchmark_matches_product_sources, benchmark_workflow_is_qualified
 
 
 class BenchmarkSourceBindingTests(unittest.TestCase):
@@ -45,6 +45,19 @@ class IntegratedDemoStatusTests(unittest.TestCase):
         dossier["D05_effectiveness"] = {"status": "REFUSED"}
         qualified, _ = integrated_demo_is_qualified({"status": "PARTIAL", "artifacts": [dossier]}, 900)
         self.assertFalse(qualified)
+
+
+class PerformanceWorkflowQualificationTests(unittest.TestCase):
+    def test_partial_demo_performance_record_requires_complete_qualified_statuses(self):
+        workflow = {"status": "PARTIAL", "qualification_status": "PASS",
+                    "capability_statuses": {"D01": "VALID", "D02": "VALID", "D03": "LIMITED_SCOPE",
+                                            "D04": "PROPOSED", "D05": "ESTIMATED"}}
+        report = {"result_checks": {"integrated_full_workflow_demo_900_rows": workflow}}
+        self.assertTrue(benchmark_workflow_is_qualified(report))
+        workflow["capability_statuses"]["D05"] = "REFUSED"
+        self.assertFalse(benchmark_workflow_is_qualified(report))
+        del workflow["capability_statuses"]["D05"]
+        self.assertFalse(benchmark_workflow_is_qualified(report))
 
 
 if __name__ == "__main__":
