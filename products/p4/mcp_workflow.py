@@ -100,6 +100,17 @@ def _validate_relationship(adapter, source_ids, time_window, semantics, analysis
     upstream, downstream = contract.get("upstream"), contract.get("downstream")
     if not isinstance(upstream, dict) or not isinstance(downstream, dict):
         raise McpError("relationship endpoints are incomplete")
+    metric_fields = normalization.get("metric_fields")
+    target_metrics = {item.get("name") for item in analysis_template.get("metrics", []) if isinstance(item, dict)}
+    if not isinstance(metric_fields, dict):
+        raise McpError("relationship requires an explicit P4 metric normalization map")
+    for endpoint in (upstream, downstream):
+        metric_name, metric_field = endpoint.get("metric"), endpoint.get("metric_field")
+        if (not isinstance(metric_name, str) or not metric_name or metric_name not in target_metrics
+                or metric_fields.get(metric_name) != metric_field
+                or not isinstance(metric_field, str) or not metric_field):
+            raise McpPermissionError(
+                "approved relationship metric does not match an exact P4 target metric and source-field mapping")
     if (not isinstance(contract.get("maximum_lag_seconds"), (int, float))
             or isinstance(contract.get("maximum_lag_seconds"), bool)
             or contract["maximum_lag_seconds"] <= 0):
@@ -139,10 +150,12 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
     if not isinstance(source_hashes, dict) or set(source_hashes) != set(source_ids) or any(
             not isinstance(source_hashes[source], str) or not _SHA256.fullmatch(source_hashes[source]) for source in source_ids):
         raise McpError("bounded read must provide a SHA-256 content hash for every requested source")
-    permission_scope = audit.get("permission_scope")
-    if permission_scope != audit.get("permission_scope"):
+    if audit.get("permission_scope") != permission_scope:
         raise McpError("audit record effective permission scope differs from the requested scope")
-    if not isinstance(audit.get("sources"), list) or set(audit["sources"]) != set(source_ids):
+    audited_sources = audit.get("sources")
+    if (not isinstance(audited_sources, list) or len(audited_sources) != len(source_ids)
+            or any(not isinstance(source, str) for source in audited_sources)
+            or set(audited_sources) != set(source_ids)):
         raise McpError("audit record source list differs from the exact requested source population")
     query_hash = audit.get("query_hash")
     if not isinstance(query_hash, str) or not _SHA256.fullmatch(query_hash):

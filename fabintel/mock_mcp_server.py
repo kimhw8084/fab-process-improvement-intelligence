@@ -87,10 +87,11 @@ def _tool_result(name, args, scenario="normal"):
             "contract_version": "1.0.0", "approval_reference": "SYN-RELATIONSHIP-APPROVAL-1",
             "upstream": {"source_id": upstream, "key_field": "upstream_unit_id", "event_time_field": "upstream_event_ts",
                          "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
-                         "metric_field": "response_primary", "metric": "quality"},
+                         "metric_field": "response_primary",
+                         "metric": "unmapped_quality" if scenario == "relationship_metric_mapping_drift" else "yield_index"},
             "downstream": {"source_id": downstream, "key_field": "downstream_unit_id", "event_time_field": "downstream_event_ts",
                            "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
-                           "metric_field": "response_secondary", "metric": "secondary_quality"},
+                           "metric_field": "response_secondary", "metric": "defect_rate"},
             "maximum_lag_seconds": 3600, "unit_field": "unit_id", "decision_factors": ["pressure"]}
         result = {"approved": scenario != "relationship_unapproved", "keys": {"upstream": "upstream_unit_id", "downstream": "downstream_unit_id"},
                   "cardinality": "many_to_many" if scenario == "relationship_many_to_many" else "one_to_one",
@@ -123,7 +124,10 @@ def _tool_result(name, args, scenario="normal"):
     elif name == "synthetic.test.cancel":
         result = {"confirmed_stopped": args.get("operation_id") == "SYN-OP-STOPPED"}
     elif name == "synthetic.test.audit":
-        result = {"permission_scope": "SYNTHETIC_READ", "sources": ["SYN-SOURCE-A", "SYN-SOURCE-B"],
+        audit_scope = "SYNTHETIC_TEST_ONLY" if scenario == "audit_scope_invalid" else "SYNTHETIC_READ"
+        audit_sources = (["SYN-SOURCE-A", "SYN-SOURCE-B", "SYN-SOURCE-A"]
+                         if scenario == "audit_sources_duplicated" else ["SYN-SOURCE-A", "SYN-SOURCE-B"])
+        result = {"permission_scope": audit_scope, "sources": audit_sources,
                   "timestamps": {"started": "2026-01-01T00:00:00Z", "ended": "2026-01-01T00:00:01Z"},
                   "query_hash": "invalid" if scenario == "audit_invalid" else "0"*64}
     else:
@@ -274,7 +278,8 @@ def main():
     parser.add_argument("--scenario", choices=("normal", "permission_denied", "semantic_schema_drift",
         "source_version_drift", "relationship_unapproved", "relationship_many_to_many",
         "server_truncated", "audit_invalid", "missing_semantic_evidence", "missing_semantic_source_versions",
-        "missing_relationship_evidence", "missing_read_hashes"), default="normal")
+        "missing_relationship_evidence", "missing_read_hashes", "audit_scope_invalid",
+        "audit_sources_duplicated", "relationship_metric_mapping_drift"), default="normal")
     args = parser.parse_args()
     SCENARIO = args.scenario
     stdio() if args.transport == "stdio" else http(args.host, args.port)

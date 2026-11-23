@@ -237,6 +237,39 @@ class McpToP4WorkflowQualification(unittest.TestCase):
                 self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "AUDITED_READ_COMPLETED")
                 self.assertEqual(result["provenance"]["mcp_acquisition"]["audit_id"], "SYN-AUDIT-READ-1")
 
+    def test_audit_scope_and_duplicate_source_receipts_must_match_the_request(self):
+        for scenario, expected in (("audit_scope_invalid", "effective permission scope"),
+                                   ("audit_sources_duplicated", "exact requested source population")):
+            with self.subTest(scenario=scenario):
+                adapter = self._adapter(scenario)
+                try:
+                    result = run_mcp_investigation(adapter, self.request())
+                finally:
+                    adapter.client.close()
+                self.assertEqual(result["status"], "REFUSED")
+                self.assertIn(expected, " ".join(result["limitations"]))
+                self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "AUDITED_READ_COMPLETED")
+                self.assertEqual(result["provenance"]["mcp_acquisition"]["audit_id"], "SYN-AUDIT-READ-1")
+
+    def test_relationship_metric_labels_must_match_the_explicit_p4_mapping_before_read(self):
+        adapter = self._adapter("relationship_metric_mapping_drift")
+        calls = []
+        original_call = adapter.call
+
+        def tracked_call(operation, payload):
+            calls.append(operation)
+            return original_call(operation, payload)
+
+        adapter.call = tracked_call
+        try:
+            result = run_mcp_investigation(adapter, self.request())
+        finally:
+            adapter.client.close()
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertIn("relationship metric", " ".join(result["limitations"]))
+        self.assertNotIn("read_bounded", calls)
+        self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "NOT_STARTED")
+
     def test_p4_evidence_extensions_fail_closed_without_mutating_logical_contract_v1(self):
         for scenario, expected in (("missing_semantic_evidence", "semantic_version"),
                                    ("missing_semantic_source_versions", "source_versions"),
