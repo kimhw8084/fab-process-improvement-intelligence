@@ -1,13 +1,13 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "08859a129c7788c5851739d6d2c06cb0f755f842",
+  "as_of_source_commit": "f88ee7cb48fe1db3a69340cf421f0266df633fd8",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 8,
-    "task": "Validate the new disposable P1 evidence and E07 gate wording, run current-source secret/license/vulnerability checks, review the staged diff and commit the source snapshot locally. Re-run performance and OSS qualification against that exact product source, then commit the qualified evidence; rebuild the exact archive twice in clean detached worktrees, verify the manifest and SHA-256 sidecar, run fresh no-pip extracted offline qualification, and reconcile current-source release evidence without publishing.",
+    "task": "Commit the corrected release-benchmark handling of the valid PARTIAL all-capability fixture and its independent tests. Re-run performance, OSS, UI, schema, and security qualification against that exact product source; commit the qualified evidence; rebuild the exact archive twice in clean detached worktrees; verify the manifest and SHA-256 sidecar; run fresh no-pip extracted offline qualification; and reconcile current-source release evidence without publishing.",
     "inspect": [
-      "qualification/run_release_checks.py",
       "qualification/benchmark.py",
+      "qualification/run_release_checks.py",
       "qualification/refresh_security_evidence.py",
       "qualification/build_transfer_bundle.py",
       "qualification/check_reproducibility.py",
@@ -15,7 +15,7 @@
       "release/PUBLISHED_ARTIFACT_RECONCILIATION.json"
     ],
     "first_command": "rtk git diff --check && rtk git diff --stat",
-    "acceptance": "Release performance evidence contains a matching per-file product-source fingerprint and is tied to the product commit; current pinned dependency and Bandit audits pass with limitations visible; the locally committed source snapshot rebuilds byte-identically twice from separate clean worktrees; ZIP inventory, source manifest, source commit, sidecar and offline extracted behavior match; no network publication occurs."
+    "acceptance": "The corrected benchmark accepts the fully completed synthetic workflow while preserving PARTIAL/LIMITED_SCOPE capability states and rejects incomplete outputs; performance evidence contains a matching per-file product-source fingerprint tied to the product commit; current pinned dependency and Bandit audits pass with limitations visible; the locally committed source snapshot rebuilds byte-identically twice from separate clean worktrees; ZIP inventory, source manifest, source commit, sidecar and offline extracted behavior match; no network publication occurs."
   },
   "ordered_queue": [
     {"priority": 1, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D02 pointwise support/uncertainty remains advisory; independent-unit max-score split-conformal and Bonferroni metrics now provide an assumption-conditional 95% finite exact-setting panel band when each calibration unit has the same complete panel and finite rank; 1,000 fixed-seed trials gave 966/1,000 joint coverage and 0/1,000 post-selection false-feasible under the generator. Interpolation, source assumptions and split provenance remain unqualified."},
