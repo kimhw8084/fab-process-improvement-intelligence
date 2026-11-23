@@ -1,0 +1,48 @@
+{
+  "benchmark_script_sha256": "f3fb1e0937568d30875b5c827ad9ba42323b701bcfd546785568b3d1721183c4",
+  "calibration_units": 20,
+  "candidate_settings": 76,
+  "generator": "iid standard-normal residuals at every candidate setting; future units independent of calibration",
+  "limitations": [
+    "the minimum-radius selector is a deliberately adversarial stress policy, not the product's exact candidate-selection rule",
+    "this isolates adaptive panel-selection bias under a known iid generator",
+    "it does not establish exchangeability or coverage for manufacturing populations",
+    "the predeclared complete-panel method is more conservative and covers only its finite declared panel"
+  ],
+  "method": "independent absolute-normal residual simulation with split-conformal rank ceil((n+1)*0.95)",
+  "order_statistic_rank": 20,
+  "product_window_sha256": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df",
+  "results": {
+    "adaptively_selected_one_setting": {
+      "coverage": 0.7866,
+      "covered": 7866,
+      "mean_radius": 1.2474510976185857,
+      "wilson95": [
+        0.7784606093988927,
+        0.7945192827350352
+      ]
+    },
+    "fixed_one_setting": {
+      "coverage": 0.9525,
+      "covered": 9525,
+      "mean_radius": 2.1689980818610097,
+      "wilson95": [
+        0.9481544643093326,
+        0.956498017165205
+      ]
+    },
+    "predeclared_complete_panel": {
+      "coverage": 0.9527,
+      "covered": 9527,
+      "mean_radius": 3.549533544617053,
+      "wilson95": [
+        0.9483627247108418,
+        0.9566896031643476
+      ]
+    }
+  },
+  "schema": "p4-d02-adaptive-selection-benchmark/v1",
+  "seed": 204811,
+  "target_coverage": 0.95,
+  "trials": 10000
+}

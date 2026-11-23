@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "607cf958754e9f9176a98cd811161569f390cd6a",
+  "as_of_source_commit": "3ade5a91232a7319608bd3d6045503454d5f703f",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,9 +15,9 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 1,
-    "task": "Audit D02 adaptive candidate selection against its existing independent benchmark. Inspect whether the 76 advisory pointwise candidates can be materially misclassified under selection after local calibration; add a genuinely held-out selection/coverage stress case only for a concrete untested failure mode. Preserve abstention and no-conditional-coverage claims. Then run focused and full regressions.",
-    "first_command": "rtk sed -n '1,280p' qualification/benchmark_d02_adaptive_selection.py && rtk cat qualification/results/D02_ADAPTIVE_SELECTION_BENCHMARK.json",
+    "priority": 8,
+    "task": "Refresh exact-source release evidence after the adaptive-selection benchmark and release-gate change. Build from clean HEAD, compare two detached builds, run no-pip qualification under network denial, and run full tests/security/scientific gates. Verify E10 and current P1 composition status honestly. Then continue D02 held-out evaluation limitations.",
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
     "inspect": [
       "products/p4/ui/P4Panel.tsx",
       "products/p4/ui/P4Panel.test.tsx",
@@ -30,8 +30,8 @@
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; NUMERIC_ID_SPLIT_LEAKAGE_FIXED; SELECTION_AND_CONDITIONAL_COVERAGE_LIMITS_RETAINED",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and separate independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge: 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata coverage; selected candidates remain isolated from evaluation. Browser verifies transfer table and CALIBRATION_BAND_UNAVAILABLE when no precommit exists; this is not validation. Conditional coverage remains unestablished. Paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. A reproduced int/float lot-key split leak is fixed: numeric IDs canonicalize across integral representations and the adversarial partition test refuses. After release refresh, inspect candidate-selection versus local calibration and sparse support; do not imply conditional coverage."
+      "status": "IMPLEMENTED_WITH_LIMITS; NUMERIC_ID_SPLIT_LEAKAGE_FIXED; ADAPTIVE_SELECTION_HAZARD_QUALIFIED; CONDITIONAL_COVERAGE_UNESTABLISHED",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge measured 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata; paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. Numeric int/float lot-ID split leakage is fixed with an adversarial refusal test. New independent 10,000-trial 76-setting/20-calibration hazard screen measured 78.66% under an intentionally adversarial minimum-radius selector versus 95.25% fixed-setting and 95.27% complete-panel baselines. This is not P4's exact selector nor a manufacturing estimate; release runner now verifies P4's pointwise advisory label and warning. After release refresh, inspect exact-setting evaluation scope and sparse local support; do not imply conditional coverage."
     },
     {
       "priority": 2,
@@ -65,12 +65,12 @@
     },
     {
       "priority": 8,
-      "status": "E10_PASS_AT_607CF95; CANDIDATE; COMPANY_AND_ACCESSIBILITY_GATES_PENDING",
-      "task": "Exact artifact source 607cf958754e9f9176a98cd811161569f390cd6a; 214 files, ZIP SHA-256 053d3c6d9e85039b4cc2f2164132a85bf0feb88a8b99ff0324ed3404cc94ec35 (9,235,631 bytes), source manifest SHA-256 a3ca1f85f25123c55432ab1059c5ec7a95cd55884db982634db64f168e06fd3a. Two detached clean builds match; fresh no-pip network-denied extraction passed; full runner passed 199 tests/0 skipped, refreshed disposable P1 host composition, and E10. Workflow remains PARTIAL with D03 LIMITED_SCOPE, D04 PROPOSED, D05 ESTIMATED. Internal authorization, formal accessibility, target OS, security/legal transfer review and ROI remain pending."
+      "status": "STALE_AFTER_D02_QUALIFICATION_SOURCE_CHANGE_3ADE5A9; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
+      "task": "Last exact artifact source 607cf958754e9f9176a98cd811161569f390cd6a: 214 files, ZIP SHA-256 053d3c6d9e85039b4cc2f2164132a85bf0feb88a8b99ff0324ed3404cc94ec35; two clean rebuilds, fresh no-pip network-denied extraction, 199 tests, refreshed disposable P1 host and E10 passed at that source. Commit 3ade5a9 added a 76-setting/20-lot adaptive-selection stress and made the release runner enforce the advisory-warning behavior. Current source must be rebuilt and fully requalified."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Exact current-source archive and release evidence qualified at 607cf958754e9f9176a98cd811161569f390cd6a; generated qualification/results JSON screens remain excluded from package; local release-evidence checkpoint pending commit; no remote update",
+  "worktree_state": "Source commit 3ade5a91232a7319608bd3d6045503454d5f703f contains the adaptive-selection benchmark/gate and local result sidecar; exact archive at 607cf95 is stale; progress checkpoint pending commit; no remote update",
   "active_uncommitted_changes": false
 }
