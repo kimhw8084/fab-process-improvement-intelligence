@@ -46,6 +46,24 @@
       0.060115615250606366
     ]
   },
+  "d02_adaptive_selection_benchmark": {
+    "adaptive_minimum_radius_coverage": 0.7866,
+    "adaptive_minimum_radius_wilson95": [
+      0.7784606093988927,
+      0.7945192827350352
+    ],
+    "benchmark_script_hash_matches": true,
+    "calibration_units": 20,
+    "candidate_settings": 76,
+    "evidence": "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json",
+    "fixed_setting_coverage": 0.9525,
+    "predeclared_panel_coverage": 0.9527,
+    "product_candidate_scope_and_warning_checked": true,
+    "runtime_dependencies_added": false,
+    "scope": "iid adversarial selection-hazard screen at 76 settings/20 calibration units; minimum-radius selector is not P4's exact candidate rule and results do not establish manufacturing coverage",
+    "source_hash_matches": true,
+    "status": "PASS"
+  },
   "d02_replicate_shift_benchmark": {
     "coverage_by_future_observations_per_setting": {
       "1": 0.9456,
@@ -140,7 +158,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "607cf958754e9f9176a98cd811161569f390cd6a",
+  "evaluated_commit": "f2a403a08673c8b33e8c422adba50482431382fb",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -287,9 +305,11 @@
     "D02_empirical_calibration": {
       "calibration_units": 20,
       "candidate_count": 76,
+      "candidate_scope": "ADVISORY_POINTWISE_SCREENING_ONLY",
       "coverage_guarantee": "none; this local score rank establishes neither conditional nor simultaneous coverage",
       "grid_cells": 225,
       "qualification": "PASS",
+      "selection_warning_present": true,
       "status": "VALID",
       "training_units": 30
     },
@@ -349,7 +369,7 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "607cf958754e9f9176a98cd811161569f390cd6a",
+    "package_source_snapshot": "f2a403a08673c8b33e8c422adba50482431382fb",
     "product_code_unchanged_after_benchmark": false,
     "product_source_manifest_matches": false,
     "product_source_manifest_sha256": "37ee7575e90360004588c8e171b4452c74d8092a4997979180e9ff1c0a8ee703",
@@ -407,7 +427,7 @@
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 12.822,
+    "duration_seconds": 12.737,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
