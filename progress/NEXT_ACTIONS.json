@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "b2930119cc5dd3de46941d84b68a90d2271ba542",
+  "as_of_source_commit": "7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,16 +16,16 @@
   ],
   "next_executable_action": {
     "priority": 0,
-    "task": "Commit the D03 zero-variance refusal, adversarial benchmark, UI explanation and focused evidence. Refresh the disposable P1 overlay and its 29-file fingerprint/source pins for the new D03 code, rerun P1 route/UI/type/build checks, and then run the full source-bound qualification. Rebuild/reproduce/offline-qualify the archive only after all source/evidence changes are committed.",
+    "task": "Commit current-source P1 disposable-host evidence and progress checkpoint locally. Run the full current-source release runner so E02 includes the D03 rare-event benchmark and the new regression test. Then rebuild the exact source archive, verify two detached clean builds, run a fresh no-pip extraction under OS network denial, and rerun the runner to confirm E02/E10 together.",
     "first_command": "rtk git status --short && rtk git diff --check",
     "inspect": [
-      "products/p4/tradeoffs.py",
-      "tests/test_d03_relationships.py",
-      "qualification/benchmark_d03_zero_variance.py",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
       "qualification/run_release_checks.py",
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
+      "qualification/benchmark_d03_zero_variance.py",
+      "release/GATE_REPORT.json",
+      "release/BUILD_REPRODUCIBILITY.json"
     ],
-    "acceptance": "Record only executed checks. Browser was not re-observed after the changed D03 uncertainty message. No P1 owner, formal accessibility, Samsung source, target-host, security/legal transfer, or ROI approval is implied."
+    "acceptance": "Report only executed current-source checks. Browser remains tied to its prior snapshot; P1 ownership/formal accessibility, company authority, target host, legal/security transfer and ROI remain pending."
   },
   "ordered_queue": [
     {
@@ -40,8 +40,8 @@
     },
     {
       "priority": 3,
-      "status": "IMPLEMENTED_WITH_LIMITS; EXACT_SOURCE_ID_LINEAGE_AND_FAIL_CLOSED_REGISTRY_QUALIFIED",
-      "task": "D03 now requires each row-level source reference to be a list of exact source-ID strings; malformed/empty source registries, empty observations, duplicate or malformed objective families, and objective-direction conflicts fail closed. Independent relationship tests: 19 PASS. Existing mean Pareto, marginal interval diagnostics, and optional bounded Hoeffding/Bonferroni envelope retain their explicit population and distribution limits."
+      "status": "IMPLEMENTED_WITH_LIMITS; ZERO_VARIANCE_MARGINAL_INTERVAL_FALSE_CERTAINTY_FIXED_AND_STRESSED",
+      "task": "D03 now requires each row-level source reference to be a list of exact source-ID strings; malformed/empty source registries, empty observations, duplicate or malformed objective families, and objective-direction conflicts fail closed. Independent relationship tests: 19 PASS. Existing mean Pareto, marginal interval diagnostics, and optional bounded Hoeffding/Bonferroni envelope retain their explicit population and distribution limits. Cross-step Student-t uncertainty no longer collapses to zero width when observed variance is zero; marginal intervals and interval-separated dominance are withheld and the analysis is marked LIMITED_SCOPE. Independent rare-event benchmark (1000 trials): legacy false-preference pairs 760, corrected 0; 1575/1575 degenerate intervals withheld; 926 trials limited. Synthetic-only mechanism; current full release runner pending."
     },
     {
       "priority": 4,
@@ -71,6 +71,6 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D03 zero-variance inference defect corrected and independently stressed; P4/P1 focused UI and route checks pass; source changes uncommitted, current archive at b293011 is stale; no remote update",
+  "worktree_state": "D03 zero-variance correction committed at 7dd2de5; current P1 overlay and 29-file fingerprint dddf7fcd... pass host/UI/build checks; refreshed P1 evidence and progress need commit; full release runner and archive stale; no remote update",
   "active_uncommitted_changes": true
 }

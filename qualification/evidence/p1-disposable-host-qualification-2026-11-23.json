@@ -6,15 +6,15 @@
       "products/p4/investigation.v1.schema.json": "66e4aa8d8446a3d51766998a731fd46ea524700fcd1e58eff0d4de708cb57c01",
       "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
       "products/p4/regression.py": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
-      "products/p4/tradeoffs.py": "05d2f661e3882fa660079684315a0d2eb128d6c9e75aa966c46adfa9ce0743d6",
+      "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
       "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
       "products/p4/window.py": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df",
       "qualification/build_demo_fixture.py": "48b346e5dfc60c0106dbd3109cdc35e288aa623b6c02984ecfc39bfe8f016e06"
     },
     "current_p4_source": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-      "panel_sha256": "029adae0afc7e8aac9abc4002c53358f683eafe25bec0c2763a1a28e04296882",
-      "panel_test_sha256": "5c45822570c5dd2b45988532fb076b0242742a98fd598d8917027aac50770cdd"
+      "panel_sha256": "7dd9087b55c8e7dbb45f039a31b4be55ea20e78c7bca00ee1632670e008c8a29",
+      "panel_test_sha256": "c6ac1346eb5336d611a60bb1cb503b69666d8811227c0c3803ec3bfc8c0c71c3"
     },
     "mcp_panel_bridge_fixture": {
       "deterministic_two_build_check": "PASS; two outputs were byte-identical",
@@ -37,7 +37,7 @@
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
       "engine_version": "1.2.0"
     },
-    "p4_source_commit": "226ac47c2e6ac7737dd5f16d1d9ed3984e3e3f19",
+    "p4_source_commit": "7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e",
     "snapshot_fingerprint": {
       "file_sha256": {
         "contracts/SHARED_ARCHITECTURE.md": "bd88276779573435164831bcf5d2036cc3d09a3d641635b0df8f95186ec18382",
@@ -63,17 +63,17 @@
         "products/p1/ui/suite.css": "d1d80dd866d85d02003b1a48bdd1a3cbd8e4bd16432eae1e39ab0ec0f1e44c81",
         "products/p1/ui/suiteSpatialMap.test.ts": "63b59654a33c32b1956d6d3ec90d9339d67d17e40de3c47055f45169cb7a19b9",
         "products/p1/ui/suiteSpatialMap.ts": "495c1bce7415de23fa3ba291798d001d9c5a5248340371ab2bdeeea6c6891df1",
-        "products/p4/ui/P4Panel.tsx": "029adae0afc7e8aac9abc4002c53358f683eafe25bec0c2763a1a28e04296882",
+        "products/p4/ui/P4Panel.tsx": "7dd9087b55c8e7dbb45f039a31b4be55ea20e78c7bca00ee1632670e008c8a29",
         "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
         "tests/fixtures/mcp_p4_panel_bridge.json": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d",
-        "tests/test_suite_host.py": "b56bc80e835ad9bc53c34942f6b0c56aeed441ce321199684fde4edf925b54dd",
+        "tests/test_suite_host.py": "029017536b9c1557cba3dfb5a06256383a6eeb15c222cd00df12678c38642158",
         "tsconfig.json": "a6a2994c6c1db73d909e2779dc8643a71adb296598b24232a4649e15c10ead54",
         "vite.config.ts": "b245f9400583490162c429b1ad7b7ad5492261db11f1f4d310f3c0009557bf31"
       },
       "files": 29,
-      "manifest_sha256": "1f8e0d025106866428c2ee0046fde06422e61bd310448ac7d26290f7f49ad1fe",
+      "manifest_sha256": "dddf7fcd392e19ae1679806ad2bf4f78e7dadaa4f87a260d6c022651eb7a2dfd",
       "scope": "29 explicitly listed suite contracts, shared P1 UI/host implementation and tests, frontend build configuration, P4 contribution/panel, P4 synthetic workflow fixture, and official-SDK MCP-to-panel evidence fixture. Integrity digest of disposable composition evidence; not authoritative P1 source revision.",
-      "sha256": "1f8e0d025106866428c2ee0046fde06422e61bd310448ac7d26290f7f49ad1fe"
+      "sha256": "dddf7fcd392e19ae1679806ad2bf4f78e7dadaa4f87a260d6c022651eb7a2dfd"
     },
     "source_snapshot_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0"
   },
@@ -178,17 +178,18 @@
       }
     },
     "current_p4_requalification": {
-      "browser_reobserved_after_d01_identity_fix": false,
+      "browser_limitation": "Prior browser success/refusal evidence remains bound to its recorded P1 snapshot; no browser re-observation after the D03 text and backend change.",
+      "browser_reobserved_after_d03_change": false,
       "d01_regression_sha256": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
       "d02_window_sha256": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df",
-      "disposable_p1_route_tests": "PASS; 11 tests after overlay and regression.py source pin update",
-      "limitation": "The current P1 host route suite exercises current P4 source. Numeric lot identity refusal is covered by Python D01 regression tests; prior browser success/refusal evidence uses unchanged UI files and its recorded source snapshot, not this backend-only change.",
-      "p1_frontend_tests": "PASS; 45 tests from prior current UI composition; P4/P1 UI files unchanged",
-      "p1_production_build": "PASS from prior current UI composition; relevant TS/contract files unchanged",
-      "p1_typecheck": "PASS from prior current UI composition; relevant TS/contract files unchanged",
-      "p4_focused_d01_tests": "PASS; 19 RobustRegressionQualification tests at source 226ac47",
-      "p4_full_python_unittest": "NOT_RUN_AFTER_D01_CHANGE; last full suite 199 tests at source f2a403a",
-      "p4_source_commit": "226ac47c2e6ac7737dd5f16d1d9ed3984e3e3f19"
+      "d03_tradeoffs_sha256": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
+      "disposable_p1_route_tests": "PASS; 11 tests after current P4 source overlay and tradeoffs.py source pin update",
+      "p1_frontend_tests": "PASS; 46 tests after D03 uncertainty-message change",
+      "p1_production_build": "PASS; 800516-byte shared ECharts bundle; existing >500 KB advisory",
+      "p1_typecheck": "PASS after D03 UI change",
+      "p4_full_python_unittest": "NOT_RUN_AFTER_D03_CHANGE; last exact source run 200 tests at b293011 before D03 correction",
+      "p4_panel_tests": "PASS; 19 component tests and strict typecheck against P1 lock/toolchain",
+      "p4_source_commit": "7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e"
     },
     "d01_crossed_dependence": {
       "browser_reobserved": false,
@@ -209,24 +210,24 @@
     "p1_frontend_tests": {
       "command": "npm test -- --run",
       "status": "PASS",
-      "tests": 45
+      "tests": 46
     },
     "p1_host_route_tests": {
       "command": "python -m unittest discover -s tests -p test_suite_host.py -q",
-      "current_p4_source": "P4 source commit 226ac47c2e6ac7737dd5f16d1d9ed3984e3e3f19 overlaid into the disposable P1 snapshot; current regression.py and window.py hash pins; 11 host-route tests rerun",
+      "current_p4_source": "P4 source commit 7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e overlaid into disposable P1 snapshot; D03 tradeoffs.py source pin refreshed; 11 host routes rerun",
       "p4_source_pins": "PASS",
       "status": "PASS",
       "tests": 11
     },
     "p1_production_build": {
-      "bundle_bytes_uncompressed": 800361,
-      "bundle_sha256": "65ea9b1e8d52c6f6e3df187b7a67b0b4153c76a167bb1dc517f3d59d1e8b820e",
+      "bundle_bytes_uncompressed": 800516,
+      "bundle_sha256": "389ce948f789eaac2c672ecca585104a742519ab516c095f1dc0e5c9a23fb040",
       "command": "npm run build",
       "status": "PASS",
       "warning": "single shared ECharts bundle exceeds 500 KB advisory"
     },
     "p1_typecheck": {
-      "command": "npm run typecheck",
+      "command": "npm run typecheck; executed after D03 UI change",
       "status": "PASS"
     },
     "p4_mcp_to_analysis": {
@@ -251,7 +252,7 @@
       "command": "python qualification/ui_component_check.py --suite-root <P1 snapshot>",
       "contract_snapshot_match": true,
       "status": "PASS",
-      "tests": 18,
+      "tests": 19,
       "typecheck": "PASS"
     }
   },
@@ -260,9 +261,7 @@
     "Disposable registry and route-test pin updates are local fixture changes, not upstream P1 changes.",
     "P1 owner confirmation, formal accessibility and screen-reader review, target-host qualification, company permissions, source mappings, and actual endpoint behavior remain pending.",
     "D02 independent exact-setting evaluation covers only 3 of 76 selected candidates; complete-set coverage is withheld and no conditional coverage is claimed.",
-    "The browser run observes the P1 shell's synthetic demo success and permission refusal. It does not call the SDK-backed MCP path; that exact success/refusal payload is separately exercised through the P1 contract-compatible P4 panel component and recorded in mcp_panel_bridge_fixture.",
-    "D02 numeric lot-ID representation correction is in the current P4 source and passed the refreshed P1 host route suite; browser was not re-observed after this backend-only change.",
-    "D01 numeric lot-ID type-drift correction is in current P4 regression source and passed focused regression and refreshed P1 host route tests; browser was not re-observed after this backend-only change."
+    "The D03 zero-variance uncertainty message and backend correction passed P4 component/typecheck and P1 route/frontend/type/build checks; browser was not re-observed after this source change."
   ],
   "p1_source": {
     "git_metadata_present": false,
