@@ -36,7 +36,14 @@ def _get_field(row, path):
 
 
 def _key(value):
-    return json.dumps({"type": type(value).__name__, "value": value}, sort_keys=True, separators=(",", ":"))
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        # JSON/source adapters may encode the same numeric lot as 7 or 7.0.
+        # Keep that representation drift from inflating independent-cluster counts.
+        normalized = int(value) if isinstance(value, float) and isfinite(value) and value.is_integer() else value
+        identity = {"type": "number", "value": normalized}
+    else:
+        identity = {"type": type(value).__name__, "value": value}
+    return json.dumps(identity, sort_keys=True, separators=(",", ":"))
 
 
 def _label(value):

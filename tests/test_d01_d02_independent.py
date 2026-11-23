@@ -113,6 +113,24 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertTrue(any("observation-count concentration" in warning
                             for warning in report["diagnostic_warnings"]))
 
+    def test_numeric_lot_id_type_drift_cannot_inflate_independent_cluster_count(self):
+        rows = []
+        for lot in range(15):
+            for repeat in range(2):
+                lot_id = lot if repeat == 0 else float(lot)
+                x = float(lot)
+                y = 1.0 + 0.25*x + 0.1*math.sin(lot) + 0.01*repeat
+                rows.append({"id": f"SYN-NUMERIC-ID-{lot}-{repeat}",
+                             "factors": {"x": x}, "metrics": {"y": y}, "lot_id": lot_id})
+        report, _ = fit_linear_model(
+            rows, {"x": {"role": "measured", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 20})
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertEqual(report["inference"]["declared_independent_unit_count"], 15)
+        self.assertEqual(report["inference"]["independent_cluster_count"], 15)
+        self.assertIsNone(report["terms"]["x"]["ci95"])
+
     def test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference(self):
         rows = []
         for lot in range(120):
