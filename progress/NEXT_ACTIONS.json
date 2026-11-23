@@ -1,6 +1,6 @@
 {
-  "active_uncommitted_changes": true,
-  "as_of_source_commit": "22d9b5d9c9bf279d87b4c8a77b223521b8fdd6a6",
+  "active_uncommitted_changes": false,
+  "as_of_source_commit": "874e30f0048a0f8d70b7383c93ac4a12cbf228d7",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,8 +16,8 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "Use a held-out generator independent of product screening logic; test actual P4 selection behavior, report false-feasible/coverage behavior and abstention, preserve no-conditional-coverage claim, and run focused D02 tests.",
-    "first_command": "rtk rg -n \"supported_grid|candidate|calibration|simultaneous|panel|select\" products/p4/window.py && rtk sed -n '1,360p' products/p4/window.py",
+    "acceptance": "Use an independent held-out generator to exercise P4 actual D02 candidate selection; report selection misses, abstention, and limitations without claiming conditional coverage. Run focused D02 tests and retain the simpler advisory path if no defensible general guarantee can be established.",
+    "first_command": "rtk rg -n \"supported_grid|candidate|calibration|simultaneous|panel|select\" products/p4/window.py && rtk sed -n \"1,360p\" products/p4/window.py",
     "inspect": [
       "products/p4/window.py",
       "tests/test_d01_d02_independent.py",
@@ -26,13 +26,13 @@
       "qualification/critical_cases.json"
     ],
     "priority": 1,
-    "task": "Audit the exact P4 D02 candidate-selection/calibration path; implement one held-out independent challenge that exercises that exact rule and separates candidate construction, model/threshold selection, calibration and evaluation. If it demonstrates selection risk, repair with a valid precommitted family calibration or abstention; otherwise retain current pointwise-only claims and record the oracle result."
+    "task": "Audit P4 D02 candidate construction, calibration, and independent evaluation order. Design a held-out challenge for the exact current selection rule; if it exposes a concrete risk, add a valid precommitted family method or abstention. Otherwise record the oracle result and keep pointwise-only claims."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; MIXED_STRATA_TRANSFER_MATCH_FALSE_ASSURANCE_FIXED; CONDITIONAL_COVERAGE_UNESTABLISHED",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge measured 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata; paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. Numeric int/float lot-ID split leakage is fixed with an adversarial refusal test. New independent 10,000-trial 76-setting/20-calibration hazard screen measured 78.66% under an intentionally adversarial minimum-radius selector versus 95.25% fixed-setting and 95.27% complete-panel baselines. This is not P4's exact selector nor a manufacturing estimate; release runner verifies P4's pointwise advisory label and warning. Conditional coverage remains unestablished; only 3 of 76 selected candidates have exact-setting holdout outcomes. A 2026-11-23 adversarial regression found and fixed a transfer-status false assurance when some calibration/evaluation lots contained mixed or missing strata; incomplete assignment now yields INSUFFICIENT_ASSIGNABLE_STRATA."
+      "status": "IMPLEMENTED_WITH_LIMITS; PRECOMMIT_BINDS_ACTIVE_METRIC_BOUNDS; CONDITIONAL_COVERAGE_UNESTABLISHED",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge measured 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata; paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. Numeric int/float lot-ID split leakage is fixed with an adversarial refusal test. New independent 10,000-trial 76-setting/20-calibration hazard screen measured 78.66% under an intentionally adversarial minimum-radius selector versus 95.25% fixed-setting and 95.27% complete-panel baselines. This is not P4's exact selector nor a manufacturing estimate; release runner verifies P4's pointwise advisory label and warning. Conditional coverage remains unestablished; only 3 of 76 selected candidates have exact-setting holdout outcomes. A 2026-11-23 adversarial regression found and fixed a transfer-status false assurance when some calibration/evaluation lots contained mixed or missing strata; incomplete assignment now yields INSUFFICIENT_ASSIGNABLE_STRATA. A 2026-11-23 adversarial regression proved a caller could precommit max=0.45 while active classification used max=0.50 and still receive an AVAILABLE exact-panel band. D02 now normalizes, hashes and exact-matches all active min/max limits; mismatch returns PRECOMMIT_THRESHOLD_MISMATCH and no simultaneous candidates. Independent simultaneous challenge: 1,000 trials, joint exact-panel coverage 0.966 under its declared generator; held-out response-drift challenge detects shift. These results remain generator-specific, and caller timing/references are unauthenticated."
     },
     {
       "priority": 2,
@@ -61,16 +61,16 @@
     },
     {
       "priority": 7,
-      "status": "DISPOSABLE P1 WORKFLOW RECHECK PASS; OWNER AND FORMAL ACCESSIBILITY PENDING",
-      "task": "P4 14f6ad9 overlay in the unversioned disposable P1 snapshot: manifest e7f6e9ca\u20267e27fac79, routes 11 PASS, frontend 48 PASS, P4 panel 21 PASS, typecheck/build PASS; browser completed synthetic D01\u2013D05 request and inspected exact 300-item collapsed/expanded D02 evidence. No owner acceptance or formal WCAG/screen-reader review."
+      "status": "DISPOSABLE P1 COMPOSITION REQUALIFIED AGAINST D02 SOURCE 874e30f; BROWSER NOT REOBSERVED AFTER THRESHOLD FIX",
+      "task": "P1 disposable composition current-source overlay passed 11 host-route tests, 48 frontend tests, typecheck and production build after updating the exact D02 implementation/schema source pins. The 29-file scratch-composition fingerprint is 723a413a76d23b006c4dd2ba316702c7c08b0a35412affd185e65004553ab900. Existing browser evidence is from the unchanged P4 panel before the backend threshold-binding fix; no browser reobservation is claimed. P1 has no authoritative revision; owner/source acceptance and formal accessibility remain pending."
     },
     {
       "priority": 8,
-      "status": "E02_E03_E10_PASS_AT_22D9B5D; CANDIDATE; INTERNAL/RIGHTS GATES PENDING",
-      "task": "Exact local archive source 22d9b5d: 215 files, ZIP SHA-256 eddfebe50c271540fbe211f15d954b6983a4df6f7202a080672c855b13b8b89f; detached reproducibility PASS, fresh no-pip/network-denied extraction PASS, full runner 202 tests/0 skipped and E02/E03/E10 PASS. Company/security/legal/target-host/ROI/distribution gates remain pending."
+      "status": "RELEASE_REFRESH_REQUIRED_AFTER_P1_EVIDENCE_CHANGE; E02_E03_E10_PASS_AT_874E30F_PRE-REFRESH; CANDIDATE",
+      "task": "At 874e30f, 215-file ZIP SHA-256 6dd9ed75963d1bc063ff480479d129717e827ced152748717d44f9a760478e33 reproduced in two detached clean worktrees; fresh no-pip/macOS network-denied extraction passed; full runner passed 203 tests/0 skipped and E02/E03/E10. The P1 evidence source fingerprint was then refreshed after current-source route/UI checks, so rebuild and rerun the final exact artifact gates."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Source package commit 22d9b5d is locally reproducible: 215-file ZIP eddfebe5\u2026b8b89f, 2 clean builds matched, offline no-pip/network-denied workflow passed, full release runner 202 Python tests/0 skipped with E02/E03/E10 PASS. Generated qualification sidecars are dirty; product state remains CANDIDATE."
+  "worktree_state": "D02 active-threshold binding is committed at 874e30f. The just-built package and E10 evidence at that commit predate a refreshed disposable P1 source fingerprint; P1 route/frontend/typecheck/build checks have since been rerun against the current overlay. Repackage and rerun the release gates after committing refreshed P1 evidence/progress. Product remains CANDIDATE."
 }

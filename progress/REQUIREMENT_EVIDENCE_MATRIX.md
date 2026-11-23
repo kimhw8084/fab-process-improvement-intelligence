@@ -1,17 +1,18 @@
-# Current continuation checkpoint — 2026-11-23, source 22d9b5d
+# Current continuation checkpoint — 2026-11-23, product source 874e30f
 
 | Requirement | Latest verified evidence | Current status / next action |
 |---|---|---|
-| D02 transfer strata | Source behavior fix `22df281` and regression `899d3d1`: mixed/missing strata among calibration/evaluation independent units now cause `INSUFFICIENT_ASSIGNABLE_STRATA`. Full Python suite 202 PASS/0 skipped. | Implemented with advisory limits; conditional and future transfer coverage remain unestablished. Independently test P4's exact candidate-selection rule next. |
-| P4 evidence UI | Source `14f6ad9`; large serialized values use native disclosure; 300-item list component and browser inspection verified exact on-demand values in disposable P1 renderer. | P4 panel 21 PASS; P1 frontend 48 PASS; host routes 11 PASS; typecheck/build PASS. P1 owner and formal accessibility remain pending. |
-| Current local archive | Source `22d9b5d9c9bf279d87b4c8a77b223521b8fdd6a6`; 215 files; ZIP SHA-256 `eddfebe50c271540fbe211f15d954b6983a4df6f7202a080672c855b13b8b89f`; two detached clean builds match; fresh no-pip extraction passed under OS network denial; full runner 202 PASS, E02/E03/E10 PASS. | Local candidate only; macOS ARM64/Python 3.11.7 qualification only. Do not treat as authorized distribution or transfer readiness. |
-| Company qualification and distribution | No internal mapping, data, target host, ROI, license/ownership clearance, or internal approval was fabricated. | `PENDING_INTERNAL`; no remote changes or publication. |
+| D02 active threshold binding | Regression reproduced `AVAILABLE` when precommitted metric max was 0.45 but active max was 0.50. D02 now exact-matches normalized active min/max limits and includes them in its canonical plan digest; mismatch refuses simultaneous support. Focused D02/schema tests 45 PASS; full suite 203 PASS/0 skipped. Independent 1,000-trial exact-panel challenge measured 0.966 joint coverage under its generator; drift challenge remains counterevidence only. | Implemented with limits. No conditional/future guarantee; caller-supplied plan timing/references cannot be authenticated. Audit and challenge P4 exact searched-cell selection next. |
+| P1 compatibility | Updated D02 window/schema overlay and local source pins in disposable P1 scratch composition. Host routes 11 PASS, frontend 48 PASS, typecheck/build PASS. 29-file fingerprint `723a413a76d23b006c4dd2ba316702c7c08b0a35412affd185e65004553ab900`. | Synthetic unversioned composition only. Browser was not reobserved after backend fix; P1 owner, authoritative source revision and formal accessibility remain pending. |
+| Exact offline archive | At 874e30f pre-evidence-refresh: 215 files, ZIP SHA-256 `6dd9ed75963d1bc063ff480479d129717e827ced152748717d44f9a760478e33`; two detached clean builds matched; fresh no-pip extraction passed under OS network denial; full runner 203 PASS/0 skipped and E02/E03/E10 PASS. | Refreshed P1 evidence is now a source change. Commit it, rebuild, reproduce twice, requalify the extracted archive, and rerun full gates before recording current E10. |
+| D01/D03/D04/D05 and MCP | Existing verified implementations and refusal safeguards preserved; full suite above passed. Synthetic MCP path uses official SDK. | Continue independent D02 selection challenge, then highest-value remaining D01–D05 scientific defect. Company semantics/authorization remain pending. |
+| Company qualification/distribution | No internal mapping, data, credentials, target host, ROI, legal/security approval or distribution authorization was fabricated. No remote changes. | `PENDING_INTERNAL`; keep local and do not publish. |
 
 # P4 requirement and evidence matrix
 
 Status distinguishes implemented synthetic evidence from company qualification. Passing local evidence does not establish production suitability.
 
-## Current checkpoint — D03 zero-variance refusal; source 7dd2de5 (2026-11-23)
+## Historical checkpoint — D03 zero-variance refusal; source 7dd2de5 (2026-11-23)
 
 | Requirement | Current evidence | Status and remaining limits |
 |---|---|---|
@@ -25,6 +26,14 @@ Status distinguishes implemented synthetic evidence from company qualification. 
 | Offline archive/E10 | Last exact artifact is source `b2930119cc5dd3de46941d84b68a90d2271ba542`: 214 files, SHA-256 `5d382c5533cba9f30cb0f3ac030e8e3b4854fdeee9706e53740477297c7cb797`; two detached builds, fresh no-pip network-denied extraction, and full runner passed 200 tests/E02/E10 at that source. D03 source/UI/qualification commit `7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e` and current evidence commit `cd8a357509553cf417b6cb7d04f0df7d5bda8cf4` are newer. The full runner passes E02 at cd8a, but E10 is PENDING_FINAL_ARCHIVE; updated P1 evidence now records 201 tests. Rebuild, reproduce twice, and perform fresh no-pip network-denied extraction before the final runner. macOS ARM64/Python 3.11.7 only; company target and approvals remain pending; no publication. |
 | Dependency/security | SPDX SBOM, optional dependency audit, limited Bandit scan. | Prior scan is limited to its recorded source/data; independent human/OS review, license ownership and transfer rights pending. |
 | Company qualification/distribution | No real company data, credentials, permissions or source mappings used. No new publication. | E05/E12 internal source and approval, E08 target OS, E09 legal/security, E11 ROI, E07 authority/accessibility pending. Not EXTERNAL_TRANSFER_READY. |
+
+## Current checkpoint — D02 precommit threshold binding (source 874e30f)
+
+- The prior exact-panel band could be declared with metric limits different from the active classification limits. A regression reproduced the unsafe `AVAILABLE` status before the change. `products/p4/window.py` now canonicalizes and requires exact equality for every constrained metric's active `min`/`max`; those values enter the plan digest, evidence and schema. Mismatch is `PRECOMMIT_THRESHOLD_MISMATCH`, with zero simultaneous candidates.
+- Focused D02/schema suite: 45 PASS. Full Python suite: 203 PASS, 0 skipped. The exact-panel independent generator ran 1,000 trials and measured 0.966 joint coverage; its Wilson interval described miss frequency under the generator only. A paired 250-trial response-drift challenge retains held-out counterevidence behavior. No conditional guarantee is claimed.
+- Source commit `874e30f0048a0f8d70b7383c93ac4a12cbf228d7`. Refreshed disposable P1 composition with exact current D02 window/schema sources: host routes 11 PASS; frontend 48 PASS; typecheck and production build PASS; 29-file fingerprint `723a413a76d23b006c4dd2ba316702c7c08b0a35412affd185e65004553ab900`. Browser was not reobserved after this backend fix; its earlier evidence remains limited to the unchanged panel flow.
+- At 874e30f before refreshing the P1 evidence, the 215-file archive was `6dd9ed75963d1bc063ff480479d129717e827ced152748717d44f9a760478e33`; two clean detached builds, fresh no-pip/network-denied extraction, 203 tests and E02/E03/E10 passed. That artifact is stale after the P1 evidence refresh. Rerun exact packaging gates after committing.
+- Exact next action: inspect `products/p4/window.py` candidate/calibration/evaluation order and implement an independent held-out challenge of the actual P4 candidate selection rule. Do not reuse the minimum-radius selector as if it were P4's algorithm.
 
 ## Historical matrix detail — snapshot through 690f26b
 
