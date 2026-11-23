@@ -71,6 +71,6 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "dirty only with generated release/qualification sidecars and the exact artifact; no product source changes. Artifact and sidecar identify source commit 4261d39; next local work should not rewrite or publish it without a release-relevant source change.",
-  "active_uncommitted_changes": true
+  "worktree_state": "clean after local artifact/evidence commit f1a86524e27fa7ba17edd8f672bf91baf0da2086; verified ZIP is bound to source commit 4261d394c1e4f735079ec33c76b371ff386143ce; no remote update",
+  "active_uncommitted_changes": false
 }
