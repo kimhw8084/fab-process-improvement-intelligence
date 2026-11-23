@@ -52,6 +52,17 @@ def disposable_snapshot_fingerprint_matches(snapshot):
     return snapshot.get("manifest_sha256") == digest and snapshot.get("sha256") == digest
 
 
+def disposable_bridge_snapshot_matches(snapshot, bridge_evidence, current_fixture_sha256):
+    if not disposable_snapshot_fingerprint_matches(snapshot) or not isinstance(bridge_evidence, dict):
+        return False
+    return (
+        snapshot.get("file_sha256", {}).get("tests/fixtures/mcp_p4_panel_bridge.json") == current_fixture_sha256
+        and bridge_evidence.get("fixture_sha256") == current_fixture_sha256
+        and bridge_evidence.get("p4_panel_component_tests", 0) > 0
+        and bridge_evidence.get("python_bridge_fixture_tests", 0) > 0
+    )
+
+
 def archive_qualification_pass(evaluated_commit):
     release = ROOT / "release"
     archive = release / "FAB_INTELLIGENCE_P4_CANDIDATE.zip"
@@ -530,6 +541,9 @@ def main():
         "panel_test_sha256": hashlib.sha256((ROOT / "products" / "p4" / "ui" / "P4Panel.test.tsx").read_bytes()).hexdigest(),
     }
     current_p4_additional_hashes = {
+        "products/p4/design.py": hashlib.sha256((ROOT / "products" / "p4" / "design.py").read_bytes()).hexdigest(),
+        "products/p4/mcp_workflow.py": hashlib.sha256((ROOT / "products" / "p4" / "mcp_workflow.py").read_bytes()).hexdigest(),
+        "products/p4/tradeoffs.py": hashlib.sha256((ROOT / "products" / "p4" / "tradeoffs.py").read_bytes()).hexdigest(),
         "products/p4/window.py": hashlib.sha256((ROOT / "products" / "p4" / "window.py").read_bytes()).hexdigest(),
         "products/p4/regression.py": hashlib.sha256((ROOT / "products" / "p4" / "regression.py").read_bytes()).hexdigest(),
         "products/p4/investigation.v1.schema.json": hashlib.sha256((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_bytes()).hexdigest(),
@@ -539,13 +553,15 @@ def main():
     }
     p1_pin = p1_composition.get("p4_registry_pin", {})
     p1_snapshot = p1_composition.get("snapshot_fingerprint", {})
+    p1_bridge = p1_composition.get("mcp_panel_bridge_fixture", {})
+    p1_bridge_fixture_path = ROOT / "tests" / "fixtures" / "mcp_p4_panel_bridge.json"
+    p1_bridge_fixture_sha256 = hashlib.sha256(p1_bridge_fixture_path.read_bytes()).hexdigest() if p1_bridge_fixture_path.is_file() else None
     p1_additional_hashes = p1_composition.get("additional_p4_source_sha256", {})
     p1_source_hashes_match = (p1_current_source == current_p4_hashes
                               and p1_additional_hashes == current_p4_additional_hashes
                               and p1_pin.get("engine_sha256") == current_p4_hashes["engine_sha256"]
                               and p1_pin.get("engine_version") == "1.2.0"
-                              and p1_snapshot.get("files") == 28
-                              and disposable_snapshot_fingerprint_matches(p1_snapshot))
+                              and disposable_bridge_snapshot_matches(p1_snapshot, p1_bridge, p1_bridge_fixture_sha256))
     p1_disposable_host_pass = (
         p1_source_hashes_match
         and

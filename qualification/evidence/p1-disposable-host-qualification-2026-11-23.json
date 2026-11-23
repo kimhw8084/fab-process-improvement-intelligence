@@ -187,7 +187,7 @@
       "two_way_statsmodels_reference_false_positive_rate": 0.04666666666666667
     },
     "limitations": [
-      "P1 source has no resolvable Git revision; the 28-file fingerprint is an explicit integrity digest of the disposable composition evidence and not an authoritative source identity.",
+      "P1 source has no resolvable Git revision; the 29-file fingerprint is an explicit integrity digest of the disposable composition evidence and not an authoritative source identity.",
       "Disposable registry and route test pin updates are local fixture changes, not upstream P1 changes.",
       "The demo has an independent 10-lot D02 evaluation set for fixed chamber A, but only 3 of 76 supported candidates have exact setting outcomes; complete-set evaluation is withheld.",
       "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending."
