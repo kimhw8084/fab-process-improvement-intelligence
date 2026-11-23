@@ -1,21 +1,23 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "f88ee7cb48fe1db3a69340cf421f0266df633fd8",
+  "as_of_source_commit": "b1b08234e9aedf06a65e713cd2c27a7ff971b0bc",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 8,
-    "task": "Commit the release-runner correction that consumes the benchmark's fully qualified PARTIAL all-capability result, with adversarial incomplete/refused status tests. Re-run current-source qualification, commit the resulting evidence and updated review scope, then build and verify the exact offline archive twice from clean detached worktrees and qualify a fresh no-pip extraction with network denied.",
+    "task": "From the clean evidence commit, build the exact offline archive, reproduce it twice from clean detached worktrees, run fresh no-pip extracted qualification with network denied, then rerun the release runner against that exact archive and verify E10 without changing pending company/accessibility gates.",
     "inspect": [
-      "qualification/benchmark.py",
-      "qualification/run_release_checks.py",
-      "qualification/refresh_security_evidence.py",
+      "release/BENCHMARK_REPORT.json",
+      "release/D04_OSS_COMPARISON.json",
+      "release/DEPENDENCY_AUDIT.json",
+      "release/SOURCE_SECURITY_SCAN.json",
+      "qualification/build_transfer_bundle.py",
       "qualification/build_transfer_bundle.py",
       "qualification/check_reproducibility.py",
       "qualification/offline_qualify.py",
       "release/PUBLISHED_ARTIFACT_RECONCILIATION.json"
     ],
-    "first_command": "rtk git diff --check && rtk git diff --stat",
-    "acceptance": "The benchmark and release runner accept the complete synthetic workflow while preserving PARTIAL/LIMITED_SCOPE states and reject incomplete/refused outputs; performance evidence contains a matching per-file product-source fingerprint; current pinned dependency and Bandit audits pass with limitations visible; the locally committed source snapshot rebuilds byte-identically twice from separate clean worktrees; ZIP inventory, source manifest, source commit, sidecar and offline extracted behavior match; no network publication occurs."
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
+    "acceptance": "The locally committed evidence snapshot contains current passing 157-test, dependency, Bandit, UI, schema, D04 OSS, and source-fingerprinted performance evidence; the exact archive rebuilds byte-identically twice from separate clean worktrees; ZIP inventory, source manifest, source commit, sidecar and fresh offline extracted behavior match; E07 and company/legal gates remain pending; no network publication occurs."
   },
   "ordered_queue": [
     {"priority": 1, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D02 pointwise support/uncertainty remains advisory; independent-unit max-score split-conformal and Bonferroni metrics now provide an assumption-conditional 95% finite exact-setting panel band when each calibration unit has the same complete panel and finite rank; 1,000 fixed-seed trials gave 966/1,000 joint coverage and 0/1,000 post-selection false-feasible under the generator. Interpolation, source assumptions and split provenance remain unqualified."},

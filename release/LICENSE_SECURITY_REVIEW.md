@@ -1,6 +1,6 @@
 # P4 license and security review
 
-Review date: 2026-11-22. Scope: source and offline package in this folder, not the user's company infrastructure.
+Review date: 2026-11-23. Scope: source and offline package in this folder, not the user's company infrastructure.
 
 ## License inventory
 
@@ -14,7 +14,7 @@ Review date: 2026-11-22. Scope: source and offline package in this folder, not t
 ## Security review performed
 
 - The scientific core and headless panel perform no outbound connections, SQL, recipe write, model call, or actuation. An optional official MCP SDK adapter supports stdio and Streamable HTTP when invoked with explicit site-owned configuration. `mcp-test` uses only the bundled synthetic mock; no company endpoint, credentials, mapping, or data were used here.
-- Bandit 1.9.4 scanned the product runtime and P4 Python sources (`fabintel/`, `products/p4/`): 0 high, 0 medium, and 5 low-severity B311 findings. They flag seeded pseudorandomness used only for reproducible synthetic fixtures and DOE proposals, not security tokens or secrets. The limited scanner report records the finding disposition in `release/SOURCE_SECURITY_SCAN.json`. Bandit ran in an isolated tool environment and is not a product or benchmark dependency.
+- Bandit 1.9.4 scanned product runtime and P4 Python sources (`fabintel/`, `products/p4/`): 0 high, 0 medium, and 8 low-severity B311 findings. They flag seeded pseudorandomness used only for reproducible synthetic fixtures and DOE proposals, not security tokens or secrets. Each is recorded with a disposition in `release/SOURCE_SECURITY_SCAN.json`, whose product-source commit is `f88ee7cb48fe1db3a69340cf421f0266df633fd8`; subsequent commits changed only benchmark qualification, tests, and progress records, outside the Bandit scan scope. The scan is limited and is not an independent source review. Bandit ran in an isolated tool environment and is not a product or benchmark dependency.
 - The optional HTTP adapter enforces exact host allowlists, rejects redirects and non-loopback cleartext HTTP, sets the SDK SSE event bound, checks decoded result size, and reads bearer credentials only from a named environment variable. The SDK stdio transport starts an explicit argument-vector subprocess without a shell, using the SDK's safe environment inheritance plus explicit child-name-to-local-variable mappings. Protocol tests use P4's synthetic server over stdio and Streamable HTTP; independent security review and company egress/authentication review remain pending.
 - The remaining loopback HTTP API is a synthetic integration fixture for bounded engine jobs and cancellation. It serves no HTML and is not a deployable product backend.
 - Runtime bounds: 5,000 observations, 10 factors, 2,000 eligible Pareto rows, two active analysis jobs, 16 retained job records, 10,000 DOE runs.
@@ -27,6 +27,6 @@ Review date: 2026-11-22. Scope: source and offline package in this folder, not t
 - The shipped core runtime has no third-party Python dependencies. A fresh pip-audit scan covers the optional qualification tree and the complete hash-locked MCP SDK tree; Bandit scans product Python sources. Neither check replaces independent manual threat modeling, penetration testing, interpreter/OS scanning, or legal review.
 - No root license, copyright ownership evidence, legal approval, or company transfer approval is supplied.
 - No actual authorized MCP/user permission check, internal threat review, target-host authentication test, or company security-owner signoff is possible here. The synthetic mock does not qualify company semantics or permissions.
-- The P4 React module passed component and typecheck runs using P1's local React 19.2/Vitest 5.1.1 toolchain. The suite host was not available; formal WCAG/screen-reader testing on the approved host is pending.
+- The P4 React module passed 12 component tests and typecheck against P1's local React 19.2/Vitest 5.1.1 toolchain. A disposable composition of the available P1 shell with current P4 passed 39 frontend tests, typecheck, production build, 11 route tests, and a live synthetic analysis/chart plus denied-permission browser flow. The P1 source snapshot has no resolvable Git commit and the disposable registry pin is not an upstream change. P1 owner confirmation, formal WCAG/screen-reader testing, contrast review, and target-host behavior remain pending.
 
 **Gate result: CANDIDATE. E09 remains pending; no security or legal clearance is claimed. Public distribution is not approved.**

@@ -9,32 +9,34 @@
   },
   "component_tests": {
     "diagnostic": null,
+    "expected_test_count": 12,
     "return_code": 0,
     "test_file": "products/p4/ui/P4Panel.test.tsx",
-    "tests_passed": 8
+    "tests_passed": 12
   },
   "contract_sha256": {
     "suite-chart.v1.schema.json": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
-    "suite-ui-module.v1.schema.json": "93a9ecf707065feaf001b13dd3a84d8268ce0b93ec2c196cd856b9f44aa67d52"
+    "suite-ui-module.v1.schema.json": "e3f0da372a2528d993a8a1555403c6e115df7256edfc8cfc0f09be3995e17c4f"
   },
   "contract_snapshot_match": true,
   "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
   "p4_source_sha256": {
-    "products/p4/ui/P4Panel.test.tsx": "97a1e85b6d4074f1859054a5f8f71c72e44a143bce14b5608f2262f7eedb8583",
-    "products/p4/ui/P4Panel.tsx": "9c2c8bba8942f18b3b5ae85eeb96895d13628fdee06d1d3420a440d9dc3767da"
+    "products/p4/ui/P4Panel.test.tsx": "542187d8733f1c8953a3c39d74a5c656858240efae5c43d530d28f73a3d46ba5",
+    "products/p4/ui/P4Panel.tsx": "565f0e7b550580e6048680466cbae51bb3758eb279cd4a41a7327558dad9719c"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
   "status": "PASS_LOCAL_MODULE_ONLY",
   "suite_commit": null,
   "suite_git_metadata": "unavailable in extracted P1 folder",
-  "suite_package_lock_sha256": "3ec0e042f1c6d27328e8147947dc62bed15012bbebeaa2ea6fff0a70ccbf3adc",
-  "suite_root_name": "FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22",
+  "suite_package_lock_sha256": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
+  "suite_root_name": "p4-p1-host-qualification",
   "suite_tool_versions": {
     "react": "^19.2.0",
     "typescript": "5.9.3",
     "vitest": "5.1.1"
   },
   "typecheck": {
+    "diagnostic": null,
     "return_code": 0,
     "status": "PASS"
   }

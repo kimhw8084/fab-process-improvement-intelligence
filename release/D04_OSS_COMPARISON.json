@@ -31,7 +31,7 @@
       }
     }
   },
-  "dependency_decision": "benchmark packages are not product dependencies; the product remains standard-library-only. Basic P4 LHS retains exact marginal stratification and is comparable to SciPy basic LHS but not SciPy random-cd. P4 finite-grid D-optimal design equals the enumerated optimum in the tested case and ties pyDOE3 detmax. Sequential proposals require grouped holdout to meet an engineer-specified maximum RMSE; out-of-tolerance cases are refused.",
+  "dependency_decision": "benchmark packages are not product dependencies; the product remains standard-library-only. Basic P4 LHS retains exact marginal stratification and is comparable to SciPy basic LHS but not SciPy random-cd. P4 finite-grid D-optimal design equals the enumerated optimum in the tested case and ties pyDOE3 detmax. Sequential formula selection is isolated to grouped development units and proposals are refused when the untouched grouped evaluation holdout exceeds the engineer-specified maximum RMSE; these diagnostics do not guarantee future performance.",
   "latin_hypercube": {
     "protocol": {
       "dimensions": 4,
@@ -110,17 +110,17 @@
     "overall": {
       "p4": {
         "acceptance_fraction": 0.6666666666666666,
-        "grouped_cv_rmse_when_accepted": {
-          "count": 64,
-          "mean": 0.026793706127851525,
-          "median": 0.02677394152658673,
-          "p95": 0.027188483511104797
-        },
         "true_function_regret_when_accepted": {
           "count": 64,
           "mean": 3.7488749999980975e-05,
           "median": 3.7488749999980975e-05,
           "p95": 4.499999999996174e-05
+        },
+        "untouched_group_evaluation_rmse_when_accepted": {
+          "count": 64,
+          "mean": 0.026394585027705503,
+          "median": 0.026470248259183184,
+          "p95": 0.03250994444015704
         }
       },
       "skopt": {
@@ -132,7 +132,7 @@
     },
     "paired_p4_lower_regret_fraction_when_accepted": 0.765625,
     "protocol": {
-      "P4": "quadratic OLS with cluster sandwich; one step, 41-point supported grid, five-fold grouped CV, engineer-specified max RMSE 0.10, mean-estimation EI",
+      "P4": "formula selection by five-fold grouped CV on development units, then an untouched independent-unit holdout evaluation; one step, 41-point supported grid, engineer-specified max holdout RMSE 0.10, mean-estimation EI",
       "functions": [
         "smooth_quadratic",
         "asymmetric_quadratic",
@@ -156,18 +156,18 @@
       "asymmetric_quadratic": {
         "p4": {
           "accepted_fraction": 1.0,
-          "grouped_cv_rmse_when_accepted": {
-            "count": 32,
-            "mean": 0.027003812793976966,
-            "median": 0.02699883377694247,
-            "p95": 0.02726762712513321
-          },
           "refusal_reasons": [],
           "true_function_regret_when_accepted": {
             "count": 32,
             "mean": 2.9977500000000212e-05,
             "median": 2.9977500000000212e-05,
             "p95": 2.9977500000000212e-05
+          },
+          "untouched_group_evaluation_rmse_when_accepted": {
+            "count": 32,
+            "mean": 0.026580695839706178,
+            "median": 0.026614592715605703,
+            "p95": 0.03252191503149762
           }
         },
         "skopt": {
@@ -180,11 +180,11 @@
       "multimodal": {
         "p4": {
           "accepted_fraction": 0.0,
-          "grouped_cv_rmse_when_accepted": null,
           "refusal_reasons": [
-            "next_best refuses because grouped held-out error exceeds maximum_grouped_validation_rmse"
+            "next_best refuses because untouched grouped evaluation error exceeds maximum_grouped_validation_rmse"
           ],
-          "true_function_regret_when_accepted": null
+          "true_function_regret_when_accepted": null,
+          "untouched_group_evaluation_rmse_when_accepted": null
         },
         "skopt": {
           "count": 32,
@@ -196,18 +196,18 @@
       "smooth_quadratic": {
         "p4": {
           "accepted_fraction": 1.0,
-          "grouped_cv_rmse_when_accepted": {
-            "count": 32,
-            "mean": 0.026583599461726087,
-            "median": 0.02657245694430116,
-            "p95": 0.02683994264876054
-          },
           "refusal_reasons": [],
           "true_function_regret_when_accepted": {
             "count": 32,
             "mean": 4.499999999996174e-05,
             "median": 4.499999999996174e-05,
             "p95": 4.499999999996174e-05
+          },
+          "untouched_group_evaluation_rmse_when_accepted": {
+            "count": 32,
+            "mean": 0.026208474215704824,
+            "median": 0.02628502671243131,
+            "p95": 0.0323086738849141
           }
         },
         "skopt": {
