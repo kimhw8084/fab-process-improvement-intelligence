@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "14f6ad9ed22f795a0beb4d6e0afb175c6f5d5c3",
+  "as_of_source_commit": "22d9b5d9c9bf279d87b4c8a77b223521b8fdd6a6",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,17 +16,17 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "Record actual source commit, archive hash, clean-build reproducibility, offline socket denial, and full runner counts. Keep CANDIDATE; internal source authority, distribution/security approvals, target host and ROI remain pending.",
-    "first_command": "rtk git diff --check && rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record D02 and P1 evidence recheck\"",
+    "acceptance": "Use a held-out generator independent of product screening logic; test actual P4 selection behavior, report false-feasible/coverage behavior and abstention, preserve no-conditional-coverage claim, and run focused D02 tests.",
+    "first_command": "rtk rg -n \"supported_grid|candidate|calibration|simultaneous|panel|select\" products/p4/window.py && rtk sed -n '1,360p' products/p4/window.py",
     "inspect": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "qualification/build_transfer_bundle.py",
-      "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py",
-      "qualification/run_release_checks.py"
+      "products/p4/window.py",
+      "tests/test_d01_d02_independent.py",
+      "qualification/benchmark_d02_adaptive_selection.py",
+      "qualification/benchmark_d02_simultaneous.py",
+      "qualification/critical_cases.json"
     ],
-    "priority": 0,
-    "task": "Commit the exact P1 disposable composition evidence and progress checkpoint. Then rebuild the exact archive at that source commit, compare two detached clean builds including source manifest/checksum, run fresh no-pip offline qualification with OS network denial, and rerun the full release checks. After recording E02/E10, continue independent D02 multiplicity/OOD qualification."
+    "priority": 1,
+    "task": "Audit the exact P4 D02 candidate-selection/calibration path; implement one held-out independent challenge that exercises that exact rule and separates candidate construction, model/threshold selection, calibration and evaluation. If it demonstrates selection risk, repair with a valid precommitted family calibration or abstention; otherwise retain current pointwise-only claims and record the oracle result."
   },
   "ordered_queue": [
     {
@@ -61,16 +61,16 @@
     },
     {
       "priority": 7,
-      "status": "P1 DISPOSABLE HOST RECHECK PASS; P1 OWNER ACCEPTANCE PENDING",
-      "task": "Current P4 source 14f6ad9 overlaid into disposable unversioned P1 snapshot; 29-file fingerprint e7f6e9cace4cf779588600f2eef62f4f35a4f80237520d3ac9ad7307e27fac79; P1 routes 11 PASS, frontend 48 PASS, P4 panel 21 PASS, typecheck/build PASS. Browser synthetic request completed; long evidence list collapsed and exact expansion observed. No authoritative P1 source revision, owner acceptance, formal WCAG/screen-reader qualification or company host claim."
+      "status": "DISPOSABLE P1 WORKFLOW RECHECK PASS; OWNER AND FORMAL ACCESSIBILITY PENDING",
+      "task": "P4 14f6ad9 overlay in the unversioned disposable P1 snapshot: manifest e7f6e9ca\u20267e27fac79, routes 11 PASS, frontend 48 PASS, P4 panel 21 PASS, typecheck/build PASS; browser completed synthetic D01\u2013D05 request and inspected exact 300-item collapsed/expanded D02 evidence. No owner acceptance or formal WCAG/screen-reader review."
     },
     {
       "priority": 8,
-      "status": "CURRENT ARCHIVE STALE AFTER 14F6AD9; E10 PENDING FINAL ARCHIVE; CANDIDATE",
-      "task": "Last qualified exact archive predates 14f6ad9. Refresh with deterministic bundle builder, two detached builds, no-pip OS-network-denied extraction, and current full release runner before citing E10."
+      "status": "E02_E03_E10_PASS_AT_22D9B5D; CANDIDATE; INTERNAL/RIGHTS GATES PENDING",
+      "task": "Exact local archive source 22d9b5d: 215 files, ZIP SHA-256 eddfebe50c271540fbe211f15d954b6983a4df6f7202a080672c855b13b8b89f; detached reproducibility PASS, fresh no-pip/network-denied extraction PASS, full runner 202 tests/0 skipped and E02/E03/E10 PASS. Company/security/legal/target-host/ROI/distribution gates remain pending."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "P4 source is committed at 14f6ad9; current disposable P1 route tests 11 PASS, frontend 48 PASS, P4 panel 21 PASS, strict typecheck/build PASS, browser synthetic request COMPLETED/PARTIAL. P1 evidence refresh is uncommitted; release archive and E10 are stale. No remote update."
+  "worktree_state": "Source package commit 22d9b5d is locally reproducible: 215-file ZIP eddfebe5\u2026b8b89f, 2 clean builds matched, offline no-pip/network-denied workflow passed, full release runner 202 Python tests/0 skipped with E02/E03/E10 PASS. Generated qualification sidecars are dirty; product state remains CANDIDATE."
 }

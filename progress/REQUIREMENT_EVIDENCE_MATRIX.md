@@ -1,11 +1,11 @@
-# Current continuation checkpoint — 2026-11-23
+# Current continuation checkpoint — 2026-11-23, source 22d9b5d
 
 | Requirement | Latest verified evidence | Current status / next action |
 |---|---|---|
-| D02 transfer strata | Source `14f6ad9`; mixed or missing strata in any relevant calibration/evaluation independent units now force `INSUFFICIENT_ASSIGNABLE_STRATA`. Regression reproduced old false descriptive-match label before fix; full Python suite 202 PASS/0 skipped after backend change. | Implemented with advisory limits; conditional coverage remains unestablished. Continue independent searched-cell multiplicity and OOD challenges after current release gate. |
-| P4 evidence UI | Native disclosure compacts serialized values >240 chars; 300-item array component test and browser expansion inspected through shared P1 renderer. Exact terminal observation ID verified. | P4 panel 21 PASS; full P1 frontend 48 PASS; P1 route 11 PASS; typecheck and production build PASS in unversioned disposable composition. P1 owner/formal accessibility review remain pending. |
-| Exact offline release | Last archive predates source `14f6ad9`; current reproducibility and E10 outputs are stale. | Rebuild exact archive, two clean detached builds, fresh no-pip/network-denied extraction, then rerun the full release runner. Keep `CANDIDATE`; no publication. |
-| Company qualification and distribution | No internal mappings, data, approvals, target host, ROI or distribution rights were fabricated. | `PENDING_INTERNAL`; no push or publication. |
+| D02 transfer strata | Source behavior fix `22df281` and regression `899d3d1`: mixed/missing strata among calibration/evaluation independent units now cause `INSUFFICIENT_ASSIGNABLE_STRATA`. Full Python suite 202 PASS/0 skipped. | Implemented with advisory limits; conditional and future transfer coverage remain unestablished. Independently test P4's exact candidate-selection rule next. |
+| P4 evidence UI | Source `14f6ad9`; large serialized values use native disclosure; 300-item list component and browser inspection verified exact on-demand values in disposable P1 renderer. | P4 panel 21 PASS; P1 frontend 48 PASS; host routes 11 PASS; typecheck/build PASS. P1 owner and formal accessibility remain pending. |
+| Current local archive | Source `22d9b5d9c9bf279d87b4c8a77b223521b8fdd6a6`; 215 files; ZIP SHA-256 `eddfebe50c271540fbe211f15d954b6983a4df6f7202a080672c855b13b8b89f`; two detached clean builds match; fresh no-pip extraction passed under OS network denial; full runner 202 PASS, E02/E03/E10 PASS. | Local candidate only; macOS ARM64/Python 3.11.7 qualification only. Do not treat as authorized distribution or transfer readiness. |
+| Company qualification and distribution | No internal mapping, data, target host, ROI, license/ownership clearance, or internal approval was fabricated. | `PENDING_INTERNAL`; no remote changes or publication. |
 
 # P4 requirement and evidence matrix
 
