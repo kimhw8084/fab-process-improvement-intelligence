@@ -152,13 +152,29 @@ function Status({ value }: { value: unknown }) {
   return <span>{text(value)}</span>;
 }
 
+function EvidenceValue({ value }: { value: unknown }) {
+  const serialized = text(value);
+  if (serialized.length <= 240) return <>{serialized}</>;
+  const summary = Array.isArray(value)
+    ? `Show ${value.length} items`
+    : isObject(value)
+      ? `Show ${Object.keys(value).length} fields`
+      : "Show full value";
+  return <details>
+    <summary>{summary}</summary>
+    <pre style={{ whiteSpace: "pre-wrap", overflowWrap: "anywhere", maxHeight: "20rem", overflow: "auto" }}>
+      {serialized}
+    </pre>
+  </details>;
+}
+
 function KeyValueTable({ label, value }: { label: string; value: unknown }) {
   const rows = entries(value);
   if (!rows.length) return <p>No values reported.</p>;
   return <table>
     <caption>{label}</caption>
     <thead><tr><th scope="col">Measure</th><th scope="col">Value</th></tr></thead>
-    <tbody>{rows.map(([key, item]) => <tr key={key}><th scope="row">{key}</th><td>{text(item)}</td></tr>)}</tbody>
+    <tbody>{rows.map(([key, item]) => <tr key={key}><th scope="row">{key}</th><td><EvidenceValue value={item} /></td></tr>)}</tbody>
   </table>;
 }
 

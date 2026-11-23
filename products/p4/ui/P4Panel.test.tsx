@@ -136,6 +136,25 @@ describe("P4 headless suite module", () => {
     expect(renderChart).not.toHaveBeenCalled();
   });
 
+  it("keeps large evidence arrays collapsed while preserving exact-value inspection", async () => {
+    const user = userEvent.setup();
+    const detailedEvidence = structuredClone(evidence);
+    const dossier = detailedEvidence.artifacts?.[0] as Record<string, unknown>;
+    const observedWindow = dossier.D02_observed_process_window as Record<string, unknown>;
+    observedWindow.candidate_observation_ids = Array.from({ length: 300 }, (_, index) => `SYN-OBS-${index}`);
+
+    render(<P4Panel sourcePreview={sourcePreview} evidence={detailedEvidence} />);
+    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const observed = within(d02).getByRole("table", { name: "Observed settings and scope" });
+    const ids = within(observed).getByRole("row", { name: /candidate_observation_ids/ });
+    const expand = within(ids).getByText("Show 300 items");
+    expect(expand).toBeTruthy();
+    expect(within(ids).queryByText("SYN-OBS-299")).toBeNull();
+
+    await user.click(expand);
+    expect(within(ids).getByText((content) => content.includes("SYN-OBS-299"))).toBeTruthy();
+  });
+
   it("shows source scope, claims, limitations, and provenance", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     expect(screen.getByText("Synthetic demonstration data only")).toBeTruthy();
