@@ -42,6 +42,11 @@ class SourceContractTests(unittest.TestCase):
         self.assertFalse(any(name.startswith("qualification/evidence/legacy/") for name in packaged))
         self.assertTrue((ROOT / "qualification" / "evidence" / "legacy" / "index.html").is_file())
 
+    def test_execution_ledgers_stay_in_workspace_and_out_of_product_bundle(self):
+        packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
+        self.assertFalse(any(name.startswith("progress/") for name in packaged))
+        self.assertTrue((ROOT / "progress" / "NEXT_ACTIONS.json").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()

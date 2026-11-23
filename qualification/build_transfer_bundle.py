@@ -22,7 +22,8 @@ EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE
             RELEASE / "TEST_LOG.txt", RELEASE / "TEST_RESULTS.json", BUILD_METADATA,
             RELEASE / "SCHEMA_VALIDATION.json"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
-EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/",)
+# Workspace-only execution ledgers are kept beside the source but are not product transfer contents.
+EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/", "progress/")
 
 
 def git(*args):
