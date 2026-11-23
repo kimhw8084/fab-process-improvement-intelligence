@@ -138,6 +138,15 @@
     "status": "PASS"
   },
   "integrated_demo": {
+    "D02_empirical_calibration": {
+      "calibration_units": 20,
+      "candidate_count": 76,
+      "coverage_guarantee": "none; local selection does not establish conditional coverage",
+      "grid_cells": 225,
+      "qualification": "PASS",
+      "status": "VALID",
+      "training_units": 30
+    },
     "capabilities": [
       "D01",
       "D02",
@@ -152,23 +161,29 @@
     "return_code": 0,
     "status": "PASS"
   },
+  "mcp_sdk_offline_qualification": {
+    "evidence": "release/MCP_SDK_QUALIFICATION.json",
+    "protocol_tests": 7,
+    "status": "PASS",
+    "version": "2.3.0"
+  },
   "schema_validation": {
     "evidence": "release/SCHEMA_VALIDATION.json",
     "status": "PASS"
   },
   "scientific_performance_benchmark": {
     "evidence": "release/BENCHMARK_REPORT.json",
-    "integrated_demo_independent_lots": 60,
-    "integrated_demo_observations": 540,
-    "maximum_statsmodels_ols_coefficient_difference": 1.4210854715202004e-14,
-    "package_source_snapshot": "65521742de34240f8de03e52d89b87288497c585",
+    "integrated_demo_independent_lots": 100,
+    "integrated_demo_observations": 900,
+    "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
+    "package_source_snapshot": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
     "product_code_unchanged_after_benchmark": true,
-    "source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
+    "source_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
     "status": "PASS"
   },
   "source_security_scan": {
     "evidence": "release/SOURCE_SECURITY_SCAN.json",
-    "finding_count": 8,
+    "finding_count": 5,
     "high_or_medium_findings": 0,
     "independent_human_review": "PENDING",
     "status": "PASS_LIMITED_SCOPE",
@@ -195,20 +210,21 @@
     },
     "status": "PASS"
   },
-  "ui_accessibility_contrast": {
-    "evidence": "release/UI_CONTRAST_CHECK.json",
-    "pairs_checked": 15,
-    "scope": "Not a complete WCAG audit; does not inspect every rendered combination, image, browser, or operating-system setting.",
-    "status": "PASS"
+  "ui_module_qualification": {
+    "component_tests": 8,
+    "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
+    "host_integration": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
+    "status": "PASS_LOCAL_MODULE_ONLY",
+    "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 4.241,
+    "duration_seconds": 5.568,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 84,
+    "tests_run": 91,
     "tests_skipped": 0
   }
 }

@@ -1,241 +1,18 @@
 {
   "errors": [],
-  "generated_at": "2026-11-23T01:50:05Z",
+  "generated_at": "2026-11-23T04:20:20Z",
   "metrics": {
-    "_totals": {
-      "CONFIDENCE.HIGH": 8,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 8,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 3346,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/__init__.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/__main__.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 2,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/catalog.py": {
-      "CONFIDENCE.HIGH": 1,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 1,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 25,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/cli.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 120,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/contracts.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 60,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/mcp_client.py": {
-      "CONFIDENCE.HIGH": 3,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 3,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 507,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/mock_mcp.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 21,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/mock_mcp_server.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 183,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/project.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 8,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/qualification.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 50,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "fabintel/server.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 187,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "products/p4/__init__.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 1,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "products/p4/design.py": {
-      "CONFIDENCE.HIGH": 3,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 3,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 409,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "products/p4/engine.py": {
-      "CONFIDENCE.HIGH": 1,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 1,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 804,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "products/p4/regression.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 418,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "products/p4/tradeoffs.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 250,
-      "nosec": 0,
-      "skipped_tests": 0
-    },
-    "products/p4/window.py": {
-      "CONFIDENCE.HIGH": 0,
-      "CONFIDENCE.LOW": 0,
-      "CONFIDENCE.MEDIUM": 0,
-      "CONFIDENCE.UNDEFINED": 0,
-      "SEVERITY.HIGH": 0,
-      "SEVERITY.LOW": 0,
-      "SEVERITY.MEDIUM": 0,
-      "SEVERITY.UNDEFINED": 0,
-      "loc": 300,
-      "nosec": 0,
-      "skipped_tests": 0
-    }
+    "CONFIDENCE.HIGH": 5,
+    "CONFIDENCE.LOW": 0,
+    "CONFIDENCE.MEDIUM": 0,
+    "CONFIDENCE.UNDEFINED": 0,
+    "SEVERITY.HIGH": 0,
+    "SEVERITY.LOW": 5,
+    "SEVERITY.MEDIUM": 0,
+    "SEVERITY.UNDEFINED": 0,
+    "loc": 3348,
+    "nosec": 0,
+    "skipped_tests": 0
   },
   "results": [
     {
@@ -257,69 +34,6 @@
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
-    },
-    {
-      "code": "11 import socket\n12 import subprocess\n13 import threading\n",
-      "col_offset": 0,
-      "end_col_offset": 17,
-      "filename": "fabintel/mcp_client.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 78,
-        "link": "https://cwe.mitre.org/data/definitions/78.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Consider possible security implications associated with the subprocess module.",
-      "line_number": 12,
-      "line_range": [
-        12
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_imports.html#b404-import-subprocess",
-      "test_id": "B404",
-      "test_name": "blacklist"
-    },
-    {
-      "code": "172                 response.read(256)\n173         except Exception:\n174             # Session termination is best effort; never hide primary results.\n175             pass\n176         self.session_id = None\n",
-      "col_offset": 8,
-      "end_col_offset": 16,
-      "filename": "fabintel/mcp_client.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 703,
-        "link": "https://cwe.mitre.org/data/definitions/703.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "Try, Except, Pass detected.",
-      "line_number": 173,
-      "line_range": [
-        173,
-        174,
-        175
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b110_try_except_pass.html",
-      "test_id": "B110",
-      "test_name": "try_except_pass"
-    },
-    {
-      "code": "200             self.process = subprocess.Popen(command, cwd=cwd, env=child_env, stdin=subprocess.PIPE,\n201                 stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0, shell=False)\n202         except OSError as exc:\n203             raise McpError(f\"could not start configured MCP stdio server: {type(exc).__name__}\") from exc\n",
-      "col_offset": 27,
-      "end_col_offset": 87,
-      "filename": "fabintel/mcp_client.py",
-      "issue_confidence": "HIGH",
-      "issue_cwe": {
-        "id": 78,
-        "link": "https://cwe.mitre.org/data/definitions/78.html"
-      },
-      "issue_severity": "LOW",
-      "issue_text": "subprocess call - check for execution of untrusted input.",
-      "line_number": 201,
-      "line_range": [
-        200,
-        201
-      ],
-      "more_info": "https://bandit.readthedocs.io/en/1.9.4/plugins/b603_subprocess_without_shell_equals_true.html",
-      "test_id": "B603",
-      "test_name": "subprocess_without_shell_equals_true"
     },
     {
       "code": "19         raise DesignError(\"blocks must be positive and no greater than the run count\")\n20     rng = Random(seed)\n21     capacities = [len(runs)//block_count + (1 if i < len(runs) % block_count else 0)\n",
@@ -403,36 +117,24 @@
     }
   ],
   "review": {
-    "command": "bandit -r fabintel products/p4 -f json",
-    "finding_count": 8,
+    "command": "bandit -r fabintel products/p4 -f json --exit-zero",
+    "finding_count": 5,
     "finding_dispositions_cover_all_reported_findings": true,
     "high_or_medium_findings": 0,
     "independent_human_source_review": "PENDING",
     "license_and_ownership_review": "PENDING",
-    "limitations": "Static Bandit findings do not replace manual threat modeling, OS/runtime review, penetration testing, or legal license and ownership review.",
+    "limitations": "Static analysis does not replace manual threat modeling, OS/runtime review, penetration testing, or license and ownership review.",
     "limited_scan_result": "PASS_LIMITED_SCOPE",
     "low_finding_dispositions": [
       {
-        "disposition": "Expected deterministic pseudorandomness for synthetic fixtures and seeded DOE randomization; not used for security tokens, authentication, or secrets.",
+        "disposition": "Seeded pseudorandomness is used only for reproducible synthetic fixtures and DOE proposals, not secrets or security tokens.",
         "test_id": "B311"
-      },
-      {
-        "disposition": "The configured MCP stdio transport must start an external MCP server process; launch uses an explicit argument list and shell=False.",
-        "test_id": "B404"
-      },
-      {
-        "disposition": "Subprocess execution is limited to the explicitly configured argv, restricted environment, and bounded RPC timeouts; actual company command authorization remains pending.",
-        "test_id": "B603"
-      },
-      {
-        "disposition": "Best-effort HTTP session DELETE in close() suppresses cleanup errors after analysis; it does not suppress data reads, permission checks, tool errors, or analysis failures.",
-        "test_id": "B110"
       }
     ],
-    "low_findings": 8,
-    "product_source_commit": "5eeab108522abee3230ad38393f52e34ce6fd0cb",
-    "scanner_scope": "P4 runtime and product Python sources; excludes test, fixture, benchmark, and release tooling code",
+    "product_source_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
+    "scanner_scope": "P4 runtime and product Python sources; excludes tests, fixtures, benchmark, and release tooling.",
     "tool": "Bandit",
     "tool_version": "1.9.4"
-  }
+  },
+  "scanner_return_code": 0
 }

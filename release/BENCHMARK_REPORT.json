@@ -1,5 +1,5 @@
 {
-  "benchmark_version": "2.0.0",
+  "benchmark_version": "3.0.0",
   "catalog_rows": 13000,
   "engineering_user_baseline": "NOT_AVAILABLE; no eligible engineer study or human task-time baseline supplied",
   "environment": {
@@ -13,28 +13,28 @@
   "network": "not used",
   "oss_reference": {
     "absolute_differences": {
-      "intercept": 1.4210854715202004e-14,
-      "pressure": 3.552713678800501e-15,
-      "pressure:temperature": 1.1150612768198731e-15,
-      "temperature": 1.1657341758564144e-15
+      "intercept": 2.842170943040401e-14,
+      "pressure": 3.9968028886505635e-15,
+      "pressure:temperature": 2.1161390239936295e-15,
+      "temperature": 7.216449660063518e-16
     },
-    "maximum_absolute_coefficient_difference": 1.4210854715202004e-14,
+    "maximum_absolute_coefficient_difference": 2.842170943040401e-14,
     "metrics": {
-      "p50_ms": 0.06158370524644852,
-      "p95_ms": 0.17641764134168625,
-      "peak_python_alloc_bytes_one_run": 59248,
+      "p50_ms": 0.08187536150217056,
+      "p95_ms": 0.13637449592351913,
+      "peak_python_alloc_bytes_one_run": 96688,
       "repeats": 25
     },
     "name": "statsmodels OLS",
     "role": "benchmark-only; not imported by product runtime",
     "version": "0.15.0"
   },
-  "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (540-row integrated fixture and independent scaling tasks)",
+  "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (900-row integrated fixture and independent scaling tasks)",
   "reproducibility": "25 repetitions per task; deterministic input fixtures; perf_counter and tracemalloc",
   "result_checks": {
-    "integrated_full_workflow_demo_540_rows": {
-      "independent_lots": 60,
-      "observations": 540,
+    "integrated_full_workflow_demo_900_rows": {
+      "independent_lots": 100,
+      "observations": 900,
       "status": "VALID"
     },
     "single_metric_sensitivity_1000_rows": {
@@ -56,35 +56,35 @@
       "observations": 5000
     }
   },
-  "source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
+  "source_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
   "tasks": {
-    "integrated_full_workflow_demo_540_rows": {
-      "p50_ms": 70.41329145431519,
-      "p95_ms": 71.67079206556082,
-      "peak_python_alloc_bytes_one_run": 1880074,
+    "integrated_full_workflow_demo_900_rows": {
+      "p50_ms": 206.20824955403805,
+      "p95_ms": 209.6424587070942,
+      "peak_python_alloc_bytes_one_run": 3134680,
       "repeats": 25
     },
     "single_metric_sensitivity_1000_rows": {
-      "p50_ms": 5.397874861955643,
-      "p95_ms": 6.4502498134970665,
-      "peak_python_alloc_bytes_one_run": 1311076,
+      "p50_ms": 5.72633370757103,
+      "p95_ms": 7.000667043030262,
+      "peak_python_alloc_bytes_one_run": 1311028,
       "repeats": 25
     },
     "single_metric_sensitivity_18_rows": {
-      "p50_ms": 0.16458332538604736,
-      "p95_ms": 0.18566753715276718,
+      "p50_ms": 0.18570851534605026,
+      "p95_ms": 0.19975006580352783,
       "peak_python_alloc_bytes_one_run": 23234,
       "repeats": 25
     },
     "single_metric_sensitivity_5000_rows": {
-      "p50_ms": 27.018708176910877,
-      "p95_ms": 28.744000010192394,
+      "p50_ms": 27.876165695488453,
+      "p95_ms": 29.730750247836113,
       "peak_python_alloc_bytes_one_run": 6117510,
       "repeats": 25
     },
     "synthetic_schema_catalog_13000_tables": {
-      "p50_ms": 8.313207887113094,
-      "p95_ms": 11.277666315436363,
+      "p50_ms": 8.987833745777607,
+      "p95_ms": 12.940417043864727,
       "peak_python_alloc_bytes_one_run": 6521827,
       "repeats": 25
     }

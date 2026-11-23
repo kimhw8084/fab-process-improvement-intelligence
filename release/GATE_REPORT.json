@@ -18,7 +18,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "65521742de34240f8de03e52d89b87288497c585",
+  "evaluated_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -79,23 +79,24 @@
     },
     "E06": {
       "evidence": [
+        "release/MCP_SDK_QUALIFICATION.json",
         "release/LICENSE_SECURITY_REVIEW.md",
         "tests/test_mcp_transport.py",
-        "requirements/synthetic-mcp-mapping.v1.json"
+        "requirements/synthetic-mcp-mapping.v1.json",
+        "vendor/mcp-sdk/2.3.0/macos-arm64-cp311/requirements.lock"
       ],
-      "scope": "model-off product; MCP JSON-RPC stdio and Streamable HTTP mapping exercised against synthetic mock; company tool names/permissions/source semantics remain unconfigured",
+      "scope": "official MCP SDK hash-locked offline install and stdio/Streamable HTTP protocol tests against a synthetic mock; company tool names/permissions/source semantics remain unconfigured",
       "status": "PASS"
     },
     "E07": {
       "evidence": [
-        "release/UI_BROWSER_ACCEPTANCE.md",
-        "release/UI_ACCESSIBILITY_CHECK.json",
-        "release/UI_CONTRAST_CHECK.json",
-        "qualification/accessibility_contrast_check.py",
-        "tests/test_offline_server.py"
+        "release/UI_COMPONENT_QUALIFICATION.json",
+        "products/p4/ui/P4Panel.test.tsx",
+        "products/p4/ui/P4Panel.tsx",
+        "qualification/evidence/legacy/UI_BROWSER_ACCEPTANCE.md"
       ],
-      "reason": "local keyboard-only task, accessible table alternatives, focus management and browser accessibility tree passed; 15 curated text/focus contrast pairs passed; screen-reader, complete formal WCAG, and approved-host reviews remain unrun",
-      "status": "PENDING_FORMAL_ACCESSIBILITY"
+      "reason": "headless module tests, shared schema checks, accessible tables, and native keyboard-focus order passed with P1's local React/Vitest toolchain; integrated suite host, formal WCAG, screen reader, full contrast review, and target-host behavior were not run",
+      "status": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY"
     },
     "E08": {
       "evidence": [
@@ -113,7 +114,7 @@
         "release/SOURCE_SECURITY_SCAN.json",
         "release/LICENSE_SECURITY_REVIEW.md"
       ],
-      "reason": "the package-advisory scan is clean and Bandit found no medium/high source findings (eight low tool findings are dispositioned); independent manual/OS security review and owner/legal distribution rights remain unresolved",
+      "reason": "local advisory and source scans are limited-scope evidence; independent manual/OS security review, license interpretation/approval, and owner/legal distribution rights remain unresolved",
       "source_security_scan": "PASS_LIMITED_SCOPE",
       "status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW"
     },
@@ -124,8 +125,8 @@
         "release/OFFLINE_QUALIFICATION.json",
         "qualification/build_transfer_bundle.py"
       ],
-      "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime",
-      "status": "PASS"
+      "reason": "the exact current archive, clean-source reproducible build and fresh extracted offline runtime must all match",
+      "status": "PENDING_FINAL_ARCHIVE"
     },
     "E11": {
       "evidence": [
@@ -145,6 +146,15 @@
     }
   },
   "integrated_demo": {
+    "D02_empirical_calibration": {
+      "calibration_units": 20,
+      "candidate_count": 76,
+      "coverage_guarantee": "none; local selection does not establish conditional coverage",
+      "grid_cells": 225,
+      "qualification": "PASS",
+      "status": "VALID",
+      "training_units": 30
+    },
     "capabilities": [
       "D01",
       "D02",
@@ -164,6 +174,7 @@
     "unverified": [
       "real MCP and auth scopes",
       "source semantics and joins",
+      "P1-integrated host and D01-D05 capability contract",
       "company target OS and approved host",
       "company data pilot",
       "engineer acceptance",
@@ -173,9 +184,10 @@
   },
   "known_critical_defects": [],
   "product": "p4",
-  "product_source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
+  "product_source_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
   "release_blockers": [
     "no actual authorized MCP connector",
+    "P1 suite host and D01-D05 capability contract are unavailable",
     "license ownership and distribution rights are not declared",
     "independent source security review not completed",
     "company target OS and formal UX/user baselines not supplied"
@@ -187,17 +199,17 @@
   },
   "scientific_performance_benchmark": {
     "evidence": "release/BENCHMARK_REPORT.json",
-    "integrated_demo_independent_lots": 60,
-    "integrated_demo_observations": 540,
-    "maximum_statsmodels_ols_coefficient_difference": 1.4210854715202004e-14,
-    "package_source_snapshot": "65521742de34240f8de03e52d89b87288497c585",
+    "integrated_demo_independent_lots": 100,
+    "integrated_demo_observations": 900,
+    "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
+    "package_source_snapshot": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
     "product_code_unchanged_after_benchmark": true,
-    "source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
+    "source_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
     "status": "PASS"
   },
   "source_security_scan": {
     "evidence": "release/SOURCE_SECURITY_SCAN.json",
-    "finding_count": 8,
+    "finding_count": 5,
     "high_or_medium_findings": 0,
     "independent_human_review": "PENDING",
     "status": "PASS_LIMITED_SCOPE",
@@ -228,20 +240,21 @@
     },
     "status": "PASS"
   },
-  "ui_accessibility_contrast": {
-    "evidence": "release/UI_CONTRAST_CHECK.json",
-    "pairs_checked": 15,
-    "scope": "Not a complete WCAG audit; does not inspect every rendered combination, image, browser, or operating-system setting.",
-    "status": "PASS"
+  "ui_module_qualification": {
+    "component_tests": 8,
+    "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
+    "host_integration": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
+    "status": "PASS_LOCAL_MODULE_ONLY",
+    "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 4.241,
+    "duration_seconds": 5.568,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 84,
+    "tests_run": 91,
     "tests_skipped": 0
   }
 }

@@ -5,7 +5,7 @@
       "annotationDate": "2026-11-22T00:00:00Z",
       "annotationType": "OTHER",
       "annotator": "Tool: FabIntel P4 local SBOM generator 1.0.0",
-      "comment": "Product runtime has no bundled third-party package dependencies. Python 3.10+ standard library is provided by the separately installed interpreter. Optional qualification dependencies are enumerated in qualification/benchmark-requirements.txt, audited in release/DEPENDENCY_AUDIT.json, and are not packaged or imported by product runtime."
+      "comment": "Scientific core and CLI use Python standard library. The P1-owned UI uses the P1 React/toolchain as peer dependencies; no React, ECharts, Plotly, Cytoscape, or AG Grid runtime is bundled by P4."
     }
   ],
   "creationInfo": {
@@ -20,7 +20,7 @@
   "packages": [
     {
       "SPDXID": "SPDXRef-P4-Candidate",
-      "comment": "No project license is declared in the supplied folder; distribution rights remain pending owner review.",
+      "comment": "No project license or ownership evidence is supplied; redistribution rights remain pending review.",
       "copyrightText": "NOASSERTION",
       "downloadLocation": "NOASSERTION",
       "filesAnalyzed": false,
@@ -29,8 +29,866 @@
       "name": "FAB Process Improvement Intelligence P4 Candidate",
       "primaryPackagePurpose": "APPLICATION",
       "versionInfo": "1.0.0"
+    },
+    {
+      "SPDXID": "SPDXRef-Golden-Agentic-Engineering",
+      "comment": "Selected development-method references only; upstream qualification state is PRE_QUALIFICATION. Exact source file hashes are recorded in research/golden-agentic-engineering/SOURCE_MANIFEST.json.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/kimhw8084/golden-agentic-engineering/tree/dc2ece864b2d744e47dfe8c7d9ad78aadbed369e",
+      "filesAnalyzed": false,
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "MIT",
+      "name": "Golden Agentic Engineering reusable-method snapshot",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.1.0-dev+dc2ece864b2d744e47dfe8c7d9ad78aadbed369e"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-annotated-types-0.8.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/annotated-types/annotated-types",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/annotated-types@0.8.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "annotated-types",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.8.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-anyio-4.16.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "c66ae634e0b8228396b801741beb3294326d4b6102f7bba4041c0dfb58c29026"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/anyio@4.16.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "anyio",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "4.16.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-attrs-26.1.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/attrs@26.1.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "attrs",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "26.1.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-cffi-2.1.1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "398aff33cee2767e3e781d2554c54bd0dff386bb437581e0d8011fde1a942ec1"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT-0. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/cffi@2.1.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT-0",
+      "name": "cffi",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.1.1"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-click-8.5.1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8bb5376d2006950386f8c6427613334a2acadc5f559cb80e638d00b4df957e37"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/pallets/click/",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/click@8.5.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "click",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "8.5.1"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-cryptography-50.0.2",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "fa8f5efb344d6908a1ce62f4a24e2e5780f825d6f53f5f50ec5ffacac72936cb"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: Apache-2.0 OR BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/cryptography@50.0.2",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0 OR BSD-3-Clause",
+      "name": "cryptography",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "50.0.2"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-h11-0.16.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: NOASSERTION. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/h11@0.16.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "h11",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.16.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-httpcore2-2.16.2",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "16051ae2a42f776007543f32de9349a317b23d2cbb4e1456b4bac0e88b87419a"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/pydantic/httpx2/blob/main/src/httpcore2",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/httpcore2@2.16.2",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "httpcore2",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.16.2"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-httpx2-2.16.2",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "f05c13aade4c45dbf1c9060647a1058f0acad62398fad96e741269edb33d46f5"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/pydantic/httpx2",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/httpx2@2.16.2",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "httpx2",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.16.2"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-idna-3.20",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/kjd/idna",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/idna@3.20",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "idna",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "3.20"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-jsonschema-4.26.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/python-jsonschema/jsonschema",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/jsonschema@4.26.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "jsonschema",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "4.26.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-jsonschema-specifications-2025.9.1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/python-jsonschema/jsonschema-specifications",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/jsonschema-specifications@2025.9.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "jsonschema-specifications",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2025.9.1"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-mcp-2.3.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "dd0c44c089d16453e8ae31a3877a0054d7a2314caaa81f5e0541b9b1734b2377"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: NOASSERTION. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/mcp@2.3.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "mcp",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.3.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-mcp-types-2.3.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "968efdbdaedfab06adae40d378a34395f1090c5921d4be3c9cde283aaf76d91d"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: NOASSERTION. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/mcp-types@2.3.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "name": "mcp-types",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.3.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-opentelemetry-api-1.45.2",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "2cbd737377e710ee740d261c94e93fa0f08e6d037c18f17513cc0a2d94479a34"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: Apache-2.0. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/opentelemetry-api@1.45.2",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "name": "opentelemetry-api",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "1.45.2"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-pycparser-3.12",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/pycparser@3.12",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "pycparser",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "3.12"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-pydantic-2.14.4",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "653a2ad9f6d8858529c77c72717d0ea991d6c6837fe683246b2f4b2bbfc3fadc"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/pydantic/pydantic",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/pydantic@2.14.4",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "pydantic",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.14.4"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-pydantic-core-2.50.5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "40d5da89a632e6c6c938f93fdf54c534882d258a80f51ccfe1650cdedc12e82c"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/pydantic/pydantic/tree/main/pydantic-core",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/pydantic-core@2.50.5",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "pydantic_core",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.50.5"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-PyJWT-2.15.1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "42d59d631f7768a1028a64c7ff581a9bf7519804daf91fc5b6c56e30eec5e193"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/pyjwt@2.15.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "PyJWT",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2.15.1"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-python-multipart-0.0.34",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "ebacd224bd686eee2f9aa1066a657affe07435a185834e05e5235e2e59173e91"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: Apache-2.0. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/Kludex/python-multipart",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/python-multipart@0.0.34",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "Apache-2.0",
+      "name": "python-multipart",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.0.34"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-referencing-0.37.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/python-jsonschema/referencing",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/referencing@0.37.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "referencing",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.37.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-rpds-py-2026.9.1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "3231c4c0e521dafa5be0c9f114ee2c2ad46650836f2d72caa86801950c3e7044"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/crate-py/rpds",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/rpds-py@2026.9.1",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "rpds-py",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "2026.9.1"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-sse-starlette-3.7.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "f1d3136caa12d129284fca3d2ded79bc9af943320b6472712955fea52a6d3eea"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/sysid/sse-starlette",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/sse-starlette@3.7.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "sse-starlette",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "3.7.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-starlette-1.10.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "478c0ab3b4ced6e82719849c118fa406f0278a3499c1a898cd15cd31bdc38ce4"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/Kludex/starlette",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/starlette@1.10.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "starlette",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "1.10.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-truststore-0.10.5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "9aaaedaefaf06d8b206278cf8b5012bc897f485a874503501e12d776df78951c"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/sethmlarson/truststore",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/truststore@0.10.5",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "truststore",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.10.5"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-typing-extensions-4.16.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: PSF-2.0. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "NOASSERTION",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/typing-extensions@4.16.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "PSF-2.0",
+      "name": "typing_extensions",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "4.16.0"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-typing-inspection-0.4.5",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "bc210535442b39e1bf2805e0c7a17dfd6a4ace760c84c7f7d16245d23a6b1c39"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: MIT. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/pydantic/typing-inspection",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/typing-inspection@0.4.5",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "MIT",
+      "name": "typing-inspection",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.4.5"
+    },
+    {
+      "SPDXID": "SPDXRef-MCP-uvicorn-0.54.0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf"
+        }
+      ],
+      "comment": "Optional MCP SDK candidate dependency; target macOS ARM64 CPython 3.11. Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. Declared license expression from wheel metadata: BSD-3-Clause. Company/legal license approval is pending.",
+      "copyrightText": "NOASSERTION",
+      "downloadLocation": "https://github.com/Kludex/uvicorn",
+      "externalRefs": [
+        {
+          "referenceCategory": "PACKAGE-MANAGER",
+          "referenceLocator": "pkg:pypi/uvicorn@0.54.0",
+          "referenceType": "purl"
+        }
+      ],
+      "filesAnalyzed": false,
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "BSD-3-Clause",
+      "name": "uvicorn",
+      "primaryPackagePurpose": "LIBRARY",
+      "versionInfo": "0.54.0"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relatedSpdxElement": "SPDXRef-Golden-Agentic-Engineering",
+      "relationshipType": "CONTAINS",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-annotated-types-0.8.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-anyio-4.16.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-attrs-26.1.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-cffi-2.1.1",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-click-8.5.1",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-cryptography-50.0.2",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-h11-0.16.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-httpcore2-2.16.2",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-httpx2-2.16.2",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-idna-3.20",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-jsonschema-4.26.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-jsonschema-specifications-2025.9.1",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-mcp-2.3.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-mcp-types-2.3.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-opentelemetry-api-1.45.2",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-pycparser-3.12",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-pydantic-2.14.4",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-pydantic-core-2.50.5",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-PyJWT-2.15.1",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-python-multipart-0.0.34",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-referencing-0.37.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-rpds-py-2026.9.1",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-sse-starlette-3.7.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-starlette-1.10.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-truststore-0.10.5",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-typing-extensions-4.16.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-typing-inspection-0.4.5",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    },
+    {
+      "relatedSpdxElement": "SPDXRef-MCP-uvicorn-0.54.0",
+      "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+      "spdxElementId": "SPDXRef-P4-Candidate"
+    }
+  ],
   "spdxVersion": "SPDX-2.3"
 }
