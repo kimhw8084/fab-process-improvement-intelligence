@@ -20,15 +20,29 @@
     "experiment_design": {
       "type": "object",
       "properties": {
-        "strategy": {"enum": ["full_factorial", "fractional_factorial", "latin_hypercube", "d_optimal", "next_best"]},
+        "strategy": {"enum": ["full_factorial", "fractional_factorial", "central_composite", "latin_hypercube", "d_optimal", "next_best", "confirm_window_candidate"]},
         "run_budget": {"type": "integer", "minimum": 1}, "replicates": {"type": "integer", "minimum": 1},
         "blocks": {"type": "integer", "minimum": 1}, "seed": {"type": "integer"},
+        "center_replicates": {"type": "integer", "minimum": 2, "maximum": 100},
         "candidate_levels": {"type": "integer", "minimum": 2, "maximum": 41},
         "target_metric": {"type": "string"}, "independent_unit_field": {"type": "string"},
+        "constraint_metrics": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "min_independent_units": {"type": "integer", "minimum": 3}, "fixed_effects": {"type": "object"},
         "maximum_grouped_validation_rmse": {"type": "number", "exclusiveMinimum": 0},
+        "maximum_grouped_validation_rmse_by_metric": {"type": "object", "additionalProperties": {"type": "number", "exclusiveMinimum": 0}},
         "noise_sd": {"type": "number", "exclusiveMinimum": 0},
-        "minimum_detectable_effect": {"type": "number", "exclusiveMinimum": 0}
+        "minimum_detectable_effect": {"type": "number", "exclusiveMinimum": 0},
+        "candidate_factors": {"type": "object", "additionalProperties": {"type": "number"}},
+        "comparison_factors": {"type": "object", "additionalProperties": {"type": "number"}},
+        "objective_statement": {"type": "string", "minLength": 1},
+        "paired_difference_sd": {"type": "number", "exclusiveMinimum": 0},
+        "paired_difference_sd_source": {"type": "string", "minLength": 1},
+        "paired_difference_sd_basis": {"enum": ["ONE_SIDED_CHI_SQUARE_UPPER_CONFIDENCE_BOUND", "ENGINEER_APPROVED_HARD_BOUND"]},
+        "paired_difference_sd_confidence_level": {"type": "number", "minimum": 0.95, "exclusiveMaximum": 1},
+        "paired_difference_sd_degrees_of_freedom": {"type": "integer", "minimum": 2},
+        "minimum_detectable_effect_source": {"type": "string", "minLength": 1},
+        "alpha": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 0.2},
+        "target_power": {"type": "number", "exclusiveMinimum": 0.5, "exclusiveMaximum": 0.99}
       },
       "additionalProperties": false
     },
@@ -39,6 +53,7 @@
         "factors": {"type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
         "fixed_settings": {"type": "object", "additionalProperties": {"type": "number"}},
         "fixed_effects": {"type": "object"},
+        "evaluation_strata": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "independent_unit_field": {"type": "string", "minLength": 1},
         "min_independent_units": {"type": "integer", "minimum": 3},
         "grid_points": {"type": "integer", "minimum": 5, "maximum": 41},
@@ -53,7 +68,22 @@
             "training_value": {"type": "string", "minLength": 1},
             "calibration_value": {"type": "string", "minLength": 1},
             "split_reference": {"type": "string", "minLength": 1},
-            "minimum_calibration_units": {"type": "integer", "minimum": 19}
+            "minimum_calibration_units": {"type": "integer", "minimum": 19},
+            "precommit": {
+              "type": "object",
+              "required": ["plan_reference", "model_selection_reference", "threshold_selection_reference", "metric_family", "exact_setting_panel"],
+              "properties": {
+                "plan_reference": {"type": "string", "minLength": 1},
+                "model_selection_reference": {"type": "string", "minLength": 1},
+                "threshold_selection_reference": {"type": "string", "minLength": 1},
+                "metric_family": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+                "exact_setting_panel": {
+                  "type": "array", "minItems": 1, "maxItems": 1681,
+                  "items": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number"}}
+                }
+              },
+              "additionalProperties": false
+            }
           },
           "additionalProperties": false
         }
@@ -64,17 +94,25 @@
       "type": "object",
       "properties": {
         "authorized": {"type": "boolean"}, "design": {"enum": ["randomized", "difference_in_differences", "before_after"]},
-        "metric": {"type": "string"}, "observations": {"type": "array", "items": {"type": "object"}},
+        "metric": {"type": "string"}, "metric_unit": {"type": "string", "minLength": 1},
+        "observations": {"type": "array", "items": {"type": "object"}},
         "assignment_ledger": {"type": "array", "items": {"type": "object", "required": ["unit_id", "group"],
           "properties": {"unit_id": {"type": "string"}, "group": {"enum": ["treatment", "control"]}}, "additionalProperties": false}},
         "outcome_bounds": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
         "baseline_covariates": {"type": "array", "items": {"type": "string"}},
+        "population_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "differential_trend_bound": {"type": "number", "minimum": 0},
         "differential_trend_bound_source": {"type": "string", "minLength": 1},
         "differential_trend_bound_method": {"type": "string", "minLength": 1},
+        "differential_trend_bound_unit": {"type": "string", "minLength": 1},
         "pretrend_equivalence_bound": {"type": "number", "minimum": 0},
         "pretrend_equivalence_bound_source": {"type": "string", "minLength": 1},
         "pretrend_equivalence_bound_method": {"type": "string", "minLength": 1},
+        "pretrend_equivalence_bound_unit": {"type": "string", "minLength": 1},
+        "negative_control_outcome": {"type": "object", "required": ["metric", "equivalence_bound", "bound_unit", "bound_source", "bound_method"],
+          "properties": {"metric": {"type": "string", "minLength": 1}, "equivalence_bound": {"type": "number", "minimum": 0},
+            "bound_unit": {"type": "string", "minLength": 1},
+            "bound_source": {"type": "string", "minLength": 1}, "bound_method": {"type": "string", "minLength": 1}}, "additionalProperties": false},
         "differential_concurrent_intervention": {"type": "boolean"},
         "intervention_id": {"type": "string"}, "authorization_id": {"type": "string"},
         "randomization_evidence": {"type": "string"}
@@ -129,7 +167,7 @@
     },
     "observation": {
       "type": "object", "required": ["factors", "metrics"],
-      "properties": {"id": {"type": "string"}, "factors": {"type": "object"}, "metrics": {"type": "object"}, "wafer_id": {"type": "string"}, "lot_id": {"type": "string"}, "event_ts": {"type": "string"}},
+      "properties": {"id": {"type": "string"}, "unit_id": {"type": "string", "minLength": 1}, "factors": {"type": "object"}, "metrics": {"type": "object"}, "wafer_id": {"type": "string"}, "lot_id": {"type": "string"}, "event_ts": {"type": "string"}},
       "additionalProperties": true
     },
     "source": {

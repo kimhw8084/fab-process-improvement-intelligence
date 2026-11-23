@@ -60,6 +60,7 @@ type Dossier = JsonObject & {
   D02_observed_process_window?: JsonObject;
   D02_robust_observed_region?: JsonObject;
   D02_supported_region?: JsonObject;
+  validation_split?: JsonObject;
   D03_tradeoffs?: JsonObject;
   D04_experiment_proposal?: JsonObject;
   D05_effectiveness?: JsonObject;
@@ -95,7 +96,10 @@ function dossierFor(evidence: P4Evidence): Dossier {
 }
 
 function chartFromTradeoffs(tradeoffs: JsonObject | undefined): SuiteChartModel | null {
-  if (!tradeoffs || !["VALID", "PARTIAL"].includes(text(tradeoffs.status))) return null;
+  // LIMITED_SCOPE can still contain a valid descriptive mean front. Keep the
+  // chart available while labeling that scope; do not turn the status into an
+  // uncertainty or population claim.
+  if (!tradeoffs || !["VALID", "PARTIAL", "LIMITED_SCOPE"].includes(text(tradeoffs.status))) return null;
   const objectives = asList(tradeoffs.objective_metrics).map(asObject);
   const values = asList(tradeoffs.pareto_values).map(asObject);
   if (objectives.length < 2 || !values.length) return null;
@@ -113,9 +117,11 @@ function chartFromTradeoffs(tradeoffs: JsonObject | undefined): SuiteChartModel 
     schema_version: "suite-chart.v1",
     chart_id: "p4-supported-pareto",
     kind: "scatter",
-    title: "Observed Pareto setting means",
-    x_label: `${xMetric} (${text(objectives[0].direction)})`,
-    y_label: `${yMetric} (${text(objectives[1].direction)})`,
+    title: text(tradeoffs.status) === "LIMITED_SCOPE"
+      ? "Observed Pareto setting means (limited scope)"
+      : "Observed Pareto setting means",
+    x_label: `${xMetric}${objectives[0].unit ? ` (${text(objectives[0].unit)}; ${text(objectives[0].direction)})` : ` (${text(objectives[0].direction)})`}`,
+    y_label: `${yMetric}${objectives[1].unit ? ` (${text(objectives[1].unit)}; ${text(objectives[1].direction)})` : ` (${text(objectives[1].direction)})`}`,
     series: [{ id: yMetric, label: yMetric, style: "markers" }],
     points,
   };
@@ -156,7 +162,7 @@ function KeyValueTable({ label, value }: { label: string; value: unknown }) {
   </table>;
 }
 
-function D01Section({ result }: { result: JsonObject | undefined }) {
+function D01Section({ result, validation }: { result: JsonObject | undefined; validation?: JsonObject }) {
   if (!result) return <section id="p4-d01"><h3>D01 · Factor sensitivity</h3><p>No D01 result was provided.</p></section>;
   const terms = entries(result.terms);
   return <section id="p4-d01" aria-labelledby="p4-d01-heading">
@@ -167,13 +173,18 @@ function D01Section({ result }: { result: JsonObject | undefined }) {
       const term = asObject(item);
       return [name, `estimate ${text(term.estimate)}; 95% interval ${text(term.ci95)}; SE ${text(term.standard_error)}`];
     }))} />
+    <KeyValueTable label="Uncertainty method and independent-unit mapping" value={result.inference} />
     <KeyValueTable label="Design and identifiability diagnostics" value={result.diagnostics} />
+    <KeyValueTable label="Model formula sensitivity diagnostic" value={result.formula_sensitivity} />
     {asList(result.diagnostic_warnings).length > 0 && <ul aria-label="D01 diagnostic warnings">{asList(result.diagnostic_warnings).map((item, index) => <li key={index}>{text(item)}</li>)}</ul>}
+    <KeyValueTable label="Independent time and group holdout performance" value={validation} />
   </section>;
 }
 
 function D02Section({ observed, robust, supported }: { observed?: JsonObject; robust?: JsonObject; supported?: JsonObject }) {
   const supportedGrid = asList(supported?.grid).map(asObject);
+  const evaluation = asObject(supported?.independent_candidate_evaluation);
+  const evaluationCandidates = asList(evaluation.candidates).map(asObject);
   const cells = supportedGrid.length ? supportedGrid : asList(supported?.candidate_cells).map(asObject);
   const [regionFilter, setRegionFilter] = useState("all");
   const [feasibleFilter, setFeasibleFilter] = useState("all");
@@ -196,10 +207,31 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     <KeyValueTable label="Robust observed settings" value={robust} />
     <KeyValueTable label="Supported exploration and uncertainty rule" value={supported ? {
       status: supported.status, qualification: supported.qualification, method: supported.method,
+      candidate_scope: supported.candidate_scope, joint_validation_status: supported.joint_validation_status,
+      data_roles: supported.data_roles, uncertainty_scope: supported.uncertainty_scope,
       region_counts: supported.region_counts, uncertainty_rule: supported.uncertainty_rule,
       grouped_holdout_calibration: supported.calibration,
       extrapolation_within_approved_bounds_present: supported.extrapolation_within_approved_bounds_present,
     } : undefined} />
+    {typeof supported?.selection_warning === "string" &&
+      <p role="note">{supported.selection_warning}</p>}
+    <KeyValueTable label="Independent candidate evaluation" value={supported?.independent_candidate_evaluation} />
+    <KeyValueTable label="Simultaneous exact-setting calibration" value={supported?.simultaneous_exact_setting_screen} />
+    <KeyValueTable label="Complete-set selected-candidate failure audit" value={evaluation.candidate_selection_audit} />
+    {evaluationCandidates.length > 0 && <table>
+      <caption>Untouched evaluation by selected setting and matching fixed-control population; descriptive only</caption>
+      <thead><tr><th scope="col">Selected setting</th><th scope="col">Evaluation status</th>
+        <th scope="col">Exact independent units</th><th scope="col">Units excluded for different fixed controls</th>
+        <th scope="col">Observed infeasible units and fraction</th><th scope="col">Descriptive 95% Wilson interval</th>
+        <th scope="col">Declared evaluation strata</th></tr></thead>
+      <tbody>{evaluationCandidates.map((item, index) => <tr key={`${JSON.stringify(item.factors)}-${index}`}>
+        <th scope="row">{text(item.factors)}</th><td>{text(item.status)}</td>
+        <td>{text(item.independent_units)}</td><td>{text(item.population_incompatible_units)}</td>
+        <td>{text(item.observed_infeasible_units)} / {text(item.observed_infeasible_fraction)}</td>
+        <td>{text(item.wilson95_descriptive_interval)}</td>
+        <td>{text(asObject(item.stratified_evaluation).categories)}</td>
+      </tr>)}</tbody>
+    </table>}
     <form aria-label="Filter process-window evidence" onSubmit={(event) => event.preventDefault()}>
       <label>Evidence region
         <select value={regionFilter} onChange={(event) => setRegionFilter(event.currentTarget.value)}>
@@ -223,15 +255,16 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     <p role="status">Showing {filtered.length} of {cells.length} supported-region cells.</p>
     {cells.length === 0 ? <p>No supported-region cells were returned.</p> : <div>
       <table>
-        <caption>Supported process-window cells with local group-held-out calibrated intervals</caption>
-        <thead><tr>{factorNames.map((factor) => <th scope="col" key={factor}>{factor}</th>)}<th scope="col">Evidence region</th><th scope="col">Conservative feasibility</th>
+        <caption>Advisory screening cells with pointwise local diagnostics and a separate assumption-conditional exact-setting panel screen</caption>
+        <thead><tr>{factorNames.map((factor) => <th scope="col" key={factor}>{factor}</th>)}<th scope="col">Evidence region</th><th scope="col">Pointwise screening result</th><th scope="col">Simultaneous exact-setting screen</th>
           {metrics.map((metric) => <th scope="col" key={metric}>{metric}: estimate and calibrated interval</th>)}</tr></thead>
         <tbody>{filtered.map((cell, index) => <tr key={index}>
           {factorNames.map((factor) => <td key={factor}>{text(asObject(cell.factors)[factor])}</td>)}
           <td>{text(cell.region_class)}</td><td>{cell.conservative_feasible === true ? "Yes under stated limits" : cell.conservative_feasible === false ? "No" : "Unknown"}</td>
+          <td>{cell.simultaneous_supported_candidate === true ? "Passes finite exact-setting panel screen under unverified assumptions" : cell.simultaneous_supported_candidate === false ? "Does not pass or is outside exact-setting panel scope" : "Not established"}</td>
           {metrics.map((metric) => {
             const prediction = asObject(asObject(cell.predictions)[metric]);
-            return <td key={metric}>{text(prediction.estimate)}; local group-held-out empirical interval (95% order-statistic rank, no conditional coverage guarantee) {text(prediction.predictive_interval95)}; calibration {text(prediction.calibration_status)} across {text(prediction.calibration_units)} independent units; model interval {text(prediction.model_predictive_interval95)} ({text(prediction.status)})</td>;
+            return <td key={metric}>{text(prediction.estimate)}; local group-held-out empirical interval (95% order-statistic rank, no conditional coverage guarantee) {text(prediction.predictive_interval95)}; calibration {text(prediction.calibration_status)} across {text(prediction.calibration_units)} independent units; simultaneous exact-setting panel interval {text(prediction.simultaneous_group_interval95)} ({text(prediction.simultaneous_group_calibration_status)}); model interval {text(prediction.model_predictive_interval95)} ({text(prediction.status)})</td>;
           })}
         </tr>)}</tbody>
       </table>
@@ -246,17 +279,27 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
   return <section id="p4-d03" aria-labelledby="p4-d03-heading">
     <h3 id="p4-d03-heading">D03 · Cross-step and multiobjective tradeoffs</h3>
     <p>Status: <Status value={result?.status} />. {text(result?.qualification || result?.reason)}</p>
+    <p>{text(result?.pareto_status_scope)}</p>
+    <KeyValueTable label="Constraint eligibility and excluded population" value={result?.constraint_exclusion_audit} />
+    <KeyValueTable label="Family-wise mean uncertainty envelope" value={result?.familywise_mean_envelope} />
+    {typeof result?.selection_warning === "string" && <p role="note">{text(result.selection_warning)}</p>}
     <p>Objective directions: {objectives.map((item) => `${text(item.metric)} (${text(item.direction)})`).join("; ") || "not provided"}.</p>
     {chart && <AccessibleChart model={chart} renderChart={renderChart} />}
     <table>
-      <caption>Candidate setting means, population size, and observed lineage</caption>
-      <thead><tr><th scope="col">Setting</th><th scope="col">Factor values</th><th scope="col">Independent units</th>{objectives.map((item) => <th scope="col" key={text(item.metric)}>{text(item.metric)} mean</th>)}<th scope="col">Pareto status</th></tr></thead>
+      <caption>Observed candidate setting means, marginal intervals, and a separate family-wise mean-rectangle diagnostic</caption>
+      <thead><tr><th scope="col">Setting</th><th scope="col">Factor values</th><th scope="col">Independent units</th>{objectives.map((item) => <th scope="col" key={text(item.metric)}>{text(item.metric)} mean, marginal and family-wise intervals</th>)}<th scope="col">Mean Pareto status</th><th scope="col">Marginal interval-separated dominance</th><th scope="col">Family-wise rectangle dominance</th></tr></thead>
       <tbody>{rows.map((row, index) => {
         const id = text(row.id);
         const paretoIds = asList(result?.pareto_setting_ids).map(text);
         return <tr key={`${id}-${index}`}><th scope="row">{id}</th><td>{text(row.factors)}</td><td>{text(row.independent_units)}</td>
-          {objectives.map((item) => <td key={text(item.metric)}>{text(asObject(row.means)[text(item.metric)])}</td>)}
-          <td>{paretoIds.includes(id) ? "On reported Pareto set" : "Not on reported Pareto set"}</td></tr>;
+          {objectives.map((item) => {
+            const metric = text(item.metric);
+            const estimate = asObject(asObject(row.uncertainty)[metric]);
+            return <td key={metric}>{text(asObject(row.means)[metric])}; marginal 95% interval {text(estimate.marginal_ci95)}; Bonferroni family-wise mean interval {text(estimate.familywise_ci95)}</td>;
+          })}
+          <td>{text(row.mean_pareto_status || (paretoIds.includes(id) ? "NONDOMINATED_BY_MEANS" : "DOMINATED_BY_MEANS"))}</td>
+          <td>{text(row.uncertainty_dominance_status)}</td>
+          <td>{text(row.familywise_dominance_status)}; {text(row.familywise_dominated_by)}</td></tr>;
       })}</tbody>
     </table>
     {result?.causal_claim === false && <p role="status">No causal claim is made from these observed tradeoffs.</p>}
@@ -265,17 +308,21 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
 
 function D04Section({ result }: { result?: JsonObject }) {
   const runs = asList(result?.runs).map(asObject);
-  const factors = asList(result?.factors).map(asObject);
+  const factors = asList(result?.factors).map((item) => typeof item === "string" ? { name: item } : asObject(item));
   return <section id="p4-d04" aria-labelledby="p4-d04-heading">
     <h3 id="p4-d04-heading">D04 · Next experiment proposal</h3>
     <p>Status: <Status value={result?.status} />. Proposed runs: {text(result?.run_count)}. Executed: {text(result?.executed)}.</p>
     <p>{text(result?.qualification || result?.reason)} No equipment command is issued by this module.</p>
     <KeyValueTable label="Design and authorization requirements" value={{ design: result?.design, power: result?.power, blocking: result?.blocking,
-      authorization_fields: result?.authorization_fields, actuation: result?.actuation, randomization_seed: result?.randomization_seed }} />
+      authorization_fields: result?.authorization_fields, actuation: result?.actuation, randomization_seed: result?.randomization_seed,
+      constraint_evaluation: result?.constraint_evaluation, objective_statement: result?.objective_statement,
+      objective: result?.objective, candidate_evidence: result?.candidate_evidence,
+      reference_factors: result?.reference_factors, required_engineer_review: result?.required_engineer_review,
+      evidence_required_before_next_iteration: result?.evidence_required_before_next_iteration }} />
     <table>
       <caption>Proposed run order for engineer review</caption>
-      <thead><tr><th scope="col">Run order</th><th scope="col">Block</th><th scope="col">Replicate</th>{factors.map((factor) => <th scope="col" key={text(factor.name)}>{text(factor.name)}</th>)}</tr></thead>
-      <tbody>{runs.map((run, index) => <tr key={`${text(run.run_order)}-${index}`}><th scope="row">{text(run.run_order)}</th><td>{text(run.block)}</td><td>{text(run.replicate)}</td>
+      <thead><tr><th scope="col">Run order</th><th scope="col">Block</th><th scope="col">Arm</th><th scope="col">Order within block</th><th scope="col">Replicate</th>{factors.map((factor) => <th scope="col" key={text(factor.name)}>{text(factor.name)}</th>)}</tr></thead>
+      <tbody>{runs.map((run, index) => <tr key={`${text(run.run_order)}-${index}`}><th scope="row">{text(run.run_order)}</th><td>{text(run.block)}</td><td>{text(run.arm)}</td><td>{text(run.order_within_block)}</td><td>{text(run.replicate)}</td>
         {factors.map((factor) => <td key={text(factor.name)}>{text(run[text(factor.name)])}</td>)}</tr>)}</tbody>
     </table>
   </section>;
@@ -287,9 +334,21 @@ function D05Section({ result }: { result?: JsonObject }) {
   return <section id="p4-d05" aria-labelledby="p4-d05-heading">
     <h3 id="p4-d05-heading">D05 · Change effectiveness</h3>
     <p>Status: <Status value={result.status} />. Study design: {text(result.design)}. Estimate: {text(result.estimate)}.</p>
-    <p>{result.causal_claim === true ? "A conditional causal interpretation is reported with its stated assumptions." : "Causal interpretation is withheld; this estimate is not presented as causal."}</p>
+    <p>{result.design === "difference_in_differences"
+      ? (result.conditional_assumptions_passed === true
+        ? "Observational DiD remains a descriptive estimate. Numerical diagnostics pass under the declared assumptions, but conditional interpretation is pending independent qualification of the sensitivity-bound source; P4 makes no causal claim."
+        : "Observational DiD remains descriptive; conditional interpretation is withheld because required diagnostics or sensitivity evidence are incomplete.")
+      : (result.causal_claim === true ? "A conditional randomized-study interpretation is reported with its stated assumptions." : "Causal interpretation is withheld; this estimate is not presented as causal.")}</p>
     <KeyValueTable label="Uncertainty and sensitivity" value={{ standard_error: result.se, ci95_welch_t_approximation: result.ci95_welch_t_approximation,
-      welch_degrees_of_freedom: result.welch_df, sensitivity: result.sensitivity, attrition: result.attrition, baseline_balance: result.baseline_balance }} />
+      welch_degrees_of_freedom: result.welch_df, sensitivity: result.sensitivity, attrition: result.attrition,
+      baseline_balance: result.baseline_balance, placebo_pretrend: result.placebo_pretrend,
+      pretrend_stability_placebo: result.pretrend_stability_placebo,
+      population_compatibility: result.population_compatibility,
+      negative_control_diagnostic: result.negative_control_diagnostic,
+      conditional_assumptions_passed: result.conditional_assumptions_passed,
+      conditional_interpretation_scope: result.conditional_interpretation_scope,
+      bound_source_qualification: result.bound_source_qualification,
+      causal_claim_limitation: result.causal_claim_limitation }} />
     <table>
       <caption>Study diagnostics and counterevidence</caption>
       <thead><tr><th scope="col">Diagnostic</th><th scope="col">Result</th></tr></thead>
@@ -332,7 +391,7 @@ export function P4Panel({ sourcePreview, evidence, charts = [], renderChart }: P
         {["D01 Factor sensitivity", "D02 Process window", "D03 Tradeoffs", "D04 Experiment proposal", "D05 Change effectiveness"].map((label, index) => <li key={label}><a href={`#p4-d0${index + 1}`}>{label}</a></li>)}
       </ul></nav>}
       {!blocked && <>
-        <D01Section result={dossier.D01_sensitivity} />
+        <D01Section result={dossier.D01_sensitivity} validation={dossier.validation_split} />
         <D02Section observed={dossier.D02_observed_process_window} robust={dossier.D02_robust_observed_region} supported={dossier.D02_supported_region} />
         <D03Section result={dossier.D03_tradeoffs} renderChart={renderChart} />
         <D04Section result={dossier.D04_experiment_proposal} />

@@ -1,0 +1,132 @@
+{
+  "generator": {
+    "MDE": 0.5,
+    "alpha": 0.05,
+    "historical_df_grid": [
+      5,
+      10,
+      30,
+      100
+    ],
+    "historical_paired_differences": "independent normal",
+    "target_power": 0.8,
+    "true_sd": 1.0,
+    "upper_bound_confidence": 0.95
+  },
+  "independent_oracle": "SciPy 1.11.4: chi-square one-sided SD bound and exact Student-t/noncentral-t achieved power",
+  "interpretation": "The P4 planner now accepts only a caller-asserted conservative SD bound. This challenge estimates underpower risk if the input were merely a noisy point SD versus a one-sided 95% normal-theory upper bound; P4 does not compute or authenticate that bound.",
+  "planner_rule": "P4 three-term Cornish-Fisher critical approximation + normal power tail + one-pair margin",
+  "scenarios": [
+    {
+      "historical_sd_degrees_of_freedom": 5,
+      "methods": {
+        "one_sided_upper_bound": {
+          "mean_complete_pairs": 141.247,
+          "median_complete_pairs": 123.0,
+          "underpowered_fraction": 0.0515,
+          "underpowered_plans": 103,
+          "underpowered_wilson95": [
+            0.042644720050338814,
+            0.062074871360945055
+          ]
+        },
+        "point_estimate_as_known": {
+          "mean_complete_pairs": 35.106,
+          "median_complete_pairs": 31.0,
+          "underpowered_fraction": 0.558,
+          "underpowered_plans": 1116,
+          "underpowered_wilson95": [
+            0.536144266282096,
+            0.5796333562332788
+          ]
+        }
+      },
+      "sd_upper_bound_multiplier_on_sample_sd": 2.089257462961727,
+      "trials": 2000
+    },
+    {
+      "historical_sd_degrees_of_freedom": 10,
+      "methods": {
+        "one_sided_upper_bound": {
+          "mean_complete_pairs": 82.2145,
+          "median_complete_pairs": 77.0,
+          "underpowered_fraction": 0.039,
+          "underpowered_plans": 78,
+          "underpowered_wilson95": [
+            0.03136143254939691,
+            0.04840608504391829
+          ]
+        },
+        "point_estimate_as_known": {
+          "mean_complete_pairs": 34.4025,
+          "median_complete_pairs": 32.0,
+          "underpowered_fraction": 0.5375,
+          "underpowered_plans": 1075,
+          "underpowered_wilson95": [
+            0.5155976013274554,
+            0.5592586201264506
+          ]
+        }
+      },
+      "sd_upper_bound_multiplier_on_sample_sd": 1.5930719955394508,
+      "trials": 2000
+    },
+    {
+      "historical_sd_degrees_of_freedom": 30,
+      "methods": {
+        "one_sided_upper_bound": {
+          "mean_complete_pairs": 53.312,
+          "median_complete_pairs": 52.0,
+          "underpowered_fraction": 0.0485,
+          "underpowered_plans": 97,
+          "underpowered_wilson95": [
+            0.03992009344287708,
+            0.05881100025209431
+          ]
+        },
+        "point_estimate_as_known": {
+          "mean_complete_pairs": 34.1145,
+          "median_complete_pairs": 33.0,
+          "underpowered_fraction": 0.5035,
+          "underpowered_plans": 1007,
+          "underpowered_wilson95": [
+            0.48160177641921836,
+            0.5253848042498127
+          ]
+        }
+      },
+      "sd_upper_bound_multiplier_on_sample_sd": 1.2736817421104858,
+      "trials": 2000
+    },
+    {
+      "historical_sd_degrees_of_freedom": 100,
+      "methods": {
+        "one_sided_upper_bound": {
+          "mean_complete_pairs": 43.579,
+          "median_complete_pairs": 43.0,
+          "underpowered_fraction": 0.03,
+          "underpowered_plans": 60,
+          "underpowered_wilson95": [
+            0.02337785471293825,
+            0.03842416973143951
+          ]
+        },
+        "point_estimate_as_known": {
+          "mean_complete_pairs": 34.686,
+          "median_complete_pairs": 35.0,
+          "underpowered_fraction": 0.411,
+          "underpowered_plans": 822,
+          "underpowered_wilson95": [
+            0.38962749767927923,
+            0.43271373673678365
+          ]
+        }
+      },
+      "sd_upper_bound_multiplier_on_sample_sd": 1.1327893365843178,
+      "trials": 2000
+    }
+  ],
+  "schema": "p4-d04-variance-bound-benchmark/v1",
+  "scope": "qualification-only synthetic method challenge; not FAB observations or a universal power guarantee",
+  "seed": 20261123
+}

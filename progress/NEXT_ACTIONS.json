@@ -1,0 +1,44 @@
+{
+  "schema": "p4-next-actions/v1",
+  "as_of_source_commit": "08859a129c7788c5851739d6d2c06cb0f755f842",
+  "product_state": "CANDIDATE",
+  "next_executable_action": {
+    "priority": 8,
+    "task": "Validate the new disposable P1 evidence and E07 gate wording, run current-source secret/license/vulnerability checks, review the staged diff and commit the source snapshot locally. Re-run performance and OSS qualification against that exact product source, then commit the qualified evidence; rebuild the exact archive twice in clean detached worktrees, verify the manifest and SHA-256 sidecar, run fresh no-pip extracted offline qualification, and reconcile current-source release evidence without publishing.",
+    "inspect": [
+      "qualification/run_release_checks.py",
+      "qualification/benchmark.py",
+      "qualification/refresh_security_evidence.py",
+      "qualification/build_transfer_bundle.py",
+      "qualification/check_reproducibility.py",
+      "qualification/offline_qualify.py",
+      "release/PUBLISHED_ARTIFACT_RECONCILIATION.json"
+    ],
+    "first_command": "rtk git diff --check && rtk git diff --stat",
+    "acceptance": "Release performance evidence contains a matching per-file product-source fingerprint and is tied to the product commit; current pinned dependency and Bandit audits pass with limitations visible; the locally committed source snapshot rebuilds byte-identically twice from separate clean worktrees; ZIP inventory, source manifest, source commit, sidecar and offline extracted behavior match; no network publication occurs."
+  },
+  "ordered_queue": [
+    {"priority": 1, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D02 pointwise support/uncertainty remains advisory; independent-unit max-score split-conformal and Bonferroni metrics now provide an assumption-conditional 95% finite exact-setting panel band when each calibration unit has the same complete panel and finite rank; 1,000 fixed-seed trials gave 966/1,000 joint coverage and 0/1,000 post-selection false-feasible under the generator. Interpolation, source assumptions and split provenance remain unqualified."},
+    {"priority": 2, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D01 repeated-unit cluster covariance, train/test temporal holdout, and formula ablation sensitivity; a fixed 2,000-trial challenge exposed false positives when independent lots were split across clusters (15.4% vs 4.8% correct lot clustering), and P4 now abstains on that mapping and exposes it in the UI. Formula/split provenance, measurement uncertainty and broader OOD remain unverified."},
+    {"priority": 3, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D03 observed path requires identical typed independent-unit sets for its family-wise envelope; missing/unsupported IDs fail closed, and a deterministic type-collision challenge showed why integer 1 and string '1' must remain distinct. Approved cross-step path requires the same declared synthetic population ID. Bonferroni rectangles cover the complete candidate/objective mean family under bounded sample/family and approximate-normal assumptions; SciPy paired bootstrap was benchmarked and rejected for undercoverage. Mean front remains descriptive and no company relation is approved."},
+    {"priority": 4, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D04 includes grouped development selection/holdout, constrained next-best, multiple DOE families, and non-executing exact D02 paired confirmation. The known-SD sample-size approximation was corrected against 54 SciPy noncentral-t cases. A 2,000-trial historical SD challenge demonstrated that point-SD use is underpowered in 41–56% of trials; D04 now refuses point estimates and requires caller-supplied ≥95% one-sided chi-square SD upper bound+df or engineer-approved hard bound. P4 records but cannot authenticate it; normality/independence remain assumptions."},
+    {"priority": 5, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D05 has pretrend and curvature placebos, population/composition gates, negative-control falsification, unit-checked differential-trend sensitivity, exact null tipping points, exact string ledger identity, and bounded randomized attrition calculations that refuse when observed values violate supplied limits. Observational DiD always has causal_claim=false; bound adequacy remains pending independent substantive qualification. The 1,000-trial hidden-confounder challenge shows why underbound sources must not qualify automatically."},
+    {"priority": 6, "status": "IMPLEMENTED_SYNTHETIC_ONLY", "task": "Official SDK mock read to source-semantic/version/hash and approved-relationship/grain/time/audit validation, normalized all-five-capability P4 analysis and shared evidence envelope; frozen logical adapter contract is v1.0.0, P4 evidence extensions are fail-closed and proposed additively; 14 focused MCP tests PASS. Company semantics/authorization remain pending."},
+    {"priority": 7, "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_INTERACTIVE", "task": "Latest P4 module passes 12 panel tests, strict typecheck, disposable P1 39 frontend tests, typecheck/build and 11 host-route tests; live shared-shell workflow displayed all D01-D05 and the shared Pareto chart, then denied permission with fixture values suppressed. Evidence is qualification/evidence/p1-disposable-host-qualification-2026-11-23.json. P1 source/version/owner confirmation, formal accessibility and target-host qualification remain pending."},
+    {"priority": 8, "status": "PENDING_CURRENT_SOURCE_RELEASE", "task": "Current source and ZIP are not commit-aligned. The runner now validates the discovered 12 UI cases and recognizes the honest PARTIAL all-capability demo. Validate E07 disposable-host evidence, refresh current-source security evidence, review and locally commit the source snapshot; rebuild twice from clean worktrees; verify source manifest, exact checksum and fresh offline extraction/network-deny evidence. Do not publish."}
+  ],
+  "internal_dependencies": [
+    "Samsung source permissions and approved semantic mappings",
+    "authoritative company requirement corpus",
+    "company-approved target OS/host/network policy",
+    "real FAB data, engineer acceptance and ROI",
+    "company legal, security and production approvals",
+    "P1 current integrated host and capability contract ownership"
+  ],
+  "never_do": [
+    "publish or push",
+    "invent Samsung semantics, permissions, credentials or approvals",
+    "claim conditional or simultaneous D02 coverage without a valid design",
+    "create a competing product UI shell"
+  ]
+}

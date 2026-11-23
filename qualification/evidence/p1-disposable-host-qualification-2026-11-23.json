@@ -1,0 +1,81 @@
+{
+  "disposable_composition": {
+    "current_p4_source": {
+      "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
+      "panel_sha256": "565f0e7b550580e6048680466cbae51bb3758eb279cd4a41a7327558dad9719c",
+      "panel_test_sha256": "542187d8733f1c8953a3c39d74a5c656858240efae5c43d530d28f73a3d46ba5"
+    },
+    "p4_registry_pin": {
+      "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
+      "engine_version": "1.2.0"
+    },
+    "snapshot_fingerprint": {
+      "files": 27,
+      "manifest_sha256": "9ea6d601d1d17640da671bc9b013d9cb00d0b7af6b59e16f9540fffe864a3644",
+      "sha256": "9ea6d601d1d17640da671bc9b013d9cb00d0b7af6b59e16f9540fffe864a3644"
+    }
+  },
+  "executed_checks": {
+    "browser": {
+      "capabilities": [
+        "D01",
+        "D02",
+        "D03",
+        "D04",
+        "D05"
+      ],
+      "evidence_status": "PARTIAL",
+      "permission_refusal": "REFUSED; fixture values marked NOT_ACCESSED and analysis suppressed",
+      "route": "/fab-intelligence/p4",
+      "shared_chart": "P1 ECharts renderer displayed the observed D03 mean Pareto front titled limited scope with an adjacent accessible data table",
+      "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
+      "success_request": "COMPLETED"
+    },
+    "p1_frontend_tests": {
+      "command": "npm test",
+      "status": "PASS",
+      "tests": 39
+    },
+    "p1_host_route_tests": {
+      "command": "python -m unittest tests.test_suite_host -q",
+      "status": "PASS",
+      "tests": 11
+    },
+    "p1_production_build": {
+      "bundle_bytes_uncompressed": 798290,
+      "command": "npm run build",
+      "status": "PASS",
+      "warning": "single ECharts bundle exceeds 500 KB advisory"
+    },
+    "p1_typecheck": {
+      "command": "npm run typecheck",
+      "status": "PASS"
+    },
+    "p4_panel_tests": {
+      "command": "python qualification/ui_component_check.py --suite-root <P1 snapshot>",
+      "status": "PASS",
+      "tests": 12
+    }
+  },
+  "limitations": [
+    "P1 source has no Git revision; its current registry pins an older P4 engine snapshot.",
+    "Disposable registry and route test pin updates are not upstream P1 changes.",
+    "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending."
+  ],
+  "p1_source": {
+    "git_metadata_present": true,
+    "p4_registry_pin_before_disposable_composition": {
+      "engine_sha256": "72871ee21a3a7749ae2fb23cc84f92b5a2aa7021ac4ebd03bd8cf573d4d3a915",
+      "engine_version": "1.1.0"
+    },
+    "snapshot_fingerprint": {
+      "files": 27,
+      "manifest_sha256": "f23f947e975f76b32e07b2ca5e306299ae7214455758dcb5a2d2698748fea30a",
+      "sha256": "f23f947e975f76b32e07b2ca5e306299ae7214455758dcb5a2d2698748fea30a"
+    }
+  },
+  "qualification_date": "2026-11-23",
+  "schema": "p4-p1-disposable-host-qualification/v1",
+  "scope": "synthetic local browser workflow over an unversioned accessible P1 source snapshot composed in a disposable /tmp copy with current P4 source; not upstream or company qualification",
+  "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
+}

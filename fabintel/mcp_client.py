@@ -112,7 +112,7 @@ class McpClient:
     the shared SDK without putting a second protocol implementation in P4.
     """
 
-    def __init__(self, transport, *, client_name="fabintel-p4", client_version="1.1.0"):
+    def __init__(self, transport, *, client_name="fabintel-p4", client_version="1.2.0"):
         self.transport_config = transport
         self.client_name = client_name
         self.client_version = client_version

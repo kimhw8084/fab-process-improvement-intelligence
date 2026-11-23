@@ -29,6 +29,68 @@ class P4IndependentChallenges(unittest.TestCase):
         actual = dossier(result)["D01_sensitivity"]["terms"]["factor"]["estimate"]
         self.assertAlmostEqual(actual, self.oracle["P4-01"]["expected"], places=12)
 
+    def test_declared_repeated_sampling_units_override_row_independent_uncertainty(self):
+        reference = dossier(analyze(self.full))["D01_sensitivity"]
+        self.assertEqual(reference["formula_sensitivity"]["status"], "COMPLETED_DIAGNOSTIC")
+        self.assertEqual(reference["formula_sensitivity"]["model_selection"].split(";")[0], "none")
+        request = copy.deepcopy(self.full)
+        request["model"]["covariance"] = "HC3"
+        request["model"].pop("cluster_field", None)
+        adjusted = dossier(analyze(request))["D01_sensitivity"]
+        self.assertEqual(adjusted["status"], "VALID")
+        self.assertEqual(adjusted["inference"]["covariance"], "cluster")
+        self.assertEqual(adjusted["inference"]["independent_cluster_field"], "lot_id")
+        self.assertTrue(adjusted["inference"]["covariance_auto_selected_for_repeated_units"])
+        self.assertAlmostEqual(adjusted["terms"]["pressure"]["standard_error"],
+                               reference["terms"]["pressure"]["standard_error"], places=10)
+
+        missing = copy.deepcopy(request)
+        missing["observations"][0].pop("lot_id")
+        withheld = analyze(missing)
+        self.assertEqual(withheld["status"], "REFUSED")
+        self.assertEqual(withheld["claims"], [])
+        self.assertTrue(any("independent-unit field is missing" in item
+                            or "relationship field is missing: lot_id" in item
+                            for item in withheld["limitations"]))
+
+    def test_split_cluster_refusal_does_not_become_a_rank_claim(self):
+        request = copy.deepcopy(self.full)
+        request["model"]["covariance"] = "cluster"
+        request["model"]["cluster_field"] = "id"
+        result = analyze(request)
+        report = dossier(result)["D01_sensitivity"]
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertEqual(report["inference"]["cluster_nesting"]["status"],
+                         "INDEPENDENT_UNIT_SPLIT_ACROSS_CLUSTERS")
+        self.assertFalse(any(claim["method"] in ("robust_linear_model", "qr_rank_diagnostic")
+                             for claim in result["claims"]))
+
+    def test_time_split_uses_actual_rows_and_reports_heldout_prediction_error(self):
+        report = dossier(analyze(self.full))["validation_split"]
+        self.assertEqual(report["status"], "COMPLETED_DIAGNOSTIC")
+        self.assertEqual(report["training_group_count"], 80)
+        self.assertEqual(report["test_group_count"], 20)
+        self.assertEqual(report["test_row_count"], 180)
+        self.assertIn("descriptive performance", report["generalization_claim"])
+        self.assertIn("rmse", report["heldout_performance"])
+
+        declared_only = copy.deepcopy(self.full)
+        for field in ("timestamp_field", "group_field", "split_reference"):
+            declared_only["validation_split"].pop(field)
+        declaration = dossier(analyze(declared_only))["validation_split"]
+        self.assertEqual(declaration["status"], "DECLARATION_ONLY")
+        self.assertIn("no observations were evaluated", declaration["generalization_claim"])
+
+        shifted = copy.deepcopy(self.full)
+        test_groups = set(shifted["validation_split"]["test_groups"])
+        for row in shifted["observations"]:
+            if row["lot_id"] in test_groups:
+                row["metrics"]["yield_index"] += 10
+        shifted_report = dossier(analyze(shifted))["validation_split"]
+        self.assertEqual(shifted_report["status"], "COMPLETED_DIAGNOSTIC")
+        self.assertGreater(shifted_report["heldout_performance"]["rmse"],
+                           report["heldout_performance"]["rmse"] + 8.0)
+
     def test_p4_02_observed_candidates_only(self):
         result = analyze(self.legacy)
         self.assertEqual(dossier(result)["D02_observed_process_window"]["candidate_factor_values"]["factor"],
@@ -59,6 +121,48 @@ class P4IndependentChallenges(unittest.TestCase):
         sensitivity = dossier(result)["D01_sensitivity"]
         self.assertTrue(sensitivity.get("rank_deficient"))
         self.assertEqual(result["status"], "PARTIAL")
+
+    def test_outcome_dependent_missingness_refuses_biased_complete_case_sensitivity(self):
+        rows = [{"id": f"SYN-MISS-{x}", "factors": {"x": float(x)},
+                 "metrics": {"y": float(x*x)}} for x in range(10)]
+        request = {"objective": "Missingness adversarial check", "context": {"process_step": "SYN-STEP"},
+                   "grain": "one synthetic run", "sampling_unit": "synthetic lot", "timestamp_semantics": "UTC",
+                   "constraints_approved": True,
+                   "factors": [{"name": "x", "role": "controllable", "unit": "u",
+                                "bounds": [0, 9], "approved": True}],
+                   "metrics": [{"name": "y", "unit": "score", "direction": "maximize"}],
+                   "observations": rows}
+        complete = analyze(request)
+        complete_slope = dossier(complete)["D01_sensitivity"]["terms"]["x"]["estimate"]
+        self.assertAlmostEqual(complete_slope, 9.0, places=12)
+        self.assertIn("measurement uncertainty was not supplied or propagated",
+                      dossier(complete)["D01_sensitivity"]["assumptions"])
+
+        selected = copy.deepcopy(request)
+        for observation in selected["observations"]:
+            if observation["factors"]["x"] >= 6:
+                observation["metrics"].pop("y")
+        observed_rows = [(row["factors"]["x"], row["metrics"]["y"])
+                         for row in selected["observations"] if "y" in row["metrics"]]
+        mean_x = sum(x for x, _ in observed_rows) / len(observed_rows)
+        mean_y = sum(y for _, y in observed_rows) / len(observed_rows)
+        complete_case_slope = sum((x-mean_x)*(y-mean_y) for x, y in observed_rows) / sum((x-mean_x)**2 for x, _ in observed_rows)
+        self.assertAlmostEqual(complete_case_slope, 5.0, places=12)
+
+        refused = analyze(selected)
+        self.assertEqual(refused["status"], "REFUSED")
+        self.assertEqual(refused["claims"], [])
+        self.assertIn("no imputation or complete-case missingness assumption is applied", refused["limitations"][0])
+
+    def test_supplied_measurement_uncertainty_is_not_silently_ignored(self):
+        request = copy.deepcopy(self.legacy)
+        for observation in request["observations"]:
+            observation["measurement_uncertainty"] = {"response": 0.1}
+        result = analyze(request)
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertEqual(result["claims"], [])
+        self.assertIn("measurement_uncertainty was supplied but is not propagated",
+                      result["limitations"][0])
 
     def test_p4_06_out_of_support_rows_never_become_candidates(self):
         request = {**self.legacy, "bounds": [1, 8]}
@@ -165,6 +269,56 @@ class P4IndependentChallenges(unittest.TestCase):
         request["experiment_design"]["run_budget"] = 2
         self.assertEqual(dossier(analyze(request))["D04_experiment_proposal"]["status"], "REFUSED")
 
+    def test_d02_candidate_flows_into_d04_randomized_confirmation_with_limits_and_evidence(self):
+        baseline = dossier(analyze(self.full))
+        supported = baseline["D02_supported_region"]
+        candidate = supported["candidate_cells"][0]
+        reference = {}
+        for factor in self.full["factors"]:
+            if factor.get("role", "controllable") != "controllable":
+                continue
+            name = factor["name"]
+            lower, upper = factor["bounds"]
+            value = candidate["factors"][name]
+            reference[name] = float(upper if value == lower else lower)
+        request = copy.deepcopy(self.full)
+        request["experiment_design"] = {
+            "strategy": "confirm_window_candidate", "run_budget": 24, "seed": 24,
+            "candidate_factors": candidate["factors"], "comparison_factors": reference,
+            "target_metric": "yield_index",
+            "objective_statement": "Compare candidate and reference yield index under randomized lot blocks.",
+            "paired_difference_sd": 0.4, "paired_difference_sd_source": "SYN-PAIRED-SD-001",
+            "paired_difference_sd_basis": "ONE_SIDED_CHI_SQUARE_UPPER_CONFIDENCE_BOUND",
+            "paired_difference_sd_confidence_level": 0.95,
+            "paired_difference_sd_degrees_of_freedom": 29,
+            "minimum_detectable_effect": 1.0, "minimum_detectable_effect_source": "SYN-MDE-001",
+            "alpha": 0.05, "target_power": 0.8,
+        }
+        result = dossier(analyze(request))
+        proposal = result["D04_experiment_proposal"]
+        self.assertEqual(proposal["status"], "PROPOSED")
+        self.assertEqual(proposal["design"], "randomized blocked D02 candidate confirmation")
+        self.assertEqual(proposal["candidate_evidence"]["factors"], candidate["factors"])
+        self.assertEqual(proposal["candidate_evidence"]["target_metric_interval95"],
+                         candidate["predictions"]["yield_index"]["predictive_interval95"])
+        self.assertEqual(proposal["run_count"], 24)
+        self.assertFalse(proposal["executed"])
+        self.assertEqual(proposal["actuation"], "none")
+        self.assertEqual(proposal["claim_method"], "randomized_blocked_confirmation_proposal")
+
+    def test_central_composite_doe_runs_through_the_complete_p4_dossier(self):
+        request = copy.deepcopy(self.full)
+        request["experiment_design"] = {"strategy": "central_composite", "run_budget": 10,
+                                         "center_replicates": 2, "blocks": 2, "seed": 31}
+        result = analyze(request)
+        proposal = dossier(result)["D04_experiment_proposal"]
+        self.assertEqual(proposal["status"], "PROPOSED")
+        self.assertIn("face-centered central-composite", proposal["design"])
+        self.assertEqual(proposal["run_count"], 10)
+        self.assertEqual(proposal["quadratic_model_matrix_rank"], 6)
+        self.assertFalse(proposal["executed"])
+        self.assertEqual(proposal["actuation"], "none")
+
     def test_cancellation_and_fake_internal_sources_fail_closed(self):
         canceled = analyze(self.full, cancel=lambda: True)
         self.assertEqual(canceled["status"], "REFUSED")
@@ -197,7 +351,7 @@ class P4IndependentChallenges(unittest.TestCase):
         operations = {item["name"]: {"supported": True, "returns": item["returns"]}
                       for item in contract["logical_operations"]}
         operations["read_bounded"].update({"read_only": True, "max_rows": 1000, "max_seconds": 30})
-        report = inspect_capability_report({"contract_version": "1.0.0", "environment": "INTERNAL_APPROVED_ONLY",
+        report = inspect_capability_report({"contract_version": contract["contract_version"], "environment": "INTERNAL_APPROVED_ONLY",
                                              "operations": operations})
         self.assertEqual(report["static_compatibility"], "SHAPE_COMPATIBLE")
         self.assertEqual(report["status"], "PENDING_INTERNAL")

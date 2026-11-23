@@ -143,7 +143,7 @@ def _one_step_pair(function_name, seed):
                             {"response": {"direction": "maximize"}}, model)
         p4_x = p4["runs"][0]["x"]
         p4_regret = None
-        p4_cv_rmse = p4["grouped_surface_validation"]["quadratic_rmse"]
+        p4_cv_rmse = p4["grouped_surface_validation"]["independent_evaluation"]["rmse"]
         p4_refusal = None
     except DesignError as exc:
         p4_x = None
@@ -163,7 +163,7 @@ def _one_step_pair(function_name, seed):
     optimum = max(_truth(function_name, x) for x in dense)
     if p4_x is not None:
         p4_regret = optimum-_truth(function_name, p4_x)
-    return {"p4_x": p4_x, "p4_refusal_reason": p4_refusal, "p4_grouped_cv_rmse": p4_cv_rmse, "skopt_x": skopt_x,
+    return {"p4_x": p4_x, "p4_refusal_reason": p4_refusal, "p4_untouched_group_evaluation_rmse": p4_cv_rmse, "skopt_x": skopt_x,
             "p4_regret": p4_regret,
             "skopt_regret": optimum-_truth(function_name, skopt_x)}
 
@@ -177,7 +177,7 @@ def benchmark_next_best():
         accepted = [item["p4_regret"] for item in items if item["p4_regret"] is not None]
         summary[name] = {"p4": {"accepted_fraction": len(accepted)/len(items),
                                  "true_function_regret_when_accepted": _summary(accepted) if accepted else None,
-                                 "grouped_cv_rmse_when_accepted": _summary([item["p4_grouped_cv_rmse"] for item in items if item["p4_grouped_cv_rmse"] is not None]),
+                                 "untouched_group_evaluation_rmse_when_accepted": _summary([item["p4_untouched_group_evaluation_rmse"] for item in items if item["p4_untouched_group_evaluation_rmse"] is not None]),
                                  "refusal_reasons": sorted({item["p4_refusal_reason"] for item in items if item["p4_refusal_reason"]})},
                          "skopt": _summary([item["skopt_regret"] for item in items])}
     all_items = [item for items in outcomes.values() for item in items]
@@ -185,13 +185,13 @@ def benchmark_next_best():
     return {"protocol": {"functions": list(functions), "seed_count_per_function": len(list(seeds)),
                          "seed_start": 20261122, "seed_end_inclusive": 20261153,
                          "initial_design": [0, 0.25, 0.5, 0.75, 1], "replicates_per_setting": 36,
-                         "P4": "quadratic OLS with cluster sandwich; one step, 41-point supported grid, five-fold grouped CV, engineer-specified max RMSE 0.10, mean-estimation EI",
+                         "P4": "formula selection by five-fold grouped CV on development units, then an untouched independent-unit holdout evaluation; one step, 41-point supported grid, engineer-specified max holdout RMSE 0.10, mean-estimation EI",
                          "scikit_optimize": "GP posterior expected improvement; continuous bounded domain, seeded acquisition sampling",
                          "score": "one-step true-function simple regret (lower is better)"},
             "results_by_function": summary,
             "overall": {"p4": {"acceptance_fraction": len(accepted_items)/len(all_items),
                                 "true_function_regret_when_accepted": _summary([item["p4_regret"] for item in accepted_items]) if accepted_items else None,
-                                "grouped_cv_rmse_when_accepted": _summary([item["p4_grouped_cv_rmse"] for item in accepted_items]) if accepted_items else None},
+                                "untouched_group_evaluation_rmse_when_accepted": _summary([item["p4_untouched_group_evaluation_rmse"] for item in accepted_items]) if accepted_items else None},
                         "skopt": _summary([item["skopt_regret"] for item in all_items])},
             "paired_p4_lower_regret_fraction_when_accepted": (sum(item["p4_regret"] < item["skopt_regret"] for item in accepted_items)/len(accepted_items)
                                                               if accepted_items else None),
@@ -215,7 +215,7 @@ def main():
                   "https://docs.scipy.org/doc/scipy/reference/generated/scipy.stats.qmc.LatinHypercube.html",
                   "https://pydoe3.readthedocs.io/en/stable/reference/doe_optimal/",
                   "https://scikit-optimize.readthedocs.io/en/latest/auto_examples/bayesian-optimization.html"],
-              "dependency_decision": "benchmark packages are not product dependencies; the product remains standard-library-only. Basic P4 LHS retains exact marginal stratification and is comparable to SciPy basic LHS but not SciPy random-cd. P4 finite-grid D-optimal design equals the enumerated optimum in the tested case and ties pyDOE3 detmax. Sequential proposals require grouped holdout to meet an engineer-specified maximum RMSE; out-of-tolerance cases are refused."}
+              "dependency_decision": "benchmark packages are not product dependencies; the product remains standard-library-only. Basic P4 LHS retains exact marginal stratification and is comparable to SciPy basic LHS but not SciPy random-cd. P4 finite-grid D-optimal design equals the enumerated optimum in the tested case and ties pyDOE3 detmax. Sequential formula selection is isolated to grouped development units and proposals are refused when the untouched grouped evaluation holdout exceeds the engineer-specified maximum RMSE; these diagnostics do not guarantee future performance."}
     output = ROOT / args.output
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2, sort_keys=True)+"\n", encoding="utf-8")

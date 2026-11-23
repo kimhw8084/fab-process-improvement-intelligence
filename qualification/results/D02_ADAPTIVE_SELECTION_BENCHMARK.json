@@ -1,0 +1,45 @@
+{
+  "calibration_units": 39,
+  "candidate_settings": 25,
+  "generator": "iid standard-normal residuals at every candidate setting; future units independent of calibration",
+  "limitations": [
+    "this isolates adaptive panel-selection bias under a known iid generator",
+    "it does not establish exchangeability or coverage for manufacturing populations",
+    "the predeclared complete-panel method is more conservative and covers only its finite declared panel"
+  ],
+  "method": "independent absolute-normal residual simulation with split-conformal rank ceil((n+1)*0.95)",
+  "order_statistic_rank": 38,
+  "results": {
+    "adaptively_selected_one_setting": {
+      "coverage": 0.863,
+      "covered": 4315,
+      "mean_radius": 1.4971694593216684,
+      "wilson95": [
+        0.8531901212860774,
+        0.8722525271018112
+      ]
+    },
+    "fixed_one_setting": {
+      "coverage": 0.953,
+      "covered": 4765,
+      "mean_radius": 2.048770423028295,
+      "wilson95": [
+        0.946777958205572,
+        0.9585265038322062
+      ]
+    },
+    "predeclared_complete_panel": {
+      "coverage": 0.9542,
+      "covered": 4771,
+      "mean_radius": 3.153310461451219,
+      "wilson95": [
+        0.9480485542546059,
+        0.9596540652985045
+      ]
+    }
+  },
+  "schema": "p4-d02-adaptive-selection-benchmark/v1",
+  "seed": 73192,
+  "target_coverage": 0.95,
+  "trials": 5000
+}

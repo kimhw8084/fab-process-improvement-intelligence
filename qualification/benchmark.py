@@ -1,5 +1,6 @@
 """Repeatable, local benchmark; optional third-party packages are reference-only."""
 import json
+import hashlib
 import math
 import platform
 import statistics
@@ -12,6 +13,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 REPEATS = 25
 sys.path.insert(0, str(ROOT))
+
+
+def product_source_fingerprint():
+    paths = sorted((ROOT / "fabintel").rglob("*.py")) + sorted((ROOT / "products" / "p4").rglob("*.py"))
+    files = {path.relative_to(ROOT).as_posix(): hashlib.sha256(path.read_bytes()).hexdigest() for path in paths}
+    manifest = "\n".join(f"{digest}  {name}" for name, digest in sorted(files.items())) + "\n"
+    return files, hashlib.sha256(manifest.encode("utf-8")).hexdigest()
 
 
 def percentile(values, p):
@@ -76,6 +84,7 @@ def main():
             "dossier_status": result.get("status"), "D01_status": sensitivity_status,
             "observations": n, "note": "other unrequested D02-D05 sections may make the dossier PARTIAL"}
     tasks["synthetic_schema_catalog_13000_tables"], catalog = measure(lambda: synthetic_catalog(13000))
+    product_files, product_manifest = product_source_fingerprint()
     report = {
         "benchmark_version": "3.0.0",
         "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (900-row integrated fixture and independent scaling tasks)",
@@ -83,6 +92,8 @@ def main():
                         "architecture": platform.machine(), "processor": platform.processor(), "python": sys.version},
         "source_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True,
                                          capture_output=True).stdout.strip() or "UNAVAILABLE",
+        "product_source_sha256": product_files,
+        "product_source_manifest_sha256": product_manifest,
         "network": "not used",
         "tasks": tasks,
         "result_checks": result_checks,

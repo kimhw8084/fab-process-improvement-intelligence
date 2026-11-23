@@ -5,7 +5,7 @@
   "title": "FAB Process Improvement Intelligence",
   "module": "products/p4/ui/P4Panel.tsx",
   "module_export": "P4Panel",
-  "capabilities": [],
+  "capabilities": ["D01", "D02", "D03", "D04", "D05"],
   "required_data": ["source_preview", "evidence_envelope"],
   "evidence_schema_version": "1.0.0",
   "chart_contract": "suite-chart.v1",

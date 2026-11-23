@@ -1,6 +1,7 @@
 """Supported one- and two-factor response-surface exploration for D02."""
 from __future__ import annotations
 
+from hashlib import sha256
 from itertools import product
 from math import ceil, isfinite, sqrt
 import json
@@ -72,50 +73,64 @@ def _unit_key(value):
 
 def _split_calibration(rows, unit_field, config, minimum_calibration_units):
     if not isinstance(config, dict):
-        return None, "a declared independent-group calibration holdout is required", None
+        return None, "a declared independent-group calibration holdout is required", None, None
     group_field = config.get("group_field")
     partition_field = config.get("partition_field")
     training_value = config.get("training_value")
     calibration_value = config.get("calibration_value")
+    evaluation_value = config.get("evaluation_value")
     split_reference = config.get("split_reference")
     if (not isinstance(group_field, str) or group_field != unit_field
             or not isinstance(partition_field, str) or not partition_field
             or not isinstance(training_value, str) or not training_value
             or not isinstance(calibration_value, str) or not calibration_value
             or not isinstance(split_reference, str) or not split_reference.strip()
-            or training_value == calibration_value):
-        return None, "calibration needs an independent-unit partition and a precommit/split reference", None
+            or training_value == calibration_value
+            or (evaluation_value is not None and
+                (not isinstance(evaluation_value, str) or not evaluation_value
+                 or evaluation_value in (training_value, calibration_value)))):
+        return None, "calibration needs an independent-unit partition and a precommit/split reference", None, None
     partitions_by_unit = {}
     row_partitions = []
+    allowed_partitions = (training_value, calibration_value) + ((evaluation_value,) if evaluation_value is not None else ())
     for row in rows:
         try:
             unit = _unit_key(_get_field(row, group_field))
             partition = _get_field(row, partition_field)
         except (KeyError, ValueError):
-            return None, "calibration group or partition field is missing", None
-        if partition not in (training_value, calibration_value):
-            return None, "every eligible row must be assigned to the declared training or calibration partition", None
+            return None, "calibration group or partition field is missing", None, None
+        if partition not in allowed_partitions:
+            return None, "every eligible row must be assigned to a declared training, calibration, or evaluation partition", None, None
         partitions_by_unit.setdefault(unit, set()).add(partition)
         row_partitions.append(partition)
     if any(len(values) != 1 for values in partitions_by_unit.values()):
-        return None, "an independent unit crosses the training and calibration partitions", None
+        return None, "an independent unit crosses the training and calibration partitions or the independent evaluation partition", None, None
     training = [row for row, partition in zip(rows, row_partitions) if partition == training_value]
     calibration = [row for row, partition in zip(rows, row_partitions) if partition == calibration_value]
+    evaluation = ([row for row, partition in zip(rows, row_partitions) if partition == evaluation_value]
+                  if evaluation_value is not None else [])
     training_units = {_unit_key(_get_field(row, group_field)) for row in training}
     calibration_units = {_unit_key(_get_field(row, group_field)) for row in calibration}
     if training_units & calibration_units:
-        return None, "training and calibration units overlap", None
+        return None, "training, calibration, and evaluation units must be disjoint", None, None
     if len(calibration_units) < minimum_calibration_units:
-        return None, f"at least {minimum_calibration_units} independent calibration units are required for a finite 95% bound", None
+        return None, f"at least {minimum_calibration_units} independent calibration units are required for a finite 95% bound", None, None
+    evaluation_units = {_unit_key(_get_field(row, group_field)) for row in evaluation}
+    if evaluation_value is not None and not evaluation_units:
+        return None, "the declared independent evaluation partition has no eligible units", None, None
     return (training, calibration,
             {"group_field": group_field, "partition_field": partition_field,
              "training_value": training_value, "calibration_value": calibration_value,
+             "evaluation_value": evaluation_value,
              "split_reference": split_reference,
              "training_unit_count": len(training_units), "calibration_unit_count": len(calibration_units),
+             "evaluation_unit_count": len(evaluation_units),
              "training_row_count": len(training), "calibration_row_count": len(calibration),
+             "evaluation_row_count": len(evaluation),
              "order_statistic_reference": 0.95,
-             "coverage_guarantee": "none; local selection does not establish conditional coverage",
-             "method": "local_grouped_holdout_absolute_error"})
+             "coverage_guarantee": "none; this local score rank establishes neither conditional nor simultaneous coverage",
+             "method": "local_grouped_holdout_absolute_error",
+             "evaluation_role": "post-screening independent diagnostic only; evaluation outcomes do not alter fit, calibration, or candidate selection"}, evaluation)
 
 
 def _fit_grouped_calibration(training, calibration, factor_defs, metric, options, fixed_effects, group_field, cancel):
@@ -140,6 +155,291 @@ def _finite_rank_quantile(scores, coverage=0.95):
     if not ordered or rank > len(ordered):
         return None
     return ordered[rank - 1]
+
+
+def _validate_window_precommit(plan, metrics, model_factors):
+    if not isinstance(plan, dict):
+        return None, {"status": "PRECOMMIT_NOT_PROVIDED",
+                      "reason": "a precommitted model, threshold, metric-family, and exact-setting panel plan is required for simultaneous calibration"}
+    references = ("plan_reference", "model_selection_reference", "threshold_selection_reference")
+    if any(not isinstance(plan.get(name), str) or not plan[name].strip() for name in references):
+        return None, {"status": "PRECOMMIT_INVALID",
+                      "reason": "precommit plan, model-selection, and threshold-selection references must be non-empty strings"}
+    metric_family = plan.get("metric_family")
+    if (not isinstance(metric_family, list) or any(not isinstance(name, str) or not name for name in metric_family)
+            or len(metric_family) != len(set(metric_family)) or set(metric_family) != set(metrics)):
+        return None, {"status": "PRECOMMIT_METRIC_FAMILY_MISMATCH",
+                      "reason": "the precommitted metric family must exactly match every constrained D02 metric"}
+    panel = plan.get("exact_setting_panel")
+    if not isinstance(panel, list) or not panel or len(panel) > 1681:
+        return None, {"status": "PRECOMMIT_PANEL_INVALID",
+                      "reason": "the precommitted exact-setting panel must contain 1 to 1681 settings"}
+    parsed = []
+    for setting in panel:
+        if (not isinstance(setting, dict) or set(setting) != set(model_factors)
+                or any(not isinstance(setting[name], (int, float)) or isinstance(setting[name], bool)
+                       or not isfinite(setting[name]) for name in model_factors)):
+            return None, {"status": "PRECOMMIT_PANEL_INVALID",
+                          "reason": "each precommitted setting must supply every modeled factor exactly once with a finite numeric value"}
+        key = tuple(float(setting[name]) for name in model_factors)
+        if key in parsed:
+            return None, {"status": "PRECOMMIT_PANEL_INVALID", "reason": "the precommitted exact-setting panel contains duplicate settings"}
+        parsed.append(key)
+    ordered = sorted(parsed)
+    normalized_plan = {
+        "plan_reference": plan["plan_reference"],
+        "model_selection_reference": plan["model_selection_reference"],
+        "threshold_selection_reference": plan["threshold_selection_reference"],
+        "metric_family": sorted(metric_family),
+        "exact_setting_panel": [dict(zip(model_factors, setting)) for setting in ordered],
+    }
+    digest = sha256(json.dumps(normalized_plan, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
+    return {"keys": set(ordered), "settings": normalized_plan["exact_setting_panel"],
+            "evidence": {**normalized_plan, "status": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
+                         "plan_sha256": digest}}, None
+
+
+def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, model_factors,
+                                             fixed_effects, group_field, precommit_plan, alpha=0.05):
+    """Build a split-conformal band across a complete exact-setting panel.
+
+    Each independent calibration unit contributes one maximum absolute error
+    per metric, maximized over every exact setting and replicate in its panel.
+    Bonferroni allocation across metrics then controls the declared finite
+    family, conditional on the caller's split and exchangeability assumptions.
+    This deliberately does not extend to interpolated settings.
+    """
+    checked_plan, plan_error = _validate_window_precommit(precommit_plan, metrics, model_factors)
+    if plan_error:
+        return {**plan_error, "calibration_unit_count": 0, "common_exact_settings": [],
+                "metric_quantiles": {}, "precommit": None}
+
+    group_errors = {}
+    group_settings = {}
+    for row in calibration_rows:
+        try:
+            unit = _unit_key(_get_field(row, group_field))
+            factors = row["factors"]
+            setting = tuple(factors[name] for name in model_factors)
+            if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value)
+                   for value in setting):
+                raise ValueError("non-numeric exact setting")
+            observed = row["metrics"]
+            group_errors.setdefault(unit, {metric: [] for metric in metrics})
+            group_settings.setdefault(unit, set()).add(setting)
+            for metric in metrics:
+                prediction = models[metric].predict(factors, fixed_effects)
+                estimate = prediction.get("estimate")
+                if not isinstance(estimate, (int, float)) or not isfinite(estimate):
+                    raise ValueError(f"unavailable calibration prediction for {metric}")
+                value = observed.get(metric)
+                if not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value):
+                    raise ValueError(f"missing or invalid calibration outcome for {metric}")
+                group_errors[unit][metric].append(abs(float(value) - estimate))
+        except (KeyError, TypeError, ValueError) as exc:
+            return {"status": "INCOMPLETE_CALIBRATION_PANEL", "reason": str(exc),
+                    "calibration_unit_count": len(group_errors), "common_exact_settings": [],
+                    "metric_quantiles": {}}
+    if not group_errors:
+        return {"status": "INSUFFICIENT_CALIBRATION_UNITS", "reason": "no calibration units were supplied",
+                "calibration_unit_count": 0, "common_exact_settings": [], "metric_quantiles": {}}
+    setting_sets = list(group_settings.values())
+    if (any(settings != setting_sets[0] for settings in setting_sets[1:])
+            or any(settings != checked_plan["keys"] for settings in setting_sets)):
+        return {"status": "INCOMPLETE_CALIBRATION_PANEL",
+                "reason": "every calibration unit must cover exactly the same complete panel declared in the precommit plan",
+                "calibration_unit_count": len(group_errors), "common_exact_settings": [],
+                "declared_exact_setting_count": len(checked_plan["keys"]),
+                "observed_exact_setting_count": len(setting_sets[0]), "metric_quantiles": {},
+                "precommit": checked_plan["evidence"]}
+    count = len(group_errors)
+    per_metric_alpha = alpha / len(metrics)
+    rank = ceil((count + 1) * (1.0 - per_metric_alpha))
+    quantiles = {}
+    if rank > count:
+        return {"status": "INSUFFICIENT_CALIBRATION_UNITS",
+                "reason": "the finite-sample order-statistic rank exceeds the number of independent calibration units",
+                "calibration_unit_count": count, "metric_count": len(metrics),
+                "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
+                "order_statistic_rank": rank, "common_exact_settings": [],
+                "metric_quantiles": {}}
+    for metric in metrics:
+        scores = [max(values[metric]) for values in group_errors.values()]
+        quantiles[metric] = {"absolute_error_radius": sorted(scores)[rank - 1],
+                             "order_statistic_rank": rank,
+                             "calibration_units": count,
+                             "per_metric_marginal_level": 1.0 - per_metric_alpha}
+    ordered_settings = checked_plan["settings"]
+    return {"status": "AVAILABLE", "method": "independent-unit split-conformal maximum score over complete exact-setting panels with Bonferroni metric allocation",
+            "calibration_unit_count": count, "metric_count": len(metrics),
+            "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
+            "order_statistic_rank": rank,
+            "metric_quantiles": quantiles,
+            "common_exact_settings": ordered_settings,
+            "precommit": checked_plan["evidence"],
+            "scope": "one future independent unit across the complete common exact-setting panel and all declared constrained metrics",
+            "assumption_conditional_statement": (
+                "Under exchangeability of independent calibration and future units, identical complete setting panels, "
+                "a model, metric family, exact-setting panel, and thresholds fixed before calibration outcomes were inspected, the "
+                "split-conformal maximum-score construction targets at least 95% marginal simultaneous predictive "
+                "coverage for this finite exact-setting panel. These assumptions and source split provenance are not "
+                "verified here; this is not conditional, interpolated-region, or production-population coverage."),
+            "limitations": ["exact calibration-observed settings only; no interpolation or extrapolation",
+                           "does not establish conditional coverage or target-population exchangeability",
+                           "caller-supplied split and precommit references are unauthenticated; the exact plan bytes are hash-recorded"]}
+
+
+def _wilson_interval(successes, trials, z=1.959963984540054):
+    """Descriptive binomial interval for independent held-out engineering units."""
+    if trials <= 0:
+        return None
+    proportion = successes / trials
+    denominator = 1 + z*z/trials
+    center = (proportion + z*z/(2*trials)) / denominator
+    half_width = z * sqrt((proportion*(1-proportion) + z*z/(4*trials))/trials) / denominator
+    return [max(0.0, center-half_width), min(1.0, center+half_width)]
+
+
+def _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
+                             fixed_settings=None, strata_fields=()):
+    """Evaluate only exact candidate settings on an untouched whole-unit partition.
+
+    This is a descriptive engineering diagnostic. It cannot establish population,
+    conditional, or simultaneous coverage and never changes candidate selection.
+    """
+    if not evaluation_rows:
+        return {"status": "NOT_PROVIDED", "evaluated_candidate_count": 0,
+                "unevaluated_candidate_count": len(candidates), "candidates": [],
+                "candidate_selection_audit": {"status": "NOT_PROVIDED", "candidate_count": len(candidates),
+                                               "complete_independent_units": 0,
+                                               "observed_any_infeasible_units": None,
+                                               "observed_any_infeasible_fraction": None,
+                                               "wilson95_descriptive_interval": None},
+                "method": "exact-setting independent-unit feasibility diagnostic; no population or simultaneous guarantee"}
+    evaluated = []
+    unevaluated = 0
+    candidate_unit_outcomes = []
+    strata_fields = list(strata_fields)
+    fixed_conditions = {name: value for name, value in (fixed_settings or {}).items()
+                        if name not in selected}
+    for candidate in candidates:
+        factors = candidate["factors"]
+        selected_rows = [row for row in evaluation_rows
+                         if all(row["factors"].get(name) == factors.get(name) for name in selected)]
+        exact_rows = []
+        population_incompatible_units = set()
+        for row in selected_rows:
+            unit = _unit_key(_get_field(row, unit_field))
+            if any(row["factors"].get(name) != value for name, value in fixed_conditions.items()):
+                population_incompatible_units.add(unit)
+            else:
+                exact_rows.append(row)
+        by_unit = {}
+        for row in exact_rows:
+            unit = _unit_key(_get_field(row, unit_field))
+            record = by_unit.setdefault(unit, {"observations": [], "missing_metric": False,
+                                                "strata": {}, "missing_stratum": False})
+            if strata_fields:
+                try:
+                    stratum_values = {field: _get_field(row, field) for field in strata_fields}
+                    if any(not isinstance(value, (str, int, float, bool, type(None)))
+                           or (isinstance(value, float) and not isfinite(value)) for value in stratum_values.values()):
+                        record["missing_stratum"] = True
+                    else:
+                        stratum_key = tuple(_unit_key(stratum_values[field]) for field in strata_fields)
+                        record["strata"][stratum_key] = stratum_values
+                except (KeyError, ValueError):
+                    record["missing_stratum"] = True
+            observation = {}
+            for metric in constrained:
+                value = row.get("metrics", {}).get(metric)
+                if isinstance(value, (int, float)) and not isinstance(value, bool) and isfinite(value):
+                    observation[metric] = float(value)
+                else:
+                    record["missing_metric"] = True
+            record["observations"].append(observation)
+        unit_passes = []
+        unit_outcomes = {}
+        unscored_units = 0
+        stratum_outcomes = {}
+        unassignable_strata_units = 0
+        for unit, values in by_unit.items():
+            if values["missing_metric"] or any(
+                    any(metric not in observation for metric in constrained)
+                    for observation in values["observations"]):
+                unscored_units += 1
+                continue
+            # Preserve the observation grain: a lot fails this diagnostic if any
+            # measured outcome at the proposed setting crosses a supplied limit.
+            passed = all(_metric_pass(observation[metric], definition)
+                         for observation in values["observations"]
+                         for metric, definition in constrained.items())
+            unit_passes.append(passed)
+            unit_outcomes[unit] = passed
+            if strata_fields:
+                if values["missing_stratum"] or len(values["strata"]) != 1:
+                    unassignable_strata_units += 1
+                else:
+                    stratum_key, stratum_values = next(iter(values["strata"].items()))
+                    bucket = stratum_outcomes.setdefault(stratum_key, {"values": stratum_values, "passes": []})
+                    bucket["passes"].append(passed)
+        if not unit_passes:
+            unevaluated += 1
+            candidate_unit_outcomes.append(unit_outcomes)
+            evaluated.append({"factors": factors, "independent_units": 0,
+                              "unscored_units_with_missing_outcomes": unscored_units,
+                              "population_incompatible_units": len(population_incompatible_units),
+                              "observed_infeasible_units": None,
+                              "observed_infeasible_fraction": None,
+                              "wilson95_descriptive_interval": None,
+                              "stratified_evaluation": {"status": "NOT_ESTIMABLE", "fields": strata_fields,
+                                                         "categories": [],
+                                                         "units_with_missing_or_mixed_strata": 0},
+                              "status": "NO_EXACT_SETTING_EVALUATION_DATA" if not exact_rows
+                                        else "NO_SCORABLE_EXACT_SETTING_OUTCOMES"})
+            continue
+        candidate_unit_outcomes.append(unit_outcomes)
+        violations = sum(not passed for passed in unit_passes)
+        strata = {"status": "NOT_REQUESTED", "fields": [], "categories": [],
+                  "units_with_missing_or_mixed_strata": 0}
+        if strata_fields:
+            categories = []
+            for bucket in sorted(stratum_outcomes.values(), key=lambda item: tuple(str(item["values"][field]) for field in strata_fields)):
+                failures = sum(not passed for passed in bucket["passes"])
+                categories.append({"values": bucket["values"], "independent_units": len(bucket["passes"]),
+                    "observed_infeasible_units": failures,
+                    "observed_infeasible_fraction": failures/len(bucket["passes"]),
+                    "wilson95_descriptive_interval": _wilson_interval(failures, len(bucket["passes"]))})
+            strata = {"status": "DESCRIPTIVE", "fields": strata_fields, "categories": categories,
+                      "units_with_missing_or_mixed_strata": unassignable_strata_units,
+                      "method": "exact-setting held-out unit outcomes grouped by caller-declared strata; descriptive only"}
+        evaluated.append({"factors": factors, "independent_units": len(unit_passes),
+                          "unscored_units_with_missing_outcomes": unscored_units,
+                          "population_incompatible_units": len(population_incompatible_units),
+                          "observed_infeasible_units": violations,
+                          "observed_infeasible_fraction": violations / len(unit_passes),
+                          "wilson95_descriptive_interval": _wilson_interval(violations, len(unit_passes)),
+                          "stratified_evaluation": strata,
+                          "status": "DESCRIPTIVE_HELDOUT_DIAGNOSTIC"})
+    scored = len(evaluated) - unevaluated
+    complete_units = (set.intersection(*(set(outcomes) for outcomes in candidate_unit_outcomes))
+                      if candidate_unit_outcomes and candidates else set())
+    any_infeasible = sum(any(not outcomes[unit] for outcomes in candidate_unit_outcomes)
+                         for unit in complete_units)
+    selection_audit = {"status": "DESCRIPTIVE_SETWISE_DIAGNOSTIC" if complete_units
+                       else "INSUFFICIENT_COMPLETE_SET_EVALUATION",
+                       "candidate_count": len(candidates),
+                       "complete_independent_units": len(complete_units),
+                       "observed_any_infeasible_units": any_infeasible if complete_units else None,
+                       "observed_any_infeasible_fraction": any_infeasible/len(complete_units) if complete_units else None,
+                       "wilson95_descriptive_interval": _wilson_interval(any_infeasible, len(complete_units)),
+                       "method": "fraction of independent held-out units infeasible at one or more selected candidate settings; exact outcomes at every selected setting required",
+                       "guarantee": "none; descriptive only and not a multiplicity-adjusted or population guarantee"}
+    return {"status": "DESCRIPTIVE" if scored else "INSUFFICIENT_EXACT_SETTING_DATA",
+            "evaluated_candidate_count": scored, "unevaluated_candidate_count": unevaluated,
+            "evaluation_unit_count": len({_unit_key(_get_field(row, unit_field)) for row in evaluation_rows}),
+            "candidates": evaluated, "candidate_selection_audit": selection_audit,
+            "method": "exact-setting independent-unit diagnostic; a unit is infeasible if any observed row violates a supplied limit; missing-outcome units are unscored; Wilson intervals are descriptive and do not establish population, conditional, or simultaneous coverage"}
 
 
 def _inside_forbidden(factors, regions):
@@ -263,6 +563,11 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
     if (not isinstance(minimum_calibration_units, int) or isinstance(minimum_calibration_units, bool)
             or minimum_calibration_units < 19):
         raise WindowError("minimum_calibration_units must be at least 19 for a finite 95% order-statistic rank")
+    evaluation_strata = spec.get("evaluation_strata", [])
+    if not isinstance(evaluation_strata, list) or any(not isinstance(field, str) or not field for field in evaluation_strata):
+        raise WindowError("evaluation_strata must be a unique list of explicit source field names")
+    if len(evaluation_strata) != len(set(evaluation_strata)):
+        raise WindowError("evaluation_strata must be a unique list of explicit source field names")
 
     # Any controllable omitted from the response model must be held exactly at
     # its declared setting; otherwise its uncontrolled effect could be
@@ -278,7 +583,7 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                 eligible_rows.append(row)
         except (KeyError, ValueError):
             continue
-    matching_rows, calibration_rows, calibration_report = _split_calibration(
+    matching_rows, calibration_rows, calibration_report, evaluation_rows = _split_calibration(
         eligible_rows, unit_field, calibration_config, minimum_calibration_units)
     if matching_rows is None:
         return {"status": "INCONCLUSIVE", "reason": calibration_rows, "grid": [], "candidate_cells": []}
@@ -331,6 +636,14 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         if fitted[metric] is None or fit_reports[metric].get("status") != "VALID":
             return {"status": "INCONCLUSIVE", "reason": f"uncertainty for constrained metric {metric} is not estimable",
                     "model_diagnostics": fit_reports, "grid": [], "candidate_cells": []}
+
+    simultaneous_calibration = _simultaneous_exact_setting_calibration(
+        calibration_rows, list(constrained), fitted, model_factors, fixed_effects, unit_field,
+        calibration_config.get("precommit"))
+    simultaneous_setting_keys = {
+        tuple(setting[name] for name in model_factors)
+        for setting in simultaneous_calibration.get("common_exact_settings", [])
+    }
 
     axes = [[float(bounds[name][0]) + i*(bounds[name][1]-bounds[name][0])/(resolution-1)
              for i in range(resolution)] for name in selected]
@@ -393,6 +706,13 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
 
         predictions = {}
         metric_passes = []
+        simultaneous_metric_passes = []
+        exact_model_setting = tuple(settings.get(name) for name in model_factors)
+        has_simultaneous_exact_setting = (
+            simultaneous_calibration.get("status") == "AVAILABLE"
+            and region_class == "observed"
+            and exact_model_setting in simultaneous_setting_keys
+        )
         for metric, definition in constrained.items():
             if region_class in ("observed", "interpolated", "extrapolated"):
                 prediction = fitted[metric].predict(settings, fixed_effects)
@@ -419,8 +739,27 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                     prediction["predictive_interval95"] = None
                     prediction["calibration_status"] = "INSUFFICIENT_LOCAL_HOLDOUT_SUPPORT"
                     prediction["calibration_units"] = len(local_scores)
+                if has_simultaneous_exact_setting:
+                    radius95 = simultaneous_calibration["metric_quantiles"][metric]["absolute_error_radius"]
+                    if isinstance(estimate, (int, float)) and isfinite(estimate):
+                        prediction["simultaneous_group_interval95"] = [estimate-radius95, estimate+radius95]
+                        prediction["simultaneous_group_calibration_status"] = "AVAILABLE_UNDER_UNVERIFIED_EXCHANGEABILITY_ASSUMPTIONS"
+                        prediction["simultaneous_group_error_radius"] = radius95
+                        simultaneous_metric_passes.append(
+                            _metric_pass_interval({"predictive_interval95": prediction["simultaneous_group_interval95"]}, definition))
+                    else:
+                        prediction["simultaneous_group_interval95"] = None
+                        prediction["simultaneous_group_calibration_status"] = "PREDICTION_UNAVAILABLE"
+                        simultaneous_metric_passes.append(False)
+                else:
+                    prediction["simultaneous_group_interval95"] = None
+                    prediction["simultaneous_group_calibration_status"] = (
+                        simultaneous_calibration.get("status") if simultaneous_calibration.get("status") != "AVAILABLE"
+                        else "NOT_IN_COMPLETE_EXACT_SETTING_PANEL")
             else:
                 prediction = {"status": "NOT_PREDICTED"}
+                prediction["simultaneous_group_interval95"] = None
+                prediction["simultaneous_group_calibration_status"] = "NOT_PREDICTED_OUTSIDE_SUPPORTED_REGION"
             predictions[metric] = prediction
             safe = _metric_pass_interval(prediction, definition)
             if safe is not None:
@@ -431,6 +770,12 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             for row in exact_rows for metric, definition in constrained.items())
         candidate = (region_class in ("observed", "interpolated") and conservative_feasible
                      and (region_class != "observed" or observed_replicates_pass))
+        simultaneous_candidate = (
+            has_simultaneous_exact_setting
+            and len(simultaneous_metric_passes) == len(constrained)
+            and all(simultaneous_metric_passes)
+            and observed_replicates_pass
+        )
         cell = {"factors": settings, "region_class": region_class,
                 "support": {"nearest_normalized_distance": nearest, "nearby_distinct_settings": len(near_settings),
                             "nearby_independent_units": len(local_units), "independent_unit_field": unit_field,
@@ -438,12 +783,22 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                             "nearby_calibration_units": len(local_calibration_units),
                             "minimum_calibration_units": minimum_calibration_units},
                 "predictions": predictions, "conservative_feasible": conservative_feasible,
-                "supported_candidate": candidate}
+                "supported_candidate": candidate,
+                "simultaneous_supported_candidate": simultaneous_candidate}
         grid.append(cell)
         if candidate:
             candidates.append(cell)
     counts = {name: sum(cell["region_class"] == name for cell in grid)
               for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")}
+    evaluation = _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
+                                          fixed_settings, evaluation_strata)
+    simultaneous_candidates = [cell for cell in grid if cell["simultaneous_supported_candidate"]]
+    simultaneous_summary = dict(simultaneous_calibration)
+    simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)
+    simultaneous_summary["pointwise_supported_candidate_count"] = len(candidates)
+    simultaneous_summary["status_scope"] = (
+        "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY"
+        if simultaneous_calibration.get("status") == "AVAILABLE" else "NOT_AVAILABLE")
     return {"status": "VALID" if candidates else "INCONCLUSIVE",
             "method": "supported_grid_response_surface_with_local_grouped_holdout_calibration",
             "explored_factors": selected, "approved_factor_bounds": bounds,
@@ -452,10 +807,47 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             "omitted_controls_held_at_fixed_setting": omitted_controls,
             "repeated_unit_handling": "clustered on declared independent unit" if repeated_units else "one row per independent unit",
             "calibration": calibration_report,
+            "data_roles": {
+                "model_fitting": calibration_report["training_value"],
+                "model_selection": "NOT_PERFORMED_BY_ENGINE; caller supplies the model-selection reference, which is not authenticated",
+                "threshold_selection": "NOT_PERFORMED_BY_ENGINE; caller supplies the threshold-selection reference, which is not authenticated",
+                "selection_plan_status": (simultaneous_calibration.get("precommit") or {}).get(
+                    "status", simultaneous_calibration.get("status")),
+                "uncertainty_calibration": calibration_report["calibration_value"],
+                "independent_evaluation": calibration_report["evaluation_value"] or "NOT_PROVIDED",
+            },
+            "uncertainty_scope": {
+                "method": "local group-maximum absolute holdout error",
+                "rank": "ceil((n_independent_calibration_units + 1) * 0.95)",
+                "formal_coverage_claim": "NONE_ESTABLISHED",
+                "conditional_coverage": "NOT_ESTABLISHED",
+                "simultaneous_coverage_over_searched_grid": "NOT_ESTABLISHED",
+                "interpretation": "empirical local uncertainty diagnostic; candidate selection across grid may increase false-feasible findings",
+                "conditions_for_a_future_formal_claim": [
+                    "independent exchangeable engineering units matching the stated target population",
+                    "model-selection, threshold-selection, metric-family, and exact-setting panel references fixed before calibration outcomes are inspected",
+                    "a calibration design whose score matches the exact prediction target and selection scope",
+                    "identical complete calibration panels matching the explicit precommit panel",
+                    "prespecified metric limits and no outcome-driven threshold tuning",
+                ],
+            },
+            "simultaneous_exact_setting_screen": simultaneous_summary,
+            "independent_candidate_evaluation": evaluation,
             "grid_shape": [len(axis) for axis in axes], "region_counts": counts,
             "model_diagnostics": fit_reports, "convex_hull_normalized": hull,
             "extrapolation_within_approved_bounds_present": extrapolation_present,
             "candidate_count": len(candidates), "candidate_cells": candidates,
+            "candidate_scope": "ADVISORY_POINTWISE_SCREENING_ONLY",
+            "simultaneous_candidate_count": len(simultaneous_candidates),
+            "joint_validation_status": "NOT_ESTABLISHED",
+            "selection_warning": (
+                "Candidates are screened over a searched grid using local grouped calibration. "
+                "Selection among cells can inflate false-feasible findings; these intervals do not "
+                "establish simultaneous or conditional coverage. A separate maximum-score band is "
+                "available only when an explicit precommit record declares the model, threshold, metric "
+                "family, and exact-setting panel and every calibration unit matches that panel. The "
+                "record's references and timing remain unauthenticated. Validate "
+                "a preselected exact setting on independent engineering units before any process decision."),
             "grid": grid,
             "uncertainty_rule": (
                 "all local group-held-out empirical intervals using a 95% order-statistic rank "

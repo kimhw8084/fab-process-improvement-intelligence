@@ -6,11 +6,11 @@
       "source": "/Users/haewonkim/home/work/product 1/FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22/contracts/suite-chart.v1.schema.json"
     },
     "suite-ui-module.v1.schema.json": {
-      "sha256": "93a9ecf707065feaf001b13dd3a84d8268ce0b93ec2c196cd856b9f44aa67d52",
+      "sha256": "e3f0da372a2528d993a8a1555403c6e115df7256edfc8cfc0f09be3995e17c4f",
       "source": "/Users/haewonkim/home/work/product 1/FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22/contracts/suite-ui-module.v1.schema.json"
     }
   },
-  "status": "CANDIDATE_REFERENCE_NOT_HOST_QUALIFICATION",
+  "status": "CURRENT_UNVERSIONED_LOCAL_SNAPSHOT_NOT_UPSTREAM_QUALIFIED",
   "upstream_commit": null,
   "upstream_commit_reason": "The extracted local P1 folder has no Git metadata."
 }

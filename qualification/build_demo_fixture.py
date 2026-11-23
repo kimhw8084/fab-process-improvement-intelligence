@@ -76,9 +76,14 @@ request = {
         ],
     },
     "validation_split": {
-        "split_type": "time", "train_timestamps": ["2026-01-01T00:00:00Z", "2026-01-02T00:00:00Z"],
-        "test_timestamps": ["2026-01-03T00:00:00Z", "2026-01-04T00:00:00Z"],
-        "train_groups": ["SYN-TRAIN-LOT-1", "SYN-TRAIN-LOT-2"], "test_groups": ["SYN-HOLDOUT-LOT-1"],
+        "split_type": "time", "timestamp_field": "event_ts", "group_field": "lot_id",
+        "metric": "yield_index", "split_reference": "SYN-PRECOMMITTED-TIME-LOT-80-20-001",
+        "train_timestamps": [(start+timedelta(minutes=1)).isoformat(),
+                             (start+timedelta(minutes=720)).isoformat()],
+        "test_timestamps": [(start+timedelta(minutes=721)).isoformat(),
+                            (start+timedelta(minutes=900)).isoformat()],
+        "train_groups": [f"SYN-LOT-{lot+1:03d}" for lot in range(80)],
+        "test_groups": [f"SYN-LOT-{lot+1:03d}" for lot in range(80, 100)],
     },
     "observations": observations,
 }

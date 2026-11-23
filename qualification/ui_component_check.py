@@ -55,12 +55,13 @@ def main():
             modules.unlink()
     summary = re.search(r"Tests\s+(\d+) passed", component_test["stdout"] + component_test["stderr"])
     tests_passed = int(summary.group(1)) if summary else None
+    expected_tests = len(re.findall(r"(?m)^\s*it\(", (ROOT / "products/p4/ui/P4Panel.test.tsx").read_text(encoding="utf-8")))
     reference = json.loads((ROOT / "research/p1-suite-ui-reference/REFERENCE.json").read_text(encoding="utf-8"))
     contract_matches = all(digest(suite / "contracts" / name) == reference["contracts"][name]["sha256"]
                            for name in ("suite-ui-module.v1.schema.json", "suite-chart.v1.schema.json"))
     suite_manifest = json.loads(suite_package.read_text(encoding="utf-8"))
     report = {
-        "status": "PASS_LOCAL_MODULE_ONLY" if component_test["return_code"] == 0 and tests_passed == 8
+        "status": "PASS_LOCAL_MODULE_ONLY" if component_test["return_code"] == 0 and tests_passed == expected_tests
                   and typecheck["return_code"] == 0 and contract_matches else "FAIL",
         "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
         "suite_root_name": suite.name,
@@ -77,9 +78,13 @@ def main():
                              "products/p4/ui/P4Panel.test.tsx": digest(ROOT / "products/p4/ui/P4Panel.test.tsx")},
         "component_tests": {"return_code": component_test["return_code"], "tests_passed": tests_passed,
                             "test_file": "products/p4/ui/P4Panel.test.tsx",
+                            "expected_test_count": expected_tests,
                             "diagnostic": ((component_test["stdout"] + component_test["stderr"])[-4000:]
-                                          if component_test["return_code"] != 0 or tests_passed != 8 else None)},
-        "typecheck": {"return_code": typecheck["return_code"], "status": "PASS" if typecheck["return_code"] == 0 else "FAIL"},
+                                          if component_test["return_code"] != 0 or tests_passed != expected_tests else None)},
+        "typecheck": {"return_code": typecheck["return_code"],
+                       "status": "PASS" if typecheck["return_code"] == 0 else "FAIL",
+                       "diagnostic": ((typecheck["stdout"] + typecheck["stderr"])[-4000:]
+                                      if typecheck["return_code"] != 0 else None)},
         "accessibility_scope": {"native_semantic_tables": True, "labeled_keyboard_focusable_filters": True,
                                 "refused_results_hide_positive_claims": True,
                                 "formal_wcag": "NOT_RUN", "screen_reader": "NOT_RUN",

@@ -219,6 +219,8 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     options = options or {}
     if not rows:
         raise ModelError("at least one row is required")
+    if any(isinstance(row, dict) and "measurement_uncertainty" in row for row in rows):
+        raise ModelError("measurement_uncertainty was supplied but is not propagated by this model; sensitivity inference is refused")
     all_numeric = [name for name, definition in factor_defs.items()
                    if definition.get("role", "controllable") in ("controllable", "measured")]
     factor_names = options.get("factor_fields", all_numeric)
@@ -232,6 +234,66 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     max_levels = options.get("max_fixed_effect_levels", 24)
     if not isinstance(max_levels, int) or isinstance(max_levels, bool) or not 2 <= max_levels <= 100:
         raise ModelError("max_fixed_effect_levels must be between 2 and 100")
+
+    independent_unit_field = options.get("independent_unit_field")
+    independent_unit_count = None
+    auto_clustered = False
+    cluster_nesting = None
+    if independent_unit_field is not None:
+        if not isinstance(independent_unit_field, str) or not independent_unit_field:
+            raise ModelError("independent_unit_field must be a nonempty row field path")
+        try:
+            values = [_get_field(row, independent_unit_field) for row in rows]
+            if any(value is None or value == "" for value in values):
+                raise ModelError("declared independent unit is empty")
+            independent_keys = [_key(value) for value in values]
+        except ModelError:
+            return {"status": "INCONCLUSIVE",
+                    "reason": "the declared independent-unit field is missing or empty; sensitivity uncertainty is withheld",
+                    "n": len(rows), "terms": {}, "diagnostic_warnings": [],
+                    "inference": {"declared_independent_unit_field": independent_unit_field}}, None
+        independent_unit_count = len(set(independent_keys))
+        covariance = options.get("covariance", "HC3")
+        if covariance not in ("HC3", "cluster", "classical"):
+            raise ModelError("covariance must be HC3, cluster, or classical")
+        if covariance == "cluster":
+            cluster_field = options.get("cluster_field")
+            if not isinstance(cluster_field, str) or not cluster_field:
+                raise ModelError("cluster covariance requires an explicit cluster_field")
+            try:
+                cluster_values = [_get_field(row, cluster_field) for row in rows]
+                if any(value is None or value == "" for value in cluster_values):
+                    raise ModelError("declared cluster field is empty")
+                cluster_keys = [_key(value) for value in cluster_values]
+            except ModelError:
+                return {"status": "INCONCLUSIVE",
+                        "reason": "the declared cluster field is missing; sensitivity uncertainty is withheld",
+                        "n": len(rows), "terms": {}, "diagnostic_warnings": [],
+                        "inference": {"declared_independent_unit_field": independent_unit_field,
+                                      "cluster_field": cluster_field}}, None
+            unit_clusters = {}
+            for unit_key, cluster_key in zip(independent_keys, cluster_keys):
+                unit_clusters.setdefault(unit_key, set()).add(cluster_key)
+            split_units = [unit for unit, clusters in unit_clusters.items() if len(clusters) != 1]
+            cluster_nesting = {"status": "NESTED" if not split_units else "INDEPENDENT_UNIT_SPLIT_ACROSS_CLUSTERS",
+                               "declared_independent_unit_field": independent_unit_field,
+                               "cluster_field": cluster_field,
+                               "independent_units": independent_unit_count,
+                               "clusters": len(set(cluster_keys)),
+                               "split_independent_unit_count": len(split_units)}
+            if split_units:
+                return {"status": "INCONCLUSIVE",
+                        "reason": "the declared cluster field splits repeated independent units across clusters; cluster-robust uncertainty is withheld",
+                        "n": len(rows), "terms": {}, "diagnostic_warnings": [],
+                        "inference": {"declared_independent_unit_field": independent_unit_field,
+                                      "cluster_field": cluster_field,
+                                      "declared_independent_unit_count": independent_unit_count,
+                                      "cluster_nesting": cluster_nesting}}, None
+        if independent_unit_count < len(independent_keys) and covariance != "cluster":
+            # A declared sampling unit makes row-independent HC3/classical
+            # inference inappropriate when multiple rows belong to that unit.
+            options = {**options, "covariance": "cluster", "cluster_field": independent_unit_field}
+            auto_clustered = True
 
     factor_values = {name: [float(row["factors"][name]) for row in rows] for name in factor_names}
     centers = {name: mean(values) for name, values in factor_values.items()}
@@ -331,6 +393,9 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     if covariance_type not in ("HC3", "cluster", "classical"):
         raise ModelError("covariance must be HC3, cluster, or classical")
     warnings = []
+    if auto_clustered:
+        warnings.append(
+            f"repeated rows were detected within declared independent units; cluster-robust uncertainty on {independent_unit_field} replaced row-independent covariance")
     leverage = [_dot(x[i], _matvec(bread, x[i])) for i in range(n)]
     max_leverage = max(leverage, default=0.0)
     high_leverage = [rows[i].get("id") for i, h in enumerate(leverage) if h > 2*p/n]
@@ -433,7 +498,11 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                                     for field in fixed_fields},
               "inference": {"covariance": covariance_type, "independent_cluster_field": options.get("cluster_field") if covariance_type == "cluster" else None,
                             "independent_cluster_count": cluster_count, "inference_df": inferential_df if covariance is not None else None,
-                            "confidence_level": 0.95, "minimum_clusters": minimum_clusters if covariance_type == "cluster" else None},
+                            "confidence_level": 0.95, "minimum_clusters": minimum_clusters if covariance_type == "cluster" else None,
+                            "declared_independent_unit_field": independent_unit_field,
+                            "declared_independent_unit_count": independent_unit_count,
+                            "cluster_nesting": cluster_nesting,
+                            "covariance_auto_selected_for_repeated_units": auto_clustered},
               "diagnostics": {"rank": rank_info["rank"], "condition_proxy": rank_info.get("condition_proxy"),
                               "maximum_leverage": max_leverage, "high_leverage_observation_ids": high_leverage,
                               "internally_studentized_residual_outlier_ids": outliers,
@@ -443,10 +512,12 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                                       "interactions": [list(pair) for pair in interaction_pairs],
                                       "fixed_effect_interactions": [list(pair) for pair in normalized_categorical_interactions],
                                       "quadratic": list(quadratic_fields), "fixed_effect_fields": fixed_fields},
+              "model_selection_scope": "formula is caller-supplied; whether selected before outcome inspection is not verified",
               "assumptions": ["observational conditional mean is represented by the selected linear/quadratic terms",
                               "HC3 handles heteroskedasticity but assumes independent observations",
                               "cluster covariance allows within-cluster dependence and relies on independent clusters",
                               "classical covariance additionally assumes homoskedastic errors",
+                              "measurement uncertainty was not supplied or propagated",
                               "fixed effects adjust only for the explicitly selected fields"],
               "interpretation": "observational association; coefficients do not estimate intervention response"}
     encoder.beta = beta

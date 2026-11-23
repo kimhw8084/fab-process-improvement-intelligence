@@ -1,0 +1,95 @@
+{
+  "bootstrap_resamples": 999,
+  "generator": "four equal-mean settings; correlated settings and objectives; normal and scaled multivariate t(5) unit effects",
+  "limitations": [
+    "finite Monte Carlo results do not prove population coverage",
+    "settings are treated as a fixed finite family before mean inspection",
+    "the product remains descriptive when outcome-based constraints change populations"
+  ],
+  "mature_alternative": "scipy.stats.bootstrap vectorized mean resampling with paired unit rows; a max-standardized family statistic is computed only in qualification code",
+  "objective_family_size": 8,
+  "product_decision_rule": "retain the offline dependency-free Bonferroni envelope because the narrower bootstrap method did not meet family-wise coverage in either challenge",
+  "resampling_unit": "whole independent lot row vector, preserving cross-setting and cross-metric dependence",
+  "scenarios": {
+    "correlated_heavy_t5": {
+      "independent_lots_per_trial": 30,
+      "max_standardized_width_ratio_to_bonferroni": 0.885748781708016,
+      "methods": {
+        "product_bonferroni_rectangle": {
+          "false_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.968,
+          "joint_mean_coverage_wilson95": [
+            0.9486551309545582,
+            0.9802084863734289
+          ],
+          "mean_interval_width": 1.2212728987409767
+        },
+        "scipy_paired_max_standardized_bootstrap": {
+          "false_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.936,
+          "joint_mean_coverage_wilson95": [
+            0.911047591162316,
+            0.9543039839552107
+          ],
+          "mean_bootstrap_max_standardized_critical": 2.6168460281801345,
+          "mean_interval_width": 1.0817409821928372,
+          "n_resamples": 999
+        },
+        "unadjusted_marginal_t": {
+          "false_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.776,
+          "joint_mean_coverage_wilson95": [
+            0.7374303353251315,
+            0.8103610287400917
+          ]
+        }
+      },
+      "trials": 500,
+      "true_setting_means": {
+        "defect": 2.0,
+        "quality": 5.0
+      }
+    },
+    "correlated_normal": {
+      "independent_lots_per_trial": 30,
+      "max_standardized_width_ratio_to_bonferroni": 0.8833967870378441,
+      "methods": {
+        "product_bonferroni_rectangle": {
+          "false_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.958,
+          "joint_mean_coverage_wilson95": [
+            0.9366484142456699,
+            0.9723676898915483
+          ],
+          "mean_interval_width": 0.9700495826696505
+        },
+        "scipy_paired_max_standardized_bootstrap": {
+          "false_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.904,
+          "joint_mean_coverage_wilson95": [
+            0.8750130375724849,
+            0.9268264953345811
+          ],
+          "mean_bootstrap_max_standardized_critical": 2.608171790741115,
+          "mean_interval_width": 0.8569386845977708,
+          "n_resamples": 999
+        },
+        "unadjusted_marginal_t": {
+          "false_dominance_rate": 0.0,
+          "joint_mean_coverage_rate": 0.768,
+          "joint_mean_coverage_wilson95": [
+            0.7290425919653227,
+            0.8028707615472854
+          ]
+        }
+      },
+      "trials": 500,
+      "true_setting_means": {
+        "defect": 2.0,
+        "quality": 5.0
+      }
+    }
+  },
+  "schema": "p4-d03-familywise-benchmark/v1",
+  "seed": 20261123
+}

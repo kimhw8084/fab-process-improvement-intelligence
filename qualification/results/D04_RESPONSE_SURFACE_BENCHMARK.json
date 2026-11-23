@@ -1,0 +1,56 @@
+{
+  "candidate": "P4 face-centered central-composite design with two independently repeated center points",
+  "dimensions": [
+    {
+      "dimensions": 2,
+      "full_factorial_rank": 4,
+      "p4_quadratic_rank": 6,
+      "pydoe3_ccf_geometry_exact_match": true,
+      "quadratic_parameter_count": 6,
+      "required_full_rank": 6,
+      "run_count": 10
+    },
+    {
+      "dimensions": 3,
+      "full_factorial_rank": 7,
+      "p4_quadratic_rank": 10,
+      "pydoe3_ccf_geometry_exact_match": true,
+      "quadratic_parameter_count": 10,
+      "required_full_rank": 10,
+      "run_count": 16
+    },
+    {
+      "dimensions": 4,
+      "full_factorial_rank": 11,
+      "p4_quadratic_rank": 15,
+      "pydoe3_ccf_geometry_exact_match": true,
+      "quadratic_parameter_count": 15,
+      "required_full_rank": 15,
+      "run_count": 26
+    },
+    {
+      "dimensions": 5,
+      "full_factorial_rank": 16,
+      "p4_quadratic_rank": 21,
+      "pydoe3_ccf_geometry_exact_match": true,
+      "quadratic_parameter_count": 21,
+      "required_full_rank": 21,
+      "run_count": 44
+    }
+  ],
+  "known_quadratic_surface": {
+    "central_composite_matrix_rank": 10,
+    "central_composite_runs": 16,
+    "dimensions": 3,
+    "exact_quadratic_recovery_rank": 10,
+    "full_factorial_quadratic_rank": 7,
+    "full_factorial_runs": 8,
+    "heldout_grid_max_abs_error": 3.774758283725532e-15,
+    "heldout_grid_points": 125,
+    "quadratic_parameter_count": 10,
+    "qualification": "noiseless known quadratic only; establishes term identifiability and exact recovery, not effect precision, power, higher-order robustness, or safe process settings"
+  },
+  "mature_oss_reference": "qualification-only pyDOE3.ccdesign(face='ccf', center=(2,0)); not a product dependency",
+  "qualification": "Independent geometry oracle and exact quadratic interpolation establish full rank/term recovery within bounds. No noisy-surface power or manufacturing feasibility is claimed; forbidden-region intersections fail closed in product code.",
+  "schema": "p4-d04-response-surface-benchmark/v1"
+}

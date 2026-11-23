@@ -32,11 +32,11 @@ class SharedUiContractTests(unittest.TestCase):
                  "points": [{"x": 88.2, "values": {"defect": 1.3}}]}
         jsonschema.Draft202012Validator(schema).validate(model)
 
-    def test_p4_codes_are_not_aliased_into_p1_only_a_capabilities(self):
+    def test_p4_capabilities_are_registered_in_the_shared_module_contract(self):
         product = self.read("product.json")
         contribution = self.read("products/p4/ui_contribution.json")
         self.assertTrue(all(code in " ".join(product["capabilities"]) for code in ("D01", "D02", "D03", "D04", "D05")))
-        self.assertEqual(contribution["capabilities"], [])
+        self.assertEqual(contribution["capabilities"], ["D01", "D02", "D03", "D04", "D05"])
         self.assertTrue((ROOT / "integration/proposals/CHANGE-001-suite-ui-contract.md").is_file())
 
 

@@ -4,13 +4,24 @@ from __future__ import annotations
 from datetime import datetime
 from itertools import combinations
 from math import isfinite, sqrt
-from statistics import mean, variance
+from statistics import NormalDist, mean, variance
+import json
 
 from products.p4.regression import critical_t_975
 
 
 class RelationshipError(ValueError):
     pass
+
+
+def _identity_key(value):
+    """Preserve the scalar type of opaque engineering identifiers."""
+    if isinstance(value, bool) or not isinstance(value, (str, int)):
+        raise RelationshipError("independent-unit and join identifiers must be strings or integers")
+    if value == "":
+        raise RelationshipError("independent-unit and join identifiers must not be empty")
+    return json.dumps({"type": type(value).__name__, "value": value},
+                      sort_keys=True, separators=(",", ":"))
 
 
 def _path(row, path):
@@ -47,6 +58,146 @@ def _dominates(a, b, objectives):
     return better_or_equal and strictly_better
 
 
+def _interval_separated_dominates(a, b, objectives, interval_key="marginal_ci95"):
+    """Check rectangular interval separation for every declared objective."""
+    strict = False
+    for objective in objectives:
+        metric, direction = objective["metric"], objective["direction"]
+        left = a.get("uncertainty", {}).get(metric, {}).get(interval_key)
+        right = b.get("uncertainty", {}).get(metric, {}).get(interval_key)
+        if (not isinstance(left, (list, tuple)) or len(left) != 2
+                or not isinstance(right, (list, tuple)) or len(right) != 2):
+            return False
+        if direction == "maximize":
+            if left[0] < right[1]:
+                return False
+            strict = strict or left[0] > right[1]
+        else:
+            if left[1] > right[0]:
+                return False
+            strict = strict or left[1] < right[0]
+    return strict
+
+
+def _familywise_t_critical(df, family_size):
+    """Conservative Cornish-Fisher Student-t critical value on a bounded domain.
+
+    The formula is independently checked against SciPy's t.ppf in qualification
+    tests. Runtime use abstains outside 10<=df<=300 and family size<=40; no SciPy
+    runtime dependency is added to the offline analytical engine.
+    """
+    if (not isinstance(df, int) or not 10 <= df <= 300
+            or not isinstance(family_size, int) or not 1 <= family_size <= 40):
+        return None
+    alpha = 0.05 / family_size
+    z = NormalDist().inv_cdf(1.0-alpha/2.0)
+    v = float(df)
+    z2, z3, z5, z7, z9 = z*z, z**3, z**5, z**7, z**9
+    approximation = (z + (z3+z)/(4*v)
+                     + (5*z5+16*z3+3*z)/(96*v**2)
+                     + (3*z7+19*z5+17*z3-15*z)/(384*v**3)
+                     + (79*z9+776*z7+1482*z5-1920*z3-945*z)/(92160*v**4))
+    # A small validated additive margin protects against the finite expansion's
+    # observed under-shoot in the qualified df/family-size grid.
+    return approximation + 0.002
+
+
+def _familywise_mean_envelope(candidates, objectives, *, allow=True,
+                              unavailable_status="NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION"):
+    family_size = len(candidates) * len(objectives)
+    summary = {"status": "NOT_AVAILABLE", "familywise_alpha": 0.05,
+               "mean_parameter_count": family_size,
+               "method": "Bonferroni simultaneous independent-unit Student-t mean rectangles with conservative Cornish-Fisher critical approximation",
+               "assumptions": ["each setting-specific independent-unit mean is estimable from independent units",
+                               "setting-specific independent-unit means are approximately normal for Student-t intervals",
+                               "candidate settings and objective family are fully represented before inspecting their mean rankings",
+                               "outcome-based constraint exclusions disable this family-wise comparison"],
+               "limitations": ["critical approximation is independently checked only for 10<=df<=300 and family size<=40",
+                               "rectangular means do not estimate a causal setting effect or harmonize incompatible populations"]}
+    for candidate in candidates:
+        candidate["familywise_dominance_status"] = "NOT_ESTABLISHED"
+        candidate["familywise_dominated_by"] = []
+        for metric in candidate.get("uncertainty", {}):
+            candidate["uncertainty"][metric]["familywise_ci95"] = None
+    if not allow:
+        summary["status"] = unavailable_status
+        return summary, []
+    if family_size < 1:
+        summary["status"] = "NO_ESTIMABLE_OBJECTIVE_MEANS"
+        return summary, []
+    if family_size > 40:
+        summary["status"] = "NOT_AVAILABLE_FAMILY_EXCEEDS_40_MEANS"
+        return summary, []
+    if any(candidate.get("independent_units", 0) < 11 for candidate in candidates):
+        summary["status"] = "NOT_AVAILABLE_REQUIRES_11_INDEPENDENT_UNITS_PER_SETTING"
+        return summary, []
+    for candidate in candidates:
+        df = candidate["independent_units"] - 1
+        critical = _familywise_t_critical(df, family_size)
+        if critical is None:
+            summary["status"] = "NOT_AVAILABLE_OUTSIDE_VALIDATED_CRITICAL_VALUE_RANGE"
+            return summary, []
+        for objective in objectives:
+            metric = objective["metric"]
+            estimate = candidate["uncertainty"][metric]
+            se = estimate.get("standard_error")
+            if not isinstance(se, (int, float)) or not isfinite(se) or se <= 0:
+                summary["status"] = "NOT_AVAILABLE_OBJECTIVE_STANDARD_ERROR"
+                return summary, []
+    for candidate in candidates:
+        df = candidate["independent_units"] - 1
+        critical = _familywise_t_critical(df, family_size)
+        for objective in objectives:
+            metric = objective["metric"]
+            estimate = candidate["uncertainty"][metric]
+            se = estimate["standard_error"]
+            estimate["familywise_ci95"] = [estimate["mean"]-critical*se,
+                                            estimate["mean"]+critical*se]
+            estimate["familywise_critical_value"] = critical
+    pairs = []
+    dominators = {candidate["id"]: [] for candidate in candidates}
+    for candidate in candidates:
+        for other in candidates:
+            if other is candidate:
+                continue
+            if _interval_separated_dominates(other, candidate, objectives, "familywise_ci95"):
+                dominators[candidate["id"]].append(other["id"])
+                pairs.append({"dominant_setting_id": other["id"],
+                              "dominated_setting_id": candidate["id"],
+                              "scope": "Bonferroni_familywise_simultaneous_mean_rectangles"})
+    for candidate in candidates:
+        candidate["familywise_dominated_by"] = sorted(dominators[candidate["id"]])
+        candidate["familywise_dominance_status"] = (
+            "FAMILYWISE_INTERVAL_SEPARATED_DOMINATED" if dominators[candidate["id"]]
+            else "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR")
+    summary.update({"status": "AVAILABLE_APPROXIMATE_BONFERRONI_ENVELOPE",
+                    "familywise_alpha": 0.05, "familywise_confidence_target": 0.95,
+                    "critical_value_domain": {"minimum_degrees_of_freedom": 10,
+                                              "maximum_degrees_of_freedom": 300,
+                                              "maximum_mean_parameter_count": 40},
+                    "interpretation": "Every reported mean rectangle uses a Bonferroni allocation across all candidate-setting/objective means; a rectangle-separated pair is a conservative family-wise diagnostic under the listed assumptions. Critical values use the validated approximation, not an exact special-function implementation."})
+    return summary, pairs
+
+
+def _uncertainty_dominance_audit(candidates, objectives, mean_front):
+    pairs = []
+    for candidate in candidates:
+        dominators = []
+        for other in candidates:
+            if other is candidate:
+                continue
+            if _interval_separated_dominates(other, candidate, objectives):
+                dominators.append(other["id"])
+                pairs.append({"dominant_setting_id": other["id"],
+                              "dominated_setting_id": candidate["id"],
+                              "scope": "marginal_95_interval_separation_only"})
+        candidate["mean_pareto_status"] = "NONDOMINATED_BY_MEANS" if candidate["id"] in mean_front else "DOMINATED_BY_MEANS"
+        candidate["uncertainty_dominance_status"] = (
+            "MARGINAL_INTERVAL_SEPARATED_DOMINATED" if dominators else "NO_INTERVAL_SEPARATED_DOMINATOR")
+        candidate["interval_separated_dominated_by"] = sorted(dominators)
+    return pairs
+
+
 def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=None):
     """Aggregate by controllable setting and independent unit before Pareto ranking."""
     def metric_pass(value, definition):
@@ -63,16 +214,49 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
     controls = [name for name, definition in factor_defs.items() if definition.get("role", "controllable") == "controllable"]
     if not controls:
         return {"status": "LIMITED_SCOPE", "reason": "no controllable decision factors are defined", "pareto_observation_ids": []}
-    eligible = [row for row in rows if all(metric_pass(row["metrics"][name], definition) for name, definition in metric_defs.items())]
-    groups = {}
-    for row in eligible:
+    all_groups = {}
+    for row in rows:
         if cancel and cancel():
             raise InterruptedError("tradeoff analysis cancelled")
         setting = tuple(row["factors"][name] for name in controls)
-        unit = _path(row, unit_field)
-        if unit is None or str(unit) == "":
-            continue
-        groups.setdefault(setting, {}).setdefault(str(unit), []).append(row)
+        try:
+            identity = _identity_key(_path(row, unit_field))
+        except RelationshipError as exc:
+            return {"status": "LIMITED_SCOPE", "reason": f"independent-unit identity is incomplete or invalid: {exc}",
+                    "pareto_observation_ids": [], "scope": "no uncertainty-aware setting comparison"}
+        all_groups.setdefault(setting, {}).setdefault(identity, []).append(row)
+    groups = {}
+    setting_audit = {}
+    for setting, unit_rows in all_groups.items():
+        eligible_units = {}
+        excluded_units = set()
+        excluded_observations = 0
+        for unit, members in unit_rows.items():
+            # Constraint selection happens at the independent-unit grain. A
+            # single failing replicate excludes the whole unit rather than
+            # leaving only its favorable measurements in the objective mean.
+            if all(metric_pass(row["metrics"][name], definition)
+                   for row in members for name, definition in metric_defs.items()):
+                eligible_units[unit] = members
+            else:
+                excluded_units.add(unit)
+                excluded_observations += len(members)
+        setting_audit[setting] = {"all_independent_units": len(unit_rows),
+                                  "eligible_independent_units": len(eligible_units),
+                                  "excluded_independent_units": len(excluded_units),
+                                  "all_observation_count": sum(len(members) for members in unit_rows.values()),
+                                  "eligible_observation_count": sum(len(members) for members in eligible_units.values()),
+                                  "excluded_observation_count": excluded_observations}
+        if eligible_units:
+            groups[setting] = eligible_units
+    excluded_units_total = sum(item["excluded_independent_units"] for item in setting_audit.values())
+    exclusion_audit = {"status": "NO_CONSTRAINT_EXCLUSIONS" if excluded_units_total == 0 else "DESCRIPTIVE_CONSTRAINT_SELECTION",
+                       "independent_unit_field": unit_field,
+                       "eligible_population": "whole independent units with every observed row inside all supplied metric bounds",
+                       "excluded_independent_units": excluded_units_total,
+                       "settings": [{"factors": dict(zip(controls, setting)), **audit}
+                                    for setting, audit in setting_audit.items()],
+                       "interpretation": "constraint-based selection can change compared populations; it is reported by setting and is not adjusted inference"}
     candidates = []
     uncertainty_available = True
     for setting, unit_rows in groups.items():
@@ -98,24 +282,49 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
             estimates[metric] = {"mean": avg, "standard_error": se, "marginal_ci95": interval}
         candidates.append({"id": "SYN-SETTING-"+"-".join(f"{value:g}" for value in setting),
                            "factors": dict(zip(controls, setting)), "independent_units": len(unit_rows),
+                           "constraint_eligibility": setting_audit[setting],
                            "observation_count": sum(len(members) for members in unit_rows.values()),
                            "source_observation_ids": sorted(observation_ids),
                            "means": {metric: value["mean"] for metric, value in estimates.items()}, "uncertainty": estimates})
     if not candidates:
         return {"status": "LIMITED_SCOPE", "reason": "no setting met the independent-unit minimum",
-                "minimum_independent_units": minimum_units, "pareto_observation_ids": []}
+                "minimum_independent_units": minimum_units, "pareto_observation_ids": [],
+                "constraint_exclusion_audit": exclusion_audit,
+                "selection_warning": "No setting met the independent-unit minimum after whole-unit constraint screening; inspect the exclusion audit."}
     front = [candidate for candidate in candidates if not any(other is not candidate and _dominates(other, candidate, objectives)
                                                                for other in candidates)]
-    return {"status": "VALID" if uncertainty_available else "LIMITED_SCOPE",
+    mean_front_ids = [candidate["id"] for candidate in front]
+    interval_dominance = _uncertainty_dominance_audit(candidates, objectives, set(mean_front_ids))
+    eligible_unit_sets = [set(unit_rows) for unit_rows in groups.values() if len(unit_rows) >= minimum_units]
+    identical_unit_cohorts = (not eligible_unit_sets or all(values == eligible_unit_sets[0]
+                                                            for values in eligible_unit_sets[1:]))
+    familywise_envelope, familywise_dominance = _familywise_mean_envelope(
+        candidates, objectives, allow=excluded_units_total == 0 and identical_unit_cohorts,
+        unavailable_status=("NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION"
+                            if excluded_units_total else "NOT_AVAILABLE_INCOMPATIBLE_INDEPENDENT_UNIT_COHORTS"))
+    familywise_envelope["population_compatibility"] = (
+        "IDENTICAL_INDEPENDENT_UNIT_SET_AT_EVERY_INCLUDED_SETTING" if identical_unit_cohorts
+        else "SETTING_SPECIFIC_INDEPENDENT_UNIT_SETS_DIFFER")
+    selection_warning = ("Constraint-passing outcomes are selected at the whole independent-unit level. "
+                         "Excluded unit counts are shown; candidate means describe only the eligible subset and may not be comparable to the full source population.") if excluded_units_total else None
+    return {"status": "VALID" if uncertainty_available and excluded_units_total == 0 else "LIMITED_SCOPE",
             "method": "independent-unit-aggregated-Pareto-with-marginal-t-intervals",
             "objective_metrics": objectives, "decision_factors": controls, "independent_unit_field": unit_field,
             "minimum_independent_units": minimum_units, "candidate_settings": candidates,
-            "pareto_setting_ids": [candidate["id"] for candidate in front],
+            "constraint_exclusion_audit": exclusion_audit, "selection_warning": selection_warning,
+            "pareto_setting_ids": mean_front_ids, "mean_pareto_setting_ids": mean_front_ids,
+            "interval_separated_dominance": interval_dominance,
+            "familywise_mean_envelope": familywise_envelope,
+            "familywise_interval_separated_dominance": familywise_dominance,
+            "familywise_nondominated_setting_ids": [candidate["id"] for candidate in candidates
+                                                       if candidate["familywise_dominance_status"] == "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR"],
+            "pareto_status_scope": "mean-based observed front among whole-unit constraint-eligible observations; marginal interval separation is diagnostic only; the separate Bonferroni envelope is assumption-conditional and unavailable after outcome-based constraint selection",
             "pareto_observation_ids": sorted({row_id for candidate in front for row_id in candidate["source_observation_ids"]}),
             "pareto_values": [{"id": c["id"], "factors": c["factors"], **c["means"]} for c in front],
             "tradeoff_count": len(front), "uncertainty_available": uncertainty_available,
             "multiplicity_adjusted": False, "causal_claim": False,
-            "qualification": "setting-level descriptive Pareto means with marginal intervals; no multiplicity-adjusted superiority or causal claim"}
+            "familywise_multiplicity_adjustment": familywise_envelope["status"],
+            "qualification": "setting-level descriptive mean-based Pareto set among whole-unit constraint-eligible observations; constraint-based selection may change compared populations; marginal interval separation is not adjusted; the separate Bonferroni mean envelope is assumption-conditional and does not establish causal effects or reconcile incompatible setting populations"}
 
 
 def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
@@ -179,12 +388,21 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
 
     seen_pairs, seen_units = set(), set()
     groups = {}
+    setting_audit = {}
+    def metric_pass(value, definition):
+        return ((definition.get("min") is None or value >= definition["min"])
+                and (definition.get("max") is None or value <= definition["max"]))
     for index, row in enumerate(rows):
         if cancel and cancel():
             raise InterruptedError("cross-step analysis cancelled")
         up_key = _path(row, upstream["key_field"])
         down_key = _path(row, downstream["key_field"])
-        if up_key is None or down_key is None or up_key != down_key:
+        try:
+            up_identity = _identity_key(up_key)
+            down_identity = _identity_key(down_key)
+        except RelationshipError:
+            up_identity = down_identity = None
+        if up_identity is None or down_identity is None or up_identity != down_identity:
             return {"status": "LIMITED_SCOPE", "reason": "upstream/downstream keys do not map one-to-one for every paired observation",
                     "pareto_observation_ids": [], "downstream_claim": "withheld"}
         population_up = _path(row, upstream["population_field"])
@@ -198,12 +416,17 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         if lag_seconds < 0 or lag_seconds > lag:
             return {"status": "LIMITED_SCOPE", "reason": "downstream event is outside the approved temporal relationship window",
                     "pareto_observation_ids": [], "downstream_claim": "withheld"}
-        pair = (str(up_key), str(down_key))
+        pair = (up_identity, down_identity)
         unit = _path(row, unit_field)
-        if pair in seen_pairs or str(unit) in seen_units:
+        try:
+            unit_identity = _identity_key(unit)
+        except RelationshipError:
+            return {"status": "LIMITED_SCOPE", "reason": "relationship unit identity is missing",
+                    "pareto_observation_ids": [], "downstream_claim": "withheld"}
+        if pair in seen_pairs or unit_identity in seen_units:
             return {"status": "LIMITED_SCOPE", "reason": "duplicate paired key or non-independent repeated unit detected",
                     "pareto_observation_ids": [], "downstream_claim": "withheld"}
-        seen_pairs.add(pair); seen_units.add(str(unit))
+        seen_pairs.add(pair); seen_units.add(unit_identity)
         refs = row.get("source_ids")
         if refs is None:
             refs = [row.get("source_id")] if row.get("source_id") is not None else []
@@ -218,7 +441,23 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         mapped_row = {**row, "metrics": {**row["metrics"], upstream["metric"]: float(up_value),
                                            downstream["metric"]: float(down_value)}}
         setting = tuple(row["factors"][name] for name in decision_factors)
+        audit = setting_audit.setdefault(setting, {"all_independent_units": 0, "eligible_independent_units": 0,
+                                                   "excluded_independent_units": 0})
+        audit["all_independent_units"] += 1
+        if not all(metric_pass(mapped_row["metrics"][metric], metric_defs[metric])
+                   for metric in expected_metrics):
+            audit["excluded_independent_units"] += 1
+            continue
+        audit["eligible_independent_units"] += 1
         groups.setdefault(setting, []).append(mapped_row)
+
+    excluded_units_total = sum(item["excluded_independent_units"] for item in setting_audit.values())
+    constraint_audit = {"status": "NO_CONSTRAINT_EXCLUSIONS" if excluded_units_total == 0 else "DESCRIPTIVE_CONSTRAINT_SELECTION",
+                        "eligible_population": "whole independent units inside every declared upstream/downstream metric bound",
+                        "excluded_independent_units": excluded_units_total,
+                        "settings": [{"factors": dict(zip(decision_factors, setting)), **audit}
+                                     for setting, audit in setting_audit.items()],
+                        "interpretation": "constraint selection can change the compared population; means are limited to eligible independent units"}
 
     candidates = []
     for setting, members in groups.items():
@@ -239,13 +478,22 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         paired_covariance = sum((a-mean(up_values))*(b-mean(down_values)) for a, b in zip(up_values, down_values))/(n-1) if n > 1 else None
         candidates.append({"id": "SYN-SETTING-" + "-".join(f"{value:g}" for value in setting),
                            "factors": dict(zip(decision_factors, setting)), "independent_units": n,
+                           "constraint_eligibility": setting_audit[setting],
                            "means": {metric: value["mean"] for metric, value in estimates.items()},
                            "uncertainty": estimates, "paired_covariance": paired_covariance})
     if not candidates:
-        return {"status": "LIMITED_SCOPE", "reason": "no decision setting met the independent-unit minimum",
-                "minimum_independent_units": minimum_units, "pareto_observation_ids": [], "downstream_claim": "withheld"}
+        return {"status": "LIMITED_SCOPE", "reason": "no constraint-eligible decision setting met the independent-unit minimum",
+                "minimum_independent_units": minimum_units, "pareto_observation_ids": [], "downstream_claim": "withheld",
+                "constraint_exclusion_audit": constraint_audit}
     front = [candidate for candidate in candidates if not any(other is not candidate and _dominates(other, candidate, objectives)
                                                                for other in candidates)]
+    mean_front_ids = [candidate["id"] for candidate in front]
+    interval_dominance = _uncertainty_dominance_audit(candidates, objectives, set(mean_front_ids))
+    familywise_envelope, familywise_dominance = _familywise_mean_envelope(
+        candidates, objectives, allow=excluded_units_total == 0)
+    familywise_envelope["population_compatibility"] = (
+        "DECLARED_MATCHING_POPULATION_ID_IN_SYNTHETIC_APPROVED_RELATIONSHIP"
+        if upstream["population_id"] == downstream["population_id"] else "NOT_ESTABLISHED")
     comparisons = []
     for left, right in combinations(candidates, 2):
         comparisons.append({"settings": [left["id"], right["id"]],
@@ -253,15 +501,28 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
                                 metric: not (left["uncertainty"][metric]["marginal_ci95"][0] > right["uncertainty"][metric]["marginal_ci95"][1]
                                              or right["uncertainty"][metric]["marginal_ci95"][0] > left["uncertainty"][metric]["marginal_ci95"][1])
                                 for metric in expected_metrics}})
-    return {"status": "VALID", "method": "paired_population_marginal_pareto_with_t_intervals",
+    return {"status": "VALID" if excluded_units_total == 0 else "LIMITED_SCOPE",
+            "method": "paired_population_marginal_pareto_with_t_intervals",
             "relationship_id": link["relationship_id"], "relationship_contract_version": link["contract_version"],
             "approval_reference": link["approval_reference"], "population_id": upstream["population_id"],
             "upstream_source_id": upstream["source_id"], "downstream_source_id": downstream["source_id"],
             "objective_metrics": objectives, "minimum_independent_units": minimum_units,
-            "compatible_paired_units": len(seen_units), "candidate_settings": candidates,
-            "pareto_observation_ids": [candidate["id"] for candidate in front],
+            "compatible_paired_units": len(seen_units),
+            "eligible_paired_units": sum(item["eligible_independent_units"] for item in setting_audit.values()),
+            "candidate_settings": candidates,
+            "constraint_exclusion_audit": constraint_audit,
+            "selection_warning": ("Constraint-eligible paired units only are summarized; compare the per-setting exclusion audit before interpreting population tradeoffs."
+                                  if excluded_units_total else None),
+            "pareto_observation_ids": mean_front_ids, "mean_pareto_setting_ids": mean_front_ids,
+            "interval_separated_dominance": interval_dominance,
+            "familywise_mean_envelope": familywise_envelope,
+            "familywise_interval_separated_dominance": familywise_dominance,
+            "familywise_nondominated_setting_ids": [candidate["id"] for candidate in candidates
+                                                       if candidate["familywise_dominance_status"] == "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR"],
+            "pareto_status_scope": "mean-based observed front; marginal interval separation is diagnostic only; the separate Bonferroni envelope is assumption-conditional and unavailable after outcome-based constraint selection",
             "pareto_values": [{"id": c["id"], "factors": c["factors"], **c["means"]} for c in front],
             "tradeoff_count": len(front), "uncertainty_comparisons": comparisons,
-            "multiplicity_adjusted": False, "causal_claim": False,
+            "multiplicity_adjusted": False, "familywise_multiplicity_adjustment": familywise_envelope["status"],
+            "causal_claim": False,
             "scope": "paired approved relationship contract; synthetic observations only",
-            "qualification": "marginal intervals are not multiplicity-adjusted and do not establish causal effects or engineering approval"}
+            "qualification": "mean-based observed Pareto set; constraint screening can change compared populations; marginal intervals are not adjusted; a separate Bonferroni mean envelope is assumption-conditional and does not establish causal effects or engineering approval"}

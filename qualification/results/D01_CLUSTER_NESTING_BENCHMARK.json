@@ -1,0 +1,51 @@
+{
+  "generator": {
+    "assignment": "one randomized treated lot and one control lot per pair; 20 pairs",
+    "independence_structure": "lots independent; each lot is observed in two distinct chamber clusters",
+    "independent_units": 40,
+    "lot_effect_sd": 1.0,
+    "rows_per_unit": 2,
+    "true_effect": 0.0,
+    "within_lot_measurement_sd": 0.2
+  },
+  "p4_behavior": {
+    "cluster_nesting": {
+      "cluster_field": "chamber",
+      "clusters": 40,
+      "declared_independent_unit_field": "lot_id",
+      "independent_units": 40,
+      "split_independent_unit_count": 40,
+      "status": "INDEPENDENT_UNIT_SPLIT_ACROSS_CLUSTERS"
+    },
+    "reason": "the declared cluster field splits repeated independent units across clusters; cluster-robust uncertainty is withheld",
+    "status": "INCONCLUSIVE"
+  },
+  "reference": {
+    "confidence_level": 0.95,
+    "name": "statsmodels clustered OLS",
+    "test": "two-sided null rejection rate",
+    "version": "0.15.0"
+  },
+  "results": {
+    "correct_lot_clusters": {
+      "false_positives": 96,
+      "rate": 0.048,
+      "wilson_95": [
+        0.03946691899074102,
+        0.05826609175151162
+      ]
+    },
+    "incorrect_chamber_clusters": {
+      "false_positives": 308,
+      "rate": 0.154,
+      "wilson_95": [
+        0.13884556929651104,
+        0.17048102742211596
+      ]
+    }
+  },
+  "schema": "p4-d01-cluster-nesting-benchmark/v1",
+  "scope": "synthetic method qualification only; not a process model, field error rate, or authorization",
+  "seed": 20261123,
+  "trials": 2000
+}

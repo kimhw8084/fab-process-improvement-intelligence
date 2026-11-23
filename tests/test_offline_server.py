@@ -58,7 +58,8 @@ class OfflineServerTests(unittest.TestCase):
         self.assertEqual(job["status"], "COMPLETED")
         dossier = job["result"]["artifacts"][0]
         self.assertEqual(dossier["D01_sensitivity"]["status"], "VALID")
-        self.assertEqual(dossier["D03_tradeoffs"]["status"], "VALID")
+        self.assertEqual(dossier["D03_tradeoffs"]["status"], "LIMITED_SCOPE")
+        self.assertGreater(dossier["D03_tradeoffs"]["constraint_exclusion_audit"]["excluded_independent_units"], 0)
         self.assertEqual(dossier["D04_experiment_proposal"]["executed"], False)
 
     def test_host_and_origin_rejection(self):

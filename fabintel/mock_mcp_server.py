@@ -6,6 +6,7 @@ Run as ``python -m fabintel.mock_mcp_server --transport stdio`` or ``--transport
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import secrets
 import sys
@@ -13,6 +14,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 
 VERSION = "2025-11-25"
+SCENARIO = "normal"
 TOOLS = [
     {"name": "synthetic.test.discover", "description": "Synthetic capabilities only", "inputSchema": {"type": "object", "properties": {"permission_scope": {"type": "string"}}, "required": ["permission_scope"]}},
     {"name": "synthetic.test.semantics", "description": "Synthetic semantic catalog", "inputSchema": {"type": "object", "properties": {"source_ids": {"type": "array"}, "semantic_version": {"type": "string"}}}},
@@ -28,28 +30,75 @@ class RpcFailure(Exception):
         self.code, self.message = code, message
 
 
-def _tool_result(name, args):
+def _tool_result(name, args, scenario="normal"):
     if not isinstance(args, dict):
         raise RpcFailure(-32602, "arguments must be an object")
     if name == "synthetic.test.discover":
         result = {"tool_versions": {tool["name"]: "SYNTHETIC-1" for tool in TOOLS},
                   "semantic_versions": ["SYNTHETIC-SEMANTICS-1"],
                   "limits": {"max_rows": 1000, "max_seconds": 30},
-                  "auth_scopes": ["SYNTHETIC_READ"], "audit_support": True}
+                  "auth_scopes": (["SYNTHETIC_TEST_ONLY"] if scenario == "permission_denied" else ["SYNTHETIC_READ"]),
+                  "audit_support": True}
     elif name == "synthetic.test.semantics":
         sources = args.get("source_ids", [])
-        if not isinstance(sources, list) or any(source not in ("SYNTHETIC-SOURCE-A", "SYNTHETIC-SOURCE-B") for source in sources):
+        if not isinstance(sources, list) or any(source not in ("SYN-SOURCE-A", "SYN-SOURCE-B") for source in sources):
             raise RpcFailure(-32001, "synthetic source is not approved")
-        result = {"column_definitions": [{"name": "synthetic_value", "type": "number", "unit": "SYNTHETIC-U"}],
-                  "grain": "one synthetic unit row", "units": {"synthetic_value": "SYNTHETIC-U"},
-                  "effectivity": {"start": "2026-01-01T00:00:00Z", "end": None}, "approval": "SYNTHETIC-APPROVAL"}
+        columns = [
+            {"name": "row_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "unit_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "lot_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "wafer_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "chamber", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "analysis_partition", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "upstream_unit_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "downstream_unit_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "event_ts", "type": "string", "unit": "UTC-ISO8601"},
+            {"name": "upstream_event_ts", "type": "string", "unit": "UTC-ISO8601"},
+            {"name": "downstream_event_ts", "type": "string", "unit": "UTC-ISO8601"},
+            {"name": "population_id", "type": "string", "unit": "SYNTHETIC-ID"},
+            {"name": "x", "type": "number", "unit": "SYNTHETIC-U"},
+            {"name": "y", "type": "number", "unit": "SYNTHETIC-U"},
+            {"name": "pressure", "type": "number", "unit": "SYNTHETIC-PRESSURE"},
+            {"name": "temperature", "type": "number", "unit": "SYNTHETIC-TEMPERATURE"},
+            {"name": "response_primary", "type": "number", "unit": "SYNTHETIC-INDEX"},
+            {"name": "response_secondary", "type": "number", "unit": "SYNTHETIC-INDEX"},
+            {"name": "synthetic_value", "type": "number", "unit": "SYNTHETIC-U"},
+        ]
+        if scenario == "semantic_schema_drift":
+            columns = [column for column in columns if column["name"] != "response_primary"]
+        result = {"column_definitions": columns,
+                  "grain": "one row per synthetic process observation",
+                  "units": {"synthetic_value": "SYNTHETIC-U", "x": "SYNTHETIC-U", "y": "SYNTHETIC-U",
+                            "pressure": "SYNTHETIC-PRESSURE", "temperature": "SYNTHETIC-TEMPERATURE",
+                            "response_primary": "SYNTHETIC-INDEX", "response_secondary": "SYNTHETIC-RATE"},
+                  "effectivity": {"start": "2026-01-01T00:00:00Z", "end": None}, "approval": "SYNTHETIC-APPROVAL",
+                  "semantic_version": "SYNTHETIC-SEMANTICS-1",
+                  "source_versions": {source: "SYN-SOURCE-V1" for source in sources}}
+        if scenario == "missing_semantic_evidence":
+            result.pop("semantic_version")
+        if scenario == "missing_semantic_source_versions":
+            result.pop("source_versions")
     elif name == "synthetic.test.relationships":
         ids = args.get("typed_entity_ids", [])
-        if not isinstance(ids, list) or any(source not in ("SYNTHETIC-SOURCE-A", "SYNTHETIC-SOURCE-B") for source in ids):
+        if not isinstance(ids, list) or any(source not in ("SYN-SOURCE-A", "SYN-SOURCE-B") for source in ids):
             raise RpcFailure(-32001, "synthetic entity is not approved")
-        result = {"approved": True, "keys": {"upstream": "synthetic_unit_id", "downstream": "synthetic_unit_id"},
-                  "cardinality": "one_to_one", "grain": "one synthetic unit row",
-                  "effectivity": {"max_lag_seconds": 86400}, "source_reference": "SYNTHETIC-RELATION-1"}
+        upstream, downstream = (ids + ["SYN-SOURCE-A", "SYN-SOURCE-B"])[:2]
+        relationship_contract = {"approved": True, "relationship_id": "SYN-RELATIONSHIP-1",
+            "contract_version": "1.0.0", "approval_reference": "SYN-RELATIONSHIP-APPROVAL-1",
+            "upstream": {"source_id": upstream, "key_field": "upstream_unit_id", "event_time_field": "upstream_event_ts",
+                         "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
+                         "metric_field": "response_primary", "metric": "quality"},
+            "downstream": {"source_id": downstream, "key_field": "downstream_unit_id", "event_time_field": "downstream_event_ts",
+                           "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
+                           "metric_field": "response_secondary", "metric": "secondary_quality"},
+            "maximum_lag_seconds": 3600, "unit_field": "unit_id", "decision_factors": ["pressure"]}
+        result = {"approved": scenario != "relationship_unapproved", "keys": {"upstream": "upstream_unit_id", "downstream": "downstream_unit_id"},
+                  "cardinality": "many_to_many" if scenario == "relationship_many_to_many" else "one_to_one",
+                  "grain": "one row per synthetic process observation",
+                  "effectivity": {"max_lag_seconds": 3600}, "source_reference": "SYN-RELATIONSHIP-1",
+                  "relationship_contract": relationship_contract}
+        if scenario == "missing_relationship_evidence":
+            result.pop("relationship_contract")
     elif name == "synthetic.test.read_bounded":
         limits = args.get("limits", {})
         limit = limits.get("max_rows") if isinstance(limits, dict) else None
@@ -58,20 +107,31 @@ def _tool_result(name, args):
         planned = args.get("approved_plan", {}).get("synthetic_rows", [])
         if not isinstance(planned, list):
             raise RpcFailure(-32602, "synthetic_rows must be a list")
-        result = {"typed_rows": planned[:limit], "audit_id": "SYN-AUDIT-READ-1",
-                  "source_versions": {"SYNTHETIC-SOURCE-A": "SYNTHETIC-1"}, "truncation": len(planned) > limit}
+        selected = planned[:limit]
+        source_ids = args.get("approved_plan", {}).get("source_ids", ["SYN-SOURCE-A"])
+        versions = {source: ("SYN-SOURCE-DRIFT" if scenario == "source_version_drift" else "SYN-SOURCE-V1")
+                    for source in source_ids}
+        hashes = {source: hashlib.sha256(json.dumps({"source": source, "rows": selected}, sort_keys=True,
+                                                   separators=(",", ":")).encode()).hexdigest()
+                  for source in source_ids}
+        result = {"typed_rows": selected, "audit_id": "SYN-AUDIT-READ-1",
+                  "operation_id": "SYN-OP-READ-1", "source_versions": versions,
+                  "source_hashes": hashes,
+                  "truncation": len(planned) > limit or scenario == "server_truncated"}
+        if scenario == "missing_read_hashes":
+            result.pop("source_hashes")
     elif name == "synthetic.test.cancel":
         result = {"confirmed_stopped": args.get("operation_id") == "SYN-OP-STOPPED"}
     elif name == "synthetic.test.audit":
-        result = {"permission_scope": "SYNTHETIC_READ", "sources": ["SYNTHETIC-SOURCE-A"],
+        result = {"permission_scope": "SYNTHETIC_READ", "sources": ["SYN-SOURCE-A", "SYN-SOURCE-B"],
                   "timestamps": {"started": "2026-01-01T00:00:00Z", "ended": "2026-01-01T00:00:01Z"},
-                  "query_hash": "0"*64}
+                  "query_hash": "invalid" if scenario == "audit_invalid" else "0"*64}
     else:
         raise RpcFailure(-32602, "unknown synthetic test tool")
     return {"structuredContent": result, "content": [{"type": "text", "text": "Synthetic test result; no company data."}]}
 
 
-def handle(message, *, cursor_pages=True):
+def handle(message, *, cursor_pages=True, scenario="normal"):
     if not isinstance(message, dict) or message.get("jsonrpc") != "2.0":
         raise RpcFailure(-32600, "invalid JSON-RPC message")
     method, params = message.get("method"), message.get("params", {})
@@ -95,14 +155,14 @@ def handle(message, *, cursor_pages=True):
     if method == "tools/call":
         if not isinstance(params, dict) or not isinstance(params.get("name"), str):
             raise RpcFailure(-32602, "tools/call requires a tool name")
-        return _tool_result(params["name"], params.get("arguments", {}))
+        return _tool_result(params["name"], params.get("arguments", {}), scenario)
     raise RpcFailure(-32601, "method not found")
 
 
-def _rpc(message):
+def _rpc(message, *, scenario="normal"):
     request_id = message.get("id") if isinstance(message, dict) else None
     try:
-        result = handle(message)
+        result = handle(message, scenario=scenario)
         if request_id is None:
             return None
         return {"jsonrpc": "2.0", "id": request_id, "result": result}
@@ -117,7 +177,7 @@ def stdio():
             break
         try:
             message = json.loads(raw)
-            response = _rpc(message)
+            response = _rpc(message, scenario=SCENARIO)
             if response is not None:
                 sys.stdout.write(json.dumps(response, separators=(",", ":"), allow_nan=False)+"\n")
                 sys.stdout.flush()
@@ -166,7 +226,7 @@ class Handler(BaseHTTPRequestHandler):
             if not session or session not in self.sessions or version != VERSION:
                 self._reply(400, b"session or protocol version missing", "text/plain")
                 return
-        response = _rpc(message)
+        response = _rpc(message, scenario=SCENARIO)
         if response is None:
             self._reply(202, b"", "application/json", extra)
             return
@@ -206,11 +266,17 @@ def http(host="127.0.0.1", port=8766):
 
 
 def main():
+    global SCENARIO
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--transport", choices=("stdio", "http"), default="stdio")
     parser.add_argument("--host", default="127.0.0.1")
     parser.add_argument("--port", type=int, default=8766)
+    parser.add_argument("--scenario", choices=("normal", "permission_denied", "semantic_schema_drift",
+        "source_version_drift", "relationship_unapproved", "relationship_many_to_many",
+        "server_truncated", "audit_invalid", "missing_semantic_evidence", "missing_semantic_source_versions",
+        "missing_relationship_evidence", "missing_read_hashes"), default="normal")
     args = parser.parse_args()
+    SCENARIO = args.scenario
     stdio() if args.transport == "stdio" else http(args.host, args.port)
 
 

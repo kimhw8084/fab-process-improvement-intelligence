@@ -1,0 +1,44 @@
+{
+  "hidden_bias_abs_range": [
+    1.0,
+    2.0
+  ],
+  "mean_absolute_naive_effect_bias": 1.4949300501608285,
+  "method": "independent-unit two-preperiod/one-post DiD; injected treatment-only post shock; fixed source-bound underestimation at 25% of the known shock",
+  "observational_did_causal_claims_emitted": 0,
+  "observed_ci95_true_effect_coverage": {
+    "count": 5,
+    "rate": 0.005,
+    "wilson95": [
+      0.0021375355273244596,
+      0.011650955373375113
+    ]
+  },
+  "qualification": "Synthetic known-generator challenge only. The source-bound interval covers the true effect only when its assumed differential-trend bound is adequate; caller-supplied source/method labels cannot establish adequacy. P4 returns no observational DiD causal claim.",
+  "schema": "p4-d05-known-confounder-benchmark/v1",
+  "seed": 20261123,
+  "sensitivity_ci95_coverage_with_oracle_adequate_bound": {
+    "count": 973,
+    "rate": 0.973,
+    "wilson95": [
+      0.9610012692469598,
+      0.9813786172257051
+    ]
+  },
+  "sensitivity_ci95_coverage_with_underbound": {
+    "count": 40,
+    "rate": 0.04,
+    "wilson95": [
+      0.02951097368545276,
+      0.05400964412125796
+    ]
+  },
+  "trials": 1000,
+  "true_effect_values": [
+    -0.5,
+    0.5
+  ],
+  "underbound_cases_marked_interpretation_eligible": 0,
+  "underbound_cases_passing_numerical_assumption_gates": 626,
+  "underbound_cases_passing_numerical_gates_with_wrong_true_effect_direction": 626
+}

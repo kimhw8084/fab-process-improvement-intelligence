@@ -106,5 +106,41 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_p4_scientific.py::test_p4_12_future_leakage_is_refused"
+  },
+  {
+    "id": "P4-13",
+    "input_challenge": "outcome-dependent missing metrics remove high-response observations",
+    "required_result": "no complete-case sensitivity claim; refuse with missingness limitation",
+    "oracle": "known full-data slope 9 versus selected complete-case slope 5",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_outcome_dependent_missingness_refuses_biased_complete_case_sensitivity"
+  },
+  {
+    "id": "P4-14",
+    "input_challenge": "exact selected setting is observed at a different modeled fixed factor",
+    "required_result": "exclude incompatible units from exact-setting held-out evidence and report their count",
+    "oracle": "SYN-PRECOMMITTED-FIXED-CONTROL-001 independent-population fixture",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d01_d02_independent.py::SupportedWindowQualification.test_evaluation_requires_exact_fixed_modeled_controls"
+  },
+  {
+    "id": "P4-15",
+    "input_challenge": "selected candidate set includes an interpolated cell made infeasible by an unseen interaction",
+    "required_result": "report selected-set violations on complete independent evaluation units; make no population or multiplicity-adjusted guarantee",
+    "oracle": "fixed hidden-response interaction; 20 of 20 common held-out lots violate at least one selected setting",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d01_d02_independent.py::SupportedWindowQualification.test_unseen_nonlinear_interaction_creates_false_feasible_interpolated_cell"
+  },
+  {
+    "id": "P4-16",
+    "input_challenge": "observation-level measurement uncertainty is supplied to ordinary least squares",
+    "required_result": "refuse inference rather than silently dropping or under-propagating measurement uncertainty",
+    "oracle": "explicit unsupported-method refusal",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::test_supplied_measurement_uncertainty_is_not_silently_ignored"
   }
 ]
