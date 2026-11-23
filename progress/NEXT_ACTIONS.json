@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
+  "as_of_source_commit": "70bcb14f9978106ff7cdcb4d54489ae7acd19912",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,9 +15,9 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 7,
-    "task": "Continue the highest external integration gap: qualify the shared P1-hosted P4 interaction for keyboard and screen-reader-oriented semantics using existing local tooling, and prepare exact P1 host-side test assertions for the MCP request lifecycle proposal. Keep the P1 source/owner and formal WCAG sign-off pending; repair only P4-owned defects. Then inspect any remaining locally verifiable D01-D05 edge cases without re-running already current benches.",
-    "first_command": "rtk rg --files release qualification tests | rtk rg 'ACCESS|CONTRAST|BROWSER|UI|suite_host' && rtk sed -n '1,240p' qualification/accessibility_contrast_check.py && rtk sed -n '1,220p' integration/proposals/CHANGE-002-P1-MCP-TO-P4-WORKFLOW.md",
+    "priority": 8,
+    "task": "Rebuild and independently requalify the transfer archive because source commits cd3d11d and 70bcb14 postdate the previously qualified artifact. Verify exact source binding, two clean rebuilds, fresh no-pip extraction under OS network denial and current full release gates; repair any failures. Then continue external P1 lifecycle/accessibility and scientific gaps without publishing.",
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
     "inspect": [
       "products/p4/ui/P4Panel.tsx",
       "products/p4/ui/P4Panel.test.tsx",
@@ -60,17 +60,17 @@
     },
     {
       "priority": 7,
-      "status": "DISPOSABLE_P1_COMPOSITION_QUALIFIED; OWNER_ACCEPTANCE_PENDING",
-      "task": "Unversioned P1 snapshot manifest has 29 files and SHA-256 b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e. P1 routes 11 PASS, frontend 45 PASS, P4 panel 18 PASS, typecheck/build PASS. Browser confirms shell fixture success/refusal. SDK-produced output is directly rendered by component tests, but P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal accessibility review."
+      "status": "DISPOSABLE_P1_COMPOSITION_QUALIFIED; BROWSER_SUCCESS_REFUSAL_KEYBOARD_OBSERVED; FOCUS_CONTRAST_CHANGE_PROPOSED; OWNER_ACCEPTANCE_PENDING",
+      "task": "Unversioned P1 snapshot manifest has 29 files and SHA-256 b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e. P1 routes 11 PASS, frontend 45 PASS, P4 panel 18 PASS, typecheck/build PASS. Browser at 127.0.0.1:8770 observed synthetic request completion, D01-D05, accessible exact-values table, keyboard provenance disclosure and refusal suppression. Selected shared stylesheet text pairs pass CSS screening; focus indicator is 1.804:1 on body and 1.940:1 on white surfaces; CHANGE-003 asks P1 owner to review. Screen is not WCAG conformance. P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal screen-reader/accessibility review."
     },
     {
       "priority": 8,
-      "status": "E10_PASS_AT_4261D39; CANDIDATE; COMPANY_AND_AUTHORITATIVE_HOST_GATES_PENDING",
-      "task": "Exact archive source commit 4261d394c1e4f735079ec33c76b371ff386143ce, 213 source files, ZIP SHA-256 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3 (9,309,496 bytes). Two detached clean worktree builds matched; source manifest SHA-256 a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0; exact checksum sidecar matched. Fresh no-pip extraction and D01-D05 synthetic run passed under macOS sandbox-exec network denial; network probe returned DENIED. Full runner at this commit: 194 tests PASS, schema and benchmark checks PASS, P1 disposable host recognized; E10 PASS. Release remains CANDIDATE because E05/E07/E08/E09/E11/E12 are pending."
+      "status": "STALE_AFTER_SOURCE_CHANGE; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
+      "task": "Historical artifact source commit 4261d394c1e4f735079ec33c76b371ff386143ce, 213 source files, ZIP SHA-256 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3 (9,309,496 bytes), source manifest SHA-256 a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0. Its two clean rebuilds and offline network-denied qualification were valid at that older source only. Commits cd3d11d and 70bcb14 changed packaged code/tests; E10 is stale. At 70bcb14 full suite is 198 PASS, but exact archive, reproducibility, fresh offline run and E10 have not yet been rerun."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "clean after local artifact/evidence commit f1a86524e27fa7ba17edd8f672bf91baf0da2086; verified ZIP is bound to source commit 4261d394c1e4f735079ec33c76b371ff386143ce; no remote update",
+  "worktree_state": "tracked source clean at 70bcb14f9978106ff7cdcb4d54489ae7acd19912; generated local qualification/results JSON sidecars are excluded from package; historical ZIP remains bound to 4261d394c1e4f735079ec33c76b371ff386143ce; no remote update",
   "active_uncommitted_changes": false
 }
