@@ -1,10 +1,10 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "88ce0f543323451787552cf42fa59a3fbd03f150",
+  "as_of_source_commit": "22388f225ff838461582449da462f4d315f97218",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 1,
-    "task": "Review and locally commit the current D02 implementation/schema/fixture, current-source disposable P1 host composition and evidence, regression tests, documentation and progress records. Exclude stale generated release artifacts and remove generated release/SOURCE_BUILD.json. At the resulting clean source commit, regenerate source-bound performance evidence and rerun the full release runner; then build/reproduce/qualify the exact archive offline.",
+    "task": "Commit the exact-source benchmark report and refreshed continuation ledgers locally. Restore generated gate/test/schema/reproducibility/archive/checksum outputs to the just-committed state and remove generated release/SOURCE_BUILD.json. From the resulting clean worktree, build the archive, reproduce it twice from clean source, run fresh --without-pip extraction with OS-enforced network denial, verify checksums and source commit, then rerun release qualification and confirm E10. Continue to the next externally achievable scientific gap after the artifact gate.",
     "inspect": [
       "products/p4/window.py",
       "products/p4/investigation.v1.schema.json",
@@ -14,7 +14,7 @@
       "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
     "first_command": "rtk git diff --check",
-    "acceptance": "Current Python suite executed: 165 PASS/0 skipped; current P1 host route suite executed against exact current P4 window.py/fixture: 11 PASS; P4 module 12 tests/typecheck/contract snapshot PASS; current source fingerprint match in release-runner P1 gate PASS. After local commit, exact-source benchmark and release E02 must pass; then the exact archive must reproduce and pass fresh no-pip network-denied extraction. Company, ownership, host and security gates remain pending; no publication."
+    "acceptance": "Benchmark report binds source_commit to 22388f225ff838461582449da462f4d315f97218 and exact Python source manifest 2be5190e\u2026; release runner executes 165 PASS/0 skipped and E01\u2013E04/E06 PASS including E02. P1 host source fingerprints match. E10 remains PENDING_FINAL_ARCHIVE until exact archive hash/reproducibility/offline extraction are rechecked. E05/E07\u2013E09/E11/E12 remain pending as reported; no publication."
   },
   "ordered_queue": [
     {
@@ -54,8 +54,8 @@
     },
     {
       "priority": 8,
-      "status": "PENDING_LOCAL_COMMIT_AND_SOURCE_BOUND_RELEASE_REQUALIFICATION",
-      "task": "The 88ce0f5 archive passed local E10/offline qualification but is stale after the D02 missing-evaluation status correction, optional evaluation_value schema, 30/20/10 eligible demo split, P1 evidence integrity pinning and docs/tests. Current release runner recognizes P1 evidence and schema, runs 165 tests, and correctly fails E02 because the runtime-source benchmark still fingerprints 88ce0f5-era code. Commit reviewed current changes; regenerate runtime performance and run the full gate before rebuilding/reproducing/offline-qualifying exact source. No publication."
+      "status": "BENCHMARK_SOURCE_BOUND_RELEASE_RUNNER_E02_PASS_ARCHIVE_PENDING",
+      "task": "Committed current P4 D02 source/evidence in 22388f2. Regenerated BENCHMARK_REPORT against the exact fabintel/products/p4 SHA manifest (2be5190e\u2026) at commit 22388f2; integrated workflow p50 259.17 ms / p95 268.87 ms, 900 observations, 100 lots, statsmodels coefficient max difference 2.84e-14. Full release runner then executed 165 tests PASS/0 skipped, demo workflow and schema/UI/P1 evidence PASS, E02 now PASS. Exact archive is not yet rebuilt against 22388f2; E10 remains pending."
     }
   ],
   "internal_dependencies": [
