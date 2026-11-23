@@ -1,33 +1,42 @@
 {
-  "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "b39cfec77a03f6ca064920e6374f5785126b0579",
-  "product_state": "CANDIDATE",
+  "as_of_source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+  "internal_dependencies": [
+    "Samsung source permissions and approved semantic mappings",
+    "authoritative company requirement corpus",
+    "company-approved target OS and network policies",
+    "real manufacturing data and engineer ROI baseline",
+    "company legal, security and production approvals",
+    "P1 owner/source revision and authoritative suite capability contract"
+  ],
+  "never_do": [
+    "publish or push",
+    "invent Samsung semantics, permissions, credentials or approvals",
+    "claim conditional or simultaneous D02 coverage without a valid design",
+    "create a competing product UI shell"
+  ],
   "next_executable_action": {
-    "priority": 1,
-    "task": "Commit the D02 cross-tool/time calibration-transfer assessment, refresh the disposable P1 source pins, and verify the new transfer workflow in host routes and browser. Then continue D01 adversarial robustness work.",
+    "acceptance": "Use an independent held-out null and confounded-effect challenge with lot, chamber and product shocks; compare clustered OLS to a mature reference; verify false-positive behavior and refusals. Do not label fixed effects as residual-dependence correction. Bind benchmark source/script hashes and rerun the full qualification runner.",
+    "first_command": "rtk rg -n \"cluster_field|fixed_effect_fields|independent_unit_field|cluster_nesting\" products/p4/regression.py products/p4/engine.py tests/test_d01_d02_independent.py qualification/benchmark_d01_cluster_nesting.py",
     "inspect": [
-      "products/p4/window.py",
+      "products/p4/regression.py",
+      "products/p4/engine.py",
       "tests/test_d01_d02_independent.py",
-      "qualification/benchmark_d02_stratum_transfer.py",
-      "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json",
-      "qualification/run_release_checks.py",
-      "products/p4/ui/P4Panel.tsx",
-      "/tmp/p4-p1-host-qualification/integration/product-source-registry.v1.json",
-      "/tmp/p4-p1-host-qualification/tests/test_suite_host.py"
+      "qualification/benchmark_d01_cluster_imbalance.py",
+      "qualification/benchmark_d01_cluster_nesting.py"
     ],
-    "first_command": "rtk git status --short",
-    "acceptance": "The committed source hash is pinned in the disposable host; current P4 panel/host-route/frontend/typecheck/build checks pass; the descriptive transfer table is visibly verified; company/P1 authority remains explicitly pending."
+    "priority": 2,
+    "task": "Qualify D01 under cross-classified shared chamber/product shocks that span nominally independent lots; establish when fixed effects are insufficient, then either implement a justified multiway method using a qualified OSS engine or withhold uncertainty with an explicit diagnostic."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; POST_SELECTION_TRANSFER_COUNTEREVIDENCE_ADDED; P1_REFRESH_PENDING",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, and descriptive tool/time transfer states are implemented. Independent 1,000-trial challenge: 94.8% same-mix, 56.4% shifted-known-strata, 23.0% unseen-strata panel coverage; candidate selection remains isolated. Disposable P1 host and browser requalification is the immediate next action."
+      "status": "IMPLEMENTED_WITH_LIMITS; CROSS_TOOL_TIME_TRANSFER_COUNTEREVIDENCE_ADDED; CURRENT_P1_PANEL_VISIBLE",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and separate independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge: 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata coverage; selected candidates remain isolated from evaluation. Browser verifies the transfer table and CALIBRATION_BAND_UNAVAILABLE status when no precommit exists; this is not validation. Conditional coverage remains unestablished."
     },
     {
       "priority": 2,
-      "status": "IMPLEMENTED_WITH_LIMITS",
-      "task": "D01 repeated-unit cluster covariance, train/test temporal holdout, and formula ablation sensitivity; a fixed 2,000-trial challenge exposed false positives when independent lots were split across clusters (15.4% vs 4.8% correct lot clustering), and P4 now abstains on that mapping and exposes it in the UI. Formula/split provenance, measurement uncertainty and broader OOD remain unverified."
+      "status": "IMPLEMENTED_WITH_LIMITS; EXTREME_CLUSTER_SIZE_IMBALANCE_ABSTENTION_QUALIFIED",
+      "task": "D01 retains clustered robust regression, fixed effects/interactions/quadratics, influence and identifiability checks, formula sensitivity and authenticated-split limitations. New independent 1,200-trial cluster-size challenge: balanced product coverage 93.9167% (Wilson95 [0.9242,0.9513]); with one lot at 50.85% of rows, Statsmodels count-only reference coverage 67.4167% and product interval withheld in 1,200/1,200 trials at row-share effective cluster count 3.747. Tests guard exact-threshold floating tolerance. Cross-classified shared chamber/product residual dependence is the next D01 qualification gap."
     },
     {
       "priority": 3,
@@ -46,32 +55,20 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY",
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; CURRENT_SOURCE_HASH_BOUND",
       "task": "Official SDK mock read to source-semantic/version/hash and approved-relationship/grain/time/audit validation, normalized all-five-capability P4 analysis and shared evidence envelope; frozen logical adapter contract is v1.0.0, P4 evidence extensions are fail-closed and proposed additively; 14 focused MCP tests PASS. Company semantics/authorization remain pending."
     },
     {
       "priority": 7,
-      "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_INTERACTIVE_CURRENT_P4_SOURCE",
-      "task": "Latest current P4 module, including D02 partition-status diagnostics, was copied into the disposable P1 composition and source/registry/test pins refreshed. Current P1 host-route tests pass 11; live shared-host analysis and permission refusal verified; P1 frontend 39 tests/typecheck/build and P4 component 12 tests/typecheck/contract match pass. 28-file composition fingerprint is self-consistent and release runner confirms current P4 source hashes match. P1 owner/source authority, formal accessibility and target-host qualification remain pending."
+      "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_CURRENT_P4_SOURCE",
+      "task": "Headless P4 panel exercised in the disposable P1 shell; current P4 D01\u2013D05 module and D02 transfer state visible. Current source commit 615c521f815f95133be3c635e28ac7284eb352b5 is hash-pinned; P1 host routes 11 PASS, frontend 40 PASS, P4 component 13 PASS, typecheck and production build PASS. 28-file composition manifest SHA-256 edcdf3499abb8a0713b171d5df6b2dfe67c4fc145df682656b806b43392ed5db. P1 owner/source authority, formal accessibility and target host remain pending."
     },
     {
       "priority": 8,
-      "status": "CURRENT_SOURCE_LIMITED_SECURITY_SCAN_PASS_ARCHIVE_REBUILD_REQUIRED",
-      "task": "Refreshed security evidence after D02 source commit 361dcd64\u2026: pip-audit inspected 48 optional package instances and found 0 advisories; Bandit 1.9.4 found 8 LOW B311 and 0 medium/high, with each finding disposition documented. Review/license/ownership remain pending. Because the reports are packaged, the previously passing 5c3c00e2\u2026 archive is superseded and E10 must be requalified."
+      "status": "CURRENT_SOURCE_SCIENTIFIC_QUALIFICATION_PASS; ARCHIVE_REBUILD_REQUIRED",
+      "task": "Source-bound performance benchmark and full release runner now bind to 615c521; 175 Python tests PASS / 0 skipped, E01\u2013E04 and E06 PASS, E02 includes the new D01 benchmark, and limited dependency/source scans pass. E10 remains pending final archive; E05/E12 internal, E07 authoritative host/accessibility, E08 target OS, E09 independent/legal/security review and E11 engineer baseline remain pending."
     }
   ],
-  "internal_dependencies": [
-    "Samsung source permissions and approved semantic mappings",
-    "authoritative company requirement corpus",
-    "company-approved target OS and network policies",
-    "real manufacturing data and engineer ROI baseline",
-    "company legal, security and production approvals",
-    "P1 owner/source revision and authoritative suite capability contract"
-  ],
-  "never_do": [
-    "publish or push",
-    "invent Samsung semantics, permissions, credentials or approvals",
-    "claim conditional or simultaneous D02 coverage without a valid design",
-    "create a competing product UI shell"
-  ]
+  "product_state": "CANDIDATE",
+  "schema": "p4-next-actions/v1"
 }

@@ -144,11 +144,31 @@
         "oracle": "explicit unsupported-method refusal",
         "required_result": "refuse inference rather than silently dropping or under-propagating measurement uncertainty",
         "test": "tests/test_p4_scientific.py::test_supplied_measurement_uncertainty_is_not_silently_ignored"
+      },
+      {
+        "id": "P4-17",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "30 declared clusters with one cluster contributing over half of all observations",
+        "oracle": "independent 1200-trial null challenge: count-only cluster reference coverage 67.4%; product abstains under the configured threshold",
+        "required_result": "withhold cluster-robust intervals when the inverse-Herfindahl effective count by observation share is below the configured minimum",
+        "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_extreme_cluster_size_imbalance_withholds_nominally_large_cluster_inference"
       }
     ],
     "missing_case_evidence": [],
     "missing_test_names": [],
     "status": "PASS"
+  },
+  "d01_cluster_imbalance_benchmark": {
+    "balanced_product_coverage": 0.9391666666666667,
+    "dominant_cluster_product_abstentions": 1200,
+    "dominant_cluster_reference_false_positive_rate": 0.3258333333333333,
+    "evidence": "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "independent synthetic null challenge; inverse-Herfindahl screen is conservative and does not establish coverage",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials_per_scenario": 1200
   },
   "d02_replicate_shift_benchmark": {
     "coverage_by_future_observations_per_setting": {
@@ -270,11 +290,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "b39cfec77a03f6ca064920e6374f5785126b0579",
+    "package_source_snapshot": "615c521f815f95133be3c635e28ac7284eb352b5",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "65a9f988a38b2be67dec4c9d24999b335a3857ed2e9a54fa0d20f0e196e55f35",
-    "source_commit": "b39cfec77a03f6ca064920e6374f5785126b0579",
+    "product_source_manifest_sha256": "01b0b3aa079e778754fa0cf8814b0d6fc6b36349bd48a9137cc4db2785e9046e",
+    "source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -307,7 +327,7 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 12,
+    "component_tests": 13,
     "disposable_host_evidence": {
       "current_p4_source_hashes_match": true,
       "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
@@ -318,18 +338,18 @@
     },
     "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
     "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY",
-    "source_declared_tests": 12,
+    "source_declared_tests": 13,
     "status": "PASS_LOCAL_MODULE_ONLY",
     "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 11.682,
+    "duration_seconds": 11.714,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 172,
+    "tests_run": 175,
     "tests_skipped": 0
   }
 }

@@ -1,0 +1,143 @@
+{
+  "benchmark_script_sha256": "b4453798e56bdd7a23e7c23a8e8b07f1eddd11eb0b3305cf6a6eec2a14c964b6",
+  "data_generating_process": {
+    "assignment": "15 of 30 clusters assigned factor level 1 independently per trial",
+    "estimand": "zero slope for a cluster-assigned binary factor under the null",
+    "held_out_scenarios": {
+      "balanced": [
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ],
+      "one_dominant_cluster": [
+        360,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12,
+        12
+      ]
+    },
+    "independent_cluster_effect_sd": 1.0,
+    "independent_units": 30,
+    "within_cluster_noise_sd": 0.35
+  },
+  "decision": "Use cluster-count and inverse-Herfindahl row-share screening together. If severe size concentration reduces the conservative effective cluster count below the configured minimum, withhold intervals; this diagnostic is not a coverage guarantee.",
+  "metrics": {
+    "balanced": {
+      "dominant_cluster_row_share": 0.03333333333333333,
+      "effective_clusters_by_row_count": 30.0,
+      "nominal_clusters": 30,
+      "product": {
+        "abstained_trials": 0,
+        "coverage_among_inferred": 0.9391666666666667,
+        "coverage_wilson95": [
+          0.924190523909133,
+          0.9513400472281315
+        ],
+        "false_positive_rate_among_inferred": 0.060833333333333336,
+        "inferred_trials": 1200,
+        "mean_interval_width": 1.462917108963992
+      },
+      "rows": 360,
+      "statsmodels_count_only_cluster_reference": {
+        "coverage": 0.9391666666666667,
+        "coverage_wilson95": [
+          0.924190523909133,
+          0.9513400472281315
+        ],
+        "false_positive_rate": 0.060833333333333336,
+        "inferred_trials": 1200,
+        "mean_interval_width": 1.4629171089659248
+      }
+    },
+    "one_dominant_cluster": {
+      "dominant_cluster_row_share": 0.5084745762711864,
+      "effective_clusters_by_row_count": 3.747039827771797,
+      "nominal_clusters": 30,
+      "product": {
+        "abstained_trials": 1200,
+        "coverage_among_inferred": null,
+        "coverage_wilson95": null,
+        "false_positive_rate_among_inferred": null,
+        "inferred_trials": 0,
+        "mean_interval_width": null
+      },
+      "rows": 708,
+      "statsmodels_count_only_cluster_reference": {
+        "coverage": 0.6741666666666667,
+        "coverage_wilson95": [
+          0.6471295275475787,
+          0.7000922739091354
+        ],
+        "false_positive_rate": 0.3258333333333333,
+        "inferred_trials": 1200,
+        "mean_interval_width": 1.4119830836501421
+      }
+    }
+  },
+  "parity_max_abs_difference_first_25_per_scenario": 2.3314683517128287e-15,
+  "product_source_sha256": "f8bf427a610ce8bb3f548c0c9359ac34fb0ba6bd101a6adf09f561cebf008946",
+  "qualification": "PASS",
+  "reference": {
+    "name": "statsmodels clustered OLS",
+    "role": "independent baseline for the count-only cluster sandwich",
+    "version": "0.15.0"
+  },
+  "schema": "p4-d01-cluster-imbalance-benchmark/v1",
+  "seed": 781041,
+  "source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+  "synthetic_only": true,
+  "trials_per_scenario": 1200
+}

@@ -43,6 +43,14 @@
       "fixed_effects": {},
       "inference": {
         "cluster_nesting": null,
+        "cluster_size_diagnostic": {
+          "dominant_cluster_row_share": 0.025,
+          "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+          "method": "inverse_Herfindahl_of_observation_count_shares",
+          "minimum_required_effective_clusters": 30,
+          "row_share_effective_cluster_count": 39.99999999999997,
+          "status": "SUFFICIENT_BY_COUNT_HEURISTIC"
+        },
         "confidence_level": 0.95,
         "covariance": "cluster",
         "covariance_auto_selected_for_repeated_units": false,
@@ -51,7 +59,8 @@
         "independent_cluster_count": 40,
         "independent_cluster_field": "lot_id",
         "inference_df": 39,
-        "minimum_clusters": 30
+        "minimum_clusters": 30,
+        "row_share_effective_cluster_count": 39.99999999999997
       },
       "interpretation": "observational association; coefficients do not estimate intervention response",
       "metric": "defect",
@@ -191,6 +200,14 @@
       "fixed_effects": {},
       "inference": {
         "cluster_nesting": null,
+        "cluster_size_diagnostic": {
+          "dominant_cluster_row_share": 0.025,
+          "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+          "method": "inverse_Herfindahl_of_observation_count_shares",
+          "minimum_required_effective_clusters": 30,
+          "row_share_effective_cluster_count": 39.99999999999997,
+          "status": "SUFFICIENT_BY_COUNT_HEURISTIC"
+        },
         "confidence_level": 0.95,
         "covariance": "cluster",
         "covariance_auto_selected_for_repeated_units": false,
@@ -199,7 +216,8 @@
         "independent_cluster_count": 40,
         "independent_cluster_field": "lot_id",
         "inference_df": 39,
-        "minimum_clusters": 30
+        "minimum_clusters": 30,
+        "row_share_effective_cluster_count": 39.99999999999997
       },
       "interpretation": "observational association; coefficients do not estimate intervention response",
       "metric": "quality",

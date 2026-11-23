@@ -264,6 +264,14 @@
             "split_independent_unit_count": 0,
             "status": "NESTED"
           },
+          "cluster_size_diagnostic": {
+            "dominant_cluster_row_share": 0.01,
+            "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+            "method": "inverse_Herfindahl_of_observation_count_shares",
+            "minimum_required_effective_clusters": 30,
+            "row_share_effective_cluster_count": 100.00000000000006,
+            "status": "SUFFICIENT_BY_COUNT_HEURISTIC"
+          },
           "confidence_level": 0.95,
           "covariance": "cluster",
           "covariance_auto_selected_for_repeated_units": false,
@@ -272,7 +280,8 @@
           "independent_cluster_count": 100,
           "independent_cluster_field": "lot_id",
           "inference_df": 99,
-          "minimum_clusters": 30
+          "minimum_clusters": 30,
+          "row_share_effective_cluster_count": 100.00000000000006
         },
         "interpretation": "observational association; coefficients do not estimate intervention response",
         "metric": "yield_index",
@@ -796,6 +805,7 @@
         "candidate_cells": [
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 40.0
@@ -865,6 +875,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 40.0
@@ -934,6 +945,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 40.714285714285715
@@ -1003,6 +1015,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 41.42857142857143
@@ -1072,6 +1085,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 40.0
@@ -1141,6 +1155,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 40.714285714285715
@@ -1210,6 +1225,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 41.42857142857143
@@ -1279,6 +1295,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 42.142857142857146
@@ -1348,6 +1365,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 42.857142857142854
@@ -1417,6 +1435,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 40.0
@@ -1486,6 +1505,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 40.714285714285715
@@ -1555,6 +1575,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 41.42857142857143
@@ -1624,6 +1645,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 42.142857142857146
@@ -1693,6 +1715,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 42.857142857142854
@@ -1762,6 +1785,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 43.57142857142857
@@ -1831,6 +1855,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 44.285714285714285
@@ -1900,6 +1925,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 40.0
@@ -1969,6 +1995,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 40.714285714285715
@@ -2038,6 +2065,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 41.42857142857143
@@ -2107,6 +2135,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 42.142857142857146
@@ -2176,6 +2205,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 42.857142857142854
@@ -2245,6 +2275,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 43.57142857142857
@@ -2314,6 +2345,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 44.285714285714285
@@ -2383,6 +2415,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 45.0
@@ -2452,6 +2485,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 45.714285714285715
@@ -2521,6 +2555,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 40.0
@@ -2590,6 +2625,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 40.714285714285715
@@ -2659,6 +2695,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 41.42857142857143
@@ -2728,6 +2765,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 42.142857142857146
@@ -2797,6 +2835,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 42.857142857142854
@@ -2866,6 +2905,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 43.57142857142857
@@ -2935,6 +2975,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 44.285714285714285
@@ -3004,6 +3045,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 45.0
@@ -3073,6 +3115,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 45.714285714285715
@@ -3142,6 +3185,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 46.42857142857143
@@ -3211,6 +3255,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 47.142857142857146
@@ -3280,6 +3325,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 40.0
@@ -3349,6 +3395,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 40.714285714285715
@@ -3418,6 +3465,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 41.42857142857143
@@ -3487,6 +3535,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 42.142857142857146
@@ -3556,6 +3605,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 42.857142857142854
@@ -3625,6 +3675,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 43.57142857142857
@@ -3694,6 +3745,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 44.285714285714285
@@ -3763,6 +3815,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 45.0
@@ -3832,6 +3885,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 45.714285714285715
@@ -3901,6 +3955,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 46.42857142857143
@@ -3970,6 +4025,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 47.142857142857146
@@ -4039,6 +4095,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 40.0
@@ -4108,6 +4165,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 40.714285714285715
@@ -4177,6 +4235,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 41.42857142857143
@@ -4246,6 +4305,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 42.142857142857146
@@ -4315,6 +4375,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 42.857142857142854
@@ -4384,6 +4445,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 43.57142857142857
@@ -4453,6 +4515,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 44.285714285714285
@@ -4522,6 +4585,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 45.0
@@ -4591,6 +4655,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 45.714285714285715
@@ -4660,6 +4725,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 46.42857142857143
@@ -4729,6 +4795,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 40.0
@@ -4798,6 +4865,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 40.714285714285715
@@ -4867,6 +4935,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 41.42857142857143
@@ -4936,6 +5005,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 42.142857142857146
@@ -5005,6 +5075,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 42.857142857142854
@@ -5074,6 +5145,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 43.57142857142857
@@ -5143,6 +5215,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 44.285714285714285
@@ -5212,6 +5285,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 45.0
@@ -5281,6 +5355,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 45.714285714285715
@@ -5350,6 +5425,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 46.42857142857143
@@ -5419,6 +5495,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 40.0
@@ -5488,6 +5565,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 40.714285714285715
@@ -5557,6 +5635,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 41.42857142857143
@@ -5626,6 +5705,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 42.142857142857146
@@ -5695,6 +5775,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 42.857142857142854
@@ -5764,6 +5845,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 43.57142857142857
@@ -5833,6 +5915,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 44.285714285714285
@@ -5902,6 +5985,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 45.0
@@ -5971,6 +6055,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 45.714285714285715
@@ -6079,6 +6164,7 @@
         "grid": [
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 40.0
@@ -6148,6 +6234,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 40.714285714285715
@@ -6217,6 +6304,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 41.42857142857143
@@ -6286,6 +6374,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 42.142857142857146
@@ -6355,6 +6444,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 42.857142857142854
@@ -6424,6 +6514,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 43.57142857142857
@@ -6493,6 +6584,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 44.285714285714285
@@ -6562,6 +6654,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 45.0
@@ -6631,6 +6724,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 45.714285714285715
@@ -6700,6 +6794,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 46.42857142857143
@@ -6769,6 +6864,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 47.142857142857146
@@ -6838,6 +6934,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 47.857142857142854
@@ -6907,6 +7004,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 48.57142857142857
@@ -6976,6 +7074,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 49.285714285714285
@@ -7045,6 +7144,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.0,
               "temperature": 50.0
@@ -7114,6 +7214,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 40.0
@@ -7183,6 +7284,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 40.714285714285715
@@ -7252,6 +7354,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 41.42857142857143
@@ -7321,6 +7424,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 42.142857142857146
@@ -7390,6 +7494,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 42.857142857142854
@@ -7459,6 +7564,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 43.57142857142857
@@ -7528,6 +7634,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 44.285714285714285
@@ -7597,6 +7704,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 45.0
@@ -7666,6 +7774,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 45.714285714285715
@@ -7735,6 +7844,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 46.42857142857143
@@ -7804,6 +7914,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 47.142857142857146
@@ -7873,6 +7984,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 47.857142857142854
@@ -7942,6 +8054,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 48.57142857142857
@@ -8011,6 +8124,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 49.285714285714285
@@ -8080,6 +8194,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.1428571428571428,
               "temperature": 50.0
@@ -8149,6 +8264,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 40.0
@@ -8218,6 +8334,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 40.714285714285715
@@ -8287,6 +8404,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 41.42857142857143
@@ -8356,6 +8474,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 42.142857142857146
@@ -8425,6 +8544,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 42.857142857142854
@@ -8494,6 +8614,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 43.57142857142857
@@ -8563,6 +8684,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 44.285714285714285
@@ -8632,6 +8754,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 45.0
@@ -8701,6 +8824,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 45.714285714285715
@@ -8770,6 +8894,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 46.42857142857143
@@ -8839,6 +8964,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 47.142857142857146
@@ -8908,6 +9034,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 47.857142857142854
@@ -8977,6 +9104,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 48.57142857142857
@@ -9046,6 +9174,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 49.285714285714285
@@ -9115,6 +9244,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.2857142857142856,
               "temperature": 50.0
@@ -9184,6 +9314,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 40.0
@@ -9253,6 +9384,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 40.714285714285715
@@ -9322,6 +9454,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 41.42857142857143
@@ -9391,6 +9524,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 42.142857142857146
@@ -9460,6 +9594,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 42.857142857142854
@@ -9529,6 +9664,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 43.57142857142857
@@ -9598,6 +9734,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 44.285714285714285
@@ -9667,6 +9804,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 45.0
@@ -9736,6 +9874,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 45.714285714285715
@@ -9805,6 +9944,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 46.42857142857143
@@ -9874,6 +10014,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 47.142857142857146
@@ -9943,6 +10084,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 47.857142857142854
@@ -10012,6 +10154,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 48.57142857142857
@@ -10081,6 +10224,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 49.285714285714285
@@ -10150,6 +10294,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.4285714285714286,
               "temperature": 50.0
@@ -10219,6 +10364,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 40.0
@@ -10288,6 +10434,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 40.714285714285715
@@ -10357,6 +10504,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 41.42857142857143
@@ -10426,6 +10574,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 42.142857142857146
@@ -10495,6 +10644,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 42.857142857142854
@@ -10564,6 +10714,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 43.57142857142857
@@ -10633,6 +10784,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 44.285714285714285
@@ -10702,6 +10854,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 45.0
@@ -10771,6 +10924,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 45.714285714285715
@@ -10840,6 +10994,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 46.42857142857143
@@ -10909,6 +11064,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 47.142857142857146
@@ -10978,6 +11134,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 47.857142857142854
@@ -11047,6 +11204,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 48.57142857142857
@@ -11116,6 +11274,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 49.285714285714285
@@ -11185,6 +11344,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.5714285714285714,
               "temperature": 50.0
@@ -11254,6 +11414,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 40.0
@@ -11323,6 +11484,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 40.714285714285715
@@ -11392,6 +11554,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 41.42857142857143
@@ -11461,6 +11624,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 42.142857142857146
@@ -11530,6 +11694,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 42.857142857142854
@@ -11599,6 +11764,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 43.57142857142857
@@ -11668,6 +11834,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 44.285714285714285
@@ -11737,6 +11904,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 45.0
@@ -11806,6 +11974,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 45.714285714285715
@@ -11875,6 +12044,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 46.42857142857143
@@ -11944,6 +12114,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 47.142857142857146
@@ -12013,6 +12184,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 47.857142857142854
@@ -12082,6 +12254,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 48.57142857142857
@@ -12151,6 +12324,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 49.285714285714285
@@ -12220,6 +12394,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.7142857142857144,
               "temperature": 50.0
@@ -12289,6 +12464,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 40.0
@@ -12358,6 +12534,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 40.714285714285715
@@ -12427,6 +12604,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 41.42857142857143
@@ -12496,6 +12674,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 42.142857142857146
@@ -12565,6 +12744,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 42.857142857142854
@@ -12634,6 +12814,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 43.57142857142857
@@ -12703,6 +12884,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 44.285714285714285
@@ -12772,6 +12954,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 45.0
@@ -12841,6 +13024,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 45.714285714285715
@@ -12910,6 +13094,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 46.42857142857143
@@ -12979,6 +13164,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 47.142857142857146
@@ -13048,6 +13234,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 47.857142857142854
@@ -13117,6 +13304,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 48.57142857142857
@@ -13186,6 +13374,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 49.285714285714285
@@ -13255,6 +13444,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 1.8571428571428572,
               "temperature": 50.0
@@ -13324,6 +13514,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 40.0
@@ -13393,6 +13584,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 40.714285714285715
@@ -13462,6 +13654,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 41.42857142857143
@@ -13531,6 +13724,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 42.142857142857146
@@ -13600,6 +13794,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 42.857142857142854
@@ -13669,6 +13864,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 43.57142857142857
@@ -13738,6 +13934,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 44.285714285714285
@@ -13807,6 +14004,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 45.0
@@ -13876,6 +14074,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 45.714285714285715
@@ -13945,6 +14144,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 46.42857142857143
@@ -14014,6 +14214,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 47.142857142857146
@@ -14083,6 +14284,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 47.857142857142854
@@ -14152,6 +14354,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 48.57142857142857
@@ -14221,6 +14424,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 49.285714285714285
@@ -14290,6 +14494,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.0,
               "temperature": 50.0
@@ -14359,6 +14564,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 40.0
@@ -14428,6 +14634,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 40.714285714285715
@@ -14497,6 +14704,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 41.42857142857143
@@ -14566,6 +14774,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 42.142857142857146
@@ -14635,6 +14844,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 42.857142857142854
@@ -14704,6 +14914,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 43.57142857142857
@@ -14773,6 +14984,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 44.285714285714285
@@ -14842,6 +15054,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 45.0
@@ -14911,6 +15124,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 45.714285714285715
@@ -14980,6 +15194,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 46.42857142857143
@@ -15049,6 +15264,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 47.142857142857146
@@ -15118,6 +15334,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 47.857142857142854
@@ -15187,6 +15404,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 48.57142857142857
@@ -15256,6 +15474,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 49.285714285714285
@@ -15325,6 +15544,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.142857142857143,
               "temperature": 50.0
@@ -15394,6 +15614,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 40.0
@@ -15463,6 +15684,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 40.714285714285715
@@ -15532,6 +15754,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 41.42857142857143
@@ -15601,6 +15824,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 42.142857142857146
@@ -15670,6 +15894,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 42.857142857142854
@@ -15739,6 +15964,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 43.57142857142857
@@ -15808,6 +16034,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 44.285714285714285
@@ -15877,6 +16104,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 45.0
@@ -15946,6 +16174,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 45.714285714285715
@@ -16015,6 +16244,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 46.42857142857143
@@ -16084,6 +16314,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 47.142857142857146
@@ -16153,6 +16384,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 47.857142857142854
@@ -16222,6 +16454,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 48.57142857142857
@@ -16291,6 +16524,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 49.285714285714285
@@ -16360,6 +16594,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.2857142857142856,
               "temperature": 50.0
@@ -16429,6 +16664,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 40.0
@@ -16498,6 +16734,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 40.714285714285715
@@ -16567,6 +16804,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 41.42857142857143
@@ -16636,6 +16874,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 42.142857142857146
@@ -16705,6 +16944,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 42.857142857142854
@@ -16774,6 +17014,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 43.57142857142857
@@ -16843,6 +17084,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 44.285714285714285
@@ -16912,6 +17154,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 45.0
@@ -16981,6 +17224,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 45.714285714285715
@@ -17050,6 +17294,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 46.42857142857143
@@ -17119,6 +17364,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 47.142857142857146
@@ -17188,6 +17434,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 47.857142857142854
@@ -17257,6 +17504,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 48.57142857142857
@@ -17326,6 +17574,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 49.285714285714285
@@ -17395,6 +17644,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.428571428571429,
               "temperature": 50.0
@@ -17464,6 +17714,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 40.0
@@ -17533,6 +17784,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 40.714285714285715
@@ -17602,6 +17854,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 41.42857142857143
@@ -17671,6 +17924,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 42.142857142857146
@@ -17740,6 +17994,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 42.857142857142854
@@ -17809,6 +18064,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 43.57142857142857
@@ -17878,6 +18134,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 44.285714285714285
@@ -17947,6 +18204,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 45.0
@@ -18016,6 +18274,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 45.714285714285715
@@ -18085,6 +18344,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 46.42857142857143
@@ -18154,6 +18414,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 47.142857142857146
@@ -18223,6 +18484,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 47.857142857142854
@@ -18292,6 +18554,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 48.57142857142857
@@ -18361,6 +18624,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 49.285714285714285
@@ -18430,6 +18694,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.571428571428571,
               "temperature": 50.0
@@ -18499,6 +18764,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 40.0
@@ -18568,6 +18834,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 40.714285714285715
@@ -18637,6 +18904,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 41.42857142857143
@@ -18706,6 +18974,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 42.142857142857146
@@ -18775,6 +19044,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 42.857142857142854
@@ -18844,6 +19114,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 43.57142857142857
@@ -18913,6 +19184,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 44.285714285714285
@@ -18982,6 +19254,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 45.0
@@ -19051,6 +19324,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 45.714285714285715
@@ -19120,6 +19394,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 46.42857142857143
@@ -19189,6 +19464,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 47.142857142857146
@@ -19258,6 +19534,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 47.857142857142854
@@ -19327,6 +19604,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 48.57142857142857
@@ -19396,6 +19674,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 49.285714285714285
@@ -19465,6 +19744,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.7142857142857144,
               "temperature": 50.0
@@ -19534,6 +19814,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 40.0
@@ -19603,6 +19884,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 40.714285714285715
@@ -19672,6 +19954,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 41.42857142857143
@@ -19741,6 +20024,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 42.142857142857146
@@ -19810,6 +20094,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 42.857142857142854
@@ -19879,6 +20164,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 43.57142857142857
@@ -19948,6 +20234,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 44.285714285714285
@@ -20017,6 +20304,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 45.0
@@ -20086,6 +20374,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 45.714285714285715
@@ -20155,6 +20444,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 46.42857142857143
@@ -20224,6 +20514,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 47.142857142857146
@@ -20293,6 +20584,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 47.857142857142854
@@ -20362,6 +20654,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 48.57142857142857
@@ -20431,6 +20724,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 49.285714285714285
@@ -20500,6 +20794,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 2.857142857142857,
               "temperature": 50.0
@@ -20569,6 +20864,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 40.0
@@ -20638,6 +20934,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 40.714285714285715
@@ -20707,6 +21004,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 41.42857142857143
@@ -20776,6 +21074,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 42.142857142857146
@@ -20845,6 +21144,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 42.857142857142854
@@ -20914,6 +21214,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 43.57142857142857
@@ -20983,6 +21284,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 44.285714285714285
@@ -21052,6 +21354,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 45.0
@@ -21121,6 +21424,7 @@
           },
           {
             "conservative_feasible": true,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 45.714285714285715
@@ -21190,6 +21494,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 46.42857142857143
@@ -21259,6 +21564,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 47.142857142857146
@@ -21328,6 +21634,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 47.857142857142854
@@ -21397,6 +21704,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 48.57142857142857
@@ -21466,6 +21774,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 49.285714285714285
@@ -21535,6 +21844,7 @@
           },
           {
             "conservative_feasible": false,
+            "evaluation_transfer_status": "CALIBRATION_BAND_UNAVAILABLE",
             "factors": {
               "pressure": 3.0,
               "temperature": 50.0
@@ -23410,6 +23720,14 @@
             },
             "inference": {
               "cluster_nesting": null,
+              "cluster_size_diagnostic": {
+                "dominant_cluster_row_share": 0.03333333333333333,
+                "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+                "method": "inverse_Herfindahl_of_observation_count_shares",
+                "minimum_required_effective_clusters": 30,
+                "row_share_effective_cluster_count": 30.0,
+                "status": "SUFFICIENT_BY_COUNT_HEURISTIC"
+              },
               "confidence_level": 0.95,
               "covariance": "cluster",
               "covariance_auto_selected_for_repeated_units": false,
@@ -23418,7 +23736,8 @@
               "independent_cluster_count": 30,
               "independent_cluster_field": "lot_id",
               "inference_df": 29,
-              "minimum_clusters": 30
+              "minimum_clusters": 30,
+              "row_share_effective_cluster_count": 30.0
             },
             "interpretation": "observational association; coefficients do not estimate intervention response",
             "metric": "defect_rate",
@@ -23563,6 +23882,14 @@
             },
             "inference": {
               "cluster_nesting": null,
+              "cluster_size_diagnostic": {
+                "dominant_cluster_row_share": 0.03333333333333333,
+                "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+                "method": "inverse_Herfindahl_of_observation_count_shares",
+                "minimum_required_effective_clusters": 30,
+                "row_share_effective_cluster_count": 30.0,
+                "status": "SUFFICIENT_BY_COUNT_HEURISTIC"
+              },
               "confidence_level": 0.95,
               "covariance": "cluster",
               "covariance_auto_selected_for_repeated_units": false,
@@ -23571,7 +23898,8 @@
               "independent_cluster_count": 30,
               "independent_cluster_field": "lot_id",
               "inference_df": 29,
-              "minimum_clusters": 30
+              "minimum_clusters": 30,
+              "row_share_effective_cluster_count": 30.0
             },
             "interpretation": "observational association; coefficients do not estimate intervention response",
             "metric": "yield_index",
@@ -23680,6 +24008,15 @@
         "selection_warning": "Candidates are screened over a searched grid using local grouped calibration. Selection among cells can inflate false-feasible findings; these intervals do not establish simultaneous or conditional coverage. A separate maximum-score band is available only when an explicit precommit record declares the model, threshold, metric family, and exact-setting panel and every calibration unit matches that panel. The record's references and timing remain unauthenticated. Validate a preselected exact setting on independent engineering units before any process decision.",
         "simultaneous_candidate_count": 0,
         "simultaneous_exact_setting_screen": {
+          "calibration_transfer_assessment": {
+            "calibration_to_evaluation_total_variation": null,
+            "evaluation_panel_status": "NOT_AVAILABLE",
+            "interpretation": "the precommitted finite-panel band is unavailable, so transfer cannot be assessed",
+            "observed_counterevidence": [],
+            "status": "CALIBRATION_BAND_UNAVAILABLE",
+            "unseen_evaluation_strata_count": 0,
+            "unseen_evaluation_units": 0
+          },
           "calibration_unit_count": 0,
           "common_exact_settings": [],
           "independent_evaluation_panel_compatibility": {
@@ -24957,6 +25294,14 @@
           "split_independent_unit_count": 0,
           "status": "NESTED"
         },
+        "cluster_size_diagnostic": {
+          "dominant_cluster_row_share": 0.01,
+          "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+          "method": "inverse_Herfindahl_of_observation_count_shares",
+          "minimum_required_effective_clusters": 30,
+          "row_share_effective_cluster_count": 100.00000000000006,
+          "status": "SUFFICIENT_BY_COUNT_HEURISTIC"
+        },
         "confidence_level": 0.95,
         "covariance": "cluster",
         "covariance_auto_selected_for_repeated_units": false,
@@ -24965,7 +25310,8 @@
         "independent_cluster_count": 100,
         "independent_cluster_field": "lot_id",
         "inference_df": 99,
-        "minimum_clusters": 30
+        "minimum_clusters": 30,
+        "row_share_effective_cluster_count": 100.00000000000006
       },
       "residual_df": 893,
       "residual_sd": 0.09129220078853655
