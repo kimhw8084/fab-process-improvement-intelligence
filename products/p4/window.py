@@ -171,7 +171,32 @@ def _finite_rank_quantile(scores, coverage=0.95):
     return ordered[rank - 1]
 
 
-def _validate_window_precommit(plan, metrics, model_factors):
+def _normalize_metric_bounds(metric_bounds, metrics):
+    if not isinstance(metric_bounds, dict) or set(metric_bounds) != set(metrics):
+        return None
+    normalized = {}
+    for metric in metrics:
+        definition = metric_bounds.get(metric)
+        if not isinstance(definition, dict) or set(definition) != {"min", "max"}:
+            return None
+        bounds = {}
+        for name in ("min", "max"):
+            value = definition[name]
+            if value is None:
+                bounds[name] = None
+            elif isinstance(value, (int, float)) and not isinstance(value, bool) and isfinite(value):
+                bounds[name] = float(value)
+            else:
+                return None
+        if (bounds["min"] is None and bounds["max"] is None
+                or bounds["min"] is not None and bounds["max"] is not None
+                and bounds["min"] > bounds["max"]):
+            return None
+        normalized[metric] = bounds
+    return {name: normalized[name] for name in sorted(normalized)}
+
+
+def _validate_window_precommit(plan, metrics, model_factors, active_metric_bounds):
     if not isinstance(plan, dict):
         return None, {"status": "PRECOMMIT_NOT_PROVIDED",
                       "reason": "a precommitted model, threshold, metric-family, and exact-setting panel plan is required for simultaneous calibration"}
@@ -184,6 +209,11 @@ def _validate_window_precommit(plan, metrics, model_factors):
             or len(metric_family) != len(set(metric_family)) or set(metric_family) != set(metrics)):
         return None, {"status": "PRECOMMIT_METRIC_FAMILY_MISMATCH",
                       "reason": "the precommitted metric family must exactly match every constrained D02 metric"}
+    expected_bounds = _normalize_metric_bounds(active_metric_bounds, metrics)
+    declared_bounds = _normalize_metric_bounds(plan.get("metric_bounds"), metrics)
+    if expected_bounds is None or declared_bounds != expected_bounds:
+        return None, {"status": "PRECOMMIT_THRESHOLD_MISMATCH",
+                      "reason": "the precommitted metric bounds must exactly match the active metric limits"}
     observations_per_setting = plan.get("observations_per_setting", 1)
     if (not isinstance(observations_per_setting, int) or isinstance(observations_per_setting, bool)
             or not 1 <= observations_per_setting <= 5000):
@@ -210,6 +240,7 @@ def _validate_window_precommit(plan, metrics, model_factors):
         "model_selection_reference": plan["model_selection_reference"],
         "threshold_selection_reference": plan["threshold_selection_reference"],
         "metric_family": sorted(metric_family),
+        "metric_bounds": expected_bounds,
         "observations_per_setting": observations_per_setting,
         "exact_setting_panel": [dict(zip(model_factors, setting)) for setting in ordered],
     }
@@ -221,7 +252,8 @@ def _validate_window_precommit(plan, metrics, model_factors):
 
 
 def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, model_factors,
-                                             fixed_effects, group_field, precommit_plan, alpha=0.05):
+                                             fixed_effects, group_field, precommit_plan,
+                                             active_metric_bounds, alpha=0.05):
     """Build a split-conformal band across a complete exact-setting panel.
 
     Each independent calibration unit contributes one maximum absolute error
@@ -230,7 +262,8 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
     family, conditional on the caller's split and exchangeability assumptions.
     This deliberately does not extend to interpolated settings.
     """
-    checked_plan, plan_error = _validate_window_precommit(precommit_plan, metrics, model_factors)
+    checked_plan, plan_error = _validate_window_precommit(
+        precommit_plan, metrics, model_factors, active_metric_bounds)
     if plan_error:
         return {**plan_error, "calibration_unit_count": 0, "common_exact_settings": [],
                 "metric_quantiles": {}, "precommit": None}
@@ -1072,7 +1105,9 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
 
     simultaneous_calibration = _simultaneous_exact_setting_calibration(
         calibration_rows, list(constrained), fitted, model_factors, fixed_effects, unit_field,
-        calibration_config.get("precommit"))
+        calibration_config.get("precommit"),
+        {name: {"min": definition.get("min"), "max": definition.get("max")}
+         for name, definition in constrained.items()})
     simultaneous_setting_keys = {
         tuple(setting[name] for name in model_factors)
         for setting in simultaneous_calibration.get("common_exact_settings", [])

@@ -87,13 +87,24 @@
             "minimum_calibration_units": {"type": "integer", "minimum": 19},
             "precommit": {
               "type": "object",
-              "required": ["plan_reference", "model_selection_reference", "threshold_selection_reference", "metric_family", "exact_setting_panel"],
+              "required": ["plan_reference", "model_selection_reference", "threshold_selection_reference", "metric_family", "metric_bounds", "exact_setting_panel"],
               "properties": {
                 "plan_reference": {"type": "string", "minLength": 1},
                 "model_selection_reference": {"type": "string", "minLength": 1},
                 "threshold_selection_reference": {"type": "string", "minLength": 1},
                 "observations_per_setting": {"type": "integer", "minimum": 1, "maximum": 5000},
                 "metric_family": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+                "metric_bounds": {
+                  "type": "object", "minProperties": 1,
+                  "additionalProperties": {
+                    "type": "object", "required": ["min", "max"],
+                    "properties": {
+                      "min": {"type": ["number", "null"]},
+                      "max": {"type": ["number", "null"]}
+                    },
+                    "additionalProperties": false
+                  }
+                },
                 "exact_setting_panel": {
                   "type": "array", "minItems": 1, "maxItems": 1681,
                   "items": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "number"}}

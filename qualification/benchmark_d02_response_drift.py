@@ -46,6 +46,7 @@ PRECOMMIT = {
     "threshold_selection_reference": "SYNTHETIC-FROZEN-D02-DRIFT-THRESHOLD-v1",
     "observations_per_setting": 1,
     "metric_family": ["quality"],
+    "metric_bounds": {"quality": {"min": None, "max": 0.50}},
     "exact_setting_panel": [
         {"pressure": x, "power": y} for x, y in SETTINGS
     ],
@@ -147,7 +148,8 @@ def run_benchmark(trials: int = 250, seed: int = 20261123,
         calibration_rows = _panel_rows(
             rng, calibration_units, f"CAL-{trial:04d}", "CALIBRATION")
         calibration = _simultaneous_exact_setting_calibration(
-            calibration_rows, ["quality"], models, MODEL_FACTORS, {}, "lot_id", PRECOMMIT)
+            calibration_rows, ["quality"], models, MODEL_FACTORS, {}, "lot_id", PRECOMMIT,
+            PRECOMMIT["metric_bounds"])
         if calibration.get("status") != "AVAILABLE":
             raise RuntimeError(f"finite exact-panel calibration unavailable at trial {trial}: {calibration}")
 

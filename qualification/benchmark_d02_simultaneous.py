@@ -25,12 +25,14 @@ FACTORS = {"pressure": {"role": "controllable", "unit": "kPa"},
            "power": {"role": "controllable", "unit": "W"}}
 METRICS = ("quality", "defect")
 ROOT = Path(__file__).resolve().parents[1]
-BOUNDS = {"quality": {"min": 0.15}, "defect": {"max": 0.24}}
+BOUNDS = {"quality": {"min": 0.15, "max": None},
+          "defect": {"min": None, "max": 0.24}}
 PRECOMMIT = {"plan_reference": "BENCHMARK-PRECOMMIT-001",
              "model_selection_reference": "BENCHMARK-FROZEN-MODEL-001",
              "threshold_selection_reference": "BENCHMARK-FROZEN-LIMITS-001",
              "observations_per_setting": 1,
              "metric_family": list(METRICS),
+             "metric_bounds": BOUNDS,
              "exact_setting_panel": [
                  {"pressure": pressure, "power": power} for pressure, power in SETTINGS]}
 
@@ -83,7 +85,7 @@ def run_benchmark(trials: int = 1000, seed: int = 20261123):
         calibration = _draw_panel(rng, 39, f"CAL-{trial}", "CALIBRATION")
         evaluation = _panel_rows(rng, f"EVAL-{trial}", "EVALUATION")
         calibrated = _simultaneous_exact_setting_calibration(
-            calibration, list(METRICS), models, ["pressure", "power"], {}, "lot_id", PRECOMMIT)
+            calibration, list(METRICS), models, ["pressure", "power"], {}, "lot_id", PRECOMMIT, BOUNDS)
         if calibrated.get("status") != "AVAILABLE":
             raise RuntimeError(f"finite exact-setting calibration unavailable: {calibrated}")
         for metric in METRICS:

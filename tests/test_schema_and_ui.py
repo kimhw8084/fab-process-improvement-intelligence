@@ -18,6 +18,8 @@ class SourceContractTests(unittest.TestCase):
         self.assertNotIn("evaluation_value", calibration["required"])
         precommit = calibration["properties"]["precommit"]["properties"]
         self.assertEqual(precommit["observations_per_setting"]["minimum"], 1)
+        self.assertIn("metric_bounds", precommit)
+        self.assertIn("metric_bounds", calibration["properties"]["precommit"]["required"])
         self.assertNotIn("observations_per_setting", calibration["properties"]["precommit"]["required"])
         fixture = json.loads((ROOT / "fixtures" / "full_workflow_demo.json").read_text(encoding="utf-8"))
         self.assertEqual(fixture["window_exploration"]["calibration"]["evaluation_value"], "EVALUATION")

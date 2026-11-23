@@ -419,6 +419,7 @@ class SupportedWindowQualification(unittest.TestCase):
                                                        "precommit": {"plan_reference": "SYN-PRECOMMIT-PLAN-001",
                                                                      "model_selection_reference": "SYN-PRECOMMIT-MODEL-001",
                                                                      "threshold_selection_reference": "SYN-PRECOMMIT-THRESHOLDS-001",
+                                                                     "metric_bounds": {"quality": {"min": 0.0, "max": 0.5}},
                                                                      "metric_family": ["quality"],
                                                                      "exact_setting_panel": [
                                                                          {"pressure": float(x), "power": float(y)}
@@ -515,6 +516,23 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(result["joint_validation_status"], "NOT_ESTABLISHED")
         self.assertEqual(screen["precommit"]["status"], "CALLER_SUPPLIED_NOT_AUTHENTICATED")
         self.assertEqual(len(screen["precommit"]["plan_sha256"]), 64)
+        self.assertEqual(screen["precommit"]["metric_bounds"],
+                         {"quality": {"min": 0.0, "max": 0.5}})
+
+    def test_simultaneous_band_refuses_if_active_metric_limit_differs_from_precommit(self):
+        rows, factors, data = self._dataset()
+        plan = data["window_exploration"]["calibration"]["precommit"]
+        plan["metric_bounds"]["quality"]["max"] = 0.45
+
+        result = explore_window(rows, factors, METRIC, data)
+
+        screen = result["simultaneous_exact_setting_screen"]
+        self.assertEqual(screen["status"], "PRECOMMIT_THRESHOLD_MISMATCH")
+        self.assertEqual(result["simultaneous_candidate_count"], 0)
+        self.assertEqual(
+            screen["reason"],
+            "the precommitted metric bounds must exactly match the active metric limits",
+        )
 
     def test_simultaneous_metric_multiplicity_abstains_when_finite_rank_is_unavailable(self):
         rows, factors, data = self._dataset()
@@ -525,7 +543,9 @@ class SupportedWindowQualification(unittest.TestCase):
             item["metrics"]["defect"] = (0.1 + 0.01*pressure + 0.002*math.sin(lot)
                                            + 0.001*math.sin(power*2 + pressure))
         metric_defs = {**METRIC, "defect": {"unit": "%", "direction": "minimize", "max": 0.2}}
-        data["window_exploration"]["calibration"]["precommit"]["metric_family"] = ["quality", "defect"]
+        precommit = data["window_exploration"]["calibration"]["precommit"]
+        precommit["metric_family"] = ["quality", "defect"]
+        precommit["metric_bounds"]["defect"] = {"min": None, "max": 0.2}
         result = explore_window(rows, factors, metric_defs, data)
         screen = result["simultaneous_exact_setting_screen"]
         self.assertEqual(screen["status"], "INSUFFICIENT_CALIBRATION_UNITS")
