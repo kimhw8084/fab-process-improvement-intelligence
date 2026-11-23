@@ -1,0 +1,16 @@
+{
+  "authority": "P1 owns the canonical suite UI contract; this is a read-only local snapshot for offline validation.",
+  "contracts": {
+    "suite-chart.v1.schema.json": {
+      "sha256": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
+      "source": "/Users/haewonkim/home/work/product 1/FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22/contracts/suite-chart.v1.schema.json"
+    },
+    "suite-ui-module.v1.schema.json": {
+      "sha256": "93a9ecf707065feaf001b13dd3a84d8268ce0b93ec2c196cd856b9f44aa67d52",
+      "source": "/Users/haewonkim/home/work/product 1/FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22/contracts/suite-ui-module.v1.schema.json"
+    }
+  },
+  "status": "CANDIDATE_REFERENCE_NOT_HOST_QUALIFICATION",
+  "upstream_commit": null,
+  "upstream_commit_reason": "The extracted local P1 folder has no Git metadata."
+}

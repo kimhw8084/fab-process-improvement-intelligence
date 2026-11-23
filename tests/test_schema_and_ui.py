@@ -1,25 +1,40 @@
-import unittest,json
+"""Source checks for P4's shared-workspace contribution."""
+import json
+import unittest
 from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
 class SourceContractTests(unittest.TestCase):
- def test_schema_files_identify_version(self):
-  root=Path(__file__).resolve().parent.parent
-  for name in ('evidence.v1.schema.json','product-manifest.v1.schema.json'):
-   doc=json.loads((root/'contracts'/name).read_text())
-   self.assertIn('1.0.0',doc['$id'])
- def test_manifest_declares_bootstrap_only(self):
-  root=Path(__file__).resolve().parent.parent
-  manifest=json.loads((root/'product.json').read_text())
-  self.assertEqual(manifest['release_state'],'CANDIDATE')
-  self.assertEqual(manifest['contract_version'],'1.0.0')
- def test_no_remote_frontend_assets(self):
-  root=Path(__file__).resolve().parent.parent
-  html=(root/'ui'/'index.html').read_text()
-  for forbidden in ('src="http://','src="https://','href="http://','href="https://','@import url(http'):
-   self.assertNotIn(forbidden,html)
- def test_file_picker_keyboard_focus_is_visible_on_its_label(self):
-  root=Path(__file__).resolve().parent.parent
-  html=(root/'ui'/'index.html').read_text()
-  input_markup='<input id="request-file" type="file" accept="application/json,.json"><label class="file-label" for="request-file">Open JSON file</label>'
-  focus_rule='input[type=file]:focus-visible+.file-label{outline:3px solid #168b76;outline-offset:3px}'
-  self.assertIn(input_markup,html)
-  self.assertIn(focus_rule,html)
+    def test_schema_files_identify_version(self):
+        for name in ("evidence.v1.schema.json", "product-manifest.v1.schema.json"):
+            doc = json.loads((ROOT / "contracts" / name).read_text(encoding="utf-8"))
+            self.assertIn("1.0.0", doc["$id"])
+
+    def test_manifest_declares_candidate_and_supported_capabilities(self):
+        manifest = json.loads((ROOT / "product.json").read_text(encoding="utf-8"))
+        self.assertEqual(manifest["release_state"], "CANDIDATE")
+        self.assertEqual(manifest["contract_version"], "1.0.0")
+        capabilities = " ".join(manifest["capabilities"])
+        self.assertTrue(all(code in capabilities for code in ("D01", "D02", "D03", "D04", "D05")))
+
+    def test_p4_contributes_a_module_without_a_competing_shell(self):
+        contribution = json.loads((ROOT / "products" / "p4" / "ui_contribution.json").read_text(encoding="utf-8"))
+        self.assertEqual(contribution["status"], "HEADLESS_MODULE")
+        self.assertEqual(contribution["ownership"]["suite_shell"], "single-suite-host")
+        self.assertTrue((ROOT / contribution["module"]).is_file())
+        self.assertFalse((ROOT / "ui" / "index.html").exists())
+
+    def test_module_has_no_remote_asset_dependency_and_keeps_table_alternative(self):
+        source = (ROOT / "products" / "p4" / "ui" / "P4Panel.tsx").read_text(encoding="utf-8")
+        self.assertNotRegex(source, r"(?:src|href)=[\"']https?://")
+        self.assertNotIn("@import url(http", source)
+        self.assertIn("<table>", source)
+        self.assertIn("renderChart", source)
+        self.assertIn("exact values and setting identifiers are listed in the table", source.lower())
+
+
+if __name__ == "__main__":
+    unittest.main()

@@ -2,13 +2,20 @@
   "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
   "builds": 2,
   "commands": [
+    "git worktree add --detach <temporary-path> <source-commit>",
     "python qualification/build_transfer_bundle.py",
+    "git worktree add --detach <temporary-path> <source-commit>",
     "python qualification/build_transfer_bundle.py"
   ],
-  "method": "sorted paths, fixed ZIP timestamps, fixed file metadata, no generated output inside the archive",
-  "sha256_by_build": [
-    "97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64",
-    "97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64"
+  "method": "rebuild in a clean detached worktree at the recorded source commit; compare both builds, source manifests, workspace ZIP and checksum sidecar",
+  "sha256_by_clean_build": [
+    "40312dc3a780171aaec7a8b96868fe6784eab567fde7d13a9ee77a6f71dc05ad",
+    "40312dc3a780171aaec7a8b96868fe6784eab567fde7d13a9ee77a6f71dc05ad"
   ],
-  "status": "PASS"
+  "sidecar_matches_workspace_archive": true,
+  "source_commit": "65521742de34240f8de03e52d89b87288497c585",
+  "source_manifest_matches_clean_commit": true,
+  "status": "PASS",
+  "workspace_archive_matches_clean_build": true,
+  "workspace_archive_sha256": "40312dc3a780171aaec7a8b96868fe6784eab567fde7d13a9ee77a6f71dc05ad"
 }

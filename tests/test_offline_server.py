@@ -41,12 +41,11 @@ class OfflineServerTests(unittest.TestCase):
         with urlopen(req, timeout=5) as response:
             return response.status, json.loads(response.read())
 
-    def test_ui_health_preflight_and_complete_job(self):
-        with urlopen(self.base + "/", timeout=5) as response:
-            html = response.read().decode()
-            self.assertEqual(response.status, 200)
-            self.assertIn("Load synthetic walkthrough", html)
-            self.assertIn("Content-Security-Policy", response.headers)
+    def test_headless_fixture_has_no_competing_ui_and_completes_analysis_job(self):
+        for path in ("/", "/ui/index.html"):
+            with self.assertRaises(HTTPError) as page_error:
+                urlopen(self.base + path, timeout=5)
+            self.assertEqual(page_error.exception.code, 404)
         _, health = self.get_json(self.base + "/api/health")
         self.assertEqual(health["mode"], "SYNTHETIC_DEMO")
         _, started = self.post_json(self.base + "/api/jobs", self.demo)

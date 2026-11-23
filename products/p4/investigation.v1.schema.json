@@ -34,6 +34,7 @@
     },
     "window_exploration": {
       "type": "object",
+      "required": ["calibration"],
       "properties": {
         "factors": {"type": "array", "minItems": 1, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}},
         "fixed_settings": {"type": "object", "additionalProperties": {"type": "number"}},
@@ -42,7 +43,20 @@
         "min_independent_units": {"type": "integer", "minimum": 3},
         "grid_points": {"type": "integer", "minimum": 5, "maximum": 41},
         "min_support_points": {"type": "integer", "minimum": 2},
-        "max_support_radius": {"type": "number", "exclusiveMinimum": 0, "maximum": 2}
+        "max_support_radius": {"type": "number", "exclusiveMinimum": 0, "maximum": 2},
+        "calibration": {
+          "type": "object",
+          "required": ["group_field", "partition_field", "training_value", "calibration_value", "split_reference"],
+          "properties": {
+            "group_field": {"type": "string", "minLength": 1},
+            "partition_field": {"type": "string", "minLength": 1},
+            "training_value": {"type": "string", "minLength": 1},
+            "calibration_value": {"type": "string", "minLength": 1},
+            "split_reference": {"type": "string", "minLength": 1},
+            "minimum_calibration_units": {"type": "integer", "minimum": 19}
+          },
+          "additionalProperties": false
+        }
       },
       "additionalProperties": false
     },

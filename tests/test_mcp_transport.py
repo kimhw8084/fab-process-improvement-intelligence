@@ -1,5 +1,6 @@
 """Protocol-level external transport and mapping checks against the bundled mock server."""
 import copy
+import importlib.util
 import os
 import sys
 import threading
@@ -8,9 +9,8 @@ from unittest.mock import patch
 from http.server import ThreadingHTTPServer
 from pathlib import Path
 
-from fabintel.mcp_client import (ConfiguredSemanticAdapter, McpClient, McpError,
-                                 McpPermissionError, StdioTransport,
-                                 StreamableHttpTransport, configured_adapter)
+from fabintel.mcp_client import (McpError, McpPermissionError, configured_adapter,
+                                 transport_from_config)
 from fabintel.mock_mcp_server import Handler
 
 
@@ -41,6 +41,7 @@ def mapping_config(transport):
             for operation in outputs}}
 
 
+@unittest.skipUnless(importlib.util.find_spec("mcp"), "Install the pinned offline MCP SDK candidate to run protocol integration cases.")
 class McpStdioQualification(unittest.TestCase):
     def setUp(self):
         config = mapping_config({"type": "stdio", "command": [sys.executable, "-m", "fabintel.mock_mcp_server"],
@@ -84,14 +85,12 @@ class McpStdioQualification(unittest.TestCase):
     def test_missing_discovered_mapping_and_missing_result_mapping_fail_closed(self):
         broken = mapping_config({"type": "stdio", "command": [sys.executable, "-m", "fabintel.mock_mcp_server"], "cwd": str(ROOT)})
         broken["operations"]["discover"]["tool_name"] = "synthetic.unknown.tool"
-        client = McpClient(StdioTransport(broken["transport"]["command"], cwd=ROOT))
+        adapter = configured_adapter(broken, allow_synthetic_test=True)
         try:
-            client.initialize(); client.list_tools()
-            adapter = ConfiguredSemanticAdapter(client, broken, allow_synthetic_test=True)
             with self.assertRaises(McpError):
                 adapter.call("discover", {"permission_scope": "SYNTHETIC_READ"})
         finally:
-            client.close()
+            adapter.client.close()
 
     def test_company_pending_config_is_rejected_before_any_transport_is_started(self):
         config = mapping_config({"type": "stdio", "command": ["definitely-not-a-real-program"]})
@@ -100,33 +99,22 @@ class McpStdioQualification(unittest.TestCase):
         with self.assertRaises(McpPermissionError):
             configured_adapter(config)
 
-    def test_stdio_does_not_inherit_unrelated_secret_environment(self):
-        probe = "import os,json,time; print(json.dumps({'leaked':os.getenv('P4_UNRELATED_SECRET')}),flush=True); time.sleep(5)"
-        with patch.dict(os.environ, {"P4_UNRELATED_SECRET": "must-not-be-inherited"}):
-            transport = StdioTransport([sys.executable, "-c", probe], timeout_seconds=2)
-            try:
-                message = transport.incoming.get(timeout=1)
-                self.assertIsNone(message["leaked"])
-            finally:
-                transport.close()
-
-    def test_stdio_secret_is_forwarded_only_by_explicit_name_mapping(self):
-        probe = ("import os,json,time; print(json.dumps({'mapped':os.getenv('SITE_TOKEN'),"
-                 "'source_name':os.getenv('P4_SITE_TEST_SECRET')}),flush=True); time.sleep(5)")
-        with patch.dict(os.environ, {"P4_SITE_TEST_SECRET": "synthetic-token-value"}):
-            transport = StdioTransport([sys.executable, "-c", probe],
-                                       env_from={"SITE_TOKEN": "P4_SITE_TEST_SECRET"}, timeout_seconds=2)
-            try:
-                message = transport.incoming.get(timeout=1)
-                self.assertEqual(message["mapped"], "synthetic-token-value")
-                self.assertIsNone(message["source_name"])
-            finally:
-                transport.close()
+    def test_sdk_stdio_configuration_forwards_only_explicit_environment_mappings(self):
+        config = mapping_config({"type": "stdio", "command": [sys.executable, "-m", "fabintel.mock_mcp_server"],
+                                 "env_from": {"SITE_TOKEN": "P4_SITE_TEST_SECRET"}})
+        with patch.dict(os.environ, {"P4_SITE_TEST_SECRET": "synthetic-token-value",
+                                     "P4_UNRELATED_SECRET": "must-not-be-forwarded"}):
+            sdk_transport = transport_from_config(config)
+        self.assertEqual(sdk_transport["env"], {"SITE_TOKEN": "synthetic-token-value"})
+        self.assertNotIn("P4_SITE_TEST_SECRET", sdk_transport["env"])
+        self.assertNotIn("P4_UNRELATED_SECRET", sdk_transport["env"])
         with patch.dict(os.environ, {}, clear=True):
             with self.assertRaisesRegex(McpPermissionError, "environment source is unset"):
-                StdioTransport([sys.executable, "-c", "pass"], env_from={"SITE_TOKEN": "NOT_SET"})
+                transport_from_config(mapping_config({"type": "stdio", "command": [sys.executable],
+                                                     "env_from": {"SITE_TOKEN": "NOT_SET"}}))
 
 
+@unittest.skipUnless(importlib.util.find_spec("mcp"), "Install the pinned offline MCP SDK candidate to run protocol integration cases.")
 class McpHttpQualification(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -146,15 +134,17 @@ class McpHttpQualification(unittest.TestCase):
         try:
             result = adapter.call("discover", {"permission_scope": "SYNTHETIC_READ"})
             self.assertTrue(result["audit_support"])
-            self.assertTrue(adapter.client.transport.session_id)
+            self.assertEqual(adapter.client.negotiated_version, "2025-11-25")
         finally:
             adapter.client.close()
 
     def test_endpoint_allowlist_and_cleartext_network_policy(self):
         with self.assertRaises(McpPermissionError):
-            StreamableHttpTransport("http://127.0.0.1:9999/mcp", allowed_hosts=["example.com"])
+            transport_from_config(mapping_config({"type": "streamable_http", "endpoint": "http://127.0.0.1:9999/mcp",
+                                                   "allowed_hosts": ["example.com"]}))
         with self.assertRaises(McpPermissionError):
-            StreamableHttpTransport("http://example.com/mcp", allowed_hosts=["example.com"])
+            transport_from_config(mapping_config({"type": "streamable_http", "endpoint": "http://example.com/mcp",
+                                                   "allowed_hosts": ["example.com"]}))
 
 
 if __name__ == "__main__":

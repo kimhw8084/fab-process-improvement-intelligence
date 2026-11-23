@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fab-intelligence.local/contracts/suite-chart.v1.schema.json",
+  "title": "FAB Intelligence shared chart model v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "chart_id", "kind", "title", "x_label", "y_label", "series", "points"],
+  "properties": {
+    "schema_version": { "const": "suite-chart.v1" },
+    "chart_id": { "type": "string", "minLength": 1 },
+    "kind": { "enum": ["line", "scatter"] },
+    "title": { "type": "string", "minLength": 1 },
+    "x_label": { "type": "string", "minLength": 1 },
+    "y_label": { "type": "string", "minLength": 1 },
+    "series": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label", "style"],
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "label": { "type": "string", "minLength": 1 },
+          "style": { "enum": ["solid", "dashed", "markers"] }
+        }
+      }
+    },
+    "point_metadata": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "label"],
+        "properties": { "id": { "type": "string", "minLength": 1 }, "label": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "points": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["x", "values"],
+        "properties": {
+          "x": { "type": ["string", "number"] },
+          "values": { "type": "object", "additionalProperties": { "type": ["number", "null"] } },
+          "metadata": { "type": "object", "additionalProperties": { "type": ["string", "number", "null"] } }
+        }
+      }
+    }
+  }
+}

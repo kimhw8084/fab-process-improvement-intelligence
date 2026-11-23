@@ -1,0 +1,233 @@
+{
+  "disclaimer": "Golden v0.1.0-dev is PRE_QUALIFICATION; passing local checks do not mean Golden requirements are fully implemented or enforced.",
+  "doctor": {
+    "return_code": 0,
+    "summary": [
+      "Golden version: 0.1.0-dev",
+      "Python: 3.11.7",
+      "Project: local project",
+      "Manifest: PASS",
+      "Git: /usr/bin/git",
+      "Command python_tests: CONFIGURED"
+    ]
+  },
+  "fast_check": {
+    "mode": "FAST",
+    "qualifies_release": false,
+    "results": [
+      {
+        "duration_ms": 0.0,
+        "evidence": "Manifest schema and release pin validated.",
+        "mandatory": true,
+        "rule_id": "GOLD-001",
+        "stage": "fast",
+        "status": "PASS",
+        "title": "Project manifest and Golden release pin"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "GOLD-002",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Project instructions and usage README"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "GOLD-003",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Version-controlled project worktree"
+      },
+      {
+        "duration_ms": 85.56,
+        "evidence": "AST-parsed 51 Python source files.",
+        "mandatory": true,
+        "rule_id": "PY-001",
+        "stage": "fast",
+        "status": "PASS",
+        "title": "Python syntax validation (AST)"
+      },
+      {
+        "duration_ms": 0.01,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "PY-002",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Python tests (real command)"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "PY-003",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Python lint (approved Ruff)"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "WEB-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "TypeScript static validation"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "WEB-002",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "TypeScript/component tests"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "UI-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "UI contract and interaction tests"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "UI-002",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Real-browser UX and accessibility evaluation"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "API-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "API contracts and error behavior"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Applicability evidence missing for capabilities ['database']; false declarations alone do not prove non-applicability.",
+        "mandatory": true,
+        "rule_id": "DB-001",
+        "stage": "full",
+        "status": "NOT_RUN",
+        "title": "Database integrity and migration tests"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "SEC-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Secrets and security audit"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Applicability evidence missing for capabilities ['observability']; false declarations alone do not prove non-applicability.",
+        "mandatory": true,
+        "rule_id": "OPS-001",
+        "stage": "full",
+        "status": "NOT_RUN",
+        "title": "Telemetry/logging/alerting validation"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "JOBS-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Queue and job/idempotency evaluation"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "MCP-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "MCP permission and protocol checks"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Applicability evidence missing for capabilities ['ai']; false declarations alone do not prove non-applicability.",
+        "mandatory": true,
+        "rule_id": "AI-001",
+        "stage": "full",
+        "status": "NOT_RUN",
+        "title": "Agentic/tool-use evaluation"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Full-only check deferred; fast result is not release qualification.",
+        "mandatory": true,
+        "rule_id": "DATA-001",
+        "stage": "full",
+        "status": "DEFERRED",
+        "title": "Scientific/analytics correctness tests"
+      },
+      {
+        "duration_ms": 0.0,
+        "evidence": "Criticality is below this rule scope; independent owner applicability evidence is missing.",
+        "mandatory": true,
+        "rule_id": "REL-001",
+        "stage": "full",
+        "status": "NOT_RUN",
+        "title": "Production criticality recovery drill"
+      }
+    ],
+    "return_code": 0,
+    "status_counts": {
+      "DEFERRED": 13,
+      "NOT_RUN": 4,
+      "PASS": 2
+    }
+  },
+  "golden": {
+    "commit": "dc2ece864b2d744e47dfe8c7d9ad78aadbed369e",
+    "repository": "https://github.com/kimhw8084/golden-agentic-engineering",
+    "rules_sha256": "ce47462f54550bc60b9d30989bd56825257bd21f6b8721d1b28855dd58e61449",
+    "snapshot_files_verified": 21,
+    "status": "PILOT_UNQUALIFIED",
+    "version": "0.1.0-dev"
+  },
+  "not_run": [
+    "Golden full check",
+    "route resolver integration (unneeded OpenCode agents are not vendored)",
+    "Golden upstream fixture suite",
+    "company OpenCode and target-host qualification"
+  ],
+  "p4_relevant_routes_present": [
+    "react-app-feature",
+    "manufacturing-analytics",
+    "release-qualification"
+  ],
+  "project_manifest": {
+    "capabilities": {
+      "ai": false,
+      "api": true,
+      "database": false,
+      "internal_company_sources_configured": false,
+      "jobs": true,
+      "manufacturing_data": true,
+      "mcp": true,
+      "observability": false,
+      "target_host_qualified": false,
+      "ui": true
+    },
+    "profile": "react"
+  },
+  "scope": "pinned Golden local developer checks and P4-relevant routing; not P4 release qualification",
+  "status": "PASS_REFERENCE_CHECKS_PRE_QUALIFICATION"
+}

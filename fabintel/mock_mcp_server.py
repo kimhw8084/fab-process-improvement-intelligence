@@ -185,10 +185,19 @@ class Handler(BaseHTTPRequestHandler):
         self._reply(204)
 
 
+class QuietLoopbackHTTPServer(ThreadingHTTPServer):
+    def handle_error(self, request, client_address):
+        # Streamable HTTP clients may close an SSE connection after its response.
+        # Treat only the resulting transport reset as normal mock-server cleanup.
+        if isinstance(sys.exc_info()[1], (BrokenPipeError, ConnectionResetError)):
+            return
+        super().handle_error(request, client_address)
+
+
 def http(host="127.0.0.1", port=8766):
     if host not in ("127.0.0.1", "::1", "localhost"):
         raise SystemExit("mock MCP HTTP server may bind only to loopback")
-    server = ThreadingHTTPServer((host, port), Handler)
+    server = QuietLoopbackHTTPServer((host, port), Handler)
     print(f"Synthetic mock MCP listening on {host}:{port}/mcp", file=sys.stderr)
     try:
         server.serve_forever()

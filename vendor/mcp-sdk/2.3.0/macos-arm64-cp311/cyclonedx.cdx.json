@@ -1,0 +1,1734 @@
+{
+  "bomFormat": "CycloneDX",
+  "components": [
+    {
+      "bom-ref": "pkg:pypi/annotated-types@0.8.0",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/annotated-types/annotated-types"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/annotated-types/annotated-types"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/annotated-types/annotated-types/releases"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "annotated-types",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "annotated_types-0.8.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/annotated-types@0.8.0",
+      "type": "library",
+      "version": "0.8.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/anyio@4.16.0",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://anyio.readthedocs.io/en/latest/"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://anyio.readthedocs.io/en/stable/versionhistory.html"
+        },
+        {
+          "comment": "Source code",
+          "type": "website",
+          "url": "https://github.com/agronholm/anyio"
+        },
+        {
+          "comment": "Issue tracker",
+          "type": "website",
+          "url": "https://github.com/agronholm/anyio/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c66ae634e0b8228396b801741beb3294326d4b6102f7bba4041c0dfb58c29026"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "anyio",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "anyio-4.16.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/anyio@4.16.0",
+      "type": "library",
+      "version": "4.16.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/attrs@26.1.0",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://www.attrs.org/"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://www.attrs.org/en/stable/changelog.html"
+        },
+        {
+          "comment": "GitHub",
+          "type": "website",
+          "url": "https://github.com/python-attrs/attrs"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/hynek"
+        },
+        {
+          "comment": "Tidelift",
+          "type": "website",
+          "url": "https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "attrs",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "attrs-26.1.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/attrs@26.1.0",
+      "type": "library",
+      "version": "26.1.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/cffi@2.1.1",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://cffi.readthedocs.io/"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://cffi.readthedocs.io/en/latest/whatsnew.html"
+        },
+        {
+          "comment": "Download",
+          "type": "website",
+          "url": "https://github.com/python-cffi/cffi/releases"
+        },
+        {
+          "comment": "Contact",
+          "type": "website",
+          "url": "https://groups.google.com/forum/#!forum/python-cffi"
+        },
+        {
+          "comment": "Source Code",
+          "type": "website",
+          "url": "https://github.com/python-cffi/cffi"
+        },
+        {
+          "comment": "Issue Tracker",
+          "type": "website",
+          "url": "https://github.com/python-cffi/cffi/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "398aff33cee2767e3e781d2554c54bd0dff386bb437581e0d8011fde1a942ec1"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT-0"
+        }
+      ],
+      "name": "cffi",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "cffi-2.1.1-cp311-cp311-macosx_11_0_arm64.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT-0"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/cffi@2.1.1",
+      "type": "library",
+      "version": "2.1.1"
+    },
+    {
+      "bom-ref": "pkg:pypi/click@8.5.1",
+      "externalReferences": [
+        {
+          "comment": "Changes",
+          "type": "website",
+          "url": "https://click.palletsprojects.com/page/changes/"
+        },
+        {
+          "comment": "Chat",
+          "type": "website",
+          "url": "https://discord.gg/pallets"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://click.palletsprojects.com/"
+        },
+        {
+          "comment": "Donate",
+          "type": "website",
+          "url": "https://palletsprojects.com/donate"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/pallets/click/"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "8bb5376d2006950386f8c6427613334a2acadc5f559cb80e638d00b4df957e37"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "click",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "click-8.5.1-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/click@8.5.1",
+      "type": "library",
+      "version": "8.5.1"
+    },
+    {
+      "bom-ref": "pkg:pypi/cryptography@50.0.2",
+      "externalReferences": [
+        {
+          "comment": "changelog",
+          "type": "website",
+          "url": "https://cryptography.io/en/latest/changelog/"
+        },
+        {
+          "comment": "documentation",
+          "type": "website",
+          "url": "https://cryptography.io/"
+        },
+        {
+          "comment": "homepage",
+          "type": "website",
+          "url": "https://github.com/pyca/cryptography"
+        },
+        {
+          "comment": "issues",
+          "type": "website",
+          "url": "https://github.com/pyca/cryptography/issues"
+        },
+        {
+          "comment": "source",
+          "type": "website",
+          "url": "https://github.com/pyca/cryptography/"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "fa8f5efb344d6908a1ce62f4a24e2e5780f825d6f53f5f50ec5ffacac72936cb"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "Apache-2.0 OR BSD-3-Clause"
+        }
+      ],
+      "name": "cryptography",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "cryptography-50.0.2-cp311-abi3-macosx_11_0_arm64.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "Apache-2.0 OR BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/cryptography@50.0.2",
+      "type": "library",
+      "version": "50.0.2"
+    },
+    {
+      "bom-ref": "pkg:pypi/h11@0.16.0",
+      "externalReferences": [
+        {
+          "comment": "Home-page",
+          "type": "website",
+          "url": "https://github.com/python-hyper/h11"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "h11",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "h11-0.16.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/h11@0.16.0",
+      "type": "library",
+      "version": "0.16.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/httpcore2@2.16.2",
+      "externalReferences": [
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/pydantic/httpx2/blob/main/src/httpcore2/CHANGELOG.md"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic/httpx2"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/pydantic/httpx2/blob/main/src/httpcore2"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "16051ae2a42f776007543f32de9349a317b23d2cbb4e1456b4bac0e88b87419a"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "httpcore2",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "httpcore2-2.16.2-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/httpcore2@2.16.2",
+      "type": "library",
+      "version": "2.16.2"
+    },
+    {
+      "bom-ref": "pkg:pypi/httpx2@2.16.2",
+      "externalReferences": [
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/pydantic/httpx2/blob/main/src/httpx2/CHANGELOG.md"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic/httpx2"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/pydantic/httpx2"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f05c13aade4c45dbf1c9060647a1058f0acad62398fad96e741269edb33d46f5"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "httpx2",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "httpx2-2.16.2-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/httpx2@2.16.2",
+      "type": "library",
+      "version": "2.16.2"
+    },
+    {
+      "bom-ref": "pkg:pypi/idna@3.20",
+      "externalReferences": [
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/kjd/idna/blob/master/HISTORY.md"
+        },
+        {
+          "comment": "Issue tracker",
+          "type": "website",
+          "url": "https://github.com/kjd/idna/issues"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/kjd/idna"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "idna",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "idna-3.20-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/idna@3.20",
+      "type": "library",
+      "version": "3.20"
+    },
+    {
+      "bom-ref": "pkg:pypi/jsonschema@4.26.0",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://python-jsonschema.readthedocs.io/"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema/issues/"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/Julian"
+        },
+        {
+          "comment": "Tidelift",
+          "type": "website",
+          "url": "https://tidelift.com/subscription/pkg/pypi-jsonschema?utm_source=pypi-jsonschema&utm_medium=referral&utm_campaign=pypi-link"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema/blob/main/CHANGELOG.rst"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "jsonschema",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "jsonschema-4.26.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/jsonschema@4.26.0",
+      "type": "library",
+      "version": "4.26.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/jsonschema-specifications@2025.9.1",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://jsonschema-specifications.readthedocs.io/"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema-specifications"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema-specifications/issues/"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/Julian"
+        },
+        {
+          "comment": "Tidelift",
+          "type": "website",
+          "url": "https://tidelift.com/subscription/pkg/pypi-jsonschema-specifications?utm_source=pypi-jsonschema-specifications&utm_medium=referral&utm_campaign=pypi-link"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/jsonschema-specifications"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "jsonschema-specifications",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "jsonschema_specifications-2025.9.1-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/jsonschema-specifications@2025.9.1",
+      "type": "library",
+      "version": "2025.9.1"
+    },
+    {
+      "bom-ref": "pkg:pypi/mcp@2.3.0",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://modelcontextprotocol.io"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://py.sdk.modelcontextprotocol.io/"
+        },
+        {
+          "comment": "Repository",
+          "type": "website",
+          "url": "https://github.com/modelcontextprotocol/python-sdk"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "dd0c44c089d16453e8ae31a3877a0054d7a2314caaa81f5e0541b9b1734b2377"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "mcp",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "mcp-2.3.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/mcp@2.3.0",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/mcp-types@2.3.0",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://modelcontextprotocol.io"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://py.sdk.modelcontextprotocol.io/"
+        },
+        {
+          "comment": "Repository",
+          "type": "website",
+          "url": "https://github.com/modelcontextprotocol/python-sdk"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/modelcontextprotocol/python-sdk/issues"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "968efdbdaedfab06adae40d378a34395f1090c5921d4be3c9cde283aaf76d91d"
+        }
+      ],
+      "licenses": [
+        {
+          "license": {
+            "name": "MIT"
+          }
+        }
+      ],
+      "name": "mcp-types",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "mcp_types-2.3.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/mcp-types@2.3.0",
+      "type": "library",
+      "version": "2.3.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/opentelemetry-api@1.45.2",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/open-telemetry/opentelemetry-python/tree/main/opentelemetry-api"
+        },
+        {
+          "comment": "Repository",
+          "type": "website",
+          "url": "https://github.com/open-telemetry/opentelemetry-python"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "2cbd737377e710ee740d261c94e93fa0f08e6d037c18f17513cc0a2d94479a34"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "Apache-2.0"
+        }
+      ],
+      "name": "opentelemetry-api",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "opentelemetry_api-1.45.2-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/opentelemetry-api@1.45.2",
+      "type": "library",
+      "version": "1.45.2"
+    },
+    {
+      "bom-ref": "pkg:pypi/pycparser@3.12",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/eliben/pycparser"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "a076f3f489b39b43ed13563a1dafe42447445bec2e294154ec5c57fcdda4c85e"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "pycparser",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "pycparser-3.12-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/pycparser@3.12",
+      "type": "library",
+      "version": "3.12"
+    },
+    {
+      "bom-ref": "pkg:pypi/pydantic@2.14.4",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://pydantic.dev/docs/validation/latest/get-started/"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/samuelcolvin"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://pydantic.dev/docs/validation/latest/get-started/changelog/"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "653a2ad9f6d8858529c77c72717d0ea991d6c6837fe683246b2f4b2bbfc3fadc"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "pydantic",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "pydantic-2.14.4-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/pydantic@2.14.4",
+      "type": "library",
+      "version": "2.14.4"
+    },
+    {
+      "bom-ref": "pkg:pypi/pydantic-core@2.50.5",
+      "externalReferences": [
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/samuelcolvin"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic/tree/main/pydantic-core"
+        },
+        {
+          "comment": "Home-page",
+          "type": "website",
+          "url": "https://github.com/pydantic/pydantic"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "40d5da89a632e6c6c938f93fdf54c534882d258a80f51ccfe1650cdedc12e82c"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "pydantic_core",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "pydantic_core-2.50.5-cp311-cp311-macosx_11_0_arm64.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/pydantic-core@2.50.5",
+      "type": "library",
+      "version": "2.50.5"
+    },
+    {
+      "bom-ref": "pkg:pypi/pyjwt@2.15.1",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/jpadilla/pyjwt"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "42d59d631f7768a1028a64c7ff581a9bf7519804daf91fc5b6c56e30eec5e193"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "PyJWT",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "pyjwt-2.15.1-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/pyjwt@2.15.1",
+      "type": "library",
+      "version": "2.15.1"
+    },
+    {
+      "bom-ref": "pkg:pypi/python-multipart@0.0.34",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/Kludex/python-multipart"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://kludex.github.io/python-multipart/"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/Kludex/python-multipart/blob/master/CHANGELOG.md"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/Kludex/python-multipart"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "ebacd224bd686eee2f9aa1066a657affe07435a185834e05e5235e2e59173e91"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "Apache-2.0"
+        }
+      ],
+      "name": "python-multipart",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "python_multipart-0.0.34-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "Apache-2.0"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/python-multipart@0.0.34",
+      "type": "library",
+      "version": "0.0.34"
+    },
+    {
+      "bom-ref": "pkg:pypi/referencing@0.37.0",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://referencing.readthedocs.io/"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/referencing"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/referencing/issues/"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/Julian"
+        },
+        {
+          "comment": "Tidelift",
+          "type": "website",
+          "url": "https://tidelift.com/subscription/pkg/pypi-referencing?utm_source=pypi-referencing&utm_medium=referral&utm_campaign=pypi-link"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://referencing.readthedocs.io/en/stable/changes/"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/python-jsonschema/referencing"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "referencing",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "referencing-0.37.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/referencing@0.37.0",
+      "type": "library",
+      "version": "0.37.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/rpds-py@2026.9.1",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://rpds.readthedocs.io/"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/Julian"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/crate-py/rpds"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/crate-py/rpds/issues/"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/crate-py/rpds"
+        },
+        {
+          "comment": "Tidelift",
+          "type": "website",
+          "url": "https://tidelift.com/subscription/pkg/pypi-rpds-py?utm_source=pypi-rpds-py&utm_medium=referral&utm_campaign=pypi-link"
+        },
+        {
+          "comment": "Upstream",
+          "type": "website",
+          "url": "https://github.com/orium/rpds"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "3231c4c0e521dafa5be0c9f114ee2c2ad46650836f2d72caa86801950c3e7044"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "rpds-py",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "rpds_py-2026.9.1-cp311-cp311-macosx_11_0_arm64.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/rpds-py@2026.9.1",
+      "type": "library",
+      "version": "2026.9.1"
+    },
+    {
+      "bom-ref": "pkg:pypi/sse-starlette@3.7.0",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/sysid/sse-starlette"
+        },
+        {
+          "comment": "Repository",
+          "type": "website",
+          "url": "https://github.com/sysid/sse-starlette"
+        },
+        {
+          "comment": "Issues",
+          "type": "website",
+          "url": "https://github.com/sysid/sse-starlette/issues"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/sysid/sse-starlette"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "f1d3136caa12d129284fca3d2ded79bc9af943320b6472712955fea52a6d3eea"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "sse-starlette",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "sse_starlette-3.7.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/sse-starlette@3.7.0",
+      "type": "library",
+      "version": "3.7.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/starlette@1.10.0",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/Kludex/starlette"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://starlette.dev/"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://starlette.dev/release-notes/"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/Kludex"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/Kludex/starlette"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "478c0ab3b4ced6e82719849c118fa406f0278a3499c1a898cd15cd31bdc38ce4"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "starlette",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "starlette-1.10.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/starlette@1.10.0",
+      "type": "library",
+      "version": "1.10.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/truststore@0.10.5",
+      "externalReferences": [
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://truststore.readthedocs.io"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/sethmlarson/truststore"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "9aaaedaefaf06d8b206278cf8b5012bc897f485a874503501e12d776df78951c"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "truststore",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "truststore-0.10.5-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/truststore@0.10.5",
+      "type": "library",
+      "version": "0.10.5"
+    },
+    {
+      "bom-ref": "pkg:pypi/typing-extensions@4.16.0",
+      "externalReferences": [
+        {
+          "comment": "Bug Tracker",
+          "type": "website",
+          "url": "https://github.com/python/typing_extensions/issues"
+        },
+        {
+          "comment": "Changes",
+          "type": "website",
+          "url": "https://github.com/python/typing_extensions/blob/main/CHANGELOG.md"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://typing-extensions.readthedocs.io/"
+        },
+        {
+          "comment": "Home",
+          "type": "website",
+          "url": "https://github.com/python/typing_extensions"
+        },
+        {
+          "comment": "Q & A",
+          "type": "website",
+          "url": "https://github.com/python/typing/discussions"
+        },
+        {
+          "comment": "Repository",
+          "type": "website",
+          "url": "https://github.com/python/typing_extensions"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "PSF-2.0"
+        }
+      ],
+      "name": "typing_extensions",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "typing_extensions-4.16.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "PSF-2.0"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/typing-extensions@4.16.0",
+      "type": "library",
+      "version": "4.16.0"
+    },
+    {
+      "bom-ref": "pkg:pypi/typing-inspection@0.4.5",
+      "externalReferences": [
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://github.com/pydantic/typing-inspection"
+        },
+        {
+          "comment": "Documentation",
+          "type": "website",
+          "url": "https://pydantic.github.io/typing-inspection/dev/"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/pydantic/typing-inspection"
+        },
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://github.com/pydantic/typing-inspection/blob/main/HISTORY.md"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "bc210535442b39e1bf2805e0c7a17dfd6a4ace760c84c7f7d16245d23a6b1c39"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "name": "typing-inspection",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "typing_inspection-0.4.5-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "MIT"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/typing-inspection@0.4.5",
+      "type": "library",
+      "version": "0.4.5"
+    },
+    {
+      "bom-ref": "pkg:pypi/uvicorn@0.54.0",
+      "externalReferences": [
+        {
+          "comment": "Changelog",
+          "type": "website",
+          "url": "https://uvicorn.dev/release-notes"
+        },
+        {
+          "comment": "Funding",
+          "type": "website",
+          "url": "https://github.com/sponsors/Kludex"
+        },
+        {
+          "comment": "Homepage",
+          "type": "website",
+          "url": "https://uvicorn.dev/"
+        },
+        {
+          "comment": "Source",
+          "type": "website",
+          "url": "https://github.com/Kludex/uvicorn"
+        }
+      ],
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf"
+        }
+      ],
+      "licenses": [
+        {
+          "expression": "BSD-3-Clause"
+        }
+      ],
+      "name": "uvicorn",
+      "properties": [
+        {
+          "name": "golden:wheel",
+          "value": "uvicorn-0.54.0-py3-none-any.whl"
+        },
+        {
+          "name": "golden:license_metadata",
+          "value": "BSD-3-Clause"
+        },
+        {
+          "name": "golden:bundled_license_file_count",
+          "value": "1"
+        }
+      ],
+      "purl": "pkg:pypi/uvicorn@0.54.0",
+      "type": "library",
+      "version": "0.54.0"
+    }
+  ],
+  "dependencies": [
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/annotated-types@0.8.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/idna@3.20",
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/anyio@4.16.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/attrs@26.1.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/pycparser@3.12"
+      ],
+      "ref": "pkg:pypi/cffi@2.1.1"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/click@8.5.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/cffi@2.1.1"
+      ],
+      "ref": "pkg:pypi/cryptography@50.0.2"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/h11@0.16.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/h11@0.16.0",
+        "pkg:pypi/truststore@0.10.5"
+      ],
+      "ref": "pkg:pypi/httpcore2@2.16.2"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/anyio@4.16.0",
+        "pkg:pypi/httpcore2@2.16.2",
+        "pkg:pypi/idna@3.20",
+        "pkg:pypi/truststore@0.10.5",
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/httpx2@2.16.2"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/idna@3.20"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/attrs@26.1.0",
+        "pkg:pypi/jsonschema-specifications@2025.9.1",
+        "pkg:pypi/referencing@0.37.0",
+        "pkg:pypi/rpds-py@2026.9.1"
+      ],
+      "ref": "pkg:pypi/jsonschema@4.26.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/referencing@0.37.0"
+      ],
+      "ref": "pkg:pypi/jsonschema-specifications@2025.9.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/anyio@4.16.0",
+        "pkg:pypi/httpx2@2.16.2",
+        "pkg:pypi/jsonschema@4.26.0",
+        "pkg:pypi/mcp-types@2.3.0",
+        "pkg:pypi/opentelemetry-api@1.45.2",
+        "pkg:pypi/pydantic@2.14.4",
+        "pkg:pypi/pyjwt@2.15.1",
+        "pkg:pypi/python-multipart@0.0.34",
+        "pkg:pypi/sse-starlette@3.7.0",
+        "pkg:pypi/starlette@1.10.0",
+        "pkg:pypi/typing-extensions@4.16.0",
+        "pkg:pypi/typing-inspection@0.4.5",
+        "pkg:pypi/uvicorn@0.54.0"
+      ],
+      "ref": "pkg:pypi/mcp@2.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/pydantic@2.14.4",
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/mcp-types@2.3.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/opentelemetry-api@1.45.2"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/pycparser@3.12"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/annotated-types@0.8.0",
+        "pkg:pypi/pydantic-core@2.50.5",
+        "pkg:pypi/typing-extensions@4.16.0",
+        "pkg:pypi/typing-inspection@0.4.5"
+      ],
+      "ref": "pkg:pypi/pydantic@2.14.4"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/pydantic-core@2.50.5"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/cryptography@50.0.2"
+      ],
+      "ref": "pkg:pypi/pyjwt@2.15.1"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/python-multipart@0.0.34"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/attrs@26.1.0",
+        "pkg:pypi/rpds-py@2026.9.1",
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/referencing@0.37.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/rpds-py@2026.9.1"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/anyio@4.16.0",
+        "pkg:pypi/starlette@1.10.0"
+      ],
+      "ref": "pkg:pypi/sse-starlette@3.7.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/anyio@4.16.0",
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/starlette@1.10.0"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/truststore@0.10.5"
+    },
+    {
+      "dependsOn": [],
+      "ref": "pkg:pypi/typing-extensions@4.16.0"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/typing-extensions@4.16.0"
+      ],
+      "ref": "pkg:pypi/typing-inspection@0.4.5"
+    },
+    {
+      "dependsOn": [
+        "pkg:pypi/click@8.5.1",
+        "pkg:pypi/h11@0.16.0"
+      ],
+      "ref": "pkg:pypi/uvicorn@0.54.0"
+    }
+  ],
+  "metadata": {
+    "component": {
+      "name": "golden-mcp-sdk-candidate",
+      "type": "application",
+      "version": "2.3.0"
+    },
+    "tools": [
+      {
+        "name": "Golden MCP candidate bundle helper",
+        "vendor": "Golden Agentic Engineering",
+        "version": "1.0"
+      }
+    ]
+  },
+  "specVersion": "1.5",
+  "version": 1
+}

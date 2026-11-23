@@ -1,4 +1,4 @@
-"""Rebuild the bundle twice from a clean detached Git worktree and compare it."""
+"""Rebuild the exact committed source twice in separate clean worktrees."""
 import hashlib
 import json
 import subprocess
@@ -27,31 +27,30 @@ def main():
         raise SystemExit(revision.stderr)
     source_commit = revision.stdout.strip()
 
-    local_build = run([sys.executable, BUILDER])
-    if local_build.returncode:
-        raise SystemExit(local_build.stderr)
     workspace_archive = ROOT / ARCHIVE_NAME
     workspace_manifest = (ROOT / MANIFEST_NAME).read_bytes()
     workspace_checksum = (ROOT / CHECKSUM_NAME).read_text(encoding="utf-8").strip()
 
     hashes = []
     manifests = []
+    checksums = []
     with tempfile.TemporaryDirectory(prefix="fabintel-p4-clean-build-") as temporary:
-        worktree = Path(temporary) / "source"
-        added = run(["git", "worktree", "add", "--detach", str(worktree), source_commit])
-        if added.returncode:
-            raise SystemExit(added.stderr)
-        try:
-            for _ in range(2):
+        for index in range(2):
+            worktree = Path(temporary) / f"source-{index + 1}"
+            added = run(["git", "worktree", "add", "--detach", str(worktree), source_commit])
+            if added.returncode:
+                raise SystemExit(added.stderr)
+            try:
                 result = run([sys.executable, BUILDER], cwd=worktree)
                 if result.returncode:
                     raise SystemExit(result.stderr)
                 hashes.append(sha256(worktree / ARCHIVE_NAME))
                 manifests.append((worktree / MANIFEST_NAME).read_bytes())
-        finally:
-            removed = run(["git", "worktree", "remove", "--force", str(worktree)])
-            if removed.returncode:
-                raise SystemExit(removed.stderr)
+                checksums.append((worktree / CHECKSUM_NAME).read_text(encoding="utf-8").strip())
+            finally:
+                removed = run(["git", "worktree", "remove", "--force", str(worktree)])
+                if removed.returncode:
+                    raise SystemExit(removed.stderr)
 
     workspace_hash = sha256(workspace_archive)
     manifest_matches = workspace_manifest == manifests[0] == manifests[1]
@@ -70,7 +69,9 @@ def main():
         "sidecar_matches_workspace_archive": checksum_matches,
         "commands": ["git worktree add --detach <temporary-path> <source-commit>",
                      f"python {BUILDER}"] * 2,
-        "method": "rebuild in a clean detached worktree at the recorded source commit; compare both builds, source manifests, workspace ZIP and checksum sidecar",
+        "source_manifest_hash_by_clean_build": [hashlib.sha256(value).hexdigest() for value in manifests],
+        "sidecar_hash_by_clean_build": checksums,
+        "method": "rebuild in two separate clean detached worktrees at the exact source commit; compare both builds, source manifests, sidecars, workspace ZIP and checksum",
     }
     (ROOT / "release" / "BUILD_REPRODUCIBILITY.json").write_text(
         json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")

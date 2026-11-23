@@ -1,0 +1,41 @@
+{
+  "accessibility_scope": {
+    "formal_wcag": "NOT_RUN",
+    "integrated_host_focus_and_visual_tokens": "NOT_RUN",
+    "labeled_keyboard_focusable_filters": true,
+    "native_semantic_tables": true,
+    "refused_results_hide_positive_claims": true,
+    "screen_reader": "NOT_RUN"
+  },
+  "component_tests": {
+    "diagnostic": null,
+    "return_code": 0,
+    "test_file": "products/p4/ui/P4Panel.test.tsx",
+    "tests_passed": 8
+  },
+  "contract_sha256": {
+    "suite-chart.v1.schema.json": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
+    "suite-ui-module.v1.schema.json": "93a9ecf707065feaf001b13dd3a84d8268ce0b93ec2c196cd856b9f44aa67d52"
+  },
+  "contract_snapshot_match": true,
+  "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
+  "p4_source_sha256": {
+    "products/p4/ui/P4Panel.test.tsx": "97a1e85b6d4074f1859054a5f8f71c72e44a143bce14b5608f2262f7eedb8583",
+    "products/p4/ui/P4Panel.tsx": "9c2c8bba8942f18b3b5ae85eeb96895d13628fdee06d1d3420a440d9dc3767da"
+  },
+  "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
+  "status": "PASS_LOCAL_MODULE_ONLY",
+  "suite_commit": null,
+  "suite_git_metadata": "unavailable in extracted P1 folder",
+  "suite_package_lock_sha256": "3ec0e042f1c6d27328e8147947dc62bed15012bbebeaa2ea6fff0a70ccbf3adc",
+  "suite_root_name": "FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22",
+  "suite_tool_versions": {
+    "react": "^19.2.0",
+    "typescript": "5.9.3",
+    "vitest": "5.1.1"
+  },
+  "typecheck": {
+    "return_code": 0,
+    "status": "PASS"
+  }
+}

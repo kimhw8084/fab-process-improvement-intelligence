@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 from itertools import product
-from math import isfinite, sqrt
+from math import ceil, isfinite, sqrt
+import json
 
 from products.p4.regression import fit_linear_model, _get_field
 
@@ -65,6 +66,82 @@ def _metric_pass(value, definition):
             and (definition.get("max") is None or value <= definition["max"]))
 
 
+def _unit_key(value):
+    return json.dumps({"type": type(value).__name__, "value": value}, sort_keys=True, separators=(",", ":"))
+
+
+def _split_calibration(rows, unit_field, config, minimum_calibration_units):
+    if not isinstance(config, dict):
+        return None, "a declared independent-group calibration holdout is required", None
+    group_field = config.get("group_field")
+    partition_field = config.get("partition_field")
+    training_value = config.get("training_value")
+    calibration_value = config.get("calibration_value")
+    split_reference = config.get("split_reference")
+    if (not isinstance(group_field, str) or group_field != unit_field
+            or not isinstance(partition_field, str) or not partition_field
+            or not isinstance(training_value, str) or not training_value
+            or not isinstance(calibration_value, str) or not calibration_value
+            or not isinstance(split_reference, str) or not split_reference.strip()
+            or training_value == calibration_value):
+        return None, "calibration needs an independent-unit partition and a precommit/split reference", None
+    partitions_by_unit = {}
+    row_partitions = []
+    for row in rows:
+        try:
+            unit = _unit_key(_get_field(row, group_field))
+            partition = _get_field(row, partition_field)
+        except (KeyError, ValueError):
+            return None, "calibration group or partition field is missing", None
+        if partition not in (training_value, calibration_value):
+            return None, "every eligible row must be assigned to the declared training or calibration partition", None
+        partitions_by_unit.setdefault(unit, set()).add(partition)
+        row_partitions.append(partition)
+    if any(len(values) != 1 for values in partitions_by_unit.values()):
+        return None, "an independent unit crosses the training and calibration partitions", None
+    training = [row for row, partition in zip(rows, row_partitions) if partition == training_value]
+    calibration = [row for row, partition in zip(rows, row_partitions) if partition == calibration_value]
+    training_units = {_unit_key(_get_field(row, group_field)) for row in training}
+    calibration_units = {_unit_key(_get_field(row, group_field)) for row in calibration}
+    if training_units & calibration_units:
+        return None, "training and calibration units overlap", None
+    if len(calibration_units) < minimum_calibration_units:
+        return None, f"at least {minimum_calibration_units} independent calibration units are required for a finite 95% bound", None
+    return (training, calibration,
+            {"group_field": group_field, "partition_field": partition_field,
+             "training_value": training_value, "calibration_value": calibration_value,
+             "split_reference": split_reference,
+             "training_unit_count": len(training_units), "calibration_unit_count": len(calibration_units),
+             "training_row_count": len(training), "calibration_row_count": len(calibration),
+             "order_statistic_reference": 0.95,
+             "coverage_guarantee": "none; local selection does not establish conditional coverage",
+             "method": "local_grouped_holdout_absolute_error"})
+
+
+def _fit_grouped_calibration(training, calibration, factor_defs, metric, options, fixed_effects, group_field, cancel):
+    report, model = fit_linear_model(training, factor_defs, metric, options, cancel=cancel)
+    if model is None or report.get("status") != "VALID":
+        return report, model, None
+    residuals = {}
+    for row in calibration:
+        _check_cancel(cancel)
+        prediction = model.predict(row["factors"], fixed_effects)
+        if not isinstance(prediction.get("estimate"), (int, float)) or not isfinite(prediction["estimate"]):
+            return {"status": "INCONCLUSIVE", "reason": "calibration prediction is unavailable"}, None, None
+        group = _unit_key(_get_field(row, group_field))
+        error = abs(float(row["metrics"][metric]) - prediction["estimate"])
+        residuals.setdefault(group, []).append({"row": row, "absolute_error": error})
+    return report, model, residuals
+
+
+def _finite_rank_quantile(scores, coverage=0.95):
+    ordered = sorted(scores)
+    rank = ceil((len(ordered) + 1) * coverage)
+    if not ordered or rank > len(ordered):
+        return None
+    return ordered[rank - 1]
+
+
 def _inside_forbidden(factors, regions):
     """Fail closed on malformed exclusions; bounds are inclusive."""
     if not isinstance(regions, list):
@@ -91,8 +168,9 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
 
     One- and two-dimensional grids are classified as observed, interpolated,
     extrapolated, unsupported, or forbidden. Only observed/interpolated cells
-    whose full 95% predictive intervals satisfy every specification limit can
-    be proposed as supported candidates. This is still not recipe approval.
+    whose local, grouped-holdout empirical intervals satisfy every specification
+    limit can be proposed as supported candidates. A finite 95% order-statistic
+    rank is not a conditional-coverage guarantee or recipe approval.
     """
     spec = data.get("window_exploration", {})
     if not isinstance(spec, dict):
@@ -177,27 +255,40 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         raise WindowError("min_support_points must be an integer of at least 2")
     if not isinstance(radius, (int, float)) or isinstance(radius, bool) or not 0 < radius <= 2:
         raise WindowError("max_support_radius must be in (0, 2]")
+    calibration_config = spec.get("calibration")
+    if not isinstance(calibration_config, dict):
+        return {"status": "INCONCLUSIVE", "reason": "a grouped held-out calibration split is required for D02 uncertainty",
+                "grid": [], "candidate_cells": []}
+    minimum_calibration_units = calibration_config.get("minimum_calibration_units", 19)
+    if (not isinstance(minimum_calibration_units, int) or isinstance(minimum_calibration_units, bool)
+            or minimum_calibration_units < 19):
+        raise WindowError("minimum_calibration_units must be at least 19 for a finite 95% order-statistic rank")
 
     # Any controllable omitted from the response model must be held exactly at
     # its declared setting; otherwise its uncontrolled effect could be
     # mistaken for the explored response surface.
     omitted_controls = [name for name in controllable if name not in model_factors and name not in selected]
-    matching_rows = []
+    eligible_rows = []
     for row in rows:
         _check_cancel(cancel)
         try:
             if (all(_get_field(row, field) == fixed_effects[field] for field in category_fields)
                     and all(row["factors"].get(name) == fixed_settings[name] for name in omitted_controls)):
                 _ = _get_field(row, unit_field)
-                matching_rows.append(row)
+                eligible_rows.append(row)
         except (KeyError, ValueError):
             continue
-    if len({str(_get_field(row, unit_field)) for row in matching_rows}) < minimum_units:
+    matching_rows, calibration_rows, calibration_report = _split_calibration(
+        eligible_rows, unit_field, calibration_config, minimum_calibration_units)
+    if matching_rows is None:
+        return {"status": "INCONCLUSIVE", "reason": calibration_rows, "grid": [], "candidate_cells": []}
+    training_unit_count = len({_unit_key(_get_field(row, unit_field)) for row in matching_rows})
+    if training_unit_count < minimum_units:
         return {"status": "INCONCLUSIVE", "reason": "the selected population has fewer than the required independent units",
-                "independent_unit_field": unit_field, "independent_units": len({str(_get_field(row, unit_field)) for row in matching_rows}),
+                "independent_unit_field": unit_field, "independent_units": training_unit_count,
                 "minimum_independent_units": minimum_units, "grid": [], "candidate_cells": []}
 
-    unit_values = [str(_get_field(row, unit_field)) for row in matching_rows]
+    unit_values = [_unit_key(_get_field(row, unit_field)) for row in matching_rows]
     repeated_units = len(set(unit_values)) < len(unit_values)
     covariance_type = options.get("covariance", "HC3")
     cluster_field = options.get("cluster_field")
@@ -228,12 +319,15 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                 "grid": [], "candidate_cells": []}
     fitted = {}
     fit_reports = {}
+    calibration_scores = {}
+    calibration_report["minimum_local_calibration_units"] = minimum_calibration_units
     for metric in constrained:
         _check_cancel(cancel)
         # Estimate the surface in the exact selected fixed-effect population.
         # This avoids borrowing slope information from unrelated products or
         # chambers unless the engineer explicitly defines a broader analysis.
-        fit_reports[metric], fitted[metric] = fit_linear_model(matching_rows, factor_defs, metric, options, cancel=cancel)
+        fit_reports[metric], fitted[metric], calibration_scores[metric] = _fit_grouped_calibration(
+            matching_rows, calibration_rows, factor_defs, metric, options, fixed_effects, unit_field, cancel)
         if fitted[metric] is None or fit_reports[metric].get("status") != "VALID":
             return {"status": "INCONCLUSIVE", "reason": f"uncertainty for constrained metric {metric} is not estimable",
                     "model_diagnostics": fit_reports, "grid": [], "candidate_cells": []}
@@ -259,6 +353,7 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
     norm_rows = []
     for row in matching_rows:
         norm_rows.append((row, normalized_model_point(row["factors"])))
+    norm_calibration_rows = [(row, normalized_model_point(row["factors"])) for row in calibration_rows]
     for values in product(*axes):
         _check_cancel(cancel)
         settings = dict(fixed_settings)
@@ -278,7 +373,12 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         nearest = distances[0][0] if distances else None
         near_rows = [row for distance, _index, row in distances if distance <= radius]
         near_settings = {tuple(row["factors"][name] for name in selected) for row in near_rows}
-        local_units = {str(_get_field(row, unit_field)) for row in near_rows}
+        local_units = {_unit_key(_get_field(row, unit_field)) for row in near_rows}
+        near_calibration_rows = [row for row, point in norm_calibration_rows
+                                 if sqrt(sum((a-b)**2 for a, b in zip(target, point))) <= radius]
+        near_calibration_settings = {tuple(row["factors"][name] for name in selected)
+                                     for row in near_calibration_rows}
+        local_calibration_units = {_unit_key(_get_field(row, unit_field)) for row in near_calibration_rows}
         if exact_rows:
             region_class = "observed"
         elif not is_supported_hull:
@@ -296,6 +396,29 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         for metric, definition in constrained.items():
             if region_class in ("observed", "interpolated", "extrapolated"):
                 prediction = fitted[metric].predict(settings, fixed_effects)
+                estimate = prediction.get("estimate")
+                local_scores = []
+                for group, heldout_rows in calibration_scores[metric].items():
+                    group_errors = [item["absolute_error"] for item in heldout_rows
+                                    if sqrt(sum((a-b)**2 for a, b in zip(
+                                        target, normalized_model_point(item["row"]["factors"])))) <= radius]
+                    if group_errors:
+                        local_scores.append(max(group_errors))
+                quantile = (_finite_rank_quantile(local_scores)
+                            if len(local_scores) >= minimum_calibration_units else None)
+                if isinstance(estimate, (int, float)) and isfinite(estimate) and quantile is not None:
+                    prediction["model_predictive_interval95"] = prediction.get("predictive_interval95")
+                    prediction["predictive_interval95"] = [estimate-quantile, estimate+quantile]
+                    prediction["calibration_status"] = "LOCAL_GROUP_HOLDOUT_EMPIRICAL"
+                    prediction["calibration_method"] = (
+                        "local group-maximum absolute holdout error; 95% order-statistic rank; "
+                        "no distribution-free conditional coverage guarantee")
+                    prediction["calibration_units"] = len(local_scores)
+                    prediction["calibration_quantile95_absolute_error"] = quantile
+                else:
+                    prediction["predictive_interval95"] = None
+                    prediction["calibration_status"] = "INSUFFICIENT_LOCAL_HOLDOUT_SUPPORT"
+                    prediction["calibration_units"] = len(local_scores)
             else:
                 prediction = {"status": "NOT_PREDICTED"}
             predictions[metric] = prediction
@@ -310,7 +433,10 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                      and (region_class != "observed" or observed_replicates_pass))
         cell = {"factors": settings, "region_class": region_class,
                 "support": {"nearest_normalized_distance": nearest, "nearby_distinct_settings": len(near_settings),
-                            "nearby_independent_units": len(local_units), "independent_unit_field": unit_field},
+                            "nearby_independent_units": len(local_units), "independent_unit_field": unit_field,
+                            "nearby_calibration_settings": len(near_calibration_settings),
+                            "nearby_calibration_units": len(local_calibration_units),
+                            "minimum_calibration_units": minimum_calibration_units},
                 "predictions": predictions, "conservative_feasible": conservative_feasible,
                 "supported_candidate": candidate}
         grid.append(cell)
@@ -319,16 +445,19 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
     counts = {name: sum(cell["region_class"] == name for cell in grid)
               for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")}
     return {"status": "VALID" if candidates else "INCONCLUSIVE",
-            "method": "supported_grid_response_surface_with_cluster_or_HC3_uncertainty",
+            "method": "supported_grid_response_surface_with_local_grouped_holdout_calibration",
             "explored_factors": selected, "approved_factor_bounds": bounds,
             "fixed_settings": fixed_settings, "fixed_effects": fixed_effects,
             "independent_unit_field": unit_field, "minimum_independent_units": minimum_units,
             "omitted_controls_held_at_fixed_setting": omitted_controls,
             "repeated_unit_handling": "clustered on declared independent unit" if repeated_units else "one row per independent unit",
+            "calibration": calibration_report,
             "grid_shape": [len(axis) for axis in axes], "region_counts": counts,
             "model_diagnostics": fit_reports, "convex_hull_normalized": hull,
             "extrapolation_within_approved_bounds_present": extrapolation_present,
             "candidate_count": len(candidates), "candidate_cells": candidates,
             "grid": grid,
-            "uncertainty_rule": "all two-sided 95% predictive intervals must satisfy every explicit metric limit",
+            "uncertainty_rule": (
+                "all local group-held-out empirical intervals using a 95% order-statistic rank "
+                "must satisfy every explicit metric limit; this does not guarantee conditional coverage"),
             "qualification": "supported statistical exploration only; candidates are not recipes or production approval"}

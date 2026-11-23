@@ -42,7 +42,7 @@ def main():
     catalog = commands.add_parser("catalog", help="generate a deterministic synthetic 13,000-table catalog")
     catalog.add_argument("--tables", type=int, default=13000)
     catalog.add_argument("--output", default="")
-    web = commands.add_parser("serve", help="serve the offline engineer UI on loopback only")
+    web = commands.add_parser("serve", help="start the synthetic headless API fixture on loopback only")
     web.add_argument("--port", type=int, default=8765)
     mcp_test = commands.add_parser("mcp-test", help="exercise configured MCP transports only against an explicit synthetic test config")
     mcp_test.add_argument("--config", default=str(BASE / "requirements" / "synthetic-mcp-mapping.v1.json"))
@@ -56,8 +56,12 @@ def main():
 
     if args.command == "doctor":
         obj = {"state": "CANDIDATE", "external_transfer_ready": False, "internal_state": "PENDING_INTERNAL",
-               "product_id": "p4", "engine_version": "1.1.0", "dependencies": "Python standard library only",
-               "network": "none in CLI; UI binds to 127.0.0.1", "note": "See release/GATE_REPORT.json for evidence and remaining gates."}
+               "product_id": "p4", "engine_version": "1.1.0",
+               "dependencies": {"scientific_core": "Python standard library only",
+                                "mcp_adapter": "optional pinned SDK extra; macOS ARM64 CPython 3.11 candidate only",
+                                "ui": "P1-owned React host peer; no P4 shell or chart runtime"},
+               "network": "none in core CLI; synthetic test API is loopback-only",
+               "note": "See release/GATE_REPORT.json for evidence and remaining gates."}
     elif args.command == "preflight":
         obj = preflight_report()
         if args.report:

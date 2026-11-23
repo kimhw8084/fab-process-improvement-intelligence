@@ -38,6 +38,7 @@ def archive_qualification_pass(evaluated_commit):
         sidecar = (release / "TRANSFER_BUNDLE.sha256").read_text(encoding="utf-8").strip()
         reproducibility = json.loads((release / "BUILD_REPRODUCIBILITY.json").read_text(encoding="utf-8"))
         offline = json.loads((release / "OFFLINE_QUALIFICATION.json").read_text(encoding="utf-8"))
+        source_build = json.loads((release / "SOURCE_BUILD.json").read_text(encoding="utf-8"))
         manifest = {}
         for line in (release / "SOURCE_MANIFEST.sha256").read_text(encoding="utf-8").splitlines():
             if line.strip():
@@ -50,6 +51,9 @@ def archive_qualification_pass(evaluated_commit):
         return False
     return (manifest == workspace
             and sidecar == f"{digest}  {archive.name}"
+            and source_build.get("source_commit") == evaluated_commit
+            and source_build.get("source_file_count") == len(manifest)
+            and source_build.get("source_manifest_sha256") == hashlib.sha256((release / "SOURCE_MANIFEST.sha256").read_bytes()).hexdigest()
             and reproducibility.get("status") == "PASS"
             and reproducibility.get("source_commit") == evaluated_commit
             and all(value == digest for value in reproducibility.get("sha256_by_clean_build", []))
@@ -91,10 +95,25 @@ def main():
         dossier = evidence["artifacts"][0]
         complete = all(name in dossier for name in ("D01_sensitivity", "D02_observed_process_window", "D02_robust_observed_region",
                                                       "D03_tradeoffs", "D04_experiment_proposal", "D05_effectiveness"))
+        supported_window = dossier.get("D02_supported_region", {})
+        calibration = supported_window.get("calibration", {})
+        d02_ok = (supported_window.get("status") == "VALID"
+                  and supported_window.get("candidate_count", 0) > 0
+                  and calibration.get("calibration_unit_count", 0) >= 19
+                  and calibration.get("coverage_guarantee", "").startswith("none;"))
         demo_result.update({"status": "PASS" if evidence["status"] == "VALID" and complete else "FAIL",
                             "result_status": evidence["status"], "mode": evidence["mode"],
                             "capabilities": ["D01", "D02", "D03", "D04", "D05"] if complete else [],
+                            "D02_empirical_calibration": {"status": supported_window.get("status"),
+                                "candidate_count": supported_window.get("candidate_count"),
+                                "grid_cells": len(supported_window.get("grid", [])),
+                                "training_units": calibration.get("training_unit_count"),
+                                "calibration_units": calibration.get("calibration_unit_count"),
+                                "coverage_guarantee": calibration.get("coverage_guarantee"),
+                                "qualification": "PASS" if d02_ok else "FAIL"},
                             "evidence": "release/full_workflow_demo_evidence.json"})
+        if evidence["status"] != "VALID" or not complete or not d02_ok:
+            demo_result["status"] = "FAIL"
 
     schema_run, schema_log = run([sys.executable, "qualification/schema_check.py"])
     schema_path = ROOT / "release" / "SCHEMA_VALIDATION.json"
@@ -115,6 +134,12 @@ def main():
     except json.JSONDecodeError:
         mcp_result = {"status": "FAIL", "error": "synthetic MCP CLI output was not JSON"}
     mcp_pass = mcp.returncode == 0 and mcp_result.get("status") == "SYNTHETIC_TRANSPORT_PASS"
+    sdk_path = ROOT / "release" / "MCP_SDK_QUALIFICATION.json"
+    sdk_report = json.loads(sdk_path.read_text(encoding="utf-8")) if sdk_path.exists() else {}
+    mcp_sdk_pass = (sdk_report.get("status") == "PASS_LOCAL_SYNTHETIC_MOCK_ONLY"
+                    and sdk_report.get("installed_mcp_version") == "2.3.0"
+                    and sdk_report.get("protocol_tests_run") == 7
+                    and sdk_report.get("network_used") is False)
 
     benchmark_path = ROOT / "release" / "D04_OSS_COMPARISON.json"
     benchmark = json.loads(benchmark_path.read_text(encoding="utf-8")) if benchmark_path.exists() else {}
@@ -143,15 +168,15 @@ def main():
     product_paths_unchanged = not any(path.startswith(("fabintel/", "ui/", "products/", "contracts/",
                                                        "tests/", "fixtures/", "requirements/"))
                                       for path in changed_since_performance)
-    workflow_perf = performance.get("result_checks", {}).get("integrated_full_workflow_demo_540_rows", {})
+    workflow_perf = performance.get("result_checks", {}).get("integrated_full_workflow_demo_900_rows", {})
     scaling = performance.get("result_checks", {})
     performance_pass = (
-        performance.get("benchmark_version") == "2.0.0"
+        performance.get("benchmark_version") == "3.0.0"
         and source_is_ancestor
         and product_paths_unchanged
         and workflow_perf.get("status") == "VALID"
-        and workflow_perf.get("observations") == 540
-        and workflow_perf.get("independent_lots") == 60
+        and workflow_perf.get("observations") == 900
+        and workflow_perf.get("independent_lots") == 100
         and all(scaling.get(f"single_metric_sensitivity_{n}_rows", {}).get("D01_status") == "VALID"
                 for n in (18, 1000, 5000))
         and performance.get("oss_reference", {}).get("version") == "0.15.0"
@@ -167,19 +192,29 @@ def main():
                           "maximum_statsmodels_ols_coefficient_difference": performance.get("oss_reference", {}).get("maximum_absolute_coefficient_difference")}
     audit_path = ROOT / "release" / "DEPENDENCY_AUDIT.json"
     dependency_audit = json.loads(audit_path.read_text(encoding="utf-8")) if audit_path.exists() else {}
-    dependency_audit_pass = dependency_audit.get("result") == "PASS" and dependency_audit.get("vulnerabilities_found") == 0
+    dependency_audit_pass = (
+        dependency_audit.get("result") == "PASS"
+        and dependency_audit.get("vulnerabilities_found") == 0
+        and dependency_audit.get("dependency_instance_count", 0) >= 40
+        and {item.get("scope") for item in dependency_audit.get("scope_results", [])}
+        == {"qualification", "optional_mcp_sdk_macos_arm64_cp311"}
+    )
     dependency_audit_result = {"status": "PASS" if dependency_audit_pass else "FAIL",
                                "evidence": "release/DEPENDENCY_AUDIT.json",
                                "scope": "optional benchmark dependency tree; product runtime has no third-party Python packages",
                                "vulnerabilities_found": dependency_audit.get("vulnerabilities_found")}
 
-    contrast_run, contrast_log = run([sys.executable, "qualification/accessibility_contrast_check.py"])
-    contrast_report = json.loads((ROOT / "release" / "UI_CONTRAST_CHECK.json").read_text(encoding="utf-8"))
-    contrast_pass = contrast_run.returncode == 0 and contrast_report.get("status") == "PASS"
-    contrast_result = {"status": "PASS" if contrast_pass else "FAIL",
-                       "evidence": "release/UI_CONTRAST_CHECK.json",
-                       "pairs_checked": contrast_report.get("pairs_checked"),
-                       "scope": contrast_report.get("scope")}
+    ui_path = ROOT / "release" / "UI_COMPONENT_QUALIFICATION.json"
+    ui_report = json.loads(ui_path.read_text(encoding="utf-8")) if ui_path.exists() else {}
+    ui_component_pass = (ui_report.get("status") == "PASS_LOCAL_MODULE_ONLY"
+                         and ui_report.get("component_tests", {}).get("tests_passed") == 8
+                         and ui_report.get("typecheck", {}).get("status") == "PASS"
+                         and ui_report.get("contract_snapshot_match") is True)
+    ui_result = {"status": "PASS_LOCAL_MODULE_ONLY" if ui_component_pass else "NOT_RUN_OR_FAIL",
+                 "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
+                 "component_tests": ui_report.get("component_tests", {}).get("tests_passed"),
+                 "typecheck": ui_report.get("typecheck", {}).get("status"),
+                 "host_integration": ui_report.get("integration_status", "NOT_RUN")}
 
     security_path = ROOT / "release" / "SOURCE_SECURITY_SCAN.json"
     security_report = json.loads(security_path.read_text(encoding="utf-8")) if security_path.exists() else {}
@@ -191,9 +226,10 @@ def main():
         and security_review.get("limited_scan_result") == "PASS_LIMITED_SCOPE"
         and security_review.get("independent_human_source_review") == "PENDING"
         and security_review.get("license_and_ownership_review") == "PENDING"
-        and security_review.get("finding_count") == len(security_findings) == 8
+        and security_review.get("finding_count") == len(security_findings)
         and security_review.get("high_or_medium_findings") == 0
         and security_review.get("finding_dispositions_cover_all_reported_findings") is True
+        and not security_report.get("errors")
         and all(item.get("issue_severity") == "LOW" and item.get("test_id") in {"B311", "B404", "B603", "B110"}
                 for item in security_findings)
     )
@@ -206,17 +242,22 @@ def main():
                               "independent_human_review": "PENDING"}
 
     qualification_pass = (test_pass and demo_result["status"] == "PASS" and schema_status == "PASS"
-                          and frozen_pass and critical_pass and mcp_pass and d04_pass and performance_pass
-                          and contrast_pass and security_pass)
+                          and frozen_pass and critical_pass and mcp_pass and mcp_sdk_pass
+                          and dependency_audit_pass and d04_pass and performance_pass
+                          and ui_component_pass and security_pass)
     results = {"state": "PASS" if qualification_pass else "FAIL",
                "unit_tests": test_summary, "integrated_demo": demo_result,
                "synthetic_mcp_external_mock": {"status": "PASS" if mcp_pass else "FAIL",
                                                 "evidence": "requirements/synthetic-mcp-mapping.v1.json",
                                                 "result": mcp_result},
+               "mcp_sdk_offline_qualification": {"status": "PASS" if mcp_sdk_pass else "FAIL",
+                                                  "evidence": "release/MCP_SDK_QUALIFICATION.json",
+                                                  "version": sdk_report.get("installed_mcp_version"),
+                                                  "protocol_tests": sdk_report.get("protocol_tests_run")},
                "d04_oss_benchmark": benchmark_result,
                "scientific_performance_benchmark": performance_result,
                "dependency_audit": dependency_audit_result,
-               "ui_accessibility_contrast": contrast_result,
+               "ui_module_qualification": ui_result,
                "source_security_scan": source_security_result,
                "schema_validation": {"status": schema_status, "evidence": "release/SCHEMA_VALIDATION.json"},
                "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
@@ -239,7 +280,7 @@ def main():
         "d04_oss_benchmark": benchmark_result,
         "scientific_performance_benchmark": performance_result,
         "dependency_audit": dependency_audit_result,
-        "ui_accessibility_contrast": contrast_result,
+        "ui_module_qualification": ui_result,
         "source_security_scan": source_security_result,
         "schema_validation": {"status": schema_status, "command_return_code": schema_run.returncode,
                               "evidence": "release/SCHEMA_VALIDATION.json"},
@@ -250,22 +291,23 @@ def main():
             "E03": {"status": "PASS" if critical_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_offline_server.py"], "scope": "unsafe, invalid, leakage, permission, cancellation and host/origin cases"},
             "E04": {"status": "PASS" if frozen_pass and schema_status == "PASS" else "FAIL", "evidence": ["contracts/", "products/p4/investigation.v1.schema.json", "release/SCHEMA_VALIDATION.json"]},
             "E05": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "qualification/internal-capability-report.v1.schema.json"], "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally"},
-            "E06": {"status": "PASS" if mcp_pass else "FAIL", "evidence": ["release/LICENSE_SECURITY_REVIEW.md", "tests/test_mcp_transport.py", "requirements/synthetic-mcp-mapping.v1.json"], "scope": "model-off product; MCP JSON-RPC stdio and Streamable HTTP mapping exercised against synthetic mock; company tool names/permissions/source semantics remain unconfigured"},
-            "E07": {"status": "PENDING_FORMAL_ACCESSIBILITY", "evidence": ["release/UI_BROWSER_ACCEPTANCE.md", "release/UI_ACCESSIBILITY_CHECK.json", "release/UI_CONTRAST_CHECK.json", "qualification/accessibility_contrast_check.py", "tests/test_offline_server.py"], "reason": "local keyboard-only task, accessible table alternatives, focus management and browser accessibility tree passed; 15 curated text/focus contrast pairs passed; screen-reader, complete formal WCAG, and approved-host reviews remain unrun"},
+            "E06": {"status": "PASS" if mcp_pass and mcp_sdk_pass else "FAIL", "evidence": ["release/MCP_SDK_QUALIFICATION.json", "release/LICENSE_SECURITY_REVIEW.md", "tests/test_mcp_transport.py", "requirements/synthetic-mcp-mapping.v1.json", "vendor/mcp-sdk/2.3.0/macos-arm64-cp311/requirements.lock"], "scope": "official MCP SDK hash-locked offline install and stdio/Streamable HTTP protocol tests against a synthetic mock; company tool names/permissions/source semantics remain unconfigured"},
+            "E07": {"status": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY" if ui_component_pass else "NOT_RUN_OR_FAIL", "evidence": ["release/UI_COMPONENT_QUALIFICATION.json", "products/p4/ui/P4Panel.test.tsx", "products/p4/ui/P4Panel.tsx", "qualification/evidence/legacy/UI_BROWSER_ACCEPTANCE.md"], "reason": "headless module tests, shared schema checks, accessible tables, and native keyboard-focus order passed with P1's local React/Vitest toolchain; integrated suite host, formal WCAG, screen reader, full contrast review, and target-host behavior were not run"},
             "E08": {"status": "PENDING_TARGET_OS", "evidence": ["release/NO_NETWORK_QUALIFICATION.md", "qualification/offline_qualify.py"], "reason": "a local-host offline bundle run is recorded separately; the company target OS remains unknown"},
-            "E09": {"status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW", "dependency_audit": "PASS" if dependency_audit_pass else "FAIL", "source_security_scan": source_security_result["status"], "evidence": ["release/SBOM.spdx.json", "release/DEPENDENCY_AUDIT.json", "release/SOURCE_SECURITY_SCAN.json", "release/LICENSE_SECURITY_REVIEW.md"], "reason": "the package-advisory scan is clean and Bandit found no medium/high source findings (eight low tool findings are dispositioned); independent manual/OS security review and owner/legal distribution rights remain unresolved"},
+            "E09": {"status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW", "dependency_audit": "PASS" if dependency_audit_pass else "FAIL", "source_security_scan": source_security_result["status"], "evidence": ["release/SBOM.spdx.json", "release/DEPENDENCY_AUDIT.json", "release/SOURCE_SECURITY_SCAN.json", "release/LICENSE_SECURITY_REVIEW.md"], "reason": "local advisory and source scans are limited-scope evidence; independent manual/OS security review, license interpretation/approval, and owner/legal distribution rights remain unresolved"},
             "E10": {"status": "PASS" if archive_qualification_pass(evaluated_commit) else "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime"} if archive_qualification_pass(evaluated_commit) else {"status": "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "reason": "the exact current archive, clean-source reproducible build and fresh extracted offline runtime must all match"},
             "E11": {"status": "PENDING_ENGINEER_BASELINE", "evidence": ["qualification/BENCHMARK_PLAN.md", "release/BENCHMARK_REPORT.json"], "reason": "synthetic latency is measured; no eligible engineer task-time, review-burden or ROI baseline exists"},
             "E12": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "docs/INTERNAL_COMPANY_FIRST_RUN.md"], "reason": "company MCP, host, policy owner and engineer qualification require authorized site testing"}
         },
-        "internal": {"state": "PENDING_INTERNAL", "unverified": ["real MCP and auth scopes", "source semantics and joins", "company target OS and approved host", "company data pilot", "engineer acceptance", "owner/legal transfer approval", "literal R01-R53 and Golden standard"]},
+        "internal": {"state": "PENDING_INTERNAL", "unverified": ["real MCP and auth scopes", "source semantics and joins", "P1-integrated host and D01-D05 capability contract", "company target OS and approved host", "company data pilot", "engineer acceptance", "owner/legal transfer approval", "literal R01-R53 and Golden standard"]},
         "known_critical_defects": [],
-        "release_blockers": ["no actual authorized MCP connector", "license ownership and distribution rights are not declared", "independent source security review not completed", "company target OS and formal UX/user baselines not supplied"]
+        "release_blockers": ["no actual authorized MCP connector", "P1 suite host and D01-D05 capability contract are unavailable", "license ownership and distribution rights are not declared", "independent source security review not completed", "company target OS and formal UX/user baselines not supplied"]
     }
     path = ROOT / "release" / "GATE_REPORT.json"
     path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(json.dumps({"state": report["state"], "tests": test_summary, "demo": demo_result,
                       "schema_validation": schema_status, "contract_fingerprints": contract_hash,
+                      "ui_module_qualification": ui_result,
                       "evaluated_commit": evaluated_commit,
                       "gate_report": str(path)}, indent=2, sort_keys=True))
     return 0 if results["state"] == "PASS" else 1

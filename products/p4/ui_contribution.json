@@ -1,0 +1,20 @@
+{
+  "contract_version": "suite-ui-module.v1",
+  "product_id": "p4",
+  "route": "/fab-intelligence/p4",
+  "title": "FAB Process Improvement Intelligence",
+  "module": "products/p4/ui/P4Panel.tsx",
+  "module_export": "P4Panel",
+  "capabilities": [],
+  "required_data": ["source_preview", "evidence_envelope"],
+  "evidence_schema_version": "1.0.0",
+  "chart_contract": "suite-chart.v1",
+  "table_renderer": "native semantic HTML table",
+  "status": "HEADLESS_MODULE",
+  "ownership": {
+    "suite_shell": "single-suite-host",
+    "product_module": "product-team",
+    "visualization": "shared-suite-renderer",
+    "semantic_authority": "administrator-governed Fab Insight MCP"
+  }
+}

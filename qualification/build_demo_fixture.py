@@ -8,9 +8,9 @@ ROOT = Path(__file__).resolve().parent.parent
 observations = []
 index = 0
 start = datetime(2026, 1, 1, 12, tzinfo=timezone.utc)
-for lot in range(60):
-    chamber = "SYN-CH-A" if lot < 30 else "SYN-CH-B"
-    chamber_effect = 0.15 if lot < 30 else -0.15
+for lot in range(100):
+    chamber = "SYN-CH-A" if lot < 50 else "SYN-CH-B"
+    chamber_effect = 0.15 if lot < 50 else -0.15
     lot_effect = 0.12*math.sin(lot*0.71)
     for pressure in (1.0, 2.0, 3.0):
         for temperature in (40.0, 45.0, 50.0):
@@ -22,7 +22,8 @@ for lot in range(60):
                             -0.02*chamber_effect+0.025*math.sin(lot*0.31+pressure+temperature))
             observations.append({
                 "id": f"SYN-OBS-{index:04d}", "wafer_id": f"SYN-WAFER-{index:04d}",
-                "lot_id": f"SYN-LOT-{lot+1:02d}", "chamber": chamber,
+                "lot_id": f"SYN-LOT-{lot+1:03d}", "chamber": chamber,
+                "analysis_partition": "CALIBRATION" if lot % 5 < 2 else "TRAIN",
                 "event_ts": (start+timedelta(minutes=index)).isoformat(),
                 "factors": {"pressure": pressure, "temperature": temperature},
                 "metrics": {"yield_index": round(yield_value, 5), "defect_rate": round(defect_value, 5)},
@@ -49,7 +50,11 @@ request = {
     "robustness": {"min_independent_units": 15, "independent_unit_field": "lot_id"},
     "window_exploration": {"factors": ["pressure", "temperature"], "fixed_effects": {"chamber": "SYN-CH-A"},
                            "independent_unit_field": "lot_id", "min_independent_units": 15,
-                           "grid_points": 15, "min_support_points": 3, "max_support_radius": 0.65},
+                           "grid_points": 15, "min_support_points": 3, "max_support_radius": 0.65,
+                           "calibration": {"group_field": "lot_id", "partition_field": "analysis_partition",
+                                           "training_value": "TRAIN", "calibration_value": "CALIBRATION",
+                                           "minimum_calibration_units": 19,
+                                           "split_reference": "SYN-P4-LOT-HOLDOUT-20PCT-INTERLEAVED-001"}},
     "model": {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
               "fixed_effect_fields": ["chamber"], "interactions": True, "quadratic": True},
     "experiment_design": {"strategy": "full_factorial", "run_budget": 8, "replicates": 2,
@@ -78,4 +83,4 @@ request = {
     "observations": observations,
 }
 (ROOT/"fixtures"/"full_workflow_demo.json").write_text(json.dumps(request, indent=2, sort_keys=True)+"\n", encoding="utf-8")
-print(f"Wrote {len(observations)} deterministic clustered synthetic observations.")
+print(f"Wrote {len(observations)} deterministic clustered synthetic observations across 100 lots.")

@@ -1,6 +1,6 @@
 # Concrete engineer experience and acceptance walkthrough — FAB Process Improvement Intelligence
 
-The UI in `ui/index.html` is a *noninteractive bootstrap layout reference*, not the finished app. Build one working product panel in the shared authenticated workspace and qualify the actual approved UI host. No duplicate standalone site without justification.
+P4 contributes a headless React evidence module at `products/p4/ui/P4Panel.tsx` through the P1-owned `suite-ui-module.v1` contract. The suite host owns the route, shell, design tokens, request lifecycle, and shared chart renderer. The old standalone demonstration page is archived under `qualification/evidence/legacy/` and is not served by the product.
 
 ## Minimum user journey
 1. One improvement workspace starts with objective, context, measured vs controllable factors, verified metric units, constraints, and allowed operating domain.

@@ -18,7 +18,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "d16ec28fef00541cbd11b79a5b29b4bf9bf2672e",
+  "evaluated_commit": "65521742de34240f8de03e52d89b87288497c585",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -47,9 +47,10 @@
         "fixtures/p4_independent_oracles.json",
         "qualification/critical_cases.json",
         "release/D04_OSS_COMPARISON.json",
+        "release/BENCHMARK_REPORT.json",
         "release/TEST_RESULTS.json"
       ],
-      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, multiobjective and failed-experiment cases, invalid-assumption refusals, and fixed synthetic D04 OSS benchmarks",
+      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels coefficient parity, and fixed synthetic D04 OSS benchmarks",
       "status": "PASS"
     },
     "E03": {
@@ -88,9 +89,12 @@
     "E07": {
       "evidence": [
         "release/UI_BROWSER_ACCEPTANCE.md",
+        "release/UI_ACCESSIBILITY_CHECK.json",
+        "release/UI_CONTRAST_CHECK.json",
+        "qualification/accessibility_contrast_check.py",
         "tests/test_offline_server.py"
       ],
-      "reason": "local browser flow passed; keyboard-only, screen-reader and approved-host accessibility review remain unrun",
+      "reason": "local keyboard-only task, accessible table alternatives, focus management and browser accessibility tree passed; 15 curated text/focus contrast pairs passed; screen-reader, complete formal WCAG, and approved-host reviews remain unrun",
       "status": "PENDING_FORMAL_ACCESSIBILITY"
     },
     "E08": {
@@ -106,9 +110,11 @@
       "evidence": [
         "release/SBOM.spdx.json",
         "release/DEPENDENCY_AUDIT.json",
+        "release/SOURCE_SECURITY_SCAN.json",
         "release/LICENSE_SECURITY_REVIEW.md"
       ],
-      "reason": "the optional benchmark dependency tree has a clean package-advisory scan; source-code/OS security review and owner/legal distribution rights remain unresolved",
+      "reason": "the package-advisory scan is clean and Bandit found no medium/high source findings (eight low tool findings are dispositioned); independent manual/OS security review and owner/legal distribution rights remain unresolved",
+      "source_security_scan": "PASS_LIMITED_SCOPE",
       "status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW"
     },
     "E10": {
@@ -118,8 +124,8 @@
         "release/OFFLINE_QUALIFICATION.json",
         "qualification/build_transfer_bundle.py"
       ],
-      "reason": "the exact current archive, reproducible build and fresh extracted offline runtime must all match",
-      "status": "PENDING_FINAL_ARCHIVE"
+      "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime",
+      "status": "PASS"
     },
     "E11": {
       "evidence": [
@@ -167,6 +173,7 @@
   },
   "known_critical_defects": [],
   "product": "p4",
+  "product_source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
   "release_blockers": [
     "no actual authorized MCP connector",
     "license ownership and distribution rights are not declared",
@@ -177,6 +184,25 @@
     "command_return_code": 0,
     "evidence": "release/SCHEMA_VALIDATION.json",
     "status": "PASS"
+  },
+  "scientific_performance_benchmark": {
+    "evidence": "release/BENCHMARK_REPORT.json",
+    "integrated_demo_independent_lots": 60,
+    "integrated_demo_observations": 540,
+    "maximum_statsmodels_ols_coefficient_difference": 1.4210854715202004e-14,
+    "package_source_snapshot": "65521742de34240f8de03e52d89b87288497c585",
+    "product_code_unchanged_after_benchmark": true,
+    "source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
+    "status": "PASS"
+  },
+  "source_security_scan": {
+    "evidence": "release/SOURCE_SECURITY_SCAN.json",
+    "finding_count": 8,
+    "high_or_medium_findings": 0,
+    "independent_human_review": "PENDING",
+    "status": "PASS_LIMITED_SCOPE",
+    "tool": "Bandit",
+    "version": "1.9.4"
   },
   "state": "CANDIDATE",
   "synthetic_mcp_external_mock": {
@@ -202,14 +228,20 @@
     },
     "status": "PASS"
   },
+  "ui_accessibility_contrast": {
+    "evidence": "release/UI_CONTRAST_CHECK.json",
+    "pairs_checked": 15,
+    "scope": "Not a complete WCAG audit; does not inspect every rendered combination, image, browser, or operating-system setting.",
+    "status": "PASS"
+  },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 30.509,
+    "duration_seconds": 4.241,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 83,
+    "tests_run": 84,
     "tests_skipped": 0
   }
 }

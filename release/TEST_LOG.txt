@@ -75,6 +75,7 @@ test_p4_11_pareto_front_matches_hand_checked_points (test_p4_scientific.P4Indepe
 test_p4_12_future_leakage_is_refused (test_p4_scientific.P4IndependentChallenges.test_p4_12_future_leakage_is_refused) ... ok
 test_seeded_one_hundred_case_slope_oracle (test_p4_scientific.P4IndependentChallenges.test_seeded_one_hundred_case_slope_oracle) ... ok
 test_source_claims_require_row_level_lineage (test_p4_scientific.P4IndependentChallenges.test_source_claims_require_row_level_lineage) ... ok
+test_file_picker_keyboard_focus_is_visible_on_its_label (test_schema_and_ui.SourceContractTests.test_file_picker_keyboard_focus_is_visible_on_its_label) ... ok
 test_manifest_declares_bootstrap_only (test_schema_and_ui.SourceContractTests.test_manifest_declares_bootstrap_only) ... ok
 test_no_remote_frontend_assets (test_schema_and_ui.SourceContractTests.test_no_remote_frontend_assets) ... ok
 test_schema_files_identify_version (test_schema_and_ui.SourceContractTests.test_schema_files_identify_version) ... ok
@@ -83,6 +84,6 @@ test_missing_constraints (test_scientific_baseline.SpecializedTests.test_missing
 test_only_observed_candidates (test_scientific_baseline.SpecializedTests.test_only_observed_candidates) ... ok
 
 ----------------------------------------------------------------------
-Ran 83 tests in 30.509s
+Ran 84 tests in 4.241s
 
 OK

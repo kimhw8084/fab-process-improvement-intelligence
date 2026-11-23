@@ -1,0 +1,546 @@
+{
+  "schema": "golden-task-routing/v2",
+  "default": {
+    "agent": "primary",
+    "specialists": "Only when measurable value exceeds handoff cost",
+    "skill_loading": "For a nontrivial task, invoke the matching route skill before choosing execution tools; one/few-file clear fixes use the primary agent directly",
+    "selection_registry": "research/capability-selection.json",
+    "agentic_first_policy": "For nontrivial work, use the matching skill, check only relevant current specialist/MCP availability and permissions, then choose execution tools. Do not skip a matching skill or default to CLI by habit. Use MCP only when already connected and approved; use deterministic tools for reproducible proof.",
+    "nontrivial_capability_order": [
+      "classify_task_and_risk",
+      "invoke_route_skill",
+      "check_relevant_agents_and_mcp",
+      "choose_execution_tools",
+      "verify_deterministically"
+    ],
+    "small_task_exception": "For one/few-file clear fixes, act directly; skip route skill, catalog scan, specialist and MCP discovery unless the user names one or the task requires it.",
+    "patterns": [
+      "direct",
+      "sequential",
+      "parallel-independent",
+      "orchestrator-worker",
+      "evaluator-optimizer"
+    ],
+    "pattern_policy": "Direct is default. Other patterns require real dependency, independent work, or bounded quality risk. No compulsory swarm or full-catalog prompt.",
+    "mcp_policy": "Repository MCP fixture is disabled. Use a company MCP only when already connected, approved, read-only for the task, and verified in the current runtime."
+  },
+  "workflows": [
+    {
+      "id": "small-fix",
+      "entry": "One or few files; behavior and acceptance criteria are clear.",
+      "complexity": "small",
+      "primary_agent": "primary",
+      "pattern": "direct",
+      "context": [
+        "target code",
+        "relevant tests",
+        "local AGENTS.md"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "focused unit test",
+        "lint/typecheck relevant to changed code"
+      ],
+      "trust": "read/write project only; no production action",
+      "no_ai": "edit directly and run deterministic checks",
+      "outputs": [
+        "small diff",
+        "test evidence"
+      ],
+      "acceptance": "Requested behavior verified; no unrelated edits.",
+      "skills": [],
+      "specialists": [],
+      "mcp_candidates": [],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "routine code change"
+    },
+    {
+      "id": "react-app-feature",
+      "entry": "New React/TypeScript UI or multi-component feature.",
+      "complexity": "medium-to-large",
+      "primary_agent": "primary",
+      "pattern": "direct by default; sequential design→build→test when dependent; parallel only disjoint components",
+      "context": [
+        "user story",
+        "existing component conventions",
+        "design tokens",
+        "relevant routes and tests"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "typecheck",
+        "component tests",
+        "accessibility checks",
+        "browser fixture if staged"
+      ],
+      "trust": "project filesystem; browser restricted to approved intranet/local fixture",
+      "no_ai": "local React toolchain and saved design system; no package download",
+      "outputs": [
+        "components",
+        "tests",
+        "short usage note"
+      ],
+      "acceptance": "State/error/empty behavior, keyboard/accessibility, responsive layout and tests pass.",
+      "skills": [
+        "golden-react"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-architect",
+          "when": "Use only when a multi-component feature changes shared data, navigation, or state boundaries and needs an independent design review."
+        },
+        {
+          "agent": "golden-verifier",
+          "when": "Use after implementation when accessibility or acceptance review can be performed independently without editing application files."
+        }
+      ],
+      "mcp_candidates": [
+        "shadcn-ui-mcp-server"
+      ],
+      "capability_candidates": [
+        "golden-react-skill",
+        "shadcn-ui-agent-skill",
+        "shadcn-ui-mcp-server",
+        "nextlevelbuilder-ui-ux-pro-max",
+        "vercel-agent-skills",
+        "anthropics-skills"
+      ],
+      "mcp_policy": "Evaluation-only. Consider the pinned shadcn MCP only with a pre-staged local package and an explicitly approved intranet component registry. Restrict to list/search/view/examples tools; never use npx/dlx @latest, public registries, or add/install actions. Keep disconnected until internal OpenCode, tool permissions, offline behavior and attempt monitoring are tested.",
+      "selection_task": "React product UI and design system"
+    },
+    {
+      "id": "nicegui-python-app",
+      "entry": "Small internal utility or workflow UI suited to Python.",
+      "complexity": "small-to-medium",
+      "primary_agent": "primary",
+      "pattern": "direct; evaluator-optimizer for a bounded bug/test loop",
+      "context": [
+        "workflow",
+        "data shape",
+        "existing Python conventions",
+        "relevant tests"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "unittest/pytest",
+        "static accessibility contract",
+        "local browser if staged"
+      ],
+      "trust": "bind local fixture to loopback; intranet service calls require approved endpoint",
+      "no_ai": "Python stdlib and installed NiceGUI package; no dynamic installs",
+      "outputs": [
+        "UI",
+        "validation logic",
+        "tests"
+      ],
+      "acceptance": "Correct state/error handling and locally reproducible test evidence.",
+      "skills": [
+        "golden-nicegui"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-architect",
+          "when": "Use only when the utility crosses module, service, or persistence boundaries that need a separate design decision."
+        },
+        {
+          "agent": "golden-verifier",
+          "when": "Use after implementation when workflow state, validation, or error behavior needs an independent acceptance review."
+        }
+      ],
+      "mcp_candidates": [],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "NiceGUI/Python internal utility"
+    },
+    {
+      "id": "api-database-integration",
+      "entry": "API, schema, migration, or internal service boundary changes.",
+      "complexity": "medium-to-large",
+      "primary_agent": "primary",
+      "pattern": "sequential for schema→API→tests; parallel only independent contract review",
+      "context": [
+        "API contract",
+        "schema and migration policy",
+        "approved endpoint documentation",
+        "failure modes"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "contract tests",
+        "migration/integrity tests",
+        "local mock server"
+      ],
+      "trust": "internal endpoints only; credentials never in logs; no schema mutation without authorization",
+      "no_ai": "mock contract and local SQLite fixture",
+      "outputs": [
+        "API/schema changes",
+        "migration",
+        "contract tests"
+      ],
+      "acceptance": "Success/error/auth/data integrity contracts verified; rollback path documented.",
+      "skills": [
+        "golden-api-db"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-architect",
+          "when": "A change crosses service contracts."
+        },
+        {
+          "agent": "golden-verifier",
+          "when": "An independent contract review can run without conflicting edits."
+        }
+      ],
+      "mcp_candidates": [
+        "approved-company-api-or-git-mcp-for-live-service-interaction"
+      ],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "API/database/company integration"
+    },
+    {
+      "id": "manufacturing-analytics",
+      "entry": "Semiconductor/manufacturing measurements, process trends, or sampling.",
+      "complexity": "medium-to-large",
+      "primary_agent": "primary",
+      "pattern": "sequential data provenance→analysis→independent correctness test",
+      "context": [
+        "units and sampling plan",
+        "data lineage",
+        "measurement system/limits",
+        "synthetic or approved sample only"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "data validation",
+        "unit/property tests",
+        "reproducible notebook/script"
+      ],
+      "trust": "public fixture or approved data; production write disabled",
+      "no_ai": "Python/SQLite analysis and fixed acceptance examples",
+      "outputs": [
+        "analysis",
+        "assumptions",
+        "correctness tests"
+      ],
+      "acceptance": "Units, missingness, grouping, and expected numerical results explicitly validated.",
+      "skills": [
+        "golden-manufacturing-data"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-investigator",
+          "when": "Data provenance or statistical review adds independent value."
+        }
+      ],
+      "mcp_candidates": [
+        "approved-read-only-manufacturing-data-mcp"
+      ],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "Semiconductor manufacturing analytics"
+    },
+    {
+      "id": "architecture-security-audit",
+      "entry": "Cross-cutting architecture, permissions, or codebase risk review.",
+      "complexity": "medium-to-large",
+      "primary_agent": "primary",
+      "pattern": "sequential inventory→risk review→deterministic checks; parallel independent review for broad audit",
+      "context": [
+        "scope",
+        "architecture map",
+        "permission model",
+        "relevant standards only"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "manifest validation",
+        "dependency/license scan if staged",
+        "security rules",
+        "test suite"
+      ],
+      "trust": "read-only review unless explicit fix task; no secrets output",
+      "no_ai": "static inspection and standard-library manifest checks",
+      "outputs": [
+        "findings by severity",
+        "evidence/locations",
+        "bounded remediation"
+      ],
+      "acceptance": "Claims tied to evidence; unknowns labeled; no self-reported approval.",
+      "skills": [
+        "golden-code-audit"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-architect",
+          "when": "Architecture boundaries require a separate read-only review."
+        },
+        {
+          "agent": "golden-verifier",
+          "when": "An independent risk review is separable."
+        }
+      ],
+      "mcp_candidates": [],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "Architecture/security/codebase audit"
+    },
+    {
+      "id": "incident-log-rca",
+      "entry": "Investigate a synthetic or approved incident/log set.",
+      "complexity": "medium",
+      "primary_agent": "primary",
+      "pattern": "sequential timeline→hypotheses→discriminating checks; no multi-agent swarm",
+      "context": [
+        "incident window",
+        "service map",
+        "approved logs",
+        "known-good baseline"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "time-window parsing",
+        "query snapshots",
+        "reproduction test"
+      ],
+      "trust": "redact identifiers/secrets; no remediation writes",
+      "no_ai": "local parser and incident template",
+      "outputs": [
+        "timeline",
+        "evidence-based hypotheses",
+        "next checks"
+      ],
+      "acceptance": "Facts separated from hypotheses; correlation is not stated as causation.",
+      "skills": [
+        "golden-observability"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-investigator",
+          "when": "Logs are large or the event pattern is non-obvious."
+        }
+      ],
+      "mcp_candidates": [
+        "grafana-mcp-grafana",
+        "approved-existing-grafana-api"
+      ],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "Grafana log/metrics investigation"
+    },
+    {
+      "id": "performance-investigation",
+      "entry": "Measure a stated bottleneck and evaluate a bounded optimization.",
+      "complexity": "medium-to-large",
+      "primary_agent": "primary",
+      "pattern": "baseline→one controlled change→repeat measurement",
+      "context": [
+        "workload",
+        "baseline",
+        "resource limits",
+        "acceptance threshold"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "profiler/benchmark already staged",
+        "repeatable unit/integration benchmark"
+      ],
+      "trust": "synthetic/local load by default; production load requires explicit operations approval",
+      "no_ai": "local profiler and deterministic benchmark",
+      "outputs": [
+        "baseline",
+        "change",
+        "repeated measurements",
+        "regression check"
+      ],
+      "acceptance": "No performance claim without repeated comparable measures and correctness retained.",
+      "skills": [
+        "golden-code-audit"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-investigator",
+          "when": "Profiling needs distinct expertise."
+        },
+        {
+          "agent": "golden-verifier",
+          "when": "The result can be independently remeasured."
+        }
+      ],
+      "mcp_candidates": [],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "Performance investigation and bounded optimization"
+    },
+    {
+      "id": "browser-ui-verification",
+      "entry": "Validate visible behavior in a local or approved intranet app.",
+      "complexity": "small-to-medium",
+      "primary_agent": "primary",
+      "pattern": "direct; evaluator-optimizer for bounded defect repair",
+      "context": [
+        "user journey",
+        "local app URL",
+        "acceptance checks",
+        "test credentials if approved"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "Playwright already staged with OS browser",
+        "accessibility audit"
+      ],
+      "trust": "deny public URLs by company egress policy; no persistent profile or production writes",
+      "no_ai": "manual checklist and local HTTP/UI tests",
+      "outputs": [
+        "journey result",
+        "screenshots only if safe",
+        "defects with evidence"
+      ],
+      "acceptance": "All target journeys pass; browser/network scope documented.",
+      "skills": [
+        "golden-react",
+        "golden-nicegui"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-verifier",
+          "when": "An independent acceptance review is useful."
+        }
+      ],
+      "mcp_candidates": [
+        "microsoft-playwright-mcp",
+        "chrome-devtools-mcp"
+      ],
+      "capability_candidates": [
+        "vercel-agent-browser",
+        "microsoft-playwright-mcp",
+        "chrome-devtools-mcp",
+        "browser-use",
+        "microsoft-playwright-python",
+        "microsoft-playwright-cli"
+      ],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "local browser verification"
+    },
+    {
+      "id": "technical-docs-sop-diagrams",
+      "entry": "Create or update a design note, SOP, runbook, or repository diagram.",
+      "complexity": "small-to-medium",
+      "primary_agent": "primary",
+      "pattern": "direct; sequential source review→draft→link/check",
+      "context": [
+        "audience",
+        "source of truth",
+        "required format",
+        "existing repo diagram conventions"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "link/path checks",
+        "diagram render if local tool staged"
+      ],
+      "capability_candidates": [
+        "cathrynlavery-diagram-design",
+        "existing-markdown-svg-mermaid"
+      ],
+      "trust": "do not invent procedures or expose company details in public repo",
+      "no_ai": "Markdown/SVG/source-controlled diagram",
+      "outputs": [
+        "maintainable source document or diagram",
+        "source links"
+      ],
+      "acceptance": "Accurate, accessible, source-controlled, and consistent with existing repository design.",
+      "skills": [
+        "golden-docs"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-docs",
+          "when": "A controlled long-form document has a distinct acceptance contract."
+        }
+      ],
+      "mcp_candidates": [],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "repository diagrams and SOP visuals"
+    },
+    {
+      "id": "release-qualification",
+      "entry": "Prepare a Golden release or independently qualify a project.",
+      "complexity": "high-risk",
+      "primary_agent": "primary",
+      "pattern": "sequential checks→evidence review→human approval",
+      "context": [
+        "pinned release",
+        "all mandatory contracts",
+        "test evidence",
+        "known exceptions authority"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "Golden Proof full",
+        "manifest validation",
+        "platform CI",
+        "bundle verification"
+      ],
+      "trust": "release preparation allowed; company qualification and production publish require human lead",
+      "no_ai": "stdlib checks remain runnable with model disabled",
+      "outputs": [
+        "per-rule status",
+        "reproducible artifacts",
+        "open blockers"
+      ],
+      "acceptance": "No mandatory missing evidence; no fabricated exception; human sign-off separate.",
+      "skills": [
+        "golden-release"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-verifier",
+          "when": "Independent review of evidence is required."
+        }
+      ],
+      "mcp_candidates": [],
+      "mcp_policy": "Use only if already connected and explicitly company-approved; otherwise do not connect or invoke.",
+      "selection_task": "Golden release and independent project qualification"
+    },
+    {
+      "id": "golden-upstream-improvement",
+      "entry": "Improve Golden standards, workflows, packaging, proof, or control.",
+      "complexity": "medium-to-large",
+      "primary_agent": "primary",
+      "pattern": "bounded sequential design→change→test; parallel read-only research if useful",
+      "context": [
+        "relevant issue/decision",
+        "affected rule/workflow",
+        "existing tests",
+        "scope boundary"
+      ],
+      "mcp": [],
+      "deterministic_tools": [
+        "repo test suite",
+        "manifest/schema checks",
+        "package verification"
+      ],
+      "trust": "no company secrets; no external runtime actions; no production deployment",
+      "no_ai": "scripts and checks operate without model",
+      "outputs": [
+        "coherent commit",
+        "tests",
+        "release note",
+        "limitations"
+      ],
+      "acceptance": "Working change, truthful test evidence, scope preserved, status not overclaimed.",
+      "skills": [
+        "golden-offline-toolchain"
+      ],
+      "specialists": [
+        {
+          "agent": "golden-verifier",
+          "when": "Use for an independent read-only review when a change affects proof, routing, permissions, security, or release status."
+        }
+      ],
+      "mcp_candidates": [
+        "github-github-mcp-server"
+      ],
+      "capability_candidates": [
+        "github-github-mcp-server"
+      ],
+      "mcp_policy": "Evaluation-only. For issue, pull-request, or Actions context, use only a staged local server targeting an explicitly approved intranet GitHub Enterprise Server, with read-only mode and narrow tool allowlists. Never use the GitHub-hosted remote MCP or a public GitHub/GHEC endpoint at company runtime.",
+      "selection_task": "Golden upstream improvement"
+    }
+  ]
+}

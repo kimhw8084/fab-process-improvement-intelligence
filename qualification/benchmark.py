@@ -58,10 +58,10 @@ def main():
     tasks = {}
     result_checks = {}
     integrated_stats, integrated = measure(lambda: analyze(fixture))
-    tasks["integrated_full_workflow_demo_540_rows"] = integrated_stats
-    if integrated.get("status") != "VALID" or len(fixture.get("observations", [])) != 540:
-        raise RuntimeError("the benchmark walkthrough must be the validated 540-row/60-lot fixture")
-    result_checks["integrated_full_workflow_demo_540_rows"] = {
+    tasks["integrated_full_workflow_demo_900_rows"] = integrated_stats
+    if integrated.get("status") != "VALID" or len(fixture.get("observations", [])) != 900:
+        raise RuntimeError("the benchmark walkthrough must be the validated 900-row/100-lot fixture")
+    result_checks["integrated_full_workflow_demo_900_rows"] = {
         "status": integrated["status"], "observations": len(fixture["observations"]),
         "independent_lots": len({row["lot_id"] for row in fixture["observations"]})}
     for n in (18, 1000, 5000):
@@ -77,8 +77,8 @@ def main():
             "observations": n, "note": "other unrequested D02-D05 sections may make the dossier PARTIAL"}
     tasks["synthetic_schema_catalog_13000_tables"], catalog = measure(lambda: synthetic_catalog(13000))
     report = {
-        "benchmark_version": "2.0.0",
-        "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (540-row integrated fixture and independent scaling tasks)",
+        "benchmark_version": "3.0.0",
+        "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (900-row integrated fixture and independent scaling tasks)",
         "environment": {"os": platform.platform(), "system": platform.system(), "release": platform.release(),
                         "architecture": platform.machine(), "processor": platform.processor(), "python": sys.version},
         "source_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True,

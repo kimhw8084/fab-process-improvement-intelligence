@@ -1,0 +1,29 @@
+{
+  "commit": "dc2ece864b2d744e47dfe8c7d9ad78aadbed369e",
+  "copied_files": {
+    ".opencode/skills/golden-code-audit/SKILL.md": "da4fd5b183efa15b420d3b2894726b1dcf9d5238d4b344d58dba2e47e9173b5b",
+    ".opencode/skills/golden-manufacturing-data/SKILL.md": "3028c9cd075335bd6fabfe17681dcfa9d9b0d97aa054e0aa86c6465f9c91de51",
+    ".opencode/skills/golden-mcp/SKILL.md": "4f9fc1214060bc868722e56104e63730ef4129352d9d7ced09b22f109f8f72b0",
+    ".opencode/skills/golden-offline-toolchain/SKILL.md": "7748789803f326d9e9df67f117035485737ff570b1a57c32b2fb5ab146056ca3",
+    ".opencode/skills/golden-react/SKILL.md": "be88e909bd41b55712d3372cfe2c5d0a7a9212c6aa2909e70431a0cb768a8336",
+    ".opencode/skills/golden-release/SKILL.md": "54e09768743cb119ad0dfa3a92b614489ce144e3c3f614fc53067b305b72e11a",
+    ".opencode/skills/golden-routing/SKILL.md": "329977ae99b1af8d4ad73ce9c6c776c0e66dc39f578390f9ab517eb871dd6b06",
+    "AGENTS.md": "e06a6e2d5fb13b497dc9bd356f28f6f74613e1b6dfc1b3812e3ffb05dc0f3d3e",
+    "LICENSE": "118adaeab17919806bd754e5c2e8e9850997fa55ccd22c84a42f1ee023de2832",
+    "docs/ARCHITECTURE.md": "f9d05c2998e4860c027f7df0808f18bbb7bb0f9c1732e6be233e60b4e88f8abb",
+    "docs/OPEN_CODE_COMPATIBILITY.md": "b2c07e80eb334735a6f8d78df2d7fc6735ddb696afedd7240659d54c3169c631",
+    "docs/QUALIFICATION_MATRIX.md": "4317c3c2ed911c03f3952e1b0aa6736171017be4f633943bdd10c3d6edda38a5",
+    "examples/scenarios/manufacturing/README.md": "26adaa63cb2c0f0cd65caffaa75a48d0e6020261c7f94b3f46b87e096adf7335",
+    "integrations/mcp/README.md": "421bb19d0402ce4b57311b86d6133883086aef6fdd61946947de007555dfc753",
+    "offline/README.md": "0d7375f3491a26b0f1b94208ba7d9dc64036eb8d42dea387ec8905e46778e53a",
+    "research/capability-selection.json": "6ae8ee68d20a3d9ec81cc86e69636e7ca7c679346907c0f29dae32302cb1c737",
+    "standards/rules.json": "ce47462f54550bc60b9d30989bd56825257bd21f6b8721d1b28855dd58e61449",
+    "standards/release.json": "3404629aea73277c2b5b2d19627cd92d99047aefa81a28e58facbf1b5843f5e5",
+    "scripts/golden.py": "057e5e3bb951941fcebf5971ec5122534b19fc091eb092e57192c9ca847092b8",
+    "scripts/project_test_runner.py": "50a6be283e579114ac629808ba6a2f73f8f9f590ac84c25a4bbdaf4a838dc0bd",
+    "workflows/task-routing.json": "e55ef5e9f9eb193d0fe387b609363bfbe2a433cdb0cf92ac190198b31e5b1e9f"
+  },
+  "qualification_state": "PRE_QUALIFICATION",
+  "repository": "https://github.com/kimhw8084/golden-agentic-engineering",
+  "version": "0.1.0-dev"
+}

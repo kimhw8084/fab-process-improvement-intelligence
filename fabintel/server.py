@@ -1,4 +1,9 @@
-"""Loopback-only offline UI/API with bounded, cancellable analysis jobs."""
+"""Loopback-only synthetic API fixture for exercising suite integrations.
+
+The shared P1 workspace owns the product UI and request lifecycle. This module
+is a test adapter for the analysis engine, not a product shell or deployable
+backend service.
+"""
 from __future__ import annotations
 
 import json
@@ -6,12 +11,10 @@ import threading
 import time
 import secrets
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from pathlib import Path
 from urllib.parse import urlsplit
 
 from products.p4.engine import AnalysisCancelled, analyze
 
-ROOT = Path(__file__).resolve().parent.parent
 MAX_REQUEST_BYTES = 2 * 1024 * 1024
 MAX_ACTIVE_JOBS = 2
 MAX_RETAINED_JOBS = 16
@@ -144,19 +147,7 @@ class Handler(BaseHTTPRequestHandler):
         if not self._local_request():
             return
         path = urlsplit(self.path).path
-        if path in ("/", "/ui/index.html"):
-            body = (ROOT / "ui" / "index.html").read_bytes()
-            self.send_response(200)
-            self._headers("text/html; charset=utf-8", len(body))
-            self.end_headers()
-            self.wfile.write(body)
-        elif path == "/fixtures/full_workflow_demo.json":
-            body = (ROOT / "fixtures" / "full_workflow_demo.json").read_bytes()
-            self.send_response(200)
-            self._headers("application/json; charset=utf-8", len(body))
-            self.end_headers()
-            self.wfile.write(body)
-        elif path == "/api/health":
+        if path == "/api/health":
             self._json(200, {"state": "CANDIDATE", "product": "p4", "network": "loopback-only", "mode": "SYNTHETIC_DEMO"})
         elif path == "/api/preflight":
             self._json(200, preflight_report())
@@ -202,8 +193,8 @@ class LocalServer(ThreadingHTTPServer):
 
 def serve(port=8765):
     server = LocalServer(port)
-    print(f"FAB P4 offline workspace: http://127.0.0.1:{port}/")
-    print("Loopback only; Ctrl-C cancels active jobs and stops the server.")
+    print(f"P4 synthetic API fixture: http://127.0.0.1:{port}/api/health")
+    print("This is a test integration adapter, not the product UI or a deployable backend. Ctrl-C stops local jobs.")
     try:
         server.serve_forever(poll_interval=0.2)
     except KeyboardInterrupt:

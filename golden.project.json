@@ -1,0 +1,21 @@
+{
+  "name": "FAB Intelligence P4",
+  "profile": "react",
+  "criticality": "workflow",
+  "golden_version": "0.1.0-dev",
+  "capabilities": {
+    "ui": true,
+    "api": true,
+    "database": false,
+    "jobs": true,
+    "observability": false,
+    "mcp": true,
+    "ai": false,
+    "manufacturing_data": true,
+    "internal_company_sources_configured": false,
+    "target_host_qualified": false
+  },
+  "commands": {
+    "python_tests": ["${PYTHON}", "-m", "unittest", "discover", "-s", "tests", "-v"]
+  }
+}

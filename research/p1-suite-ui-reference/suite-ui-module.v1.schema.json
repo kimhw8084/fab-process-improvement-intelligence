@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://fab-intelligence.local/contracts/suite-ui-module.v1.schema.json",
+  "title": "FAB Intelligence shared UI module contribution v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["contract_version", "product_id", "route", "title", "module", "module_export", "capabilities", "required_data", "evidence_schema_version", "chart_contract", "table_renderer", "status", "ownership"],
+  "properties": {
+    "contract_version": { "const": "suite-ui-module.v1" },
+    "product_id": { "enum": ["p1", "p2", "p3", "p4"] },
+    "route": { "type": "string", "pattern": "^/fab-intelligence/p[1-4]$" },
+    "title": { "type": "string", "minLength": 1 },
+    "module": { "type": "string", "pattern": "^products/p[1-4]/ui/[A-Za-z0-9_./-]+$" },
+    "module_export": { "type": "string", "pattern": "^[A-Za-z][A-Za-z0-9_]*$" },
+    "capabilities": { "type": "array", "items": { "type": "string", "pattern": "^A[0-9]{2}$" }, "uniqueItems": true },
+    "required_data": { "type": "array", "items": { "enum": ["source_preview", "evidence_envelope"] }, "uniqueItems": true },
+    "evidence_schema_version": { "type": "string", "const": "1.0.0" },
+    "chart_contract": { "type": "string", "const": "suite-chart.v1" },
+    "table_renderer": { "type": "string", "const": "native semantic HTML table" },
+    "status": { "type": "string", "const": "HEADLESS_MODULE" },
+    "ownership": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["suite_shell", "product_module", "visualization", "semantic_authority"],
+      "properties": {
+        "suite_shell": { "const": "single-suite-host" },
+        "product_module": { "const": "product-team" },
+        "visualization": { "const": "shared-suite-renderer" },
+        "semantic_authority": { "const": "administrator-governed Fab Insight MCP" }
+      }
+    }
+  }
+}

@@ -15,7 +15,9 @@
     "D05 randomized and difference-in-differences study estimates with design gates"
   ],
   "dependencies": [
-    "Python >=3.10 standard library only; no third-party runtime packages"
+    "Python >=3.10 standard-library scientific core and CLI",
+    "Optional MCP adapter: official MCP Python SDK 2.3.0 with a 28-wheel, SHA-256-locked macOS ARM64 CPython 3.11 candidate bundle; other platforms are not staged",
+    "React 19.2 and TypeScript host toolchain are P1-owned suite peer dependencies; P4 bundles no UI runtime, chart library, or table framework"
   ],
   "release_state": "CANDIDATE"
 }

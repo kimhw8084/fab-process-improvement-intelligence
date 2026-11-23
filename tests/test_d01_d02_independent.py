@@ -6,7 +6,7 @@ import random
 import unittest
 
 from products.p4.regression import fit_linear_model
-from products.p4.window import explore_window
+from products.p4.window import explore_window, _finite_rank_quantile
 
 
 FACTOR = {"pressure": {"role": "controllable", "unit": "kPa", "bounds": [0, 2], "approved": True},
@@ -151,12 +151,13 @@ class SupportedWindowQualification(unittest.TestCase):
     def _dataset(self, levels=(0, 1, 2), resolution=5, bounds=None, forbidden=None, radius=0.65, min_points=3):
         rng = random.Random(431)
         rows = []
-        for lot in range(36):
+        for lot in range(50):
             lot_shift = 0.025 * (-1 if lot % 2 else 1) + 0.005*math.sin(lot)
             for x in levels:
                 for y in levels:
                     response = 0.12+(x-1)**2*0.12+(y-1)**2*0.12+lot_shift+rng.uniform(-0.018, 0.018)
-                    rows.append(row(len(rows), x, y, response, lot_id=f"LOT-{lot:02d}"))
+                    rows.append(row(len(rows), x, y, response, lot_id=f"LOT-{lot:02d}",
+                                    analysis_partition="CALIBRATION" if lot % 5 < 2 else "TRAIN"))
         factors = {name: dict(value) for name, value in FACTOR.items()}
         if bounds is not None:
             for name in ("pressure", "power"):
@@ -165,7 +166,11 @@ class SupportedWindowQualification(unittest.TestCase):
                           "quadratic": True, "interactions": True},
                 "window_exploration": {"factors": ["pressure", "power"], "independent_unit_field": "lot_id",
                                        "min_independent_units": 30, "grid_points": resolution,
-                                       "min_support_points": min_points, "max_support_radius": radius},
+                                       "min_support_points": min_points, "max_support_radius": radius,
+                                       "calibration": {"group_field": "lot_id", "partition_field": "analysis_partition",
+                                                       "training_value": "TRAIN", "calibration_value": "CALIBRATION",
+                                                       "minimum_calibration_units": 19,
+                                                       "split_reference": "SYN-DO02-INTERLEAVED-001"}},
                 "forbidden_regions": forbidden or []}
         return rows, factors, data
 
@@ -179,6 +184,96 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(center["region_class"], "observed")
         self.assertTrue(center["supported_candidate"])
         self.assertIn("predictive_interval95", center["predictions"]["quality"])
+        self.assertEqual(center["predictions"]["quality"]["calibration_status"], "LOCAL_GROUP_HOLDOUT_EMPIRICAL")
+        self.assertEqual(center["predictions"]["quality"]["calibration_units"], 20)
+        self.assertEqual(result["calibration"]["training_unit_count"], 30)
+        self.assertEqual(result["calibration"]["calibration_unit_count"], 20)
+
+    def test_d02_requires_independent_group_holdout_and_finite_95_percent_rank(self):
+        rows, factors, data = self._dataset()
+        data["window_exploration"].pop("calibration")
+        refused = explore_window(rows, factors, METRIC, data)
+        self.assertEqual(refused["status"], "INCONCLUSIVE")
+        self.assertEqual(refused["candidate_cells"], [])
+        self.assertIsNone(_finite_rank_quantile(list(range(1, 19))))
+        self.assertEqual(_finite_rank_quantile(list(range(1, 20))), 19)
+
+    def test_d02_rejects_an_independent_unit_split_across_training_and_calibration(self):
+        rows, factors, data = self._dataset()
+        next(row for row in rows if row["analysis_partition"] == "TRAIN")["analysis_partition"] = "CALIBRATION"
+        result = explore_window(rows, factors, METRIC, data)
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertIn("crosses the training and calibration", result["reason"])
+
+    def test_calibration_outcomes_change_uncertainty_without_leaking_into_model_fit(self):
+        rows, factors, data = self._dataset()
+        baseline = explore_window(rows, factors, METRIC, data)
+        changed = [dict(item, metrics=dict(item["metrics"])) for item in rows]
+        for item in changed:
+            if item["analysis_partition"] == "CALIBRATION":
+                item["metrics"]["quality"] += 10.0
+        recalibrated = explore_window(changed, factors, METRIC, data)
+        center = lambda result: next(cell for cell in result["grid"]
+                                     if cell["factors"] == {"pressure": 1.0, "power": 1.0})
+        before = center(baseline)["predictions"]["quality"]
+        after = center(recalibrated)["predictions"]["quality"]
+        self.assertAlmostEqual(before["estimate"], after["estimate"], places=12)
+        self.assertGreater(after["calibration_quantile95_absolute_error"],
+                           before["calibration_quantile95_absolute_error"] + 9.0)
+        self.assertEqual(recalibrated["candidate_count"], 0)
+
+    def test_new_tool_shift_in_heldout_groups_withholds_candidate_window(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            item["tool_id"] = item["lot_id"]
+            if item["analysis_partition"] == "CALIBRATION":
+                item["metrics"]["quality"] += 1.0
+        data["model"]["cluster_field"] = "tool_id"
+        data["window_exploration"]["independent_unit_field"] = "tool_id"
+        data["window_exploration"]["calibration"]["group_field"] = "tool_id"
+        result = explore_window(rows, factors, METRIC, data)
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertEqual(result["candidate_count"], 0)
+        calibrated = [cell["predictions"]["quality"] for cell in result["grid"]
+                      if cell["predictions"]["quality"].get("calibration_status") == "LOCAL_GROUP_HOLDOUT_EMPIRICAL"]
+        self.assertTrue(calibrated)
+        self.assertTrue(all(item["calibration_quantile95_absolute_error"] > 0.9 for item in calibrated))
+
+    def test_local_group_calibration_covers_separately_heldout_nonlinear_lots(self):
+        rows = []
+        for lot in range(50):
+            partition = "CALIBRATION" if lot % 5 < 2 else "TRAIN"
+            lot_shift = 0.03 * math.sin(lot * 0.7)
+            for pressure in (0.0, 1.0, 2.0):
+                for power in (0.0, 1.0, 2.0):
+                    noise = 0.01 * math.sin(lot * 1.7 + pressure * 1.1 + power * 0.9)
+                    quality = 0.15 + 0.12 * (pressure-1)**2 + 0.12 * (power-1)**2 + lot_shift + noise
+                    rows.append({"id": f"FIT-{lot}-{pressure}-{power}", "factors": {"pressure": pressure, "power": power},
+                                 "metrics": {"quality": quality}, "lot_id": f"FIT-LOT-{lot}",
+                                 "analysis_partition": partition})
+        data = {"model": {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                          "quadratic": True, "interactions": True},
+                "window_exploration": {"factors": ["pressure", "power"], "independent_unit_field": "lot_id",
+                                       "min_independent_units": 30, "grid_points": 5, "min_support_points": 3,
+                                       "max_support_radius": 0.65,
+                                       "calibration": {"group_field": "lot_id", "partition_field": "analysis_partition",
+                                                       "training_value": "TRAIN", "calibration_value": "CALIBRATION",
+                                                       "minimum_calibration_units": 19,
+                                                       "split_reference": "SYN-INTERLEAVED-HOLDOUT-001"}}}
+        result = explore_window(rows, FACTOR, METRIC, data)
+        center = next(cell for cell in result["grid"]
+                      if cell["factors"] == {"pressure": 1.0, "power": 1.0})
+        lower, upper = center["predictions"]["quality"]["predictive_interval95"]
+        eval_groups = 100
+        covered_groups = 0
+        for lot in range(50, 50 + eval_groups):
+            noise = 0.01 * math.sin(lot * 1.7 + 1.1 + 0.9)
+            outcome = 0.15 + 0.03 * math.sin(lot * 0.7) + noise
+            covered_groups += int(lower <= outcome <= upper)
+        self.assertEqual(center["predictions"]["quality"]["calibration_status"], "LOCAL_GROUP_HOLDOUT_EMPIRICAL")
+        self.assertIn("no distribution-free conditional coverage guarantee",
+                      center["predictions"]["quality"]["calibration_method"])
+        self.assertGreaterEqual(covered_groups / eval_groups, 0.95)
 
     def test_outside_observed_hull_is_extrapolated_and_never_a_candidate(self):
         rows, factors, data = self._dataset(bounds=(-0.5, 2.5))
@@ -216,22 +311,27 @@ class SupportedWindowQualification(unittest.TestCase):
 
     def test_omitted_control_is_fixed_in_the_fitted_population(self):
         rows = []
-        for lot in range(36):
+        for lot in range(50):
             lot_shift = 0.01 * math.sin(lot)
             for pressure in (0.0, 1.0, 2.0):
                 for power in (0.0, 1.0, 2.0):
                     y = 0.12 + 0.08*pressure + 0.15*power + lot_shift + 0.005*math.sin(lot+pressure+power)
                     rows.append({"id": f"ROW-{len(rows)}", "factors": {"pressure": pressure, "power": power},
-                                 "metrics": {"quality": y}, "lot_id": f"LOT-{lot}"})
+                                 "metrics": {"quality": y}, "lot_id": f"LOT-{lot}",
+                                 "analysis_partition": "CALIBRATION" if lot % 5 < 2 else "TRAIN"})
         factors = {name: dict(value) for name, value in FACTOR.items()}
         data = {"model": {"factor_fields": ["pressure"], "covariance": "cluster", "cluster_field": "lot_id",
                           "minimum_clusters": 30},
                 "window_exploration": {"factors": ["pressure"], "fixed_settings": {"power": 1.0},
                                        "independent_unit_field": "lot_id", "min_independent_units": 30,
-                                       "grid_points": 5, "min_support_points": 2, "max_support_radius": 0.65}}
+                                       "grid_points": 5, "min_support_points": 2, "max_support_radius": 0.65,
+                                       "calibration": {"group_field": "lot_id", "partition_field": "analysis_partition",
+                                                       "training_value": "TRAIN", "calibration_value": "CALIBRATION",
+                                                       "minimum_calibration_units": 19,
+                                                       "split_reference": "SYN-DO02-INTERLEAVED-001"}}}
         result = explore_window(rows, factors, METRIC, data)
         self.assertEqual(result["status"], "VALID")
-        self.assertEqual(result["model_diagnostics"]["quality"]["n"], 36*3)
+        self.assertEqual(result["model_diagnostics"]["quality"]["n"], 30*3)
         self.assertEqual(result["omitted_controls_held_at_fixed_setting"], ["power"])
         self.assertTrue(all(cell["factors"]["power"] == 1.0 for cell in result["grid"]))
 

@@ -1,39 +1,41 @@
-"""Configurable MCP 2025-11-25 client and fail-closed semantic mapping adapter.
+"""Pinned MCP SDK client plus P4's fail-closed logical mapping adapter.
 
-No site names, tool names, source semantics, or grants are embedded here. The
-transport is exercised only against the synthetic local mock in this package.
+The MCP SDK owns JSON-RPC, session negotiation, stdio framing, and Streamable
+HTTP. This module owns only local configuration checks and mapping between the
+frozen FabSemanticsAdapter logical operations and explicitly supplied tools.
+No company endpoint, tool name, permission, or source meaning is bundled here.
 """
 from __future__ import annotations
 
+import asyncio
+import concurrent.futures
+import ipaddress
 import json
 import os
-import queue
-import socket
-import subprocess
+import re
 import threading
-import time
 from pathlib import Path
-from urllib.error import HTTPError, URLError
 from urllib.parse import urlsplit
-from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 
-PROTOCOL_VERSION = "2025-11-25"
+PROTOCOL_VERSION = "SDK_NEGOTIATED"
 MAX_RPC_BYTES = 4 * 1024 * 1024
 MAX_TOOLS = 10_000
+_ENV_NAME = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 
 
 class McpError(RuntimeError):
-    pass
+    """MCP SDK, transport, configuration, or logical-contract failure."""
 
 
 class McpPermissionError(PermissionError):
-    pass
+    """A requested MCP operation is outside its explicit local authorization."""
 
 
-def _json_bytes(value):
+def _json_size(value):
     try:
-        encoded = json.dumps(value, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode("utf-8")
+        encoded = json.dumps(value, separators=(",", ":"), ensure_ascii=False,
+                             allow_nan=False).encode("utf-8")
     except (TypeError, ValueError) as exc:
         raise McpError("MCP payload must be finite JSON") from exc
     if len(encoded) > MAX_RPC_BYTES:
@@ -42,313 +44,187 @@ def _json_bytes(value):
 
 
 def _is_loopback(host):
-    if host == "localhost":
+    if host.lower() == "localhost":
         return True
     try:
-        return socket.getaddrinfo(host, None)[0][4][0].startswith(("127.", "::1"))
-    except OSError:
+        return ipaddress.ip_address(host).is_loopback
+    except ValueError:
         return False
 
 
-class _NoRedirect(HTTPRedirectHandler):
-    def redirect_request(self, req, fp, code, msg, headers, newurl):
-        return None
-
-
-class StreamableHttpTransport:
-    """MCP Streamable HTTP over a single configured endpoint, no redirects."""
-    def __init__(self, endpoint, *, allowed_hosts, timeout_seconds=10, bearer_token_env=None):
-        parsed = urlsplit(endpoint)
-        if parsed.scheme not in ("https", "http") or not parsed.hostname or parsed.username or parsed.password or parsed.fragment:
+def transport_from_config(config):
+    """Validate P4 transport settings and return SDK-ready parameters."""
+    transport = config.get("transport") if isinstance(config, dict) else None
+    if not isinstance(transport, dict):
+        raise McpError("site config transport must be an object")
+    kind = transport.get("type")
+    timeout = transport.get("timeout_seconds", 10)
+    if not isinstance(timeout, (int, float)) or isinstance(timeout, bool) or not 0 < timeout <= 30:
+        raise McpError("MCP request timeout must be in (0, 30] seconds")
+    timeout = float(timeout)
+    if kind == "stdio":
+        command = transport.get("command")
+        if not isinstance(command, list) or not command or any(not isinstance(part, str) or not part for part in command):
+            raise McpError("stdio MCP command must be an explicit nonempty argument list")
+        cwd = transport.get("cwd")
+        if cwd and not Path(cwd).is_absolute() and config.get("_config_dir"):
+            cwd = str((Path(config["_config_dir"])/cwd).resolve())
+        env_from = transport.get("env_from", {})
+        if (not isinstance(env_from, dict)
+                or any(not isinstance(child, str) or not _ENV_NAME.fullmatch(child)
+                       or not isinstance(parent, str) or not _ENV_NAME.fullmatch(parent)
+                       for child, parent in env_from.items())):
+            raise McpError("stdio env_from must map valid child variable names to valid parent names")
+        child_env = {}
+        for child, parent in env_from.items():
+            value = os.environ.get(parent)
+            if value is None:
+                raise McpPermissionError(f"configured stdio environment source is unset: {parent}")
+            child_env[child] = value
+        return {"type": "stdio", "command": command[0], "args": command[1:],
+                "cwd": cwd, "env": child_env, "timeout": timeout}
+    if kind == "streamable_http":
+        endpoint = transport.get("endpoint")
+        parsed = urlsplit(endpoint or "")
+        allowed_hosts = transport.get("allowed_hosts")
+        if (parsed.scheme not in ("https", "http") or not parsed.hostname
+                or parsed.username or parsed.password or parsed.fragment):
             raise McpError("MCP endpoint must be an absolute HTTP(S) URL without embedded credentials or fragments")
-        if not isinstance(allowed_hosts, list) or not allowed_hosts or any(not isinstance(host, str) or not host for host in allowed_hosts):
+        if (not isinstance(allowed_hosts, list) or not allowed_hosts
+                or any(not isinstance(host, str) or not host for host in allowed_hosts)):
             raise McpError("an explicit exact allowed_hosts list is required")
         if parsed.hostname.lower() not in {host.lower() for host in allowed_hosts}:
             raise McpPermissionError("MCP endpoint host is not in the exact configured allowlist")
         if parsed.scheme == "http" and not _is_loopback(parsed.hostname):
             raise McpPermissionError("cleartext HTTP is allowed only for loopback test servers")
-        if not isinstance(timeout_seconds, (int, float)) or isinstance(timeout_seconds, bool) or not 0 < timeout_seconds <= 30:
-            raise McpError("MCP HTTP timeout must be in (0, 30] seconds")
-        self.endpoint = endpoint
-        self.timeout_seconds = float(timeout_seconds)
-        self.token = None
-        if bearer_token_env:
-            if not isinstance(bearer_token_env, str) or not bearer_token_env:
-                raise McpError("bearer_token_env must be a variable name")
-            self.token = os.environ.get(bearer_token_env)
-            if not self.token:
-                raise McpPermissionError("the configured bearer token environment variable is unset")
-        self.opener = build_opener(_NoRedirect())
-        self.session_id = None
-
-    def request(self, message, *, initialized=False, timeout=None):
-        headers = {"Content-Type": "application/json", "Accept": "application/json, text/event-stream"}
-        if initialized:
-            headers["MCP-Protocol-Version"] = PROTOCOL_VERSION
-            if self.session_id:
-                headers["Mcp-Session-Id"] = self.session_id
-        if self.token:
-            headers["Authorization"] = f"Bearer {self.token}"
-        request = Request(self.endpoint, data=_json_bytes(message), headers=headers, method="POST")
-        try:
-            response = self.opener.open(request, timeout=timeout or self.timeout_seconds)
-        except HTTPError as exc:
-            if exc.code in (301, 302, 303, 307, 308):
-                raise McpPermissionError("MCP endpoint redirects are disabled to protect configured credentials") from exc
-            exc.read(512)
-            raise McpError(f"MCP HTTP server returned status {exc.code}") from exc
-        except (URLError, TimeoutError, OSError) as exc:
-            raise McpError(f"MCP HTTP request failed: {type(exc).__name__}") from exc
-        with response:
-            body = response.read(MAX_RPC_BYTES+1)
-            if len(body) > MAX_RPC_BYTES:
-                raise McpError("MCP HTTP response exceeds the configured 4 MiB limit")
-            self.session_id = response.headers.get("Mcp-Session-Id", self.session_id)
-            content_type = response.headers.get_content_type().lower()
-        if content_type == "application/json":
-            try:
-                parsed = json.loads(body)
-            except (UnicodeDecodeError, json.JSONDecodeError) as exc:
-                raise McpError("MCP server returned invalid JSON") from exc
-            return parsed
-        if content_type == "text/event-stream":
-            return self._parse_sse(body)
-        raise McpError(f"MCP server returned unsupported content type: {content_type}")
-
-    @staticmethod
-    def _parse_sse(body):
-        try:
-            text = body.decode("utf-8")
-        except UnicodeDecodeError as exc:
-            raise McpError("MCP SSE body is not UTF-8") from exc
-        messages = []
-        data_lines = []
-        for line in text.splitlines()+[""]:
-            if not line:
-                if data_lines:
-                    raw = "\n".join(data_lines)
-                    try:
-                        messages.append(json.loads(raw))
-                    except json.JSONDecodeError as exc:
-                        raise McpError("MCP SSE event contains invalid JSON") from exc
-                    data_lines = []
-            elif line.startswith("data:"):
-                data_lines.append(line[5:].lstrip())
-        if not messages:
-            raise McpError("MCP SSE response contained no JSON-RPC message")
-        return messages
-
-    def notify(self, message, *, initialized=False):
-        # Notifications have no JSON-RPC response; a 202/204 server response
-        # is accepted by a dedicated fire-and-forget POST.
-        headers = {"Content-Type": "application/json", "Accept": "application/json, text/event-stream"}
-        if initialized:
-            headers["MCP-Protocol-Version"] = PROTOCOL_VERSION
-            if self.session_id:
-                headers["Mcp-Session-Id"] = self.session_id
-        if self.token:
-            headers["Authorization"] = f"Bearer {self.token}"
-        request = Request(self.endpoint, data=_json_bytes(message), headers=headers, method="POST")
-        try:
-            response = self.opener.open(request, timeout=self.timeout_seconds)
-        except HTTPError as exc:
-            raise McpError(f"MCP notification failed with HTTP status {exc.code}") from exc
-        except (URLError, TimeoutError, OSError) as exc:
-            raise McpError(f"MCP notification failed: {type(exc).__name__}") from exc
-        with response:
-            response.read(512)
-            if response.status not in (200, 202, 204):
-                raise McpError(f"MCP notification returned unexpected status {response.status}")
-
-    def close(self):
-        if not self.session_id:
-            return
-        headers = {"MCP-Protocol-Version": PROTOCOL_VERSION, "Mcp-Session-Id": self.session_id}
-        if self.token:
-            headers["Authorization"] = f"Bearer {self.token}"
-        request = Request(self.endpoint, headers=headers, method="DELETE")
-        try:
-            with self.opener.open(request, timeout=min(3.0, self.timeout_seconds)) as response:
-                response.read(256)
-        except Exception:
-            # Session termination is best effort; never hide primary results.
-            pass
-        self.session_id = None
-
-
-class StdioTransport:
-    """Line-delimited JSON-RPC over a subprocess using MCP stdio framing."""
-    def __init__(self, command, *, cwd=None, env_from=None, timeout_seconds=10):
-        if not isinstance(command, list) or not command or any(not isinstance(part, str) or not part for part in command):
-            raise McpError("stdio MCP command must be an explicit nonempty argument list")
-        if not isinstance(timeout_seconds, (int, float)) or isinstance(timeout_seconds, bool) or not 0 < timeout_seconds <= 30:
-            raise McpError("MCP stdio timeout must be in (0, 30] seconds")
-        safe_keys = ("PATH", "HOME", "TMPDIR", "TMP", "TEMP", "LANG", "LC_ALL", "LC_CTYPE",
-                     "SYSTEMROOT", "WINDIR", "PATHEXT")
-        child_env = {key: os.environ[key] for key in safe_keys if key in os.environ}
-        if env_from is not None:
-            if (not isinstance(env_from, dict)
-                    or any(not isinstance(target, str) or not target or not isinstance(source, str) or not source
-                           for target, source in env_from.items())):
-                raise McpError("stdio env_from must map child variable names to parent variable names")
-            for target, source in env_from.items():
-                value = os.environ.get(source)
-                if value is None:
-                    raise McpPermissionError(f"configured stdio environment source is unset: {source}")
-                child_env[target] = value
-        try:
-            self.process = subprocess.Popen(command, cwd=cwd, env=child_env, stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=0, shell=False)
-        except OSError as exc:
-            raise McpError(f"could not start configured MCP stdio server: {type(exc).__name__}") from exc
-        self.timeout_seconds = float(timeout_seconds)
-        self.incoming = queue.Queue()
-        self.write_lock = threading.Lock()
-        self.closed = False
-        self.reader = threading.Thread(target=self._read_stdout, daemon=True, name="mcp-stdio-reader")
-        self.stderr_reader = threading.Thread(target=self._drain_stderr, daemon=True, name="mcp-stdio-stderr")
-        self.reader.start(); self.stderr_reader.start()
-
-    def _read_stdout(self):
-        try:
-            while True:
-                line = self.process.stdout.readline(MAX_RPC_BYTES+2)
-                if not line:
-                    break
-                if len(line) > MAX_RPC_BYTES or not line.endswith(b"\n"):
-                    self.incoming.put(McpError("stdio MCP response exceeded the line limit"))
-                    break
-                try:
-                    self.incoming.put(json.loads(line.decode("utf-8")))
-                except (UnicodeDecodeError, json.JSONDecodeError):
-                    self.incoming.put(McpError("stdio MCP stdout must contain only line-delimited JSON-RPC"))
-                    break
-        finally:
-            self.incoming.put(None)
-
-    def _drain_stderr(self):
-        while self.process.stderr and self.process.stderr.readline():
-            pass
-
-    def _write(self, message):
-        encoded = _json_bytes(message)+b"\n"
-        with self.write_lock:
-            if self.closed or self.process.poll() is not None:
-                raise McpError("stdio MCP server process has exited")
-            try:
-                self.process.stdin.write(encoded)
-                self.process.stdin.flush()
-            except OSError as exc:
-                raise McpError("failed to write MCP stdio message") from exc
-
-    def request(self, message, *, initialized=False, timeout=None):
-        self._write(message)
-        deadline = time.monotonic()+(timeout or self.timeout_seconds)
-        expected_id = message.get("id")
-        while True:
-            remaining = deadline-time.monotonic()
-            if remaining <= 0:
-                raise McpError("MCP stdio request timed out")
-            try:
-                response = self.incoming.get(timeout=remaining)
-            except queue.Empty as exc:
-                raise McpError("MCP stdio request timed out") from exc
-            if response is None:
-                raise McpError("MCP stdio server exited before responding")
-            if isinstance(response, McpError):
-                raise response
-            if isinstance(response, dict) and response.get("id") == expected_id:
-                return response
-
-    def notify(self, message, *, initialized=False):
-        self._write(message)
-
-    def close(self):
-        if self.closed:
-            return
-        self.closed = True
-        if self.process.poll() is None:
-            self.process.terminate()
-            try:
-                self.process.wait(timeout=2)
-            except subprocess.TimeoutExpired:
-                self.process.kill(); self.process.wait(timeout=2)
-        for stream in (self.process.stdin, self.process.stdout, self.process.stderr):
-            try:
-                if stream:
-                    stream.close()
-            except OSError:
-                pass
+        token_env = transport.get("bearer_token_env")
+        if token_env is not None and (not isinstance(token_env, str) or not _ENV_NAME.fullmatch(token_env)):
+            raise McpError("bearer_token_env must be a valid environment variable name")
+        return {"type": "streamable_http", "endpoint": endpoint,
+                "bearer_token_env": token_env, "timeout": timeout}
+    raise McpError("transport.type must be stdio or streamable_http")
 
 
 class McpClient:
+    """Synchronous P4 facade over the official asynchronous MCP Python SDK.
+
+    The private loop lets existing synchronous CLI and evidence workflows use
+    the shared SDK without putting a second protocol implementation in P4.
+    """
+
     def __init__(self, transport, *, client_name="fabintel-p4", client_version="1.1.0"):
-        self.transport = transport
+        self.transport_config = transport
         self.client_name = client_name
         self.client_version = client_version
-        self._counter = 0
-        self._counter_lock = threading.Lock()
-        self._active_lock = threading.Lock()
-        self._active_tool_request = None
+        self.timeout_seconds = transport["timeout"]
+        self.tools = {}
         self.initialized = False
         self.negotiated_version = None
-        self.tools = {}
+        self._client = None
+        self._http_client = None
+        self._loop = None
+        self._closed = False
+        self._loop_ready = threading.Event()
+        self._thread = threading.Thread(target=self._serve_loop, name="p4-mcp-sdk-loop", daemon=True)
+        self._thread.start()
+        if not self._loop_ready.wait(timeout=5):
+            raise McpError("MCP SDK event loop did not start")
+        try:
+            self._submit(self._connect(), timeout=self.timeout_seconds + 5)
+        except Exception:
+            self.close()
+            raise
 
-    def _next_id(self):
-        with self._counter_lock:
-            self._counter += 1
-            return self._counter
+    def _serve_loop(self):
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+        self._loop = loop
+        self._loop_ready.set()
+        loop.run_forever()
+        pending = asyncio.all_tasks(loop)
+        for task in pending:
+            task.cancel()
+        if pending:
+            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+        loop.close()
 
-    def _rpc(self, method, params=None, *, request_id=None, initialized=None):
-        request_id = self._next_id() if request_id is None else request_id
-        message = {"jsonrpc": "2.0", "id": request_id, "method": method}
-        if params is not None:
-            message["params"] = params
-        result = self.transport.request(message, initialized=self.initialized if initialized is None else initialized)
-        responses = result if isinstance(result, list) else [result]
-        response = next((item for item in responses if isinstance(item, dict) and item.get("id") == request_id), None)
-        if response is None:
-            raise McpError(f"MCP response for {method} did not match request id")
-        if response.get("jsonrpc") != "2.0":
-            raise McpError("MCP response is not JSON-RPC 2.0")
-        if "error" in response:
-            error = response["error"]
-            raise McpError(f"MCP {method} failed ({error.get('code')}): {str(error.get('message', 'remote error'))[:240]}")
-        if "result" not in response:
-            raise McpError(f"MCP {method} response lacks result")
-        return response["result"]
+    async def _connect(self):
+        try:
+            from mcp import Client
+            from mcp.client.stdio import StdioServerParameters
+        except ImportError as exc:
+            raise McpError("the pinned MCP SDK is optional; install the staged mcp-sdk.lock bundle") from exc
+        config = self.transport_config
+        if config["type"] == "stdio":
+            server = StdioServerParameters(command=config["command"], args=config["args"],
+                                           cwd=config["cwd"], env=config["env"] or None)
+        else:
+            try:
+                import httpx2
+                from mcp.client.streamable_http import streamable_http_client
+            except ImportError as exc:
+                raise McpError("the pinned MCP SDK bundle lacks its Streamable HTTP dependencies") from exc
+            headers = {}
+            token_env = config.get("bearer_token_env")
+            if token_env:
+                token = os.environ.get(token_env)
+                if not token:
+                    raise McpPermissionError("the configured bearer token environment variable is unset")
+                headers["Authorization"] = f"Bearer {token}"
+            self._http_client = httpx2.AsyncClient(headers=headers, timeout=config["timeout"],
+                                                  follow_redirects=False)
+            server = streamable_http_client(config["endpoint"], http_client=self._http_client,
+                                            max_sse_event_size=MAX_RPC_BYTES)
+        self._client = Client(server, read_timeout_seconds=config["timeout"])
+        await self._client.__aenter__()
+        version = getattr(self._client, "protocol_version", None)
+        if not isinstance(version, str) or not version:
+            raise McpError("MCP SDK did not negotiate a protocol version")
+        self.negotiated_version = version
+        self.initialized = True
+
+    def _submit(self, coroutine, *, timeout=None):
+        if self._closed or self._loop is None or not self._loop.is_running():
+            raise McpError("MCP SDK session is closed")
+        future = asyncio.run_coroutine_threadsafe(coroutine, self._loop)
+        try:
+            return future.result(timeout=timeout or self.timeout_seconds + 1)
+        except concurrent.futures.TimeoutError as exc:
+            future.cancel()
+            raise McpError("MCP SDK request timed out") from exc
+        except (McpError, McpPermissionError):
+            raise
+        except Exception as exc:
+            raise McpError(f"MCP SDK operation failed: {type(exc).__name__}") from exc
 
     def initialize(self):
-        if self.initialized:
-            return {"protocolVersion": self.negotiated_version}
-        result = self._rpc("initialize", {"protocolVersion": PROTOCOL_VERSION,
-            "capabilities": {}, "clientInfo": {"name": self.client_name, "version": self.client_version}}, initialized=False)
-        version = result.get("protocolVersion") if isinstance(result, dict) else None
-        if version != PROTOCOL_VERSION:
-            raise McpError(f"MCP server negotiated unsupported protocol version: {version}")
-        self.negotiated_version = version
-        self.transport.notify({"jsonrpc": "2.0", "method": "notifications/initialized"}, initialized=True)
-        self.initialized = True
-        return result
-
-    def list_tools(self):
         if not self.initialized:
-            self.initialize()
-        all_tools, cursor, seen_cursors = [], None, set()
+            raise McpError("MCP SDK session has not initialized")
+        return {"protocolVersion": self.negotiated_version}
+
+    @staticmethod
+    def _plain(model):
+        if hasattr(model, "model_dump"):
+            return model.model_dump(mode="json", by_alias=True, exclude_none=True)
+        if isinstance(model, dict):
+            return model
+        raise McpError("MCP SDK returned an unsupported structured value")
+
+    async def _list_tools(self):
+        all_tools, cursor, seen = [], None, set()
         for _ in range(100):
-            params = {"cursor": cursor} if cursor else {}
-            result = self._rpc("tools/list", params)
-            if not isinstance(result, dict) or not isinstance(result.get("tools"), list):
-                raise McpError("tools/list must return an object with a tools array")
-            all_tools.extend(result["tools"])
+            page = await asyncio.wait_for(self._client.list_tools(cursor=cursor), timeout=self.timeout_seconds)
+            if not isinstance(page.tools, list):
+                raise McpError("MCP tools/list returned an invalid tools page")
+            all_tools.extend(self._plain(tool) for tool in page.tools)
             if len(all_tools) > MAX_TOOLS:
                 raise McpError("MCP server exceeded the 10000-tool safety bound")
-            cursor = result.get("nextCursor")
+            cursor = page.next_cursor
             if not cursor:
                 break
-            if not isinstance(cursor, str) or cursor in seen_cursors:
+            if not isinstance(cursor, str) or cursor in seen:
                 raise McpError("MCP tools/list pagination cursor is invalid or repeated")
-            seen_cursors.add(cursor)
+            seen.add(cursor)
         else:
             raise McpError("MCP tools/list exceeded the 100-page safety bound")
         mapping = {}
@@ -361,68 +237,61 @@ class McpClient:
         self.tools = mapping
         return list(mapping.values())
 
+    def list_tools(self):
+        return self._submit(self._list_tools())
+
+    async def _call_tool(self, name, arguments):
+        result = await asyncio.wait_for(self._client.call_tool(name, arguments), timeout=self.timeout_seconds)
+        is_error = getattr(result, "is_error", False)
+        if is_error is True:
+            raise McpError("MCP tool reported an execution error")
+        structured = getattr(result, "structured_content", None)
+        if structured is not None:
+            raw = structured
+        else:
+            wire = self._plain(result)
+            content = wire.get("content", [])
+            texts = [item.get("text", "") for item in content
+                     if isinstance(item, dict) and item.get("type") == "text"]
+            if len(texts) == 1:
+                try:
+                    raw = json.loads(texts[0])
+                except json.JSONDecodeError:
+                    raw = {"content": content}
+            else:
+                raw = {"content": content}
+        _json_size(raw)
+        return raw
+
     def call_tool(self, name, arguments, *, timeout=None):
-        if not self.initialized:
-            self.initialize()
-        if not self.tools:
-            self.list_tools()
-        if name not in self.tools:
+        if not isinstance(name, str) or name not in self.tools:
             raise McpError("configured MCP tool name was not returned by tools/list")
         if not isinstance(arguments, dict):
             raise McpError("MCP tool arguments must be an object")
-        request_id = self._next_id()
-        with self._active_lock:
-            self._active_tool_request = request_id
-        try:
-            result = self._rpc("tools/call", {"name": name, "arguments": arguments}, request_id=request_id)
-        finally:
-            with self._active_lock:
-                if self._active_tool_request == request_id:
-                    self._active_tool_request = None
-        if not isinstance(result, dict):
-            raise McpError("MCP tools/call must return a result object")
-        if result.get("isError") is True:
-            raise McpError("MCP tool reported an execution error")
-        if "structuredContent" in result:
-            return result["structuredContent"]
-        content = result.get("content", [])
-        texts = [item.get("text", "") for item in content if isinstance(item, dict) and item.get("type") == "text"]
-        if len(texts) == 1:
-            try:
-                return json.loads(texts[0])
-            except json.JSONDecodeError:
-                return {"content": content}
-        return {"content": content}
+        return self._submit(self._call_tool(name, arguments), timeout=timeout or self.timeout_seconds + 1)
 
-    def cancel_current(self, reason="user requested cancellation"):
-        with self._active_lock:
-            request_id = self._active_tool_request
-        if request_id is None:
-            return False
-        self.transport.notify({"jsonrpc": "2.0", "method": "notifications/cancelled",
-                               "params": {"requestId": request_id, "reason": str(reason)[:240]}},
-                              initialized=self.initialized)
-        return True
+    async def _close_async(self):
+        client, self._client = self._client, None
+        http_client, self._http_client = self._http_client, None
+        try:
+            if client is not None:
+                await client.__aexit__(None, None, None)
+        finally:
+            if http_client is not None:
+                await http_client.aclose()
 
     def close(self):
-        self.transport.close()
-
-
-def transport_from_config(config):
-    transport = config.get("transport") if isinstance(config, dict) else None
-    if not isinstance(transport, dict):
-        raise McpError("site config transport must be an object")
-    kind = transport.get("type")
-    if kind == "stdio":
-        cwd = transport.get("cwd")
-        if cwd and not Path(cwd).is_absolute() and config.get("_config_dir"):
-            cwd = str((Path(config["_config_dir"])/cwd).resolve())
-        return StdioTransport(transport.get("command"), cwd=cwd,
-                              env_from=transport.get("env_from"), timeout_seconds=transport.get("timeout_seconds", 10))
-    if kind == "streamable_http":
-        return StreamableHttpTransport(transport.get("endpoint"), allowed_hosts=transport.get("allowed_hosts"),
-            timeout_seconds=transport.get("timeout_seconds", 10), bearer_token_env=transport.get("bearer_token_env"))
-    raise McpError("transport.type must be stdio or streamable_http")
+        if self._closed:
+            return
+        self._closed = True
+        if self._loop is not None and self._loop.is_running():
+            future = asyncio.run_coroutine_threadsafe(self._close_async(), self._loop)
+            try:
+                future.result(timeout=4)
+            except Exception:
+                future.cancel()
+            self._loop.call_soon_threadsafe(self._loop.stop)
+            self._thread.join(timeout=4)
 
 
 def load_site_config(path):
@@ -437,7 +306,7 @@ def load_site_config(path):
 
 
 class ConfiguredSemanticAdapter:
-    """Maps logical operations to explicitly configured discovered MCP tools."""
+    """Maps approved logical operations to explicitly configured MCP tools."""
     def __init__(self, client, config, *, allow_synthetic_test=False, authorized_site_test=False):
         self.client = client
         self.config = config
