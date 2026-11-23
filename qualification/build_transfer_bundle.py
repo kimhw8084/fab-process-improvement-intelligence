@@ -18,9 +18,12 @@ SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache
 def source_files():
     files = []
     for path in ROOT.rglob("*"):
+        relative_parts = path.relative_to(ROOT).parts
         if not path.is_file() or path in EXCLUDED or path == MANIFEST:
             continue
-        if any(part in SKIP_DIRS for part in path.relative_to(ROOT).parts):
+        if relative_parts and relative_parts[0] == ".git":
+            continue
+        if any(part in SKIP_DIRS for part in relative_parts):
             continue
         if path.name == ".DS_Store":
             continue
