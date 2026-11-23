@@ -1,3 +1,12 @@
+# Current continuation checkpoint — 2026-11-23
+
+| Requirement | Latest verified evidence | Current status / next action |
+|---|---|---|
+| D02 transfer strata | Source `14f6ad9`; mixed or missing strata in any relevant calibration/evaluation independent units now force `INSUFFICIENT_ASSIGNABLE_STRATA`. Regression reproduced old false descriptive-match label before fix; full Python suite 202 PASS/0 skipped after backend change. | Implemented with advisory limits; conditional coverage remains unestablished. Continue independent searched-cell multiplicity and OOD challenges after current release gate. |
+| P4 evidence UI | Native disclosure compacts serialized values >240 chars; 300-item array component test and browser expansion inspected through shared P1 renderer. Exact terminal observation ID verified. | P4 panel 21 PASS; full P1 frontend 48 PASS; P1 route 11 PASS; typecheck and production build PASS in unversioned disposable composition. P1 owner/formal accessibility review remain pending. |
+| Exact offline release | Last archive predates source `14f6ad9`; current reproducibility and E10 outputs are stale. | Rebuild exact archive, two clean detached builds, fresh no-pip/network-denied extraction, then rerun the full release runner. Keep `CANDIDATE`; no publication. |
+| Company qualification and distribution | No internal mappings, data, approvals, target host, ROI or distribution rights were fabricated. | `PENDING_INTERNAL`; no push or publication. |
+
 # P4 requirement and evidence matrix
 
 Status distinguishes implemented synthetic evidence from company qualification. Passing local evidence does not establish production suitability.

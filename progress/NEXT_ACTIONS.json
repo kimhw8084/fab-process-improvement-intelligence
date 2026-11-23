@@ -1,5 +1,6 @@
 {
-  "as_of_source_commit": "cd8a357509553cf417b6cb7d04f0df7d5bda8cf4",
+  "active_uncommitted_changes": true,
+  "as_of_source_commit": "14f6ad9ed22f795a0beb4d6e0afb175c6f5d5c3",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,24 +16,23 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 0,
-    "task": "Commit the refreshed P1 evidence and progress update. Then rebuild the exact archive at the resulting clean source, compare two detached clean builds and sidecars, run fresh no-pip offline qualification under OS network denial, and rerun qualification/run_release_checks.py to confirm E02/E10 together. Continue scientific backlog after the package gate.",
-    "first_command": "rtk git status --short && rtk git diff --check",
+    "acceptance": "Record actual source commit, archive hash, clean-build reproducibility, offline socket denial, and full runner counts. Keep CANDIDATE; internal source authority, distribution/security approvals, target host and ROI remain pending.",
+    "first_command": "rtk git diff --check && rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record D02 and P1 evidence recheck\"",
     "inspect": [
       "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "release/BENCHMARK_REPORT.json",
-      "qualification/run_release_checks.py",
       "qualification/build_transfer_bundle.py",
       "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py"
+      "qualification/offline_qualify.py",
+      "qualification/run_release_checks.py"
     ],
-    "acceptance": "Record actual counts/statuses. Archive remains local candidate only; pending company/security/accessibility/distribution/target-host/ROI gates remain pending."
+    "priority": 0,
+    "task": "Commit the exact P1 disposable composition evidence and progress checkpoint. Then rebuild the exact archive at that source commit, compare two detached clean builds including source manifest/checksum, run fresh no-pip offline qualification with OS network denial, and rerun the full release checks. After recording E02/E10, continue independent D02 multiplicity/OOD qualification."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; NUMERIC_ID_SPLIT_LEAKAGE_FIXED; ADAPTIVE_SELECTION_HAZARD_QUALIFIED; CONDITIONAL_COVERAGE_UNESTABLISHED",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge measured 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata; paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. Numeric int/float lot-ID split leakage is fixed with an adversarial refusal test. New independent 10,000-trial 76-setting/20-calibration hazard screen measured 78.66% under an intentionally adversarial minimum-radius selector versus 95.25% fixed-setting and 95.27% complete-panel baselines. This is not P4's exact selector nor a manufacturing estimate; release runner verifies P4's pointwise advisory label and warning. Conditional coverage remains unestablished; only 3 of 76 selected candidates have exact-setting holdout outcomes."
+      "status": "IMPLEMENTED_WITH_LIMITS; MIXED_STRATA_TRANSFER_MATCH_FALSE_ASSURANCE_FIXED; CONDITIONAL_COVERAGE_UNESTABLISHED",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge measured 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata; paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. Numeric int/float lot-ID split leakage is fixed with an adversarial refusal test. New independent 10,000-trial 76-setting/20-calibration hazard screen measured 78.66% under an intentionally adversarial minimum-radius selector versus 95.25% fixed-setting and 95.27% complete-panel baselines. This is not P4's exact selector nor a manufacturing estimate; release runner verifies P4's pointwise advisory label and warning. Conditional coverage remains unestablished; only 3 of 76 selected candidates have exact-setting holdout outcomes. A 2026-11-23 adversarial regression found and fixed a transfer-status false assurance when some calibration/evaluation lots contained mixed or missing strata; incomplete assignment now yields INSUFFICIENT_ASSIGNABLE_STRATA."
     },
     {
       "priority": 2,
@@ -61,17 +61,16 @@
     },
     {
       "priority": 7,
-      "status": "CURRENT_P4_SOURCE_HOST_TESTS_PASS; BROWSER_SUCCESS_REFUSAL_KEYBOARD_OBSERVED_ON_RECORDED_SNAPSHOT; D03_UI_TEXT_UPDATED; OWNER_ACCEPTANCE_PENDING",
-      "task": "Refreshed disposable P1 composition manifest has 29 files and SHA-256 dddf7fcd392e19ae1679806ad2bf4f78e7dadaa4f87a260d6c022651eb7a2dfd. Current P4 source overlay passes P1 host routes 11, frontend 45, P4 panel 18, typecheck and build. Browser at 127.0.0.1:8770 observed synthetic request completion, D01-D05, accessible exact-values table, keyboard provenance disclosure and refusal suppression on its recorded P1 snapshot; browser not re-observed after backend-only D02 identity fix. Selected shared stylesheet text pairs pass CSS screening; focus indicator is 1.804:1 on body and 1.940:1 on white surfaces; CHANGE-003 asks P1 owner to review. Screen is not WCAG conformance. P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal screen-reader/accessibility review."
+      "status": "P1 DISPOSABLE HOST RECHECK PASS; P1 OWNER ACCEPTANCE PENDING",
+      "task": "Current P4 source 14f6ad9 overlaid into disposable unversioned P1 snapshot; 29-file fingerprint e7f6e9cace4cf779588600f2eef62f4f35a4f80237520d3ac9ad7307e27fac79; P1 routes 11 PASS, frontend 48 PASS, P4 panel 21 PASS, typecheck/build PASS. Browser synthetic request completed; long evidence list collapsed and exact expansion observed. No authoritative P1 source revision, owner acceptance, formal WCAG/screen-reader qualification or company host claim."
     },
     {
       "priority": 8,
-      "status": "E02_PASS_AT_CD8A357; E10_PENDING_FINAL_ARCHIVE; CANDIDATE; COMPANY_AND_ACCESSIBILITY_GATES_PENDING",
-      "task": "The last exact artifact remains at b293011 with ZIP SHA-256 5d382c5533cba9f30cb0f3ac030e8e3b4854fdeee9706e53740477297c7cb797. It is stale after D03. Current cd8a357 full runner passed 201 tests/0 skipped and E02; rebuild/reproduce/offline-qualify the exact new archive and rerun to establish E10. State remains CANDIDATE."
+      "status": "CURRENT ARCHIVE STALE AFTER 14F6AD9; E10 PENDING FINAL ARCHIVE; CANDIDATE",
+      "task": "Last qualified exact archive predates 14f6ad9. Refresh with deterministic bundle builder, two detached builds, no-pip OS-network-denied extraction, and current full release runner before citing E10."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Full current-source suite at cd8a357 passed 201 tests/0 skipped; E02 PASS including D03 rare-event benchmark; E10 pending final archive; P1 evidence now records current test result and progress/source-bound evidence need commit; no remote update",
-  "active_uncommitted_changes": true
+  "worktree_state": "P4 source is committed at 14f6ad9; current disposable P1 route tests 11 PASS, frontend 48 PASS, P4 panel 21 PASS, strict typecheck/build PASS, browser synthetic request COMPLETED/PARTIAL. P1 evidence refresh is uncommitted; release archive and E10 are stale. No remote update."
 }
