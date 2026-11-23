@@ -9,10 +9,13 @@ retain its finite-sample marginal simultaneous target under exchangeability.
 from __future__ import annotations
 
 import argparse
+from hashlib import sha256
 from math import ceil, sqrt
 import json
 import random
 from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def _wilson(successes: int, trials: int):
@@ -67,8 +70,11 @@ def run_benchmark(trials: int = 5000, seed: int = 73192, calibration_units: int 
         "candidate_settings": settings,
         "order_statistic_rank": rank,
         "target_coverage": 0.95,
+        "product_window_sha256": sha256((ROOT / "products" / "p4" / "window.py").read_bytes()).hexdigest(),
+        "benchmark_script_sha256": sha256(Path(__file__).read_bytes()).hexdigest(),
         "results": results,
         "limitations": [
+            "the minimum-radius selector is a deliberately adversarial stress policy, not the product's exact candidate-selection rule",
             "this isolates adaptive panel-selection bias under a known iid generator",
             "it does not establish exchangeability or coverage for manufacturing populations",
             "the predeclared complete-panel method is more conservative and covers only its finite declared panel",
@@ -80,9 +86,11 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--trials", type=int, default=5000)
     parser.add_argument("--seed", type=int, default=73192)
+    parser.add_argument("--calibration-units", type=int, default=39)
+    parser.add_argument("--settings", type=int, default=25)
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    result = run_benchmark(args.trials, args.seed)
+    result = run_benchmark(args.trials, args.seed, args.calibration_units, args.settings)
     fixed = result["results"]["fixed_one_setting"]["coverage"]
     adaptive = result["results"]["adaptively_selected_one_setting"]["coverage"]
     panel = result["results"]["predeclared_complete_panel"]["coverage"]

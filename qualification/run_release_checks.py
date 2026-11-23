@@ -152,7 +152,10 @@ def main():
         d02_ok = (supported_window.get("status") == "VALID"
                   and supported_window.get("candidate_count", 0) > 0
                   and calibration.get("calibration_unit_count", 0) >= 19
-                  and calibration.get("coverage_guarantee", "").startswith("none;"))
+                  and calibration.get("coverage_guarantee", "").startswith("none;")
+                  and supported_window.get("candidate_scope") == "ADVISORY_POINTWISE_SCREENING_ONLY"
+                  and "Selection among cells can inflate false-feasible findings"
+                      in supported_window.get("selection_warning", ""))
         workflow_pass = complete and evidence_outputs_qualified and d02_ok
         demo_result.update({"status": "PASS" if workflow_pass else "FAIL",
                             "result_status": evidence["status"], "mode": evidence["mode"],
@@ -165,6 +168,9 @@ def main():
                                 "training_units": calibration.get("training_unit_count"),
                                 "calibration_units": calibration.get("calibration_unit_count"),
                                 "coverage_guarantee": calibration.get("coverage_guarantee"),
+                                "candidate_scope": supported_window.get("candidate_scope"),
+                                "selection_warning_present": "Selection among cells can inflate false-feasible findings"
+                                    in supported_window.get("selection_warning", ""),
                                 "qualification": "PASS" if d02_ok else "FAIL"},
                             "evidence": "release/full_workflow_demo_evidence.json"})
         if not workflow_pass:
@@ -347,6 +353,48 @@ def main():
             key: item.get("coverage") for key, item in d02_replicate_scenarios.items()},
         "runtime_dependencies_added": False,
         "scope": "independent iid finite-panel oracle; replication-shift challenge only"
+    }
+    d02_selection_path = ROOT / "qualification" / "results" / "D02_ADAPTIVE_SELECTION_76X20.json"
+    d02_selection_run, _ = run([sys.executable, "-m", "qualification.benchmark_d02_adaptive_selection",
+                                "--trials", "10000", "--seed", "204811",
+                                "--calibration-units", "20", "--settings", "76",
+                                "--output", "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json"])
+    d02_selection = json.loads(d02_selection_path.read_text(encoding="utf-8")) if d02_selection_path.exists() else {}
+    d02_selection_results = d02_selection.get("results", {})
+    d02_selection_fixed = d02_selection_results.get("fixed_one_setting", {})
+    d02_selection_adaptive = d02_selection_results.get("adaptively_selected_one_setting", {})
+    d02_selection_panel = d02_selection_results.get("predeclared_complete_panel", {})
+    d02_selection_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d02_adaptive_selection.py").read_bytes()).hexdigest()
+    d02_selection_pass = (
+        d02_selection_run.returncode == 0
+        and d02_selection.get("schema") == "p4-d02-adaptive-selection-benchmark/v1"
+        and d02_selection.get("trials") == 10000
+        and d02_selection.get("calibration_units") == 20
+        and d02_selection.get("candidate_settings") == 76
+        and d02_selection.get("order_statistic_rank") == 20
+        and d02_selection.get("target_coverage") == 0.95
+        and d02_selection.get("product_window_sha256") == d02_window_hash
+        and d02_selection.get("benchmark_script_sha256") == d02_selection_script_hash
+        and d02_selection_fixed.get("wilson95", [1, 0])[0] <= 0.95 <= d02_selection_fixed.get("wilson95", [1, 0])[1]
+        and d02_selection_adaptive.get("wilson95", [0, 1])[1] < 0.90
+        and d02_selection_panel.get("wilson95", [1, 0])[0] <= 0.95 <= d02_selection_panel.get("wilson95", [1, 0])[1]
+        and d02_ok
+    )
+    d02_selection_result = {
+        "status": "PASS" if d02_selection_pass else "FAIL",
+        "evidence": "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json",
+        "source_hash_matches": d02_selection.get("product_window_sha256") == d02_window_hash,
+        "benchmark_script_hash_matches": d02_selection.get("benchmark_script_sha256") == d02_selection_script_hash,
+        "candidate_settings": d02_selection.get("candidate_settings"),
+        "calibration_units": d02_selection.get("calibration_units"),
+        "fixed_setting_coverage": d02_selection_fixed.get("coverage"),
+        "adaptive_minimum_radius_coverage": d02_selection_adaptive.get("coverage"),
+        "adaptive_minimum_radius_wilson95": d02_selection_adaptive.get("wilson95"),
+        "predeclared_panel_coverage": d02_selection_panel.get("coverage"),
+        "product_candidate_scope_and_warning_checked": d02_ok,
+        "runtime_dependencies_added": False,
+        "scope": "iid adversarial selection-hazard screen at 76 settings/20 calibration units; minimum-radius selector is not P4's exact candidate rule and results do not establish manufacturing coverage"
     }
     d02_simultaneous_path = ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json"
     d02_simultaneous_run, _ = run([sys.executable, "-m", "qualification.benchmark_d02_simultaneous",
@@ -630,7 +678,7 @@ def main():
                               "independent_human_review": "PENDING"}
 
     qualification_pass = (test_pass and demo_result["status"] == "PASS" and schema_status == "PASS"
-                          and frozen_pass and critical_pass and d01_imbalance_pass and d02_replicate_pass and d02_simultaneous_pass and d02_transfer_pass
+                          and frozen_pass and critical_pass and d01_imbalance_pass and d02_replicate_pass and d02_selection_pass and d02_simultaneous_pass and d02_transfer_pass
                           and d03_bounded_pass and mcp_pass and mcp_sdk_pass
                           and dependency_audit_pass and d04_pass and performance_pass
                           and ui_component_pass and security_pass)
@@ -646,6 +694,7 @@ def main():
                "d04_oss_benchmark": benchmark_result,
                "d01_cluster_imbalance_benchmark": d01_imbalance_result,
                "d02_replicate_shift_benchmark": d02_replicate_result,
+               "d02_adaptive_selection_benchmark": d02_selection_result,
                "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
                "d03_bounded_mean_benchmark": d03_benchmark_result,
                "scientific_performance_benchmark": performance_result,
@@ -675,6 +724,7 @@ def main():
         "d01_crossed_dependence_benchmark": d01_cross_result,
         "d01_conditioning_benchmark": d01_condition_result,
         "d02_replicate_shift_benchmark": d02_replicate_result,
+        "d02_adaptive_selection_benchmark": d02_selection_result,
         "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
         "d02_stratum_transfer_benchmark": d02_transfer_result,
         "d02_response_drift_benchmark": d02_drift_result,
