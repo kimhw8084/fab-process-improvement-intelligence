@@ -68,7 +68,15 @@ def _metric_pass(value, definition):
 
 
 def _unit_key(value):
-    return json.dumps({"type": type(value).__name__, "value": value}, sort_keys=True, separators=(",", ":"))
+    if isinstance(value, (int, float)) and not isinstance(value, bool):
+        # Numeric identifiers can arrive as either 7 or 7.0 after source/JSON
+        # normalization. Treat equal numeric values as one independent unit so
+        # representation drift cannot leak a lot across analysis partitions.
+        normalized = int(value) if isinstance(value, float) and isfinite(value) and value.is_integer() else value
+        identity = {"type": "number", "value": normalized}
+    else:
+        identity = {"type": type(value).__name__, "value": value}
+    return json.dumps(identity, sort_keys=True, separators=(",", ":"))
 
 
 def _split_calibration(rows, unit_field, config, minimum_calibration_units):

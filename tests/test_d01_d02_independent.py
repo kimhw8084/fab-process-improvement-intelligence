@@ -427,6 +427,19 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertIn("Selection among cells can inflate false-feasible findings", result["selection_warning"])
         self.assertEqual(result["independent_candidate_evaluation"]["status"], "NOT_PROVIDED")
 
+    def test_numeric_lot_identity_cannot_cross_partitions_through_int_float_alias(self):
+        rows, factors, data = self._dataset()
+        # Some JSON/source adapters emit integral numeric IDs inconsistently as
+        # 7 and 7.0. They represent one numeric lot, not independent units.
+        for item in rows:
+            if item["lot_id"] == "LOT-00":
+                item["lot_id"] = 7.0
+            elif item["lot_id"] == "LOT-02":
+                item["lot_id"] = 7
+        result = explore_window(rows, factors, METRIC, data)
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertIn("independent unit crosses", result["reason"])
+
     def test_untouched_lot_evaluation_is_separate_from_candidate_selection(self):
         rows, factors, data = self._dataset()
         for item in rows:
