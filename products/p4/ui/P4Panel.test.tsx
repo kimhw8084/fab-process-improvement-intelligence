@@ -3,6 +3,7 @@ import { cleanup, fireEvent, render, screen, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { P4Panel, type P4Evidence, type SourcePreview, type SuiteChartModel } from "./P4Panel";
+import mcpPanelBridge from "../../../tests/fixtures/mcp_p4_panel_bridge.json";
 
 const sourcePreview: SourcePreview = {
   status: "SYNTHETIC_ONLY", permission: "No company access configured.", semantic_version: "SYNTHETIC-NOT-APPROVED",
@@ -103,6 +104,38 @@ const externalChart: SuiteChartModel = {
 afterEach(cleanup);
 
 describe("P4 headless suite module", () => {
+  it("renders evidence produced by the official MCP-to-P4 workflow through the shared panel contract", () => {
+    const bridge = mcpPanelBridge as unknown as {
+      source_preview: SourcePreview;
+      analysis_evidence: P4Evidence;
+    };
+    const renderChart = vi.fn((model: SuiteChartModel) => <div data-testid={`shared-${model.chart_id}`} />);
+    render(<P4Panel sourcePreview={bridge.source_preview} evidence={bridge.analysis_evidence} renderChart={renderChart} />);
+    for (const section of ["D01 · Factor sensitivity", "D02 · Evidence-supported process window",
+      "D03 · Cross-step and multiobjective tradeoffs", "D04 · Next experiment proposal", "D05 · Change effectiveness"]) {
+      expect(screen.getByRole("region", { name: section })).toBeTruthy();
+    }
+    expect(screen.getByText("SYNTHETIC-SEMANTICS-1")).toBeTruthy();
+    expect(screen.getByText("No company source permission is configured.", { exact: false })).toBeTruthy();
+    expect(screen.getByRole("table", { name: /Observed Pareto setting means/ })).toBeTruthy();
+    expect(renderChart).toHaveBeenCalledWith(expect.objectContaining({ chart_id: "p4-supported-pareto", kind: "scatter" }));
+    expect(screen.getByText(/SYN-AUDIT-READ-1/)).toBeTruthy();
+  });
+
+  it("renders the MCP permission refusal without positive P4 findings or charts", () => {
+    const bridge = mcpPanelBridge as unknown as {
+      source_preview: SourcePreview;
+      refusal_evidence: P4Evidence;
+    };
+    const renderChart = vi.fn(() => <div data-testid="unexpected-shared-chart" />);
+    render(<P4Panel sourcePreview={bridge.source_preview} evidence={bridge.refusal_evidence} renderChart={renderChart} />);
+    expect(screen.getByText(/Positive findings and charts are withheld because this result is refused/)).toBeTruthy();
+    expect(screen.queryByRole("region", { name: /D0[1-5]/ })).toBeNull();
+    expect(screen.queryByRole("link", { name: /D0[1-5]/ })).toBeNull();
+    expect(screen.queryByTestId("unexpected-shared-chart")).toBeNull();
+    expect(renderChart).not.toHaveBeenCalled();
+  });
+
   it("shows source scope, claims, limitations, and provenance", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     expect(screen.getByText("Synthetic demonstration data only")).toBeTruthy();

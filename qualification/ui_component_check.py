@@ -46,7 +46,7 @@ def main():
                               "--config", str(vite_config), "products/p4/ui/P4Panel.test.tsx"], suite)
         typecheck = run(["npm", "exec", "--", "tsc", "--noEmit", "--strict", "--skipLibCheck",
                          "--target", "ES2022", "--module", "ESNext", "--moduleResolution", "Bundler",
-                         "--jsx", "react-jsx", "--lib", "ES2022,DOM", "--types",
+                         "--jsx", "react-jsx", "--resolveJsonModule", "--lib", "ES2022,DOM", "--types",
                          "vitest/globals,@testing-library/jest-dom",
                          str(ROOT / "products/p4/ui/P4Panel.tsx"),
                          str(ROOT / "products/p4/ui/P4Panel.test.tsx")], suite)
@@ -75,7 +75,8 @@ def main():
         "contract_sha256": {name: reference["contracts"][name]["sha256"]
                             for name in ("suite-ui-module.v1.schema.json", "suite-chart.v1.schema.json")},
         "p4_source_sha256": {"products/p4/ui/P4Panel.tsx": digest(ROOT / "products/p4/ui/P4Panel.tsx"),
-                             "products/p4/ui/P4Panel.test.tsx": digest(ROOT / "products/p4/ui/P4Panel.test.tsx")},
+                             "products/p4/ui/P4Panel.test.tsx": digest(ROOT / "products/p4/ui/P4Panel.test.tsx"),
+                             "tests/fixtures/mcp_p4_panel_bridge.json": digest(ROOT / "tests/fixtures/mcp_p4_panel_bridge.json")},
         "component_tests": {"return_code": component_test["return_code"], "tests_passed": tests_passed,
                             "test_file": "products/p4/ui/P4Panel.test.tsx",
                             "expected_test_count": expected_tests,

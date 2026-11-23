@@ -34,6 +34,20 @@
       "schema": "requirements/site-mcp-config.v1.schema.json",
       "schema_sha256": "6dd8181f4fc907269b8ad9f7dbbe6ce58687a71782ba11edc7a9ffb7451ecd9c",
       "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "tests/fixtures/mcp_p4_panel_bridge.json#analysis_evidence",
+      "schema": "contracts/evidence.v1.schema.json",
+      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "tests/fixtures/mcp_p4_panel_bridge.json#refusal_evidence",
+      "schema": "contracts/evidence.v1.schema.json",
+      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "status": "PASS"
     }
   ],
   "role": "qualification-only; not a runtime dependency",

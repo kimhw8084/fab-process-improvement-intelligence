@@ -32,6 +32,19 @@ def main():
         results.append({"schema": schema_rel, "schema_sha256": hashlib.sha256(schema_bytes).hexdigest(),
                         "instance": instance_rel, "status": "PASS" if not errors else "FAIL",
                         "errors": [error.message for error in errors]})
+    bridge_path = ROOT / "tests" / "fixtures" / "mcp_p4_panel_bridge.json"
+    bridge_schema_path = ROOT / "contracts" / "evidence.v1.schema.json"
+    bridge_schema = json.loads(bridge_schema_path.read_text(encoding="utf-8"))
+    bridge_validator = Draft202012Validator(bridge_schema, format_checker=FormatChecker())
+    bridge = json.loads(bridge_path.read_text(encoding="utf-8"))
+    for evidence_key in ("analysis_evidence", "refusal_evidence"):
+        instance = bridge[evidence_key]
+        errors = sorted(bridge_validator.iter_errors(instance), key=lambda error: list(map(str, error.absolute_path)))
+        results.append({"schema": "contracts/evidence.v1.schema.json",
+                        "schema_sha256": hashlib.sha256(bridge_schema_path.read_bytes()).hexdigest(),
+                        "instance": f"tests/fixtures/mcp_p4_panel_bridge.json#{evidence_key}",
+                        "status": "PASS" if not errors else "FAIL",
+                        "errors": [error.message for error in errors]})
     report = {"status": "PASS" if all(item["status"] == "PASS" for item in results) else "FAIL",
               "validator": "python-jsonschema", "validator_version": importlib.metadata.version("jsonschema"),
               "role": "qualification-only; not a runtime dependency", "checks": results}

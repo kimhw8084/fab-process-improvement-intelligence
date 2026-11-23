@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "690f26b76a967f493e4af8c52fb1a1164d86a9f4",
+  "as_of_source_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,16 +15,19 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 3,
-    "task": "Audit D03 uncertainty-aware multiobjective comparisons against held-out missing-objective, population-mismatch, and interval-overlap challenges; add an independent oracle or fix only a demonstrated ambiguity.",
-    "first_command": "rtk sed -n \"1,360p\" products/p4/tradeoffs.py && rtk sed -n \"1,240p\" tests/test_d03_relationships.py",
+    "priority": 7,
+    "task": "Review and locally commit the exact official-SDK MCP-to-P4-panel bridge, shared P1 compatibility evidence, source generator, refusal rendering tests, and CHANGE-002 host lifecycle proposal. Then regenerate exact-source performance and release evidence, repair any release gate failures, rebuild the offline archive twice, and verify fresh no-pip extraction under network denial.",
+    "first_command": "rtk git diff --check && rtk git status --short && rtk git diff -- products/p4/ui/P4Panel.test.tsx qualification/schema_check.py qualification/ui_component_check.py",
     "inspect": [
-      "products/p4/tradeoffs.py",
-      "products/p4/ui/P4Panel.tsx",
-      "tests/test_d03_relationships.py",
-      "qualification/benchmark_d03_bounded_mean.py"
+      "qualification/build_mcp_panel_bridge_fixture.py",
+      "tests/fixtures/mcp_p4_panel_bridge.json",
+      "tests/test_mcp_panel_bridge_fixture.py",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
+      "integration/proposals/CHANGE-002-P1-MCP-TO-P4-WORKFLOW.md",
+      "qualification/run_release_checks.py",
+      "qualification/benchmark.py"
     ],
-    "acceptance": "No objective or population incompatibility may silently remove or reverse an engineering comparison; observed means, marginal uncertainty, family-wise evidence, and limitations remain separately labeled. Freeze and run a known multiobjective oracle before any behavior change; then proceed to D04."
+    "acceptance": "The committed MCP-success/refusal bridge, fixture fingerprints, UI/schema reports, and 29-file disposable P1 composition evidence agree; current exact-source benchmark and full release checks are rerun after commit; no stale artifact is represented as current and no publication occurs."
   },
   "ordered_queue": [
     {
@@ -39,37 +42,37 @@
     },
     {
       "priority": 3,
-      "status": "IMPLEMENTED_WITH_LIMITS; OPTIONAL_BOUNDED_ENVELOPE",
-      "task": "D03 retains the approximate-normal t rectangle by default and adds a distribution-free Hoeffding/Bonferroni mean envelope when caller supplies exact setting family, units, hard aggregate bounds and references. Invalid contracts abstain without fallback. 500-trial skewed correlated challenge: t joint coverage 91.8% at n=30 and 96.0% at n=60; Hoeffding 100% both with Wilson lower 0.992 and 3.0-3.6x interval width. Synthetic only; source bounds/population and relationship authority remain unverified."
+      "status": "IMPLEMENTED_WITH_LIMITS; EXACT_SOURCE_ID_LINEAGE_AND_FAIL_CLOSED_REGISTRY_QUALIFIED",
+      "task": "D03 now requires each row-level source reference to be a list of exact source-ID strings; malformed/empty source registries, empty observations, duplicate or malformed objective families, and objective-direction conflicts fail closed. Independent relationship tests: 19 PASS. Existing mean Pareto, marginal interval diagnostics, and optional bounded Hoeffding/Bonferroni envelope retain their explicit population and distribution limits."
     },
     {
       "priority": 4,
-      "status": "IMPLEMENTED_WITH_LIMITS",
-      "task": "D04 includes grouped development selection/holdout, constrained next-best, multiple DOE families, and non-executing exact D02 paired confirmation. The known-SD sample-size approximation was corrected against 54 SciPy noncentral-t cases. A 2,000-trial historical SD challenge demonstrated that point-SD use is underpowered in 41–56% of trials; D04 now refuses point estimates and requires caller-supplied ≥95% one-sided chi-square SD upper bound+df or engineer-approved hard bound. P4 records but cannot authenticate it; normality/independence remain assumptions."
+      "status": "IMPLEMENTED_WITH_LIMITS; TYPE_PRESERVING_INDEPENDENT_UNIT_IDENTITY_QUALIFIED",
+      "task": "D04 now preserves Python type identity for independent-unit IDs across development/holdout separation, CV, metrics, cluster counts, incumbent means and support checks; numeric 1 and string \"1\" are distinct, while missing/nested/non-scalar identities refuse. Focused D04 suite: 23 PASS. Sequential and power calculations retain stated caller-supplied variance-bound and normality/independence limitations."
     },
     {
       "priority": 5,
-      "status": "IMPLEMENTED_WITH_LIMITS",
+      "status": "IMPLEMENTED_WITH_LIMITS; HIDDEN_BIAS_AND_INVALID_ASSUMPTIONS_QUALIFIED",
       "task": "D05 has pretrend and curvature placebos, population/composition gates, negative-control falsification, unit-checked differential-trend sensitivity, exact null tipping points, exact string ledger identity, and bounded randomized attrition calculations that refuse when observed values violate supplied limits. Observational DiD always has causal_claim=false; bound adequacy remains pending independent substantive qualification. The 1,000-trial hidden-confounder challenge shows why underbound sources must not qualify automatically."
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; CURRENT_SOURCE_HASH_BOUND",
-      "task": "Official SDK mock read to source-semantic/version/hash and approved-relationship/grain/time/audit validation, normalized all-five-capability P4 analysis and shared evidence envelope; frozen logical adapter contract is v1.0.0, P4 evidence extensions are fail-closed and proposed additively; 14 focused MCP tests PASS. Company semantics/authorization remain pending."
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; MCP_AUDIT_AND_RELATIONSHIP_BINDING_FAIL_CLOSED; PANEL_BRIDGE_QUALIFIED",
+      "task": "Official MCP SDK 2.3.0 mock path covers source semantics/version/hash, approved relationship, one-to-one grain, bounded read, timestamps, cancellation, audit, normalization, D01-D05 and evidence envelope. f331381 fixes requested-versus-audited permission scope, duplicate audit-source receipts and relationship endpoint metric/field binding before read. A deterministic MCP success/refusal fixture is schema-checked and rendered through the P1 contract-compatible P4 panel: 900 normalized rows, D01-D05 dossier, provenance and refusal suppression. Bridge fixture SHA-256 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; two-build deterministic check PASS; focused MCP 16 PASS; bridge fixture 2 PASS; full current Python suite 190 PASS. Company authorization and source mappings remain pending."
     },
     {
       "priority": 7,
-      "status": "P1_SNAPSHOT_PINNED_TO_PREVIOUS_SOURCE_690f; CURRENT_SOURCE_SYNC_AND_HOST_REQUALIFICATION_PENDING",
-      "task": "Headless P4 module remains on the P1-owned contract. Before this uncommitted source diff, the current snapshot had 28 files and host routes 11 PASS, P4 panel 15 PASS/typecheck PASS. The new warning UI test brings P4 panel to 16 PASS/typecheck PASS against the same local contract snapshot. Sync current committed P4 into the disposable snapshot and rerun host routes/frontend/typecheck/build/browser; no P1 owner/source acceptance is available."
+      "status": "DISPOSABLE_P1_COMPOSITION_REQUALIFIED_TO_F331381; OWNER_ACCEPTANCE_PENDING",
+      "task": "Unversioned disposable P1 composition has a refreshed 29-file manifest SHA-256 b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e, current MCP workflow/panel test pins and exact MCP bridge fixture. P1 host-route tests 11 PASS; frontend tests 45 PASS; P4 panel 18 PASS; strict typecheck and production build PASS (800,361-byte shared JS bundle; >500 KB warning). Prior live browser run showed COMPLETED/PARTIAL and a REFUSED/ACCESS_REFUSED path with data/finding suppression. Exact MCP output-to-panel is tested at the component boundary, not through the P1 server route. P1 source is unversioned; owner, accessibility and target host remain pending."
     },
     {
       "priority": 8,
-      "status": "NEW_D01_D02_SOURCE_DIFF_TESTED; FULL_RUN_AND_ARCHIVE_PENDING",
-      "task": "Source base is 690f26b. Current D01/D02 changes add held-out exact-panel response misses and a near-collinearity warning, independent D01/D02 benchmarks, UI coverage, release gates and scientific notes. Executed focused D01 (18 PASS), D02 (32 PASS), full default unittest suite (182 run, 14 optional-dependency skips) and pinned qualification environment suite (182 PASS, 0 skipped), schema PASS, P4 UI 16 PASS/typecheck PASS, D01/D02 Monte Carlo scripts at 250 trials, and git diff --check. Bind the next result/source commit after local commit; rerun full release checks and exact-artifact qualification only after the remaining source changes are complete."
+      "status": "CURRENT_SOURCE_F331381_RELEASE_REQUALIFICATION_PENDING",
+      "task": "The f331381 base plus uncommitted panel-bridge/source-generator/evidence changes pass 190 pinned Python tests, 16 focused MCP tests, 2 bridge fixture tests, 7 schema instances, 18 P4 panel tests, 11 disposable P1 host routes, 45 P1 frontend tests, strict typecheck and P1 production build. Local review/commit precedes exact-source benchmark, full release runner, reproducible archive and offline extraction; no push or publication."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "dirty; reviewed local source changes not committed",
+  "worktree_state": "dirty; source base f331381, with MCP-to-panel bridge, P1 snapshot refresh, proposal and evidence updates pending review and local commit",
   "active_uncommitted_changes": true
 }
