@@ -6,6 +6,8 @@
           "observational conditional mean is represented by the selected linear/quadratic terms",
           "HC3 handles heteroskedasticity but assumes independent observations",
           "cluster covariance allows within-cluster dependence and relies on independent clusters",
+          "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
+          "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
           "classical covariance additionally assumes homoskedastic errors",
           "measurement uncertainty was not supplied or propagated",
           "fixed effects adjust only for the explicitly selected fields"
@@ -13,6 +15,13 @@
         "diagnostic_warnings": [],
         "diagnostics": {
           "condition_proxy": 8.499999999999941,
+          "condition_proxy_interpretation": {
+            "elevated_threshold": 100.0,
+            "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula",
+            "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+            "severe_threshold": 1000.0,
+            "status": "NO_HEURISTIC_FLAG"
+          },
           "degenerate_residual_variation": false,
           "high_leverage_observation_ids": [],
           "internally_studentized_residual_outlier_ids": [],
@@ -277,11 +286,13 @@
           "covariance_auto_selected_for_repeated_units": false,
           "declared_independent_unit_count": 100,
           "declared_independent_unit_field": "lot_id",
+          "declared_shared_dependence_fields": [],
           "independent_cluster_count": 100,
           "independent_cluster_field": "lot_id",
           "inference_df": 99,
           "minimum_clusters": 30,
-          "row_share_effective_cluster_count": 100.00000000000006
+          "row_share_effective_cluster_count": 100.00000000000006,
+          "shared_dependence": null
         },
         "interpretation": "observational association; coefficients do not estimate intervention response",
         "metric": "yield_index",
@@ -23675,6 +23686,8 @@
               "observational conditional mean is represented by the selected linear/quadratic terms",
               "HC3 handles heteroskedasticity but assumes independent observations",
               "cluster covariance allows within-cluster dependence and relies on independent clusters",
+              "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
+              "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
               "classical covariance additionally assumes homoskedastic errors",
               "measurement uncertainty was not supplied or propagated",
               "fixed effects adjust only for the explicitly selected fields"
@@ -23682,6 +23695,13 @@
             "diagnostic_warnings": [],
             "diagnostics": {
               "condition_proxy": 7.4999999999999805,
+              "condition_proxy_interpretation": {
+                "elevated_threshold": 100.0,
+                "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula",
+                "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+                "severe_threshold": 1000.0,
+                "status": "NO_HEURISTIC_FLAG"
+              },
               "degenerate_residual_variation": false,
               "high_leverage_observation_ids": [],
               "internally_studentized_residual_outlier_ids": [],
@@ -23733,11 +23753,13 @@
               "covariance_auto_selected_for_repeated_units": false,
               "declared_independent_unit_count": null,
               "declared_independent_unit_field": null,
+              "declared_shared_dependence_fields": [],
               "independent_cluster_count": 30,
               "independent_cluster_field": "lot_id",
               "inference_df": 29,
               "minimum_clusters": 30,
-              "row_share_effective_cluster_count": 30.0
+              "row_share_effective_cluster_count": 30.0,
+              "shared_dependence": null
             },
             "interpretation": "observational association; coefficients do not estimate intervention response",
             "metric": "defect_rate",
@@ -23837,6 +23859,8 @@
               "observational conditional mean is represented by the selected linear/quadratic terms",
               "HC3 handles heteroskedasticity but assumes independent observations",
               "cluster covariance allows within-cluster dependence and relies on independent clusters",
+              "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
+              "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
               "classical covariance additionally assumes homoskedastic errors",
               "measurement uncertainty was not supplied or propagated",
               "fixed effects adjust only for the explicitly selected fields"
@@ -23844,6 +23868,13 @@
             "diagnostic_warnings": [],
             "diagnostics": {
               "condition_proxy": 7.4999999999999805,
+              "condition_proxy_interpretation": {
+                "elevated_threshold": 100.0,
+                "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula",
+                "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+                "severe_threshold": 1000.0,
+                "status": "NO_HEURISTIC_FLAG"
+              },
               "degenerate_residual_variation": false,
               "high_leverage_observation_ids": [],
               "internally_studentized_residual_outlier_ids": [],
@@ -23895,11 +23926,13 @@
               "covariance_auto_selected_for_repeated_units": false,
               "declared_independent_unit_count": null,
               "declared_independent_unit_field": null,
+              "declared_shared_dependence_fields": [],
               "independent_cluster_count": 30,
               "independent_cluster_field": "lot_id",
               "inference_df": 29,
               "minimum_clusters": 30,
-              "row_share_effective_cluster_count": 30.0
+              "row_share_effective_cluster_count": 30.0,
+              "shared_dependence": null
             },
             "interpretation": "observational association; coefficients do not estimate intervention response",
             "metric": "yield_index",
@@ -24011,6 +24044,17 @@
           "calibration_transfer_assessment": {
             "calibration_to_evaluation_total_variation": null,
             "evaluation_panel_status": "NOT_AVAILABLE",
+            "heldout_band_evaluation": {
+              "complete_panel_units": 0,
+              "evaluation_units": 10,
+              "mismatched_panel_units": 0,
+              "missed_any_interval_fraction": null,
+              "missed_any_interval_units": null,
+              "reason": "an independent exact-panel calibration band is required to score evaluation outcomes",
+              "status": "NOT_AVAILABLE_BAND_UNAVAILABLE",
+              "unscored_units": 0,
+              "wilson95_descriptive_interval": null
+            },
             "interpretation": "the precommitted finite-panel band is unavailable, so transfer cannot be assessed",
             "observed_counterevidence": [],
             "status": "CALIBRATION_BAND_UNAVAILABLE",
@@ -25279,6 +25323,13 @@
       "diagnostic_warnings": [],
       "diagnostics": {
         "condition_proxy": 8.499999999999941,
+        "condition_proxy_interpretation": {
+          "elevated_threshold": 100.0,
+          "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula",
+          "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+          "severe_threshold": 1000.0,
+          "status": "NO_HEURISTIC_FLAG"
+        },
         "degenerate_residual_variation": false,
         "high_leverage_observation_ids": [],
         "internally_studentized_residual_outlier_ids": [],
@@ -25307,11 +25358,13 @@
         "covariance_auto_selected_for_repeated_units": false,
         "declared_independent_unit_count": 100,
         "declared_independent_unit_field": "lot_id",
+        "declared_shared_dependence_fields": [],
         "independent_cluster_count": 100,
         "independent_cluster_field": "lot_id",
         "inference_df": 99,
         "minimum_clusters": 30,
-        "row_share_effective_cluster_count": 100.00000000000006
+        "row_share_effective_cluster_count": 100.00000000000006,
+        "shared_dependence": null
       },
       "residual_df": 893,
       "residual_sd": 0.09129220078853655

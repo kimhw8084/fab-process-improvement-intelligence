@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0",
+  "as_of_source_commit": "455294325df0a904140c9b538f959ed1dcb3be65",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,19 +15,17 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 7,
-    "task": "Review and locally commit the exact official-SDK MCP-to-P4-panel bridge, shared P1 compatibility evidence, source generator, refusal rendering tests, and CHANGE-002 host lifecycle proposal. Then regenerate exact-source performance and release evidence, repair any release gate failures, rebuild the offline archive twice, and verify fresh no-pip extraction under network denial.",
-    "first_command": "rtk git diff --check && rtk git status --short && rtk git diff -- products/p4/ui/P4Panel.test.tsx qualification/schema_check.py qualification/ui_component_check.py",
+    "priority": 8,
+    "task": "Finalize and commit the transfer-inventory correction that keeps mutable benchmark and test outputs as local evidence sidecars while preserving the pinned runtime, documentation, tests and SBOM in the bundle. Re-run all tests and the exact-source release runner, build from the clean product source snapshot, compare two detached clean builds, run fresh no-pip extraction under OS network denial, and re-run E10 against the exact artifact.",
+    "first_command": "rtk git diff --check && rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -q",
     "inspect": [
-      "qualification/build_mcp_panel_bridge_fixture.py",
-      "tests/fixtures/mcp_p4_panel_bridge.json",
-      "tests/test_mcp_panel_bridge_fixture.py",
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "integration/proposals/CHANGE-002-P1-MCP-TO-P4-WORKFLOW.md",
-      "qualification/run_release_checks.py",
-      "qualification/benchmark.py"
+      "qualification/build_transfer_bundle.py",
+      "tests/test_schema_and_ui.py",
+      "qualification/check_reproducibility.py",
+      "qualification/offline_qualify.py",
+      "qualification/run_release_checks.py"
     ],
-    "acceptance": "The committed MCP-success/refusal bridge, fixture fingerprints, UI/schema reports, and 29-file disposable P1 composition evidence agree; current exact-source benchmark and full release checks are rerun after commit; no stale artifact is represented as current and no publication occurs."
+    "acceptance": "Only declared generated qualification outputs may be dirty while building; product source edits still refuse. The current bundle inventory excludes generated benchmark evidence but includes runtime, tests, documentation and SBOM. E10 passes only if exact source manifest, clean rebuilds, sidecar checksum and fresh network-denied extraction all agree."
   },
   "ordered_queue": [
     {
@@ -57,22 +55,22 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; MCP_AUDIT_AND_RELATIONSHIP_BINDING_FAIL_CLOSED; PANEL_BRIDGE_QUALIFIED",
-      "task": "Official MCP SDK 2.3.0 mock path covers source semantics/version/hash, approved relationship, one-to-one grain, bounded read, timestamps, cancellation, audit, normalization, D01-D05 and evidence envelope. f331381 fixes requested-versus-audited permission scope, duplicate audit-source receipts and relationship endpoint metric/field binding before read. A deterministic MCP success/refusal fixture is schema-checked and rendered through the P1 contract-compatible P4 panel: 900 normalized rows, D01-D05 dossier, provenance and refusal suppression. Bridge fixture SHA-256 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; two-build deterministic check PASS; focused MCP 16 PASS; bridge fixture 2 PASS; full current Python suite 190 PASS. Company authorization and source mappings remain pending."
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 194_CURRENT_WORKTREE_TESTS_PASS",
+      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. The pinned full Python worktree suite currently runs 194 tests with 0 failures. Company authorization and P1 server-side MCP lifecycle remain pending."
     },
     {
       "priority": 7,
-      "status": "DISPOSABLE_P1_COMPOSITION_REQUALIFIED_TO_F331381; OWNER_ACCEPTANCE_PENDING",
-      "task": "Unversioned disposable P1 composition has a refreshed 29-file manifest SHA-256 b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e, current MCP workflow/panel test pins and exact MCP bridge fixture. P1 host-route tests 11 PASS; frontend tests 45 PASS; P4 panel 18 PASS; strict typecheck and production build PASS (800,361-byte shared JS bundle; >500 KB warning). Prior live browser run showed COMPLETED/PARTIAL and a REFUSED/ACCESS_REFUSED path with data/finding suppression. Exact MCP output-to-panel is tested at the component boundary, not through the P1 server route. P1 source is unversioned; owner, accessibility and target host remain pending."
+      "status": "DISPOSABLE_P1_COMPOSITION_QUALIFIED; OWNER_ACCEPTANCE_PENDING",
+      "task": "Unversioned P1 snapshot manifest has 29 files and SHA-256 b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e. P1 routes 11 PASS, frontend 45 PASS, P4 panel 18 PASS, typecheck/build PASS. Browser confirms shell fixture success/refusal. SDK-produced output is directly rendered by component tests, but P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal accessibility review."
     },
     {
       "priority": 8,
-      "status": "CURRENT_SOURCE_F331381_RELEASE_REQUALIFICATION_PENDING",
-      "task": "The f331381 base plus uncommitted panel-bridge/source-generator/evidence changes pass 190 pinned Python tests, 16 focused MCP tests, 2 bridge fixture tests, 7 schema instances, 18 P4 panel tests, 11 disposable P1 host routes, 45 P1 frontend tests, strict typecheck and P1 production build. Local review/commit precedes exact-source benchmark, full release runner, reproducible archive and offline extraction; no push or publication."
+      "status": "RELEASE_RUNNER_PASS_AT_4552943; E10_PENDING; PACKAGER_CHANGE_UNCOMMITTED",
+      "task": "Full runner at source commit 455294325df0a904140c9b538f959ed1dcb3be65 passed 192 Python tests, all scientific benchmark/schema/UI checks, and recognized disposable P1 evidence. Current source-bound benchmark p50 256.25 ms for the 900-row synthetic run; no engineer baseline/ROI claim. Fresh pip-audit/PyPI lookup on Python 3.11 audited 48 dependency instances, 0 known advisories; Bandit 1.9.4 found 8 LOW, 0 MEDIUM/HIGH (limited scope). Reproducible archive and network-denied extraction remain pending."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "dirty; source base f331381, with MCP-to-panel bridge, P1 snapshot refresh, proposal and evidence updates pending review and local commit",
+  "worktree_state": "dirty; source base 4552943, with transfer-bundle evidence separation and source-contract tests under qualification; release and security evidence refresh pending local commit",
   "active_uncommitted_changes": true
 }

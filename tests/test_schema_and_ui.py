@@ -3,7 +3,8 @@ import json
 import unittest
 from pathlib import Path
 
-from qualification.build_transfer_bundle import source_files
+from qualification.build_transfer_bundle import (is_generated_qualification_output, require_clean_worktree,
+                                                 source_files)
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -66,6 +67,26 @@ class SourceContractTests(unittest.TestCase):
         packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
         self.assertFalse(any(name.startswith("progress/") for name in packaged))
         self.assertTrue((ROOT / "progress" / "NEXT_ACTIONS.json").is_file())
+
+    def test_generated_qualification_results_remain_sidecars_outside_product_bundle(self):
+        packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
+        self.assertFalse(any(name.startswith("qualification/results/") for name in packaged))
+        self.assertNotIn("release/BENCHMARK_REPORT.json", packaged)
+        self.assertIn("release/SBOM.spdx.json", packaged)
+        self.assertTrue((ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json").is_file())
+        self.assertTrue(is_generated_qualification_output("qualification/results/new-report.json"))
+        self.assertTrue(is_generated_qualification_output("release/BENCHMARK_REPORT.json"))
+        self.assertFalse(is_generated_qualification_output("products/p4/window.py"))
+
+    def test_bundle_builder_ignores_only_declared_generated_evidence_changes(self):
+        from unittest.mock import patch
+
+        generated_status = " M qualification/results/current.json\n M release/BENCHMARK_REPORT.json"
+        with patch("qualification.build_transfer_bundle.git", return_value=generated_status):
+            require_clean_worktree()
+        with patch("qualification.build_transfer_bundle.git", return_value=" M products/p4/window.py"):
+            with self.assertRaisesRegex(ValueError, "uncommitted product source changes"):
+                require_clean_worktree()
 
 
 if __name__ == "__main__":

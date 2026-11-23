@@ -20,10 +20,18 @@ from secret_patterns import scan_text  # noqa: E402
 EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE_QUALIFICATION.json",
             RELEASE / "BUILD_REPRODUCIBILITY.json", RELEASE / "GATE_REPORT.json",
             RELEASE / "TEST_LOG.txt", RELEASE / "TEST_RESULTS.json", BUILD_METADATA,
-            RELEASE / "SCHEMA_VALIDATION.json"}
+            RELEASE / "SCHEMA_VALIDATION.json", RELEASE / "BENCHMARK_REPORT.json"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
 # Workspace-only execution ledgers are kept beside the source but are not product transfer contents.
-EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/", "progress/")
+EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/", "qualification/results/", "progress/")
+# Mutable qualification outputs stay beside the product archive as evidence sidecars;
+# they are not runtime inputs and must not make a clean-source rebuild self-referential.
+GENERATED_OUTPUT_FILES = {path.relative_to(ROOT).as_posix() for path in EXCLUDED | {MANIFEST}}
+
+
+def is_generated_qualification_output(relative_path):
+    """Return whether a mutable build or qualification output is outside product source."""
+    return relative_path in GENERATED_OUTPUT_FILES or relative_path.startswith("qualification/results/")
 
 
 def git(*args):
@@ -32,8 +40,16 @@ def git(*args):
 
 
 def require_clean_worktree():
-    if git("status", "--porcelain", "--untracked-files=all"):
-        raise ValueError("Refusing to build from a dirty worktree; commit the exact source snapshot first.")
+    status = git("-c", "core.quotePath=false", "status", "--porcelain", "--untracked-files=all")
+    unexpected = []
+    for entry in status.splitlines():
+        relative = entry[3:]
+        if " -> " in relative:
+            relative = relative.rsplit(" -> ", 1)[1]
+        if not is_generated_qualification_output(relative):
+            unexpected.append(entry)
+    if unexpected:
+        raise ValueError("Refusing to build with uncommitted product source changes: " + "; ".join(unexpected[:8]))
 
 
 def source_files():
