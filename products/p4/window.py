@@ -521,12 +521,20 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
     This is deliberately post-selection. It cannot certify future exchangeability
     or change any model, calibration radius, candidate, or candidate count.
     """
+    partition_summaries = composition.get("partitions", {})
+    relevant_partitions = (calibration_partition_name, evaluation_partition_name)
+    unassignable_strata_units = {
+        name: partition_summaries.get(name, {}).get(
+            "unassignable_units_missing_or_mixed_strata", 0)
+        for name in relevant_partitions if name in partition_summaries
+    }
     result = {
         "status": "NOT_EVALUATED" if not evaluation_provided else "NOT_ASSESSED",
         "observed_counterevidence": [],
         "evaluation_panel_status": evaluation_panel.get("status"),
         "unseen_evaluation_strata_count": composition.get("evaluation_strata_absent_from_calibration_count"),
         "unseen_evaluation_units": composition.get("evaluation_units_in_strata_absent_from_calibration"),
+        "unassignable_strata_units": unassignable_strata_units,
         "calibration_to_evaluation_total_variation": None,
         "heldout_band_evaluation": band_evaluation or {"status": "NOT_ASSESSED"},
     }
@@ -544,6 +552,9 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
         result["observed_counterevidence"].append("OBSERVED_PANEL_STRUCTURE_MISMATCH")
     elif evaluation_panel.get("status") != "DESCRIPTIVE_PANEL_STRUCTURE_MATCH":
         result["observed_counterevidence"].append("EVALUATION_PANEL_STRUCTURE_NOT_ESTABLISHED")
+
+    if any(count > 0 for count in unassignable_strata_units.values()):
+        result["observed_counterevidence"].append("INSUFFICIENT_ASSIGNABLE_STRATA")
 
     if composition.get("evaluation_partition_status") == "DESCRIPTIVE":
         comparison = next((item for item in composition.get("comparisons", [])

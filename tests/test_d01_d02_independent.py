@@ -654,6 +654,37 @@ class SupportedWindowQualification(unittest.TestCase):
                          [cell["factors"] for cell in matched["candidate_cells"]])
         self.assertEqual(unseen["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
 
+    def test_transfer_refuses_to_call_assignable_subset_a_match_when_some_evaluation_lots_have_mixed_strata(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["analysis_partition"] = "TRAIN" if lot < 20 else "CALIBRATION" if lot < 40 else "EVALUATION"
+            item["tool_id"] = "TOOL-A"
+            item["event_year"] = 2026
+        data["model"]["minimum_clusters"] = 20
+        data["window_exploration"]["min_independent_units"] = 20
+        data["window_exploration"]["evaluation_strata"] = ["tool_id", "event_year"]
+        calibration = data["window_exploration"]["calibration"]
+        calibration["evaluation_value"] = "EVALUATION"
+        calibration["split_reference"] = "SYN-MIXED-EVALUATION-STRATA-001"
+
+        # Nine evaluation lots have matching declared strata; one crosses tools
+        # within its nine-row setting panel and therefore cannot be assigned.
+        mixed_lot = next(item["lot_id"] for item in rows if item["analysis_partition"] == "EVALUATION")
+        mixed_row = next(item for item in rows if item["lot_id"] == mixed_lot)
+        mixed_row["tool_id"] = "TOOL-B"
+
+        result = explore_window(rows, factors, METRIC, data)
+        composition = result["independent_candidate_evaluation"]["partition_composition_diagnostic"]
+        transfer = result["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        self.assertEqual(composition["status"], "INCOMPLETE")
+        self.assertEqual(composition["partitions"]["EVALUATION"]["unassignable_units_missing_or_mixed_strata"], 1)
+        self.assertEqual(composition["evaluation_partition_status"], "DESCRIPTIVE")
+        self.assertEqual(transfer["status"], "INSUFFICIENT_TRANSFER_DIAGNOSTICS")
+        self.assertIn("INSUFFICIENT_ASSIGNABLE_STRATA", transfer["observed_counterevidence"])
+        self.assertEqual(transfer["unassignable_strata_units"]["EVALUATION"], 1)
+        self.assertIn("insufficient", transfer["interpretation"])
+
     def test_transfer_detects_heldout_band_misses_when_declared_strata_and_panel_match(self):
         rows, factors, data = self._dataset()
         for item in rows:
