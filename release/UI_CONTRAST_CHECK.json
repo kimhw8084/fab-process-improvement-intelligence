@@ -1,0 +1,160 @@
+{
+  "method": "WCAG relative luminance contrast ratio on a curated set of declared UI token pairs",
+  "non_text_indicator_threshold": 3.0,
+  "pairs": [
+    {
+      "background": "#f2f6f7",
+      "foreground": "#152d3e",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "body text",
+      "ratio": 13.0694,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#102f3e",
+      "foreground": "#f3fbfc",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "header body",
+      "ratio": 13.3597,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#102f3e",
+      "foreground": "#9fd9ce",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "brand",
+      "ratio": 8.871,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#102f3e",
+      "foreground": "#c5d8de",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "header subtitle",
+      "ratio": 9.5122,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#176c64",
+      "foreground": "#ffffff",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "button text",
+      "ratio": 6.2398,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#fff8e8",
+      "foreground": "#765000",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "warning heading",
+      "ratio": 6.8011,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#ffffff",
+      "foreground": "#176c64",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "finding heading",
+      "ratio": 6.2398,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#ffffff",
+      "foreground": "#4e6673",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "subdued content",
+      "ratio": 6.0483,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#fff0ee",
+      "foreground": "#8c3021",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "error status text",
+      "ratio": 7.4031,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#e9f7f2",
+      "foreground": "#155d4d",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "good status text",
+      "ratio": 7.0435,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#ffffff",
+      "foreground": "#203e49",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "chart axis text",
+      "ratio": 11.3718,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#ffffff",
+      "foreground": "#405d68",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "chart tick text",
+      "ratio": 7.0384,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#f2f6f7",
+      "foreground": "#536d78",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "footer",
+      "ratio": 5.044,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#edf4f5",
+      "foreground": "#254956",
+      "kind": "text",
+      "minimum": 4.5,
+      "name": "table header",
+      "ratio": 8.7069,
+      "source_tokens_present": true,
+      "status": "PASS"
+    },
+    {
+      "background": "#ffffff",
+      "foreground": "#168b76",
+      "kind": "non_text_indicator",
+      "minimum": 3.0,
+      "name": "focus outline",
+      "ratio": 4.2095,
+      "source_tokens_present": true,
+      "status": "PASS"
+    }
+  ],
+  "pairs_checked": 15,
+  "scope": "Not a complete WCAG audit; does not inspect every rendered combination, image, browser, or operating-system setting.",
+  "status": "PASS",
+  "text_threshold": 4.5
+}

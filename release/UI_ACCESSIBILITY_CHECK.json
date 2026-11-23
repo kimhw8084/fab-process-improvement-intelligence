@@ -1,0 +1,45 @@
+{
+  "browser": "Codex in-app browser",
+  "date": "2026-11-22",
+  "keyboard_task": {
+    "analyze_activated_with_enter": true,
+    "d02_complete_region_table_opened_with_enter": true,
+    "demo_loaded_with_enter": true,
+    "no_pointer_input": true,
+    "result_focus_target": "results-title",
+    "result_heading_has_visible_focus_outline": true,
+    "status_region_aria_live": "polite",
+    "status": "PASS"
+  },
+  "observed_dom": {
+    "enabled_controls": 20,
+    "unnamed_enabled_controls": 0,
+    "svg_charts_with_title_and_description": 2,
+    "evidence_tables": 3,
+    "evidence_table_captions": 3,
+    "evidence_tables_with_scoped_column_headers": 3,
+    "d02_accessible_table_rows": 225
+  },
+  "curated_color_contrast": {
+    "status": "PASS",
+    "artifact": "release/UI_CONTRAST_CHECK.json",
+    "pairs_checked": 15,
+    "minimum_text_ratio": 5.044,
+    "focus_indicator_ratio": 4.2095,
+    "scope": "Selected UI color tokens only; not an exhaustive contrast audit."
+  },
+  "result": "PARTIAL_PASS",
+  "screen_reader": {
+    "status": "NOT_RUN"
+  },
+  "formal_wcag_audit": {
+    "status": "NOT_RUN",
+    "pending": [
+      "formal WCAG review",
+      "color and contrast audit",
+      "approved browser/host matrix",
+      "company SSO and target-host compatibility"
+    ]
+  },
+  "scope": "Local synthetic workflow only; no company endpoint, dataset, identity provider, or host was used. This evidence does not qualify accessibility for a target company environment."
+}
