@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "7dd2de55c0a84d26a7ab5c6632509ce768f9fe1e",
+  "as_of_source_commit": "59bade4b6a2b814544dce8bf7a9bf36e08009af4",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,16 +16,15 @@
   ],
   "next_executable_action": {
     "priority": 0,
-    "task": "Commit current-source P1 disposable-host evidence and progress checkpoint locally. Run the full current-source release runner so E02 includes the D03 rare-event benchmark and the new regression test. Then rebuild the exact source archive, verify two detached clean builds, run a fresh no-pip extraction under OS network denial, and rerun the runner to confirm E02/E10 together.",
+    "task": "Commit release/BENCHMARK_REPORT.json and the progress checkpoint. Run qualification/run_release_checks.py against the resulting source and verify 201 tests (or actual count), the D03 zero-variance challenge, E02, P1 composition, and explicit pending states. Then rebuild the archive from the clean source, reproduce twice, perform fresh offline network-denied extraction, and rerun for E10.",
     "first_command": "rtk git status --short && rtk git diff --check",
     "inspect": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
+      "release/BENCHMARK_REPORT.json",
       "qualification/run_release_checks.py",
       "qualification/benchmark_d03_zero_variance.py",
-      "release/GATE_REPORT.json",
-      "release/BUILD_REPRODUCIBILITY.json"
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
-    "acceptance": "Report only executed current-source checks. Browser remains tied to its prior snapshot; P1 ownership/formal accessibility, company authority, target host, legal/security transfer and ROI remain pending."
+    "acceptance": "Only report executed outcomes. The exact archive is still stale; company and authoritative P1/accessibility/security/target/ROI gates remain pending."
   },
   "ordered_queue": [
     {
@@ -71,6 +70,6 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D03 zero-variance correction committed at 7dd2de5; current P1 overlay and 29-file fingerprint dddf7fcd... pass host/UI/build checks; refreshed P1 evidence and progress need commit; full release runner and archive stale; no remote update",
+  "worktree_state": "D03 source 7dd2de5 and P1 snapshot evidence committed; performance benchmark regenerated at 59bade4 with current product source fingerprint; benchmark report/progress pending commit; full scientific runner and exact current archive pending",
   "active_uncommitted_changes": true
 }
