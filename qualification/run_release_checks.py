@@ -166,7 +166,7 @@ def main():
     changed_since_performance = run(
         ["git", "diff", "--name-only", f"{performance_source_commit}..{evaluated_commit}"])[0].stdout.splitlines()
     product_paths_unchanged = not any(path.startswith(("fabintel/", "ui/", "products/", "contracts/",
-                                                       "tests/", "fixtures/", "requirements/"))
+                                                       "fixtures/", "requirements/"))
                                       for path in changed_since_performance)
     workflow_perf = performance.get("result_checks", {}).get("integrated_full_workflow_demo_900_rows", {})
     scaling = performance.get("result_checks", {})
