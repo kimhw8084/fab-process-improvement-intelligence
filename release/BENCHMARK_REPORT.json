@@ -20,8 +20,8 @@
     },
     "maximum_absolute_coefficient_difference": 1.4210854715202004e-14,
     "metrics": {
-      "p50_ms": 0.0611254945397377,
-      "p95_ms": 0.10062567889690399,
+      "p50_ms": 0.06158370524644852,
+      "p95_ms": 0.17641764134168625,
       "peak_python_alloc_bytes_one_run": 59248,
       "repeats": 25
     },
@@ -56,35 +56,35 @@
       "observations": 5000
     }
   },
-  "source_commit": "5eeab108522abee3230ad38393f52e34ce6fd0cb",
+  "source_commit": "15a150dea2cb1d9c3ba356035219b47b10f2c1da",
   "tasks": {
     "integrated_full_workflow_demo_540_rows": {
-      "p50_ms": 72.5936247035861,
-      "p95_ms": 77.23900023847818,
+      "p50_ms": 70.41329145431519,
+      "p95_ms": 71.67079206556082,
       "peak_python_alloc_bytes_one_run": 1880074,
       "repeats": 25
     },
     "single_metric_sensitivity_1000_rows": {
-      "p50_ms": 5.4787080734968185,
-      "p95_ms": 6.707834079861641,
+      "p50_ms": 5.397874861955643,
+      "p95_ms": 6.4502498134970665,
       "peak_python_alloc_bytes_one_run": 1311076,
       "repeats": 25
     },
     "single_metric_sensitivity_18_rows": {
-      "p50_ms": 0.17345789819955826,
-      "p95_ms": 0.2437923103570938,
+      "p50_ms": 0.16458332538604736,
+      "p95_ms": 0.18566753715276718,
       "peak_python_alloc_bytes_one_run": 23234,
       "repeats": 25
     },
     "single_metric_sensitivity_5000_rows": {
-      "p50_ms": 26.96233242750168,
-      "p95_ms": 28.432208113372326,
+      "p50_ms": 27.018708176910877,
+      "p95_ms": 28.744000010192394,
       "peak_python_alloc_bytes_one_run": 6117510,
       "repeats": 25
     },
     "synthetic_schema_catalog_13000_tables": {
-      "p50_ms": 8.391249924898148,
-      "p95_ms": 11.62004191428423,
+      "p50_ms": 8.313207887113094,
+      "p95_ms": 11.277666315436363,
       "peak_python_alloc_bytes_one_run": 6521827,
       "repeats": 25
     }
