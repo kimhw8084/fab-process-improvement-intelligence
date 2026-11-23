@@ -7,7 +7,7 @@ import unittest
 
 from products.p4.regression import fit_linear_model
 from products.p4.engine import _model_specification_sensitivity
-from products.p4.window import explore_window, _finite_rank_quantile
+from products.p4.window import explore_window, _finite_rank_quantile, _partition_composition_diagnostic
 
 
 FACTOR = {"pressure": {"role": "controllable", "unit": "kPa", "bounds": [0, 2], "approved": True},
@@ -491,6 +491,14 @@ class SupportedWindowQualification(unittest.TestCase):
         data["window_exploration"]["calibration"]["split_reference"] = "SYN-PRECOMMITTED-UNSEEN-TOOL-FUTURE-001"
 
         result = explore_window(rows, factors, METRIC, data)
+        composition = result["independent_candidate_evaluation"]["partition_composition_diagnostic"]
+        self.assertEqual(composition["status"], "DESCRIPTIVE")
+        pair = next(item for item in composition["comparisons"]
+                    if item["from_partition"] == "CALIBRATION" and item["to_partition"] == "EVALUATION")
+        self.assertEqual(pair["categorical_total_variation_distance"], 0.75)
+        self.assertEqual(composition["evaluation_strata_absent_from_calibration_count"], 3)
+        self.assertEqual(composition["evaluation_units_in_strata_absent_from_calibration"], 15)
+        self.assertIn("not a test of exchangeability", composition["interpretation"])
         self.assertEqual(result["calibration"]["evaluation_unit_count"], 20)
         evaluated = next(candidate for candidate in result["independent_candidate_evaluation"]["candidates"]
                          if candidate["factors"] == {"pressure": 1.0, "power": 1.0})
@@ -507,6 +515,46 @@ class SupportedWindowQualification(unittest.TestCase):
             self.assertEqual(by_stratum[key]["observed_infeasible_units"], 5)
             self.assertAlmostEqual(by_stratum[key]["wilson95_descriptive_interval"][0], 0.5655, places=3)
             self.assertEqual(by_stratum[key]["wilson95_descriptive_interval"][1], 1.0)
+
+    def test_partition_shift_diagnostic_uses_independent_units_and_flags_mixed_strata(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["analysis_partition"] = "TRAIN" if lot < 30 else "CALIBRATION"
+            item["tool_id"] = "TOOL-A"
+        data["window_exploration"]["evaluation_strata"] = ["tool_id"]
+        result = explore_window(rows, factors, METRIC, data)
+        composition = result["independent_candidate_evaluation"]["partition_composition_diagnostic"]
+        self.assertEqual(composition["status"], "DESCRIPTIVE")
+        self.assertEqual(composition["partitions"]["TRAIN"]["independent_units"], 30)
+        self.assertEqual(composition["partitions"]["CALIBRATION"]["assignable_units"], 20)
+        self.assertEqual(composition["comparisons"][0]["categorical_total_variation_distance"], 0.0)
+        self.assertEqual(composition["evaluation_partition_status"], "NOT_PROVIDED")
+        self.assertIsNone(composition["evaluation_strata_absent_from_calibration_count"])
+        self.assertIsNone(composition["evaluation_units_in_strata_absent_from_calibration"])
+        self.assertIsNone(composition["unseen_evaluation_strata"])
+
+        next(item for item in rows if item["analysis_partition"] == "TRAIN")["tool_id"] = "TOOL-MIXED"
+        challenged = explore_window(rows, factors, METRIC, data)
+        changed = challenged["independent_candidate_evaluation"]["partition_composition_diagnostic"]
+        self.assertEqual(changed["status"], "INCOMPLETE")
+        self.assertEqual(changed["partitions"]["TRAIN"]["unassignable_units_missing_or_mixed_strata"], 1)
+
+    def test_declared_but_empty_evaluation_partition_does_not_report_zero_unseen_strata(self):
+        composition = _partition_composition_diagnostic(
+            {"TRAIN": [{"lot_id": "LOT-TRAIN", "tool_id": "TOOL-A"}],
+             "CALIBRATION": [{"lot_id": "LOT-CAL", "tool_id": "TOOL-A"}],
+             "EVALUATION": []},
+            "lot_id", ["tool_id"], "CALIBRATION", "EVALUATION")
+        self.assertEqual(composition["evaluation_partition_status"], "INSUFFICIENT_ASSIGNABLE_UNITS")
+        self.assertIsNone(composition["evaluation_strata_absent_from_calibration_count"])
+        self.assertIsNone(composition["unseen_evaluation_strata"])
+
+    def test_evaluation_strata_cardinality_is_bounded(self):
+        rows, factors, data = self._dataset()
+        data["window_exploration"]["evaluation_strata"] = [f"field_{index}" for index in range(6)]
+        with self.assertRaisesRegex(ValueError, "at most five fields"):
+            explore_window(rows, factors, METRIC, data)
 
     def test_evaluation_requires_exact_fixed_modeled_controls(self):
         rows, factors, data = self._dataset()

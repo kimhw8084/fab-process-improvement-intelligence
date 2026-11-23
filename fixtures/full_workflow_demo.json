@@ -159,7 +159,7 @@
   ],
   "observations": [
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:01:00+00:00",
       "factors": {
@@ -175,7 +175,7 @@
       "wafer_id": "SYN-WAFER-0001"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:02:00+00:00",
       "factors": {
@@ -191,7 +191,7 @@
       "wafer_id": "SYN-WAFER-0002"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:03:00+00:00",
       "factors": {
@@ -207,7 +207,7 @@
       "wafer_id": "SYN-WAFER-0003"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:04:00+00:00",
       "factors": {
@@ -223,7 +223,7 @@
       "wafer_id": "SYN-WAFER-0004"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:05:00+00:00",
       "factors": {
@@ -239,7 +239,7 @@
       "wafer_id": "SYN-WAFER-0005"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:06:00+00:00",
       "factors": {
@@ -255,7 +255,7 @@
       "wafer_id": "SYN-WAFER-0006"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:07:00+00:00",
       "factors": {
@@ -271,7 +271,7 @@
       "wafer_id": "SYN-WAFER-0007"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:08:00+00:00",
       "factors": {
@@ -287,7 +287,7 @@
       "wafer_id": "SYN-WAFER-0008"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:09:00+00:00",
       "factors": {
@@ -303,7 +303,7 @@
       "wafer_id": "SYN-WAFER-0009"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:10:00+00:00",
       "factors": {
@@ -319,7 +319,7 @@
       "wafer_id": "SYN-WAFER-0010"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:11:00+00:00",
       "factors": {
@@ -335,7 +335,7 @@
       "wafer_id": "SYN-WAFER-0011"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:12:00+00:00",
       "factors": {
@@ -351,7 +351,7 @@
       "wafer_id": "SYN-WAFER-0012"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:13:00+00:00",
       "factors": {
@@ -367,7 +367,7 @@
       "wafer_id": "SYN-WAFER-0013"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:14:00+00:00",
       "factors": {
@@ -383,7 +383,7 @@
       "wafer_id": "SYN-WAFER-0014"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:15:00+00:00",
       "factors": {
@@ -399,7 +399,7 @@
       "wafer_id": "SYN-WAFER-0015"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:16:00+00:00",
       "factors": {
@@ -415,7 +415,7 @@
       "wafer_id": "SYN-WAFER-0016"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:17:00+00:00",
       "factors": {
@@ -431,7 +431,7 @@
       "wafer_id": "SYN-WAFER-0017"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:18:00+00:00",
       "factors": {
@@ -879,7 +879,7 @@
       "wafer_id": "SYN-WAFER-0045"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:46:00+00:00",
       "factors": {
@@ -895,7 +895,7 @@
       "wafer_id": "SYN-WAFER-0046"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:47:00+00:00",
       "factors": {
@@ -911,7 +911,7 @@
       "wafer_id": "SYN-WAFER-0047"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:48:00+00:00",
       "factors": {
@@ -927,7 +927,7 @@
       "wafer_id": "SYN-WAFER-0048"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:49:00+00:00",
       "factors": {
@@ -943,7 +943,7 @@
       "wafer_id": "SYN-WAFER-0049"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:50:00+00:00",
       "factors": {
@@ -959,7 +959,7 @@
       "wafer_id": "SYN-WAFER-0050"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:51:00+00:00",
       "factors": {
@@ -975,7 +975,7 @@
       "wafer_id": "SYN-WAFER-0051"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:52:00+00:00",
       "factors": {
@@ -991,7 +991,7 @@
       "wafer_id": "SYN-WAFER-0052"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:53:00+00:00",
       "factors": {
@@ -1007,7 +1007,7 @@
       "wafer_id": "SYN-WAFER-0053"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:54:00+00:00",
       "factors": {
@@ -1023,7 +1023,7 @@
       "wafer_id": "SYN-WAFER-0054"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:55:00+00:00",
       "factors": {
@@ -1039,7 +1039,7 @@
       "wafer_id": "SYN-WAFER-0055"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:56:00+00:00",
       "factors": {
@@ -1055,7 +1055,7 @@
       "wafer_id": "SYN-WAFER-0056"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:57:00+00:00",
       "factors": {
@@ -1071,7 +1071,7 @@
       "wafer_id": "SYN-WAFER-0057"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:58:00+00:00",
       "factors": {
@@ -1087,7 +1087,7 @@
       "wafer_id": "SYN-WAFER-0058"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T12:59:00+00:00",
       "factors": {
@@ -1103,7 +1103,7 @@
       "wafer_id": "SYN-WAFER-0059"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:00:00+00:00",
       "factors": {
@@ -1119,7 +1119,7 @@
       "wafer_id": "SYN-WAFER-0060"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:01:00+00:00",
       "factors": {
@@ -1135,7 +1135,7 @@
       "wafer_id": "SYN-WAFER-0061"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:02:00+00:00",
       "factors": {
@@ -1151,7 +1151,7 @@
       "wafer_id": "SYN-WAFER-0062"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:03:00+00:00",
       "factors": {
@@ -1599,7 +1599,7 @@
       "wafer_id": "SYN-WAFER-0090"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:31:00+00:00",
       "factors": {
@@ -1615,7 +1615,7 @@
       "wafer_id": "SYN-WAFER-0091"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:32:00+00:00",
       "factors": {
@@ -1631,7 +1631,7 @@
       "wafer_id": "SYN-WAFER-0092"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:33:00+00:00",
       "factors": {
@@ -1647,7 +1647,7 @@
       "wafer_id": "SYN-WAFER-0093"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:34:00+00:00",
       "factors": {
@@ -1663,7 +1663,7 @@
       "wafer_id": "SYN-WAFER-0094"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:35:00+00:00",
       "factors": {
@@ -1679,7 +1679,7 @@
       "wafer_id": "SYN-WAFER-0095"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:36:00+00:00",
       "factors": {
@@ -1695,7 +1695,7 @@
       "wafer_id": "SYN-WAFER-0096"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:37:00+00:00",
       "factors": {
@@ -1711,7 +1711,7 @@
       "wafer_id": "SYN-WAFER-0097"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:38:00+00:00",
       "factors": {
@@ -1727,7 +1727,7 @@
       "wafer_id": "SYN-WAFER-0098"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:39:00+00:00",
       "factors": {
@@ -1743,7 +1743,7 @@
       "wafer_id": "SYN-WAFER-0099"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:40:00+00:00",
       "factors": {
@@ -1759,7 +1759,7 @@
       "wafer_id": "SYN-WAFER-0100"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:41:00+00:00",
       "factors": {
@@ -1775,7 +1775,7 @@
       "wafer_id": "SYN-WAFER-0101"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:42:00+00:00",
       "factors": {
@@ -1791,7 +1791,7 @@
       "wafer_id": "SYN-WAFER-0102"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:43:00+00:00",
       "factors": {
@@ -1807,7 +1807,7 @@
       "wafer_id": "SYN-WAFER-0103"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:44:00+00:00",
       "factors": {
@@ -1823,7 +1823,7 @@
       "wafer_id": "SYN-WAFER-0104"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:45:00+00:00",
       "factors": {
@@ -1839,7 +1839,7 @@
       "wafer_id": "SYN-WAFER-0105"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:46:00+00:00",
       "factors": {
@@ -1855,7 +1855,7 @@
       "wafer_id": "SYN-WAFER-0106"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:47:00+00:00",
       "factors": {
@@ -1871,7 +1871,7 @@
       "wafer_id": "SYN-WAFER-0107"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T13:48:00+00:00",
       "factors": {
@@ -2319,7 +2319,7 @@
       "wafer_id": "SYN-WAFER-0135"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:16:00+00:00",
       "factors": {
@@ -2335,7 +2335,7 @@
       "wafer_id": "SYN-WAFER-0136"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:17:00+00:00",
       "factors": {
@@ -2351,7 +2351,7 @@
       "wafer_id": "SYN-WAFER-0137"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:18:00+00:00",
       "factors": {
@@ -2367,7 +2367,7 @@
       "wafer_id": "SYN-WAFER-0138"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:19:00+00:00",
       "factors": {
@@ -2383,7 +2383,7 @@
       "wafer_id": "SYN-WAFER-0139"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:20:00+00:00",
       "factors": {
@@ -2399,7 +2399,7 @@
       "wafer_id": "SYN-WAFER-0140"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:21:00+00:00",
       "factors": {
@@ -2415,7 +2415,7 @@
       "wafer_id": "SYN-WAFER-0141"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:22:00+00:00",
       "factors": {
@@ -2431,7 +2431,7 @@
       "wafer_id": "SYN-WAFER-0142"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:23:00+00:00",
       "factors": {
@@ -2447,7 +2447,7 @@
       "wafer_id": "SYN-WAFER-0143"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:24:00+00:00",
       "factors": {
@@ -2463,7 +2463,7 @@
       "wafer_id": "SYN-WAFER-0144"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:25:00+00:00",
       "factors": {
@@ -2479,7 +2479,7 @@
       "wafer_id": "SYN-WAFER-0145"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:26:00+00:00",
       "factors": {
@@ -2495,7 +2495,7 @@
       "wafer_id": "SYN-WAFER-0146"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:27:00+00:00",
       "factors": {
@@ -2511,7 +2511,7 @@
       "wafer_id": "SYN-WAFER-0147"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:28:00+00:00",
       "factors": {
@@ -2527,7 +2527,7 @@
       "wafer_id": "SYN-WAFER-0148"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:29:00+00:00",
       "factors": {
@@ -2543,7 +2543,7 @@
       "wafer_id": "SYN-WAFER-0149"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:30:00+00:00",
       "factors": {
@@ -2559,7 +2559,7 @@
       "wafer_id": "SYN-WAFER-0150"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:31:00+00:00",
       "factors": {
@@ -2575,7 +2575,7 @@
       "wafer_id": "SYN-WAFER-0151"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:32:00+00:00",
       "factors": {
@@ -2591,7 +2591,7 @@
       "wafer_id": "SYN-WAFER-0152"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T14:33:00+00:00",
       "factors": {
@@ -3039,7 +3039,7 @@
       "wafer_id": "SYN-WAFER-0180"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:01:00+00:00",
       "factors": {
@@ -3055,7 +3055,7 @@
       "wafer_id": "SYN-WAFER-0181"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:02:00+00:00",
       "factors": {
@@ -3071,7 +3071,7 @@
       "wafer_id": "SYN-WAFER-0182"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:03:00+00:00",
       "factors": {
@@ -3087,7 +3087,7 @@
       "wafer_id": "SYN-WAFER-0183"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:04:00+00:00",
       "factors": {
@@ -3103,7 +3103,7 @@
       "wafer_id": "SYN-WAFER-0184"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:05:00+00:00",
       "factors": {
@@ -3119,7 +3119,7 @@
       "wafer_id": "SYN-WAFER-0185"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:06:00+00:00",
       "factors": {
@@ -3135,7 +3135,7 @@
       "wafer_id": "SYN-WAFER-0186"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:07:00+00:00",
       "factors": {
@@ -3151,7 +3151,7 @@
       "wafer_id": "SYN-WAFER-0187"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:08:00+00:00",
       "factors": {
@@ -3167,7 +3167,7 @@
       "wafer_id": "SYN-WAFER-0188"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:09:00+00:00",
       "factors": {
@@ -3183,7 +3183,7 @@
       "wafer_id": "SYN-WAFER-0189"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:10:00+00:00",
       "factors": {
@@ -3199,7 +3199,7 @@
       "wafer_id": "SYN-WAFER-0190"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:11:00+00:00",
       "factors": {
@@ -3215,7 +3215,7 @@
       "wafer_id": "SYN-WAFER-0191"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:12:00+00:00",
       "factors": {
@@ -3231,7 +3231,7 @@
       "wafer_id": "SYN-WAFER-0192"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:13:00+00:00",
       "factors": {
@@ -3247,7 +3247,7 @@
       "wafer_id": "SYN-WAFER-0193"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:14:00+00:00",
       "factors": {
@@ -3263,7 +3263,7 @@
       "wafer_id": "SYN-WAFER-0194"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:15:00+00:00",
       "factors": {
@@ -3279,7 +3279,7 @@
       "wafer_id": "SYN-WAFER-0195"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:16:00+00:00",
       "factors": {
@@ -3295,7 +3295,7 @@
       "wafer_id": "SYN-WAFER-0196"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:17:00+00:00",
       "factors": {
@@ -3311,7 +3311,7 @@
       "wafer_id": "SYN-WAFER-0197"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:18:00+00:00",
       "factors": {
@@ -3759,7 +3759,7 @@
       "wafer_id": "SYN-WAFER-0225"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:46:00+00:00",
       "factors": {
@@ -3775,7 +3775,7 @@
       "wafer_id": "SYN-WAFER-0226"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:47:00+00:00",
       "factors": {
@@ -3791,7 +3791,7 @@
       "wafer_id": "SYN-WAFER-0227"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:48:00+00:00",
       "factors": {
@@ -3807,7 +3807,7 @@
       "wafer_id": "SYN-WAFER-0228"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:49:00+00:00",
       "factors": {
@@ -3823,7 +3823,7 @@
       "wafer_id": "SYN-WAFER-0229"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:50:00+00:00",
       "factors": {
@@ -3839,7 +3839,7 @@
       "wafer_id": "SYN-WAFER-0230"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:51:00+00:00",
       "factors": {
@@ -3855,7 +3855,7 @@
       "wafer_id": "SYN-WAFER-0231"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:52:00+00:00",
       "factors": {
@@ -3871,7 +3871,7 @@
       "wafer_id": "SYN-WAFER-0232"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:53:00+00:00",
       "factors": {
@@ -3887,7 +3887,7 @@
       "wafer_id": "SYN-WAFER-0233"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:54:00+00:00",
       "factors": {
@@ -3903,7 +3903,7 @@
       "wafer_id": "SYN-WAFER-0234"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:55:00+00:00",
       "factors": {
@@ -3919,7 +3919,7 @@
       "wafer_id": "SYN-WAFER-0235"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:56:00+00:00",
       "factors": {
@@ -3935,7 +3935,7 @@
       "wafer_id": "SYN-WAFER-0236"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:57:00+00:00",
       "factors": {
@@ -3951,7 +3951,7 @@
       "wafer_id": "SYN-WAFER-0237"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:58:00+00:00",
       "factors": {
@@ -3967,7 +3967,7 @@
       "wafer_id": "SYN-WAFER-0238"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T15:59:00+00:00",
       "factors": {
@@ -3983,7 +3983,7 @@
       "wafer_id": "SYN-WAFER-0239"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:00:00+00:00",
       "factors": {
@@ -3999,7 +3999,7 @@
       "wafer_id": "SYN-WAFER-0240"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:01:00+00:00",
       "factors": {
@@ -4015,7 +4015,7 @@
       "wafer_id": "SYN-WAFER-0241"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:02:00+00:00",
       "factors": {
@@ -4031,7 +4031,7 @@
       "wafer_id": "SYN-WAFER-0242"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "TRAIN",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:03:00+00:00",
       "factors": {
@@ -4767,7 +4767,7 @@
       "wafer_id": "SYN-WAFER-0288"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:49:00+00:00",
       "factors": {
@@ -4783,7 +4783,7 @@
       "wafer_id": "SYN-WAFER-0289"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:50:00+00:00",
       "factors": {
@@ -4799,7 +4799,7 @@
       "wafer_id": "SYN-WAFER-0290"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:51:00+00:00",
       "factors": {
@@ -4815,7 +4815,7 @@
       "wafer_id": "SYN-WAFER-0291"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:52:00+00:00",
       "factors": {
@@ -4831,7 +4831,7 @@
       "wafer_id": "SYN-WAFER-0292"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:53:00+00:00",
       "factors": {
@@ -4847,7 +4847,7 @@
       "wafer_id": "SYN-WAFER-0293"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:54:00+00:00",
       "factors": {
@@ -4863,7 +4863,7 @@
       "wafer_id": "SYN-WAFER-0294"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:55:00+00:00",
       "factors": {
@@ -4879,7 +4879,7 @@
       "wafer_id": "SYN-WAFER-0295"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:56:00+00:00",
       "factors": {
@@ -4895,7 +4895,7 @@
       "wafer_id": "SYN-WAFER-0296"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:57:00+00:00",
       "factors": {
@@ -4911,7 +4911,7 @@
       "wafer_id": "SYN-WAFER-0297"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:58:00+00:00",
       "factors": {
@@ -4927,7 +4927,7 @@
       "wafer_id": "SYN-WAFER-0298"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T16:59:00+00:00",
       "factors": {
@@ -4943,7 +4943,7 @@
       "wafer_id": "SYN-WAFER-0299"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:00:00+00:00",
       "factors": {
@@ -4959,7 +4959,7 @@
       "wafer_id": "SYN-WAFER-0300"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:01:00+00:00",
       "factors": {
@@ -4975,7 +4975,7 @@
       "wafer_id": "SYN-WAFER-0301"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:02:00+00:00",
       "factors": {
@@ -4991,7 +4991,7 @@
       "wafer_id": "SYN-WAFER-0302"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:03:00+00:00",
       "factors": {
@@ -5007,7 +5007,7 @@
       "wafer_id": "SYN-WAFER-0303"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:04:00+00:00",
       "factors": {
@@ -5023,7 +5023,7 @@
       "wafer_id": "SYN-WAFER-0304"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:05:00+00:00",
       "factors": {
@@ -5039,7 +5039,7 @@
       "wafer_id": "SYN-WAFER-0305"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:06:00+00:00",
       "factors": {
@@ -5055,7 +5055,7 @@
       "wafer_id": "SYN-WAFER-0306"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:07:00+00:00",
       "factors": {
@@ -5071,7 +5071,7 @@
       "wafer_id": "SYN-WAFER-0307"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:08:00+00:00",
       "factors": {
@@ -5087,7 +5087,7 @@
       "wafer_id": "SYN-WAFER-0308"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:09:00+00:00",
       "factors": {
@@ -5103,7 +5103,7 @@
       "wafer_id": "SYN-WAFER-0309"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:10:00+00:00",
       "factors": {
@@ -5119,7 +5119,7 @@
       "wafer_id": "SYN-WAFER-0310"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:11:00+00:00",
       "factors": {
@@ -5135,7 +5135,7 @@
       "wafer_id": "SYN-WAFER-0311"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:12:00+00:00",
       "factors": {
@@ -5151,7 +5151,7 @@
       "wafer_id": "SYN-WAFER-0312"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:13:00+00:00",
       "factors": {
@@ -5167,7 +5167,7 @@
       "wafer_id": "SYN-WAFER-0313"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:14:00+00:00",
       "factors": {
@@ -5183,7 +5183,7 @@
       "wafer_id": "SYN-WAFER-0314"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:15:00+00:00",
       "factors": {
@@ -5487,7 +5487,7 @@
       "wafer_id": "SYN-WAFER-0333"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:34:00+00:00",
       "factors": {
@@ -5503,7 +5503,7 @@
       "wafer_id": "SYN-WAFER-0334"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:35:00+00:00",
       "factors": {
@@ -5519,7 +5519,7 @@
       "wafer_id": "SYN-WAFER-0335"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:36:00+00:00",
       "factors": {
@@ -5535,7 +5535,7 @@
       "wafer_id": "SYN-WAFER-0336"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:37:00+00:00",
       "factors": {
@@ -5551,7 +5551,7 @@
       "wafer_id": "SYN-WAFER-0337"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:38:00+00:00",
       "factors": {
@@ -5567,7 +5567,7 @@
       "wafer_id": "SYN-WAFER-0338"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:39:00+00:00",
       "factors": {
@@ -5583,7 +5583,7 @@
       "wafer_id": "SYN-WAFER-0339"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:40:00+00:00",
       "factors": {
@@ -5599,7 +5599,7 @@
       "wafer_id": "SYN-WAFER-0340"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:41:00+00:00",
       "factors": {
@@ -5615,7 +5615,7 @@
       "wafer_id": "SYN-WAFER-0341"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:42:00+00:00",
       "factors": {
@@ -5631,7 +5631,7 @@
       "wafer_id": "SYN-WAFER-0342"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:43:00+00:00",
       "factors": {
@@ -5647,7 +5647,7 @@
       "wafer_id": "SYN-WAFER-0343"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:44:00+00:00",
       "factors": {
@@ -5663,7 +5663,7 @@
       "wafer_id": "SYN-WAFER-0344"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:45:00+00:00",
       "factors": {
@@ -5679,7 +5679,7 @@
       "wafer_id": "SYN-WAFER-0345"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:46:00+00:00",
       "factors": {
@@ -5695,7 +5695,7 @@
       "wafer_id": "SYN-WAFER-0346"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:47:00+00:00",
       "factors": {
@@ -5711,7 +5711,7 @@
       "wafer_id": "SYN-WAFER-0347"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:48:00+00:00",
       "factors": {
@@ -5727,7 +5727,7 @@
       "wafer_id": "SYN-WAFER-0348"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:49:00+00:00",
       "factors": {
@@ -5743,7 +5743,7 @@
       "wafer_id": "SYN-WAFER-0349"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:50:00+00:00",
       "factors": {
@@ -5759,7 +5759,7 @@
       "wafer_id": "SYN-WAFER-0350"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:51:00+00:00",
       "factors": {
@@ -5775,7 +5775,7 @@
       "wafer_id": "SYN-WAFER-0351"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:52:00+00:00",
       "factors": {
@@ -5791,7 +5791,7 @@
       "wafer_id": "SYN-WAFER-0352"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:53:00+00:00",
       "factors": {
@@ -5807,7 +5807,7 @@
       "wafer_id": "SYN-WAFER-0353"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:54:00+00:00",
       "factors": {
@@ -5823,7 +5823,7 @@
       "wafer_id": "SYN-WAFER-0354"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:55:00+00:00",
       "factors": {
@@ -5839,7 +5839,7 @@
       "wafer_id": "SYN-WAFER-0355"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:56:00+00:00",
       "factors": {
@@ -5855,7 +5855,7 @@
       "wafer_id": "SYN-WAFER-0356"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:57:00+00:00",
       "factors": {
@@ -5871,7 +5871,7 @@
       "wafer_id": "SYN-WAFER-0357"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:58:00+00:00",
       "factors": {
@@ -5887,7 +5887,7 @@
       "wafer_id": "SYN-WAFER-0358"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T17:59:00+00:00",
       "factors": {
@@ -5903,7 +5903,7 @@
       "wafer_id": "SYN-WAFER-0359"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:00:00+00:00",
       "factors": {
@@ -6207,7 +6207,7 @@
       "wafer_id": "SYN-WAFER-0378"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:19:00+00:00",
       "factors": {
@@ -6223,7 +6223,7 @@
       "wafer_id": "SYN-WAFER-0379"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:20:00+00:00",
       "factors": {
@@ -6239,7 +6239,7 @@
       "wafer_id": "SYN-WAFER-0380"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:21:00+00:00",
       "factors": {
@@ -6255,7 +6255,7 @@
       "wafer_id": "SYN-WAFER-0381"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:22:00+00:00",
       "factors": {
@@ -6271,7 +6271,7 @@
       "wafer_id": "SYN-WAFER-0382"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:23:00+00:00",
       "factors": {
@@ -6287,7 +6287,7 @@
       "wafer_id": "SYN-WAFER-0383"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:24:00+00:00",
       "factors": {
@@ -6303,7 +6303,7 @@
       "wafer_id": "SYN-WAFER-0384"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:25:00+00:00",
       "factors": {
@@ -6319,7 +6319,7 @@
       "wafer_id": "SYN-WAFER-0385"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:26:00+00:00",
       "factors": {
@@ -6335,7 +6335,7 @@
       "wafer_id": "SYN-WAFER-0386"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:27:00+00:00",
       "factors": {
@@ -6351,7 +6351,7 @@
       "wafer_id": "SYN-WAFER-0387"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:28:00+00:00",
       "factors": {
@@ -6367,7 +6367,7 @@
       "wafer_id": "SYN-WAFER-0388"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:29:00+00:00",
       "factors": {
@@ -6383,7 +6383,7 @@
       "wafer_id": "SYN-WAFER-0389"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:30:00+00:00",
       "factors": {
@@ -6399,7 +6399,7 @@
       "wafer_id": "SYN-WAFER-0390"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:31:00+00:00",
       "factors": {
@@ -6415,7 +6415,7 @@
       "wafer_id": "SYN-WAFER-0391"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:32:00+00:00",
       "factors": {
@@ -6431,7 +6431,7 @@
       "wafer_id": "SYN-WAFER-0392"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:33:00+00:00",
       "factors": {
@@ -6447,7 +6447,7 @@
       "wafer_id": "SYN-WAFER-0393"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:34:00+00:00",
       "factors": {
@@ -6463,7 +6463,7 @@
       "wafer_id": "SYN-WAFER-0394"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:35:00+00:00",
       "factors": {
@@ -6479,7 +6479,7 @@
       "wafer_id": "SYN-WAFER-0395"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:36:00+00:00",
       "factors": {
@@ -6495,7 +6495,7 @@
       "wafer_id": "SYN-WAFER-0396"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:37:00+00:00",
       "factors": {
@@ -6511,7 +6511,7 @@
       "wafer_id": "SYN-WAFER-0397"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:38:00+00:00",
       "factors": {
@@ -6527,7 +6527,7 @@
       "wafer_id": "SYN-WAFER-0398"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:39:00+00:00",
       "factors": {
@@ -6543,7 +6543,7 @@
       "wafer_id": "SYN-WAFER-0399"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:40:00+00:00",
       "factors": {
@@ -6559,7 +6559,7 @@
       "wafer_id": "SYN-WAFER-0400"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:41:00+00:00",
       "factors": {
@@ -6575,7 +6575,7 @@
       "wafer_id": "SYN-WAFER-0401"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:42:00+00:00",
       "factors": {
@@ -6591,7 +6591,7 @@
       "wafer_id": "SYN-WAFER-0402"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:43:00+00:00",
       "factors": {
@@ -6607,7 +6607,7 @@
       "wafer_id": "SYN-WAFER-0403"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:44:00+00:00",
       "factors": {
@@ -6623,7 +6623,7 @@
       "wafer_id": "SYN-WAFER-0404"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T18:45:00+00:00",
       "factors": {
@@ -6927,7 +6927,7 @@
       "wafer_id": "SYN-WAFER-0423"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:04:00+00:00",
       "factors": {
@@ -6943,7 +6943,7 @@
       "wafer_id": "SYN-WAFER-0424"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:05:00+00:00",
       "factors": {
@@ -6959,7 +6959,7 @@
       "wafer_id": "SYN-WAFER-0425"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:06:00+00:00",
       "factors": {
@@ -6975,7 +6975,7 @@
       "wafer_id": "SYN-WAFER-0426"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:07:00+00:00",
       "factors": {
@@ -6991,7 +6991,7 @@
       "wafer_id": "SYN-WAFER-0427"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:08:00+00:00",
       "factors": {
@@ -7007,7 +7007,7 @@
       "wafer_id": "SYN-WAFER-0428"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:09:00+00:00",
       "factors": {
@@ -7023,7 +7023,7 @@
       "wafer_id": "SYN-WAFER-0429"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:10:00+00:00",
       "factors": {
@@ -7039,7 +7039,7 @@
       "wafer_id": "SYN-WAFER-0430"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:11:00+00:00",
       "factors": {
@@ -7055,7 +7055,7 @@
       "wafer_id": "SYN-WAFER-0431"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:12:00+00:00",
       "factors": {
@@ -7071,7 +7071,7 @@
       "wafer_id": "SYN-WAFER-0432"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:13:00+00:00",
       "factors": {
@@ -7087,7 +7087,7 @@
       "wafer_id": "SYN-WAFER-0433"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:14:00+00:00",
       "factors": {
@@ -7103,7 +7103,7 @@
       "wafer_id": "SYN-WAFER-0434"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:15:00+00:00",
       "factors": {
@@ -7119,7 +7119,7 @@
       "wafer_id": "SYN-WAFER-0435"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:16:00+00:00",
       "factors": {
@@ -7135,7 +7135,7 @@
       "wafer_id": "SYN-WAFER-0436"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:17:00+00:00",
       "factors": {
@@ -7151,7 +7151,7 @@
       "wafer_id": "SYN-WAFER-0437"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:18:00+00:00",
       "factors": {
@@ -7167,7 +7167,7 @@
       "wafer_id": "SYN-WAFER-0438"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:19:00+00:00",
       "factors": {
@@ -7183,7 +7183,7 @@
       "wafer_id": "SYN-WAFER-0439"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:20:00+00:00",
       "factors": {
@@ -7199,7 +7199,7 @@
       "wafer_id": "SYN-WAFER-0440"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:21:00+00:00",
       "factors": {
@@ -7215,7 +7215,7 @@
       "wafer_id": "SYN-WAFER-0441"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:22:00+00:00",
       "factors": {
@@ -7231,7 +7231,7 @@
       "wafer_id": "SYN-WAFER-0442"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:23:00+00:00",
       "factors": {
@@ -7247,7 +7247,7 @@
       "wafer_id": "SYN-WAFER-0443"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:24:00+00:00",
       "factors": {
@@ -7263,7 +7263,7 @@
       "wafer_id": "SYN-WAFER-0444"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:25:00+00:00",
       "factors": {
@@ -7279,7 +7279,7 @@
       "wafer_id": "SYN-WAFER-0445"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:26:00+00:00",
       "factors": {
@@ -7295,7 +7295,7 @@
       "wafer_id": "SYN-WAFER-0446"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:27:00+00:00",
       "factors": {
@@ -7311,7 +7311,7 @@
       "wafer_id": "SYN-WAFER-0447"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:28:00+00:00",
       "factors": {
@@ -7327,7 +7327,7 @@
       "wafer_id": "SYN-WAFER-0448"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:29:00+00:00",
       "factors": {
@@ -7343,7 +7343,7 @@
       "wafer_id": "SYN-WAFER-0449"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "CALIBRATION",
       "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:30:00+00:00",
       "factors": {
@@ -7359,8 +7359,8 @@
       "wafer_id": "SYN-WAFER-0450"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:31:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7369,14 +7369,14 @@
       "id": "SYN-OBS-0451",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 1.37178,
-        "yield_index": 82.90004
+        "defect_rate": 1.36578,
+        "yield_index": 83.20004
       },
       "wafer_id": "SYN-WAFER-0451"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:32:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7385,14 +7385,14 @@
       "id": "SYN-OBS-0452",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 1.84871,
-        "yield_index": 81.36414
+        "defect_rate": 1.84271,
+        "yield_index": 81.66414
       },
       "wafer_id": "SYN-WAFER-0452"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:33:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7401,14 +7401,14 @@
       "id": "SYN-OBS-0453",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 2.36044,
-        "yield_index": 79.83294
+        "defect_rate": 2.35444,
+        "yield_index": 80.13294
       },
       "wafer_id": "SYN-WAFER-0453"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:34:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7417,14 +7417,14 @@
       "id": "SYN-OBS-0454",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 1.82335,
-        "yield_index": 85.73688
+        "defect_rate": 1.81735,
+        "yield_index": 86.03688
       },
       "wafer_id": "SYN-WAFER-0454"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:35:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7433,14 +7433,14 @@
       "id": "SYN-OBS-0455",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 2.29486,
-        "yield_index": 84.2089
+        "defect_rate": 2.28886,
+        "yield_index": 84.5089
       },
       "wafer_id": "SYN-WAFER-0455"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:36:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7449,14 +7449,14 @@
       "id": "SYN-OBS-0456",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 2.77802,
-        "yield_index": 82.70454
+        "defect_rate": 2.77202,
+        "yield_index": 83.00454
       },
       "wafer_id": "SYN-WAFER-0456"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:37:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7465,14 +7465,14 @@
       "id": "SYN-OBS-0457",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 2.19621,
-        "yield_index": 88.82585
+        "defect_rate": 2.19021,
+        "yield_index": 89.12585
       },
       "wafer_id": "SYN-WAFER-0457"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:38:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7481,14 +7481,14 @@
       "id": "SYN-OBS-0458",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 2.68849,
-        "yield_index": 87.32698
+        "defect_rate": 2.68249,
+        "yield_index": 87.62698
       },
       "wafer_id": "SYN-WAFER-0458"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:39:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7497,14 +7497,14 @@
       "id": "SYN-OBS-0459",
       "lot_id": "SYN-LOT-051",
       "metrics": {
-        "defect_rate": 3.15858,
-        "yield_index": 85.85276
+        "defect_rate": 3.15258,
+        "yield_index": 86.15276
       },
       "wafer_id": "SYN-WAFER-0459"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:40:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7513,14 +7513,14 @@
       "id": "SYN-OBS-0460",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 1.37946,
-        "yield_index": 82.82231
+        "defect_rate": 1.37346,
+        "yield_index": 83.12231
       },
       "wafer_id": "SYN-WAFER-0460"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:41:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7529,14 +7529,14 @@
       "id": "SYN-OBS-0461",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 1.85167,
-        "yield_index": 81.30165
+        "defect_rate": 1.84567,
+        "yield_index": 81.60165
       },
       "wafer_id": "SYN-WAFER-0461"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:42:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7545,14 +7545,14 @@
       "id": "SYN-OBS-0462",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 2.35444,
-        "yield_index": 79.80715
+        "defect_rate": 2.34844,
+        "yield_index": 80.10715
       },
       "wafer_id": "SYN-WAFER-0462"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:43:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7561,14 +7561,14 @@
       "id": "SYN-OBS-0463",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 1.82681,
-        "yield_index": 85.68054
+        "defect_rate": 1.82081,
+        "yield_index": 85.98054
       },
       "wafer_id": "SYN-WAFER-0463"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:44:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7577,14 +7577,14 @@
       "id": "SYN-OBS-0464",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 2.30245,
-        "yield_index": 84.19139
+        "defect_rate": 2.29645,
+        "yield_index": 84.49139
       },
       "wafer_id": "SYN-WAFER-0464"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:45:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7593,14 +7593,14 @@
       "id": "SYN-OBS-0465",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 2.77888,
-        "yield_index": 82.72317
+        "defect_rate": 2.77288,
+        "yield_index": 83.02317
       },
       "wafer_id": "SYN-WAFER-0465"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:46:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7609,14 +7609,14 @@
       "id": "SYN-OBS-0466",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 2.19227,
-        "yield_index": 88.8165
+        "defect_rate": 2.18627,
+        "yield_index": 89.1165
       },
       "wafer_id": "SYN-WAFER-0466"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:47:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7625,14 +7625,14 @@
       "id": "SYN-OBS-0467",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 2.69374,
-        "yield_index": 87.35065
+        "defect_rate": 2.68774,
+        "yield_index": 87.65065
       },
       "wafer_id": "SYN-WAFER-0467"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:48:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7641,14 +7641,14 @@
       "id": "SYN-OBS-0468",
       "lot_id": "SYN-LOT-052",
       "metrics": {
-        "defect_rate": 3.16549,
-        "yield_index": 85.88466
+        "defect_rate": 3.15949,
+        "yield_index": 86.18466
       },
       "wafer_id": "SYN-WAFER-0468"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:49:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7657,14 +7657,14 @@
       "id": "SYN-OBS-0469",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 1.38652,
-        "yield_index": 82.83664
+        "defect_rate": 1.38052,
+        "yield_index": 83.13664
       },
       "wafer_id": "SYN-WAFER-0469"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:50:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7673,14 +7673,14 @@
       "id": "SYN-OBS-0470",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 1.85667,
-        "yield_index": 81.35643
+        "defect_rate": 1.85067,
+        "yield_index": 81.65643
       },
       "wafer_id": "SYN-WAFER-0470"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:51:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7689,14 +7689,14 @@
       "id": "SYN-OBS-0471",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 2.35022,
-        "yield_index": 79.89191
+        "defect_rate": 2.34422,
+        "yield_index": 80.19191
       },
       "wafer_id": "SYN-WAFER-0471"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:52:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7705,14 +7705,14 @@
       "id": "SYN-OBS-0472",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 1.828,
-        "yield_index": 85.74281
+        "defect_rate": 1.822,
+        "yield_index": 86.04281
       },
       "wafer_id": "SYN-WAFER-0472"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:53:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7721,14 +7721,14 @@
       "id": "SYN-OBS-0473",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 2.3101,
-        "yield_index": 84.27926
+        "defect_rate": 2.3041,
+        "yield_index": 84.57926
       },
       "wafer_id": "SYN-WAFER-0473"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:54:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7737,14 +7737,14 @@
       "id": "SYN-OBS-0474",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 2.78203,
-        "yield_index": 82.80842
+        "defect_rate": 2.77603,
+        "yield_index": 83.10842
       },
       "wafer_id": "SYN-WAFER-0474"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:55:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7753,14 +7753,14 @@
       "id": "SYN-OBS-0475",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 2.1865,
-        "yield_index": 88.9063
+        "defect_rate": 2.1805,
+        "yield_index": 89.2063
       },
       "wafer_id": "SYN-WAFER-0475"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:56:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7769,14 +7769,14 @@
       "id": "SYN-OBS-0476",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 2.69701,
-        "yield_index": 87.43182
+        "defect_rate": 2.69101,
+        "yield_index": 87.73182
       },
       "wafer_id": "SYN-WAFER-0476"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:57:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7785,14 +7785,14 @@
       "id": "SYN-OBS-0477",
       "lot_id": "SYN-LOT-053",
       "metrics": {
-        "defect_rate": 3.17312,
-        "yield_index": 85.93258
+        "defect_rate": 3.16712,
+        "yield_index": 86.23258
       },
       "wafer_id": "SYN-WAFER-0477"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:58:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7801,14 +7801,14 @@
       "id": "SYN-OBS-0478",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 1.39229,
-        "yield_index": 82.95153
+        "defect_rate": 1.38629,
+        "yield_index": 83.25153
       },
       "wafer_id": "SYN-WAFER-0478"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T19:59:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7817,14 +7817,14 @@
       "id": "SYN-OBS-0479",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 1.86322,
-        "yield_index": 81.48763
+        "defect_rate": 1.85722,
+        "yield_index": 81.78763
       },
       "wafer_id": "SYN-WAFER-0479"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:00:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7833,14 +7833,14 @@
       "id": "SYN-OBS-0480",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 2.34816,
-        "yield_index": 80.00982
+        "defect_rate": 2.34216,
+        "yield_index": 80.30982
       },
       "wafer_id": "SYN-WAFER-0480"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:01:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7849,14 +7849,14 @@
       "id": "SYN-OBS-0481",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 1.8268,
-        "yield_index": 85.87373
+        "defect_rate": 1.8208,
+        "yield_index": 86.17373
       },
       "wafer_id": "SYN-WAFER-0481"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:02:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7865,14 +7865,14 @@
       "id": "SYN-OBS-0482",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 2.31708,
-        "yield_index": 84.39132
+        "defect_rate": 2.31108,
+        "yield_index": 84.69132
       },
       "wafer_id": "SYN-WAFER-0482"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:03:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7881,14 +7881,14 @@
       "id": "SYN-OBS-0483",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 2.78718,
-        "yield_index": 82.88229
+        "defect_rate": 2.78118,
+        "yield_index": 83.18229
       },
       "wafer_id": "SYN-WAFER-0483"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:04:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7897,14 +7897,14 @@
       "id": "SYN-OBS-0484",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 2.17943,
-        "yield_index": 89.0117
+        "defect_rate": 2.17343,
+        "yield_index": 89.3117
       },
       "wafer_id": "SYN-WAFER-0484"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:05:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7913,14 +7913,14 @@
       "id": "SYN-OBS-0485",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 2.69799,
-        "yield_index": 87.49746
+        "defect_rate": 2.69199,
+        "yield_index": 87.79746
       },
       "wafer_id": "SYN-WAFER-0485"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:06:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -7929,14 +7929,14 @@
       "id": "SYN-OBS-0486",
       "lot_id": "SYN-LOT-054",
       "metrics": {
-        "defect_rate": 3.18074,
-        "yield_index": 85.96404
+        "defect_rate": 3.17474,
+        "yield_index": 86.26404
       },
       "wafer_id": "SYN-WAFER-0486"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:07:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7945,14 +7945,14 @@
       "id": "SYN-OBS-0487",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 1.39622,
-        "yield_index": 83.08285
+        "defect_rate": 1.39022,
+        "yield_index": 83.38285
       },
       "wafer_id": "SYN-WAFER-0487"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:08:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7961,14 +7961,14 @@
       "id": "SYN-OBS-0488",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 1.87071,
-        "yield_index": 81.59123
+        "defect_rate": 1.86471,
+        "yield_index": 81.89123
       },
       "wafer_id": "SYN-WAFER-0488"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:09:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -7977,14 +7977,14 @@
       "id": "SYN-OBS-0489",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 2.34848,
-        "yield_index": 80.07306
+        "defect_rate": 2.34248,
+        "yield_index": 80.37306
       },
       "wafer_id": "SYN-WAFER-0489"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:10:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -7993,14 +7993,14 @@
       "id": "SYN-OBS-0490",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 1.82334,
-        "yield_index": 85.9696
+        "defect_rate": 1.81734,
+        "yield_index": 86.2696
       },
       "wafer_id": "SYN-WAFER-0490"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:11:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8009,14 +8009,14 @@
       "id": "SYN-OBS-0491",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 2.32271,
-        "yield_index": 84.44688
+        "defect_rate": 2.31671,
+        "yield_index": 84.74688
       },
       "wafer_id": "SYN-WAFER-0491"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:12:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8025,14 +8025,14 @@
       "id": "SYN-OBS-0492",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 2.79384,
-        "yield_index": 82.91067
+        "defect_rate": 2.78784,
+        "yield_index": 83.21067
       },
       "wafer_id": "SYN-WAFER-0492"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:13:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8041,14 +8041,14 @@
       "id": "SYN-OBS-0493",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 2.17176,
-        "yield_index": 89.06014
+        "defect_rate": 2.16576,
+        "yield_index": 89.36014
       },
       "wafer_id": "SYN-WAFER-0493"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:14:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8057,14 +8057,14 @@
       "id": "SYN-OBS-0494",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 2.69659,
-        "yield_index": 87.52351
+        "defect_rate": 2.69059,
+        "yield_index": 87.82351
       },
       "wafer_id": "SYN-WAFER-0494"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:15:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8073,14 +8073,14 @@
       "id": "SYN-OBS-0495",
       "lot_id": "SYN-LOT-055",
       "metrics": {
-        "defect_rate": 3.18763,
-        "yield_index": 85.99667
+        "defect_rate": 3.18163,
+        "yield_index": 86.29667
       },
       "wafer_id": "SYN-WAFER-0495"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:16:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8089,14 +8089,14 @@
       "id": "SYN-OBS-0496",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 1.39794,
-        "yield_index": 83.12936
+        "defect_rate": 1.39194,
+        "yield_index": 83.42936
       },
       "wafer_id": "SYN-WAFER-0496"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:17:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8105,14 +8105,14 @@
       "id": "SYN-OBS-0497",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 1.87841,
-        "yield_index": 81.5998
+        "defect_rate": 1.87241,
+        "yield_index": 81.8998
       },
       "wafer_id": "SYN-WAFER-0497"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:18:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8121,14 +8121,14 @@
       "id": "SYN-OBS-0498",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 2.35113,
-        "yield_index": 80.06343
+        "defect_rate": 2.34513,
+        "yield_index": 80.36343
       },
       "wafer_id": "SYN-WAFER-0498"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:19:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8137,14 +8137,14 @@
       "id": "SYN-OBS-0499",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 1.81794,
-        "yield_index": 85.97243
+        "defect_rate": 1.81194,
+        "yield_index": 86.27243
       },
       "wafer_id": "SYN-WAFER-0499"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:20:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8153,14 +8153,14 @@
       "id": "SYN-OBS-0500",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 2.32646,
-        "yield_index": 84.43712
+        "defect_rate": 2.32046,
+        "yield_index": 84.73712
       },
       "wafer_id": "SYN-WAFER-0500"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:21:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8169,14 +8169,14 @@
       "id": "SYN-OBS-0501",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 2.80138,
-        "yield_index": 82.9179
+        "defect_rate": 2.79538,
+        "yield_index": 83.2179
       },
       "wafer_id": "SYN-WAFER-0501"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:22:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8185,14 +8185,14 @@
       "id": "SYN-OBS-0502",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 2.1642,
-        "yield_index": 89.05147
+        "defect_rate": 2.1582,
+        "yield_index": 89.35147
       },
       "wafer_id": "SYN-WAFER-0502"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:23:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8201,14 +8201,14 @@
       "id": "SYN-OBS-0503",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 2.69294,
-        "yield_index": 87.53713
+        "defect_rate": 2.68694,
+        "yield_index": 87.83713
       },
       "wafer_id": "SYN-WAFER-0503"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:24:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8217,14 +8217,14 @@
       "id": "SYN-OBS-0504",
       "lot_id": "SYN-LOT-056",
       "metrics": {
-        "defect_rate": 3.19311,
-        "yield_index": 86.0496
+        "defect_rate": 3.18711,
+        "yield_index": 86.3496
       },
       "wafer_id": "SYN-WAFER-0504"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:25:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8233,14 +8233,14 @@
       "id": "SYN-OBS-0505",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 1.39728,
-        "yield_index": 83.06774
+        "defect_rate": 1.39128,
+        "yield_index": 83.36774
       },
       "wafer_id": "SYN-WAFER-0505"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:26:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8249,14 +8249,14 @@
       "id": "SYN-OBS-0506",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 1.8856,
-        "yield_index": 81.5363
+        "defect_rate": 1.8796,
+        "yield_index": 81.8363
       },
       "wafer_id": "SYN-WAFER-0506"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:27:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8265,14 +8265,14 @@
       "id": "SYN-OBS-0507",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 2.35587,
-        "yield_index": 80.02609
+        "defect_rate": 2.34987,
+        "yield_index": 80.32609
       },
       "wafer_id": "SYN-WAFER-0507"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:28:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8281,14 +8281,14 @@
       "id": "SYN-OBS-0508",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 1.81111,
-        "yield_index": 85.91217
+        "defect_rate": 1.80511,
+        "yield_index": 86.21217
       },
       "wafer_id": "SYN-WAFER-0508"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:29:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8297,14 +8297,14 @@
       "id": "SYN-OBS-0509",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 2.32798,
-        "yield_index": 84.40734
+        "defect_rate": 2.32198,
+        "yield_index": 84.70734
       },
       "wafer_id": "SYN-WAFER-0509"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:30:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8313,14 +8313,14 @@
       "id": "SYN-OBS-0510",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 2.80906,
-        "yield_index": 82.92855
+        "defect_rate": 2.80306,
+        "yield_index": 83.22855
       },
       "wafer_id": "SYN-WAFER-0510"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:31:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8329,14 +8329,14 @@
       "id": "SYN-OBS-0511",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 2.15748,
-        "yield_index": 89.02968
+        "defect_rate": 2.15148,
+        "yield_index": 89.32968
       },
       "wafer_id": "SYN-WAFER-0511"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:32:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8345,14 +8345,14 @@
       "id": "SYN-OBS-0512",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 2.68739,
-        "yield_index": 87.55511
+        "defect_rate": 2.68139,
+        "yield_index": 87.85511
       },
       "wafer_id": "SYN-WAFER-0512"
     },
     {
-      "analysis_partition": "CALIBRATION",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:33:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8361,14 +8361,14 @@
       "id": "SYN-OBS-0513",
       "lot_id": "SYN-LOT-057",
       "metrics": {
-        "defect_rate": 3.19668,
-        "yield_index": 86.09169
+        "defect_rate": 3.19068,
+        "yield_index": 86.39169
       },
       "wafer_id": "SYN-WAFER-0513"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:34:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8377,14 +8377,14 @@
       "id": "SYN-OBS-0514",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 1.39431,
-        "yield_index": 82.96488
+        "defect_rate": 1.38831,
+        "yield_index": 83.26488
       },
       "wafer_id": "SYN-WAFER-0514"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:35:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8393,14 +8393,14 @@
       "id": "SYN-OBS-0515",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 1.89159,
-        "yield_index": 81.4699
+        "defect_rate": 1.88559,
+        "yield_index": 81.7699
       },
       "wafer_id": "SYN-WAFER-0515"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:36:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8409,14 +8409,14 @@
       "id": "SYN-OBS-0516",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 2.36224,
-        "yield_index": 79.9983
+        "defect_rate": 2.35624,
+        "yield_index": 80.2983
       },
       "wafer_id": "SYN-WAFER-0516"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:37:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8425,14 +8425,14 @@
       "id": "SYN-OBS-0517",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 1.80351,
-        "yield_index": 85.85405
+        "defect_rate": 1.79751,
+        "yield_index": 86.15405
       },
       "wafer_id": "SYN-WAFER-0517"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:38:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8441,14 +8441,14 @@
       "id": "SYN-OBS-0518",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 2.32711,
-        "yield_index": 84.38559
+        "defect_rate": 2.32111,
+        "yield_index": 84.68559
       },
       "wafer_id": "SYN-WAFER-0518"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:39:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8457,14 +8457,14 @@
       "id": "SYN-OBS-0519",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 2.81617,
-        "yield_index": 82.92136
+        "defect_rate": 2.81017,
+        "yield_index": 83.22136
       },
       "wafer_id": "SYN-WAFER-0519"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:40:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8473,14 +8473,14 @@
       "id": "SYN-OBS-0520",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 2.15224,
-        "yield_index": 89.01306
+        "defect_rate": 2.14624,
+        "yield_index": 89.31306
       },
       "wafer_id": "SYN-WAFER-0520"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:41:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8489,14 +8489,14 @@
       "id": "SYN-OBS-0521",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 2.68047,
-        "yield_index": 87.54725
+        "defect_rate": 2.67447,
+        "yield_index": 87.84725
       },
       "wafer_id": "SYN-WAFER-0521"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:42:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8505,14 +8505,14 @@
       "id": "SYN-OBS-0522",
       "lot_id": "SYN-LOT-058",
       "metrics": {
-        "defect_rate": 3.198,
-        "yield_index": 86.06332
+        "defect_rate": 3.192,
+        "yield_index": 86.36332
       },
       "wafer_id": "SYN-WAFER-0522"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:43:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8521,14 +8521,14 @@
       "id": "SYN-OBS-0523",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 1.3893,
-        "yield_index": 82.90027
+        "defect_rate": 1.3833,
+        "yield_index": 83.20027
       },
       "wafer_id": "SYN-WAFER-0523"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:44:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8537,14 +8537,14 @@
       "id": "SYN-OBS-0524",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 1.8958,
-        "yield_index": 81.43564
+        "defect_rate": 1.8898,
+        "yield_index": 81.73564
       },
       "wafer_id": "SYN-WAFER-0524"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:45:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8553,14 +8553,14 @@
       "id": "SYN-OBS-0525",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 2.36963,
-        "yield_index": 79.96801
+        "defect_rate": 2.36363,
+        "yield_index": 80.26801
       },
       "wafer_id": "SYN-WAFER-0525"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:46:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8569,14 +8569,14 @@
       "id": "SYN-OBS-0526",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 1.79586,
-        "yield_index": 85.823
+        "defect_rate": 1.78986,
+        "yield_index": 86.123
       },
       "wafer_id": "SYN-WAFER-0526"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:47:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8585,14 +8585,14 @@
       "id": "SYN-OBS-0527",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 2.32395,
-        "yield_index": 84.35245
+        "defect_rate": 2.31795,
+        "yield_index": 84.65245
       },
       "wafer_id": "SYN-WAFER-0527"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:48:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8601,14 +8601,14 @@
       "id": "SYN-OBS-0528",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 2.82203,
-        "yield_index": 82.85915
+        "defect_rate": 2.81603,
+        "yield_index": 83.15915
       },
       "wafer_id": "SYN-WAFER-0528"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:49:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8617,14 +8617,14 @@
       "id": "SYN-OBS-0529",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 2.14898,
-        "yield_index": 88.97594
+        "defect_rate": 2.14298,
+        "yield_index": 89.27594
       },
       "wafer_id": "SYN-WAFER-0529"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:50:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8633,14 +8633,14 @@
       "id": "SYN-OBS-0530",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 2.67284,
-        "yield_index": 87.47718
+        "defect_rate": 2.66684,
+        "yield_index": 87.77718
       },
       "wafer_id": "SYN-WAFER-0530"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:51:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8649,14 +8649,14 @@
       "id": "SYN-OBS-0531",
       "lot_id": "SYN-LOT-059",
       "metrics": {
-        "defect_rate": 3.19693,
-        "yield_index": 85.95314
+        "defect_rate": 3.19093,
+        "yield_index": 86.25314
       },
       "wafer_id": "SYN-WAFER-0531"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:52:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8665,14 +8665,14 @@
       "id": "SYN-OBS-0532",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 1.38274,
-        "yield_index": 82.8913
+        "defect_rate": 1.37674,
+        "yield_index": 83.1913
       },
       "wafer_id": "SYN-WAFER-0532"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:53:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8681,14 +8681,14 @@
       "id": "SYN-OBS-0533",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 1.89784,
-        "yield_index": 81.41388
+        "defect_rate": 1.89184,
+        "yield_index": 81.71388
       },
       "wafer_id": "SYN-WAFER-0533"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:54:00+00:00",
       "factors": {
         "pressure": 1.0,
@@ -8697,14 +8697,14 @@
       "id": "SYN-OBS-0534",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 2.37735,
-        "yield_index": 79.91073
+        "defect_rate": 2.37135,
+        "yield_index": 80.21073
       },
       "wafer_id": "SYN-WAFER-0534"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:55:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8713,14 +8713,14 @@
       "id": "SYN-OBS-0535",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 1.78889,
-        "yield_index": 85.79547
+        "defect_rate": 1.78289,
+        "yield_index": 86.09547
       },
       "wafer_id": "SYN-WAFER-0535"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:56:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8729,14 +8729,14 @@
       "id": "SYN-OBS-0536",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 2.31879,
-        "yield_index": 84.28691
+        "defect_rate": 2.31279,
+        "yield_index": 84.58691
       },
       "wafer_id": "SYN-WAFER-0536"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:57:00+00:00",
       "factors": {
         "pressure": 2.0,
@@ -8745,14 +8745,14 @@
       "id": "SYN-OBS-0537",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 2.82607,
-        "yield_index": 82.75637
+        "defect_rate": 2.82007,
+        "yield_index": 83.05637
       },
       "wafer_id": "SYN-WAFER-0537"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:58:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8761,14 +8761,14 @@
       "id": "SYN-OBS-0538",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 2.14801,
-        "yield_index": 88.90216
+        "defect_rate": 2.14201,
+        "yield_index": 89.20216
       },
       "wafer_id": "SYN-WAFER-0538"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T20:59:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8777,14 +8777,14 @@
       "id": "SYN-OBS-0539",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 2.66522,
-        "yield_index": 87.36894
+        "defect_rate": 2.65922,
+        "yield_index": 87.66894
       },
       "wafer_id": "SYN-WAFER-0539"
     },
     {
-      "analysis_partition": "TRAIN",
-      "chamber": "SYN-CH-B",
+      "analysis_partition": "EVALUATION",
+      "chamber": "SYN-CH-A",
       "event_ts": "2026-01-01T21:00:00+00:00",
       "factors": {
         "pressure": 3.0,
@@ -8793,13 +8793,13 @@
       "id": "SYN-OBS-0540",
       "lot_id": "SYN-LOT-060",
       "metrics": {
-        "defect_rate": 3.19357,
-        "yield_index": 85.83412
+        "defect_rate": 3.18757,
+        "yield_index": 86.13412
       },
       "wafer_id": "SYN-WAFER-0540"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:01:00+00:00",
       "factors": {
@@ -8815,7 +8815,7 @@
       "wafer_id": "SYN-WAFER-0541"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:02:00+00:00",
       "factors": {
@@ -8831,7 +8831,7 @@
       "wafer_id": "SYN-WAFER-0542"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:03:00+00:00",
       "factors": {
@@ -8847,7 +8847,7 @@
       "wafer_id": "SYN-WAFER-0543"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:04:00+00:00",
       "factors": {
@@ -8863,7 +8863,7 @@
       "wafer_id": "SYN-WAFER-0544"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:05:00+00:00",
       "factors": {
@@ -8879,7 +8879,7 @@
       "wafer_id": "SYN-WAFER-0545"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:06:00+00:00",
       "factors": {
@@ -8895,7 +8895,7 @@
       "wafer_id": "SYN-WAFER-0546"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:07:00+00:00",
       "factors": {
@@ -8911,7 +8911,7 @@
       "wafer_id": "SYN-WAFER-0547"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:08:00+00:00",
       "factors": {
@@ -8927,7 +8927,7 @@
       "wafer_id": "SYN-WAFER-0548"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:09:00+00:00",
       "factors": {
@@ -8943,7 +8943,7 @@
       "wafer_id": "SYN-WAFER-0549"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:10:00+00:00",
       "factors": {
@@ -8959,7 +8959,7 @@
       "wafer_id": "SYN-WAFER-0550"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:11:00+00:00",
       "factors": {
@@ -8975,7 +8975,7 @@
       "wafer_id": "SYN-WAFER-0551"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:12:00+00:00",
       "factors": {
@@ -8991,7 +8991,7 @@
       "wafer_id": "SYN-WAFER-0552"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:13:00+00:00",
       "factors": {
@@ -9007,7 +9007,7 @@
       "wafer_id": "SYN-WAFER-0553"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:14:00+00:00",
       "factors": {
@@ -9023,7 +9023,7 @@
       "wafer_id": "SYN-WAFER-0554"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:15:00+00:00",
       "factors": {
@@ -9039,7 +9039,7 @@
       "wafer_id": "SYN-WAFER-0555"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:16:00+00:00",
       "factors": {
@@ -9055,7 +9055,7 @@
       "wafer_id": "SYN-WAFER-0556"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:17:00+00:00",
       "factors": {
@@ -9071,7 +9071,7 @@
       "wafer_id": "SYN-WAFER-0557"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:18:00+00:00",
       "factors": {
@@ -9087,7 +9087,7 @@
       "wafer_id": "SYN-WAFER-0558"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:19:00+00:00",
       "factors": {
@@ -9103,7 +9103,7 @@
       "wafer_id": "SYN-WAFER-0559"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:20:00+00:00",
       "factors": {
@@ -9119,7 +9119,7 @@
       "wafer_id": "SYN-WAFER-0560"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:21:00+00:00",
       "factors": {
@@ -9135,7 +9135,7 @@
       "wafer_id": "SYN-WAFER-0561"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:22:00+00:00",
       "factors": {
@@ -9151,7 +9151,7 @@
       "wafer_id": "SYN-WAFER-0562"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:23:00+00:00",
       "factors": {
@@ -9167,7 +9167,7 @@
       "wafer_id": "SYN-WAFER-0563"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:24:00+00:00",
       "factors": {
@@ -9183,7 +9183,7 @@
       "wafer_id": "SYN-WAFER-0564"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:25:00+00:00",
       "factors": {
@@ -9199,7 +9199,7 @@
       "wafer_id": "SYN-WAFER-0565"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:26:00+00:00",
       "factors": {
@@ -9215,7 +9215,7 @@
       "wafer_id": "SYN-WAFER-0566"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:27:00+00:00",
       "factors": {
@@ -9231,7 +9231,7 @@
       "wafer_id": "SYN-WAFER-0567"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:28:00+00:00",
       "factors": {
@@ -9247,7 +9247,7 @@
       "wafer_id": "SYN-WAFER-0568"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:29:00+00:00",
       "factors": {
@@ -9263,7 +9263,7 @@
       "wafer_id": "SYN-WAFER-0569"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:30:00+00:00",
       "factors": {
@@ -9279,7 +9279,7 @@
       "wafer_id": "SYN-WAFER-0570"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:31:00+00:00",
       "factors": {
@@ -9295,7 +9295,7 @@
       "wafer_id": "SYN-WAFER-0571"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:32:00+00:00",
       "factors": {
@@ -9311,7 +9311,7 @@
       "wafer_id": "SYN-WAFER-0572"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:33:00+00:00",
       "factors": {
@@ -9327,7 +9327,7 @@
       "wafer_id": "SYN-WAFER-0573"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:34:00+00:00",
       "factors": {
@@ -9343,7 +9343,7 @@
       "wafer_id": "SYN-WAFER-0574"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:35:00+00:00",
       "factors": {
@@ -9359,7 +9359,7 @@
       "wafer_id": "SYN-WAFER-0575"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:36:00+00:00",
       "factors": {
@@ -9375,7 +9375,7 @@
       "wafer_id": "SYN-WAFER-0576"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:37:00+00:00",
       "factors": {
@@ -9391,7 +9391,7 @@
       "wafer_id": "SYN-WAFER-0577"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:38:00+00:00",
       "factors": {
@@ -9407,7 +9407,7 @@
       "wafer_id": "SYN-WAFER-0578"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:39:00+00:00",
       "factors": {
@@ -9423,7 +9423,7 @@
       "wafer_id": "SYN-WAFER-0579"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:40:00+00:00",
       "factors": {
@@ -9439,7 +9439,7 @@
       "wafer_id": "SYN-WAFER-0580"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:41:00+00:00",
       "factors": {
@@ -9455,7 +9455,7 @@
       "wafer_id": "SYN-WAFER-0581"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:42:00+00:00",
       "factors": {
@@ -9471,7 +9471,7 @@
       "wafer_id": "SYN-WAFER-0582"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:43:00+00:00",
       "factors": {
@@ -9487,7 +9487,7 @@
       "wafer_id": "SYN-WAFER-0583"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:44:00+00:00",
       "factors": {
@@ -9503,7 +9503,7 @@
       "wafer_id": "SYN-WAFER-0584"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:45:00+00:00",
       "factors": {
@@ -9519,7 +9519,7 @@
       "wafer_id": "SYN-WAFER-0585"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:46:00+00:00",
       "factors": {
@@ -9535,7 +9535,7 @@
       "wafer_id": "SYN-WAFER-0586"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:47:00+00:00",
       "factors": {
@@ -9551,7 +9551,7 @@
       "wafer_id": "SYN-WAFER-0587"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:48:00+00:00",
       "factors": {
@@ -9567,7 +9567,7 @@
       "wafer_id": "SYN-WAFER-0588"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:49:00+00:00",
       "factors": {
@@ -9583,7 +9583,7 @@
       "wafer_id": "SYN-WAFER-0589"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:50:00+00:00",
       "factors": {
@@ -9599,7 +9599,7 @@
       "wafer_id": "SYN-WAFER-0590"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:51:00+00:00",
       "factors": {
@@ -9615,7 +9615,7 @@
       "wafer_id": "SYN-WAFER-0591"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:52:00+00:00",
       "factors": {
@@ -9631,7 +9631,7 @@
       "wafer_id": "SYN-WAFER-0592"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:53:00+00:00",
       "factors": {
@@ -9647,7 +9647,7 @@
       "wafer_id": "SYN-WAFER-0593"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:54:00+00:00",
       "factors": {
@@ -9663,7 +9663,7 @@
       "wafer_id": "SYN-WAFER-0594"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:55:00+00:00",
       "factors": {
@@ -9679,7 +9679,7 @@
       "wafer_id": "SYN-WAFER-0595"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:56:00+00:00",
       "factors": {
@@ -9695,7 +9695,7 @@
       "wafer_id": "SYN-WAFER-0596"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:57:00+00:00",
       "factors": {
@@ -9711,7 +9711,7 @@
       "wafer_id": "SYN-WAFER-0597"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:58:00+00:00",
       "factors": {
@@ -9727,7 +9727,7 @@
       "wafer_id": "SYN-WAFER-0598"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T21:59:00+00:00",
       "factors": {
@@ -9743,7 +9743,7 @@
       "wafer_id": "SYN-WAFER-0599"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:00:00+00:00",
       "factors": {
@@ -9759,7 +9759,7 @@
       "wafer_id": "SYN-WAFER-0600"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:01:00+00:00",
       "factors": {
@@ -9775,7 +9775,7 @@
       "wafer_id": "SYN-WAFER-0601"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:02:00+00:00",
       "factors": {
@@ -9791,7 +9791,7 @@
       "wafer_id": "SYN-WAFER-0602"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:03:00+00:00",
       "factors": {
@@ -9807,7 +9807,7 @@
       "wafer_id": "SYN-WAFER-0603"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:04:00+00:00",
       "factors": {
@@ -9823,7 +9823,7 @@
       "wafer_id": "SYN-WAFER-0604"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:05:00+00:00",
       "factors": {
@@ -9839,7 +9839,7 @@
       "wafer_id": "SYN-WAFER-0605"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:06:00+00:00",
       "factors": {
@@ -9855,7 +9855,7 @@
       "wafer_id": "SYN-WAFER-0606"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:07:00+00:00",
       "factors": {
@@ -9871,7 +9871,7 @@
       "wafer_id": "SYN-WAFER-0607"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:08:00+00:00",
       "factors": {
@@ -9887,7 +9887,7 @@
       "wafer_id": "SYN-WAFER-0608"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:09:00+00:00",
       "factors": {
@@ -9903,7 +9903,7 @@
       "wafer_id": "SYN-WAFER-0609"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:10:00+00:00",
       "factors": {
@@ -9919,7 +9919,7 @@
       "wafer_id": "SYN-WAFER-0610"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:11:00+00:00",
       "factors": {
@@ -9935,7 +9935,7 @@
       "wafer_id": "SYN-WAFER-0611"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:12:00+00:00",
       "factors": {
@@ -9951,7 +9951,7 @@
       "wafer_id": "SYN-WAFER-0612"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:13:00+00:00",
       "factors": {
@@ -9967,7 +9967,7 @@
       "wafer_id": "SYN-WAFER-0613"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:14:00+00:00",
       "factors": {
@@ -9983,7 +9983,7 @@
       "wafer_id": "SYN-WAFER-0614"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:15:00+00:00",
       "factors": {
@@ -9999,7 +9999,7 @@
       "wafer_id": "SYN-WAFER-0615"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:16:00+00:00",
       "factors": {
@@ -10015,7 +10015,7 @@
       "wafer_id": "SYN-WAFER-0616"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:17:00+00:00",
       "factors": {
@@ -10031,7 +10031,7 @@
       "wafer_id": "SYN-WAFER-0617"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:18:00+00:00",
       "factors": {
@@ -10047,7 +10047,7 @@
       "wafer_id": "SYN-WAFER-0618"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:19:00+00:00",
       "factors": {
@@ -10063,7 +10063,7 @@
       "wafer_id": "SYN-WAFER-0619"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:20:00+00:00",
       "factors": {
@@ -10079,7 +10079,7 @@
       "wafer_id": "SYN-WAFER-0620"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:21:00+00:00",
       "factors": {
@@ -10095,7 +10095,7 @@
       "wafer_id": "SYN-WAFER-0621"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:22:00+00:00",
       "factors": {
@@ -10111,7 +10111,7 @@
       "wafer_id": "SYN-WAFER-0622"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:23:00+00:00",
       "factors": {
@@ -10127,7 +10127,7 @@
       "wafer_id": "SYN-WAFER-0623"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:24:00+00:00",
       "factors": {
@@ -10143,7 +10143,7 @@
       "wafer_id": "SYN-WAFER-0624"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:25:00+00:00",
       "factors": {
@@ -10159,7 +10159,7 @@
       "wafer_id": "SYN-WAFER-0625"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:26:00+00:00",
       "factors": {
@@ -10175,7 +10175,7 @@
       "wafer_id": "SYN-WAFER-0626"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:27:00+00:00",
       "factors": {
@@ -10191,7 +10191,7 @@
       "wafer_id": "SYN-WAFER-0627"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:28:00+00:00",
       "factors": {
@@ -10207,7 +10207,7 @@
       "wafer_id": "SYN-WAFER-0628"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:29:00+00:00",
       "factors": {
@@ -10223,7 +10223,7 @@
       "wafer_id": "SYN-WAFER-0629"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:30:00+00:00",
       "factors": {
@@ -10239,7 +10239,7 @@
       "wafer_id": "SYN-WAFER-0630"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:31:00+00:00",
       "factors": {
@@ -10255,7 +10255,7 @@
       "wafer_id": "SYN-WAFER-0631"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:32:00+00:00",
       "factors": {
@@ -10271,7 +10271,7 @@
       "wafer_id": "SYN-WAFER-0632"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:33:00+00:00",
       "factors": {
@@ -10287,7 +10287,7 @@
       "wafer_id": "SYN-WAFER-0633"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:34:00+00:00",
       "factors": {
@@ -10303,7 +10303,7 @@
       "wafer_id": "SYN-WAFER-0634"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:35:00+00:00",
       "factors": {
@@ -10319,7 +10319,7 @@
       "wafer_id": "SYN-WAFER-0635"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:36:00+00:00",
       "factors": {
@@ -10335,7 +10335,7 @@
       "wafer_id": "SYN-WAFER-0636"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:37:00+00:00",
       "factors": {
@@ -10351,7 +10351,7 @@
       "wafer_id": "SYN-WAFER-0637"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:38:00+00:00",
       "factors": {
@@ -10367,7 +10367,7 @@
       "wafer_id": "SYN-WAFER-0638"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:39:00+00:00",
       "factors": {
@@ -10383,7 +10383,7 @@
       "wafer_id": "SYN-WAFER-0639"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:40:00+00:00",
       "factors": {
@@ -10399,7 +10399,7 @@
       "wafer_id": "SYN-WAFER-0640"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:41:00+00:00",
       "factors": {
@@ -10415,7 +10415,7 @@
       "wafer_id": "SYN-WAFER-0641"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:42:00+00:00",
       "factors": {
@@ -10431,7 +10431,7 @@
       "wafer_id": "SYN-WAFER-0642"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:43:00+00:00",
       "factors": {
@@ -10447,7 +10447,7 @@
       "wafer_id": "SYN-WAFER-0643"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:44:00+00:00",
       "factors": {
@@ -10463,7 +10463,7 @@
       "wafer_id": "SYN-WAFER-0644"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:45:00+00:00",
       "factors": {
@@ -10479,7 +10479,7 @@
       "wafer_id": "SYN-WAFER-0645"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:46:00+00:00",
       "factors": {
@@ -10495,7 +10495,7 @@
       "wafer_id": "SYN-WAFER-0646"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:47:00+00:00",
       "factors": {
@@ -10511,7 +10511,7 @@
       "wafer_id": "SYN-WAFER-0647"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:48:00+00:00",
       "factors": {
@@ -10527,7 +10527,7 @@
       "wafer_id": "SYN-WAFER-0648"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:49:00+00:00",
       "factors": {
@@ -10543,7 +10543,7 @@
       "wafer_id": "SYN-WAFER-0649"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:50:00+00:00",
       "factors": {
@@ -10559,7 +10559,7 @@
       "wafer_id": "SYN-WAFER-0650"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:51:00+00:00",
       "factors": {
@@ -10575,7 +10575,7 @@
       "wafer_id": "SYN-WAFER-0651"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:52:00+00:00",
       "factors": {
@@ -10591,7 +10591,7 @@
       "wafer_id": "SYN-WAFER-0652"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:53:00+00:00",
       "factors": {
@@ -10607,7 +10607,7 @@
       "wafer_id": "SYN-WAFER-0653"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:54:00+00:00",
       "factors": {
@@ -10623,7 +10623,7 @@
       "wafer_id": "SYN-WAFER-0654"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:55:00+00:00",
       "factors": {
@@ -10639,7 +10639,7 @@
       "wafer_id": "SYN-WAFER-0655"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:56:00+00:00",
       "factors": {
@@ -10655,7 +10655,7 @@
       "wafer_id": "SYN-WAFER-0656"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:57:00+00:00",
       "factors": {
@@ -10671,7 +10671,7 @@
       "wafer_id": "SYN-WAFER-0657"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:58:00+00:00",
       "factors": {
@@ -10687,7 +10687,7 @@
       "wafer_id": "SYN-WAFER-0658"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T22:59:00+00:00",
       "factors": {
@@ -10703,7 +10703,7 @@
       "wafer_id": "SYN-WAFER-0659"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:00:00+00:00",
       "factors": {
@@ -10719,7 +10719,7 @@
       "wafer_id": "SYN-WAFER-0660"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:01:00+00:00",
       "factors": {
@@ -10735,7 +10735,7 @@
       "wafer_id": "SYN-WAFER-0661"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:02:00+00:00",
       "factors": {
@@ -10751,7 +10751,7 @@
       "wafer_id": "SYN-WAFER-0662"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:03:00+00:00",
       "factors": {
@@ -10767,7 +10767,7 @@
       "wafer_id": "SYN-WAFER-0663"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:04:00+00:00",
       "factors": {
@@ -10783,7 +10783,7 @@
       "wafer_id": "SYN-WAFER-0664"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:05:00+00:00",
       "factors": {
@@ -10799,7 +10799,7 @@
       "wafer_id": "SYN-WAFER-0665"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:06:00+00:00",
       "factors": {
@@ -10815,7 +10815,7 @@
       "wafer_id": "SYN-WAFER-0666"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:07:00+00:00",
       "factors": {
@@ -10831,7 +10831,7 @@
       "wafer_id": "SYN-WAFER-0667"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:08:00+00:00",
       "factors": {
@@ -10847,7 +10847,7 @@
       "wafer_id": "SYN-WAFER-0668"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:09:00+00:00",
       "factors": {
@@ -10863,7 +10863,7 @@
       "wafer_id": "SYN-WAFER-0669"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:10:00+00:00",
       "factors": {
@@ -10879,7 +10879,7 @@
       "wafer_id": "SYN-WAFER-0670"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:11:00+00:00",
       "factors": {
@@ -10895,7 +10895,7 @@
       "wafer_id": "SYN-WAFER-0671"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:12:00+00:00",
       "factors": {
@@ -10911,7 +10911,7 @@
       "wafer_id": "SYN-WAFER-0672"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:13:00+00:00",
       "factors": {
@@ -10927,7 +10927,7 @@
       "wafer_id": "SYN-WAFER-0673"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:14:00+00:00",
       "factors": {
@@ -10943,7 +10943,7 @@
       "wafer_id": "SYN-WAFER-0674"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:15:00+00:00",
       "factors": {
@@ -10959,7 +10959,7 @@
       "wafer_id": "SYN-WAFER-0675"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:16:00+00:00",
       "factors": {
@@ -10975,7 +10975,7 @@
       "wafer_id": "SYN-WAFER-0676"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:17:00+00:00",
       "factors": {
@@ -10991,7 +10991,7 @@
       "wafer_id": "SYN-WAFER-0677"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:18:00+00:00",
       "factors": {
@@ -11007,7 +11007,7 @@
       "wafer_id": "SYN-WAFER-0678"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:19:00+00:00",
       "factors": {
@@ -11023,7 +11023,7 @@
       "wafer_id": "SYN-WAFER-0679"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:20:00+00:00",
       "factors": {
@@ -11039,7 +11039,7 @@
       "wafer_id": "SYN-WAFER-0680"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:21:00+00:00",
       "factors": {
@@ -11055,7 +11055,7 @@
       "wafer_id": "SYN-WAFER-0681"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:22:00+00:00",
       "factors": {
@@ -11071,7 +11071,7 @@
       "wafer_id": "SYN-WAFER-0682"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:23:00+00:00",
       "factors": {
@@ -11087,7 +11087,7 @@
       "wafer_id": "SYN-WAFER-0683"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:24:00+00:00",
       "factors": {
@@ -11103,7 +11103,7 @@
       "wafer_id": "SYN-WAFER-0684"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:25:00+00:00",
       "factors": {
@@ -11119,7 +11119,7 @@
       "wafer_id": "SYN-WAFER-0685"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:26:00+00:00",
       "factors": {
@@ -11135,7 +11135,7 @@
       "wafer_id": "SYN-WAFER-0686"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:27:00+00:00",
       "factors": {
@@ -11151,7 +11151,7 @@
       "wafer_id": "SYN-WAFER-0687"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:28:00+00:00",
       "factors": {
@@ -11167,7 +11167,7 @@
       "wafer_id": "SYN-WAFER-0688"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:29:00+00:00",
       "factors": {
@@ -11183,7 +11183,7 @@
       "wafer_id": "SYN-WAFER-0689"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:30:00+00:00",
       "factors": {
@@ -11199,7 +11199,7 @@
       "wafer_id": "SYN-WAFER-0690"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:31:00+00:00",
       "factors": {
@@ -11215,7 +11215,7 @@
       "wafer_id": "SYN-WAFER-0691"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:32:00+00:00",
       "factors": {
@@ -11231,7 +11231,7 @@
       "wafer_id": "SYN-WAFER-0692"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:33:00+00:00",
       "factors": {
@@ -11247,7 +11247,7 @@
       "wafer_id": "SYN-WAFER-0693"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:34:00+00:00",
       "factors": {
@@ -11263,7 +11263,7 @@
       "wafer_id": "SYN-WAFER-0694"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:35:00+00:00",
       "factors": {
@@ -11279,7 +11279,7 @@
       "wafer_id": "SYN-WAFER-0695"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:36:00+00:00",
       "factors": {
@@ -11295,7 +11295,7 @@
       "wafer_id": "SYN-WAFER-0696"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:37:00+00:00",
       "factors": {
@@ -11311,7 +11311,7 @@
       "wafer_id": "SYN-WAFER-0697"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:38:00+00:00",
       "factors": {
@@ -11327,7 +11327,7 @@
       "wafer_id": "SYN-WAFER-0698"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:39:00+00:00",
       "factors": {
@@ -11343,7 +11343,7 @@
       "wafer_id": "SYN-WAFER-0699"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:40:00+00:00",
       "factors": {
@@ -11359,7 +11359,7 @@
       "wafer_id": "SYN-WAFER-0700"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:41:00+00:00",
       "factors": {
@@ -11375,7 +11375,7 @@
       "wafer_id": "SYN-WAFER-0701"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:42:00+00:00",
       "factors": {
@@ -11391,7 +11391,7 @@
       "wafer_id": "SYN-WAFER-0702"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:43:00+00:00",
       "factors": {
@@ -11407,7 +11407,7 @@
       "wafer_id": "SYN-WAFER-0703"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:44:00+00:00",
       "factors": {
@@ -11423,7 +11423,7 @@
       "wafer_id": "SYN-WAFER-0704"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:45:00+00:00",
       "factors": {
@@ -11439,7 +11439,7 @@
       "wafer_id": "SYN-WAFER-0705"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:46:00+00:00",
       "factors": {
@@ -11455,7 +11455,7 @@
       "wafer_id": "SYN-WAFER-0706"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:47:00+00:00",
       "factors": {
@@ -11471,7 +11471,7 @@
       "wafer_id": "SYN-WAFER-0707"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:48:00+00:00",
       "factors": {
@@ -11487,7 +11487,7 @@
       "wafer_id": "SYN-WAFER-0708"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:49:00+00:00",
       "factors": {
@@ -11503,7 +11503,7 @@
       "wafer_id": "SYN-WAFER-0709"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:50:00+00:00",
       "factors": {
@@ -11519,7 +11519,7 @@
       "wafer_id": "SYN-WAFER-0710"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:51:00+00:00",
       "factors": {
@@ -11535,7 +11535,7 @@
       "wafer_id": "SYN-WAFER-0711"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:52:00+00:00",
       "factors": {
@@ -11551,7 +11551,7 @@
       "wafer_id": "SYN-WAFER-0712"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:53:00+00:00",
       "factors": {
@@ -11567,7 +11567,7 @@
       "wafer_id": "SYN-WAFER-0713"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:54:00+00:00",
       "factors": {
@@ -11583,7 +11583,7 @@
       "wafer_id": "SYN-WAFER-0714"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:55:00+00:00",
       "factors": {
@@ -11599,7 +11599,7 @@
       "wafer_id": "SYN-WAFER-0715"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:56:00+00:00",
       "factors": {
@@ -11615,7 +11615,7 @@
       "wafer_id": "SYN-WAFER-0716"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:57:00+00:00",
       "factors": {
@@ -11631,7 +11631,7 @@
       "wafer_id": "SYN-WAFER-0717"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:58:00+00:00",
       "factors": {
@@ -11647,7 +11647,7 @@
       "wafer_id": "SYN-WAFER-0718"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-01T23:59:00+00:00",
       "factors": {
@@ -11663,7 +11663,7 @@
       "wafer_id": "SYN-WAFER-0719"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:00:00+00:00",
       "factors": {
@@ -11679,7 +11679,7 @@
       "wafer_id": "SYN-WAFER-0720"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:01:00+00:00",
       "factors": {
@@ -11695,7 +11695,7 @@
       "wafer_id": "SYN-WAFER-0721"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:02:00+00:00",
       "factors": {
@@ -11711,7 +11711,7 @@
       "wafer_id": "SYN-WAFER-0722"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:03:00+00:00",
       "factors": {
@@ -11727,7 +11727,7 @@
       "wafer_id": "SYN-WAFER-0723"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:04:00+00:00",
       "factors": {
@@ -11743,7 +11743,7 @@
       "wafer_id": "SYN-WAFER-0724"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:05:00+00:00",
       "factors": {
@@ -11759,7 +11759,7 @@
       "wafer_id": "SYN-WAFER-0725"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:06:00+00:00",
       "factors": {
@@ -11775,7 +11775,7 @@
       "wafer_id": "SYN-WAFER-0726"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:07:00+00:00",
       "factors": {
@@ -11791,7 +11791,7 @@
       "wafer_id": "SYN-WAFER-0727"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:08:00+00:00",
       "factors": {
@@ -11807,7 +11807,7 @@
       "wafer_id": "SYN-WAFER-0728"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:09:00+00:00",
       "factors": {
@@ -11823,7 +11823,7 @@
       "wafer_id": "SYN-WAFER-0729"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:10:00+00:00",
       "factors": {
@@ -11839,7 +11839,7 @@
       "wafer_id": "SYN-WAFER-0730"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:11:00+00:00",
       "factors": {
@@ -11855,7 +11855,7 @@
       "wafer_id": "SYN-WAFER-0731"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:12:00+00:00",
       "factors": {
@@ -11871,7 +11871,7 @@
       "wafer_id": "SYN-WAFER-0732"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:13:00+00:00",
       "factors": {
@@ -11887,7 +11887,7 @@
       "wafer_id": "SYN-WAFER-0733"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:14:00+00:00",
       "factors": {
@@ -11903,7 +11903,7 @@
       "wafer_id": "SYN-WAFER-0734"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:15:00+00:00",
       "factors": {
@@ -11919,7 +11919,7 @@
       "wafer_id": "SYN-WAFER-0735"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:16:00+00:00",
       "factors": {
@@ -11935,7 +11935,7 @@
       "wafer_id": "SYN-WAFER-0736"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:17:00+00:00",
       "factors": {
@@ -11951,7 +11951,7 @@
       "wafer_id": "SYN-WAFER-0737"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:18:00+00:00",
       "factors": {
@@ -11967,7 +11967,7 @@
       "wafer_id": "SYN-WAFER-0738"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:19:00+00:00",
       "factors": {
@@ -11983,7 +11983,7 @@
       "wafer_id": "SYN-WAFER-0739"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:20:00+00:00",
       "factors": {
@@ -11999,7 +11999,7 @@
       "wafer_id": "SYN-WAFER-0740"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:21:00+00:00",
       "factors": {
@@ -12015,7 +12015,7 @@
       "wafer_id": "SYN-WAFER-0741"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:22:00+00:00",
       "factors": {
@@ -12031,7 +12031,7 @@
       "wafer_id": "SYN-WAFER-0742"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:23:00+00:00",
       "factors": {
@@ -12047,7 +12047,7 @@
       "wafer_id": "SYN-WAFER-0743"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:24:00+00:00",
       "factors": {
@@ -12063,7 +12063,7 @@
       "wafer_id": "SYN-WAFER-0744"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:25:00+00:00",
       "factors": {
@@ -12079,7 +12079,7 @@
       "wafer_id": "SYN-WAFER-0745"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:26:00+00:00",
       "factors": {
@@ -12095,7 +12095,7 @@
       "wafer_id": "SYN-WAFER-0746"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:27:00+00:00",
       "factors": {
@@ -12111,7 +12111,7 @@
       "wafer_id": "SYN-WAFER-0747"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:28:00+00:00",
       "factors": {
@@ -12127,7 +12127,7 @@
       "wafer_id": "SYN-WAFER-0748"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:29:00+00:00",
       "factors": {
@@ -12143,7 +12143,7 @@
       "wafer_id": "SYN-WAFER-0749"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:30:00+00:00",
       "factors": {
@@ -12159,7 +12159,7 @@
       "wafer_id": "SYN-WAFER-0750"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:31:00+00:00",
       "factors": {
@@ -12175,7 +12175,7 @@
       "wafer_id": "SYN-WAFER-0751"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:32:00+00:00",
       "factors": {
@@ -12191,7 +12191,7 @@
       "wafer_id": "SYN-WAFER-0752"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:33:00+00:00",
       "factors": {
@@ -12207,7 +12207,7 @@
       "wafer_id": "SYN-WAFER-0753"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:34:00+00:00",
       "factors": {
@@ -12223,7 +12223,7 @@
       "wafer_id": "SYN-WAFER-0754"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:35:00+00:00",
       "factors": {
@@ -12239,7 +12239,7 @@
       "wafer_id": "SYN-WAFER-0755"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:36:00+00:00",
       "factors": {
@@ -12255,7 +12255,7 @@
       "wafer_id": "SYN-WAFER-0756"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:37:00+00:00",
       "factors": {
@@ -12271,7 +12271,7 @@
       "wafer_id": "SYN-WAFER-0757"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:38:00+00:00",
       "factors": {
@@ -12287,7 +12287,7 @@
       "wafer_id": "SYN-WAFER-0758"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:39:00+00:00",
       "factors": {
@@ -12303,7 +12303,7 @@
       "wafer_id": "SYN-WAFER-0759"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:40:00+00:00",
       "factors": {
@@ -12319,7 +12319,7 @@
       "wafer_id": "SYN-WAFER-0760"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:41:00+00:00",
       "factors": {
@@ -12335,7 +12335,7 @@
       "wafer_id": "SYN-WAFER-0761"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:42:00+00:00",
       "factors": {
@@ -12351,7 +12351,7 @@
       "wafer_id": "SYN-WAFER-0762"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:43:00+00:00",
       "factors": {
@@ -12367,7 +12367,7 @@
       "wafer_id": "SYN-WAFER-0763"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:44:00+00:00",
       "factors": {
@@ -12383,7 +12383,7 @@
       "wafer_id": "SYN-WAFER-0764"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:45:00+00:00",
       "factors": {
@@ -12399,7 +12399,7 @@
       "wafer_id": "SYN-WAFER-0765"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:46:00+00:00",
       "factors": {
@@ -12415,7 +12415,7 @@
       "wafer_id": "SYN-WAFER-0766"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:47:00+00:00",
       "factors": {
@@ -12431,7 +12431,7 @@
       "wafer_id": "SYN-WAFER-0767"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:48:00+00:00",
       "factors": {
@@ -12447,7 +12447,7 @@
       "wafer_id": "SYN-WAFER-0768"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:49:00+00:00",
       "factors": {
@@ -12463,7 +12463,7 @@
       "wafer_id": "SYN-WAFER-0769"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:50:00+00:00",
       "factors": {
@@ -12479,7 +12479,7 @@
       "wafer_id": "SYN-WAFER-0770"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:51:00+00:00",
       "factors": {
@@ -12495,7 +12495,7 @@
       "wafer_id": "SYN-WAFER-0771"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:52:00+00:00",
       "factors": {
@@ -12511,7 +12511,7 @@
       "wafer_id": "SYN-WAFER-0772"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:53:00+00:00",
       "factors": {
@@ -12527,7 +12527,7 @@
       "wafer_id": "SYN-WAFER-0773"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:54:00+00:00",
       "factors": {
@@ -12543,7 +12543,7 @@
       "wafer_id": "SYN-WAFER-0774"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:55:00+00:00",
       "factors": {
@@ -12559,7 +12559,7 @@
       "wafer_id": "SYN-WAFER-0775"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:56:00+00:00",
       "factors": {
@@ -12575,7 +12575,7 @@
       "wafer_id": "SYN-WAFER-0776"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:57:00+00:00",
       "factors": {
@@ -12591,7 +12591,7 @@
       "wafer_id": "SYN-WAFER-0777"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:58:00+00:00",
       "factors": {
@@ -12607,7 +12607,7 @@
       "wafer_id": "SYN-WAFER-0778"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T00:59:00+00:00",
       "factors": {
@@ -12623,7 +12623,7 @@
       "wafer_id": "SYN-WAFER-0779"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:00:00+00:00",
       "factors": {
@@ -12639,7 +12639,7 @@
       "wafer_id": "SYN-WAFER-0780"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:01:00+00:00",
       "factors": {
@@ -12655,7 +12655,7 @@
       "wafer_id": "SYN-WAFER-0781"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:02:00+00:00",
       "factors": {
@@ -12671,7 +12671,7 @@
       "wafer_id": "SYN-WAFER-0782"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:03:00+00:00",
       "factors": {
@@ -12687,7 +12687,7 @@
       "wafer_id": "SYN-WAFER-0783"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:04:00+00:00",
       "factors": {
@@ -12703,7 +12703,7 @@
       "wafer_id": "SYN-WAFER-0784"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:05:00+00:00",
       "factors": {
@@ -12719,7 +12719,7 @@
       "wafer_id": "SYN-WAFER-0785"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:06:00+00:00",
       "factors": {
@@ -12735,7 +12735,7 @@
       "wafer_id": "SYN-WAFER-0786"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:07:00+00:00",
       "factors": {
@@ -12751,7 +12751,7 @@
       "wafer_id": "SYN-WAFER-0787"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:08:00+00:00",
       "factors": {
@@ -12767,7 +12767,7 @@
       "wafer_id": "SYN-WAFER-0788"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:09:00+00:00",
       "factors": {
@@ -12783,7 +12783,7 @@
       "wafer_id": "SYN-WAFER-0789"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:10:00+00:00",
       "factors": {
@@ -12799,7 +12799,7 @@
       "wafer_id": "SYN-WAFER-0790"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:11:00+00:00",
       "factors": {
@@ -12815,7 +12815,7 @@
       "wafer_id": "SYN-WAFER-0791"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:12:00+00:00",
       "factors": {
@@ -12831,7 +12831,7 @@
       "wafer_id": "SYN-WAFER-0792"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:13:00+00:00",
       "factors": {
@@ -12847,7 +12847,7 @@
       "wafer_id": "SYN-WAFER-0793"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:14:00+00:00",
       "factors": {
@@ -12863,7 +12863,7 @@
       "wafer_id": "SYN-WAFER-0794"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:15:00+00:00",
       "factors": {
@@ -12879,7 +12879,7 @@
       "wafer_id": "SYN-WAFER-0795"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:16:00+00:00",
       "factors": {
@@ -12895,7 +12895,7 @@
       "wafer_id": "SYN-WAFER-0796"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:17:00+00:00",
       "factors": {
@@ -12911,7 +12911,7 @@
       "wafer_id": "SYN-WAFER-0797"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:18:00+00:00",
       "factors": {
@@ -12927,7 +12927,7 @@
       "wafer_id": "SYN-WAFER-0798"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:19:00+00:00",
       "factors": {
@@ -12943,7 +12943,7 @@
       "wafer_id": "SYN-WAFER-0799"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:20:00+00:00",
       "factors": {
@@ -12959,7 +12959,7 @@
       "wafer_id": "SYN-WAFER-0800"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:21:00+00:00",
       "factors": {
@@ -12975,7 +12975,7 @@
       "wafer_id": "SYN-WAFER-0801"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:22:00+00:00",
       "factors": {
@@ -12991,7 +12991,7 @@
       "wafer_id": "SYN-WAFER-0802"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:23:00+00:00",
       "factors": {
@@ -13007,7 +13007,7 @@
       "wafer_id": "SYN-WAFER-0803"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:24:00+00:00",
       "factors": {
@@ -13023,7 +13023,7 @@
       "wafer_id": "SYN-WAFER-0804"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:25:00+00:00",
       "factors": {
@@ -13039,7 +13039,7 @@
       "wafer_id": "SYN-WAFER-0805"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:26:00+00:00",
       "factors": {
@@ -13055,7 +13055,7 @@
       "wafer_id": "SYN-WAFER-0806"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:27:00+00:00",
       "factors": {
@@ -13071,7 +13071,7 @@
       "wafer_id": "SYN-WAFER-0807"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:28:00+00:00",
       "factors": {
@@ -13087,7 +13087,7 @@
       "wafer_id": "SYN-WAFER-0808"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:29:00+00:00",
       "factors": {
@@ -13103,7 +13103,7 @@
       "wafer_id": "SYN-WAFER-0809"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:30:00+00:00",
       "factors": {
@@ -13119,7 +13119,7 @@
       "wafer_id": "SYN-WAFER-0810"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:31:00+00:00",
       "factors": {
@@ -13135,7 +13135,7 @@
       "wafer_id": "SYN-WAFER-0811"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:32:00+00:00",
       "factors": {
@@ -13151,7 +13151,7 @@
       "wafer_id": "SYN-WAFER-0812"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:33:00+00:00",
       "factors": {
@@ -13167,7 +13167,7 @@
       "wafer_id": "SYN-WAFER-0813"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:34:00+00:00",
       "factors": {
@@ -13183,7 +13183,7 @@
       "wafer_id": "SYN-WAFER-0814"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:35:00+00:00",
       "factors": {
@@ -13199,7 +13199,7 @@
       "wafer_id": "SYN-WAFER-0815"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:36:00+00:00",
       "factors": {
@@ -13215,7 +13215,7 @@
       "wafer_id": "SYN-WAFER-0816"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:37:00+00:00",
       "factors": {
@@ -13231,7 +13231,7 @@
       "wafer_id": "SYN-WAFER-0817"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:38:00+00:00",
       "factors": {
@@ -13247,7 +13247,7 @@
       "wafer_id": "SYN-WAFER-0818"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:39:00+00:00",
       "factors": {
@@ -13263,7 +13263,7 @@
       "wafer_id": "SYN-WAFER-0819"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:40:00+00:00",
       "factors": {
@@ -13279,7 +13279,7 @@
       "wafer_id": "SYN-WAFER-0820"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:41:00+00:00",
       "factors": {
@@ -13295,7 +13295,7 @@
       "wafer_id": "SYN-WAFER-0821"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:42:00+00:00",
       "factors": {
@@ -13311,7 +13311,7 @@
       "wafer_id": "SYN-WAFER-0822"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:43:00+00:00",
       "factors": {
@@ -13327,7 +13327,7 @@
       "wafer_id": "SYN-WAFER-0823"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:44:00+00:00",
       "factors": {
@@ -13343,7 +13343,7 @@
       "wafer_id": "SYN-WAFER-0824"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:45:00+00:00",
       "factors": {
@@ -13359,7 +13359,7 @@
       "wafer_id": "SYN-WAFER-0825"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:46:00+00:00",
       "factors": {
@@ -13375,7 +13375,7 @@
       "wafer_id": "SYN-WAFER-0826"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:47:00+00:00",
       "factors": {
@@ -13391,7 +13391,7 @@
       "wafer_id": "SYN-WAFER-0827"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:48:00+00:00",
       "factors": {
@@ -13407,7 +13407,7 @@
       "wafer_id": "SYN-WAFER-0828"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:49:00+00:00",
       "factors": {
@@ -13423,7 +13423,7 @@
       "wafer_id": "SYN-WAFER-0829"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:50:00+00:00",
       "factors": {
@@ -13439,7 +13439,7 @@
       "wafer_id": "SYN-WAFER-0830"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:51:00+00:00",
       "factors": {
@@ -13455,7 +13455,7 @@
       "wafer_id": "SYN-WAFER-0831"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:52:00+00:00",
       "factors": {
@@ -13471,7 +13471,7 @@
       "wafer_id": "SYN-WAFER-0832"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:53:00+00:00",
       "factors": {
@@ -13487,7 +13487,7 @@
       "wafer_id": "SYN-WAFER-0833"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:54:00+00:00",
       "factors": {
@@ -13503,7 +13503,7 @@
       "wafer_id": "SYN-WAFER-0834"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:55:00+00:00",
       "factors": {
@@ -13519,7 +13519,7 @@
       "wafer_id": "SYN-WAFER-0835"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:56:00+00:00",
       "factors": {
@@ -13535,7 +13535,7 @@
       "wafer_id": "SYN-WAFER-0836"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:57:00+00:00",
       "factors": {
@@ -13551,7 +13551,7 @@
       "wafer_id": "SYN-WAFER-0837"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:58:00+00:00",
       "factors": {
@@ -13567,7 +13567,7 @@
       "wafer_id": "SYN-WAFER-0838"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T01:59:00+00:00",
       "factors": {
@@ -13583,7 +13583,7 @@
       "wafer_id": "SYN-WAFER-0839"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:00:00+00:00",
       "factors": {
@@ -13599,7 +13599,7 @@
       "wafer_id": "SYN-WAFER-0840"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:01:00+00:00",
       "factors": {
@@ -13615,7 +13615,7 @@
       "wafer_id": "SYN-WAFER-0841"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:02:00+00:00",
       "factors": {
@@ -13631,7 +13631,7 @@
       "wafer_id": "SYN-WAFER-0842"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:03:00+00:00",
       "factors": {
@@ -13647,7 +13647,7 @@
       "wafer_id": "SYN-WAFER-0843"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:04:00+00:00",
       "factors": {
@@ -13663,7 +13663,7 @@
       "wafer_id": "SYN-WAFER-0844"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:05:00+00:00",
       "factors": {
@@ -13679,7 +13679,7 @@
       "wafer_id": "SYN-WAFER-0845"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:06:00+00:00",
       "factors": {
@@ -13695,7 +13695,7 @@
       "wafer_id": "SYN-WAFER-0846"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:07:00+00:00",
       "factors": {
@@ -13711,7 +13711,7 @@
       "wafer_id": "SYN-WAFER-0847"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:08:00+00:00",
       "factors": {
@@ -13727,7 +13727,7 @@
       "wafer_id": "SYN-WAFER-0848"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:09:00+00:00",
       "factors": {
@@ -13743,7 +13743,7 @@
       "wafer_id": "SYN-WAFER-0849"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:10:00+00:00",
       "factors": {
@@ -13759,7 +13759,7 @@
       "wafer_id": "SYN-WAFER-0850"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:11:00+00:00",
       "factors": {
@@ -13775,7 +13775,7 @@
       "wafer_id": "SYN-WAFER-0851"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:12:00+00:00",
       "factors": {
@@ -13791,7 +13791,7 @@
       "wafer_id": "SYN-WAFER-0852"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:13:00+00:00",
       "factors": {
@@ -13807,7 +13807,7 @@
       "wafer_id": "SYN-WAFER-0853"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:14:00+00:00",
       "factors": {
@@ -13823,7 +13823,7 @@
       "wafer_id": "SYN-WAFER-0854"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:15:00+00:00",
       "factors": {
@@ -13839,7 +13839,7 @@
       "wafer_id": "SYN-WAFER-0855"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:16:00+00:00",
       "factors": {
@@ -13855,7 +13855,7 @@
       "wafer_id": "SYN-WAFER-0856"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:17:00+00:00",
       "factors": {
@@ -13871,7 +13871,7 @@
       "wafer_id": "SYN-WAFER-0857"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:18:00+00:00",
       "factors": {
@@ -13887,7 +13887,7 @@
       "wafer_id": "SYN-WAFER-0858"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:19:00+00:00",
       "factors": {
@@ -13903,7 +13903,7 @@
       "wafer_id": "SYN-WAFER-0859"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:20:00+00:00",
       "factors": {
@@ -13919,7 +13919,7 @@
       "wafer_id": "SYN-WAFER-0860"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:21:00+00:00",
       "factors": {
@@ -13935,7 +13935,7 @@
       "wafer_id": "SYN-WAFER-0861"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:22:00+00:00",
       "factors": {
@@ -13951,7 +13951,7 @@
       "wafer_id": "SYN-WAFER-0862"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:23:00+00:00",
       "factors": {
@@ -13967,7 +13967,7 @@
       "wafer_id": "SYN-WAFER-0863"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:24:00+00:00",
       "factors": {
@@ -13983,7 +13983,7 @@
       "wafer_id": "SYN-WAFER-0864"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:25:00+00:00",
       "factors": {
@@ -13999,7 +13999,7 @@
       "wafer_id": "SYN-WAFER-0865"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:26:00+00:00",
       "factors": {
@@ -14015,7 +14015,7 @@
       "wafer_id": "SYN-WAFER-0866"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:27:00+00:00",
       "factors": {
@@ -14031,7 +14031,7 @@
       "wafer_id": "SYN-WAFER-0867"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:28:00+00:00",
       "factors": {
@@ -14047,7 +14047,7 @@
       "wafer_id": "SYN-WAFER-0868"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:29:00+00:00",
       "factors": {
@@ -14063,7 +14063,7 @@
       "wafer_id": "SYN-WAFER-0869"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:30:00+00:00",
       "factors": {
@@ -14079,7 +14079,7 @@
       "wafer_id": "SYN-WAFER-0870"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:31:00+00:00",
       "factors": {
@@ -14095,7 +14095,7 @@
       "wafer_id": "SYN-WAFER-0871"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:32:00+00:00",
       "factors": {
@@ -14111,7 +14111,7 @@
       "wafer_id": "SYN-WAFER-0872"
     },
     {
-      "analysis_partition": "CALIBRATION",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:33:00+00:00",
       "factors": {
@@ -14127,7 +14127,7 @@
       "wafer_id": "SYN-WAFER-0873"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:34:00+00:00",
       "factors": {
@@ -14143,7 +14143,7 @@
       "wafer_id": "SYN-WAFER-0874"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:35:00+00:00",
       "factors": {
@@ -14159,7 +14159,7 @@
       "wafer_id": "SYN-WAFER-0875"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:36:00+00:00",
       "factors": {
@@ -14175,7 +14175,7 @@
       "wafer_id": "SYN-WAFER-0876"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:37:00+00:00",
       "factors": {
@@ -14191,7 +14191,7 @@
       "wafer_id": "SYN-WAFER-0877"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:38:00+00:00",
       "factors": {
@@ -14207,7 +14207,7 @@
       "wafer_id": "SYN-WAFER-0878"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:39:00+00:00",
       "factors": {
@@ -14223,7 +14223,7 @@
       "wafer_id": "SYN-WAFER-0879"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:40:00+00:00",
       "factors": {
@@ -14239,7 +14239,7 @@
       "wafer_id": "SYN-WAFER-0880"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:41:00+00:00",
       "factors": {
@@ -14255,7 +14255,7 @@
       "wafer_id": "SYN-WAFER-0881"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:42:00+00:00",
       "factors": {
@@ -14271,7 +14271,7 @@
       "wafer_id": "SYN-WAFER-0882"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:43:00+00:00",
       "factors": {
@@ -14287,7 +14287,7 @@
       "wafer_id": "SYN-WAFER-0883"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:44:00+00:00",
       "factors": {
@@ -14303,7 +14303,7 @@
       "wafer_id": "SYN-WAFER-0884"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:45:00+00:00",
       "factors": {
@@ -14319,7 +14319,7 @@
       "wafer_id": "SYN-WAFER-0885"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:46:00+00:00",
       "factors": {
@@ -14335,7 +14335,7 @@
       "wafer_id": "SYN-WAFER-0886"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:47:00+00:00",
       "factors": {
@@ -14351,7 +14351,7 @@
       "wafer_id": "SYN-WAFER-0887"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:48:00+00:00",
       "factors": {
@@ -14367,7 +14367,7 @@
       "wafer_id": "SYN-WAFER-0888"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:49:00+00:00",
       "factors": {
@@ -14383,7 +14383,7 @@
       "wafer_id": "SYN-WAFER-0889"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:50:00+00:00",
       "factors": {
@@ -14399,7 +14399,7 @@
       "wafer_id": "SYN-WAFER-0890"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:51:00+00:00",
       "factors": {
@@ -14415,7 +14415,7 @@
       "wafer_id": "SYN-WAFER-0891"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:52:00+00:00",
       "factors": {
@@ -14431,7 +14431,7 @@
       "wafer_id": "SYN-WAFER-0892"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:53:00+00:00",
       "factors": {
@@ -14447,7 +14447,7 @@
       "wafer_id": "SYN-WAFER-0893"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:54:00+00:00",
       "factors": {
@@ -14463,7 +14463,7 @@
       "wafer_id": "SYN-WAFER-0894"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:55:00+00:00",
       "factors": {
@@ -14479,7 +14479,7 @@
       "wafer_id": "SYN-WAFER-0895"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:56:00+00:00",
       "factors": {
@@ -14495,7 +14495,7 @@
       "wafer_id": "SYN-WAFER-0896"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:57:00+00:00",
       "factors": {
@@ -14511,7 +14511,7 @@
       "wafer_id": "SYN-WAFER-0897"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:58:00+00:00",
       "factors": {
@@ -14527,7 +14527,7 @@
       "wafer_id": "SYN-WAFER-0898"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T02:59:00+00:00",
       "factors": {
@@ -14543,7 +14543,7 @@
       "wafer_id": "SYN-WAFER-0899"
     },
     {
-      "analysis_partition": "TRAIN",
+      "analysis_partition": "EVALUATION",
       "chamber": "SYN-CH-B",
       "event_ts": "2026-01-02T03:00:00+00:00",
       "factors": {
@@ -14688,12 +14688,16 @@
   "window_exploration": {
     "calibration": {
       "calibration_value": "CALIBRATION",
+      "evaluation_value": "EVALUATION",
       "group_field": "lot_id",
       "minimum_calibration_units": 19,
       "partition_field": "analysis_partition",
-      "split_reference": "SYN-P4-LOT-HOLDOUT-20PCT-INTERLEAVED-001",
+      "split_reference": "SYN-P4-LOT-HOLDOUT-30-20-10-WITHIN-CHAMBER-001",
       "training_value": "TRAIN"
     },
+    "evaluation_strata": [
+      "chamber"
+    ],
     "factors": [
       "pressure",
       "temperature"

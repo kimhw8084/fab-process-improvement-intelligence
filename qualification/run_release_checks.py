@@ -40,6 +40,18 @@ def benchmark_workflow_is_qualified(performance):
     return performance_record_is_qualified(performance)
 
 
+def disposable_snapshot_fingerprint_matches(snapshot):
+    hashes = snapshot.get("file_sha256")
+    if not isinstance(hashes, dict) or not hashes or snapshot.get("files") != len(hashes):
+        return False
+    if any(not isinstance(name, str) or not name or not isinstance(digest, str)
+           or re.fullmatch(r"[0-9a-f]{64}", digest) is None for name, digest in hashes.items()):
+        return False
+    manifest = "\n".join(f"{digest}  {name}" for name, digest in sorted(hashes.items())) + "\n"
+    digest = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
+    return snapshot.get("manifest_sha256") == digest and snapshot.get("sha256") == digest
+
+
 def archive_qualification_pass(evaluated_commit):
     release = ROOT / "release"
     archive = release / "FAB_INTELLIGENCE_P4_CANDIDATE.zip"
@@ -241,13 +253,22 @@ def main():
         "panel_sha256": hashlib.sha256((ROOT / "products" / "p4" / "ui" / "P4Panel.tsx").read_bytes()).hexdigest(),
         "panel_test_sha256": hashlib.sha256((ROOT / "products" / "p4" / "ui" / "P4Panel.test.tsx").read_bytes()).hexdigest(),
     }
+    current_p4_additional_hashes = {
+        "products/p4/window.py": hashlib.sha256((ROOT / "products" / "p4" / "window.py").read_bytes()).hexdigest(),
+        "products/p4/investigation.v1.schema.json": hashlib.sha256((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_bytes()).hexdigest(),
+        "products/p4/ui_contribution.json": hashlib.sha256((ROOT / "products" / "p4" / "ui_contribution.json").read_bytes()).hexdigest(),
+        "fixtures/full_workflow_demo.json": hashlib.sha256((ROOT / "fixtures" / "full_workflow_demo.json").read_bytes()).hexdigest(),
+        "qualification/build_demo_fixture.py": hashlib.sha256((ROOT / "qualification" / "build_demo_fixture.py").read_bytes()).hexdigest(),
+    }
     p1_pin = p1_composition.get("p4_registry_pin", {})
     p1_snapshot = p1_composition.get("snapshot_fingerprint", {})
+    p1_additional_hashes = p1_composition.get("additional_p4_source_sha256", {})
     p1_source_hashes_match = (p1_current_source == current_p4_hashes
+                              and p1_additional_hashes == current_p4_additional_hashes
                               and p1_pin.get("engine_sha256") == current_p4_hashes["engine_sha256"]
                               and p1_pin.get("engine_version") == "1.2.0"
-                              and p1_snapshot.get("files") == 27
-                              and p1_snapshot.get("sha256") == p1_snapshot.get("manifest_sha256"))
+                              and p1_snapshot.get("files") == 28
+                              and disposable_snapshot_fingerprint_matches(p1_snapshot))
     p1_disposable_host_pass = (
         p1_source_hashes_match
         and

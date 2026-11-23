@@ -10,6 +10,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceContractTests(unittest.TestCase):
+    def test_d02_schema_allows_optional_independent_evaluation_partition(self):
+        schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        calibration = schema["properties"]["window_exploration"]["properties"]["calibration"]
+        self.assertEqual(calibration["properties"]["evaluation_value"]["type"], "string")
+        self.assertNotIn("evaluation_value", calibration["required"])
+        fixture = json.loads((ROOT / "fixtures" / "full_workflow_demo.json").read_text(encoding="utf-8"))
+        self.assertEqual(fixture["window_exploration"]["calibration"]["evaluation_value"], "EVALUATION")
+
     def test_schema_files_identify_version(self):
         for name in ("evidence.v1.schema.json", "product-manifest.v1.schema.json"):
             doc = json.loads((ROOT / "contracts" / name).read_text(encoding="utf-8"))

@@ -1,29 +1,62 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "ca00f3c985608ae5b48b8f4d2743d894b298f570",
+  "as_of_source_commit": "88ce0f543323451787552cf42fa59a3fbd03f150",
   "product_state": "CANDIDATE",
   "next_executable_action": {
-    "priority": 8,
-    "task": "Commit the reviewed progress-ledger ZIP exclusion, inventory regression, decision record and checkpoint; restore generated release outputs and remove release/SOURCE_BUILD.json; build the exact new commit, reproduce it twice, run fresh no-pip extraction with network denied, then rerun the release runner and inspect E10.",
+    "priority": 1,
+    "task": "Review and locally commit the current D02 implementation/schema/fixture, current-source disposable P1 host composition and evidence, regression tests, documentation and progress records. Exclude stale generated release artifacts and remove generated release/SOURCE_BUILD.json. At the resulting clean source commit, regenerate source-bound performance evidence and rerun the full release runner; then build/reproduce/qualify the exact archive offline.",
     "inspect": [
-      "qualification/build_transfer_bundle.py",
-      "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py",
+      "products/p4/window.py",
+      "products/p4/investigation.v1.schema.json",
+      "qualification/build_demo_fixture.py",
       "qualification/run_release_checks.py",
-      "tests/test_schema_and_ui.py"
+      "qualification/benchmark.py",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
-    "first_command": "rtk git status --short --branch",
-    "acceptance": "The new clean source commit's ZIP has no progress/ entries, matches the source manifest and sidecar, reproduces byte-for-byte from two clean worktrees, passes fresh no-pip extracted doctor/demo/analysis with an OS-enforced network denial, and is recognized by E10 in the full release runner; E07 and company/legal gates remain pending; no publication occurs."
+    "first_command": "rtk git diff --check",
+    "acceptance": "Current Python suite executed: 165 PASS/0 skipped; current P1 host route suite executed against exact current P4 window.py/fixture: 11 PASS; P4 module 12 tests/typecheck/contract snapshot PASS; current source fingerprint match in release-runner P1 gate PASS. After local commit, exact-source benchmark and release E02 must pass; then the exact archive must reproduce and pass fresh no-pip network-denied extraction. Company, ownership, host and security gates remain pending; no publication."
   },
   "ordered_queue": [
-    {"priority": 1, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D02 pointwise support/uncertainty remains advisory; independent-unit max-score split-conformal and Bonferroni metrics now provide an assumption-conditional 95% finite exact-setting panel band when each calibration unit has the same complete panel and finite rank; 1,000 fixed-seed trials gave 966/1,000 joint coverage and 0/1,000 post-selection false-feasible under the generator. Interpolation, source assumptions and split provenance remain unqualified."},
-    {"priority": 2, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D01 repeated-unit cluster covariance, train/test temporal holdout, and formula ablation sensitivity; a fixed 2,000-trial challenge exposed false positives when independent lots were split across clusters (15.4% vs 4.8% correct lot clustering), and P4 now abstains on that mapping and exposes it in the UI. Formula/split provenance, measurement uncertainty and broader OOD remain unverified."},
-    {"priority": 3, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D03 observed path requires identical typed independent-unit sets for its family-wise envelope; missing/unsupported IDs fail closed, and a deterministic type-collision challenge showed why integer 1 and string '1' must remain distinct. Approved cross-step path requires the same declared synthetic population ID. Bonferroni rectangles cover the complete candidate/objective mean family under bounded sample/family and approximate-normal assumptions; SciPy paired bootstrap was benchmarked and rejected for undercoverage. Mean front remains descriptive and no company relation is approved."},
-    {"priority": 4, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D04 includes grouped development selection/holdout, constrained next-best, multiple DOE families, and non-executing exact D02 paired confirmation. The known-SD sample-size approximation was corrected against 54 SciPy noncentral-t cases. A 2,000-trial historical SD challenge demonstrated that point-SD use is underpowered in 41–56% of trials; D04 now refuses point estimates and requires caller-supplied ≥95% one-sided chi-square SD upper bound+df or engineer-approved hard bound. P4 records but cannot authenticate it; normality/independence remain assumptions."},
-    {"priority": 5, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D05 has pretrend and curvature placebos, population/composition gates, negative-control falsification, unit-checked differential-trend sensitivity, exact null tipping points, exact string ledger identity, and bounded randomized attrition calculations that refuse when observed values violate supplied limits. Observational DiD always has causal_claim=false; bound adequacy remains pending independent substantive qualification. The 1,000-trial hidden-confounder challenge shows why underbound sources must not qualify automatically."},
-    {"priority": 6, "status": "IMPLEMENTED_SYNTHETIC_ONLY", "task": "Official SDK mock read to source-semantic/version/hash and approved-relationship/grain/time/audit validation, normalized all-five-capability P4 analysis and shared evidence envelope; frozen logical adapter contract is v1.0.0, P4 evidence extensions are fail-closed and proposed additively; 14 focused MCP tests PASS. Company semantics/authorization remain pending."},
-    {"priority": 7, "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_INTERACTIVE", "task": "Latest P4 module passes 12 panel tests, strict typecheck, disposable P1 39 frontend tests, typecheck/build and 11 host-route tests; live shared-shell workflow displayed all D01-D05 and the shared Pareto chart, then denied permission with fixture values suppressed. Evidence is qualification/evidence/p1-disposable-host-qualification-2026-11-23.json. P1 source/version/owner confirmation, formal accessibility and target-host qualification remain pending."},
-    {"priority": 8, "status": "IN_PROGRESS_RELEASE_INVENTORY_FIX", "task": "Source commit ca00f3c has a reproduced/offline-qualified archive, but it is superseded by an inventory hardening change that excludes workspace-only progress/ ledgers. Focused release/schema tests and the 159-test full suite pass with the change; commit, rebuild, reproduce, run no-pip network-denied extraction, then verify E10 against the exact new source commit."}
+    {
+      "priority": 1,
+      "status": "IMPLEMENTED_WITH_LIMITS_AND_HELDOUT_DEMO",
+      "task": "D02 retains advisory pointwise screening, assumption-conditional finite exact-setting max-score band, multiplicity warning and independent-unit composition diagnostics. Missing/empty evaluation now reports NOT_PROVIDED/INSUFFICIENT_ASSIGNABLE_UNITS with null counts rather than zero. The full synthetic workflow uses 30 train / 20 calibration / 10 matching-chamber evaluation lots; 3/76 selected candidates have exact evaluation rows, so the complete-set audit is withheld. At one exact setting 0/10 were observed infeasible, descriptive Wilson95 [0, 0.2775]; no coverage or manufacturing-population claim. Cross-lot/tool/time and nonlinear failure oracles remain synthetic."
+    },
+    {
+      "priority": 2,
+      "status": "IMPLEMENTED_WITH_LIMITS",
+      "task": "D01 repeated-unit cluster covariance, train/test temporal holdout, and formula ablation sensitivity; a fixed 2,000-trial challenge exposed false positives when independent lots were split across clusters (15.4% vs 4.8% correct lot clustering), and P4 now abstains on that mapping and exposes it in the UI. Formula/split provenance, measurement uncertainty and broader OOD remain unverified."
+    },
+    {
+      "priority": 3,
+      "status": "IMPLEMENTED_WITH_LIMITS",
+      "task": "D03 observed path requires identical typed independent-unit sets for its family-wise envelope; missing/unsupported IDs fail closed, and a deterministic type-collision challenge showed why integer 1 and string '1' must remain distinct. Approved cross-step path requires the same declared synthetic population ID. Bonferroni rectangles cover the complete candidate/objective mean family under bounded sample/family and approximate-normal assumptions; SciPy paired bootstrap was benchmarked and rejected for undercoverage. Mean front remains descriptive and no company relation is approved."
+    },
+    {
+      "priority": 4,
+      "status": "IMPLEMENTED_WITH_LIMITS",
+      "task": "D04 includes grouped development selection/holdout, constrained next-best, multiple DOE families, and non-executing exact D02 paired confirmation. The known-SD sample-size approximation was corrected against 54 SciPy noncentral-t cases. A 2,000-trial historical SD challenge demonstrated that point-SD use is underpowered in 41\u201356% of trials; D04 now refuses point estimates and requires caller-supplied \u226595% one-sided chi-square SD upper bound+df or engineer-approved hard bound. P4 records but cannot authenticate it; normality/independence remain assumptions."
+    },
+    {
+      "priority": 5,
+      "status": "IMPLEMENTED_WITH_LIMITS",
+      "task": "D05 has pretrend and curvature placebos, population/composition gates, negative-control falsification, unit-checked differential-trend sensitivity, exact null tipping points, exact string ledger identity, and bounded randomized attrition calculations that refuse when observed values violate supplied limits. Observational DiD always has causal_claim=false; bound adequacy remains pending independent substantive qualification. The 1,000-trial hidden-confounder challenge shows why underbound sources must not qualify automatically."
+    },
+    {
+      "priority": 6,
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY",
+      "task": "Official SDK mock read to source-semantic/version/hash and approved-relationship/grain/time/audit validation, normalized all-five-capability P4 analysis and shared evidence envelope; frozen logical adapter contract is v1.0.0, P4 evidence extensions are fail-closed and proposed additively; 14 focused MCP tests PASS. Company semantics/authorization remain pending."
+    },
+    {
+      "priority": 7,
+      "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_INTERACTIVE_CURRENT_P4_SOURCE",
+      "task": "Latest current P4 module, including D02 partition-status diagnostics, was copied into the disposable P1 composition and source/registry/test pins refreshed. Current P1 host-route tests pass 11; live shared-host analysis and permission refusal verified; P1 frontend 39 tests/typecheck/build and P4 component 12 tests/typecheck/contract match pass. 28-file composition fingerprint is self-consistent and release runner confirms current P4 source hashes match. P1 owner/source authority, formal accessibility and target-host qualification remain pending."
+    },
+    {
+      "priority": 8,
+      "status": "PENDING_LOCAL_COMMIT_AND_SOURCE_BOUND_RELEASE_REQUALIFICATION",
+      "task": "The 88ce0f5 archive passed local E10/offline qualification but is stale after the D02 missing-evaluation status correction, optional evaluation_value schema, 30/20/10 eligible demo split, P1 evidence integrity pinning and docs/tests. Current release runner recognizes P1 evidence and schema, runs 165 tests, and correctly fails E02 because the runtime-source benchmark still fingerprints 88ce0f5-era code. Commit reviewed current changes; regenerate runtime performance and run the full gate before rebuilding/reproducing/offline-qualifying exact source. No publication."
+    }
   ],
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",

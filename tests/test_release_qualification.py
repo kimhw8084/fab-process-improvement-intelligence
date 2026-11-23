@@ -2,7 +2,8 @@
 import unittest
 
 from qualification.benchmark import integrated_demo_is_qualified, product_source_fingerprint
-from qualification.run_release_checks import benchmark_matches_product_sources, benchmark_workflow_is_qualified
+from qualification.run_release_checks import (benchmark_matches_product_sources, benchmark_workflow_is_qualified,
+                                               disposable_snapshot_fingerprint_matches)
 from qualification.workflow_qualification import analysis_result_is_qualified
 
 
@@ -62,6 +63,26 @@ class PerformanceWorkflowQualificationTests(unittest.TestCase):
         self.assertFalse(benchmark_workflow_is_qualified(report))
         del workflow["capability_statuses"]["D05"]
         self.assertFalse(benchmark_workflow_is_qualified(report))
+
+
+class DisposableSnapshotEvidenceTests(unittest.TestCase):
+    def test_explicit_snapshot_manifest_is_verified(self):
+        import hashlib
+
+        hashes = {"contracts/suite-ui.types.ts": "a" * 64, "tests/test_suite_host.py": "b" * 64}
+        manifest = "\n".join(f"{digest}  {name}" for name, digest in sorted(hashes.items())) + "\n"
+        digest = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
+        evidence = {"files": 2, "file_sha256": hashes, "manifest_sha256": digest, "sha256": digest}
+        self.assertTrue(disposable_snapshot_fingerprint_matches(evidence))
+        evidence["file_sha256"]["tests/test_suite_host.py"] = "c" * 64
+        self.assertFalse(disposable_snapshot_fingerprint_matches(evidence))
+
+    def test_snapshot_without_hash_inventory_or_with_invalid_hash_is_rejected(self):
+        self.assertFalse(disposable_snapshot_fingerprint_matches({"files": 27, "sha256": "a" * 64,
+                                                                  "manifest_sha256": "a" * 64}))
+        self.assertFalse(disposable_snapshot_fingerprint_matches({"files": 1, "file_sha256": {"x": "bad"},
+                                                                  "sha256": "a" * 64,
+                                                                  "manifest_sha256": "a" * 64}))
 
 
 class OfflineWorkflowQualificationTests(unittest.TestCase):

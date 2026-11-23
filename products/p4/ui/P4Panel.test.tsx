@@ -41,6 +41,15 @@ const evidence: P4Evidence = {
     uncertainty_rule: "All local group-held-out empirical intervals using a 95% order-statistic rank satisfy the explicit metric limits; this does not guarantee conditional coverage.",
     calibration: { method: "local_grouped_holdout_absolute_error", coverage_guarantee: "none; local selection does not establish conditional coverage", group_field: "lot_id", training_unit_count: 30, calibration_unit_count: 20, minimum_local_calibration_units: 19, split_reference: "SYN-DO02-INTERLEAVED-001" },
     independent_candidate_evaluation: { status: "DESCRIPTIVE", evaluated_candidate_count: 1, unevaluated_candidate_count: 0, method: "No population or simultaneous guarantee.",
+      partition_composition_diagnostic: { status: "DESCRIPTIVE", fields: ["tool_id", "event_year"],
+        partitions: { TRAIN: { independent_units: 30, assignable_units: 30, unassignable_units_missing_or_mixed_strata: 0,
+          categories: [{ values: { tool_id: "TOOL-A", event_year: 2026 }, independent_units: 30, fraction_of_assignable_units: 1 }] },
+          CALIBRATION: { independent_units: 20, assignable_units: 20, unassignable_units_missing_or_mixed_strata: 0,
+            categories: [{ values: { tool_id: "TOOL-A", event_year: 2026 }, independent_units: 20, fraction_of_assignable_units: 1 }] } },
+        comparisons: [{ from_partition: "TRAIN", to_partition: "CALIBRATION", categorical_total_variation_distance: 0 }],
+        evaluation_partition_status: "NOT_PROVIDED", evaluation_strata_absent_from_calibration_count: null,
+        evaluation_units_in_strata_absent_from_calibration: null,
+        unseen_evaluation_strata: null, interpretation: "Descriptive only; not a test of exchangeability." },
       candidates: [{ factors: { pressure: 2.0, temperature: 40 }, status: "NO_EXACT_SETTING_EVALUATION_DATA", independent_units: 0,
         population_incompatible_units: 12, observed_infeasible_units: null, observed_infeasible_fraction: null,
         wilson95_descriptive_interval: null, stratified_evaluation: { status: "NOT_ESTIMABLE", categories: [] } }],
@@ -131,6 +140,16 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getByText(/Selection among cells can inflate false-feasible findings/)).toBeTruthy();
     expect(within(d02).getByText(/Independent candidate evaluation/)).toBeTruthy();
     expect(within(d02).getByText("Simultaneous exact-setting calibration")).toBeTruthy();
+    const population = within(d02).getByRole("table", {
+      name: "Independent-unit population strata by partition; descriptive, not an exchangeability test",
+    });
+    expect(within(population).getByRole("rowheader", { name: "CALIBRATION" })).toBeTruthy();
+    expect(within(population).getAllByText(/TOOL-A/).length).toBeGreaterThan(0);
+    const composition = within(d02).getByRole("table", { name: "Between-partition composition distances and evaluation strata absent from calibration" });
+    expect(within(composition).getByText("evaluation_partition_status")).toBeTruthy();
+    expect(within(composition).getByText("NOT_PROVIDED")).toBeTruthy();
+    expect(within(composition).getByText("evaluation_strata_absent_from_calibration_count")).toBeTruthy();
+    expect(within(composition).getAllByText("Not provided").length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/simultaneous exact-setting panel interval/).length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/Passes finite exact-setting panel screen under unverified assumptions/).length).toBeGreaterThan(0);
     expect(within(d02).getByText(/SYN-DO02-INTERLEAVED-001/)).toBeTruthy();

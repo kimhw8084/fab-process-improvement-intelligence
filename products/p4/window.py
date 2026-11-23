@@ -442,6 +442,128 @@ def _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained,
             "method": "exact-setting independent-unit diagnostic; a unit is infeasible if any observed row violates a supplied limit; missing-outcome units are unscored; Wilson intervals are descriptive and do not establish population, conditional, or simultaneous coverage"}
 
 
+def _partition_composition_diagnostic(partitions, unit_field, strata_fields,
+                                     calibration_partition_name=None, evaluation_partition_name=None):
+    """Describe declared population-stratum support across fitting/calibration/evaluation units.
+
+    This is an overlap diagnostic, not a statistical test or an exchangeability certificate.
+    It uses one category per independent unit and marks units with missing or changing
+    strata as unassignable instead of counting their rows as independent evidence.
+    """
+    if not strata_fields:
+        return {"status": "NOT_REQUESTED", "fields": [], "partitions": {}, "comparisons": [],
+                "evaluation_partition_status": "NOT_REQUESTED",
+                "evaluation_strata_absent_from_calibration_count": None,
+                "evaluation_units_in_strata_absent_from_calibration": None,
+                "unseen_evaluation_strata": None,
+                "unseen_evaluation_strata_truncated": None,
+                "interpretation": "no population strata were declared"}
+
+    summaries = {}
+    category_counts = {}
+    for partition_name, rows in partitions.items():
+        by_unit = {}
+        for row in rows:
+            try:
+                unit = _unit_key(_get_field(row, unit_field))
+            except (KeyError, ValueError):
+                # The main split validator normally catches this. Retain a fail-closed
+                # diagnostic if a future caller bypasses it.
+                continue
+            item = by_unit.setdefault(unit, {"signatures": {}, "invalid": False})
+            values = {}
+            valid = True
+            for field in strata_fields:
+                try:
+                    value = _get_field(row, field)
+                except (KeyError, ValueError):
+                    valid = False
+                    break
+                if (not isinstance(value, (str, int, float, bool)) or value is None
+                        or (isinstance(value, float) and not isfinite(value))):
+                    valid = False
+                    break
+                values[field] = value
+            if not valid:
+                item["invalid"] = True
+                continue
+            signature = tuple(_unit_key(values[field]) for field in strata_fields)
+            item["signatures"].setdefault(signature, values)
+
+        counts = {}
+        unassignable = 0
+        for item in by_unit.values():
+            if item["invalid"] or len(item["signatures"]) != 1:
+                unassignable += 1
+                continue
+            signature, values = next(iter(item["signatures"].items()))
+            counts.setdefault(signature, {"values": values, "independent_units": 0})["independent_units"] += 1
+        assigned = sum(item["independent_units"] for item in counts.values())
+        categories = [
+            {"values": item["values"], "independent_units": item["independent_units"],
+             "fraction_of_assignable_units": item["independent_units"] / assigned if assigned else None}
+            for _, item in sorted(counts.items())
+        ]
+        summaries[partition_name] = {
+            "independent_units": len(by_unit), "assignable_units": assigned,
+            "unassignable_units_missing_or_mixed_strata": unassignable,
+            "stratum_count": len(counts), "categories": categories[:100],
+            "categories_truncated": len(categories) > 100,
+        }
+        category_counts[partition_name] = counts
+
+    comparisons = []
+    names = list(partitions)
+    for left_index, left_name in enumerate(names):
+        for right_name in names[left_index + 1:]:
+            left = category_counts.get(left_name, {})
+            right = category_counts.get(right_name, {})
+            left_n = sum(item["independent_units"] for item in left.values())
+            right_n = sum(item["independent_units"] for item in right.values())
+            if not left_n or not right_n:
+                distance = None
+            else:
+                keys = set(left) | set(right)
+                distance = 0.5 * sum(abs(left.get(key, {}).get("independent_units", 0) / left_n
+                                         - right.get(key, {}).get("independent_units", 0) / right_n)
+                                     for key in keys)
+            comparisons.append({"from_partition": left_name, "to_partition": right_name,
+                                "categorical_total_variation_distance": distance,
+                                "status": "DESCRIPTIVE" if distance is not None else "INSUFFICIENT_ASSIGNABLE_UNITS"})
+
+    unseen = None
+    unseen_units = None
+    unseen_stratum_count = None
+    evaluation_partition_status = "NOT_PROVIDED"
+    if evaluation_partition_name and calibration_partition_name:
+        calibration = category_counts.get(calibration_partition_name, {})
+        evaluation = category_counts.get(evaluation_partition_name, {})
+        calibration_n = sum(item["independent_units"] for item in calibration.values())
+        evaluation_n = sum(item["independent_units"] for item in evaluation.values())
+        if calibration_n and evaluation_n:
+            evaluation_partition_status = "DESCRIPTIVE"
+            unseen_items = [(key, item) for key, item in sorted(evaluation.items()) if key not in calibration]
+            unseen_stratum_count = len(unseen_items)
+            unseen_units = sum(item["independent_units"] for _, item in unseen_items)
+            unseen = [{"values": item["values"], "independent_units": item["independent_units"]}
+                      for _, item in unseen_items[:100]]
+        else:
+            evaluation_partition_status = "INSUFFICIENT_ASSIGNABLE_UNITS"
+    status = "INCOMPLETE" if any(summary["unassignable_units_missing_or_mixed_strata"] > 0
+                                  for summary in summaries.values()) else "DESCRIPTIVE"
+    return {"status": status, "fields": list(strata_fields), "partitions": summaries,
+            "comparisons": comparisons,
+            "evaluation_partition_status": evaluation_partition_status,
+            "evaluation_strata_absent_from_calibration_count": unseen_stratum_count,
+            "evaluation_units_in_strata_absent_from_calibration": unseen_units,
+            "unseen_evaluation_strata": unseen,
+            "unseen_evaluation_strata_truncated": len(unseen) > 100 if unseen is not None else None,
+            "interpretation": (
+                "Per-unit categorical composition and total-variation distances are descriptive only, not a test of exchangeability. "
+                "Evaluation strata absent from calibration are counterevidence to transferring calibration results to those strata; "
+                "matching observed strata does not establish future-population exchangeability.")}
+
+
 def _inside_forbidden(factors, regions):
     """Fail closed on malformed exclusions; bounds are inclusive."""
     if not isinstance(regions, list):
@@ -568,6 +690,8 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         raise WindowError("evaluation_strata must be a unique list of explicit source field names")
     if len(evaluation_strata) != len(set(evaluation_strata)):
         raise WindowError("evaluation_strata must be a unique list of explicit source field names")
+    if len(evaluation_strata) > 5:
+        raise WindowError("evaluation_strata may declare at most five fields to keep population diagnostics bounded")
 
     # Any controllable omitted from the response model must be held exactly at
     # its declared setting; otherwise its uncontrolled effect could be
@@ -792,6 +916,13 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
               for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")}
     evaluation = _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
                                           fixed_settings, evaluation_strata)
+    partitions = {calibration_report["training_value"]: matching_rows,
+                  calibration_report["calibration_value"]: calibration_rows}
+    if calibration_report.get("evaluation_value") is not None:
+        partitions[calibration_report["evaluation_value"]] = evaluation_rows
+    evaluation["partition_composition_diagnostic"] = _partition_composition_diagnostic(
+        partitions, unit_field, evaluation_strata,
+        calibration_report["calibration_value"], calibration_report.get("evaluation_value"))
     simultaneous_candidates = [cell for cell in grid if cell["simultaneous_supported_candidate"]]
     simultaneous_summary = dict(simultaneous_calibration)
     simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)

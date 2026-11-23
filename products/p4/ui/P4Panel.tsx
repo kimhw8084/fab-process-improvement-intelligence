@@ -185,6 +185,10 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
   const supportedGrid = asList(supported?.grid).map(asObject);
   const evaluation = asObject(supported?.independent_candidate_evaluation);
   const evaluationCandidates = asList(evaluation.candidates).map(asObject);
+  const composition = asObject(evaluation.partition_composition_diagnostic);
+  const partitionSummaries = asObject(composition.partitions);
+  const compositionComparisons = asList(composition.comparisons).map(asObject);
+  const unseenEvaluationStrata = composition.unseen_evaluation_strata;
   const cells = supportedGrid.length ? supportedGrid : asList(supported?.candidate_cells).map(asObject);
   const [regionFilter, setRegionFilter] = useState("all");
   const [feasibleFilter, setFeasibleFilter] = useState("all");
@@ -216,6 +220,26 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     {typeof supported?.selection_warning === "string" &&
       <p role="note">{supported.selection_warning}</p>}
     <KeyValueTable label="Independent candidate evaluation" value={supported?.independent_candidate_evaluation} />
+    {Object.keys(partitionSummaries).length > 0 && <table>
+      <caption>Independent-unit population strata by partition; descriptive, not an exchangeability test</caption>
+      <thead><tr><th scope="col">Partition</th><th scope="col">Independent units</th>
+        <th scope="col">Assignable units</th><th scope="col">Units with missing or mixed strata</th>
+        <th scope="col">Observed stratum counts</th></tr></thead>
+      <tbody>{Object.entries(partitionSummaries).map(([name, value]) => {
+        const summary = asObject(value);
+        return <tr key={name}><th scope="row">{name}</th>
+          <td>{text(summary.independent_units)}</td><td>{text(summary.assignable_units)}</td>
+          <td>{text(summary.unassignable_units_missing_or_mixed_strata)}</td><td>{text(summary.categories)}</td>
+        </tr>;
+      })}</tbody>
+    </table>}
+    <KeyValueTable label="Between-partition composition distances and evaluation strata absent from calibration" value={{
+      status: composition.status, fields: composition.fields, comparisons: compositionComparisons,
+      evaluation_partition_status: composition.evaluation_partition_status,
+      evaluation_strata_absent_from_calibration_count: composition.evaluation_strata_absent_from_calibration_count,
+      evaluation_units_in_strata_absent_from_calibration: composition.evaluation_units_in_strata_absent_from_calibration,
+      unseen_evaluation_strata: unseenEvaluationStrata, interpretation: composition.interpretation,
+    }} />
     <KeyValueTable label="Simultaneous exact-setting calibration" value={supported?.simultaneous_exact_setting_screen} />
     <KeyValueTable label="Complete-set selected-candidate failure audit" value={evaluation.candidate_selection_audit} />
     {evaluationCandidates.length > 0 && <table>
