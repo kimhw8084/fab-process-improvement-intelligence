@@ -4,6 +4,7 @@ import unittest
 from qualification.benchmark import integrated_demo_is_qualified, product_source_fingerprint
 from qualification.run_release_checks import (benchmark_matches_product_sources, benchmark_workflow_is_qualified,
                                                disposable_bridge_snapshot_matches,
+                                               disposable_p1_browser_workflow_matches,
                                                disposable_snapshot_fingerprint_matches)
 from qualification.workflow_qualification import analysis_result_is_qualified
 
@@ -98,6 +99,23 @@ class DisposableSnapshotEvidenceTests(unittest.TestCase):
                                                             fixture_sha256))
         without_fixture = {**snapshot, "file_sha256": {}, "files": 0}
         self.assertFalse(disposable_bridge_snapshot_matches(without_fixture, bridge, fixture_sha256))
+
+    def test_p1_browser_refusal_requires_structured_access_and_suppression_evidence(self):
+        browser = {
+            "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
+            "success_request": "COMPLETED",
+            "capabilities": ["D01", "D02", "D03", "D04", "D05"],
+            "permission_refusal": {
+                "status": "REFUSED", "source_status": "ACCESS_REFUSED",
+                "semantic_version": "NOT_ACCESSED", "fixture_values": "suppressed",
+                "analysis": "not performed",
+            },
+        }
+        self.assertTrue(disposable_p1_browser_workflow_matches(browser))
+        changed = {**browser, "permission_refusal": {**browser["permission_refusal"], "fixture_values": "visible"}}
+        self.assertFalse(disposable_p1_browser_workflow_matches(changed))
+        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "permission_refusal": "REFUSED"}))
+        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "capabilities": ["D01"]}))
         self.assertFalse(disposable_snapshot_fingerprint_matches({"files": 1, "file_sha256": {"x": "bad"},
                                                                   "sha256": "a" * 64,
                                                                   "manifest_sha256": "a" * 64}))

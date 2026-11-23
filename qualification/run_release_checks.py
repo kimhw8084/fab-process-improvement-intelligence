@@ -63,6 +63,21 @@ def disposable_bridge_snapshot_matches(snapshot, bridge_evidence, current_fixtur
     )
 
 
+def disposable_p1_browser_workflow_matches(browser):
+    refusal = browser.get("permission_refusal") if isinstance(browser, dict) else None
+    return (
+        browser.get("status") == "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL"
+        and browser.get("success_request") == "COMPLETED"
+        and isinstance(refusal, dict)
+        and refusal.get("status") == "REFUSED"
+        and refusal.get("source_status") == "ACCESS_REFUSED"
+        and refusal.get("semantic_version") == "NOT_ACCESSED"
+        and refusal.get("fixture_values") == "suppressed"
+        and refusal.get("analysis") == "not performed"
+        and set(browser.get("capabilities", [])) == {"D01", "D02", "D03", "D04", "D05"}
+    )
+
+
 def archive_qualification_pass(evaluated_commit):
     release = ROOT / "release"
     archive = release / "FAB_INTELLIGENCE_P4_CANDIDATE.zip"
@@ -572,10 +587,7 @@ def main():
         and p1_host_checks.get("p1_production_build", {}).get("status") == "PASS"
         and p1_host_checks.get("p1_host_route_tests", {}).get("status") == "PASS"
         and p1_host_checks.get("p4_panel_tests", {}).get("status") == "PASS"
-        and p1_browser.get("status") == "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL"
-        and p1_browser.get("success_request") == "COMPLETED"
-        and p1_browser.get("permission_refusal", "").startswith("REFUSED")
-        and set(p1_browser.get("capabilities", [])) == {"D01", "D02", "D03", "D04", "D05"}
+        and disposable_p1_browser_workflow_matches(p1_browser)
     )
     ui_result = {"status": "PASS_LOCAL_MODULE_ONLY" if ui_component_pass else "NOT_RUN_OR_FAIL",
                  "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
