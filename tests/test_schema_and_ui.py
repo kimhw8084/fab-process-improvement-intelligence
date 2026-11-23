@@ -72,10 +72,12 @@ class SourceContractTests(unittest.TestCase):
         packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
         self.assertFalse(any(name.startswith("qualification/results/") for name in packaged))
         self.assertNotIn("release/BENCHMARK_REPORT.json", packaged)
+        self.assertNotIn("release/full_workflow_demo_evidence.json", packaged)
         self.assertIn("release/SBOM.spdx.json", packaged)
         self.assertTrue((ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json").is_file())
         self.assertTrue(is_generated_qualification_output("qualification/results/new-report.json"))
         self.assertTrue(is_generated_qualification_output("release/BENCHMARK_REPORT.json"))
+        self.assertTrue(is_generated_qualification_output("release/full_workflow_demo_evidence.json"))
         self.assertFalse(is_generated_qualification_output("products/p4/window.py"))
 
     def test_bundle_builder_ignores_only_declared_generated_evidence_changes(self):

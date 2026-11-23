@@ -20,7 +20,8 @@ from secret_patterns import scan_text  # noqa: E402
 EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE_QUALIFICATION.json",
             RELEASE / "BUILD_REPRODUCIBILITY.json", RELEASE / "GATE_REPORT.json",
             RELEASE / "TEST_LOG.txt", RELEASE / "TEST_RESULTS.json", BUILD_METADATA,
-            RELEASE / "SCHEMA_VALIDATION.json", RELEASE / "BENCHMARK_REPORT.json"}
+            RELEASE / "SCHEMA_VALIDATION.json", RELEASE / "BENCHMARK_REPORT.json",
+            RELEASE / "full_workflow_demo_evidence.json"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
 # Workspace-only execution ledgers are kept beside the source but are not product transfer contents.
 EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/", "qualification/results/", "progress/")
