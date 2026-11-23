@@ -1,21 +1,19 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "fa65d076226805aeea43bff2690235fd3745f4e4",
+  "as_of_source_commit": "ef59fcc8c428ad5baf6ed21788f51e02aad02f13",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 8,
-    "task": "Commit the shared complete-workflow acceptance used by the performance, release, and offline qualifiers; the 158-test release runner now passes. Rebuild the archive from the clean corrected source commit, reproduce it twice from clean worktrees, run fresh no-pip extraction with network denied, and correct any real packaging or runtime defect before setting E10.",
+    "task": "Restore only the generated failed-candidate archive and volatile reports so the corrected source commit is clean. Build a new archive, reproduce it twice from clean worktrees, run fresh no-pip extraction with network denied, and correct any real packaging or runtime defect before setting E10.",
     "inspect": [
       "qualification/workflow_qualification.py",
       "qualification/offline_qualify.py",
       "tests/test_release_qualification.py",
       "qualification/build_transfer_bundle.py",
-      "qualification/build_transfer_bundle.py",
       "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py",
       "release/PUBLISHED_ARTIFACT_RECONCILIATION.json"
     ],
-    "first_command": "rtk git diff --check && rtk git status --short",
+    "first_command": "rtk git restore -- release/BUILD_REPRODUCIBILITY.json release/FAB_INTELLIGENCE_P4_CANDIDATE.zip release/GATE_REPORT.json release/OFFLINE_QUALIFICATION.json release/SOURCE_MANIFEST.sha256 release/TEST_LOG.txt release/TEST_RESULTS.json release/TRANSFER_BUNDLE.sha256",
     "acceptance": "Performance, release, and offline gates share one tested policy: a full VALID/PARTIAL dossier is accepted only with all five documented capability outputs; missing, refused, or wrong-product evidence fails. The exact rebuilt archive passes source manifest, checksum, two clean-worktree reproduction, no-pip extracted doctor/demo/analysis and network-deny probe; E07 and company/legal gates remain pending; no publication occurs."
   },
   "ordered_queue": [
@@ -26,7 +24,7 @@
     {"priority": 5, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D05 has pretrend and curvature placebos, population/composition gates, negative-control falsification, unit-checked differential-trend sensitivity, exact null tipping points, exact string ledger identity, and bounded randomized attrition calculations that refuse when observed values violate supplied limits. Observational DiD always has causal_claim=false; bound adequacy remains pending independent substantive qualification. The 1,000-trial hidden-confounder challenge shows why underbound sources must not qualify automatically."},
     {"priority": 6, "status": "IMPLEMENTED_SYNTHETIC_ONLY", "task": "Official SDK mock read to source-semantic/version/hash and approved-relationship/grain/time/audit validation, normalized all-five-capability P4 analysis and shared evidence envelope; frozen logical adapter contract is v1.0.0, P4 evidence extensions are fail-closed and proposed additively; 14 focused MCP tests PASS. Company semantics/authorization remain pending."},
     {"priority": 7, "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_INTERACTIVE", "task": "Latest P4 module passes 12 panel tests, strict typecheck, disposable P1 39 frontend tests, typecheck/build and 11 host-route tests; live shared-shell workflow displayed all D01-D05 and the shared Pareto chart, then denied permission with fixture values suppressed. Evidence is qualification/evidence/p1-disposable-host-qualification-2026-11-23.json. P1 source/version/owner confirmation, formal accessibility and target-host qualification remain pending."},
-    {"priority": 8, "status": "PENDING_CURRENT_SOURCE_RELEASE", "task": "Current source and ZIP are not commit-aligned. The runner now validates the discovered 12 UI cases and recognizes the honest PARTIAL all-capability demo. Validate E07 disposable-host evidence, refresh current-source security evidence, review and locally commit the source snapshot; rebuild twice from clean worktrees; verify source manifest, exact checksum and fresh offline extraction/network-deny evidence. Do not publish."}
+    {"priority": 8, "status": "PENDING_CURRENT_SOURCE_RELEASE", "task": "Corrected source commit ef59fcc8 has a full release-runner pass at 158 tests; prior source archive 46e4cb68 failed only because offline qualification incorrectly required overall VALID status. Restore generated outputs, build from clean corrected commit, reproduce twice, and require a fresh no-pip network-denied extraction to preserve all-five capability statuses before E10. Do not publish."}
   ],
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
