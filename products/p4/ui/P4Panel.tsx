@@ -323,7 +323,10 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
           {objectives.map((item) => {
             const metric = text(item.metric);
             const estimate = asObject(asObject(row.uncertainty)[metric]);
-            return <td key={metric}>{text(asObject(row.means)[metric])}; independent-unit range {text(estimate.unit_value_min)} to {text(estimate.unit_value_max)}; marginal 95% interval {text(estimate.marginal_ci95)}; family-wise mean interval {text(estimate.familywise_ci95)} ({text(estimate.familywise_ci95_method || asObject(result?.familywise_mean_envelope).method || "method unavailable")})</td>;
+            const marginalInterval = estimate.marginal_ci95_status === "NOT_ESTIMABLE_ZERO_OBSERVED_VARIANCE"
+              ? "not estimable: zero observed variance does not establish zero population uncertainty"
+              : text(estimate.marginal_ci95);
+            return <td key={metric}>{text(asObject(row.means)[metric])}; independent-unit range {text(estimate.unit_value_min)} to {text(estimate.unit_value_max)}; marginal 95% interval {marginalInterval}; family-wise mean interval {text(estimate.familywise_ci95)} ({text(estimate.familywise_ci95_method || asObject(result?.familywise_mean_envelope).method || "method unavailable")})</td>;
           })}
           <td>{text(row.mean_pareto_status || (paretoIds.includes(id) ? "NONDOMINATED_BY_MEANS" : "DOMINATED_BY_MEANS"))}</td>
           <td>{text(row.uncertainty_dominance_status)}</td>

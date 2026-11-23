@@ -606,6 +606,7 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
                         "interpretation": "constraint selection can change the compared population; means are limited to eligible independent units"}
 
     candidates = []
+    uncertainty_limitations = []
     for setting, members in groups.items():
         n = len(members)
         if n < minimum_units:
@@ -616,9 +617,19 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             values = [member["metrics"][metric] for member in members]
             avg = mean(values)
             se = sqrt(variance(values)/n) if n > 1 else None
-            critical = critical_t_975(n-1)
+            if se is None or se == 0:
+                interval = None
+                interval_status = "NOT_ESTIMABLE_ZERO_OBSERVED_VARIANCE"
+                limitation = "zero observed variance leaves the marginal Student-t interval unestimable; it does not establish zero population uncertainty"
+                if limitation not in uncertainty_limitations:
+                    uncertainty_limitations.append(limitation)
+            else:
+                critical = critical_t_975(n-1)
+                interval = [avg-critical*se, avg+critical*se]
+                interval_status = "AVAILABLE"
             estimates[metric] = {"mean": avg, "standard_error": se,
-                                 "marginal_ci95": [avg-critical*se, avg+critical*se],
+                                 "marginal_ci95": interval,
+                                 "marginal_ci95_status": interval_status,
                                  "unit_value_min": min(values), "unit_value_max": max(values)}
         up_values = [member["metrics"][upstream["metric"]] for member in members]
         down_values = [member["metrics"][downstream["metric"]] for member in members]
@@ -645,12 +656,22 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         if upstream["population_id"] == downstream["population_id"] else "NOT_ESTABLISHED")
     comparisons = []
     for left, right in combinations(candidates, 2):
+        overlaps, comparison_status = {}, {}
+        for metric in expected_metrics:
+            left_interval = left["uncertainty"][metric]["marginal_ci95"]
+            right_interval = right["uncertainty"][metric]["marginal_ci95"]
+            if left_interval is None or right_interval is None:
+                overlaps[metric] = None
+                comparison_status[metric] = "NOT_ASSESSED_ZERO_OBSERVED_VARIANCE"
+            else:
+                overlaps[metric] = not (left_interval[0] > right_interval[1]
+                                        or right_interval[0] > left_interval[1])
+                comparison_status[metric] = "ASSESSED_MARGINAL_95_INTERVAL_OVERLAP_ONLY"
         comparisons.append({"settings": [left["id"], right["id"]],
-                            "marginal_intervals_overlap": {
-                                metric: not (left["uncertainty"][metric]["marginal_ci95"][0] > right["uncertainty"][metric]["marginal_ci95"][1]
-                                             or right["uncertainty"][metric]["marginal_ci95"][0] > left["uncertainty"][metric]["marginal_ci95"][1])
-                                for metric in expected_metrics}})
-    return {"status": "VALID" if excluded_units_total == 0 else "LIMITED_SCOPE",
+                            "marginal_intervals_overlap": overlaps,
+                            "marginal_interval_status": comparison_status})
+    uncertainty_available = not uncertainty_limitations
+    return {"status": "VALID" if excluded_units_total == 0 and uncertainty_available else "LIMITED_SCOPE",
             "method": "paired_population_marginal_pareto_with_t_intervals",
             "relationship_id": link["relationship_id"], "relationship_contract_version": link["contract_version"],
             "approval_reference": link["approval_reference"], "population_id": upstream["population_id"],
@@ -673,6 +694,8 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             "pareto_status_scope": "mean-based observed front; marginal interval separation is diagnostic only; the separate Bonferroni envelope is assumption-conditional and unavailable after outcome-based constraint selection",
             "pareto_values": [{"id": c["id"], "factors": c["factors"], **c["means"]} for c in front],
             "tradeoff_count": len(front), "uncertainty_comparisons": comparisons,
+            "uncertainty_available": uncertainty_available,
+            "uncertainty_limitations": uncertainty_limitations,
             "multiplicity_adjusted": False, "familywise_multiplicity_adjustment": familywise_envelope["status"],
             "causal_claim": False,
             "scope": "paired approved relationship contract; synthetic observations only",

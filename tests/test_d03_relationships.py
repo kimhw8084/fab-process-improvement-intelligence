@@ -140,6 +140,26 @@ class CrossStepTradeoffQualification(unittest.TestCase):
         self.assertEqual(refused["status"], "LIMITED_SCOPE")
         self.assertEqual(refused["downstream_claim"], "withheld")
 
+    def test_constant_observed_metrics_do_not_create_zero_width_population_intervals(self):
+        rows = copy.deepcopy(self.rows)
+        for row in rows:
+            row["metrics"] = {"yield": 80.0, "defect": 5.0}
+            row["upstream"]["event_ts"] = "2026-01-01T00:00:00Z"
+            row["downstream"]["event_ts"] = "2026-01-01T03:00:00Z"
+        result = cross_step_tradeoffs(rows, self.metric_defs, self.data)
+
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertFalse(result["uncertainty_available"])
+        self.assertEqual(result["uncertainty_limitations"], [
+            "zero observed variance leaves the marginal Student-t interval unestimable; it does not establish zero population uncertainty",
+        ])
+        self.assertTrue(all(candidate["uncertainty"][metric]["marginal_ci95"] is None
+                            and candidate["uncertainty"][metric]["marginal_ci95_status"] == "NOT_ESTIMABLE_ZERO_OBSERVED_VARIANCE"
+                            for candidate in result["candidate_settings"] for metric in ("yield", "defect")))
+        self.assertTrue(all(item["marginal_intervals_overlap"]["yield"] is None
+                            and item["marginal_interval_status"]["yield"] == "NOT_ASSESSED_ZERO_OBSERVED_VARIANCE"
+                            for item in result["uncertainty_comparisons"]))
+
     def test_cross_step_metric_constraints_screen_whole_units_and_report_excluded_settings(self):
         metric_defs = copy.deepcopy(self.metric_defs)
         metric_defs["defect"]["max"] = 5.0

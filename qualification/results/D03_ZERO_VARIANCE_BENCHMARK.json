@@ -1,0 +1,38 @@
+{
+  "benchmark_script_sha256": "a116d50ce8e6195e1d0d77e7d975930ef5f7d30386c214d2f6124f879b45ddb4",
+  "generator": "Independent per-lot rare Bernoulli defects with strictly increasing true risk and separated normal yield means; the evaluator knows all generating probabilities.",
+  "independent_units_per_setting": 30,
+  "metrics": {
+    "legacy_zero_width_false_preference_pair_fraction": 0.76,
+    "limited_scope_trial_fraction": 0.926,
+    "product_zero_width_false_preference_pair_fraction": 0.0,
+    "zero_variance_defect_interval_withholding_fraction": 1.0
+  },
+  "product_tradeoffs_sha256": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
+  "qualification": "PASS",
+  "schema": "p4-d03-zero-variance-benchmark/v1",
+  "scope": "fixed-seed independent synthetic stress; does not establish manufacturing incidence or model transfer",
+  "seed": 20261123,
+  "settings": [
+    {
+      "pressure": 1,
+      "true_defect_probability": 0.01
+    },
+    {
+      "pressure": 2,
+      "true_defect_probability": 0.02
+    },
+    {
+      "pressure": 3,
+      "true_defect_probability": 0.04
+    }
+  ],
+  "totals": {
+    "legacy_zero_width_false_preference_pairs": 760,
+    "limited_scope_trials": 926,
+    "product_reported_zero_width_false_preference_pairs": 0,
+    "zero_variance_defect_intervals_withheld": 1575,
+    "zero_variance_settings": 1575
+  },
+  "trials": 1000
+}

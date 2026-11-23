@@ -196,5 +196,14 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_row_lineage_requires_exact_source_id_array_membership"
+  },
+  {
+    "id": "P4-23",
+    "input_challenge": "rare-event cross-step objective has identical observed values at one or more settings despite known nonzero and increasing population risks",
+    "required_result": "withhold zero-width marginal intervals and uncertainty-separated dominance; report the scope limitation explicitly",
+    "oracle": "independent fixed-seed Bernoulli challenge with known per-setting defect probabilities",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_constant_observed_metrics_do_not_create_zero_width_population_intervals"
   }
 ]

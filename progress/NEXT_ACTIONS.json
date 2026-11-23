@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
+  "as_of_source_commit": "b2930119cc5dd3de46941d84b68a90d2271ba542",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,20 +16,16 @@
   ],
   "next_executable_action": {
     "priority": 0,
-    "task": "Commit the current-source benchmark and release evidence plus checkpoint files locally. Rebuild the archive from resulting clean commit, reproduce twice, verify fresh no-pip extraction under OS network denial, and rerun the full source-bound release runner. Confirm E02 and E10 both pass from the same exact package source before advancing the scientific queue.",
+    "task": "Commit the D03 zero-variance refusal, adversarial benchmark, UI explanation and focused evidence. Refresh the disposable P1 overlay and its 29-file fingerprint/source pins for the new D03 code, rerun P1 route/UI/type/build checks, and then run the full source-bound qualification. Rebuild/reproduce/offline-qualify the archive only after all source/evidence changes are committed.",
     "first_command": "rtk git status --short && rtk git diff --check",
     "inspect": [
-      "release/BENCHMARK_REPORT.json",
-      "release/GATE_REPORT.json",
-      "release/TEST_RESULTS.json",
-      "release/BUILD_REPRODUCIBILITY.json",
-      "release/OFFLINE_QUALIFICATION.json",
-      "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json",
-      "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json",
-      "qualification/results/D01_CONDITIONING_BENCHMARK.json",
-      "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json"
+      "products/p4/tradeoffs.py",
+      "tests/test_d03_relationships.py",
+      "qualification/benchmark_d03_zero_variance.py",
+      "qualification/run_release_checks.py",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
-    "acceptance": "Report only executed checks. The package is a local candidate; company authorization, P1 owner/accessibility, target-host, legal/security and ROI gates remain pending."
+    "acceptance": "Record only executed checks. Browser was not re-observed after the changed D03 uncertainty message. No P1 owner, formal accessibility, Samsung source, target-host, security/legal transfer, or ROI approval is implied."
   },
   "ordered_queue": [
     {
@@ -75,6 +71,6 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D01 numeric identity fix committed; current-source benchmark, 200-test full suite, E02 and E10 pass at af36c5a; refreshed generated scientific/release reports are uncommitted and not yet packaged; no remote update",
+  "worktree_state": "D03 zero-variance inference defect corrected and independently stressed; P4/P1 focused UI and route checks pass; source changes uncommitted, current archive at b293011 is stale; no remote update",
   "active_uncommitted_changes": true
 }

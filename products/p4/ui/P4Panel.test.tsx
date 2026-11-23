@@ -158,6 +158,24 @@ describe("P4 headless suite module", () => {
     expect(within(d01).getAllByText(/COMPLETED_DIAGNOSTIC/).length).toBeGreaterThan(0);
   });
 
+  it("explains when zero observed variance makes a D03 interval unestimable", () => {
+    const zeroVarianceEvidence = structuredClone(evidence);
+    const artifact = zeroVarianceEvidence.artifacts?.[0] as Record<string, unknown>;
+    const d03 = artifact.D03_tradeoffs as Record<string, unknown>;
+    d03.status = "LIMITED_SCOPE";
+    d03.uncertainty_available = false;
+    d03.uncertainty_limitations = [
+      "zero observed variance leaves the marginal Student-t interval unestimable; it does not establish zero population uncertainty",
+    ];
+    const candidate = (d03.candidate_settings as Array<Record<string, unknown>>)[0];
+    const uncertainty = candidate.uncertainty as Record<string, Record<string, unknown>>;
+    uncertainty.yield_index.marginal_ci95 = null;
+    uncertainty.yield_index.marginal_ci95_status = "NOT_ESTIMABLE_ZERO_OBSERVED_VARIANCE";
+    render(<P4Panel sourcePreview={sourcePreview} evidence={zeroVarianceEvidence} />);
+    const d03Region = screen.getByRole("region", { name: "D03 · Cross-step and multiobjective tradeoffs" });
+    expect(within(d03Region).getByText(/zero observed variance does not establish zero population uncertainty/)).toBeTruthy();
+  });
+
   it("surfaces near-collinearity as a heuristic coefficient-instability warning", () => {
     const unstableEvidence = structuredClone(evidence);
     const artifact = unstableEvidence.artifacts?.[0] as Record<string, unknown>;
