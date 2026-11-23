@@ -1251,6 +1251,8 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                             "nearby_calibration_units": len(local_calibration_units),
                             "minimum_calibration_units": minimum_calibration_units},
                 "predictions": predictions, "conservative_feasible": conservative_feasible,
+                "screened_candidate": candidate,
+                "candidate_screening_status": "AVAILABLE_ADVISORY_SCREENING" if candidate else "NOT_SCREENED_CANDIDATE",
                 "supported_candidate": candidate,
                 "simultaneous_supported_candidate": simultaneous_candidate}
         grid.append(cell)
@@ -1260,6 +1262,40 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
               for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")}
     evaluation = _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
                                           fixed_settings, evaluation_strata)
+    screened_candidates = candidates
+    selection_audit = evaluation.get("candidate_selection_audit", {})
+    complete_evaluation_units = selection_audit.get("complete_independent_units", 0)
+    setwise_failures = selection_audit.get("observed_any_infeasible_units")
+    observed_failed_cells = [item for item in evaluation.get("candidates", [])
+                             if item.get("independent_units", 0) > 0
+                             and item.get("observed_infeasible_units", 0) > 0]
+    candidate_counterevidence = {
+        "status": "INSUFFICIENT_COMPLETE_SET_EVALUATION" if not observed_failed_cells
+                  and not complete_evaluation_units else "NO_OBSERVED_SETWISE_FAILURES",
+        "complete_independent_units": complete_evaluation_units,
+        "observed_any_infeasible_units": setwise_failures,
+        "observed_any_infeasible_fraction": selection_audit.get("observed_any_infeasible_fraction"),
+        "observed_failed_candidate_count": len(observed_failed_cells),
+        "observed_failed_candidate_factors": [item["factors"] for item in observed_failed_cells],
+        "guarantee": "none; descriptive observed counterevidence only",
+    }
+    if observed_failed_cells:
+        # Do not use the untouched evaluation partition to choose which
+        # candidate survives. A failure at any exact screened setting withholds
+        # the entire recommendation set while preserving the pre-veto grid for
+        # audit and experiment planning.
+        candidate_counterevidence["status"] = (
+            "WITHHELD_COMPLETE_SET_INFEASIBILITY" if complete_evaluation_units and setwise_failures
+            else "WITHHELD_BY_OBSERVED_CANDIDATE_FAILURE")
+        for cell in grid:
+            if cell["screened_candidate"]:
+                cell["supported_candidate"] = False
+                cell["simultaneous_supported_candidate"] = False
+                cell["candidate_screening_status"] = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
+        candidates = []
+        candidate_screening_status = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
+    else:
+        candidate_screening_status = "AVAILABLE_ADVISORY_SCREENING" if screened_candidates else "NO_POINTWISE_CANDIDATES"
     partitions = {calibration_report["training_value"]: matching_rows,
                   calibration_report["calibration_value"]: calibration_rows}
     if calibration_report.get("evaluation_value") is not None:
@@ -1291,18 +1327,22 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         calibration_report.get("calibration_value"),
         calibration_report.get("evaluation_value"), heldout_band_evaluation)
     simultaneous_summary["calibration_transfer_assessment"] = transfer_assessment
-    # This is an annotation only. Evaluation outcomes never change a fit,
-    # calibration radius, candidate cell, or candidate count.
+    # Evaluation outcomes never change the fitted model, calibration radius,
+    # or pre-veto screening decisions. An exact observed failure can withhold
+    # the full recommendation set; the original screen remains auditable.
     for cell in grid:
         cell["evaluation_transfer_status"] = transfer_assessment["status"]
     for cell in candidates:
         cell["evaluation_transfer_status"] = transfer_assessment["status"]
     simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)
     simultaneous_summary["pointwise_supported_candidate_count"] = len(candidates)
+    simultaneous_summary["pointwise_screened_candidate_count"] = len(screened_candidates)
     simultaneous_summary["status_scope"] = (
         "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY"
         if simultaneous_calibration.get("status") == "AVAILABLE" else "NOT_AVAILABLE")
     return {"status": "VALID" if candidates else "INCONCLUSIVE",
+            "reason": ("independent evaluation observed infeasible outcomes at one or more screened settings; the entire candidate set is withheld"
+                       if observed_failed_cells else None),
             "method": "supported_grid_response_surface_with_local_grouped_holdout_calibration",
             "explored_factors": selected, "approved_factor_bounds": bounds,
             "fixed_settings": fixed_settings, "fixed_effects": fixed_effects,
@@ -1336,6 +1376,9 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             },
             "simultaneous_exact_setting_screen": simultaneous_summary,
             "independent_candidate_evaluation": evaluation,
+            "candidate_screening_status": candidate_screening_status,
+            "screened_candidate_count": len(screened_candidates),
+            "candidate_counterevidence": candidate_counterevidence,
             "grid_shape": [len(axis) for axis in axes], "region_counts": counts,
             "model_diagnostics": fit_reports, "convex_hull_normalized": hull,
             "extrapolation_within_approved_bounds_present": extrapolation_present,
@@ -1349,7 +1392,10 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                 "establish simultaneous or conditional coverage. A separate maximum-score band is "
                 "available only when an explicit precommit record declares the model, threshold, metric "
                 "family, and exact-setting panel and every calibration unit matches that panel. The "
-                "record's references and timing remain unauthenticated. Validate "
+                "record's references and timing remain unauthenticated. Any observed infeasible "
+                "outcome at an exact screened setting in the independent evaluation partition "
+                "withholds the entire candidate set; the evaluation is never used to retain a "
+                "favorable subset. Validate "
                 "a preselected exact setting on independent engineering units before any process decision."),
             "grid": grid,
             "uncertainty_rule": (

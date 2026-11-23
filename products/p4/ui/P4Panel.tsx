@@ -230,6 +230,9 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     <KeyValueTable label="Supported exploration and uncertainty rule" value={supported ? {
       status: supported.status, qualification: supported.qualification, method: supported.method,
       candidate_scope: supported.candidate_scope, joint_validation_status: supported.joint_validation_status,
+      candidate_screening_status: supported.candidate_screening_status,
+      candidate_count: supported.candidate_count, screened_candidate_count: supported.screened_candidate_count,
+      candidate_counterevidence: supported.candidate_counterevidence,
       data_roles: supported.data_roles, uncertainty_scope: supported.uncertainty_scope,
       region_counts: supported.region_counts, uncertainty_rule: supported.uncertainty_rule,
       grouped_holdout_calibration: supported.calibration,
@@ -237,6 +240,8 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     } : undefined} />
     {typeof supported?.selection_warning === "string" &&
       <p role="note">{supported.selection_warning}</p>}
+    {supported?.candidate_screening_status === "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE" &&
+      <p role="status">No process-window candidates are recommended because the independent evaluation observed infeasible outcomes at one or more screened settings. The entire screened set is withheld; no favorable subset was selected from evaluation outcomes. The pre-veto screen remains visible below for audit, and this is observed counterevidence rather than a future-performance estimate.</p>}
     <KeyValueTable label="Independent candidate evaluation" value={supported?.independent_candidate_evaluation} />
     {Object.keys(partitionSummaries).length > 0 && <table>
       <caption>Independent-unit population strata by partition; descriptive, not an exchangeability test</caption>
@@ -300,11 +305,15 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     {cells.length === 0 ? <p>No supported-region cells were returned.</p> : <div>
       <table>
         <caption>Advisory screening cells with pointwise local diagnostics and a separate assumption-conditional exact-setting panel screen</caption>
-        <thead><tr>{factorNames.map((factor) => <th scope="col" key={factor}>{factor}</th>)}<th scope="col">Evidence region</th><th scope="col">Pointwise screening result</th><th scope="col">Simultaneous exact-setting screen</th>
+        <thead><tr>{factorNames.map((factor) => <th scope="col" key={factor}>{factor}</th>)}<th scope="col">Evidence region</th><th scope="col">Pointwise screening result</th><th scope="col">Recommendation status</th><th scope="col">Simultaneous exact-setting screen</th>
           {metrics.map((metric) => <th scope="col" key={metric}>{metric}: estimate and calibrated interval</th>)}</tr></thead>
         <tbody>{filtered.map((cell, index) => <tr key={index}>
           {factorNames.map((factor) => <td key={factor}>{text(asObject(cell.factors)[factor])}</td>)}
           <td>{text(cell.region_class)}</td><td>{cell.conservative_feasible === true ? "Yes under stated limits" : cell.conservative_feasible === false ? "No" : "Unknown"}</td>
+          <td>{cell.candidate_screening_status === "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
+            ? "Withheld by independent counterevidence"
+            : cell.supported_candidate === true ? "Available for advisory review"
+              : cell.screened_candidate === true ? "Not recommended" : "Not screened as a candidate"}</td>
           <td>{cell.simultaneous_supported_candidate === true ? `Passes calibration-panel screen under unverified assumptions; transfer: ${text(cell.evaluation_transfer_status)}` : cell.simultaneous_supported_candidate === false ? "Does not pass or is outside exact-setting panel scope" : "Not established"}</td>
           {metrics.map((metric) => {
             const prediction = asObject(asObject(cell.predictions)[metric]);

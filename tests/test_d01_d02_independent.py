@@ -484,7 +484,9 @@ class SupportedWindowQualification(unittest.TestCase):
                 item["metrics"]["quality"] += 1.0
         challenged = explore_window(shifted, factors, METRIC, data)
         self.assertEqual([cell["factors"] for cell in baseline["candidate_cells"]],
-                         [cell["factors"] for cell in challenged["candidate_cells"]])
+                         [cell["factors"] for cell in challenged["grid"] if cell["screened_candidate"]])
+        self.assertEqual(challenged["candidate_count"], 0)
+        self.assertEqual(challenged["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
         self.assertEqual(challenged["independent_candidate_evaluation"]["status"], "DESCRIPTIVE")
         scored = [cell for cell in challenged["independent_candidate_evaluation"]["candidates"]
                   if cell["status"] == "DESCRIPTIVE_HELDOUT_DIAGNOSTIC"]
@@ -765,9 +767,10 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(transfer["status"], "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES")
         self.assertFalse(band["candidate_selection_influence"])
         self.assertIn("zero observed misses do not validate", band["interpretation"])
-        self.assertEqual([cell["factors"] for cell in shifted["candidate_cells"]],
-                         [cell["factors"] for cell in matched["candidate_cells"]])
-        self.assertEqual(shifted["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+        self.assertEqual(shifted["screened_candidate_count"], matched["screened_candidate_count"])
+        self.assertEqual(shifted["candidate_count"], 0)
+        self.assertEqual(shifted["simultaneous_exact_setting_screen"]["metric_quantiles"],
+                         matched["simultaneous_exact_setting_screen"]["metric_quantiles"])
 
     def test_transfer_diagnostic_without_evaluation_is_not_assessed(self):
         rows, factors, data = self._dataset()
@@ -857,11 +860,17 @@ class SupportedWindowQualification(unittest.TestCase):
                                                        "split_reference": "SYN-PRECOMMITTED-HIDDEN-INTERACTION-001"}}}
 
         result = explore_window(rows, factors, metric, data)
-        self.assertGreater(result["candidate_count"], 1,
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertEqual(result["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
+        self.assertGreater(result["screened_candidate_count"], 1,
                            "the adversarial region was selected from multiple simultaneously screened cells")
-        hidden_cell = next(cell for cell in result["candidate_cells"]
+        self.assertEqual(result["candidate_count"], 0)
+        hidden_cell = next(cell for cell in result["grid"]
                            if cell["factors"] == {"pressure": 0.5, "power": 0.5})
         self.assertEqual(hidden_cell["region_class"], "interpolated")
+        self.assertTrue(hidden_cell["screened_candidate"])
+        self.assertFalse(hidden_cell["supported_candidate"])
+        self.assertEqual(hidden_cell["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
         self.assertLess(hidden_cell["predictions"]["quality"]["predictive_interval95"][1], 0.20)
         evaluation = next(cell for cell in result["independent_candidate_evaluation"]["candidates"]
                           if cell["factors"] == hidden_cell["factors"])
@@ -870,11 +879,35 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(result["joint_validation_status"], "NOT_ESTABLISHED")
         selection_audit = result["independent_candidate_evaluation"]["candidate_selection_audit"]
         self.assertEqual(selection_audit["status"], "DESCRIPTIVE_SETWISE_DIAGNOSTIC")
-        self.assertEqual(selection_audit["candidate_count"], result["candidate_count"])
+        self.assertEqual(selection_audit["candidate_count"], result["screened_candidate_count"])
         self.assertEqual(selection_audit["complete_independent_units"], 20)
         self.assertEqual(selection_audit["observed_any_infeasible_units"], 20)
         self.assertEqual(selection_audit["observed_any_infeasible_fraction"], 1.0)
         self.assertEqual(selection_audit["guarantee"], "none; descriptive only and not a multiplicity-adjusted or population guarantee")
+        counterevidence = result["candidate_counterevidence"]
+        self.assertEqual(counterevidence["status"], "WITHHELD_COMPLETE_SET_INFEASIBILITY")
+        self.assertEqual(counterevidence["complete_independent_units"], 20)
+        self.assertEqual(counterevidence["observed_any_infeasible_units"], 20)
+        self.assertEqual(counterevidence["observed_any_infeasible_fraction"], 1.0)
+        self.assertEqual(counterevidence["observed_failed_candidate_count"], 2)
+        self.assertLess(counterevidence["observed_failed_candidate_count"], result["screened_candidate_count"])
+        self.assertEqual(counterevidence["guarantee"], "none; descriptive observed counterevidence only")
+        self.assertEqual(result["simultaneous_exact_setting_screen"]["pointwise_supported_candidate_count"], 0)
+        self.assertEqual(result["simultaneous_exact_setting_screen"]["pointwise_screened_candidate_count"],
+                         result["screened_candidate_count"])
+
+        # One exact failed setting is enough to veto the searched set even if
+        # the holdout does not cover every candidate and cannot form a setwise
+        # complete-unit estimate.
+        partial_evaluation_rows = [row for row in rows
+                                   if row["analysis_partition"] != "EVALUATION"
+                                   or row["factors"] == {"pressure": 0.5, "power": 0.5}]
+        partial = explore_window(partial_evaluation_rows, factors, metric, data)
+        self.assertEqual(partial["status"], "INCONCLUSIVE")
+        self.assertEqual(partial["candidate_count"], 0)
+        self.assertEqual(partial["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
+        self.assertEqual(partial["independent_candidate_evaluation"]["candidate_selection_audit"]["complete_independent_units"], 0)
+        self.assertEqual(partial["candidate_counterevidence"]["status"], "WITHHELD_BY_OBSERVED_CANDIDATE_FAILURE")
 
     def test_heldout_tool_and_future_period_effects_are_cross_classified(self):
         rows, factors, data = self._dataset()

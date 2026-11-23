@@ -155,6 +155,37 @@ describe("P4 headless suite module", () => {
     expect(within(ids).getByText((content) => content.includes("SYN-OBS-299"))).toBeTruthy();
   });
 
+  it("shows when independent evaluation withholds the entire D02 candidate set", () => {
+    const withheldEvidence = structuredClone(evidence);
+    const dossier = withheldEvidence.artifacts?.[0] as Record<string, unknown>;
+    const supported = dossier.D02_supported_region as Record<string, unknown>;
+    supported.status = "INCONCLUSIVE";
+    supported.candidate_count = 0;
+    supported.screened_candidate_count = 1;
+    supported.candidate_screening_status = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE";
+    supported.candidate_counterevidence = {
+      status: "WITHHELD_COMPLETE_SET_INFEASIBILITY", complete_independent_units: 20,
+      observed_any_infeasible_units: 20, observed_any_infeasible_fraction: 1,
+    };
+    supported.grid = [{ factors: { pressure: 0.5, power: 0.5 }, region_class: "interpolated",
+      conservative_feasible: true, screened_candidate: true, supported_candidate: false,
+      candidate_screening_status: "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE",
+      simultaneous_supported_candidate: false, support: { nearby_independent_units: 30, nearby_distinct_settings: 3 },
+      predictions: { quality: { estimate: 0.1, predictive_interval95: [0.08, 0.12],
+        calibration_status: "LOCAL_GROUP_HOLDOUT_EMPIRICAL", calibration_units: 20 } } }];
+    supported.independent_candidate_evaluation = { candidate_selection_audit: {
+      status: "DESCRIPTIVE_SETWISE_DIAGNOSTIC", complete_independent_units: 20,
+      observed_any_infeasible_units: 20, observed_any_infeasible_fraction: 1,
+    }, candidates: [] };
+
+    render(<P4Panel sourcePreview={sourcePreview} evidence={withheldEvidence} />);
+
+    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    expect(within(d02).getByText(/No process-window candidates are recommended/)).toBeTruthy();
+    expect(within(d02).getByRole("columnheader", { name: "Recommendation status" })).toBeTruthy();
+    expect(within(d02).getByText("Withheld by independent counterevidence")).toBeTruthy();
+  });
+
   it("shows source scope, claims, limitations, and provenance", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     expect(screen.getByText("Synthetic demonstration data only")).toBeTruthy();
