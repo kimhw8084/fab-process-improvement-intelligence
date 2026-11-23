@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "70bcb14f9978106ff7cdcb4d54489ae7acd19912",
+  "as_of_source_commit": "3b9e42c4c4a7d86dec910718714494678beb7906",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,9 +15,9 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 1,
-    "task": "Audit D02 process-window calibration and candidate-selection logic for adaptive selection leakage, small-sample order-statistic limitations and unsupported-region classification. Use the independent qualifications to choose one concrete unresolved case, add an adversarial held-out test, repair the method or narrow its claims, then run focused and full tests.",
-    "first_command": "rtk sed -n '1,280p' products/p4/window.py && rtk rg -n 'candidate|calibrat|order.stat|selection|unsupported|holdout|coverage' tests/test_d01_d02_independent.py qualification",
+    "priority": 8,
+    "task": "Rebuild exact-current-source release evidence after the D02 numeric lot identity correction. Reproduce in two detached worktrees, run fresh no-pip extraction under OS network denial, and rerun full release gates. Then resume D02 candidate-selection and calibration audit.",
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
     "inspect": [
       "products/p4/ui/P4Panel.tsx",
       "products/p4/ui/P4Panel.test.tsx",
@@ -30,8 +30,8 @@
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; SAME_STRATA_RESPONSE_DRIFT_COUNTEREVIDENCE_QUALIFIED",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and separate independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge: 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata coverage; selected candidates remain isolated from evaluation. Browser verifies the transfer table and CALIBRATION_BAND_UNAVAILABLE status when no precommit exists; this is not validation. Conditional coverage remains unestablished. A new paired 250-trial known-response challenge preserves tool/time composition and all nine exact settings while varying hidden chamber response: baseline trial-level panel misses 4.92%, drift amplitude 0.025 gives 25.73%, 0.05 gives 88.22%, and 0.10/0.19 give 100%. The evaluation status reports counterevidence while zero declared-strata distance remains; these are descriptive held-out misses, not transfer validation or coverage."
+      "status": "IMPLEMENTED_WITH_LIMITS; NUMERIC_ID_SPLIT_LEAKAGE_FIXED; SELECTION_AND_CONDITIONAL_COVERAGE_LIMITS_RETAINED",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and separate independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge: 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata coverage; selected candidates remain isolated from evaluation. Browser verifies transfer table and CALIBRATION_BAND_UNAVAILABLE when no precommit exists; this is not validation. Conditional coverage remains unestablished. Paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. A reproduced int/float lot-key split leak is fixed: numeric IDs canonicalize across integral representations and the adversarial partition test refuses. After release refresh, inspect candidate-selection versus local calibration and sparse support; do not imply conditional coverage."
     },
     {
       "priority": 2,
@@ -55,8 +55,8 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 198_CURRENT_RELEASE_TESTS_PASS",
-      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. Full release run at source 052ea70 executed 198 tests with 0 failures/skips. Company authorization and P1 server-side MCP lifecycle remain pending."
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 199_WORKTREE_TESTS_PASS",
+      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. At source 3b9e42c, full Python unittest suite ran 199 tests, 0 failures/skips; current archive/release refresh is pending. Company authorization and P1 server-side MCP lifecycle remain pending."
     },
     {
       "priority": 7,
@@ -65,12 +65,12 @@
     },
     {
       "priority": 8,
-      "status": "E10_PASS_AT_052EA70; CANDIDATE; COMPANY_AND_AUTHORITATIVE_HOST_GATES_PENDING",
-      "task": "Current artifact source commit 052ea702bf0d6473af5a848c19358cafbf1331d2, 214 source files, ZIP SHA-256 d4c31b5a6f401860075d1ec06a067ac50ebe269e1b1d934cca348174ad0e471a (9,234,863 bytes). Two detached clean rebuilds matched; source manifest SHA-256 da7f307f96a3e971cea5a7a7ff2b89ffc4d1be1c7c5622d69805ba8ee1ef8823. Fresh no-pip extraction and macOS network-denied qualification passed; network probe returned DENIED. Current full runner: 198 tests PASS/0 skipped, schema/demo and local UI checks PASS, E10 PASS. Workflow evidence remains PARTIAL with D03 LIMITED_SCOPE, D04 PROPOSED, D05 ESTIMATED; gate remains CANDIDATE pending internal, accessibility, target-host and distribution approvals."
+      "status": "STALE_AFTER_D02_SOURCE_CHANGE_3B9E42C; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
+      "task": "Last exact artifact source commit 052ea702bf0d6473af5a848c19358cafbf1331d2 had 214 files, ZIP SHA-256 d4c31b5a6f401860075d1ec06a067ac50ebe269e1b1d934cca348174ad0e471a, two clean matching rebuilds and fresh no-pip macOS network-denied extraction. The full runner passed 198 tests and E10 there. D02 source commit 3b9e42c fixes numeric lot representation leakage; current 199-test suite passed, but exact archive/reproducibility/offline/release gates must be rerun."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "current release evidence has been regenerated for archive source 052ea702bf0d6473af5a848c19358cafbf1331d2; local checkpoint/evidence changes are ready for local commit; generated qualification/results JSON sidecars are excluded from package; no remote update",
+  "worktree_state": "D02 source commit 3b9e42c4c4a7d86dec910718714494678beb7906 verified with 199 Python tests; current archive is stale pending rebuild; local progress checkpoint is ready for commit; generated qualification/results JSON sidecars are excluded from package; no remote update",
   "active_uncommitted_changes": false
 }
