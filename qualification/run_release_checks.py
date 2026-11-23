@@ -28,7 +28,7 @@ def baseline_contracts_unchanged():
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == expected.get(name) for name in names}
 
 
-def archive_qualification_pass():
+def archive_qualification_pass(evaluated_commit):
     release = ROOT / "release"
     archive = release / "FAB_INTELLIGENCE_P4_CANDIDATE.zip"
     if not archive.is_file():
@@ -227,7 +227,7 @@ def main():
             "E07": {"status": "PENDING_FORMAL_ACCESSIBILITY", "evidence": ["release/UI_BROWSER_ACCEPTANCE.md", "release/UI_ACCESSIBILITY_CHECK.json", "release/UI_CONTRAST_CHECK.json", "qualification/accessibility_contrast_check.py", "tests/test_offline_server.py"], "reason": "local keyboard-only task, accessible table alternatives, focus management and browser accessibility tree passed; 15 curated text/focus contrast pairs passed; screen-reader, complete formal WCAG, and approved-host reviews remain unrun"},
             "E08": {"status": "PENDING_TARGET_OS", "evidence": ["release/NO_NETWORK_QUALIFICATION.md", "qualification/offline_qualify.py"], "reason": "a local-host offline bundle run is recorded separately; the company target OS remains unknown"},
             "E09": {"status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW", "dependency_audit": "PASS" if dependency_audit_pass else "FAIL", "evidence": ["release/SBOM.spdx.json", "release/DEPENDENCY_AUDIT.json", "release/LICENSE_SECURITY_REVIEW.md"], "reason": "the optional benchmark dependency tree has a clean package-advisory scan; source-code/OS security review and owner/legal distribution rights remain unresolved"},
-            "E10": {"status": "PASS" if archive_qualification_pass() else "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "scope": "exact current local archive, reproducible build and fresh extracted offline runtime"} if archive_qualification_pass() else {"status": "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "reason": "the exact current archive, reproducible build and fresh extracted offline runtime must all match"},
+            "E10": {"status": "PASS" if archive_qualification_pass(evaluated_commit) else "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime"} if archive_qualification_pass(evaluated_commit) else {"status": "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "reason": "the exact current archive, clean-source reproducible build and fresh extracted offline runtime must all match"},
             "E11": {"status": "PENDING_ENGINEER_BASELINE", "evidence": ["qualification/BENCHMARK_PLAN.md", "release/BENCHMARK_REPORT.json"], "reason": "synthetic latency is measured; no eligible engineer task-time, review-burden or ROI baseline exists"},
             "E12": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "docs/INTERNAL_COMPANY_FIRST_RUN.md"], "reason": "company MCP, host, policy owner and engineer qualification require authorized site testing"}
         },
