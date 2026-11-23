@@ -1,6 +1,6 @@
 {
-  "active_uncommitted_changes": false,
-  "as_of_source_commit": "874e30f0048a0f8d70b7383c93ac4a12cbf228d7",
+  "active_uncommitted_changes": true,
+  "as_of_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,24 +15,24 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_executable_action": {
-    "acceptance": "Use an independent held-out generator to exercise P4 actual D02 candidate selection; report selection misses, abstention, and limitations without claiming conditional coverage. Run focused D02 tests and retain the simpler advisory path if no defensible general guarantee can be established.",
-    "first_command": "rtk rg -n \"supported_grid|candidate|calibration|simultaneous|panel|select\" products/p4/window.py && rtk sed -n \"1,360p\" products/p4/window.py",
+    "next_executable_action": {
+    "acceptance": "Validate the refreshed disposable P1 evidence against current source, then run the full source-bound release runner, rebuild and reproduce the archive, and qualify a fresh no-pip extraction under OS network denial. E10 is PASS only if all exact-source checks agree.",
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python -c 'import json,sys; from pathlib import Path; sys.path.insert(0,\".\"); from qualification.run_release_checks import disposable_snapshot_fingerprint_matches; d=json.loads(Path(\"qualification/evidence/p1-disposable-host-qualification-2026-11-23.json\").read_text()); assert disposable_snapshot_fingerprint_matches(d[\"disposable_composition\"][\"snapshot_fingerprint\"]); print(\"P1 fingerprint PASS\")'",
     "inspect": [
-      "products/p4/window.py",
-      "tests/test_d01_d02_independent.py",
-      "qualification/benchmark_d02_adaptive_selection.py",
-      "qualification/benchmark_d02_simultaneous.py",
-      "qualification/critical_cases.json"
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
+      "qualification/run_release_checks.py",
+      "qualification/build_transfer_bundle.py",
+      "qualification/offline_qualify.py",
+      "release/GATE_REPORT.json"
     ],
     "priority": 1,
-    "task": "Audit P4 D02 candidate construction, calibration, and independent evaluation order. Design a held-out challenge for the exact current selection rule; if it exposes a concrete risk, add a valid precommitted family method or abstention. Otherwise record the oracle result and keep pointwise-only claims."
+    "task": "Requalify the exact current D02 source and P1 evidence in the offline release. Commit the refreshed evidence/progress, run the complete source-bound release runner, rebuild/reproduce the archive, and verify fresh extraction under OS network denial. Then resume independent D01–D05 scientific challenges."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; PRECOMMIT_BINDS_ACTIVE_METRIC_BOUNDS; CONDITIONAL_COVERAGE_UNESTABLISHED",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge measured 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata; paired 250-trial hidden-response challenge shows increasing held-out misses under within-stratum drift. Numeric int/float lot-ID split leakage is fixed with an adversarial refusal test. New independent 10,000-trial 76-setting/20-calibration hazard screen measured 78.66% under an intentionally adversarial minimum-radius selector versus 95.25% fixed-setting and 95.27% complete-panel baselines. This is not P4's exact selector nor a manufacturing estimate; release runner verifies P4's pointwise advisory label and warning. Conditional coverage remains unestablished; only 3 of 76 selected candidates have exact-setting holdout outcomes. A 2026-11-23 adversarial regression found and fixed a transfer-status false assurance when some calibration/evaluation lots contained mixed or missing strata; incomplete assignment now yields INSUFFICIENT_ASSIGNABLE_STRATA. A 2026-11-23 adversarial regression proved a caller could precommit max=0.45 while active classification used max=0.50 and still receive an AVAILABLE exact-panel band. D02 now normalizes, hashes and exact-matches all active min/max limits; mismatch returns PRECOMMIT_THRESHOLD_MISMATCH and no simultaneous candidates. Independent simultaneous challenge: 1,000 trials, joint exact-panel coverage 0.966 under its declared generator; held-out response-drift challenge detects shift. These results remain generator-specific, and caller timing/references are unauthenticated."
+      "status": "IMPLEMENTED_WITH_LIMITS; ACTIVE_THRESHOLD_BINDING_AND_WHOLE_SET_COUNTEREVIDENCE_VETO; CONDITIONAL_COVERAGE_UNESTABLISHED",
+      "task": "D02 retains pointwise/exact-panel calibration with explicit assumptions and no conditional/future coverage claim. It binds precommitted active thresholds and now withholds the entire screened set on any exact independent evaluation counterexample, including partial holdouts. An independent hidden nonlinear interaction produced 25 apparent feasible cells, 2 exact heldout failures and at least one infeasible candidate in all 20 complete evaluation lots; this is a model-form counterexample, not a population-risk estimate. Existing transfer/selection/drift challenges remain generator-specific; only 3/76 default candidates have exact-setting evaluation."
     },
     {
       "priority": 2,
@@ -61,8 +61,8 @@
     },
     {
       "priority": 7,
-      "status": "DISPOSABLE P1 COMPOSITION REQUALIFIED AGAINST D02 SOURCE 874e30f; BROWSER NOT REOBSERVED AFTER THRESHOLD FIX",
-      "task": "P1 disposable composition current-source overlay passed 11 host-route tests, 48 frontend tests, typecheck and production build after updating the exact D02 implementation/schema source pins. The 29-file scratch-composition fingerprint is 723a413a76d23b006c4dd2ba316702c7c08b0a35412affd185e65004553ab900. Existing browser evidence is from the unchanged P4 panel before the backend threshold-binding fix; no browser reobservation is claimed. P1 has no authoritative revision; owner/source acceptance and formal accessibility remain pending."
+      "status": "DISPOSABLE P1 COMPOSITION VERIFIED AGAINST D02 SOURCE 644eab9; AUTHORITATIVE OWNER ACCEPTANCE PENDING",
+      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01–D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
     },
     {
       "priority": 8,
@@ -72,5 +72,5 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D02 active-threshold binding is committed at 874e30f. The just-built package and E10 evidence at that commit predate a refreshed disposable P1 source fingerprint; P1 route/frontend/typecheck/build checks have since been rerun against the current overlay. Repackage and rerun the release gates after committing refreshed P1 evidence/progress. Product remains CANDIDATE."
+  "worktree_state": "Product source commit 644eab904beac1c75382a6e378212819ebcb31e0 includes the D02 whole-set counterevidence veto. Refreshed disposable P1 evidence has a valid 29-file fingerprint and current P4 source pins, but progress/evidence are uncommitted and prior release artifacts are not yet accepted for this source. Validate evidence, commit progress/P1 evidence, run full source-bound gates, reproduce the archive and freshly qualify offline extraction. Product remains CANDIDATE; no public push."
 }

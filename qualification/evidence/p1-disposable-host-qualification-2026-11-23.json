@@ -8,20 +8,20 @@
       "products/p4/regression.py": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
       "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
       "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
-      "products/p4/window.py": "0a10c752264a7ae73ddd2bf45ed9d72a756a6181b8da482769fbf9491514839d",
+      "products/p4/window.py": "77d48577c5f65c77a393fe087573e0073b00d52659a43741d57a9b86809586dc",
       "qualification/build_demo_fixture.py": "48b346e5dfc60c0106dbd3109cdc35e288aa623b6c02984ecfc39bfe8f016e06"
     },
     "current_p4_source": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-      "panel_sha256": "b5a951ac60c181b2669e38845465bf5768a2c9c6f11bae386cd68a1c553d6ca2",
-      "panel_test_sha256": "fd3065a9657780a8b658fa18072e581f3ab33f607205e9bc423f84604bd7803d"
+      "panel_sha256": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
+      "panel_test_sha256": "5acfc32ad88650eb9169c744f023abb1ee8a2667dd7d1c393c21362884b094aa"
     },
     "mcp_panel_bridge_fixture": {
       "deterministic_two_build_check": "PASS; two outputs were byte-identical",
       "fixture_sha256": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d",
       "generator": "qualification/build_mcp_panel_bridge_fixture.py using official Python MCP SDK 2.3.0 synthetic mocks",
       "limitation": "This validates the exact MCP-produced evidence-to-P4-panel boundary. The disposable P1 server route still analyzes its local demo fixture and does not itself invoke MCP.",
-      "p4_panel_component_tests": 21,
+      "p4_panel_component_tests": 22,
       "python_bridge_fixture_tests": 2,
       "refusal": "permission denial returns empty REFUSED evidence; P4 panel suppresses D01-D05 findings and positive charts",
       "schema_check": "PASS; success and refusal envelopes",
@@ -37,7 +37,7 @@
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
       "engine_version": "1.2.0"
     },
-    "p4_source_commit": "874e30f0048a0f8d70b7383c93ac4a12cbf228d7",
+    "p4_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0",
     "snapshot_fingerprint": {
       "file_sha256": {
         "contracts/SHARED_ARCHITECTURE.md": "bd88276779573435164831bcf5d2036cc3d09a3d641635b0df8f95186ec18382",
@@ -51,7 +51,7 @@
         "contracts/suite-ui-module.v1.schema.json": "e3f0da372a2528d993a8a1555403c6e115df7256edfc8cfc0f09be3995e17c4f",
         "contracts/suite-ui.types.ts": "dfc3d3cfee90da1f4ab1773c22e032081b5db99abd9bff4b1c2031d0a4e43890",
         "fixtures/p4/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
-        "integration/product-source-registry.v1.json": "670b0535ff2c329554aacd607b76f5c8bd25745ba6bd1863f02be01fba8b859a",
+        "integration/product-source-registry.v1.json": "eacea29b4004d082f9a30fe4d902de1a9aad58a75a20dc31b7316eb5a0c3d01f",
         "integration/suite-ui-e2e.v1.json": "2522a81960bcf69da939269cb68469371ce6676c31725c3a30d8efa8d5e9f1ac",
         "package-lock.json": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
         "package.json": "82415b23fd078424ef3c010e213052d575b012dd6f2a9ff0f932bad71e700f07",
@@ -63,17 +63,17 @@
         "products/p1/ui/suite.css": "d1d80dd866d85d02003b1a48bdd1a3cbd8e4bd16432eae1e39ab0ec0f1e44c81",
         "products/p1/ui/suiteSpatialMap.test.ts": "63b59654a33c32b1956d6d3ec90d9339d67d17e40de3c47055f45169cb7a19b9",
         "products/p1/ui/suiteSpatialMap.ts": "495c1bce7415de23fa3ba291798d001d9c5a5248340371ab2bdeeea6c6891df1",
-        "products/p4/ui/P4Panel.tsx": "b5a951ac60c181b2669e38845465bf5768a2c9c6f11bae386cd68a1c553d6ca2",
+        "products/p4/ui/P4Panel.tsx": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
         "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
         "tests/fixtures/mcp_p4_panel_bridge.json": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d",
-        "tests/test_suite_host.py": "6d81dedd0f0ebd71551f599dad0a23507a65c813c9214ff20cd3c385792e1efe",
+        "tests/test_suite_host.py": "39fe50be4de6fe059b9ce00770704ac7c108cff10838b2e345264b73d37c46a0",
         "tsconfig.json": "a6a2994c6c1db73d909e2779dc8643a71adb296598b24232a4649e15c10ead54",
         "vite.config.ts": "847b24f17f655e3ce0148ed4ead36d4ebd6340827a187ecf8dab00be4dcf5588"
       },
       "files": 29,
-      "manifest_sha256": "723a413a76d23b006c4dd2ba316702c7c08b0a35412affd185e65004553ab900",
+      "manifest_sha256": "0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8",
       "scope": "29 explicitly listed suite contracts, shared P1 UI/host implementation and tests, frontend build configuration, P4 contribution/panel, P4 synthetic workflow fixture, and official-SDK MCP-to-panel evidence fixture. Integrity digest of disposable composition evidence; not authoritative P1 source revision.",
-      "sha256": "723a413a76d23b006c4dd2ba316702c7c08b0a35412affd185e65004553ab900"
+      "sha256": "0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8"
     },
     "source_snapshot_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0"
   },
@@ -86,6 +86,23 @@
         "D04",
         "D05"
       ],
+      "current_source_ui_recheck": {
+        "analysis_status": "PARTIAL",
+        "capabilities_visible": [
+          "D01",
+          "D02",
+          "D03",
+          "D04",
+          "D05"
+        ],
+        "default_demo_triggers_veto": false,
+        "recommendation_status_column_visible": true,
+        "request_lifecycle": "COMPLETED",
+        "route": "/fab-intelligence/p4#p4-d02",
+        "scope": "synthetic workflow in disposable local P1 composition; not owner acceptance or company qualification",
+        "whole_set_counterevidence_rule_visible": true,
+        "withheld_state_qualification": "Current-source P4 component test and independent D02 evaluation tests verify withheld presentation/behavior; default browser fixture has no observed failing exact candidate."
+      },
       "d02_calibration_transfer": {
         "candidate_selection_influence": false,
         "interpretation": "the precommitted finite-panel band is unavailable, so transfer cannot be assessed",
@@ -169,7 +186,7 @@
         "visible_message": "Positive findings and charts are withheld because this result is refused."
       },
       "route": "/fab-intelligence/p4",
-      "served_p4_source_commit": "14f6ad9ed22f795a0beb4d6e0afb175c6f5d5c3",
+      "served_p4_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0 (functional source; the served window module preceded a comment-only edit committed in this revision)",
       "served_source_commit": "UNVERSIONED_DISPOSABLE_P1_COMPOSITION",
       "source_snapshot_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0",
       "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
@@ -194,19 +211,19 @@
       }
     },
     "current_p4_requalification": {
-      "browser_reobserved_after_d02_mixed_strata_fix": true,
-      "browser_reobserved_after_d02_threshold_binding_fix": false,
-      "d02_window_sha256": "0a10c752264a7ae73ddd2bf45ed9d72a756a6181b8da482769fbf9491514839d",
-      "disposable_p1_route_tests": "PASS; 11 tests rerun with current window and schema pins",
-      "limitations": "Disposable, unversioned P1 source composition only; P1 owner approval, formal accessibility, target-host validation and company qualification remain pending.",
-      "p1_frontend_tests": "PASS; 48 tests rerun",
-      "p1_production_build": "PASS; rerun; bundle output unchanged",
+      "browser_reobserved_after_candidate_set_veto_ui": true,
+      "browser_reobserved_after_d02_threshold_binding_fix": true,
+      "d02_window_sha256": "77d48577c5f65c77a393fe087573e0073b00d52659a43741d57a9b86809586dc",
+      "disposable_p1_route_tests": "PASS; 11 tests rerun against exact current D02 window/schema pins",
+      "limitations": "Disposable, unversioned P1 source composition only; P1 owner approval, formal accessibility/screen-reader review, target-host validation and company qualification remain pending.",
+      "p1_frontend_tests": "PASS; 49 tests rerun, including 22 P4 panel tests",
+      "p1_production_build": "PASS; rerun; 801928-byte uncompressed JavaScript bundle; SHA-256 17619f6055b27ac38e4d45a94b2394e102b4ebd872fbf1c31ca537175bc7fe66; existing >500 KB advisory",
       "p1_typecheck": "PASS; rerun",
-      "p4_full_python_unittest": "PASS; 203 tests, 0 skipped at 874e30f; includes active-threshold mismatch refusal regression",
-      "p4_panel_sha256": "b5a951ac60c181b2669e38845465bf5768a2c9c6f11bae386cd68a1c553d6ca2",
-      "p4_panel_test_sha256": "fd3065a9657780a8b658fa18072e581f3ab33f607205e9bc423f84604bd7803d",
-      "p4_panel_tests": "PASS; 21 component tests in full P1 frontend suite",
-      "p4_source_commit": "874e30f0048a0f8d70b7383c93ac4a12cbf228d7"
+      "p4_full_python_unittest": "PASS; 203 tests, 0 skipped; exact source commit 644eab904beac1c75382a6e378212819ebcb31e0",
+      "p4_panel_sha256": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
+      "p4_panel_test_sha256": "5acfc32ad88650eb9169c744f023abb1ee8a2667dd7d1c393c21362884b094aa",
+      "p4_panel_tests": "PASS; 22 component tests with strict TypeScript check and P1 contract snapshot match",
+      "p4_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0"
     },
     "d01_crossed_dependence": {
       "browser_reobserved": false,
@@ -227,18 +244,18 @@
     "p1_frontend_tests": {
       "command": "npm test -- --run",
       "status": "PASS",
-      "tests": 48
+      "tests": 49
     },
     "p1_host_route_tests": {
-      "command": "python -m unittest discover -s tests -p test_suite_host.py -q",
-      "current_p4_source": "Current P4 source overlay at 874e30f0048a0f8d70b7383c93ac4a12cbf228d7; 11 route tests rerun in disposable P1 composition",
+      "command": "python -m unittest discover -s tests -p test_suite_host.py -v",
+      "current_p4_source": "Current P4 source overlay at 644eab904beac1c75382a6e378212819ebcb31e0; 11 route tests rerun in disposable P1 composition",
       "p4_source_pins": "PASS",
       "status": "PASS",
       "tests": 11
     },
     "p1_production_build": {
-      "bundle_bytes_uncompressed": 800917,
-      "bundle_sha256": "babcdadd400bc0c0ed010994fc72a80130336e078cdb8757283199f8ce8d5cc2",
+      "bundle_bytes_uncompressed": 801928,
+      "bundle_sha256": "17619f6055b27ac38e4d45a94b2394e102b4ebd872fbf1c31ca537175bc7fe66",
       "command": "npm run build",
       "status": "PASS",
       "warning": "single shared ECharts bundle exceeds 500 KB advisory"
@@ -269,17 +286,16 @@
       "command": "npm test -- --run products/p4/ui/P4Panel.test.tsx",
       "contract_snapshot_match": true,
       "status": "PASS",
-      "tests": 21,
+      "tests": 22,
       "typecheck": "PASS"
     }
   },
   "limitations": [
-    "P1 source has no resolvable Git revision; the 29-file fingerprint is an integrity digest of this disposable composition, not an authoritative P1 source identity.",
+    "P1 source has no resolvable Git revision; the 29-file fingerprint is an explicit integrity digest of the disposable composition evidence and not an authoritative source identity.",
     "Disposable registry and route-test pin updates are local fixture changes, not upstream P1 changes.",
-    "P1 owner confirmation, formal accessibility and screen-reader review, target-host qualification, company permissions, source mappings, and actual endpoint behavior remain pending.",
-    "D02 independent exact-setting evaluation covers only 3 of 76 selected candidates; complete-set coverage is withheld and no conditional coverage is claimed.",
-    "D03 zero-variance source correction passed 20 focused relationship tests, P4 panel 19/typecheck, P1 host routes 11 and frontend 46/typecheck/build; current full Python suite then passed 201 tests/0 skipped at source cd8a357509553cf417b6cb7d04f0df7d5bda8cf4. Browser was not re-observed after the D03 change.",
-    "The browser workflow was observed before the D02 active-threshold binding change; the UI panel is unchanged and current backend/schema pins passed 11 disposable P1 route tests, but a browser run against the post-fix server was not repeated."
+    "Only 3 of 76 selected D02 candidates have exact-setting evaluation data in the default synthetic fixture; complete-set coverage is withheld and no conditional coverage is claimed.",
+    "The browser workflow is a synthetic default fixture; it confirms the shared route, lifecycle, D01-D05 sections, current recommendation-status column and counterevidence explanation, but it does not trigger the holdout veto.",
+    "P1 owner confirmation, formal accessibility and screen-reader review, target-host qualification, company permissions, source mappings and actual endpoint behavior remain pending."
   ],
   "p1_source": {
     "git_metadata_present": false,

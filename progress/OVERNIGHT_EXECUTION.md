@@ -1,3 +1,14 @@
+## Checkpoint — D02 whole-set independent counterevidence veto (2026-11-23)
+
+- Current product source commit: `644eab904beac1c75382a6e378212819ebcb31e0`. This checkpoint preserves all prior D01–D05, Golden, MCP and release work.
+- Independent hidden-interaction challenge found a concrete D02 failure: 25 interpolated settings screened feasible from train/calibration data; exact held-out evaluation found 2 failed settings, and all 20 complete independent lots had at least one infeasible screened setting. This is a model-form counterexample, not a field-risk estimate.
+- D02 now withholds the complete recommendation set when any exact screened candidate has an independent evaluation failure. It does not retain a favorable subset selected using the evaluation data. Incomplete evaluation containing an exact failure also withholds the set; pre-veto grid and cells remain auditable with `WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE`. Model fitting, calibration, and pre-veto candidate selection are unchanged. A focused test covers both complete and partial holdout cases.
+- Changed committed files: `products/p4/window.py`, `products/p4/ui/P4Panel.tsx`, `products/p4/ui/P4Panel.test.tsx`, `tests/test_d01_d02_independent.py`, `docs/PRODUCT_SPEC.md`, `docs/SCIENCE_AND_METHODS.md`.
+- Executed after source change: full Python suite 203 PASS/0 skipped; schema check 7 instances PASS; P4 headless component suite 22 PASS with strict TypeScript; disposable P1 host routes 11 PASS; P1 frontend 49 PASS, typecheck and production build PASS (801,928-byte JS bundle); browser showed completed synthetic PARTIAL workflow with current P4 evidence status and D01–D05.
+- P1 evidence refreshed and fingerprint validates: disposable 29-file manifest SHA-256 `0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8`; current P4 source hashes match. The browser uses an unversioned disposable P1 composition; no P1 owner acceptance or formal accessibility claim.
+- Current P1 evidence and progress updates are uncommitted. Existing generated archives/release outputs must be treated as stale until checked against exact source. No public push/release.
+- Exact next action: verify the P1 snapshot/fixed source hashes and all release-runner gates on `644eab9`; commit only the current P1 evidence and progress ledger; run the full release runner, rebuild/reproduce the exact archive and perform fresh offline extraction under OS network denial. Then return to independent D01–D05 adversarial work. Company-only dependencies remain the approved Samsung mapping/permissions, authoritative requirements, target host/OS, real-data ROI, internal security/legal/production approvals, and P1 owner/source/accessibility acceptance.
+
 # P4 overnight execution ledger
 
 ## Verified starting point
