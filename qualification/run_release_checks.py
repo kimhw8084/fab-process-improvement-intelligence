@@ -181,8 +181,33 @@ def main():
                        "pairs_checked": contrast_report.get("pairs_checked"),
                        "scope": contrast_report.get("scope")}
 
+    security_path = ROOT / "release" / "SOURCE_SECURITY_SCAN.json"
+    security_report = json.loads(security_path.read_text(encoding="utf-8")) if security_path.exists() else {}
+    security_review = security_report.get("review", {})
+    security_findings = security_report.get("results", [])
+    security_pass = (
+        security_review.get("tool") == "Bandit"
+        and security_review.get("tool_version") == "1.9.4"
+        and security_review.get("limited_scan_result") == "PASS_LIMITED_SCOPE"
+        and security_review.get("independent_human_source_review") == "PENDING"
+        and security_review.get("license_and_ownership_review") == "PENDING"
+        and security_review.get("finding_count") == len(security_findings) == 8
+        and security_review.get("high_or_medium_findings") == 0
+        and security_review.get("finding_dispositions_cover_all_reported_findings") is True
+        and all(item.get("issue_severity") == "LOW" and item.get("test_id") in {"B311", "B404", "B603", "B110"}
+                for item in security_findings)
+    )
+    source_security_result = {"status": "PASS_LIMITED_SCOPE" if security_pass else "FAIL",
+                              "evidence": "release/SOURCE_SECURITY_SCAN.json",
+                              "tool": security_review.get("tool"),
+                              "version": security_review.get("tool_version"),
+                              "finding_count": len(security_findings),
+                              "high_or_medium_findings": security_review.get("high_or_medium_findings"),
+                              "independent_human_review": "PENDING"}
+
     qualification_pass = (test_pass and demo_result["status"] == "PASS" and schema_status == "PASS"
-                          and frozen_pass and critical_pass and mcp_pass and d04_pass and performance_pass and contrast_pass)
+                          and frozen_pass and critical_pass and mcp_pass and d04_pass and performance_pass
+                          and contrast_pass and security_pass)
     results = {"state": "PASS" if qualification_pass else "FAIL",
                "unit_tests": test_summary, "integrated_demo": demo_result,
                "synthetic_mcp_external_mock": {"status": "PASS" if mcp_pass else "FAIL",
@@ -192,6 +217,7 @@ def main():
                "scientific_performance_benchmark": performance_result,
                "dependency_audit": dependency_audit_result,
                "ui_accessibility_contrast": contrast_result,
+               "source_security_scan": source_security_result,
                "schema_validation": {"status": schema_status, "evidence": "release/SCHEMA_VALIDATION.json"},
                "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
                "critical_cases": {"status": "PASS" if critical_pass else "FAIL", "cases": cases,
@@ -214,6 +240,7 @@ def main():
         "scientific_performance_benchmark": performance_result,
         "dependency_audit": dependency_audit_result,
         "ui_accessibility_contrast": contrast_result,
+        "source_security_scan": source_security_result,
         "schema_validation": {"status": schema_status, "command_return_code": schema_run.returncode,
                               "evidence": "release/SCHEMA_VALIDATION.json"},
         "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
@@ -226,7 +253,7 @@ def main():
             "E06": {"status": "PASS" if mcp_pass else "FAIL", "evidence": ["release/LICENSE_SECURITY_REVIEW.md", "tests/test_mcp_transport.py", "requirements/synthetic-mcp-mapping.v1.json"], "scope": "model-off product; MCP JSON-RPC stdio and Streamable HTTP mapping exercised against synthetic mock; company tool names/permissions/source semantics remain unconfigured"},
             "E07": {"status": "PENDING_FORMAL_ACCESSIBILITY", "evidence": ["release/UI_BROWSER_ACCEPTANCE.md", "release/UI_ACCESSIBILITY_CHECK.json", "release/UI_CONTRAST_CHECK.json", "qualification/accessibility_contrast_check.py", "tests/test_offline_server.py"], "reason": "local keyboard-only task, accessible table alternatives, focus management and browser accessibility tree passed; 15 curated text/focus contrast pairs passed; screen-reader, complete formal WCAG, and approved-host reviews remain unrun"},
             "E08": {"status": "PENDING_TARGET_OS", "evidence": ["release/NO_NETWORK_QUALIFICATION.md", "qualification/offline_qualify.py"], "reason": "a local-host offline bundle run is recorded separately; the company target OS remains unknown"},
-            "E09": {"status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW", "dependency_audit": "PASS" if dependency_audit_pass else "FAIL", "evidence": ["release/SBOM.spdx.json", "release/DEPENDENCY_AUDIT.json", "release/LICENSE_SECURITY_REVIEW.md"], "reason": "the optional benchmark dependency tree has a clean package-advisory scan; source-code/OS security review and owner/legal distribution rights remain unresolved"},
+            "E09": {"status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW", "dependency_audit": "PASS" if dependency_audit_pass else "FAIL", "source_security_scan": source_security_result["status"], "evidence": ["release/SBOM.spdx.json", "release/DEPENDENCY_AUDIT.json", "release/SOURCE_SECURITY_SCAN.json", "release/LICENSE_SECURITY_REVIEW.md"], "reason": "the package-advisory scan is clean and Bandit found no medium/high source findings (eight low tool findings are dispositioned); independent manual/OS security review and owner/legal distribution rights remain unresolved"},
             "E10": {"status": "PASS" if archive_qualification_pass(evaluated_commit) else "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime"} if archive_qualification_pass(evaluated_commit) else {"status": "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "reason": "the exact current archive, clean-source reproducible build and fresh extracted offline runtime must all match"},
             "E11": {"status": "PENDING_ENGINEER_BASELINE", "evidence": ["qualification/BENCHMARK_PLAN.md", "release/BENCHMARK_REPORT.json"], "reason": "synthetic latency is measured; no eligible engineer task-time, review-burden or ROI baseline exists"},
             "E12": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "docs/INTERNAL_COMPANY_FIRST_RUN.md"], "reason": "company MCP, host, policy owner and engineer qualification require authorized site testing"}
