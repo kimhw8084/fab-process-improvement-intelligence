@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "3b9e42c4c4a7d86dec910718714494678beb7906",
+  "as_of_source_commit": "fabc7d52db5b331264854048083d3db0f4292fb3",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,7 +16,7 @@
   ],
   "next_executable_action": {
     "priority": 8,
-    "task": "Rebuild exact-current-source release evidence after the D02 numeric lot identity correction. Reproduce in two detached worktrees, run fresh no-pip extraction under OS network denial, and rerun full release gates. Then resume D02 candidate-selection and calibration audit.",
+    "task": "Rebuild exact-current-source release evidence after D02 code and disposable P1 composition-evidence refresh. Reproduce in two detached worktrees, run fresh no-pip extraction under OS network denial, and rerun full release gates. Then resume D02 candidate-selection and calibration audit.",
     "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
     "inspect": [
       "products/p4/ui/P4Panel.tsx",
@@ -55,22 +55,22 @@
     },
     {
       "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 199_WORKTREE_TESTS_PASS",
-      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. At source 3b9e42c, full Python unittest suite ran 199 tests, 0 failures/skips; current archive/release refresh is pending. Company authorization and P1 server-side MCP lifecycle remain pending."
+      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 199_CURRENT_TESTS_PASS",
+      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. At P4 source 3b9e42c, full Python suite ran 199 tests, 0 failures/skips; refreshed disposable P1 route test also passes 11 cases. Company authorization and P1 server-side MCP lifecycle remain pending."
     },
     {
       "priority": 7,
-      "status": "DISPOSABLE_P1_COMPOSITION_QUALIFIED; BROWSER_SUCCESS_REFUSAL_KEYBOARD_OBSERVED; FOCUS_CONTRAST_CHANGE_PROPOSED; OWNER_ACCEPTANCE_PENDING",
-      "task": "Unversioned P1 snapshot manifest has 29 files and SHA-256 b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e. P1 routes 11 PASS, frontend 45 PASS, P4 panel 18 PASS, typecheck/build PASS. Browser at 127.0.0.1:8770 observed synthetic request completion, D01-D05, accessible exact-values table, keyboard provenance disclosure and refusal suppression. Selected shared stylesheet text pairs pass CSS screening; focus indicator is 1.804:1 on body and 1.940:1 on white surfaces; CHANGE-003 asks P1 owner to review. Screen is not WCAG conformance. P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal screen-reader/accessibility review."
+      "status": "CURRENT_P4_SOURCE_HOST_TESTS_PASS; BROWSER_SUCCESS_REFUSAL_KEYBOARD_OBSERVED_ON_RECORDED_SNAPSHOT; FOCUS_CONTRAST_CHANGE_PROPOSED; OWNER_ACCEPTANCE_PENDING",
+      "task": "Refreshed disposable P1 composition manifest has 29 files and SHA-256 84e4025fdf09880c846545ee00ff3fb2eeef218d699d69d91251d6e67949b03c. Current P4 source overlay passes P1 host routes 11, frontend 45, P4 panel 18, typecheck and build. Browser at 127.0.0.1:8770 observed synthetic request completion, D01-D05, accessible exact-values table, keyboard provenance disclosure and refusal suppression on its recorded P1 snapshot; browser not re-observed after backend-only D02 identity fix. Selected shared stylesheet text pairs pass CSS screening; focus indicator is 1.804:1 on body and 1.940:1 on white surfaces; CHANGE-003 asks P1 owner to review. Screen is not WCAG conformance. P1 server route still serves its own demo fixture. No P1 owner acceptance, authoritative source revision or formal screen-reader/accessibility review."
     },
     {
       "priority": 8,
-      "status": "STALE_AFTER_D02_SOURCE_CHANGE_3B9E42C; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
-      "task": "Last exact artifact source commit 052ea702bf0d6473af5a848c19358cafbf1331d2 had 214 files, ZIP SHA-256 d4c31b5a6f401860075d1ec06a067ac50ebe269e1b1d934cca348174ad0e471a, two clean matching rebuilds and fresh no-pip macOS network-denied extraction. The full runner passed 198 tests and E10 there. D02 source commit 3b9e42c fixes numeric lot representation leakage; current 199-test suite passed, but exact archive/reproducibility/offline/release gates must be rerun."
+      "status": "STALE_AFTER_D02_AND_P1_EVIDENCE_REFRESH; REBUILD_AND_REQUALIFY_REQUIRED; CANDIDATE",
+      "task": "Last exact archive source fabc7d52db5b331264854048083d3db0f4292fb3 had 214 files, ZIP SHA-256 84b973941677e70cc083d4219110d8d3b3175ed46625432fde5c44623977e6b7, two matching clean builds and fresh no-pip network-denied extraction. Full runner passed 199 tests and E10 but saw outdated P1 host composition hashes. The disposable P1 overlay/pin/evidence fingerprint are now refreshed; rebuild and rerun all gates to bind this evidence."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D02 source commit 3b9e42c4c4a7d86dec910718714494678beb7906 verified with 199 Python tests; current archive is stale pending rebuild; local progress checkpoint is ready for commit; generated qualification/results JSON sidecars are excluded from package; no remote update",
+  "worktree_state": "P4 source fabc7d52db5b331264854048083d3db0f4292fb3 verified with 199 Python tests and refreshed disposable P1 overlay evidence; current archive is stale pending rebuild; local checkpoint is ready for commit; generated qualification/results JSON screens are excluded from package; no remote update",
   "active_uncommitted_changes": false
 }
