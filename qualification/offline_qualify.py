@@ -12,6 +12,8 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from qualification.workflow_qualification import analysis_result_is_qualified  # noqa: E402
 
 
 def verify_source_manifest(root):
@@ -80,10 +82,12 @@ def main():
             if outputs[0].get("state") != "CANDIDATE" or outputs[1].get("mode") != "SYNTHETIC_DEMO":
                 raise ValueError("doctor/demo returned unexpected release state")
             final = outputs[2]
-            if final.get("status") != "VALID" or final.get("product_id") != "p4":
-                raise ValueError("full synthetic dossier did not complete")
+            workflow_qualified, capability_statuses = analysis_result_is_qualified(final)
+            if not workflow_qualified:
+                raise ValueError("full synthetic dossier did not emit all expected D01-D05 capability outputs")
             dossier = final["artifacts"][0]
-            if not all(k in dossier for k in ("D01_sensitivity", "D02_observed_process_window", "D03_tradeoffs", "D04_experiment_proposal", "D05_effectiveness")):
+            if not all(k in dossier for k in ("D01_sensitivity", "D02_observed_process_window", "D02_robust_observed_region",
+                                                "D02_supported_region", "D03_tradeoffs", "D04_experiment_proposal", "D05_effectiveness")):
                 raise ValueError("full workflow artifact is incomplete")
             report["commands"] = ["python -m fabintel doctor", "python -m fabintel demo",
                                    "python -m fabintel analyze --input fixtures/full_workflow_demo.json",
@@ -92,6 +96,8 @@ def main():
             report["state"] = "PASS"
             report["dependency_install"] = "none; fresh venv has no pip and no third-party packages"
             report["workflow_status"] = final["status"]
+            report["workflow_qualification_status"] = "PASS"
+            report["capability_statuses"] = capability_statuses
             report["network_policy_probe"] = outputs[3]
             if outputs[3].get("status") != "DENIED":
                 raise ValueError("network-deny socket probe did not confirm sandbox denial")

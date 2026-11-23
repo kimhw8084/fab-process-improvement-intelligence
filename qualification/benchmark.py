@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 REPEATS = 25
 sys.path.insert(0, str(ROOT))
+from qualification.workflow_qualification import analysis_result_is_qualified  # noqa: E402
 
 
 def product_source_fingerprint():
@@ -23,20 +24,8 @@ def product_source_fingerprint():
 
 
 def integrated_demo_is_qualified(evidence, observation_count):
-    keys = {"D01": "D01_sensitivity", "D02": "D02_supported_region", "D03": "D03_tradeoffs",
-            "D04": "D04_experiment_proposal", "D05": "D05_effectiveness"}
-    artifacts = evidence.get("artifacts")
-    if not isinstance(artifacts, list) or not artifacts or not isinstance(artifacts[0], dict):
-        return False, {capability: None for capability in keys}
-    artifact = artifacts[0]
-    allowed = {"D01": {"VALID", "INCONCLUSIVE"}, "D02": {"VALID", "INCONCLUSIVE"},
-               "D03": {"VALID", "LIMITED_SCOPE"}, "D04": {"PROPOSED", "INCONCLUSIVE"},
-               "D05": {"ESTIMATED", "INCONCLUSIVE"}}
-    statuses = {capability: artifact.get(key, {}).get("status") for capability, key in keys.items()}
-    complete = all(key in artifact for key in keys.values())
-    workflow_complete = evidence.get("status") in ("VALID", "PARTIAL") and complete
-    return (workflow_complete and observation_count == 900
-            and all(statuses[name] in allowed[name] for name in keys)), statuses
+    qualified, statuses = analysis_result_is_qualified(evidence)
+    return qualified and observation_count == 900, statuses
 
 
 def percentile(values, p):

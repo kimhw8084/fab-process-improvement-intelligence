@@ -10,6 +10,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from qualification.benchmark import product_source_fingerprint  # noqa: E402
+from qualification.workflow_qualification import analysis_result_is_qualified, performance_record_is_qualified  # noqa: E402
 
 
 def run(command):
@@ -36,15 +37,7 @@ def benchmark_matches_product_sources(performance):
 
 
 def benchmark_workflow_is_qualified(performance):
-    workflow = performance.get("result_checks", {}).get("integrated_full_workflow_demo_900_rows", {})
-    statuses = workflow.get("capability_statuses", {})
-    acceptable = {"D01": {"VALID", "INCONCLUSIVE"}, "D02": {"VALID", "INCONCLUSIVE"},
-                  "D03": {"VALID", "LIMITED_SCOPE"}, "D04": {"PROPOSED", "INCONCLUSIVE"},
-                  "D05": {"ESTIMATED", "INCONCLUSIVE"}}
-    return (workflow.get("status") in {"VALID", "PARTIAL"}
-            and workflow.get("qualification_status") == "PASS"
-            and set(statuses) == set(acceptable)
-            and all(statuses[name] in allowed for name, allowed in acceptable.items()))
+    return performance_record_is_qualified(performance)
 
 
 def archive_qualification_pass(evaluated_commit):
@@ -115,26 +108,14 @@ def main():
         required_artifacts = ("D01_sensitivity", "D02_observed_process_window", "D02_robust_observed_region",
                               "D02_supported_region", "D03_tradeoffs", "D04_experiment_proposal", "D05_effectiveness")
         complete = all(name in dossier for name in required_artifacts)
-        capability_statuses = ({"D01": dossier["D01_sensitivity"].get("status"),
-                                "D02": dossier["D02_supported_region"].get("status"),
-                                "D03": dossier["D03_tradeoffs"].get("status"),
-                                "D04": dossier["D04_experiment_proposal"].get("status"),
-                                "D05": dossier["D05_effectiveness"].get("status")} if complete else {})
-        acceptable_capability_states = {"D01": {"VALID", "INCONCLUSIVE"},
-                                         "D02": {"VALID", "INCONCLUSIVE"},
-                                         "D03": {"VALID", "LIMITED_SCOPE"},
-                                         "D04": {"PROPOSED", "INCONCLUSIVE"},
-                                         "D05": {"ESTIMATED", "INCONCLUSIVE"}}
-        capability_states_known = complete and all(
-            capability_statuses[name] in acceptable for name, acceptable in acceptable_capability_states.items())
+        evidence_outputs_qualified, capability_statuses = analysis_result_is_qualified(evidence)
         supported_window = dossier.get("D02_supported_region", {})
         calibration = supported_window.get("calibration", {})
         d02_ok = (supported_window.get("status") == "VALID"
                   and supported_window.get("candidate_count", 0) > 0
                   and calibration.get("calibration_unit_count", 0) >= 19
                   and calibration.get("coverage_guarantee", "").startswith("none;"))
-        workflow_pass = (evidence.get("status") in ("VALID", "PARTIAL")
-                         and capability_states_known and d02_ok)
+        workflow_pass = complete and evidence_outputs_qualified and d02_ok
         demo_result.update({"status": "PASS" if workflow_pass else "FAIL",
                             "result_status": evidence["status"], "mode": evidence["mode"],
                             "capability_statuses": capability_statuses,

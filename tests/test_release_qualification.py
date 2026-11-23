@@ -3,6 +3,7 @@ import unittest
 
 from qualification.benchmark import integrated_demo_is_qualified, product_source_fingerprint
 from qualification.run_release_checks import benchmark_matches_product_sources, benchmark_workflow_is_qualified
+from qualification.workflow_qualification import analysis_result_is_qualified
 
 
 class BenchmarkSourceBindingTests(unittest.TestCase):
@@ -32,7 +33,8 @@ class IntegratedDemoStatusTests(unittest.TestCase):
                 "D03_tradeoffs": "LIMITED_SCOPE", "D04_experiment_proposal": "PROPOSED",
                 "D05_effectiveness": "ESTIMATED"}
         dossier = {name: {"status": status} for name, status in keys.items()}
-        qualified, statuses = integrated_demo_is_qualified({"status": "PARTIAL", "artifacts": [dossier]}, 900)
+        qualified, statuses = integrated_demo_is_qualified(
+            {"status": "PARTIAL", "product_id": "p4", "artifacts": [dossier]}, 900)
         self.assertTrue(qualified)
         self.assertEqual(statuses["D03"], "LIMITED_SCOPE")
         self.assertEqual(statuses["D04"], "PROPOSED")
@@ -40,10 +42,12 @@ class IntegratedDemoStatusTests(unittest.TestCase):
     def test_missing_or_unexpected_capability_refuses_benchmark_qualification(self):
         dossier = {"D01_sensitivity": {"status": "VALID"}, "D02_supported_region": {"status": "VALID"},
                    "D03_tradeoffs": {"status": "LIMITED_SCOPE"}, "D04_experiment_proposal": {"status": "PROPOSED"}}
-        qualified, _ = integrated_demo_is_qualified({"status": "PARTIAL", "artifacts": [dossier]}, 900)
+        qualified, _ = integrated_demo_is_qualified(
+            {"status": "PARTIAL", "product_id": "p4", "artifacts": [dossier]}, 900)
         self.assertFalse(qualified)
         dossier["D05_effectiveness"] = {"status": "REFUSED"}
-        qualified, _ = integrated_demo_is_qualified({"status": "PARTIAL", "artifacts": [dossier]}, 900)
+        qualified, _ = integrated_demo_is_qualified(
+            {"status": "PARTIAL", "product_id": "p4", "artifacts": [dossier]}, 900)
         self.assertFalse(qualified)
 
 
@@ -58,6 +62,19 @@ class PerformanceWorkflowQualificationTests(unittest.TestCase):
         self.assertFalse(benchmark_workflow_is_qualified(report))
         del workflow["capability_statuses"]["D05"]
         self.assertFalse(benchmark_workflow_is_qualified(report))
+
+
+class OfflineWorkflowQualificationTests(unittest.TestCase):
+    def test_extracted_partial_workflow_is_accepted_but_errors_and_wrong_product_are_refused(self):
+        dossier = {"D01_sensitivity": {"status": "VALID"}, "D02_supported_region": {"status": "VALID"},
+                   "D03_tradeoffs": {"status": "LIMITED_SCOPE"}, "D04_experiment_proposal": {"status": "PROPOSED"},
+                   "D05_effectiveness": {"status": "ESTIMATED"}}
+        result = {"status": "PARTIAL", "product_id": "p4", "artifacts": [dossier]}
+        qualified, statuses = analysis_result_is_qualified(result)
+        self.assertTrue(qualified)
+        self.assertEqual(statuses["D03"], "LIMITED_SCOPE")
+        self.assertFalse(analysis_result_is_qualified({**result, "product_id": "p3"})[0])
+        self.assertFalse(analysis_result_is_qualified({**result, "status": "REFUSED"})[0])
 
 
 if __name__ == "__main__":

@@ -1,23 +1,22 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "b1b08234e9aedf06a65e713cd2c27a7ff971b0bc",
+  "as_of_source_commit": "fa65d076226805aeea43bff2690235fd3745f4e4",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 8,
-    "task": "From the clean evidence commit, build the exact offline archive, reproduce it twice from clean detached worktrees, run fresh no-pip extracted qualification with network denied, then rerun the release runner against that exact archive and verify E10 without changing pending company/accessibility gates.",
+    "task": "Commit the shared complete-workflow acceptance used by the performance, release, and offline qualifiers; the 158-test release runner now passes. Rebuild the archive from the clean corrected source commit, reproduce it twice from clean worktrees, run fresh no-pip extraction with network denied, and correct any real packaging or runtime defect before setting E10.",
     "inspect": [
-      "release/BENCHMARK_REPORT.json",
-      "release/D04_OSS_COMPARISON.json",
-      "release/DEPENDENCY_AUDIT.json",
-      "release/SOURCE_SECURITY_SCAN.json",
+      "qualification/workflow_qualification.py",
+      "qualification/offline_qualify.py",
+      "tests/test_release_qualification.py",
       "qualification/build_transfer_bundle.py",
       "qualification/build_transfer_bundle.py",
       "qualification/check_reproducibility.py",
       "qualification/offline_qualify.py",
       "release/PUBLISHED_ARTIFACT_RECONCILIATION.json"
     ],
-    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
-    "acceptance": "The locally committed evidence snapshot contains current passing 157-test, dependency, Bandit, UI, schema, D04 OSS, and source-fingerprinted performance evidence; the exact archive rebuilds byte-identically twice from separate clean worktrees; ZIP inventory, source manifest, source commit, sidecar and fresh offline extracted behavior match; E07 and company/legal gates remain pending; no network publication occurs."
+    "first_command": "rtk git diff --check && rtk git status --short",
+    "acceptance": "Performance, release, and offline gates share one tested policy: a full VALID/PARTIAL dossier is accepted only with all five documented capability outputs; missing, refused, or wrong-product evidence fails. The exact rebuilt archive passes source manifest, checksum, two clean-worktree reproduction, no-pip extracted doctor/demo/analysis and network-deny probe; E07 and company/legal gates remain pending; no publication occurs."
   },
   "ordered_queue": [
     {"priority": 1, "status": "IMPLEMENTED_WITH_LIMITS", "task": "D02 pointwise support/uncertainty remains advisory; independent-unit max-score split-conformal and Bonferroni metrics now provide an assumption-conditional 95% finite exact-setting panel band when each calibration unit has the same complete panel and finite rank; 1,000 fixed-seed trials gave 966/1,000 joint coverage and 0/1,000 post-selection false-feasible under the generator. Interpolation, source assumptions and split provenance remain unqualified."},
