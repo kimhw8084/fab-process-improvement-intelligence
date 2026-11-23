@@ -108,11 +108,97 @@
         "oracle": "held-out experiment oracle",
         "required_result": "time/run-separated validation required",
         "test": "tests/test_p4_scientific.py::test_p4_12_future_leakage_is_refused"
+      },
+      {
+        "id": "P4-13",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "outcome-dependent missing metrics remove high-response observations",
+        "oracle": "known full-data slope 9 versus selected complete-case slope 5",
+        "required_result": "no complete-case sensitivity claim; refuse with missingness limitation",
+        "test": "tests/test_p4_scientific.py::test_outcome_dependent_missingness_refuses_biased_complete_case_sensitivity"
+      },
+      {
+        "id": "P4-14",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "exact selected setting is observed at a different modeled fixed factor",
+        "oracle": "SYN-PRECOMMITTED-FIXED-CONTROL-001 independent-population fixture",
+        "required_result": "exclude incompatible units from exact-setting held-out evidence and report their count",
+        "test": "tests/test_d01_d02_independent.py::SupportedWindowQualification.test_evaluation_requires_exact_fixed_modeled_controls"
+      },
+      {
+        "id": "P4-15",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "selected candidate set includes an interpolated cell made infeasible by an unseen interaction",
+        "oracle": "fixed hidden-response interaction; 20 of 20 common held-out lots violate at least one selected setting",
+        "required_result": "report selected-set violations on complete independent evaluation units; make no population or multiplicity-adjusted guarantee",
+        "test": "tests/test_d01_d02_independent.py::SupportedWindowQualification.test_unseen_nonlinear_interaction_creates_false_feasible_interpolated_cell"
+      },
+      {
+        "id": "P4-16",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "observation-level measurement uncertainty is supplied to ordinary least squares",
+        "oracle": "explicit unsupported-method refusal",
+        "required_result": "refuse inference rather than silently dropping or under-propagating measurement uncertainty",
+        "test": "tests/test_p4_scientific.py::test_supplied_measurement_uncertainty_is_not_silently_ignored"
       }
     ],
     "missing_case_evidence": [],
     "missing_test_names": [],
     "status": "PASS"
+  },
+  "d02_replicate_shift_benchmark": {
+    "coverage_by_future_observations_per_setting": {
+      "1": 0.9456,
+      "2": 0.8978,
+      "4": 0.8194
+    },
+    "evidence": "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "independent iid finite-panel oracle; replication-shift challenge only",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials": 5000
+  },
+  "d02_simultaneous_coverage_benchmark": {
+    "evidence": "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
+    "joint_panel_coverage": 0.966,
+    "joint_panel_miss_wilson95": [
+      0.024431348663226313,
+      0.04713519024531107
+    ],
+    "post_selection_false_feasible_unconditional": 0.0,
+    "runtime_dependencies_added": false,
+    "scope": "independent nonlinear correlated-lot synthetic challenge under complete-panel assumptions",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials": 1000
+  },
+  "d03_bounded_mean_benchmark": {
+    "bonferroni_t_joint_coverage_by_sample_size": {
+      "30": 0.918,
+      "60": 0.96
+    },
+    "bounded_joint_coverage_wilson95_lower_by_sample_size": {
+      "30": 0.9923756595384479,
+      "60": 0.9923756595384479
+    },
+    "bounded_to_t_mean_width_ratio_by_sample_size": {
+      "30": 3.0107757009383342,
+      "60": 3.580704753633478
+    },
+    "evidence": "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "independent skewed bounded synthetic challenge with correlated repeated lots; finite evidence only",
+    "source_fingerprint_matches": true,
+    "status": "PASS",
+    "trials_by_sample_size": {
+      "30": 500,
+      "60": 500
+    }
   },
   "d04_oss_benchmark": {
     "d_optimal_efficiency_percent": 99.99999999999997,
@@ -141,7 +227,7 @@
     "D02_empirical_calibration": {
       "calibration_units": 20,
       "candidate_count": 76,
-      "coverage_guarantee": "none; local selection does not establish conditional coverage",
+      "coverage_guarantee": "none; this local score rank establishes neither conditional nor simultaneous coverage",
       "grid_cells": 225,
       "qualification": "PASS",
       "status": "VALID",
@@ -154,10 +240,18 @@
       "D04",
       "D05"
     ],
+    "capability_statuses": {
+      "D01": "VALID",
+      "D02": "VALID",
+      "D03": "LIMITED_SCOPE",
+      "D04": "PROPOSED",
+      "D05": "ESTIMATED"
+    },
     "command": "python -m fabintel analyze --input fixtures/full_workflow_demo.json --output release/full_workflow_demo_evidence.json",
     "evidence": "release/full_workflow_demo_evidence.json",
     "mode": "SYNTHETIC_DEMO",
-    "result_status": "VALID",
+    "qualification_scope": "D01-D05 execution and evidence assembly; reported PARTIAL/LIMITED_SCOPE states remain scientific limitations, not workflow errors",
+    "result_status": "PARTIAL",
     "return_code": 0,
     "status": "PASS"
   },
@@ -176,14 +270,16 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
+    "package_source_snapshot": "b39cfec77a03f6ca064920e6374f5785126b0579",
     "product_code_unchanged_after_benchmark": true,
-    "source_commit": "30f4687438279d9ddf1fcdcc03e80e08f77acf05",
+    "product_source_manifest_matches": true,
+    "product_source_manifest_sha256": "65a9f988a38b2be67dec4c9d24999b335a3857ed2e9a54fa0d20f0e196e55f35",
+    "source_commit": "b39cfec77a03f6ca064920e6374f5785126b0579",
     "status": "PASS"
   },
   "source_security_scan": {
     "evidence": "release/SOURCE_SECURITY_SCAN.json",
-    "finding_count": 5,
+    "finding_count": 8,
     "high_or_medium_findings": 0,
     "independent_human_review": "PENDING",
     "status": "PASS_LIMITED_SCOPE",
@@ -211,20 +307,29 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 8,
+    "component_tests": 12,
+    "disposable_host_evidence": {
+      "current_p4_source_hashes_match": true,
+      "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
+      "formal_accessibility": "PENDING",
+      "p1_owner_and_source_version": "PENDING",
+      "scope": "Synthetic local browser workflow over an unversioned accessible P1 source snapshot composed in disposable /tmp copy with current P4 source and evaluation fixture; not upstream or company qualification",
+      "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
+    },
     "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
-    "host_integration": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
+    "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY",
+    "source_declared_tests": 12,
     "status": "PASS_LOCAL_MODULE_ONLY",
     "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 5.568,
+    "duration_seconds": 11.682,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 91,
+    "tests_run": 172,
     "tests_skipped": 0
   }
 }

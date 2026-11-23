@@ -23682,6 +23682,11 @@
         "simultaneous_exact_setting_screen": {
           "calibration_unit_count": 0,
           "common_exact_settings": [],
+          "independent_evaluation_panel_compatibility": {
+            "interpretation": "evaluation panel structure cannot be compared with an unavailable precommitted band",
+            "reason": "a precommitted model, threshold, metric-family, and exact-setting panel plan is required for simultaneous calibration",
+            "status": "NOT_AVAILABLE"
+          },
           "metric_quantiles": {},
           "pointwise_supported_candidate_count": 76,
           "precommit": null,
@@ -23844,7 +23849,9 @@
                   1.8032111754707314
                 ],
                 "mean": 1.7996391,
-                "standard_error": 0.0018002444227707454
+                "standard_error": 0.0018002444227707454,
+                "unit_value_max": 1.82791,
+                "unit_value_min": 1.77202
               },
               "yield_index": {
                 "familywise_ci95": null,
@@ -23853,7 +23860,9 @@
                   86.06668761338584
                 ],
                 "mean": 86.0317625,
-                "standard_error": 0.01760145918042887
+                "standard_error": 0.01760145918042887,
+                "unit_value_max": 86.31833,
+                "unit_value_min": 85.68982
               }
             },
             "uncertainty_dominance_status": "NO_INTERVAL_SEPARATED_DOMINATOR"
@@ -23992,7 +24001,9 @@
                   2.1732785112386885
                 ],
                 "mean": 2.169726,
-                "standard_error": 0.0017903844968231411
+                "standard_error": 0.0017903844968231411,
+                "unit_value_max": 2.198,
+                "unit_value_min": 2.14201
               },
               "yield_index": {
                 "familywise_ci95": null,
@@ -24001,7 +24012,9 @@
                   89.18601819287652
                 ],
                 "mean": 89.1510449,
-                "standard_error": 0.01762574054293236
+                "standard_error": 0.01762574054293236,
+                "unit_value_max": 89.42831,
+                "unit_value_min": 88.80636
               }
             },
             "uncertainty_dominance_status": "NO_INTERVAL_SEPARATED_DOMINATOR"
@@ -24142,7 +24155,9 @@
                   2.6731485787256584
                 ],
                 "mean": 2.6695641,
-                "standard_error": 0.0018064953798653184
+                "standard_error": 0.0018064953798653184,
+                "unit_value_max": 2.69796,
+                "unit_value_min": 2.64206
               },
               "yield_index": {
                 "familywise_ci95": null,
@@ -24151,7 +24166,9 @@
                   87.6856774884033
                 ],
                 "mean": 87.650721,
-                "standard_error": 0.0176172714723737
+                "standard_error": 0.0176172714723737,
+                "unit_value_max": 87.9393,
+                "unit_value_min": 87.30734
               }
             },
             "uncertainty_dominance_status": "MARGINAL_INTERVAL_SEPARATED_DOMINATED"
@@ -24317,11 +24334,13 @@
         "objective_metrics": [
           {
             "direction": "maximize",
-            "metric": "yield_index"
+            "metric": "yield_index",
+            "unit": "synthetic index"
           },
           {
             "direction": "minimize",
-            "metric": "defect_rate"
+            "metric": "defect_rate",
+            "unit": "synthetic rate"
           }
         ],
         "pareto_observation_ids": [

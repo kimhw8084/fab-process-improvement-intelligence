@@ -1,28 +1,27 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "2fa35189fdc60312eba8e8cca7809100aee60b87",
+  "as_of_source_commit": "b39cfec77a03f6ca064920e6374f5785126b0579",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 1,
-    "task": "Review and locally commit the D02 exact-panel observation-count and independent-unit identity guards plus the D03 bounded mean-envelope implementation, tests, benchmarks, current disposable P1 source pins, and ledgers. Then regenerate exact-source performance/security evidence and run release qualification; do not publish.",
+    "task": "Continue D02 with an independently generated cross-tool/time calibration-shift challenge. Measure coverage under unseen and shifted tool-period mixes, then implement explicit calibration-transfer status or refusal that preserves candidate-selection isolation.",
     "inspect": [
       "products/p4/window.py",
-      "products/p4/tradeoffs.py",
-      "products/p4/investigation.v1.schema.json",
-      "qualification/benchmark_d02_replicate_shift.py",
+      "tests/test_d01_d02_independent.py",
       "qualification/benchmark_d02_simultaneous.py",
-      "qualification/benchmark_d03_bounded_mean.py",
-      "qualification/run_release_checks.py",
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
+      "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
+      "qualification/benchmark_d02_replicate_shift.py",
+      "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
+      "products/p4/ui/P4Panel.tsx"
     ],
-    "first_command": "rtk git diff --check",
-    "acceptance": "Current full Python suite: 172 PASS, 0 skipped; D02 replicate guard/refusal tests pass; schema check PASS; P4 panel 12 tests/typecheck PASS; disposable P1 host-route 11 PASS and frontend 51/typecheck/build PASS. D02 fixed iid panel oracle: 966/1000 joint panel coverage (Wilson95 0.953-0.976), 0/1000 false-feasible; separate 5000-trial row-count shift: 94.56% at matching one row, 89.78% at two, 81.94% at four. Current archive and source-bound performance/security reports are stale and must be rebuilt/refreshed after commit. The D02 count diagnostic has not been re-observed in browser; company-only gates remain PENDING_INTERNAL."
+    "first_command": "rtk rg -n partition_composition products/p4/window.py",
+    "acceptance": "A fixed independent holdout challenge separates same-population, shifted-known-stratum, and unseen-stratum cases; coverage/risk is measured with an independent oracle; P4 distinguishes compatible, counterevidence, and not-estimable outcomes without changing fit, calibration, or candidate selection from evaluation outcomes. Report synthetic limits and verify D02 evidence appears in the P1 panel test and host route."
   },
   "ordered_queue": [
     {
       "priority": 1,
       "status": "IMPLEMENTED_WITH_LIMITS; REPLICATE_STRUCTURE_AND_UNIT_ID_GUARDS",
-      "task": "D02 retains pointwise advisory screening, assumption-conditional exact-setting max-score calibration, independent evaluation and tool/time/strata diagnostics. Calibration precommit fixes observations per panel setting (legacy default one); row-count mismatches and null/blank/composite unit IDs withhold the finite band. Held-out observation structure is reported descriptively without candidate-selection leakage. Independent 5000-trial normal challenge: 94.56% matched count, 89.78% at two future rows/setting and 81.94% at four. 1000-trial nonlinear/correlated exact-panel challenge: 966/1000 joint coverage (Wilson95 0.953-0.976), zero false-feasible units; assumptions remain unverified."
+      "task": "D02 pointwise and exact-panel calibration are source/test qualified; row-count and invalid-unit guards fail closed; held-out row-count mismatch is descriptive and candidate-selection isolated. Next challenge: calibration transfer across cross-classified tool/time strata, including novel strata and an explicit status/refusal when observed counterevidence contradicts transfer."
     },
     {
       "priority": 2,

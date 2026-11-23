@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-11-23T15:04:16Z",
+  "generated_at": "2026-11-23T15:59:57Z",
   "metrics": {
     "CONFIDENCE.HIGH": 8,
     "CONFIDENCE.LOW": 0,
@@ -10,7 +10,7 @@
     "SEVERITY.LOW": 8,
     "SEVERITY.MEDIUM": 0,
     "SEVERITY.UNDEFINED": 0,
-    "loc": 5459,
+    "loc": 5681,
     "nosec": 0,
     "skipped_tests": 0
   },
@@ -191,7 +191,7 @@
         "test_id": "B311"
       }
     ],
-    "product_source_commit": "361dcd64d468f294cc2991120cad5353316c4b23",
+    "product_source_commit": "b39cfec77a03f6ca064920e6374f5785126b0579",
     "scanner_scope": "P4 runtime and product Python sources; excludes tests, fixtures, benchmark, and release tooling.",
     "tool": "Bandit",
     "tool_version": "1.9.4"
