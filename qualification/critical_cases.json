@@ -151,5 +151,14 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_extreme_cluster_size_imbalance_withholds_nominally_large_cluster_inference"
+  },
+  {
+    "id": "P4-18",
+    "input_challenge": "independent lots share residual shocks across chamber and product groups",
+    "required_result": "report crossed declared group dimensions, preserve the point estimate, and withhold one-way uncertainty",
+    "oracle": "independent 1200-trial randomized chamber-product null challenge: one-way Statsmodels lot-cluster false-positive rate 33.5%; two-way chamber-product reference 4.67%; P4 abstains on every diagnostic case",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference"
   }
 ]

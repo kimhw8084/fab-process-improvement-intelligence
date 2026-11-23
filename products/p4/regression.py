@@ -231,6 +231,11 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     fixed_fields = options.get("fixed_effect_fields", [])
     if not isinstance(fixed_fields, list) or len(set(fixed_fields)) != len(fixed_fields):
         raise ModelError("fixed_effect_fields must be a list of unique row field paths")
+    shared_dependence_fields = options.get("shared_dependence_fields", [])
+    if (not isinstance(shared_dependence_fields, list)
+            or any(not isinstance(field, str) or not field.strip() for field in shared_dependence_fields)
+            or len(set(shared_dependence_fields)) != len(shared_dependence_fields)):
+        raise ModelError("shared_dependence_fields must be a list of unique nonempty row field paths")
     max_levels = options.get("max_fixed_effect_levels", 24)
     if not isinstance(max_levels, int) or isinstance(max_levels, bool) or not 2 <= max_levels <= 100:
         raise ModelError("max_fixed_effect_levels must be between 2 and 100")
@@ -239,6 +244,14 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     independent_unit_count = None
     auto_clustered = False
     cluster_nesting = None
+    shared_dependence_diagnostic = None
+    crossed_shared_dependence = False
+    if shared_dependence_fields and independent_unit_field is None:
+        return {"status": "INCONCLUSIVE",
+                "reason": "declared shared-dependence fields require an explicit independent_unit_field; uncertainty is withheld",
+                "n": len(rows), "terms": {}, "diagnostic_warnings": [],
+                "inference": {"declared_shared_dependence_fields": shared_dependence_fields,
+                              "shared_dependence": {"status": "NOT_ASSESSABLE_NO_INDEPENDENT_UNIT"}}}, None
     if independent_unit_field is not None:
         if not isinstance(independent_unit_field, str) or not independent_unit_field:
             raise ModelError("independent_unit_field must be a nonempty row field path")
@@ -253,6 +266,44 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                     "n": len(rows), "terms": {}, "diagnostic_warnings": [],
                     "inference": {"declared_independent_unit_field": independent_unit_field}}, None
         independent_unit_count = len(set(independent_keys))
+        if shared_dependence_fields:
+            per_field = []
+            for field in shared_dependence_fields:
+                try:
+                    values = [_get_field(row, field) for row in rows]
+                    if any(value is None or value == "" for value in values):
+                        raise ModelError("declared shared-dependence field is empty")
+                    unit_groups = {}
+                    group_units = {}
+                    for unit_key, value in zip(independent_keys, values):
+                        group_key = _key(value)
+                        unit_groups.setdefault(unit_key, set()).add(group_key)
+                        group_units.setdefault(group_key, set()).add(unit_key)
+                except ModelError:
+                    return {"status": "INCONCLUSIVE",
+                            "reason": f"declared shared-dependence field {field} is missing or empty; sensitivity uncertainty is withheld",
+                            "n": len(rows), "terms": {}, "diagnostic_warnings": [],
+                            "inference": {"declared_independent_unit_field": independent_unit_field,
+                                          "declared_shared_dependence_fields": shared_dependence_fields,
+                                          "shared_dependence": {"status": "NOT_ASSESSABLE_INVALID_FIELD",
+                                                                 "field": field}}}, None
+                crossed_groups = [units for units in group_units.values() if len(units) > 1]
+                field_crossed = bool(crossed_groups)
+                crossed_shared_dependence = crossed_shared_dependence or field_crossed
+                per_field.append({"field": field,
+                                  "unique_group_count": len(group_units),
+                                  "crossed_group_count": len(crossed_groups),
+                                  "maximum_independent_units_per_group": max(
+                                      (len(units) for units in group_units.values()), default=0),
+                                  "independent_units_spanning_multiple_groups": sum(
+                                      1 for groups in unit_groups.values() if len(groups) > 1),
+                                  "status": "CROSSED_SHARED_GROUPS_DETECTED" if field_crossed
+                                  else "NO_CROSS_UNIT_SHARING_DETECTED"})
+            shared_dependence_diagnostic = {
+                "status": "CROSSED_DEPENDENCE_DETECTED" if crossed_shared_dependence else "ASSESSED_NO_CROSSED_GROUPS",
+                "fields": per_field,
+                "interpretation": "each declared field is a potential shared residual-dependence dimension; one-way covariance cannot account for groups spanning independent units",
+                "limitations": "only caller-declared fields are screened; undeclared shared or latent dependence is not detected"}
         covariance = options.get("covariance", "HC3")
         if covariance not in ("HC3", "cluster", "classical"):
             raise ModelError("covariance must be HC3, cluster, or classical")
@@ -393,6 +444,9 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     if covariance_type not in ("HC3", "cluster", "classical"):
         raise ModelError("covariance must be HC3, cluster, or classical")
     warnings = []
+    if crossed_shared_dependence:
+        warnings.append(
+            "robust intervals withheld: one or more declared shared-dependence groups span independent units; the configured covariance does not account for crossed dependence")
     if auto_clustered:
         warnings.append(
             f"repeated rows were detected within declared independent units; cluster-robust uncertainty on {independent_unit_field} replaced row-independent covariance")
@@ -448,7 +502,9 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
         # sample. The effective count is used only to withhold unstable
         # inference; it never upgrades or validates a model.
         inferential_df = min(cluster_count - 1, floor(effective_cluster_count + 1e-9) - 1)
-    if degenerate_residuals:
+    if crossed_shared_dependence:
+        pass
+    elif degenerate_residuals:
         warnings.append("residual variation is numerically degenerate; inferential intervals withheld")
     elif covariance_type == "classical":
         covariance = [[residual_variance*bread[i][j] for j in range(p)] for i in range(p)]
@@ -510,8 +566,11 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                              "observed_range": [min(factor_values[name]), max(factor_values[name])],
                              "center": centers[name], "scale": scales[name]}
                       for name in factor_names}
+    shared_dependence_reason = (
+        "declared shared-dependence groups cross independent units; the configured covariance does not account for this dependence, so uncertainty is withheld"
+        if crossed_shared_dependence else None)
     report = {"status": "VALID" if covariance is not None else "INCONCLUSIVE",
-              "reason": None if covariance is not None else "point estimates are identified but robust uncertainty is unavailable",
+              "reason": None if covariance is not None else (shared_dependence_reason or "point estimates are identified but robust uncertainty is unavailable"),
               "n": n, "residual_df": df, "metric": metric, "term_count": p,
               "terms": term_results, "point_estimates": point_terms,
               "r_squared": r2, "residual_sd": sqrt(max(0.0, residual_variance)),
@@ -527,6 +586,8 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                             "declared_independent_unit_field": independent_unit_field,
                             "declared_independent_unit_count": independent_unit_count,
                             "cluster_nesting": cluster_nesting,
+                            "declared_shared_dependence_fields": shared_dependence_fields,
+                            "shared_dependence": shared_dependence_diagnostic,
                             "covariance_auto_selected_for_repeated_units": auto_clustered},
               "diagnostics": {"rank": rank_info["rank"], "condition_proxy": rank_info.get("condition_proxy"),
                               "maximum_leverage": max_leverage, "high_leverage_observation_ids": high_leverage,
@@ -541,6 +602,8 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
               "assumptions": ["observational conditional mean is represented by the selected linear/quadratic terms",
                               "HC3 handles heteroskedasticity but assumes independent observations",
                               "cluster covariance allows within-cluster dependence and relies on independent clusters",
+                              "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
+                              "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
                               "classical covariance additionally assumes homoskedastic errors",
                               "measurement uncertainty was not supplied or propagated",
                               "fixed effects adjust only for the explicitly selected fields"],

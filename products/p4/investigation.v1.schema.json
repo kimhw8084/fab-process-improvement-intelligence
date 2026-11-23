@@ -146,6 +146,7 @@
         "covariance": {"enum": ["HC3", "cluster", "classical"]},
         "cluster_field": {"type": "string", "minLength": 1},
         "minimum_clusters": {"type": "integer", "minimum": 10},
+        "shared_dependence_fields": {"type": "array", "uniqueItems": true, "description": "Caller-declared row fields that may share residual shocks across independent units. P4 checks group overlap only; it does not infer whether dependence exists or detect undeclared sources.", "items": {"type": "string", "minLength": 1}},
         "fixed_effect_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string"}},
         "fixed_effect_interactions": {"type": "array", "uniqueItems": true, "items": {"type": "array", "minItems": 2, "maxItems": 2, "uniqueItems": true, "items": {"type": "string"}}},
         "max_fixed_effect_levels": {"type": "integer", "minimum": 2, "maximum": 100},

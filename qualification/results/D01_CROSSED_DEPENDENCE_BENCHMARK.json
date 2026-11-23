@@ -1,0 +1,149 @@
+{
+  "benchmark_script_sha256": "c8c50b02fa03846bb545c16e611502c07600fbfec2f79ec33c9214f0fc78298b",
+  "generating_mechanism": {
+    "assignment": "one treated and one control lot randomized within every chamber-product cell",
+    "chambers": 30,
+    "independence": "lot noise is independent; residual treatment response is shared across lots by chamber and by product",
+    "independent_units": 1800,
+    "lot_noise_sd": 0.35,
+    "observations_per_chamber_product_cell": 2,
+    "products": 30,
+    "shared_random_effect_sd": {
+      "chamber_intercept": 0.8,
+      "chamber_treatment_slope": 0.45,
+      "product_intercept": 0.8,
+      "product_treatment_slope": 0.45
+    },
+    "true_treatment_effect": 0.0
+  },
+  "interpretation": "the two-way Statsmodels candidate is benchmark-qualified only for this two-dimension synthetic generator; P4 deliberately withholds intervals because the product workflow has no production-qualified multiway covariance engine and real dependence mappings remain caller supplied",
+  "metrics": {
+    "one_way_lot_cluster": {
+      "false_positive_rate": 0.335,
+      "false_positives": 402,
+      "wilson_95": [
+        0.3088590747006386,
+        0.3621939554982639
+      ]
+    },
+    "two_way_chamber_product": {
+      "false_positive_rate": 0.04666666666666667,
+      "false_positives": 56,
+      "wilson_95": [
+        0.03611089196253996,
+        0.060115615250606366
+      ]
+    }
+  },
+  "p4_behavior": {
+    "all_checks_abstained": true,
+    "checks": 8,
+    "crossed_dependence_abstentions": 8,
+    "diagnostics": [
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 0
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 1
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 2
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 3
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 4
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 5
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 6
+      },
+      {
+        "crossed_dependence_status": "CROSSED_DEPENDENCE_DETECTED",
+        "crossed_groups_by_field": {
+          "chamber": 30,
+          "product": 30
+        },
+        "interval_available": false,
+        "model_available": true,
+        "status": "INCONCLUSIVE",
+        "trial": 7
+      }
+    ]
+  },
+  "product_source_sha256": "46bc827b455a651f0ffd42f9fd62bae5e36e4f4e11de31a52f4e43c2081c3b44",
+  "qualification": "PASS",
+  "reference": {
+    "confidence_level": 0.95,
+    "library": "statsmodels",
+    "scipy_version": "1.11.4",
+    "two_way_df": 29,
+    "two_way_method": "Cameron-Gelbach-Miller inclusion-exclusion covariance via cov_cluster_2groups",
+    "version": "0.15.0"
+  },
+  "runtime_dependencies_added": false,
+  "schema": "p4-d01-crossed-dependence-benchmark/v1",
+  "scope": "synthetic null-method challenge only; no causal, manufacturing, conditional-coverage, or production claim",
+  "seed": 20261123,
+  "trials": 1200,
+  "two_way_invalid_covariance_trials": 0
+}

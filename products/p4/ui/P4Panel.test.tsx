@@ -145,6 +145,31 @@ describe("P4 headless suite module", () => {
     expect(within(d01Region).getByText(/95% interval Not provided/)).toBeTruthy();
   });
 
+  it("shows crossed chamber and product dependence as an uncertainty refusal", () => {
+    const crossedEvidence = structuredClone(evidence);
+    const artifact = crossedEvidence.artifacts?.[0] as Record<string, unknown>;
+    const d01 = artifact.D01_sensitivity as Record<string, unknown>;
+    d01.status = "INCONCLUSIVE";
+    d01.interpretation = "Point estimate retained; intervals withheld for declared crossed group dependence.";
+    d01.terms = { pressure: { estimate: 0.4, ci95: null, standard_error: null } };
+    d01.inference = {
+      covariance: "cluster", declared_independent_unit_field: "lot_id",
+      shared_dependence: { status: "CROSSED_DEPENDENCE_DETECTED", fields: [
+        { field: "chamber", crossed_group_count: 8 },
+        { field: "product", crossed_group_count: 6 },
+      ] },
+    };
+    d01.diagnostic_warnings = [
+      "robust intervals withheld: declared shared-dependence groups span independent units; configured covariance does not account for crossed dependence",
+    ];
+    render(<P4Panel sourcePreview={sourcePreview} evidence={crossedEvidence} />);
+    const d01Region = screen.getByRole("region", { name: "D01 · Factor sensitivity" });
+    expect(within(d01Region).getAllByText(/CROSSED_DEPENDENCE_DETECTED/).length).toBeGreaterThan(0);
+    expect(within(d01Region).getAllByText(/\"field\":\"chamber\"/).length).toBeGreaterThan(0);
+    expect(within(d01Region).getByText(/intervals withheld.*crossed dependence/)).toBeTruthy();
+    expect(within(d01Region).getByText(/95% interval Not provided/)).toBeTruthy();
+  });
+
   it("filters the D02 table while preserving observed, interpolated, and unsupported labels", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });

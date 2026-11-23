@@ -113,6 +113,80 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertTrue(any("observation-count concentration" in warning
                             for warning in report["diagnostic_warnings"]))
 
+    def test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference(self):
+        rows = []
+        for lot in range(120):
+            x = float((lot * 7) % 13)
+            chamber = f"CH-{lot % 8}"
+            product = f"PR-{(lot // 8) % 6}"
+            for repeat in range(2):
+                y = 2.0 + 0.4*x + 0.3*(lot % 8) - 0.2*(lot % 6) + 0.01*repeat
+                rows.append({"id": f"CROSSED-{lot}-{repeat}", "factors": {"x": x},
+                             "metrics": {"y": y}, "lot_id": f"LOT-{lot}",
+                             "chamber": chamber, "product": product})
+        report, model = fit_linear_model(
+            rows, {"x": {"role": "measured", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 30,
+             "fixed_effect_fields": ["chamber", "product"],
+             "shared_dependence_fields": ["chamber", "product"]})
+        diagnostic = report["inference"]["shared_dependence"]
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertIsNotNone(model)
+        self.assertIsNotNone(report["terms"]["x"]["estimate"])
+        self.assertIsNone(report["terms"]["x"]["ci95"])
+        self.assertEqual(model.predict({"x": 4.0}, {"chamber": "CH-0", "product": "PR-0"})["status"],
+                         "UNCERTAINTY_UNAVAILABLE")
+        self.assertEqual(diagnostic["status"], "CROSSED_DEPENDENCE_DETECTED")
+        self.assertEqual([item["field"] for item in diagnostic["fields"]], ["chamber", "product"])
+        self.assertTrue(all(item["crossed_group_count"] > 0 for item in diagnostic["fields"]))
+        self.assertIn("configured covariance does not account", report["reason"])
+
+    def test_shared_dependence_field_nested_within_lot_does_not_trigger_crossed_refusal(self):
+        rows = []
+        for lot in range(40):
+            for repeat in range(2):
+                x = float((lot * 7) % 11)
+                rows.append({"id": f"NESTED-{lot}-{repeat}", "factors": {"x": x},
+                             "metrics": {"y": 1.0 + 0.6*x + 0.02*math.sin(lot + repeat)},
+                             "lot_id": f"LOT-{lot}", "chamber": f"CH-LOT-{lot}"})
+        report, _ = fit_linear_model(
+            rows, {"x": {"role": "measured", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 30,
+             "shared_dependence_fields": ["chamber"]})
+        diagnostic = report["inference"]["shared_dependence"]
+        self.assertEqual(report["status"], "VALID")
+        self.assertEqual(diagnostic["status"], "ASSESSED_NO_CROSSED_GROUPS")
+        self.assertEqual(diagnostic["fields"][0]["crossed_group_count"], 0)
+
+    def test_shared_dependence_fields_require_and_validate_declared_independent_units(self):
+        rows = [{"factors": {"x": float(i % 4)}, "metrics": {"y": 1.0 + i % 4},
+                 "lot_id": f"LOT-{i}", "chamber": f"CH-{i % 3}"} for i in range(40)]
+        definitions = {"x": {"role": "measured", "unit": "u"}}
+        missing_unit, missing_model = fit_linear_model(
+            rows, definitions, "y", {"shared_dependence_fields": ["chamber"]})
+        self.assertEqual(missing_unit["status"], "INCONCLUSIVE")
+        self.assertIsNone(missing_model)
+        self.assertEqual(missing_unit["inference"]["shared_dependence"]["status"],
+                         "NOT_ASSESSABLE_NO_INDEPENDENT_UNIT")
+        missing_field, missing_field_model = fit_linear_model(
+            rows, definitions, "y", {"independent_unit_field": "lot_id",
+                                      "shared_dependence_fields": ["tool"]})
+        self.assertEqual(missing_field["status"], "INCONCLUSIVE")
+        self.assertIsNone(missing_field_model)
+        self.assertEqual(missing_field["inference"]["shared_dependence"]["status"],
+                         "NOT_ASSESSABLE_INVALID_FIELD")
+
+    def test_shared_dependence_field_declaration_is_schema_qualified(self):
+        import json
+        from pathlib import Path
+
+        schema = json.loads(Path("products/p4/investigation.v1.schema.json").read_text(encoding="utf-8"))
+        model_properties = schema["properties"]["model"]["properties"]
+        self.assertEqual(model_properties["shared_dependence_fields"]["type"], "array")
+        self.assertTrue(model_properties["shared_dependence_fields"]["uniqueItems"])
+
     def test_cluster_field_must_not_split_a_declared_independent_unit(self):
         rows = []
         for lot in range(40):
