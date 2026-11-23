@@ -160,5 +160,23 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference"
+  },
+  {
+    "id": "P4-19",
+    "input_challenge": "held-out exact-setting units match calibration tool/time strata and panel counts, but an unseen chamber has a shifted nonlinear response surface",
+    "required_result": "score observed exact-panel interval misses as descriptive calibration-transfer counterevidence while preserving selection isolation and making no future coverage claim",
+    "oracle": "paired independent-trial response-drift sensitivity challenge with unchanged declared strata and exact panel",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "qualification/benchmark_d02_response_drift.py"
+  },
+  {
+    "id": "P4-20",
+    "input_challenge": "two full-rank continuous factors are nearly collinear under a known separate-effect model",
+    "required_result": "retain marginal uncertainty but surface elevated or severe QR conditioning warnings as coefficients become unstable; do not call the heuristic an identifiability certificate",
+    "oracle": "250-trial fixed-design known-coefficient challenge across five predictor-separation levels",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_full_rank_near_collinear_factors_warn_and_retain_wide_uncertainty"
   }
 ]

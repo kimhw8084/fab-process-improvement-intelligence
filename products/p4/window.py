@@ -384,9 +384,130 @@ def _evaluation_panel_compatibility(rows, unit_field, model_factors, setting_pan
                 "a match does not establish exchangeability or future observation structure")}
 
 
+def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
+                                        fixed_effects, calibration, cancel=None):
+    """Describe exact-panel interval misses on untouched independent evaluation units.
+
+    Evaluation rows never change model fitting, calibration radii, or candidate
+    selection. The reported rate is descriptive post-selection counterevidence,
+    not a coverage validation or future-population estimate.
+    """
+    if not rows:
+        return {"status": "NOT_PROVIDED", "evaluation_units": 0,
+                "complete_panel_units": 0, "mismatched_panel_units": 0,
+                "unscored_units": 0, "missed_any_interval_units": None,
+                "missed_any_interval_fraction": None, "wilson95_descriptive_interval": None}
+    if calibration.get("status") != "AVAILABLE":
+        return {"status": "NOT_AVAILABLE_BAND_UNAVAILABLE",
+                "reason": "an independent exact-panel calibration band is required to score evaluation outcomes",
+                "evaluation_units": len({_unit_key(_get_field(row, unit_field)) for row in rows}),
+                "complete_panel_units": 0, "mismatched_panel_units": 0,
+                "unscored_units": 0, "missed_any_interval_units": None,
+                "missed_any_interval_fraction": None, "wilson95_descriptive_interval": None}
+
+    panel = calibration.get("common_exact_settings", [])
+    quantiles = calibration.get("metric_quantiles", {})
+    expected_observations = calibration.get("observations_per_setting")
+    if (not panel or not isinstance(expected_observations, int) or isinstance(expected_observations, bool)
+            or expected_observations < 1 or not models or not quantiles):
+        return {"status": "NOT_AVAILABLE_INVALID_CALIBRATION_RESULT",
+                "reason": "calibration output does not contain a complete exact-setting panel, metric radii, and row count",
+                "evaluation_units": len({_unit_key(_get_field(row, unit_field)) for row in rows}),
+                "complete_panel_units": 0, "mismatched_panel_units": 0,
+                "unscored_units": 0, "missed_any_interval_units": None,
+                "missed_any_interval_fraction": None, "wilson95_descriptive_interval": None}
+    panel_keys = set()
+    try:
+        for setting in panel:
+            panel_keys.add(tuple(float(setting[name]) for name in model_factors))
+    except (KeyError, TypeError, ValueError):
+        return {"status": "NOT_AVAILABLE_INVALID_CALIBRATION_RESULT",
+                "reason": "the calibrated setting panel cannot be mapped to model factors",
+                "evaluation_units": len({_unit_key(_get_field(row, unit_field)) for row in rows}),
+                "complete_panel_units": 0, "mismatched_panel_units": 0,
+                "unscored_units": 0, "missed_any_interval_units": None,
+                "missed_any_interval_fraction": None, "wilson95_descriptive_interval": None}
+
+    grouped = {}
+    invalid_units = set()
+    for row in rows:
+        _check_cancel(cancel)
+        try:
+            unit = _unit_key(_get_field(row, unit_field))
+            raw_setting = tuple(row["factors"][name] for name in model_factors)
+            if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value)
+                   for value in raw_setting):
+                raise ValueError("invalid setting value")
+            setting = tuple(float(value) for value in raw_setting)
+        except (KeyError, TypeError, ValueError):
+            invalid_units.add(str(row.get("id", "UNASSIGNABLE")))
+            continue
+        record = grouped.setdefault(unit, {})
+        record.setdefault(setting, []).append(row)
+
+    complete_units = 0
+    mismatched_units = 0
+    unscored_units = len(invalid_units)
+    union_misses = 0
+    metric_misses = {metric: 0 for metric in models}
+    for setting_rows in grouped.values():
+        _check_cancel(cancel)
+        if (set(setting_rows) != panel_keys
+                or any(len(setting_rows.get(setting, [])) != expected_observations for setting in panel_keys)):
+            mismatched_units += 1
+            continue
+        unit_scored = True
+        unit_missed_metrics = set()
+        for setting, observations in setting_rows.items():
+            for row in observations:
+                for metric, model in models.items():
+                    radius_record = quantiles.get(metric)
+                    radius = radius_record.get("absolute_error_radius") if isinstance(radius_record, dict) else None
+                    value = row.get("metrics", {}).get(metric)
+                    if (not isinstance(radius, (int, float)) or isinstance(radius, bool) or not isfinite(radius)
+                            or isinstance(value, bool) or not isinstance(value, (int, float)) or not isfinite(value)):
+                        unit_scored = False
+                        continue
+                    prediction = model.predict(row["factors"], fixed_effects)
+                    estimate = prediction.get("estimate")
+                    if not isinstance(estimate, (int, float)) or not isfinite(estimate):
+                        unit_scored = False
+                        continue
+                    if abs(float(value)-float(estimate)) > float(radius):
+                        unit_missed_metrics.add(metric)
+        if not unit_scored:
+            unscored_units += 1
+            continue
+        complete_units += 1
+        if unit_missed_metrics:
+            union_misses += 1
+            for metric in unit_missed_metrics:
+                metric_misses[metric] += 1
+
+    if complete_units:
+        status = "DESCRIPTIVE_HELDOUT_BAND_EVALUATION"
+        signal = "OBSERVED_CALIBRATION_BAND_MISSES" if union_misses else "NO_MISSES_OBSERVED_NOT_VALIDATION"
+    else:
+        status = "INSUFFICIENT_COMPLETE_EVALUATION_UNITS"
+        signal = "NOT_ASSESSED"
+    return {"status": status, "transfer_signal": signal,
+            "evaluation_units": len(grouped) + len(invalid_units),
+            "complete_panel_units": complete_units,
+            "mismatched_panel_units": mismatched_units,
+            "unscored_units": unscored_units,
+            "missed_any_interval_units": union_misses if complete_units else None,
+            "missed_any_interval_fraction": union_misses/complete_units if complete_units else None,
+            "wilson95_descriptive_interval": _wilson_interval(union_misses, complete_units),
+            "metric_missed_units": {metric: count for metric, count in metric_misses.items()},
+            "method": "post-selection exact-setting panel comparison using each independent evaluation unit's maximum deviation across settings, replicates, and metrics",
+            "interpretation": "observed held-out interval misses are transfer counterevidence; zero observed misses do not validate exchangeability, conditional coverage, or future-population coverage",
+            "candidate_selection_influence": False,
+            "coverage_guarantee": "none; descriptive held-out counterevidence only"}
+
+
 def _calibration_transfer_assessment(calibration_status, evaluation_panel, composition,
                                      evaluation_provided, calibration_partition_name=None,
-                                     evaluation_partition_name=None):
+                                     evaluation_partition_name=None, band_evaluation=None):
     """Describe held-out counterevidence to transferring exact-panel calibration.
 
     This is deliberately post-selection. It cannot certify future exchangeability
@@ -399,6 +520,7 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
         "unseen_evaluation_strata_count": composition.get("evaluation_strata_absent_from_calibration_count"),
         "unseen_evaluation_units": composition.get("evaluation_units_in_strata_absent_from_calibration"),
         "calibration_to_evaluation_total_variation": None,
+        "heldout_band_evaluation": band_evaluation or {"status": "NOT_ASSESSED"},
     }
     if not evaluation_provided:
         result["interpretation"] = (
@@ -435,8 +557,13 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
     else:
         result["observed_counterevidence"].append("EVALUATION_STRATA_NOT_ESTABLISHED")
 
+    if ((band_evaluation or {}).get("transfer_signal") == "OBSERVED_CALIBRATION_BAND_MISSES"):
+        result["observed_counterevidence"].append("OBSERVED_CALIBRATION_BAND_MISSES")
+
     evidence = result["observed_counterevidence"]
-    if "UNSEEN_EVALUATION_STRATA" in evidence:
+    if "OBSERVED_CALIBRATION_BAND_MISSES" in evidence:
+        result["status"] = "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES"
+    elif "UNSEEN_EVALUATION_STRATA" in evidence:
         result["status"] = "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA"
     elif "OBSERVED_PANEL_STRUCTURE_MISMATCH" in evidence:
         result["status"] = "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH"
@@ -1099,13 +1226,16 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             "status": "NOT_AVAILABLE",
             "reason": simultaneous_calibration.get("reason", "the finite exact-setting calibration band is unavailable"),
             "interpretation": "evaluation panel structure cannot be compared with an unavailable precommitted band"}
+    heldout_band_evaluation = _evaluate_calibration_band_transfer(
+        evaluation_rows, unit_field, fitted, model_factors, fixed_effects,
+        simultaneous_calibration, cancel)
     transfer_assessment = _calibration_transfer_assessment(
         simultaneous_calibration.get("status"),
         simultaneous_summary["independent_evaluation_panel_compatibility"],
         composition_diagnostic,
         calibration_report.get("evaluation_value") is not None,
         calibration_report.get("calibration_value"),
-        calibration_report.get("evaluation_value"))
+        calibration_report.get("evaluation_value"), heldout_band_evaluation)
     simultaneous_summary["calibration_transfer_assessment"] = transfer_assessment
     # This is an annotation only. Evaluation outcomes never change a fit,
     # calibration radius, candidate cell, or candidate count.

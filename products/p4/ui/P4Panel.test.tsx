@@ -125,6 +125,28 @@ describe("P4 headless suite module", () => {
     expect(within(d01).getAllByText(/COMPLETED_DIAGNOSTIC/).length).toBeGreaterThan(0);
   });
 
+  it("surfaces near-collinearity as a heuristic coefficient-instability warning", () => {
+    const unstableEvidence = structuredClone(evidence);
+    const artifact = unstableEvidence.artifacts?.[0] as Record<string, unknown>;
+    const d01 = artifact.D01_sensitivity as Record<string, unknown>;
+    d01.diagnostics = {
+      rank: 3, condition_proxy: 102612.6,
+      condition_proxy_interpretation: {
+        status: "SEVERE_HEURISTIC", elevated_threshold: 100, severe_threshold: 1000,
+        method: "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+        guarantee: "none; does not replace rank/identifiability analysis or validate the selected formula",
+      },
+    };
+    d01.diagnostic_warnings = [
+      "severe near-collinearity heuristic: separate coefficient estimates may be unstable; inspect confidence intervals and formula sensitivity; this QR diagonal-ratio threshold is not a universal identifiability test",
+    ];
+    render(<P4Panel sourcePreview={sourcePreview} evidence={unstableEvidence} />);
+    const d01Region = screen.getByRole("region", { name: "D01 · Factor sensitivity" });
+    expect(within(d01Region).getByText(/"status":"SEVERE_HEURISTIC"/)).toBeTruthy();
+    expect(within(d01Region).getAllByText(/condition_proxy/).length).toBeGreaterThan(0);
+    expect(within(d01Region).getByText(/separate coefficient estimates may be unstable/)).toBeTruthy();
+  });
+
   it("explains when cluster-size concentration withholds uncertainty", () => {
     const imbalancedEvidence = structuredClone(evidence);
     const artifact = imbalancedEvidence.artifacts?.[0] as Record<string, unknown>;
@@ -205,6 +227,35 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getAllByText(/COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH/).length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/Passes calibration-panel screen under unverified assumptions; transfer: COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH/).length).toBeGreaterThan(0);
     expect(within(d02).getByText(/SYN-DO02-INTERLEAVED-001/)).toBeTruthy();
+  });
+
+  it("shows exact-panel outcome misses as descriptive calibration-transfer counterevidence", () => {
+    const shiftedEvidence = structuredClone(evidence);
+    const artifact = shiftedEvidence.artifacts?.[0] as Record<string, unknown>;
+    const supported = artifact.D02_supported_region as Record<string, unknown>;
+    const simultaneous = supported.simultaneous_exact_setting_screen as Record<string, unknown>;
+    simultaneous.calibration_transfer_assessment = {
+      status: "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES",
+      evaluation_panel_status: "DESCRIPTIVE_PANEL_STRUCTURE_MATCH",
+      calibration_to_evaluation_total_variation: 0,
+      observed_counterevidence: ["OBSERVED_CALIBRATION_BAND_MISSES"],
+      heldout_band_evaluation: {
+        status: "DESCRIPTIVE_HELDOUT_BAND_EVALUATION", evaluation_units: 10,
+        complete_panel_units: 10, mismatched_panel_units: 0,
+        missed_any_interval_units: 8, missed_any_interval_fraction: 0.8,
+        transfer_signal: "OBSERVED_CALIBRATION_BAND_MISSES",
+        interpretation: "Observed held-out interval misses are transfer counterevidence; zero observed misses do not validate coverage.",
+        candidate_selection_influence: false, coverage_guarantee: "none; descriptive held-out counterevidence only",
+      },
+      interpretation: "Observed evaluation outcomes provide counterevidence; no future-population coverage is estimated.",
+    };
+    render(<P4Panel sourcePreview={sourcePreview} evidence={shiftedEvidence} />);
+    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    expect(within(d02).getAllByText(/COUNTEREVIDENCE_CALIBRATION_BAND_MISSES/).length).toBeGreaterThan(0);
+    expect(within(d02).getAllByText(/complete_panel_units/).length).toBeGreaterThan(0);
+    expect(within(d02).getAllByText(/missed_any_interval_fraction/).length).toBeGreaterThan(0);
+    expect(within(d02).getAllByText(/zero observed misses do not validate coverage/).length).toBeGreaterThan(0);
+    expect(within(d02).getAllByText(/candidate_selection_influence/).length).toBeGreaterThan(0);
   });
 
   it("shows why held-out process rows were excluded from exact-setting evaluation", () => {

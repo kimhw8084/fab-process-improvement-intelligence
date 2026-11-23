@@ -1,0 +1,190 @@
+{
+  "benchmark_script_sha256": "10da280415954b8daf1843a1c874138e91a8172019799c62f199c610156725a1",
+  "challenge_contrast": {
+    "minimum_near_collinear_to_baseline_interval_width_ratio": 70.23272197852576,
+    "minimum_near_collinear_wrong_sign_fraction": 0.448,
+    "near_collinear_median_proxy": 102612.63789675332,
+    "well_conditioned_median_proxy": 16.905842933964248
+  },
+  "designs": {
+    "0.003": {
+      "heuristic_warning_fraction": 1.0,
+      "interpretation": "known-effect fixed-design Monte Carlo; coefficient intervals are marginal and not simultaneous",
+      "jitter_sd_added_to_z": 0.003,
+      "median_condition_proxy": 102612.63789675332,
+      "per_factor": {
+        "x": {
+          "marginal_ci95_coverage": 0.98,
+          "median_ci95_width": 61.11676588344477,
+          "true_coefficient": 2.0,
+          "wrong_sign_fraction": 0.448,
+          "wrong_sign_wilson95": [
+            0.38760667582628155,
+            0.5099671873212446
+          ]
+        },
+        "z": {
+          "marginal_ci95_coverage": 0.98,
+          "median_ci95_width": 61.09045913275175,
+          "true_coefficient": -1.0,
+          "wrong_sign_fraction": 0.484,
+          "wrong_sign_wilson95": [
+            0.4227644183135957,
+            0.5457198472702585
+          ]
+        }
+      },
+      "severe_heuristic_fraction": 1.0,
+      "trials": 250,
+      "valid_fit_fraction": 1.0
+    },
+    "0.01": {
+      "heuristic_warning_fraction": 1.0,
+      "interpretation": "known-effect fixed-design Monte Carlo; coefficient intervals are marginal and not simultaneous",
+      "jitter_sd_added_to_z": 0.01,
+      "median_condition_proxy": 9282.311006795713,
+      "per_factor": {
+        "x": {
+          "marginal_ci95_coverage": 0.952,
+          "median_ci95_width": 19.59735231750691,
+          "true_coefficient": 2.0,
+          "wrong_sign_fraction": 0.352,
+          "wrong_sign_wilson95": [
+            0.29544464804913095,
+            0.41303480860152053
+          ]
+        },
+        "z": {
+          "marginal_ci95_coverage": 0.956,
+          "median_ci95_width": 19.5926113136359,
+          "true_coefficient": -1.0,
+          "wrong_sign_fraction": 0.424,
+          "wrong_sign_wilson95": [
+            0.3643452153621208,
+            0.4859550461611866
+          ]
+        }
+      },
+      "severe_heuristic_fraction": 1.0,
+      "trials": 250,
+      "valid_fit_fraction": 1.0
+    },
+    "0.02": {
+      "heuristic_warning_fraction": 1.0,
+      "interpretation": "known-effect fixed-design Monte Carlo; coefficient intervals are marginal and not simultaneous",
+      "jitter_sd_added_to_z": 0.02,
+      "median_condition_proxy": 2194.198182288858,
+      "per_factor": {
+        "x": {
+          "marginal_ci95_coverage": 0.952,
+          "median_ci95_width": 8.418125251323959,
+          "true_coefficient": 2.0,
+          "wrong_sign_fraction": 0.184,
+          "wrong_sign_wilson95": [
+            0.14087551749687086,
+            0.23668872778425012
+          ]
+        },
+        "z": {
+          "marginal_ci95_coverage": 0.952,
+          "median_ci95_width": 8.396145415147586,
+          "true_coefficient": -1.0,
+          "wrong_sign_fraction": 0.352,
+          "wrong_sign_wilson95": [
+            0.29544464804913095,
+            0.41303480860152053
+          ]
+        }
+      },
+      "severe_heuristic_fraction": 1.0,
+      "trials": 250,
+      "valid_fit_fraction": 1.0
+    },
+    "0.05": {
+      "heuristic_warning_fraction": 1.0,
+      "interpretation": "known-effect fixed-design Monte Carlo; coefficient intervals are marginal and not simultaneous",
+      "jitter_sd_added_to_z": 0.05,
+      "median_condition_proxy": 420.66551455673687,
+      "per_factor": {
+        "x": {
+          "marginal_ci95_coverage": 0.96,
+          "median_ci95_width": 4.06500034551501,
+          "true_coefficient": 2.0,
+          "wrong_sign_fraction": 0.02,
+          "wrong_sign_wilson95": [
+            0.008572324384058198,
+            0.045955643131568594
+          ]
+        },
+        "z": {
+          "marginal_ci95_coverage": 0.96,
+          "median_ci95_width": 4.052292433399517,
+          "true_coefficient": -1.0,
+          "wrong_sign_fraction": 0.16,
+          "wrong_sign_wilson95": [
+            0.11975380512206552,
+            0.2105368385348368
+          ]
+        }
+      },
+      "severe_heuristic_fraction": 0.0,
+      "trials": 250,
+      "valid_fit_fraction": 1.0
+    },
+    "0.2": {
+      "heuristic_warning_fraction": 0.0,
+      "interpretation": "known-effect fixed-design Monte Carlo; coefficient intervals are marginal and not simultaneous",
+      "jitter_sd_added_to_z": 0.2,
+      "median_condition_proxy": 16.905842933964248,
+      "per_factor": {
+        "x": {
+          "marginal_ci95_coverage": 0.952,
+          "median_ci95_width": 0.8702035769328681,
+          "true_coefficient": 2.0,
+          "wrong_sign_fraction": 0.0,
+          "wrong_sign_wilson95": [
+            8.673617379884035e-19,
+            0.015133299495444574
+          ]
+        },
+        "z": {
+          "marginal_ci95_coverage": 0.956,
+          "median_ci95_width": 0.8440774399151638,
+          "true_coefficient": -1.0,
+          "wrong_sign_fraction": 0.0,
+          "wrong_sign_wilson95": [
+            8.673617379884035e-19,
+            0.015133299495444574
+          ]
+        }
+      },
+      "severe_heuristic_fraction": 0.0,
+      "trials": 250,
+      "valid_fit_fraction": 1.0
+    }
+  },
+  "heuristic_decision": {
+    "elevated_threshold": 100.0,
+    "interpretation": "descriptive alert thresholds only; not a universal collinearity cutoff, causal diagnostic, or identifiability certificate",
+    "near_collinear_warning_fraction": 1.0,
+    "severe_threshold": 1000.0,
+    "well_conditioned_warning_fraction": 0.0
+  },
+  "limitations": [
+    "predictor designs and Gaussian noise are synthetic and known to the evaluator",
+    "factor coefficients remain associational and conditional on the supplied linear model",
+    "marginal intervals are not adjusted over factors, model formulas, or post-selection claims",
+    "the QR diagonal-ratio proxy is a descriptive conditioning screen rather than an exact matrix condition number"
+  ],
+  "method": "fixed-design independent Gaussian-noise Monte Carlo with known separate coefficients",
+  "noise_sd": 0.5,
+  "observations_per_trial": 120,
+  "product_source_sha256": "8c8ee6319e84ed52f38b68508e711699a3a4574189ca9f25439cb0f5cc74330b",
+  "schema": "p4-d01-conditioning-benchmark/v1",
+  "seed": 20261123,
+  "trials_per_design": 250,
+  "true_coefficients": {
+    "x": 2.0,
+    "z": -1.0
+  }
+}

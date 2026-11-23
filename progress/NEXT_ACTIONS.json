@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+  "as_of_source_commit": "690f26b76a967f493e4af8c52fb1a1164d86a9f4",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,28 +15,27 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "Use an independent held-out null and confounded-effect challenge with lot, chamber and product shocks; compare clustered OLS to a mature reference; verify false-positive behavior and refusals. Do not label fixed effects as residual-dependence correction. Bind benchmark source/script hashes and rerun the full qualification runner.",
-    "first_command": "rtk rg -n \"cluster_field|fixed_effect_fields|independent_unit_field|cluster_nesting\" products/p4/regression.py products/p4/engine.py tests/test_d01_d02_independent.py qualification/benchmark_d01_cluster_nesting.py",
+    "priority": 3,
+    "task": "Audit D03 uncertainty-aware multiobjective comparisons against held-out missing-objective, population-mismatch, and interval-overlap challenges; add an independent oracle or fix only a demonstrated ambiguity.",
+    "first_command": "rtk sed -n \"1,360p\" products/p4/tradeoffs.py && rtk sed -n \"1,240p\" tests/test_d03_relationships.py",
     "inspect": [
-      "products/p4/regression.py",
-      "products/p4/engine.py",
-      "tests/test_d01_d02_independent.py",
-      "qualification/benchmark_d01_cluster_imbalance.py",
-      "qualification/benchmark_d01_cluster_nesting.py"
+      "products/p4/tradeoffs.py",
+      "products/p4/ui/P4Panel.tsx",
+      "tests/test_d03_relationships.py",
+      "qualification/benchmark_d03_bounded_mean.py"
     ],
-    "priority": 2,
-    "task": "Qualify D01 under cross-classified shared chamber/product shocks that span nominally independent lots; establish when fixed effects are insufficient, then either implement a justified multiway method using a qualified OSS engine or withhold uncertainty with an explicit diagnostic."
+    "acceptance": "No objective or population incompatibility may silently remove or reverse an engineering comparison; observed means, marginal uncertainty, family-wise evidence, and limitations remain separately labeled. Freeze and run a known multiobjective oracle before any behavior change; then proceed to D04."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; CROSS_TOOL_TIME_TRANSFER_COUNTEREVIDENCE_ADDED; CURRENT_P1_PANEL_VISIBLE",
-      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and separate independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge: 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata coverage; selected candidates remain isolated from evaluation. Browser verifies the transfer table and CALIBRATION_BAND_UNAVAILABLE status when no precommit exists; this is not validation. Conditional coverage remains unestablished."
+      "status": "IMPLEMENTED_WITH_LIMITS; SAME_STRATA_RESPONSE_DRIFT_COUNTEREVIDENCE_QUALIFIED",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, descriptive tool/time transfer statuses and separate independent-lot evaluation are implemented. Independent 1,000-trial transfer challenge: 94.825% same-mix, 56.44% shifted-known-strata, 23.0275% unseen-strata coverage; selected candidates remain isolated from evaluation. Browser verifies the transfer table and CALIBRATION_BAND_UNAVAILABLE status when no precommit exists; this is not validation. Conditional coverage remains unestablished. A new paired 250-trial known-response challenge preserves tool/time composition and all nine exact settings while varying hidden chamber response: baseline trial-level panel misses 4.92%, drift amplitude 0.025 gives 25.73%, 0.05 gives 88.22%, and 0.10/0.19 give 100%. The evaluation status reports counterevidence while zero declared-strata distance remains; these are descriptive held-out misses, not transfer validation or coverage."
     },
     {
       "priority": 2,
-      "status": "IMPLEMENTED_WITH_LIMITS; EXTREME_CLUSTER_SIZE_IMBALANCE_ABSTENTION_QUALIFIED",
-      "task": "D01 retains clustered robust regression, fixed effects/interactions/quadratics, influence and identifiability checks, formula sensitivity and authenticated-split limitations. New independent 1,200-trial cluster-size challenge: balanced product coverage 93.9167% (Wilson95 [0.9242,0.9513]); with one lot at 50.85% of rows, Statsmodels count-only reference coverage 67.4167% and product interval withheld in 1,200/1,200 trials at row-share effective cluster count 3.747. Tests guard exact-threshold floating tolerance. Cross-classified shared chamber/product residual dependence is the next D01 qualification gap."
+      "status": "IMPLEMENTED_WITH_LIMITS; CLUSTER_SIZE_CROSSED_DEPENDENCE_AND_COLLINEARITY_WARNINGS_QUALIFIED",
+      "task": "D01 retains clustered robust regression, fixed effects/interactions/quadratics, influence and identifiability checks, formula sensitivity and unauthenticated-split limitations. The 1,200-trial imbalance challenge showed balanced 30-lot coverage 93.9167% (Wilson95 [0.9242,0.9513]); with one lot at 50.85% of rows, Statsmodels count-only coverage was 67.4167% while P4 withheld all intervals at effective count 3.747. A new independent 1,200-trial 30×30 chamber/product null challenge measured 33.5% one-way lot-cluster false positives (Wilson95 [0.3089,0.3622]) versus 4.67% for Statsmodels two-way reference ([0.0361,0.0601]); P4 reported crossed-group diagnostics and abstained in 8/8 fits. Statsmodels remains qualification-only: two-way coverage is limited to exactly two declared dimensions and its large dependency closure is not added to the stdlib runtime. Undeclared dependence remains undetected. New QR conditioning heuristic warns on weakly separated, full-rank factors without withholding wide marginal intervals. Independent 250-trial fixed-design challenge: median condition proxy 16.9 in the well-conditioned design versus 102,613 when near-collinear; severe factor sign errors 44.8%/48.4%, with median interval widths about 70x the baseline. Heuristic thresholds are descriptive only."
     },
     {
       "priority": 3,
@@ -46,7 +45,7 @@
     {
       "priority": 4,
       "status": "IMPLEMENTED_WITH_LIMITS",
-      "task": "D04 includes grouped development selection/holdout, constrained next-best, multiple DOE families, and non-executing exact D02 paired confirmation. The known-SD sample-size approximation was corrected against 54 SciPy noncentral-t cases. A 2,000-trial historical SD challenge demonstrated that point-SD use is underpowered in 41\u201356% of trials; D04 now refuses point estimates and requires caller-supplied \u226595% one-sided chi-square SD upper bound+df or engineer-approved hard bound. P4 records but cannot authenticate it; normality/independence remain assumptions."
+      "task": "D04 includes grouped development selection/holdout, constrained next-best, multiple DOE families, and non-executing exact D02 paired confirmation. The known-SD sample-size approximation was corrected against 54 SciPy noncentral-t cases. A 2,000-trial historical SD challenge demonstrated that point-SD use is underpowered in 41–56% of trials; D04 now refuses point estimates and requires caller-supplied ≥95% one-sided chi-square SD upper bound+df or engineer-approved hard bound. P4 records but cannot authenticate it; normality/independence remain assumptions."
     },
     {
       "priority": 5,
@@ -60,15 +59,17 @@
     },
     {
       "priority": 7,
-      "status": "PARTIAL_LOCAL_SNAPSHOT_VERIFIED_CURRENT_P4_SOURCE",
-      "task": "Headless P4 panel exercised in the disposable P1 shell; current P4 D01\u2013D05 module and D02 transfer state visible. Current source commit 615c521f815f95133be3c635e28ac7284eb352b5 is hash-pinned; P1 host routes 11 PASS, frontend 40 PASS, P4 component 13 PASS, typecheck and production build PASS. 28-file composition manifest SHA-256 edcdf3499abb8a0713b171d5df6b2dfe67c4fc145df682656b806b43392ed5db. P1 owner/source authority, formal accessibility and target host remain pending."
+      "status": "P1_SNAPSHOT_PINNED_TO_PREVIOUS_SOURCE_690f; CURRENT_SOURCE_SYNC_AND_HOST_REQUALIFICATION_PENDING",
+      "task": "Headless P4 module remains on the P1-owned contract. Before this uncommitted source diff, the current snapshot had 28 files and host routes 11 PASS, P4 panel 15 PASS/typecheck PASS. The new warning UI test brings P4 panel to 16 PASS/typecheck PASS against the same local contract snapshot. Sync current committed P4 into the disposable snapshot and rerun host routes/frontend/typecheck/build/browser; no P1 owner/source acceptance is available."
     },
     {
       "priority": 8,
-      "status": "CURRENT_SOURCE_SCIENTIFIC_QUALIFICATION_PASS; ARCHIVE_REBUILD_REQUIRED",
-      "task": "Source-bound performance benchmark and full release runner now bind to 615c521; 175 Python tests PASS / 0 skipped, E01\u2013E04 and E06 PASS, E02 includes the new D01 benchmark, and limited dependency/source scans pass. E10 remains pending final archive; E05/E12 internal, E07 authoritative host/accessibility, E08 target OS, E09 independent/legal/security review and E11 engineer baseline remain pending."
+      "status": "NEW_D01_D02_SOURCE_DIFF_TESTED; FULL_RUN_AND_ARCHIVE_PENDING",
+      "task": "Source base is 690f26b. Current D01/D02 changes add held-out exact-panel response misses and a near-collinearity warning, independent D01/D02 benchmarks, UI coverage, release gates and scientific notes. Executed focused D01 (18 PASS), D02 (32 PASS), full default unittest suite (182 run, 14 optional-dependency skips) and pinned qualification environment suite (182 PASS, 0 skipped), schema PASS, P4 UI 16 PASS/typecheck PASS, D01/D02 Monte Carlo scripts at 250 trials, and git diff --check. Bind the next result/source commit after local commit; rerun full release checks and exact-artifact qualification only after the remaining source changes are complete."
     }
   ],
   "product_state": "CANDIDATE",
-  "schema": "p4-next-actions/v1"
+  "schema": "p4-next-actions/v1",
+  "worktree_state": "dirty; reviewed local source changes not committed",
+  "active_uncommitted_changes": true
 }

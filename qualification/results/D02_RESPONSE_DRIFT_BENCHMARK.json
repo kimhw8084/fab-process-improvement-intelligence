@@ -1,0 +1,118 @@
+{
+  "benchmark_script_sha256": "db26901b67641900f7871e96a7e10db8f64d46c616e73682de6b2f3b2590e8d5",
+  "calibration_units_per_trial": 39,
+  "declared_strata": {
+    "event_year": 2026,
+    "tool_id": "TOOL-A"
+  },
+  "evaluation_panel_and_strata_match_trials": 250,
+  "evaluation_units_per_trial_and_arm": 24,
+  "exact_settings_per_unit": 9,
+  "generator": "nonlinear two-factor surface with lot intercept/slope correlation; evaluation chamber introduces pressure-by-factor response drift while declared tool/time labels and exact panel remain unchanged",
+  "hidden_response_drift": {
+    "aggregate_descriptive_unit_miss_fraction": 1.0,
+    "counterevidence_trial_fraction": 1.0,
+    "counterevidence_trials": 250,
+    "mean_trial_level_interval_miss_fraction": 1.0,
+    "transfer_status_counts": {
+      "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 250
+    },
+    "trial_level_standard_deviation": 0.0,
+    "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+  },
+  "limitations": [
+    "the model, noise, hidden chamber drift, and synthetic precommit are known to the evaluator",
+    "paired independent trials, rather than evaluation lots pooled across trials, are the Monte Carlo comparison units",
+    "held-out miss rates are descriptive counterevidence; they do not validate exchangeability or conditional coverage",
+    "same observed tool/time composition and exact panel cannot rule out unmeasured process drift",
+    "this challenge does not qualify production data, a process window, a target population, or future performance"
+  ],
+  "matched_response": {
+    "aggregate_descriptive_unit_miss_fraction": 0.049166666666666664,
+    "counterevidence_trial_fraction": 0.608,
+    "counterevidence_trials": 152,
+    "mean_trial_level_interval_miss_fraction": 0.049166666666666664,
+    "transfer_status_counts": {
+      "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 152,
+      "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION": 98
+    },
+    "trial_level_standard_deviation": 0.05826516383971709,
+    "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+  },
+  "method": "paired independent-trial Monte Carlo; production finite-panel calibration and held-out transfer evaluator; known response-surface oracle",
+  "paired_drift_minus_matched_trial_miss_fraction": {
+    "fraction_trials_positive": 1.0,
+    "mean": 0.9508333333333333,
+    "percentile_2_5": 0.7916666666666666,
+    "percentile_97_5": 1.0,
+    "standard_deviation": 0.058265163839717096,
+    "wilson95_positive_trial_fraction": [
+      0.9848667005045553,
+      0.9999999999999998
+    ]
+  },
+  "product_source_sha256": "b0e510bef64de947dbb7f8a38ee2d81aa31c7606bf3b1fd72a986681334bd283",
+  "response_drift_sensitivity_by_surface_change_amplitude": {
+    "0.000": {
+      "aggregate_descriptive_unit_miss_fraction": 0.049166666666666664,
+      "counterevidence_trial_fraction": 0.608,
+      "counterevidence_trials": 152,
+      "mean_trial_level_interval_miss_fraction": 0.049166666666666664,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 152,
+        "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION": 98
+      },
+      "trial_level_standard_deviation": 0.05826516383971709,
+      "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+    },
+    "0.025": {
+      "aggregate_descriptive_unit_miss_fraction": 0.25733333333333336,
+      "counterevidence_trial_fraction": 0.984,
+      "counterevidence_trials": 246,
+      "mean_trial_level_interval_miss_fraction": 0.25733333333333336,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 246,
+        "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION": 4
+      },
+      "trial_level_standard_deviation": 0.14716607501992196,
+      "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+    },
+    "0.050": {
+      "aggregate_descriptive_unit_miss_fraction": 0.8821666666666667,
+      "counterevidence_trial_fraction": 1.0,
+      "counterevidence_trials": 250,
+      "mean_trial_level_interval_miss_fraction": 0.8821666666666667,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 250
+      },
+      "trial_level_standard_deviation": 0.12535102430757242,
+      "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+    },
+    "0.100": {
+      "aggregate_descriptive_unit_miss_fraction": 1.0,
+      "counterevidence_trial_fraction": 1.0,
+      "counterevidence_trials": 250,
+      "mean_trial_level_interval_miss_fraction": 1.0,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 250
+      },
+      "trial_level_standard_deviation": 0.0,
+      "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+    },
+    "0.190": {
+      "aggregate_descriptive_unit_miss_fraction": 1.0,
+      "counterevidence_trial_fraction": 1.0,
+      "counterevidence_trials": 250,
+      "mean_trial_level_interval_miss_fraction": 1.0,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES": 250
+      },
+      "trial_level_standard_deviation": 0.0,
+      "units_are_not_treated_as_independent_for_monte_carlo_uncertainty": true
+    }
+  },
+  "schema": "p4-d02-response-drift-benchmark/v1",
+  "seed": 20261123,
+  "trials": 250,
+  "zero_declared_composition_distance_trials": 250
+}

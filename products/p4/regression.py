@@ -444,6 +444,14 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     if covariance_type not in ("HC3", "cluster", "classical"):
         raise ModelError("covariance must be HC3, cluster, or classical")
     warnings = []
+    condition_proxy = rank_info.get("condition_proxy")
+    if isinstance(condition_proxy, (int, float)) and isfinite(condition_proxy):
+        if condition_proxy >= 1_000.0:
+            warnings.append(
+                "severe near-collinearity heuristic: separate coefficient estimates may be unstable; inspect confidence intervals and formula sensitivity; this QR diagonal-ratio threshold is not a universal identifiability test")
+        elif condition_proxy >= 100.0:
+            warnings.append(
+                "elevated near-collinearity heuristic: separate coefficient estimates may be sensitive to small data changes; inspect confidence intervals and formula sensitivity; this QR diagonal-ratio threshold is not a universal identifiability test")
     if crossed_shared_dependence:
         warnings.append(
             "robust intervals withheld: one or more declared shared-dependence groups span independent units; the configured covariance does not account for crossed dependence")
@@ -589,7 +597,14 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                             "declared_shared_dependence_fields": shared_dependence_fields,
                             "shared_dependence": shared_dependence_diagnostic,
                             "covariance_auto_selected_for_repeated_units": auto_clustered},
-              "diagnostics": {"rank": rank_info["rank"], "condition_proxy": rank_info.get("condition_proxy"),
+              "diagnostics": {"rank": rank_info["rank"], "condition_proxy": condition_proxy,
+                              "condition_proxy_interpretation": {
+                                  "status": ("SEVERE_HEURISTIC" if isinstance(condition_proxy, (int, float)) and condition_proxy >= 1_000.0
+                                            else "ELEVATED_HEURISTIC" if isinstance(condition_proxy, (int, float)) and condition_proxy >= 100.0
+                                            else "NO_HEURISTIC_FLAG"),
+                                  "elevated_threshold": 100.0, "severe_threshold": 1_000.0,
+                                  "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+                                  "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula"},
                               "maximum_leverage": max_leverage, "high_leverage_observation_ids": high_leverage,
                               "internally_studentized_residual_outlier_ids": outliers,
                               "degenerate_residual_variation": degenerate_residuals},

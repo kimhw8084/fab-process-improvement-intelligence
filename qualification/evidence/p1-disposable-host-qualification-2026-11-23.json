@@ -2,8 +2,8 @@
   "disposable_composition": {
     "additional_p4_source_sha256": {
       "fixtures/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
-      "products/p4/investigation.v1.schema.json": "8a4607f05fe9424d4f29d4065c4f332b6fb50aedfcae66e99004823b5998457c",
-      "products/p4/regression.py": "f8bf427a610ce8bb3f548c0c9359ac34fb0ba6bd101a6adf09f561cebf008946",
+      "products/p4/investigation.v1.schema.json": "66e4aa8d8446a3d51766998a731fd46ea524700fcd1e58eff0d4de708cb57c01",
+      "products/p4/regression.py": "46bc827b455a651f0ffd42f9fd62bae5e36e4f4e11de31a52f4e43c2081c3b44",
       "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
       "products/p4/window.py": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a",
       "qualification/build_demo_fixture.py": "48b346e5dfc60c0106dbd3109cdc35e288aa623b6c02984ecfc39bfe8f016e06"
@@ -11,7 +11,7 @@
     "current_p4_source": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
       "panel_sha256": "029adae0afc7e8aac9abc4002c53358f683eafe25bec0c2763a1a28e04296882",
-      "panel_test_sha256": "bf3b388707cc6e7b3d5512c7280abb8dec6218c110f2f6587b81f2480a210dd4"
+      "panel_test_sha256": "17995837baec9bdcaf5512bc7e631d7cb59bc1fa5eb223af46599bb14d3ae270"
     },
     "p4_registry_pin": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
@@ -44,16 +44,16 @@
         "products/p1/ui/suiteSpatialMap.ts": "495c1bce7415de23fa3ba291798d001d9c5a5248340371ab2bdeeea6c6891df1",
         "products/p4/ui/P4Panel.tsx": "029adae0afc7e8aac9abc4002c53358f683eafe25bec0c2763a1a28e04296882",
         "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
-        "tests/test_suite_host.py": "3bf1ff1771395e29547090c0c10f82af77298703e4415716b47c0a43a9fd5cda",
+        "tests/test_suite_host.py": "dbc23d8d130999bcb86a83705f43093f231102b5d83a0f818dd25737f4f4abf4",
         "tsconfig.json": "a6a2994c6c1db73d909e2779dc8643a71adb296598b24232a4649e15c10ead54",
         "vite.config.ts": "b245f9400583490162c429b1ad7b7ad5492261db11f1f4d310f3c0009557bf31"
       },
       "files": 28,
-      "manifest_sha256": "edcdf3499abb8a0713b171d5df6b2dfe67c4fc145df682656b806b43392ed5db",
+      "manifest_sha256": "3dd555c4c6c3a9e143f30009535fccf7623f242a989b4541d8224468fb3be971",
       "scope": "28 explicitly listed suite contracts, shared P1 UI/host implementation and tests, frontend build configuration, P4 contribution/panel, and P4 synthetic workflow fixture. This is an integrity digest of the disposable composition evidence, not an authoritative P1 source revision.",
-      "sha256": "edcdf3499abb8a0713b171d5df6b2dfe67c4fc145df682656b806b43392ed5db"
+      "sha256": "3dd555c4c6c3a9e143f30009535fccf7623f242a989b4541d8224468fb3be971"
     },
-    "source_snapshot_commit": "615c521f815f95133be3c635e28ac7284eb352b5"
+    "source_snapshot_commit": "690f26b76a967f493e4af8c52fb1a1164d86a9f4"
   },
   "executed_checks": {
     "browser": {
@@ -127,6 +127,15 @@
       "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
       "success_request": "COMPLETED"
     },
+    "d01_crossed_dependence": {
+      "browser_reobserved": false,
+      "challenge": "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json",
+      "one_way_lot_false_positive_rate": 0.335,
+      "p4_abstentions": 8,
+      "p4_diagnostic_fits": 8,
+      "trials": 1200,
+      "two_way_statsmodels_reference_false_positive_rate": 0.04666666666666667
+    },
     "limitations": [
       "P1 source has no resolvable Git revision; the 28-file fingerprint is an explicit integrity digest of the disposable composition evidence and not an authoritative source identity.",
       "Disposable registry and route test pin updates are local fixture changes, not upstream P1 changes.",
@@ -140,7 +149,7 @@
     },
     "p1_host_route_tests": {
       "command": "python -m unittest tests.test_suite_host -q",
-      "current_p4_source": "source commit 615c521f815f95133be3c635e28ac7284eb352b5, exact P4 runtime/support/schema/fixture hashes pin-checked in disposable host",
+      "current_p4_source": "source commit 690f26b76a967f493e4af8c52fb1a1164d86a9f4, exact P4 runtime/support/schema/fixture hashes pin-checked in disposable host",
       "p4_source_pins": "PASS",
       "status": "PASS",
       "tests": 11
@@ -159,7 +168,7 @@
       "command": "python qualification/ui_component_check.py --suite-root <P1 snapshot>",
       "contract_snapshot_match": true,
       "status": "PASS",
-      "tests": 13,
+      "tests": 14,
       "typecheck": "PASS"
     }
   },
@@ -169,7 +178,8 @@
     "The demo has an independent 10-lot D02 evaluation set for the fixed chamber, but only 3 of 76 supported candidates have exact setting outcomes; complete-set evaluation is withheld.",
     "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending.",
     "The D02 calibration-transfer table was visibly rendered in the disposable P1 host; it reports CALIBRATION_BAND_UNAVAILABLE because the fixture has no precommitted finite-panel record. This is a UI rendering check, not a coverage validation.",
-    "The latest D02 observation-count diagnostic is covered by panel and host-route tests but was not specifically rechecked in the browser."
+    "The latest D02 observation-count diagnostic is covered by panel and host-route tests but was not specifically rechecked in the browser.",
+    "The newly qualified D01 crossed chamber/product dependence refusal is covered by independent benchmark, source/component tests, and disposable host routes; this state was not separately re-observed in the browser."
   ],
   "p1_source": {
     "git_metadata_present": true,

@@ -324,6 +324,45 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertIsNone(exact["terms"]["x"]["ci95"])
         self.assertEqual(fitted.predict({"x": 4})["status"], "UNCERTAINTY_UNAVAILABLE")
 
+    def test_full_rank_near_collinear_factors_warn_and_retain_wide_uncertainty(self):
+        design_rng = random.Random(777)
+        noise_rng = random.Random(20261123)
+        rows = []
+        for index in range(120):
+            x = design_rng.gauss(0.0, 1.0)
+            z = x + 0.003 * design_rng.gauss(0.0, 1.0)
+            y = 1.0 + 2.0*x - z + noise_rng.gauss(0.0, 0.5)
+            rows.append({"id": f"COLLINEAR-{index}", "factors": {"x": x, "z": z},
+                         "metrics": {"y": y}})
+        report, _ = fit_linear_model(
+            rows, {"x": {"role": "measured", "unit": "u"},
+                   "z": {"role": "measured", "unit": "u"}}, "y")
+        self.assertEqual(report["status"], "VALID")
+        self.assertEqual(report["diagnostics"]["rank"], report["term_count"])
+        self.assertGreater(report["diagnostics"]["condition_proxy"], 1_000)
+        self.assertEqual(report["diagnostics"]["condition_proxy_interpretation"]["status"],
+                         "SEVERE_HEURISTIC")
+        self.assertTrue(any("severe near-collinearity heuristic" in warning
+                            for warning in report["diagnostic_warnings"]))
+        self.assertGreater(report["terms"]["x"]["ci95"][1] - report["terms"]["x"]["ci95"][0], 20.0)
+        self.assertGreater(report["terms"]["z"]["ci95"][1] - report["terms"]["z"]["ci95"][0], 20.0)
+
+    def test_well_conditioned_design_does_not_emit_near_collinearity_warning(self):
+        rng = random.Random(712)
+        rows = []
+        for index in range(120):
+            x, z = rng.gauss(0.0, 1.0), rng.gauss(0.0, 1.0)
+            rows.append({"id": f"ORTHOGONAL-{index}", "factors": {"x": x, "z": z},
+                         "metrics": {"y": 1.0 + 2*x - z + rng.gauss(0.0, 0.5)}})
+        report, _ = fit_linear_model(
+            rows, {"x": {"role": "measured", "unit": "u"},
+                   "z": {"role": "measured", "unit": "u"}}, "y")
+        self.assertEqual(report["status"], "VALID")
+        self.assertEqual(report["diagnostics"]["condition_proxy_interpretation"]["status"],
+                         "NO_HEURISTIC_FLAG")
+        self.assertFalse(any("near-collinearity heuristic" in warning
+                             for warning in report["diagnostic_warnings"]))
+
     def test_influence_diagnostics_flag_high_leverage_and_outlier(self):
         high_rows = [{"id": f"SYN-{i}", "factors": {"x": x}, "metrics": {"y": 1+2*x}}
                      for i, x in enumerate([0, 1, 2, 3, 4, 25, 6, 7, 8, 9])]
@@ -583,6 +622,56 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual([cell["factors"] for cell in unseen["candidate_cells"]],
                          [cell["factors"] for cell in matched["candidate_cells"]])
         self.assertEqual(unseen["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+
+    def test_transfer_detects_heldout_band_misses_when_declared_strata_and_panel_match(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["analysis_partition"] = "TRAIN" if lot < 20 else "CALIBRATION" if lot < 40 else "EVALUATION"
+            item["tool_id"] = "TOOL-A"
+            item["event_year"] = 2026
+            item["chamber"] = "CH-BASE" if lot < 40 else "CH-SHIFTED"
+        data["model"]["minimum_clusters"] = 20
+        data["window_exploration"]["min_independent_units"] = 20
+        data["window_exploration"]["evaluation_strata"] = ["tool_id", "event_year"]
+        calibration = data["window_exploration"]["calibration"]
+        calibration["evaluation_value"] = "EVALUATION"
+        calibration["split_reference"] = "SYN-UNCHANGED-MIX-CHAMBER-SLOPE-SHIFT-001"
+
+        matched_rows = [{**item, "factors": dict(item["factors"]), "metrics": dict(item["metrics"])}
+                        for item in rows]
+        for item in matched_rows:
+            item["chamber"] = "CH-BASE"
+        matched = explore_window(matched_rows, factors, METRIC, data)
+        matched_transfer = matched["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        matched_band = matched_transfer["heldout_band_evaluation"]
+        self.assertEqual(matched_band["complete_panel_units"], 10)
+        self.assertEqual(matched_band["mismatched_panel_units"], 0)
+        self.assertEqual(matched_transfer["status"], "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION")
+
+        shifted_rows = [{**item, "factors": dict(item["factors"]), "metrics": dict(item["metrics"])}
+                        for item in rows]
+        for item in shifted_rows:
+            if item["analysis_partition"] == "EVALUATION":
+                # Same TOOL-A and period labels, same exact panel and row count;
+                # the evaluation chamber has an unmodeled pressure-dependent shift.
+                item["metrics"]["quality"] += 0.2 * item["factors"]["pressure"]
+        shifted = explore_window(shifted_rows, factors, METRIC, data)
+        transfer = shifted["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        band = transfer["heldout_band_evaluation"]
+        self.assertEqual(transfer["evaluation_panel_status"], "DESCRIPTIVE_PANEL_STRUCTURE_MATCH")
+        self.assertEqual(transfer["calibration_to_evaluation_total_variation"], 0)
+        self.assertEqual(band["status"], "DESCRIPTIVE_HELDOUT_BAND_EVALUATION")
+        self.assertEqual(band["complete_panel_units"], 10)
+        self.assertEqual(band["mismatched_panel_units"], 0)
+        self.assertGreater(band["missed_any_interval_units"], 0)
+        self.assertEqual(band["transfer_signal"], "OBSERVED_CALIBRATION_BAND_MISSES")
+        self.assertEqual(transfer["status"], "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES")
+        self.assertFalse(band["candidate_selection_influence"])
+        self.assertIn("zero observed misses do not validate", band["interpretation"])
+        self.assertEqual([cell["factors"] for cell in shifted["candidate_cells"]],
+                         [cell["factors"] for cell in matched["candidate_cells"]])
+        self.assertEqual(shifted["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
 
     def test_transfer_diagnostic_without_evaluation_is_not_assessed(self):
         rows, factors, data = self._dataset()
