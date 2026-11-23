@@ -79,12 +79,15 @@ class SourceContractTests(unittest.TestCase):
         self.assertFalse(is_generated_qualification_output("products/p4/window.py"))
 
     def test_bundle_builder_ignores_only_declared_generated_evidence_changes(self):
+        from types import SimpleNamespace
         from unittest.mock import patch
 
-        generated_status = " M qualification/results/current.json\n M release/BENCHMARK_REPORT.json"
-        with patch("qualification.build_transfer_bundle.git", return_value=generated_status):
+        generated_status = "M  qualification/results/current.json\n M release/BENCHMARK_REPORT.json"
+        completed = SimpleNamespace(stdout=generated_status)
+        with patch("qualification.build_transfer_bundle.subprocess.run", return_value=completed):
             require_clean_worktree()
-        with patch("qualification.build_transfer_bundle.git", return_value=" M products/p4/window.py"):
+        source_change = SimpleNamespace(stdout="M  products/p4/window.py")
+        with patch("qualification.build_transfer_bundle.subprocess.run", return_value=source_change):
             with self.assertRaisesRegex(ValueError, "uncommitted product source changes"):
                 require_clean_worktree()
 

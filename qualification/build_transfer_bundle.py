@@ -40,7 +40,10 @@ def git(*args):
 
 
 def require_clean_worktree():
-    status = git("-c", "core.quotePath=false", "status", "--porcelain", "--untracked-files=all")
+    status_result = subprocess.run(["git", "-C", str(ROOT), "-c", "core.quotePath=false", "status",
+                                    "--porcelain", "--untracked-files=all"], check=True,
+                                   capture_output=True, text=True)
+    status = status_result.stdout
     unexpected = []
     for entry in status.splitlines():
         relative = entry[3:]
