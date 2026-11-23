@@ -4,24 +4,25 @@
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 1,
-    "task": "Continue D02 with an independently generated cross-tool/time calibration-shift challenge. Measure coverage under unseen and shifted tool-period mixes, then implement explicit calibration-transfer status or refusal that preserves candidate-selection isolation.",
+    "task": "Commit the D02 cross-tool/time calibration-transfer assessment, refresh the disposable P1 source pins, and verify the new transfer workflow in host routes and browser. Then continue D01 adversarial robustness work.",
     "inspect": [
       "products/p4/window.py",
       "tests/test_d01_d02_independent.py",
-      "qualification/benchmark_d02_simultaneous.py",
-      "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
-      "qualification/benchmark_d02_replicate_shift.py",
-      "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
-      "products/p4/ui/P4Panel.tsx"
+      "qualification/benchmark_d02_stratum_transfer.py",
+      "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json",
+      "qualification/run_release_checks.py",
+      "products/p4/ui/P4Panel.tsx",
+      "/tmp/p4-p1-host-qualification/integration/product-source-registry.v1.json",
+      "/tmp/p4-p1-host-qualification/tests/test_suite_host.py"
     ],
-    "first_command": "rtk rg -n partition_composition products/p4/window.py",
-    "acceptance": "A fixed independent holdout challenge separates same-population, shifted-known-stratum, and unseen-stratum cases; coverage/risk is measured with an independent oracle; P4 distinguishes compatible, counterevidence, and not-estimable outcomes without changing fit, calibration, or candidate selection from evaluation outcomes. Report synthetic limits and verify D02 evidence appears in the P1 panel test and host route."
+    "first_command": "rtk git status --short",
+    "acceptance": "The committed source hash is pinned in the disposable host; current P4 panel/host-route/frontend/typecheck/build checks pass; the descriptive transfer table is visibly verified; company/P1 authority remains explicitly pending."
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; REPLICATE_STRUCTURE_AND_UNIT_ID_GUARDS",
-      "task": "D02 pointwise and exact-panel calibration are source/test qualified; row-count and invalid-unit guards fail closed; held-out row-count mismatch is descriptive and candidate-selection isolated. Next challenge: calibration transfer across cross-classified tool/time strata, including novel strata and an explicit status/refusal when observed counterevidence contradicts transfer."
+      "status": "IMPLEMENTED_WITH_LIMITS; POST_SELECTION_TRANSFER_COUNTEREVIDENCE_ADDED; P1_REFRESH_PENDING",
+      "task": "D02 pointwise and exact-panel calibration, row-count guards, and descriptive tool/time transfer states are implemented. Independent 1,000-trial challenge: 94.8% same-mix, 56.4% shifted-known-strata, 23.0% unseen-strata panel coverage; candidate selection remains isolated. Disposable P1 host and browser requalification is the immediate next action."
     },
     {
       "priority": 2,

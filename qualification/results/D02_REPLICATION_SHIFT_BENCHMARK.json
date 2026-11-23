@@ -11,7 +11,7 @@
   ],
   "method": "independent split-conformal maximum absolute normal residual oracle over nine exact settings",
   "order_statistic_rank": 38,
-  "product_source_sha256": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8",
+  "product_source_sha256": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a",
   "scenarios": {
     "1": {
       "coverage": 0.9456,

@@ -245,6 +245,42 @@ def main():
         "runtime_dependencies_added": False,
         "scope": "independent nonlinear correlated-lot synthetic challenge under complete-panel assumptions"
     }
+    d02_transfer_path = ROOT / "qualification" / "results" / "D02_STRATUM_TRANSFER_BENCHMARK.json"
+    d02_transfer_run, _ = run([sys.executable, "-m", "qualification.benchmark_d02_stratum_transfer",
+                               "--output", "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json"])
+    d02_transfer = json.loads(d02_transfer_path.read_text(encoding="utf-8")) if d02_transfer_path.exists() else {}
+    d02_transfer_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d02_stratum_transfer.py").read_bytes()).hexdigest()
+    d02_transfer_scenarios = d02_transfer.get("scenarios", {})
+    d02_same = d02_transfer_scenarios.get("same_known_mix", {})
+    d02_shifted = d02_transfer_scenarios.get("shifted_known_mix", {})
+    d02_unseen = d02_transfer_scenarios.get("unseen_tool_period", {})
+    d02_transfer_pass = (
+        d02_transfer_run.returncode == 0
+        and d02_transfer.get("schema") == "p4-d02-stratum-transfer-benchmark/v1"
+        and d02_transfer.get("trials", 0) >= 1000
+        and d02_transfer.get("product_source_sha256") == d02_window_hash
+        and d02_transfer.get("benchmark_script_sha256") == d02_transfer_script_hash
+        and set(d02_transfer_scenarios) == {"same_known_mix", "shifted_known_mix", "unseen_tool_period"}
+        and d02_same.get("wilson95", [1, 0])[0] <= 0.95 <= d02_same.get("wilson95", [1, 0])[1]
+        and d02_shifted.get("coverage", 1) < d02_same.get("coverage", 0) - 0.10
+        and d02_unseen.get("coverage", 1) < d02_shifted.get("coverage", 0) - 0.20
+        and d02_unseen.get("transfer_status_counts", {}).get("COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA", 0)
+            >= d02_transfer.get("trials", 0) * 0.90
+    )
+    d02_transfer_result = {
+        "status": "PASS" if d02_transfer_pass else "FAIL",
+        "evidence": "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json",
+        "source_hash_matches": d02_transfer.get("product_source_sha256") == d02_window_hash,
+        "trials": d02_transfer.get("trials"),
+        "coverage_by_population": {
+            name: item.get("coverage") for name, item in d02_transfer_scenarios.items()},
+        "mean_observed_total_variation_by_population": {
+            name: item.get("mean_observed_calibration_evaluation_total_variation")
+            for name, item in d02_transfer_scenarios.items()},
+        "runtime_dependencies_added": False,
+        "scope": "synthetic correlated-lot transfer challenge across same, shifted-known, and unseen tool-period mixtures; descriptive statuses do not validate exchangeability"
+    }
     d03_benchmark_path = ROOT / "qualification" / "results" / "D03_BOUNDED_MEAN_BENCHMARK.json"
     d03_benchmark_run, _ = run([sys.executable, "-m", "qualification.benchmark_d03_bounded_mean",
                                 "--output", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json"])
@@ -466,6 +502,7 @@ def main():
         "d04_oss_benchmark": benchmark_result,
         "d02_replicate_shift_benchmark": d02_replicate_result,
         "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
+        "d02_stratum_transfer_benchmark": d02_transfer_result,
         "d03_bounded_mean_benchmark": d03_benchmark_result,
         "scientific_performance_benchmark": performance_result,
         "dependency_audit": dependency_audit_result,
@@ -476,7 +513,7 @@ def main():
         "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
         "gates": {
             "E01": {"status": "PASS" if demo_result["status"] == "PASS" else "FAIL", "evidence": ["release/full_workflow_demo_evidence.json", "release/TEST_LOG.txt"], "scope": "synthetic end-to-end capability flow"},
-            "E02": {"status": "PASS" if critical_pass and d02_replicate_pass and d02_simultaneous_pass and d04_pass and d03_bounded_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D02 calibration replicate-shift and nonlinear correlated-lot finite-panel challenges, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels coefficient parity, and fixed synthetic D04 OSS benchmarks"},
+            "E02": {"status": "PASS" if critical_pass and d02_replicate_pass and d02_simultaneous_pass and d02_transfer_pass and d04_pass and d03_bounded_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d02_stratum_transfer.py", "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D02 replicate-count, correlated-lot panel, and cross-tool/time transfer challenges under explicit synthetic mixtures, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels coefficient parity, and fixed synthetic D04 OSS benchmarks"},
             "E03": {"status": "PASS" if critical_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_offline_server.py"], "scope": "unsafe, invalid, leakage, permission, cancellation and host/origin cases"},
             "E04": {"status": "PASS" if frozen_pass and schema_status == "PASS" else "FAIL", "evidence": ["contracts/", "products/p4/investigation.v1.schema.json", "release/SCHEMA_VALIDATION.json"]},
             "E05": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "qualification/internal-capability-report.v1.schema.json"], "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally"},

@@ -11,7 +11,7 @@ const sourcePreview: SourcePreview = {
 };
 
 const d02Grid = [
-  { factors: { pressure: 2.0, temperature: 40 }, region_class: "observed", conservative_feasible: true, simultaneous_supported_candidate: true, predictions: { yield_index: { estimate: 88.2, predictive_interval95: [87.5, 88.9], simultaneous_group_interval95: [87.2, 89.2], simultaneous_group_calibration_status: "AVAILABLE_UNDER_UNVERIFIED_EXCHANGEABILITY_ASSUMPTIONS", model_predictive_interval95: [87.8, 88.6], calibration_status: "LOCAL_GROUP_HOLDOUT_EMPIRICAL", calibration_units: 20, status: "ESTIMATED" } } },
+  { factors: { pressure: 2.0, temperature: 40 }, region_class: "observed", conservative_feasible: true, simultaneous_supported_candidate: true, evaluation_transfer_status: "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH", predictions: { yield_index: { estimate: 88.2, predictive_interval95: [87.5, 88.9], simultaneous_group_interval95: [87.2, 89.2], simultaneous_group_calibration_status: "AVAILABLE_UNDER_UNVERIFIED_EXCHANGEABILITY_ASSUMPTIONS", model_predictive_interval95: [87.8, 88.6], calibration_status: "LOCAL_GROUP_HOLDOUT_EMPIRICAL", calibration_units: 20, status: "ESTIMATED" } } },
   { factors: { pressure: 2.5, temperature: 42 }, region_class: "interpolated", conservative_feasible: false, simultaneous_supported_candidate: false, predictions: { yield_index: { estimate: 87.1, predictive_interval95: [85.3, 88.9], simultaneous_group_interval95: null, simultaneous_group_calibration_status: "NOT_IN_COMPLETE_EXACT_SETTING_PANEL", model_predictive_interval95: [86.6, 87.6], calibration_status: "LOCAL_GROUP_HOLDOUT_EMPIRICAL", calibration_units: 20, status: "ESTIMATED" } } },
   { factors: { pressure: 4, temperature: 50 }, region_class: "unsupported", conservative_feasible: null, simultaneous_supported_candidate: false, predictions: { yield_index: { estimate: null, predictive_interval95: null, simultaneous_group_interval95: null, status: "UNSUPPORTED" } } },
 ];
@@ -37,7 +37,7 @@ const evidence: P4Evidence = {
     selection_warning: "Selection among cells can inflate false-feasible findings; simultaneous coverage is not established.",
     data_roles: { model_fitting: "TRAIN", model_selection: "NOT_PERFORMED_BY_ENGINE", threshold_selection: "PRESPECIFIED" },
     uncertainty_scope: { formal_coverage_claim: "NONE_ESTABLISHED", simultaneous_coverage_over_searched_grid: "NOT_ESTABLISHED" },
-    simultaneous_exact_setting_screen: { status: "AVAILABLE", status_scope: "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY", calibration_unit_count: 20, familywise_alpha: 0.05, scope: "one future independent unit across a finite exact-setting panel", independent_evaluation_panel_compatibility: { status: "OBSERVED_PANEL_STRUCTURE_MISMATCH", evaluation_unit_count: 10, mismatched_units: 10, expected_observations_per_setting: 1, interpretation: "held-out row counts differ from the declared calibration panel" }, limitations: ["no interpolation coverage", "exchangeability unverified"] },
+    simultaneous_exact_setting_screen: { status: "AVAILABLE", status_scope: "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY", calibration_unit_count: 20, familywise_alpha: 0.05, scope: "one future independent unit across a finite exact-setting panel", independent_evaluation_panel_compatibility: { status: "OBSERVED_PANEL_STRUCTURE_MISMATCH", evaluation_unit_count: 10, mismatched_units: 10, expected_observations_per_setting: 1, interpretation: "held-out row counts differ from the declared calibration panel" }, calibration_transfer_assessment: { status: "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH", observed_counterevidence: ["OBSERVED_PANEL_STRUCTURE_MISMATCH"], evaluation_panel_status: "OBSERVED_PANEL_STRUCTURE_MISMATCH", unseen_evaluation_strata_count: null, unseen_evaluation_units: null, interpretation: "held-out evaluation panel differs; no future-population coverage validation" }, limitations: ["no interpolation coverage", "exchangeability unverified"] },
     uncertainty_rule: "All local group-held-out empirical intervals using a 95% order-statistic rank satisfy the explicit metric limits; this does not guarantee conditional coverage.",
     calibration: { method: "local_grouped_holdout_absolute_error", coverage_guarantee: "none; local selection does not establish conditional coverage", group_field: "lot_id", training_unit_count: 30, calibration_unit_count: 20, minimum_local_calibration_units: 19, split_reference: "SYN-DO02-INTERLEAVED-001" },
     independent_candidate_evaluation: { status: "DESCRIPTIVE", evaluated_candidate_count: 1, unevaluated_candidate_count: 0, method: "No population or simultaneous guarantee.",
@@ -143,7 +143,7 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getByText(/Selection among cells can inflate false-feasible findings/)).toBeTruthy();
     expect(within(d02).getByText(/Independent candidate evaluation/)).toBeTruthy();
     expect(within(d02).getByText("Simultaneous exact-setting calibration")).toBeTruthy();
-    expect(within(d02).getByText(/OBSERVED_PANEL_STRUCTURE_MISMATCH/)).toBeTruthy();
+    expect(within(d02).getAllByText(/OBSERVED_PANEL_STRUCTURE_MISMATCH/).length).toBeGreaterThan(0);
     expect(within(d02).getByText(/expected_observations_per_setting/)).toBeTruthy();
     const population = within(d02).getByRole("table", {
       name: "Independent-unit population strata by partition; descriptive, not an exchangeability test",
@@ -156,7 +156,9 @@ describe("P4 headless suite module", () => {
     expect(within(composition).getByText("evaluation_strata_absent_from_calibration_count")).toBeTruthy();
     expect(within(composition).getAllByText("Not provided").length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/simultaneous exact-setting panel interval/).length).toBeGreaterThan(0);
-    expect(within(d02).getAllByText(/Passes finite exact-setting panel screen under unverified assumptions/).length).toBeGreaterThan(0);
+    expect(within(d02).getByText("Calibration transfer assessment; descriptive, not validation")).toBeTruthy();
+    expect(within(d02).getAllByText(/COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH/).length).toBeGreaterThan(0);
+    expect(within(d02).getAllByText(/Passes calibration-panel screen under unverified assumptions; transfer: COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH/).length).toBeGreaterThan(0);
     expect(within(d02).getByText(/SYN-DO02-INTERLEAVED-001/)).toBeTruthy();
   });
 

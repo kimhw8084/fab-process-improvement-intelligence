@@ -21,15 +21,15 @@
   "contract_snapshot_match": true,
   "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
   "p4_source_sha256": {
-    "products/p4/ui/P4Panel.test.tsx": "e44093363cceb5a8ff3fd9578178fcee2aa6dd6b3c98b47c305ddb1445ba2ef1",
-    "products/p4/ui/P4Panel.tsx": "34bd7f860ec55a9f4ca533469748ffb559ca45ca2558f80206f0cd357c298da5"
+    "products/p4/ui/P4Panel.test.tsx": "7ef79cca46a782b0d956c36e59802cc4802952a5ad7e8964ee4fbd4817c394d8",
+    "products/p4/ui/P4Panel.tsx": "029adae0afc7e8aac9abc4002c53358f683eafe25bec0c2763a1a28e04296882"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
   "status": "PASS_LOCAL_MODULE_ONLY",
   "suite_commit": null,
   "suite_git_metadata": "unavailable in extracted P1 folder",
   "suite_package_lock_sha256": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
-  "suite_root_name": "p4-p1-host-qualification",
+  "suite_root_name": "FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22",
   "suite_tool_versions": {
     "react": "^19.2.0",
     "typescript": "5.9.3",

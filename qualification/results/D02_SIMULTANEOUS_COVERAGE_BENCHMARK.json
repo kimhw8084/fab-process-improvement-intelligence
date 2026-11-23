@@ -351,7 +351,7 @@
       0.0038267584855551234
     ]
   },
-  "product_window_sha256": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8",
+  "product_window_sha256": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a",
   "schema": "p4-d02-simultaneous-calibration-benchmark/v1",
   "seed": 20261123,
   "training_units": 40,

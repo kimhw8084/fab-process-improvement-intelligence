@@ -1,0 +1,81 @@
+{
+  "benchmark_script_sha256": "bf98ea190131815678c01a032d3ca5b8c26d9edde52a04a83c18d49594137277",
+  "calibration_mix": {
+    "A": 0.9,
+    "B": 0.1
+  },
+  "calibration_units": 39,
+  "evaluation_units_per_trial_and_scenario": 40,
+  "exact_settings": 9,
+  "generator": "independent lots; Gaussian lot-common and setting-specific residual components; scale 1/4/6 by tool-period stratum",
+  "limitations": [
+    "all outcomes and strata are synthetic and the generator is known to the evaluator",
+    "Wilson intervals treat generated future units as independent Bernoulli coverage outcomes within this fixed generator",
+    "descriptive composition and panel statuses are counterevidence screens, not tests or certificates of exchangeability",
+    "matching observed composition never validates future conditional or population coverage",
+    "the benchmark does not qualify a manufacturing tool, period, process, or future sampling plan"
+  ],
+  "method": "independent split-conformal order-statistic oracle over within-lot maximum absolute residual across nine exact settings",
+  "order_statistic_rank": 38,
+  "product_source_sha256": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a",
+  "scenarios": {
+    "same_known_mix": {
+      "coverage": 0.94825,
+      "covered_future_independent_units": 37930,
+      "evaluation_mix": {
+        "A": 0.9,
+        "B": 0.1
+      },
+      "future_independent_units": 40000,
+      "mean_observed_calibration_evaluation_total_variation": 0.054660256410256486,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA": 18,
+        "DESCRIPTIVE_COMPOSITION_DIFFERENCE_OBSERVED": 982
+      },
+      "wilson95": [
+        0.9460357588956814,
+        0.9503781526761286
+      ]
+    },
+    "shifted_known_mix": {
+      "coverage": 0.5644,
+      "covered_future_independent_units": 22576,
+      "evaluation_mix": {
+        "A": 0.1,
+        "B": 0.9
+      },
+      "future_independent_units": 40000,
+      "mean_observed_calibration_evaluation_total_variation": 0.8047237179487193,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA": 18,
+        "DESCRIPTIVE_COMPOSITION_DIFFERENCE_OBSERVED": 982
+      },
+      "wilson95": [
+        0.5595349486135651,
+        0.5692526830768411
+      ]
+    },
+    "unseen_tool_period": {
+      "coverage": 0.230275,
+      "covered_future_independent_units": 9211,
+      "evaluation_mix": {
+        "A": 0.05,
+        "B": 0.05,
+        "C": 0.9
+      },
+      "future_independent_units": 40000,
+      "mean_observed_calibration_evaluation_total_variation": 0.9060756410256408,
+      "transfer_status_counts": {
+        "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA": 1000
+      },
+      "wilson95": [
+        0.22617520714912845,
+        0.23442659475002062
+      ]
+    }
+  },
+  "schema": "p4-d02-stratum-transfer-benchmark/v1",
+  "seed": 20261123,
+  "target_marginal_panel_coverage": 0.95,
+  "trials": 1000
+}

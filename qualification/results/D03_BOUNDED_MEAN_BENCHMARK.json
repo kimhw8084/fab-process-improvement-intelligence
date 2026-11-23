@@ -13,7 +13,7 @@
     "Wide Hoeffding intervals can prevent useful dominance decisions; interval separation is neither causal nor population harmonization."
   ],
   "objective_family_size": 8,
-  "product_source_manifest_sha256": "65a9f988a38b2be67dec4c9d24999b335a3857ed2e9a54fa0d20f0e196e55f35",
+  "product_source_manifest_sha256": "05d442fc983977d4677367d2c77dfd3dfb6f10b8f1324ccca5d6f621f7d9624f",
   "product_source_sha256": {
     "fabintel/__init__.py": "1701050bc6b2245204dd74ba9829f6216b6d6689bf5ae78305ab0bbd1b0cf288",
     "fabintel/__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
@@ -32,7 +32,7 @@
     "products/p4/mcp_workflow.py": "79d9c0ec09d7f214592bdd5db2c21442ef017d55aed1d3a0fd2630bd0c58aed3",
     "products/p4/regression.py": "99ffed86f9bd755f6cdcbcbec63d060e7081f6b7b6fe9b7fb6ca795415b8730d",
     "products/p4/tradeoffs.py": "c10f188a4553fe00a16bb41d501d93107aef4e524ac59ab660dcda8c56df94f7",
-    "products/p4/window.py": "79237b97c6e73e5d5bf7b3da88a91148f1cab57f49c5d242bbf4b8f8a4c645d8"
+    "products/p4/window.py": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a"
   },
   "qualification_script_sha256": "6e21ac78c588d8bbff19dcd00e6e5ad8af705a8a423d590f82f5aff417cb2529",
   "scenario_results": {

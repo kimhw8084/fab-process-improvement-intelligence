@@ -189,6 +189,8 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
   const partitionSummaries = asObject(composition.partitions);
   const compositionComparisons = asList(composition.comparisons).map(asObject);
   const unseenEvaluationStrata = composition.unseen_evaluation_strata;
+  const simultaneousScreen = asObject(supported?.simultaneous_exact_setting_screen);
+  const transferAssessment = asObject(simultaneousScreen.calibration_transfer_assessment);
   const cells = supportedGrid.length ? supportedGrid : asList(supported?.candidate_cells).map(asObject);
   const [regionFilter, setRegionFilter] = useState("all");
   const [feasibleFilter, setFeasibleFilter] = useState("all");
@@ -240,7 +242,9 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
       evaluation_units_in_strata_absent_from_calibration: composition.evaluation_units_in_strata_absent_from_calibration,
       unseen_evaluation_strata: unseenEvaluationStrata, interpretation: composition.interpretation,
     }} />
-    <KeyValueTable label="Simultaneous exact-setting calibration" value={supported?.simultaneous_exact_setting_screen} />
+    <KeyValueTable label="Simultaneous exact-setting calibration" value={simultaneousScreen} />
+    <p role="note">The finite-panel candidate flag describes only the declared calibration panel. Evaluation transfer checks are post-selection diagnostics and cannot validate future coverage.</p>
+    <KeyValueTable label="Calibration transfer assessment; descriptive, not validation" value={transferAssessment} />
     <KeyValueTable label="Complete-set selected-candidate failure audit" value={evaluation.candidate_selection_audit} />
     {evaluationCandidates.length > 0 && <table>
       <caption>Untouched evaluation by selected setting and matching fixed-control population; descriptive only</caption>
@@ -285,7 +289,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
         <tbody>{filtered.map((cell, index) => <tr key={index}>
           {factorNames.map((factor) => <td key={factor}>{text(asObject(cell.factors)[factor])}</td>)}
           <td>{text(cell.region_class)}</td><td>{cell.conservative_feasible === true ? "Yes under stated limits" : cell.conservative_feasible === false ? "No" : "Unknown"}</td>
-          <td>{cell.simultaneous_supported_candidate === true ? "Passes finite exact-setting panel screen under unverified assumptions" : cell.simultaneous_supported_candidate === false ? "Does not pass or is outside exact-setting panel scope" : "Not established"}</td>
+          <td>{cell.simultaneous_supported_candidate === true ? `Passes calibration-panel screen under unverified assumptions; transfer: ${text(cell.evaluation_transfer_status)}` : cell.simultaneous_supported_candidate === false ? "Does not pass or is outside exact-setting panel scope" : "Not established"}</td>
           {metrics.map((metric) => {
             const prediction = asObject(asObject(cell.predictions)[metric]);
             return <td key={metric}>{text(prediction.estimate)}; local group-held-out empirical interval (95% order-statistic rank, no conditional coverage guarantee) {text(prediction.predictive_interval95)}; calibration {text(prediction.calibration_status)} across {text(prediction.calibration_units)} independent units; simultaneous exact-setting panel interval {text(prediction.simultaneous_group_interval95)} ({text(prediction.simultaneous_group_calibration_status)}); model interval {text(prediction.model_predictive_interval95)} ({text(prediction.status)})</td>;

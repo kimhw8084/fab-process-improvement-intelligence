@@ -419,6 +419,9 @@ class SupportedWindowQualification(unittest.TestCase):
         matched_structure = matched["simultaneous_exact_setting_screen"]["independent_evaluation_panel_compatibility"]
         self.assertEqual(matched_structure["status"], "DESCRIPTIVE_PANEL_STRUCTURE_MATCH")
         self.assertEqual(matched_structure["matching_units"], 10)
+        matched_transfer = matched["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        self.assertEqual(matched_transfer["status"], "NOT_ASSESSED_NO_STRATA_DECLARED")
+        self.assertEqual(matched["candidate_cells"][0]["evaluation_transfer_status"], matched_transfer["status"])
 
         shifted_rows = [dict(item, factors=dict(item["factors"]), metrics=dict(item["metrics"])) for item in rows]
         evaluation_rows = [item for item in shifted_rows if item["analysis_partition"] == "EVALUATION"]
@@ -432,6 +435,59 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(shifted_structure["mismatched_units"], 10)
         self.assertEqual([cell["factors"] for cell in shifted["candidate_cells"]], expected_candidates)
         self.assertEqual(shifted["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+        self.assertEqual(shifted["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]["status"],
+                         "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH")
+
+    def test_calibration_transfer_separates_known_mix_shift_and_unseen_strata_without_selection_leakage(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["analysis_partition"] = "TRAIN" if lot < 20 else "CALIBRATION" if lot < 40 else "EVALUATION"
+            item["tool_id"] = "TOOL-A"
+            item["event_year"] = 2026
+        data["model"]["minimum_clusters"] = 20
+        data["window_exploration"]["min_independent_units"] = 20
+        data["window_exploration"]["evaluation_strata"] = ["tool_id", "event_year"]
+        calibration = data["window_exploration"]["calibration"]
+        calibration["evaluation_value"] = "EVALUATION"
+        calibration["split_reference"] = "SYN-TRANSFER-MIX-SHIFT-001"
+
+        # Exact empirical match is explicitly descriptive, never validation.
+        matched = explore_window(rows, factors, METRIC, data)
+        matched_transfer = matched["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        self.assertEqual(matched_transfer["status"], "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION")
+        self.assertIn("not validation", matched_transfer["interpretation"])
+
+        known_shift_rows = [dict(item) for item in rows]
+        for item in known_shift_rows:
+            lot = int(item["lot_id"].split("-")[1])
+            if 20 <= lot < 40 and lot % 2:
+                item["tool_id"] = "TOOL-B"
+            elif lot >= 40:
+                item["tool_id"] = "TOOL-B"
+        known_shift = explore_window(known_shift_rows, factors, METRIC, data)
+        known_transfer = known_shift["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        self.assertEqual(known_transfer["status"], "DESCRIPTIVE_COMPOSITION_DIFFERENCE_OBSERVED")
+        self.assertAlmostEqual(known_transfer["calibration_to_evaluation_total_variation"], 0.5)
+
+        unseen_rows = [dict(item) for item in rows]
+        for item in unseen_rows:
+            if item["analysis_partition"] == "EVALUATION":
+                item["tool_id"] = "TOOL-C"
+        unseen = explore_window(unseen_rows, factors, METRIC, data)
+        unseen_transfer = unseen["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        self.assertEqual(unseen_transfer["status"], "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA")
+        self.assertEqual(unseen_transfer["unseen_evaluation_units"], 10)
+        self.assertEqual([cell["factors"] for cell in unseen["candidate_cells"]],
+                         [cell["factors"] for cell in matched["candidate_cells"]])
+        self.assertEqual(unseen["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+
+    def test_transfer_diagnostic_without_evaluation_is_not_assessed(self):
+        rows, factors, data = self._dataset()
+        screen = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        transfer = screen["calibration_transfer_assessment"]
+        self.assertEqual(transfer["status"], "NOT_EVALUATED")
+        self.assertIn("unverified", transfer["interpretation"])
 
     def test_simultaneous_band_requires_a_precommitted_complete_panel(self):
         rows, factors, data = self._dataset()

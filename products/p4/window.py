@@ -384,6 +384,85 @@ def _evaluation_panel_compatibility(rows, unit_field, model_factors, setting_pan
                 "a match does not establish exchangeability or future observation structure")}
 
 
+def _calibration_transfer_assessment(calibration_status, evaluation_panel, composition,
+                                     evaluation_provided, calibration_partition_name=None,
+                                     evaluation_partition_name=None):
+    """Describe held-out counterevidence to transferring exact-panel calibration.
+
+    This is deliberately post-selection. It cannot certify future exchangeability
+    or change any model, calibration radius, candidate, or candidate count.
+    """
+    result = {
+        "status": "NOT_EVALUATED" if not evaluation_provided else "NOT_ASSESSED",
+        "observed_counterevidence": [],
+        "evaluation_panel_status": evaluation_panel.get("status"),
+        "unseen_evaluation_strata_count": composition.get("evaluation_strata_absent_from_calibration_count"),
+        "unseen_evaluation_units": composition.get("evaluation_units_in_strata_absent_from_calibration"),
+        "calibration_to_evaluation_total_variation": None,
+    }
+    if not evaluation_provided:
+        result["interpretation"] = (
+            "no independent evaluation data were supplied; transfer to a future population is unverified")
+        return result
+    if calibration_status != "AVAILABLE":
+        result["status"] = "CALIBRATION_BAND_UNAVAILABLE"
+        result["interpretation"] = (
+            "the precommitted finite-panel band is unavailable, so transfer cannot be assessed")
+        return result
+
+    if evaluation_panel.get("status") == "OBSERVED_PANEL_STRUCTURE_MISMATCH":
+        result["observed_counterevidence"].append("OBSERVED_PANEL_STRUCTURE_MISMATCH")
+    elif evaluation_panel.get("status") != "DESCRIPTIVE_PANEL_STRUCTURE_MATCH":
+        result["observed_counterevidence"].append("EVALUATION_PANEL_STRUCTURE_NOT_ESTABLISHED")
+
+    if composition.get("evaluation_partition_status") == "DESCRIPTIVE":
+        comparison = next((item for item in composition.get("comparisons", [])
+                           if item.get("from_partition") == calibration_partition_name
+                           and item.get("to_partition") == evaluation_partition_name), None)
+        distance = comparison.get("categorical_total_variation_distance") if comparison else None
+        result["calibration_to_evaluation_total_variation"] = distance
+        unseen_count = composition.get("evaluation_strata_absent_from_calibration_count")
+        if isinstance(unseen_count, int) and unseen_count > 0:
+            result["observed_counterevidence"].append("UNSEEN_EVALUATION_STRATA")
+        elif distance is None:
+            result["observed_counterevidence"].append("INSUFFICIENT_ASSIGNABLE_STRATA")
+        elif distance > 0:
+            result["observed_counterevidence"].append("DESCRIPTIVE_COMPOSITION_DIFFERENCE")
+    elif composition.get("status") == "NOT_REQUESTED":
+        result["observed_counterevidence"].append("POPULATION_STRATA_NOT_DECLARED")
+    elif composition.get("evaluation_partition_status") == "INSUFFICIENT_ASSIGNABLE_UNITS":
+        result["observed_counterevidence"].append("INSUFFICIENT_ASSIGNABLE_STRATA")
+    else:
+        result["observed_counterevidence"].append("EVALUATION_STRATA_NOT_ESTABLISHED")
+
+    evidence = result["observed_counterevidence"]
+    if "UNSEEN_EVALUATION_STRATA" in evidence:
+        result["status"] = "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA"
+    elif "OBSERVED_PANEL_STRUCTURE_MISMATCH" in evidence:
+        result["status"] = "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH"
+    elif "DESCRIPTIVE_COMPOSITION_DIFFERENCE" in evidence:
+        result["status"] = "DESCRIPTIVE_COMPOSITION_DIFFERENCE_OBSERVED"
+    elif "INSUFFICIENT_ASSIGNABLE_STRATA" in evidence or "EVALUATION_STRATA_NOT_ESTABLISHED" in evidence:
+        result["status"] = "INSUFFICIENT_TRANSFER_DIAGNOSTICS"
+    elif "POPULATION_STRATA_NOT_DECLARED" in evidence:
+        result["status"] = "NOT_ASSESSED_NO_STRATA_DECLARED"
+    elif "EVALUATION_PANEL_STRUCTURE_NOT_ESTABLISHED" in evidence:
+        result["status"] = "INSUFFICIENT_TRANSFER_DIAGNOSTICS"
+    else:
+        result["status"] = "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION"
+    if result["status"].startswith("COUNTEREVIDENCE"):
+        result["interpretation"] = (
+            "observed evaluation data provide counterevidence to transferring calibration across the declared strata or panel structure; "
+            "candidate selection remains frozen, and this does not estimate future-population coverage")
+    elif result["status"] == "DESCRIPTIVE_MATCH_NO_TRANSFER_VALIDATION":
+        result["interpretation"] = (
+            "no difference was detected by these descriptive checks; this is not validation of exchangeability or future-population coverage")
+    else:
+        result["interpretation"] = (
+            "available evaluation data are insufficient to assess calibration transfer; no future-population coverage claim is made")
+    return result
+
+
 def _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
                              fixed_settings=None, strata_fields=()):
     """Evaluate only exact candidate settings on an untouched whole-unit partition.
@@ -1007,6 +1086,7 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
     evaluation["partition_composition_diagnostic"] = _partition_composition_diagnostic(
         partitions, unit_field, evaluation_strata,
         calibration_report["calibration_value"], calibration_report.get("evaluation_value"))
+    composition_diagnostic = evaluation["partition_composition_diagnostic"]
     simultaneous_candidates = [cell for cell in grid if cell["simultaneous_supported_candidate"]]
     simultaneous_summary = dict(simultaneous_calibration)
     if simultaneous_calibration.get("status") == "AVAILABLE":
@@ -1019,6 +1099,20 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             "status": "NOT_AVAILABLE",
             "reason": simultaneous_calibration.get("reason", "the finite exact-setting calibration band is unavailable"),
             "interpretation": "evaluation panel structure cannot be compared with an unavailable precommitted band"}
+    transfer_assessment = _calibration_transfer_assessment(
+        simultaneous_calibration.get("status"),
+        simultaneous_summary["independent_evaluation_panel_compatibility"],
+        composition_diagnostic,
+        calibration_report.get("evaluation_value") is not None,
+        calibration_report.get("calibration_value"),
+        calibration_report.get("evaluation_value"))
+    simultaneous_summary["calibration_transfer_assessment"] = transfer_assessment
+    # This is an annotation only. Evaluation outcomes never change a fit,
+    # calibration radius, candidate cell, or candidate count.
+    for cell in grid:
+        cell["evaluation_transfer_status"] = transfer_assessment["status"]
+    for cell in candidates:
+        cell["evaluation_transfer_status"] = transfer_assessment["status"]
     simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)
     simultaneous_summary["pointwise_supported_candidate_count"] = len(candidates)
     simultaneous_summary["status_scope"] = (
