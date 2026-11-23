@@ -16,3 +16,10 @@ class SourceContractTests(unittest.TestCase):
   html=(root/'ui'/'index.html').read_text()
   for forbidden in ('src="http://','src="https://','href="http://','href="https://','@import url(http'):
    self.assertNotIn(forbidden,html)
+ def test_file_picker_keyboard_focus_is_visible_on_its_label(self):
+  root=Path(__file__).resolve().parent.parent
+  html=(root/'ui'/'index.html').read_text()
+  input_markup='<input id="request-file" type="file" accept="application/json,.json"><label class="file-label" for="request-file">Open JSON file</label>'
+  focus_rule='input[type=file]:focus-visible+.file-label{outline:3px solid #168b76;outline-offset:3px}'
+  self.assertIn(input_markup,html)
+  self.assertIn(focus_rule,html)
