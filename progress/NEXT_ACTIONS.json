@@ -1,10 +1,10 @@
 {
   "schema": "p4-next-actions/v1",
-  "as_of_source_commit": "22388f225ff838461582449da462f4d315f97218",
+  "as_of_source_commit": "361dcd64d468f294cc2991120cad5353316c4b23",
   "product_state": "CANDIDATE",
   "next_executable_action": {
     "priority": 1,
-    "task": "Commit the exact-source benchmark report and refreshed continuation ledgers locally. Restore generated gate/test/schema/reproducibility/archive/checksum outputs to the just-committed state and remove generated release/SOURCE_BUILD.json. From the resulting clean worktree, build the archive, reproduce it twice from clean source, run fresh --without-pip extraction with OS-enforced network denial, verify checksums and source commit, then rerun release qualification and confirm E10. Continue to the next externally achievable scientific gap after the artifact gate.",
+    "task": "Commit the freshly generated dependency advisory report, current-source Bandit report, corrected license/security scope note and refreshed ledgers locally. Restore the older archive and volatile gate/test/schema/reproducibility outputs, remove release/SOURCE_BUILD.json, then build/reproduce/offline-qualify a new artifact containing the current security evidence and rerun the release runner to verify E10. After that, continue with an independent scientific challenge; do not stop at packaging.",
     "inspect": [
       "products/p4/window.py",
       "products/p4/investigation.v1.schema.json",
@@ -14,7 +14,7 @@
       "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
     "first_command": "rtk git diff --check",
-    "acceptance": "Benchmark report binds source_commit to 22388f225ff838461582449da462f4d315f97218 and exact Python source manifest 2be5190e\u2026; release runner executes 165 PASS/0 skipped and E01\u2013E04/E06 PASS including E02. P1 host source fingerprints match. E10 remains PENDING_FINAL_ARCHIVE until exact archive hash/reproducibility/offline extraction are rechecked. E05/E07\u2013E09/E11/E12 remain pending as reported; no publication."
+    "acceptance": "Current Bandit 1.9.4 report is bound to product source commit 361dcd64\u2026, has 8 low B311 deterministic-PRNG findings with documented dispositions and zero medium/high; current pip-audit 2.10.1 covers 48 optional package instances with 0 known advisories at its recorded timestamp. Existing archive 5c3c00e2\u2026 had E10 PASS but predates these evidence files. Rebuilt archive needs matching source manifest, two identical detached-worktree builds, fresh --without-pip extraction and network-denied probe. Owner/legal/manual security gates remain pending; no publication."
   },
   "ordered_queue": [
     {
@@ -54,8 +54,8 @@
     },
     {
       "priority": 8,
-      "status": "BENCHMARK_SOURCE_BOUND_RELEASE_RUNNER_E02_PASS_ARCHIVE_PENDING",
-      "task": "Committed current P4 D02 source/evidence in 22388f2. Regenerated BENCHMARK_REPORT against the exact fabintel/products/p4 SHA manifest (2be5190e\u2026) at commit 22388f2; integrated workflow p50 259.17 ms / p95 268.87 ms, 900 observations, 100 lots, statsmodels coefficient max difference 2.84e-14. Full release runner then executed 165 tests PASS/0 skipped, demo workflow and schema/UI/P1 evidence PASS, E02 now PASS. Exact archive is not yet rebuilt against 22388f2; E10 remains pending."
+      "status": "CURRENT_SOURCE_LIMITED_SECURITY_SCAN_PASS_ARCHIVE_REBUILD_REQUIRED",
+      "task": "Refreshed security evidence after D02 source commit 361dcd64\u2026: pip-audit inspected 48 optional package instances and found 0 advisories; Bandit 1.9.4 found 8 LOW B311 and 0 medium/high, with each finding disposition documented. Review/license/ownership remain pending. Because the reports are packaged, the previously passing 5c3c00e2\u2026 archive is superseded and E10 must be requalified."
     }
   ],
   "internal_dependencies": [
