@@ -15,6 +15,37 @@
     "status": "PASS",
     "trials_per_scenario": 1200
   },
+  "d01_conditioning_benchmark": {
+    "evidence": "qualification/results/D01_CONDITIONING_BENCHMARK.json",
+    "near_collinear_interval_width_ratio_lower_bound": 70.23272197852576,
+    "near_collinear_median_proxy": 102612.63789675332,
+    "near_collinear_wrong_sign_fractions": {
+      "x": 0.448,
+      "z": 0.484
+    },
+    "runtime_dependencies_added": false,
+    "scope": "fixed-design known-effect synthetic sensitivity; heuristic thresholds expose instability but do not certify identifiability or model correctness",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials_per_design": 250,
+    "well_conditioned_median_proxy": 16.905842933964248
+  },
+  "d01_crossed_dependence_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json",
+    "one_way_lot_false_positive_rate": 0.335,
+    "p4_cross_dependence_abstentions": 8,
+    "runtime_dependencies_added": false,
+    "scope": "independent synthetic chamber-product null challenge; two-way Statsmodels is a benchmark-only reference and P4 abstains for declared crossed groups",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials": 1200,
+    "two_way_reference_false_positive_rate": 0.04666666666666667,
+    "two_way_reference_wilson95": [
+      0.03611089196253996,
+      0.060115615250606366
+    ]
+  },
   "d02_replicate_shift_benchmark": {
     "coverage_by_future_observations_per_setting": {
       "1": 0.9456,
@@ -27,6 +58,18 @@
     "source_hash_matches": true,
     "status": "PASS",
     "trials": 5000
+  },
+  "d02_response_drift_benchmark": {
+    "all_trials_preserved_declared_strata_and_panel": true,
+    "evidence": "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json",
+    "hidden_drift_trial_mean_miss_fraction": 1.0,
+    "matched_trial_mean_miss_fraction": 0.049166666666666664,
+    "paired_fraction_with_increased_misses": 1.0,
+    "runtime_dependencies_added": false,
+    "scope": "paired synthetic response-drift counterevidence challenge; descriptive held-out misses only, not exchangeability or coverage validation",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials": 250
   },
   "d02_simultaneous_coverage_benchmark": {
     "evidence": "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
@@ -97,7 +140,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+  "evaluated_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -127,19 +170,25 @@
         "qualification/critical_cases.json",
         "qualification/benchmark_d01_cluster_imbalance.py",
         "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json",
+        "qualification/benchmark_d01_crossed_dependence.py",
+        "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json",
+        "qualification/benchmark_d01_conditioning.py",
+        "qualification/results/D01_CONDITIONING_BENCHMARK.json",
         "qualification/benchmark_d02_replicate_shift.py",
         "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
         "qualification/benchmark_d02_simultaneous.py",
         "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
         "qualification/benchmark_d02_stratum_transfer.py",
         "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json",
+        "qualification/benchmark_d02_response_drift.py",
+        "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json",
         "qualification/benchmark_d03_bounded_mean.py",
         "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json",
         "release/D04_OSS_COMPARISON.json",
         "release/BENCHMARK_REPORT.json",
         "release/TEST_RESULTS.json"
       ],
-      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 effective-cluster-size abstention challenge, D02 replicate-count/correlated-lot panel and cross-tool/time transfer challenges under explicit synthetic mixtures, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks",
+      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks",
       "status": "PASS"
     },
     "E03": {
@@ -214,8 +263,8 @@
         "release/OFFLINE_QUALIFICATION.json",
         "qualification/build_transfer_bundle.py"
       ],
-      "reason": "the exact current archive, clean-source reproducible build and fresh extracted offline runtime must all match",
-      "status": "PENDING_FINAL_ARCHIVE"
+      "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime",
+      "status": "PASS"
     },
     "E11": {
       "evidence": [
@@ -281,7 +330,7 @@
   },
   "known_critical_defects": [],
   "product": "p4",
-  "product_source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+  "product_source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
   "release_blockers": [
     "no actual authorized MCP connector",
     "disposable P1 composition compatibility was demonstrated; authoritative P1 source/version/registration ownership and owner acceptance remain pending",
@@ -300,11 +349,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "615c521f815f95133be3c635e28ac7284eb352b5",
+    "package_source_snapshot": "4261d394c1e4f735079ec33c76b371ff386143ce",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "01b0b3aa079e778754fa0cf8814b0d6fc6b36349bd48a9137cc4db2785e9046e",
-    "source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+    "product_source_manifest_sha256": "addfea3cc52575b906bb27d0278a7453bca038347060861ea68e9370dcbd1c6b",
+    "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -341,7 +390,7 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 13,
+    "component_tests": 18,
     "disposable_host_evidence": {
       "current_p4_source_hashes_match": true,
       "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
@@ -352,18 +401,18 @@
     },
     "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
     "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY",
-    "source_declared_tests": 13,
+    "source_declared_tests": 18,
     "status": "PASS_LOCAL_MODULE_ONLY",
     "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 11.714,
+    "duration_seconds": 12.811,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 175,
+    "tests_run": 194,
     "tests_skipped": 0
   }
 }

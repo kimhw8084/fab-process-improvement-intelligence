@@ -1,43 +1,41 @@
-# P4 release qualification record
+# P4 local candidate release qualification
 
-Date: 2026-11-22 (America/Chicago)  
-Product: FAB Process Improvement Intelligence, P4  
-Release state: **CANDIDATE — external transfer not approved**  
-Product implementation commit: `15a150dea2cb1d9c3ba356035219b47b10f2c1da`  
-Complete package source snapshot: `65521742de34240f8de03e52d89b87288497c585`  
-Repository update: local only; no public push or publication.
+Date: 2026-11-23 (America/Chicago)
+Product: FAB Process Improvement Intelligence, P4
+Release state: **CANDIDATE — not approved for external transfer or public distribution**
+Exact archive source commit: 4261d394c1e4f735079ec33c76b371ff386143ce
+Local repository update: no push or publication.
 
-## Exact local bundle
+## Exact local offline archive
 
-- File: `release/FAB_INTELLIGENCE_P4_CANDIDATE.zip`
-- SHA-256: `40312dc3a780171aaec7a8b96868fe6784eab567fde7d13a9ee77a6f71dc05ad`
-- Size: 273,135 bytes
-- ZIP entries: 109 (108 source files plus the archive manifest)
-- Source manifest: `release/SOURCE_MANIFEST.sha256`
-- Checksum sidecar: `release/TRANSFER_BUNDLE.sha256`
+- File: release/FAB_INTELLIGENCE_P4_CANDIDATE.zip
+- SHA-256: 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3
+- Size: 9,309,496 bytes
+- Product source files: 213
+- Source manifest SHA-256: a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0
+- Checksum sidecar: release/TRANSFER_BUNDLE.sha256
 
-Two clean detached worktree builds at package source commit `65521742de34240f8de03e52d89b87288497c585` produced the same SHA-256. The workspace archive and sidecar match those builds; the source manifest matches the clean committed tree. A fresh extraction and dependency-free virtual environment passed the local offline qualification. See `release/BUILD_REPRODUCIBILITY.json` and `release/OFFLINE_QUALIFICATION.json`.
+Two clean detached worktrees at the exact source commit built byte-identical archives and manifests. The workspace archive and sidecar match. A fresh ZIP extraction created a virtual environment without pip; doctor, demo, full synthetic D01-D05 analysis, and an OS-sandboxed socket denial probe passed. The probe returned DENIED and no dependency installation occurred. This qualifies this local macOS ARM64 / Python 3.11.7 artifact only.
 
-The earlier artifact reconciliation remains separate: the tracked ZIP blob at published candidate commit `d16ec28` has SHA-256 `97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64`. The reported prefix `104d66e8…` has no preserved full digest or source bytes and remains unverified. Neither old value is the current local bundle checksum.
+Generated benchmark and qualification output files are preserved next to the archive as evidence sidecars and are not runtime inputs in the transfer ZIP. The package retains product code, tests, docs, fixtures, required local UI module, and SPDX SBOM. The build refuses uncommitted product source changes.
 
-## Product and independent qualification evidence
+## Current gate status at the artifact source commit
 
-- **D01–D05:** integrated synthetic dossier is VALID. The fixed evaluation includes held-out nonlinear, confounded, clustered/correlated, sparse/out-of-domain, multiobjective, failed-experiment, attrition, and invalid-assumption cases; 100 seeded slope cases; fixed numeric oracles; and refusal checks. The current local qualification suite recorded 84 tests with zero skips. This qualifies the implemented synthetic evaluation scope, not production performance on fab data.
-- **D01 reference parity:** matched centered first-order OLS coefficients differ from statsmodels 0.15.0 by at most `1.42e-14`; statsmodels is benchmark-only and is not a product runtime dependency.
-- **D02:** observed, interpolated, extrapolated, and unsupported regions are reported separately; unsupported candidates are refused. Benchmark and test details are in `tests/test_d01_d02_independent.py` and `release/TEST_RESULTS.json`.
-- **D03:** approved relationship contracts, compatible population checks, uncertainty propagation, and Pareto tradeoffs are exercised; incompatible populations fail closed.
-- **D04:** fixed-seed comparisons against SciPy Latin hypercube sampling, pyDOE3 D-optimal design, exhaustive finite-grid optimum, and scikit-optimize expected improvement passed. The product retained portable methods only where the independent benchmark demonstrated performance and rejects the tested unsupported multimodal proposal. See `release/D04_OSS_COMPARISON.json` and `release/D04_OSS_DECISION.md`.
-- **D05:** study-design balance, assumptions, sensitivity, counterevidence, attrition, and failed runs are included; confounded or invalid designs do not produce causal claims.
-- **MCP adapter:** configurable JSON-RPC stdio and Streamable HTTP mapping were tested against the bundled realistic synthetic mock, including tool discovery, pagination, SSE, bounded read-only access, scoped configuration, and fail-closed permission/mapping cases. No actual Samsung connector, tool identifiers, source mapping, or authorization is claimed. Company qualification remains a separate required step.
-- **Engineer workflow:** local keyboard-only execution completed the demo and analysis with Enter, returned visible focus to the results heading, and opened the full 225-row D02 evidence table. The local UI check found no unnamed enabled controls; its evidence tables have captions and scoped headers, and both SVG charts have titles/descriptions. Fifteen curated token contrast pairs passed. This continuation also adds a visible keyboard focus outline for the clipped native JSON file input, with a regression check. Screen-reader and formal WCAG/approved-host reviews were not run. See `release/UI_BROWSER_ACCEPTANCE.md`, `release/UI_ACCESSIBILITY_CHECK.json`, and `release/UI_CONTRAST_CHECK.json`.
-- **Performance:** on the documented local macOS/arm64/Python 3.11.7 host, the 540-row/60-lot integrated synthetic workflow measured p50 70.4 ms and p95 71.7 ms over 25 repetitions. The benchmark has no engineer task-time or ROI baseline; no ROI claim is made. See `release/BENCHMARK_REPORT.json`.
-- **Dependencies/source scan:** product runtime uses only the Python standard library. A clean audit of 20 optional qualification packages found zero known advisories. A scoped Bandit scan recorded eight LOW findings and zero MEDIUM/HIGH findings; each LOW finding has a documented disposition. These scans do not substitute for independent manual/OS security review or license/legal review. See `release/DEPENDENCY_AUDIT.json`, `release/SOURCE_SECURITY_SCAN.json`, and `release/LICENSE_SECURITY_REVIEW.md`.
-- **Offline:** exact local ZIP extraction, checksum/manifest checks, doctor, demo, integrated D01–D05 analysis, and a network-deny probe passed under the caller's OS sandbox. The product itself does not enforce an OS network sandbox; deployment must apply its host network policy. See `release/NO_NETWORK_QUALIFICATION.md`.
+- PASS: E01 synthetic workflow, E02 scientific evaluation/performance, E03 schema, E04 offline dependency closure, E06 shared contracts, E10 exact archive/reproducible builds/offline extraction.
+- PENDING_INTERNAL: E05 actual source authorization and semantic qualification; E12 approved company-side configuration and engineer acceptance.
+- PENDING_AUTHORITATIVE_HOST_AND_FORMAL_ACCESSIBILITY: E07. The P1 host evidence is a 29-file disposable compatibility composition, not an upstream source revision or owner acceptance; formal accessibility/screen-reader review and target-host behavior remain pending.
+- PENDING_TARGET_OS: E08. No company-approved host OS/network policy was supplied.
+- PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW: E09. Fresh pip-audit 2.10.1/PyPI lookup covered 48 dependency instances with zero known advisories. Bandit 1.9.4 recorded 8 LOW and 0 MEDIUM/HIGH findings. These limited scans do not establish OS-level security clearance, license approval, source ownership, or transfer rights.
+- PENDING_ENGINEER_BASELINE: E11. Synthetic 900-row workflow p50 was 256.57 ms over 25 runs; no eligible engineer task-time or ROI baseline exists.
 
-## Gate state
+## Scientific and integration scope
 
-The gate record at package source commit `65521742de34240f8de03e52d89b87288497c585` is `CANDIDATE`: E01–E04, E06, and E10 pass within their recorded synthetic/external scope. E05 and E12 remain `PENDING_INTERNAL`; E07 remains `PENDING_FORMAL_ACCESSIBILITY`; E08 remains `PENDING_TARGET_OS`; E09 remains `PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW`; E11 remains `PENDING_ENGINEER_BASELINE`. The gate definitions and evidence are in `release/GATE_REPORT.json`.
+All five P4 capability workflows execute. The integrated synthetic result intentionally remains PARTIAL: D03 is LIMITED_SCOPE, D04 PROPOSED, D05 ESTIMATED. D01 coefficients are observational associations. D02 presents 76 advisory cells, but independent exact-setting evaluation covers only 3; no conditional or simultaneous production coverage claim is made. Experiment proposals are non-executing. Observational DiD does not claim causality.
 
-Company-only authorization, approved source semantics and lineage, actual target host/OS, formal accessibility review, ownership and distribution rights, independent security review, and real engineer ROI remain explicitly pending until verified by their appropriate owners. The canonical literal R01–R53/Golden requirements were not supplied in this folder, so literal requirement-by-requirement compliance is not asserted.
+The official MCP SDK synthetic path is bounded/read-only, validates source semantics, versions, relationships, grain, times and audit receipts, then produces a shared evidence envelope. Its exact success and refusal results are schema-validated and rendered through the P1-contract-compatible P4 panel. The P1 server route itself still serves its local demo fixture and does not invoke MCP; an additive host-owned lifecycle proposal is in integration/proposals/CHANGE-002-P1-MCP-TO-P4-WORKFLOW.md. Actual company mappings, permissions and endpoint remain pending.
 
-This package is **not** `EXTERNAL_TRANSFER_READY`, `READY_INTERNAL`, or publicly distributable. No public push was made. Do not publish company-related material until ownership, license, and security review authorize distribution.
+## Historical checksum reconciliation
+
+At prior candidate commit d16ec28, the tracked ZIP bytes were verified as SHA-256 97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64. The alternate prefix 104d66e8… has no preserved full digest or source bytes and remains unverified. The current local archive is a different, reproducible artifact from source commit 4261d39 with SHA-256 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3. No new public artifact was published.
+
+Owner/legal transfer approval, company permissions and source semantics, approved target OS/network policy, authoritative P1 source/owner acceptance, formal accessibility review, independent manual security/license review, and measured engineer ROI remain pending. Do not set EXTERNAL_TRANSFER_READY or publish company-related material until the corresponding requirements are genuinely verified.

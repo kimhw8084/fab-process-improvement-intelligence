@@ -17,7 +17,7 @@
   ],
   "method": "independent split-conformal order-statistic oracle over within-lot maximum absolute residual across nine exact settings",
   "order_statistic_rank": 38,
-  "product_source_sha256": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a",
+  "product_source_sha256": "b0e510bef64de947dbb7f8a38ee2d81aa31c7606bf3b1fd72a986681334bd283",
   "scenarios": {
     "same_known_mix": {
       "coverage": 0.94825,

@@ -1,0 +1,12 @@
+{
+  "qualification_scope": "local candidate source archive; not a distribution approval",
+  "schema": "p4-source-build/v1",
+  "secret_scan": {
+    "findings": 0,
+    "golden_commit": "dc2ece864b2d744e47dfe8c7d9ad78aadbed369e",
+    "implementation": "Golden scripts/secret_patterns.py"
+  },
+  "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
+  "source_file_count": 213,
+  "source_manifest_sha256": "a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0"
+}

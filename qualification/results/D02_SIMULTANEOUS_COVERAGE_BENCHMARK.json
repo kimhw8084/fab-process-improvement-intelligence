@@ -5,6 +5,8 @@
         "observational conditional mean is represented by the selected linear/quadratic terms",
         "HC3 handles heteroskedasticity but assumes independent observations",
         "cluster covariance allows within-cluster dependence and relies on independent clusters",
+        "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
+        "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
         "classical covariance additionally assumes homoskedastic errors",
         "measurement uncertainty was not supplied or propagated",
         "fixed effects adjust only for the explicitly selected fields"
@@ -12,6 +14,13 @@
       "diagnostic_warnings": [],
       "diagnostics": {
         "condition_proxy": 7.49999999999999,
+        "condition_proxy_interpretation": {
+          "elevated_threshold": 100.0,
+          "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula",
+          "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+          "severe_threshold": 1000.0,
+          "status": "NO_HEURISTIC_FLAG"
+        },
         "degenerate_residual_variation": false,
         "high_leverage_observation_ids": [],
         "internally_studentized_residual_outlier_ids": [],
@@ -56,11 +65,13 @@
         "covariance_auto_selected_for_repeated_units": false,
         "declared_independent_unit_count": null,
         "declared_independent_unit_field": null,
+        "declared_shared_dependence_fields": [],
         "independent_cluster_count": 40,
         "independent_cluster_field": "lot_id",
         "inference_df": 39,
         "minimum_clusters": 30,
-        "row_share_effective_cluster_count": 39.99999999999997
+        "row_share_effective_cluster_count": 39.99999999999997,
+        "shared_dependence": null
       },
       "interpretation": "observational association; coefficients do not estimate intervention response",
       "metric": "defect",
@@ -158,6 +169,8 @@
         "observational conditional mean is represented by the selected linear/quadratic terms",
         "HC3 handles heteroskedasticity but assumes independent observations",
         "cluster covariance allows within-cluster dependence and relies on independent clusters",
+        "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
+        "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
         "classical covariance additionally assumes homoskedastic errors",
         "measurement uncertainty was not supplied or propagated",
         "fixed effects adjust only for the explicitly selected fields"
@@ -167,6 +180,13 @@
       ],
       "diagnostics": {
         "condition_proxy": 7.49999999999999,
+        "condition_proxy_interpretation": {
+          "elevated_threshold": 100.0,
+          "guarantee": "none; does not replace rank/identifiability analysis or validate the selected formula",
+          "method": "squared pivoted-QR diagonal ratio; descriptive screening thresholds only",
+          "severe_threshold": 1000.0,
+          "status": "NO_HEURISTIC_FLAG"
+        },
         "degenerate_residual_variation": false,
         "high_leverage_observation_ids": [],
         "internally_studentized_residual_outlier_ids": [
@@ -213,11 +233,13 @@
         "covariance_auto_selected_for_repeated_units": false,
         "declared_independent_unit_count": null,
         "declared_independent_unit_field": null,
+        "declared_shared_dependence_fields": [],
         "independent_cluster_count": 40,
         "independent_cluster_field": "lot_id",
         "inference_df": 39,
         "minimum_clusters": 30,
-        "row_share_effective_cluster_count": 39.99999999999997
+        "row_share_effective_cluster_count": 39.99999999999997,
+        "shared_dependence": null
       },
       "interpretation": "observational association; coefficients do not estimate intervention response",
       "metric": "quality",
@@ -369,7 +391,7 @@
       0.0038267584855551234
     ]
   },
-  "product_window_sha256": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a",
+  "product_window_sha256": "b0e510bef64de947dbb7f8a38ee2d81aa31c7606bf3b1fd72a986681334bd283",
   "schema": "p4-d02-simultaneous-calibration-benchmark/v1",
   "seed": 20261123,
   "training_units": 40,

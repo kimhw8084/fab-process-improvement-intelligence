@@ -13,7 +13,7 @@
     "Wide Hoeffding intervals can prevent useful dominance decisions; interval separation is neither causal nor population harmonization."
   ],
   "objective_family_size": 8,
-  "product_source_manifest_sha256": "01b0b3aa079e778754fa0cf8814b0d6fc6b36349bd48a9137cc4db2785e9046e",
+  "product_source_manifest_sha256": "addfea3cc52575b906bb27d0278a7453bca038347060861ea68e9370dcbd1c6b",
   "product_source_sha256": {
     "fabintel/__init__.py": "1701050bc6b2245204dd74ba9829f6216b6d6689bf5ae78305ab0bbd1b0cf288",
     "fabintel/__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
@@ -22,17 +22,17 @@
     "fabintel/contracts.py": "9862bf8601878e5883c23cbbdf7b96d9bf9508e29a4d8faa984afdb0dcf94719",
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
     "fabintel/mock_mcp.py": "e72fe85913b9f87d138f5fe0b480b6eaff1d289b099a9600c4f823eed2d46f2e",
-    "fabintel/mock_mcp_server.py": "60a3a6995cdba50cb23c4f355241169fcc1b025fb3ed056276f5ce567ef5ea88",
+    "fabintel/mock_mcp_server.py": "8b801e87df7dd5466606f167b00efff1dbed4740926b144c79de7224db83675f",
     "fabintel/project.py": "5cf402b86d6ebf03b0e1faa1bbe8491159a18ce0947059941e342fccd3a8c00e",
     "fabintel/qualification.py": "bb39e8f382f932980336b5ea789ec680f60fbbcb70dc4dc6ad7adb7a9aaaf574",
     "fabintel/server.py": "21b206fcf34770d576d67b560ae894dce87e674ff4889c8f0308f1953ea41148",
     "products/p4/__init__.py": "4451db1476259ee70e30fbfc26e713d13235887665d44bf15366afa160cc1a43",
-    "products/p4/design.py": "4bc9db72bfc79b20ef6326643135f47e8fc92b6744da5c3e502effbfe143e4c6",
+    "products/p4/design.py": "0c4e73cd0f84a77f35b395c3cd2eb1b41fd1e14bf1b66f7c2b0561cbd5b597ca",
     "products/p4/engine.py": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-    "products/p4/mcp_workflow.py": "79d9c0ec09d7f214592bdd5db2c21442ef017d55aed1d3a0fd2630bd0c58aed3",
-    "products/p4/regression.py": "f8bf427a610ce8bb3f548c0c9359ac34fb0ba6bd101a6adf09f561cebf008946",
-    "products/p4/tradeoffs.py": "c10f188a4553fe00a16bb41d501d93107aef4e524ac59ab660dcda8c56df94f7",
-    "products/p4/window.py": "50536a2d1ca45151b64102c38c932df4e6f6e522df397e6f0865764ffa6ccd6a"
+    "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
+    "products/p4/regression.py": "8c8ee6319e84ed52f38b68508e711699a3a4574189ca9f25439cb0f5cc74330b",
+    "products/p4/tradeoffs.py": "05d2f661e3882fa660079684315a0d2eb128d6c9e75aa966c46adfa9ce0743d6",
+    "products/p4/window.py": "b0e510bef64de947dbb7f8a38ee2d81aa31c7606bf3b1fd72a986681334bd283"
   },
   "qualification_script_sha256": "6e21ac78c588d8bbff19dcd00e6e5ad8af705a8a423d590f82f5aff417cb2529",
   "scenario_results": {

@@ -153,6 +153,51 @@
         "oracle": "independent 1200-trial null challenge: count-only cluster reference coverage 67.4%; product abstains under the configured threshold",
         "required_result": "withhold cluster-robust intervals when the inverse-Herfindahl effective count by observation share is below the configured minimum",
         "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_extreme_cluster_size_imbalance_withholds_nominally_large_cluster_inference"
+      },
+      {
+        "id": "P4-18",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "independent lots share residual shocks across chamber and product groups",
+        "oracle": "independent 1200-trial randomized chamber-product null challenge: one-way Statsmodels lot-cluster false-positive rate 33.5%; two-way chamber-product reference 4.67%; P4 abstains on every diagnostic case",
+        "required_result": "report crossed declared group dimensions, preserve the point estimate, and withhold one-way uncertainty",
+        "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference"
+      },
+      {
+        "id": "P4-19",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "held-out exact-setting units match calibration tool/time strata and panel counts, but an unseen chamber has a shifted nonlinear response surface",
+        "oracle": "paired independent-trial response-drift sensitivity challenge with unchanged declared strata and exact panel",
+        "required_result": "score observed exact-panel interval misses as descriptive calibration-transfer counterevidence while preserving selection isolation and making no future coverage claim",
+        "test": "qualification/benchmark_d02_response_drift.py"
+      },
+      {
+        "id": "P4-20",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "two full-rank continuous factors are nearly collinear under a known separate-effect model",
+        "oracle": "250-trial fixed-design known-coefficient challenge across five predictor-separation levels",
+        "required_result": "retain marginal uncertainty but surface elevated or severe QR conditioning warnings as coefficients become unstable; do not call the heuristic an identifiability certificate",
+        "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_full_rank_near_collinear_factors_warn_and_retain_wide_uncertainty"
+      },
+      {
+        "id": "P4-21",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "D04 independent-unit identifiers include a numeric value and a string with the same display form",
+        "oracle": "36 known independent units including numeric/string ID collisions retain all 36 groups and 30 development incumbent units",
+        "required_result": "preserve typed unit identity across development/evaluation splitting, cluster counts, and incumbent aggregation",
+        "test": "tests/test_d04_designs.py::DesignQualification.test_next_best_keeps_numeric_and_string_unit_ids_separate"
+      },
+      {
+        "id": "P4-22",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "cross-step evidence supplies a scalar string containing two approved source IDs instead of an exact source-ID array",
+        "oracle": "exact-list provenance check rejects Python substring-membership false positives and empty paired evidence",
+        "required_result": "withhold the cross-step Pareto comparison and downstream claim; malformed objective and source contracts also fail closed",
+        "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_row_lineage_requires_exact_source_id_array_membership"
       }
     ],
     "missing_case_evidence": [],
@@ -290,11 +335,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "615c521f815f95133be3c635e28ac7284eb352b5",
+    "package_source_snapshot": "4261d394c1e4f735079ec33c76b371ff386143ce",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "01b0b3aa079e778754fa0cf8814b0d6fc6b36349bd48a9137cc4db2785e9046e",
-    "source_commit": "615c521f815f95133be3c635e28ac7284eb352b5",
+    "product_source_manifest_sha256": "addfea3cc52575b906bb27d0278a7453bca038347060861ea68e9370dcbd1c6b",
+    "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -327,7 +372,7 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 13,
+    "component_tests": 18,
     "disposable_host_evidence": {
       "current_p4_source_hashes_match": true,
       "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
@@ -338,18 +383,18 @@
     },
     "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
     "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY",
-    "source_declared_tests": 13,
+    "source_declared_tests": 18,
     "status": "PASS_LOCAL_MODULE_ONLY",
     "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 11.714,
+    "duration_seconds": 12.811,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 175,
+    "tests_run": 194,
     "tests_skipped": 0
   }
 }

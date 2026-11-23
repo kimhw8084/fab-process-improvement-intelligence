@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "455294325df0a904140c9b538f959ed1dcb3be65",
+  "as_of_source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,17 +15,17 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 8,
-    "task": "Finalize and commit the transfer-inventory correction that keeps mutable benchmark and test outputs as local evidence sidecars while preserving the pinned runtime, documentation, tests and SBOM in the bundle. Re-run all tests and the exact-source release runner, build from the clean product source snapshot, compare two detached clean builds, run fresh no-pip extraction under OS network denial, and re-run E10 against the exact artifact.",
-    "first_command": "rtk git diff --check && rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -q",
+    "priority": 7,
+    "task": "Continue the highest external integration gap: qualify the shared P1-hosted P4 interaction for keyboard and screen-reader-oriented semantics using existing local tooling, and prepare exact P1 host-side test assertions for the MCP request lifecycle proposal. Keep the P1 source/owner and formal WCAG sign-off pending; repair only P4-owned defects. Then inspect any remaining locally verifiable D01-D05 edge cases without re-running already current benches.",
+    "first_command": "rtk rg --files release qualification tests | rtk rg 'ACCESS|CONTRAST|BROWSER|UI|suite_host' && rtk sed -n '1,240p' qualification/accessibility_contrast_check.py && rtk sed -n '1,220p' integration/proposals/CHANGE-002-P1-MCP-TO-P4-WORKFLOW.md",
     "inspect": [
-      "qualification/build_transfer_bundle.py",
-      "tests/test_schema_and_ui.py",
-      "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py",
-      "qualification/run_release_checks.py"
+      "products/p4/ui/P4Panel.tsx",
+      "products/p4/ui/P4Panel.test.tsx",
+      "qualification/accessibility_contrast_check.py",
+      "release/UI_COMPONENT_QUALIFICATION.json",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
     ],
-    "acceptance": "Only declared generated qualification outputs may be dirty while building; product source edits still refuse. The current bundle inventory excludes generated benchmark evidence but includes runtime, tests, documentation and SBOM. E10 passes only if exact source manifest, clean rebuilds, sidecar checksum and fresh network-denied extraction all agree."
+    "acceptance": "Record only checks actually executed. Distinguish local automated/keyboard checks from formal WCAG, screen-reader, P1-owner and company target-host qualification. Do not create a P4 shell or claim external transfer readiness."
   },
   "ordered_queue": [
     {
@@ -65,12 +65,12 @@
     },
     {
       "priority": 8,
-      "status": "RELEASE_RUNNER_PASS_AT_4552943; E10_PENDING; PACKAGER_CHANGE_UNCOMMITTED",
-      "task": "Full runner at source commit 455294325df0a904140c9b538f959ed1dcb3be65 passed 192 Python tests, all scientific benchmark/schema/UI checks, and recognized disposable P1 evidence. Current source-bound benchmark p50 256.25 ms for the 900-row synthetic run; no engineer baseline/ROI claim. Fresh pip-audit/PyPI lookup on Python 3.11 audited 48 dependency instances, 0 known advisories; Bandit 1.9.4 found 8 LOW, 0 MEDIUM/HIGH (limited scope). Reproducible archive and network-denied extraction remain pending."
+      "status": "E10_PASS_AT_4261D39; CANDIDATE; COMPANY_AND_AUTHORITATIVE_HOST_GATES_PENDING",
+      "task": "Exact archive source commit 4261d394c1e4f735079ec33c76b371ff386143ce, 213 source files, ZIP SHA-256 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3 (9,309,496 bytes). Two detached clean worktree builds matched; source manifest SHA-256 a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0; exact checksum sidecar matched. Fresh no-pip extraction and D01-D05 synthetic run passed under macOS sandbox-exec network denial; network probe returned DENIED. Full runner at this commit: 194 tests PASS, schema and benchmark checks PASS, P1 disposable host recognized; E10 PASS. Release remains CANDIDATE because E05/E07/E08/E09/E11/E12 are pending."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "dirty; source base 4552943, with transfer-bundle evidence separation and source-contract tests under qualification; release and security evidence refresh pending local commit",
+  "worktree_state": "dirty only with generated release/qualification sidecars and the exact artifact; no product source changes. Artifact and sidecar identify source commit 4261d39; next local work should not rewrite or publish it without a release-relevant source change.",
   "active_uncommitted_changes": true
 }

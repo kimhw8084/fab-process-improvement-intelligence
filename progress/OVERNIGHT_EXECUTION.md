@@ -417,3 +417,14 @@ At start, the only dirty paths were regenerated `release/` package/evidence file
 - Refreshed advisory/security evidence using pip-audit 2.10.1 on qualified Python 3.11.7 after the Python 3.14 audit environment failed to build pinned SciPy 1.11.4. Current PyPI lookup covered 48 dependency instances with zero known advisories. Bandit 1.9.4 recorded 8 LOW and 0 MEDIUM/HIGH; this remains limited-scope evidence, not security clearance. Initial scanner failure was not interpreted as a clean audit.
 - No archive was rebuilt. The benchmark/test sidecars and security refresh are in the local release folder; no public distribution or remote update occurred.
 - Exact next action: commit the tested transfer-builder boundary and evidence refresh; regenerate benchmark and full release runner at that commit; build the current ZIP, reproduce it in two clean detached worktrees, run fresh no-pip extraction under the documented macOS network-deny sandbox, and rerun the release runner so E10 checks the exact artifact.
+
+## Checkpoint — reproducible exact-source offline artifact qualified (2026-11-23)
+
+- Exact artifact source commit: 4261d394c1e4f735079ec33c76b371ff386143ce.
+- Transfer builder included 213 files; generated scientific benchmark outputs and the mutable performance summary are local evidence sidecars. The archive includes runtime source, tests, docs, fixtures, the P1-compatible headless UI module and SPDX SBOM.
+- Built release/FAB_INTELLIGENCE_P4_CANDIDATE.zip: 9,309,496 bytes, SHA-256 4a611e77894158bbc03caf0af7d3eb887f3d8f3ce5295ceda1c94ba67ff492b3. Sidecar matches. Source manifest SHA-256 a9041796fbd706c0e08f2600c90bbac41b21f17b402abf836c9b842c74c734e0.
+- qualification/check_reproducibility.py: two detached clean worktree builds byte-identical, manifest and checksum match, status PASS.
+- sandbox-exec with '(version 1)(allow default)(deny network*)' ran qualification/offline_qualify.py against the exact archive: checksum and 213 packaged source files verified; fresh venv had no pip; doctor/demo/full synthetic D01-D05 passed; socket probe returned DENIED.
+- Re-ran qualification/run_release_checks.py at the same commit: 194 tests PASS/0 skipped; current-source scientific benchmarks, schema validation, UI 18, P1 frontend 45, P1 host routes 11, typecheck/build, and refreshed disposable P1 hash checks passed. E10 is PASS. State remains CANDIDATE; E05, E07, E08, E09, E11, E12 remain pending. No publication.
+- Historical checksum note retained: old d16ec28 tracked ZIP SHA-256 was 97d36ffe…aeda64; alternate prefix 104d66e8… remains unsupported. Current local archive is new bytes/hash 4a611e…492b3.
+- Exact next action: inspect and run locally available accessibility/keyboard checks against the P4 module and disposable P1 host, then continue only with demonstrated scientific/integration gaps. Do not run unchanged benchmarks or rewrite the archive absent a source change.
