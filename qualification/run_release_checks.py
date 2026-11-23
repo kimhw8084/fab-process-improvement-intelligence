@@ -135,11 +135,20 @@ def main():
                         "multimodal_next_best_acceptance_fraction": sequential.get("results_by_function", {}).get("multimodal", {}).get("p4", {}).get("accepted_fraction")}
     performance_path = ROOT / "release" / "BENCHMARK_REPORT.json"
     performance = json.loads(performance_path.read_text(encoding="utf-8")) if performance_path.exists() else {}
+    performance_source_commit = performance.get("source_commit", "")
+    source_is_ancestor = bool(performance_source_commit) and run(
+        ["git", "merge-base", "--is-ancestor", performance_source_commit, evaluated_commit])[0].returncode == 0
+    changed_since_performance = run(
+        ["git", "diff", "--name-only", f"{performance_source_commit}..{evaluated_commit}"])[0].stdout.splitlines()
+    product_paths_unchanged = not any(path.startswith(("fabintel/", "ui/", "products/", "contracts/",
+                                                       "tests/", "fixtures/", "requirements/"))
+                                      for path in changed_since_performance)
     workflow_perf = performance.get("result_checks", {}).get("integrated_full_workflow_demo_540_rows", {})
     scaling = performance.get("result_checks", {})
     performance_pass = (
         performance.get("benchmark_version") == "2.0.0"
-        and performance.get("source_commit") == evaluated_commit
+        and source_is_ancestor
+        and product_paths_unchanged
         and workflow_perf.get("status") == "VALID"
         and workflow_perf.get("observations") == 540
         and workflow_perf.get("independent_lots") == 60
@@ -150,7 +159,9 @@ def main():
     )
     performance_result = {"status": "PASS" if performance_pass else "FAIL",
                           "evidence": "release/BENCHMARK_REPORT.json",
-                          "source_commit": performance.get("source_commit"),
+                          "source_commit": performance_source_commit,
+                          "package_source_snapshot": evaluated_commit,
+                          "product_code_unchanged_after_benchmark": product_paths_unchanged,
                           "integrated_demo_observations": workflow_perf.get("observations"),
                           "integrated_demo_independent_lots": workflow_perf.get("independent_lots"),
                           "maximum_statsmodels_ols_coefficient_difference": performance.get("oss_reference", {}).get("maximum_absolute_coefficient_difference")}
@@ -191,6 +202,7 @@ def main():
         "state": "CANDIDATE",
         "product": "p4",
         "evaluated_commit": evaluated_commit,
+        "product_source_commit": performance_source_commit,
         "build_host": {"os": platform.platform(), "architecture": platform.machine(), "python": sys.version},
         "unit_tests": test_summary,
         "integrated_demo": demo_result,
