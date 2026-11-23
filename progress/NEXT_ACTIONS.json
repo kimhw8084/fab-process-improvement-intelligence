@@ -1,5 +1,5 @@
 {
-  "as_of_source_commit": "f2a403a08673c8b33e8c422adba50482431382fb",
+  "as_of_source_commit": "226ac47c2e6ac7737dd5f16d1d9ed3984e3e3f19",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,17 +15,17 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 2,
-    "task": "Audit D01 formula selection, model identifiability, robust uncertainty and missingness with an independent known-effect challenge not already covered by clustered/crossed-dependence/collinearity cases. Implement only a reproducible correction or scientifically justified abstention; preserve association-vs-causation language. Then run focused and full release regression gates as warranted.",
-    "first_command": "rtk rg -n 'selection|cluster|condition|interaction|missing|influence|sensitivity' products/p4/regression.py tests/test_d01_d02_independent.py qualification/benchmark_d01*",
+    "priority": 0,
+    "task": "Commit refreshed P1 disposable-host evidence and progress checkpoint locally. Rebuild the archive at resulting source, verify two detached clean builds, run fresh no-pip extraction with OS network denial, and execute the full release runner. Confirm P1 snapshot fingerprint and that source-bound E10 is current before advancing the science queue.",
+    "first_command": "rtk git status --short && rtk git diff --check",
     "inspect": [
-      "products/p4/ui/P4Panel.tsx",
-      "products/p4/ui/P4Panel.test.tsx",
-      "qualification/accessibility_contrast_check.py",
-      "release/UI_COMPONENT_QUALIFICATION.json",
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json"
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
+      "qualification/build_transfer_bundle.py",
+      "qualification/check_reproducibility.py",
+      "qualification/run_release_checks.py",
+      "qualification/qualify_extracted_archive.py"
     ],
-    "acceptance": "Record only checks actually executed. Distinguish local automated/keyboard checks from formal WCAG, screen-reader, P1-owner and company target-host qualification. Do not create a P4 shell or claim external transfer readiness."
+    "acceptance": "Record actual command outcomes only; archive is local candidate evidence and does not clear company authorization, distribution, P1 owner, accessibility, target-host or ROI gates."
   },
   "ordered_queue": [
     {
@@ -36,7 +36,7 @@
     {
       "priority": 2,
       "status": "IMPLEMENTED_WITH_LIMITS; CLUSTER_SIZE_CROSSED_DEPENDENCE_AND_COLLINEARITY_WARNINGS_QUALIFIED",
-      "task": "D01 retains clustered robust regression, fixed effects/interactions/quadratics, influence and identifiability checks, formula sensitivity and unauthenticated-split limitations. The 1,200-trial imbalance challenge showed balanced 30-lot coverage 93.9167% (Wilson95 [0.9242,0.9513]); with one lot at 50.85% of rows, Statsmodels count-only coverage was 67.4167% while P4 withheld all intervals at effective count 3.747. A new independent 1,200-trial 30×30 chamber/product null challenge measured 33.5% one-way lot-cluster false positives (Wilson95 [0.3089,0.3622]) versus 4.67% for Statsmodels two-way reference ([0.0361,0.0601]); P4 reported crossed-group diagnostics and abstained in 8/8 fits. Statsmodels remains qualification-only: two-way coverage is limited to exactly two declared dimensions and its large dependency closure is not added to the stdlib runtime. Undeclared dependence remains undetected. New QR conditioning heuristic warns on weakly separated, full-rank factors without withholding wide marginal intervals. Independent 250-trial fixed-design challenge: median condition proxy 16.9 in the well-conditioned design versus 102,613 when near-collinear; severe factor sign errors 44.8%/48.4%, with median interval widths about 70x the baseline. Heuristic thresholds are descriptive only."
+      "task": "D01 retains clustered robust regression, fixed effects/interactions/quadratics, influence and identifiability checks, formula sensitivity and unauthenticated-split limitations. The 1,200-trial imbalance challenge showed balanced 30-lot coverage 93.9167% (Wilson95 [0.9242,0.9513]); with one lot at 50.85% of rows, Statsmodels count-only coverage was 67.4167% while P4 withheld all intervals at effective count 3.747. A new independent 1,200-trial 30\u00d730 chamber/product null challenge measured 33.5% one-way lot-cluster false positives (Wilson95 [0.3089,0.3622]) versus 4.67% for Statsmodels two-way reference ([0.0361,0.0601]); P4 reported crossed-group diagnostics and abstained in 8/8 fits. Statsmodels remains qualification-only: two-way coverage is limited to exactly two declared dimensions and its large dependency closure is not added to the stdlib runtime. Undeclared dependence remains undetected. New QR conditioning heuristic warns on weakly separated, full-rank factors without withholding wide marginal intervals. Independent 250-trial fixed-design challenge: median condition proxy 16.9 in the well-conditioned design versus 102,613 when near-collinear; severe factor sign errors 44.8%/48.4%, with median interval widths about 70x the baseline. Heuristic thresholds are descriptive only."
     },
     {
       "priority": 3,
@@ -71,6 +71,6 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Exact archive and full release gate passed at source f2a403a08673c8b33e8c422adba50482431382fb; pending release-evidence/progress commit records that binding; generated P1 browser/contrast screens remain excluded sidecars; no remote update",
-  "active_uncommitted_changes": false
+  "worktree_state": "D01 numeric int/float lot identity alias fix committed; refreshed P1 evidence and progress checkpoint pending local commit; exact archive/full runner stale at f2a403a; no remote update",
+  "active_uncommitted_changes": true
 }
