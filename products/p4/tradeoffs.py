@@ -485,7 +485,13 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     if upstream["population_id"] != downstream["population_id"]:
         return {"status": "LIMITED_SCOPE", "reason": "upstream and downstream engineering populations are not identical",
                 "pareto_observation_ids": [], "downstream_claim": "withheld"}
-    source_ids = {source.get("id") for source in data.get("sources", [])}
+    sources = data.get("sources")
+    if (not isinstance(sources, list)
+            or any(not isinstance(source, dict) or not isinstance(source.get("id"), str)
+                   or not source["id"].strip() for source in sources)):
+        return {"status": "LIMITED_SCOPE", "reason": "relationship sources are not a validated evidence source list",
+                "pareto_observation_ids": [], "downstream_claim": "withheld"}
+    source_ids = {source["id"] for source in sources}
     if upstream["source_id"] not in source_ids or downstream["source_id"] not in source_ids:
         return {"status": "LIMITED_SCOPE", "reason": "relationship sources are not both declared in the evidence source set",
                 "pareto_observation_ids": [], "downstream_claim": "withheld"}
@@ -496,17 +502,31 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     decision_factors = link["decision_factors"]
     if not isinstance(unit_field, str) or not unit_field or not isinstance(decision_factors, list) or not decision_factors:
         raise RelationshipError("unit_field and at least one decision factor are required")
-    if len(set(decision_factors)) != len(decision_factors) or any(name not in rows[0]["factors"] for name in decision_factors):
+    if (not isinstance(rows, list) or not rows):
+        return {"status": "LIMITED_SCOPE", "reason": "relationship evidence contains no observations",
+                "pareto_observation_ids": [], "downstream_claim": "withheld"}
+    if (any(not isinstance(name, str) or not name for name in decision_factors)
+            or len(set(decision_factors)) != len(decision_factors)
+            or any(not isinstance(row, dict) or not isinstance(row.get("factors"), dict)
+                   or any(name not in row["factors"] for name in decision_factors) for row in rows)):
         raise RelationshipError("decision_factors must refer to normalized factors")
     objectives = data.get("objectives", [])
-    objective_map = {item.get("metric"): item.get("direction") for item in objectives if isinstance(item, dict)}
+    if (not isinstance(objectives, list)
+            or any(not isinstance(item, dict)
+                   or not isinstance(item.get("metric"), str)
+                   or item.get("direction") not in ("maximize", "minimize")
+                   for item in objectives)):
+        return {"status": "LIMITED_SCOPE", "reason": "approved relationship objectives are malformed",
+                "pareto_observation_ids": [], "downstream_claim": "withheld"}
+    objective_map = {item.get("metric"): item.get("direction") for item in objectives}
     expected_metrics = {upstream["metric"], downstream["metric"]}
-    if set(objective_map) != expected_metrics:
+    if len(objective_map) != len(objectives) or set(objective_map) != expected_metrics:
         return {"status": "LIMITED_SCOPE", "reason": "objectives must match the approved upstream/downstream metric pair",
                 "pareto_observation_ids": [], "downstream_claim": "withheld"}
     for metric, direction in objective_map.items():
         if direction != metric_defs[metric].get("direction", "maximize"):
-            raise RelationshipError("objective direction must agree with its approved metric definition")
+            return {"status": "LIMITED_SCOPE", "reason": "objective direction conflicts with the approved metric definition",
+                    "pareto_observation_ids": [], "downstream_claim": "withheld"}
     minimum_units = link.get("minimum_independent_units", 30)
     if not isinstance(minimum_units, int) or isinstance(minimum_units, bool) or minimum_units < 3:
         raise RelationshipError("minimum_independent_units must be at least 3")
@@ -555,7 +575,8 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         refs = row.get("source_ids")
         if refs is None:
             refs = [row.get("source_id")] if row.get("source_id") is not None else []
-        if upstream["source_id"] not in refs or downstream["source_id"] not in refs:
+        if (not isinstance(refs, list) or any(not isinstance(ref, str) or not ref for ref in refs)
+                or upstream["source_id"] not in refs or downstream["source_id"] not in refs):
             return {"status": "LIMITED_SCOPE", "reason": "paired evidence does not carry row-level lineage to both approved sources",
                     "pareto_observation_ids": [], "downstream_claim": "withheld"}
         up_value = _path(row, upstream["metric_field"])

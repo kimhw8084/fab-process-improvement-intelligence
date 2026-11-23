@@ -82,6 +82,37 @@ class CrossStepTradeoffQualification(unittest.TestCase):
         result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
         self.assertEqual(result["status"], "LIMITED_SCOPE")
 
+    def test_row_lineage_requires_exact_source_id_array_membership(self):
+        rows = copy.deepcopy(self.rows)
+        rows[0]["source_ids"] = "SYN-UPSTREAM-SYN-DOWNSTREAM"
+        result = cross_step_tradeoffs(rows, self.metric_defs, self.data)
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertEqual(result["downstream_claim"], "withheld")
+        self.assertIn("row-level lineage", result["reason"])
+
+    def test_malformed_relationship_families_and_empty_rows_fail_closed(self):
+        empty = cross_step_tradeoffs([], self.metric_defs, self.data)
+        self.assertEqual(empty["status"], "LIMITED_SCOPE")
+        self.assertIn("no observations", empty["reason"])
+
+        duplicate_objective = copy.deepcopy(self.data)
+        duplicate_objective["objectives"].append(copy.deepcopy(duplicate_objective["objectives"][0]))
+        duplicate = cross_step_tradeoffs(self.rows, self.metric_defs, duplicate_objective)
+        self.assertEqual(duplicate["status"], "LIMITED_SCOPE")
+        self.assertEqual(duplicate["downstream_claim"], "withheld")
+
+        wrong_direction = copy.deepcopy(self.data)
+        wrong_direction["objectives"][0]["direction"] = "minimize"
+        conflict = cross_step_tradeoffs(self.rows, self.metric_defs, wrong_direction)
+        self.assertEqual(conflict["status"], "LIMITED_SCOPE")
+        self.assertIn("direction conflicts", conflict["reason"])
+
+        malformed_sources = copy.deepcopy(self.data)
+        malformed_sources["sources"] = ["SYN-UPSTREAM", "SYN-DOWNSTREAM"]
+        invalid = cross_step_tradeoffs(self.rows, self.metric_defs, malformed_sources)
+        self.assertEqual(invalid["status"], "LIMITED_SCOPE")
+        self.assertEqual(invalid["downstream_claim"], "withheld")
+
     def test_contract_cannot_claim_company_approval(self):
         data = copy.deepcopy(self.data)
         data["linkage"]["relationship_id"] = "FAB-REAL-RELATIONSHIP"

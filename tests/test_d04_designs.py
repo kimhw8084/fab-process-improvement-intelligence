@@ -182,6 +182,35 @@ class DesignQualification(unittest.TestCase):
         self.assertEqual(result["model_selection"]["data_used_for_candidate_selection"],
                          "development independent units only")
 
+    def test_next_best_keeps_numeric_and_string_unit_ids_separate(self):
+        rows = self._sequential_rows()
+        for row in rows:
+            original = int(row["lot_id"][1:])
+            row["lot_id"] = original if original < 18 else str(original - 18)
+        spec = {"run_budget": 1, "seed": 12, "validation_seed": 12, "blocks": 1,
+                "target_metric": "quality", "candidate_levels": 9,
+                "independent_unit_field": "lot_id", "min_independent_units": 30,
+                "maximum_grouped_validation_rmse": 0.2}
+        model = {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                 "quadratic": True, "interactions": True}
+        result = propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]},
+                                spec, [], rows, {"quality": {"direction": "maximize"}}, model)
+        self.assertEqual(result["status"], "PROPOSED")
+        self.assertEqual(result["grouped_surface_validation"]["independent_group_count"], 36)
+        self.assertEqual(result["observed_incumbent"]["independent_units"], 30)
+
+    def test_next_best_rejects_missing_or_non_scalar_unit_ids(self):
+        rows = self._sequential_rows()
+        rows[0]["lot_id"] = {"untrusted": "nested identity"}
+        spec = {"run_budget": 1, "target_metric": "quality", "candidate_levels": 9,
+                "independent_unit_field": "lot_id", "min_independent_units": 30,
+                "maximum_grouped_validation_rmse": 0.2}
+        model = {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                 "quadratic": True, "interactions": True}
+        with self.assertRaisesRegex(ValueError, "nonempty strings or integers"):
+            propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]},
+                           spec, [], rows, {"quality": {"direction": "maximize"}}, model)
+
     def test_next_best_excludes_forbidden_candidate_before_acquisition_ranking(self):
         rows = self._sequential_rows()
         controls = ["a", "b"]

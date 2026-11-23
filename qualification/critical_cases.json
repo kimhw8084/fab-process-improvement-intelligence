@@ -178,5 +178,23 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_full_rank_near_collinear_factors_warn_and_retain_wide_uncertainty"
+  },
+  {
+    "id": "P4-21",
+    "input_challenge": "D04 independent-unit identifiers include a numeric value and a string with the same display form",
+    "required_result": "preserve typed unit identity across development/evaluation splitting, cluster counts, and incumbent aggregation",
+    "oracle": "36 known independent units including numeric/string ID collisions retain all 36 groups and 30 development incumbent units",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d04_designs.py::DesignQualification.test_next_best_keeps_numeric_and_string_unit_ids_separate"
+  },
+  {
+    "id": "P4-22",
+    "input_challenge": "cross-step evidence supplies a scalar string containing two approved source IDs instead of an exact source-ID array",
+    "required_result": "withhold the cross-step Pareto comparison and downstream claim; malformed objective and source contracts also fail closed",
+    "oracle": "exact-list provenance check rejects Python substring-membership false positives and empty paired evidence",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_row_lineage_requires_exact_source_id_array_membership"
   }
 ]

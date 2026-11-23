@@ -6,12 +6,24 @@ from math import ceil, erf, exp, isfinite, pi, sqrt
 from random import Random
 from statistics import NormalDist, mean
 
-from products.p4.regression import fit_linear_model, _get_field
+from products.p4.regression import fit_linear_model, _get_field, _key, ModelError
 from products.p4.window import _hull, _inside_polygon
 
 
 class DesignError(ValueError):
     pass
+
+
+def _independent_unit_key(row, unit_field):
+    """Return a type-preserving key for an opaque independent-unit ID."""
+    try:
+        value = _get_field(row, unit_field)
+    except ModelError as exc:
+        raise DesignError(f"independent-unit field is missing: {unit_field}") from exc
+    if (value is None or value == "" or isinstance(value, bool)
+            or not isinstance(value, (str, int))):
+        raise DesignError("independent-unit IDs must be nonempty strings or integers")
+    return _key(value)
 
 
 def assign_blocks(runs, controls, block_count, seed, cancel=None):
@@ -119,7 +131,7 @@ def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, 
     """Select a surface within development groups and evaluate it on untouched groups."""
     spec = spec or {}
     model_options = model_options or {}
-    groups = sorted({str(_get_field(row, unit_field)) for row in rows})
+    groups = sorted({_independent_unit_key(row, unit_field) for row in rows})
     minimum_training_groups = spec.get("validation_min_training_groups", spec.get("min_independent_units", 10))
     validation_fraction = spec.get("validation_fraction", 0.2)
     seed = spec.get("validation_seed", 20261122)
@@ -139,8 +151,8 @@ def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, 
     Random(seed).shuffle(shuffled_groups)
     evaluation_groups = set(shuffled_groups[:holdout_count])
     development_groups = set(groups)-evaluation_groups
-    development_rows = [row for row in rows if str(_get_field(row, unit_field)) in development_groups]
-    evaluation_rows = [row for row in rows if str(_get_field(row, unit_field)) in evaluation_groups]
+    development_rows = [row for row in rows if _independent_unit_key(row, unit_field) in development_groups]
+    evaluation_rows = [row for row in rows if _independent_unit_key(row, unit_field) in evaluation_groups]
 
     quadratic_options = dict(model_options)
     quadratic_options["covariance"] = "classical"
@@ -161,8 +173,8 @@ def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, 
         if cancel and cancel():
             raise InterruptedError("sequential DOE model selection cancelled")
         held = set(held_out_groups)
-        training = [row for row in development_rows if str(_get_field(row, unit_field)) not in held]
-        validation = [row for row in development_rows if str(_get_field(row, unit_field)) in held]
+        training = [row for row in development_rows if _independent_unit_key(row, unit_field) not in held]
+        validation = [row for row in development_rows if _independent_unit_key(row, unit_field) in held]
         q_fit, q_model = fit_linear_model(training, factor_defs, metric, quadratic_options, cancel=cancel)
         l_fit, l_model = fit_linear_model(training, factor_defs, metric, linear_options, cancel=cancel)
         if q_model is None or l_model is None:
@@ -173,7 +185,7 @@ def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, 
                 raise InterruptedError("sequential DOE model selection cancelled")
             fixed = {field: _get_field(row, field) for field in fixed_fields}
             actual = float(row["metrics"][metric])
-            unit = str(_get_field(row, unit_field))
+            unit = _independent_unit_key(row, unit_field)
             selection_errors["quadratic"].setdefault(unit, []).append(
                 (actual-q_model.predict(row["factors"], fixed)["estimate"])**2)
             selection_errors["linear"].setdefault(unit, []).append(
@@ -202,7 +214,7 @@ def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, 
         fixed = {field: _get_field(row, field) for field in fixed_fields}
         actual = float(row["metrics"][metric])
         error = model.predict(row["factors"], fixed)["estimate"]-actual
-        unit = str(_get_field(row, unit_field))
+        unit = _independent_unit_key(row, unit_field)
         squared_errors.setdefault(unit, []).append(error*error)
         errors.append(error)
     holdout_rmse = sqrt(mean(sum(values)/len(values) for values in squared_errors.values()))
@@ -657,7 +669,7 @@ def propose_design(strategy, controls, bounds, spec, forbidden_regions, rows=Non
         minimum_units = spec.get("min_independent_units", 10)
         if not isinstance(minimum_units, int) or isinstance(minimum_units, bool) or minimum_units < 3:
             raise DesignError("min_independent_units must be at least 3")
-        unit_ids = [str(_get_field(row, unit_field)) for row in rows]
+        unit_ids = [_independent_unit_key(row, unit_field) for row in rows]
         if len(set(unit_ids)) < len(unit_ids) and (
                 (model_options or {}).get("covariance", "HC3") != "cluster"
                 or (model_options or {}).get("cluster_field") != unit_field):
@@ -715,8 +727,8 @@ def propose_design(strategy, controls, bounds, spec, forbidden_regions, rows=Non
             validation, constraint_development_rows, _constraint_options, constraint_fit, constraint_model = _grouped_surface_validation(
                 rows, {name: {"role": "controllable", "unit": "unspecified"} for name in controls},
                 constraint_metric, spec, model_options, unit_field, cancel=cancel)
-            if ({str(_get_field(row, unit_field)) for row in constraint_development_rows}
-                    != {str(_get_field(row, unit_field)) for row in development_rows}):
+            if ({_independent_unit_key(row, unit_field) for row in constraint_development_rows}
+                    != {_independent_unit_key(row, unit_field) for row in development_rows}):
                 raise DesignError("constrained metric models must use the same development/evaluation independent units")
             limit = float(constraint_validation_limits[constraint_metric])
             validation["engineer_specified_maximum_rmse"] = limit
@@ -743,7 +755,7 @@ def propose_design(strategy, controls, bounds, spec, forbidden_regions, rows=Non
         incumbent_units = {}
         for row in development_rows:
             setting = tuple(row["factors"][name] for name in controls)
-            unit = str(_get_field(row, unit_field))
+            unit = _independent_unit_key(row, unit_field)
             incumbent_units.setdefault(setting, {}).setdefault(unit, []).append(float(row["metrics"][metric]))
         incumbent_candidates = []
         for setting, by_unit in incumbent_units.items():
@@ -778,7 +790,7 @@ def propose_design(strategy, controls, bounds, spec, forbidden_regions, rows=Non
             normalized = tuple((settings[name]-ranges[name][0])/(ranges[name][1]-ranges[name][0]) for name in controls)
             distances = [sqrt(sum((a-b)**2 for a, b in zip(normalized, other))) for other in support_points]
             nearby = [row for row, distance in zip(development_rows, distances) if distance <= 0.75]
-            if len({str(_get_field(row, unit_field)) for row in nearby}) < minimum_units:
+            if len({_independent_unit_key(row, unit_field) for row in nearby}) < minimum_units:
                 continue
             prediction = model.predict(settings, fixed_effects)
             if prediction.get("status") != "ESTIMATED" or prediction["mean_standard_error"] <= 0:
