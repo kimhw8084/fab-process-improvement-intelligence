@@ -71,6 +71,9 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertAlmostEqual(report["terms"]["x"]["estimate"], reference.params[1], places=9)
         self.assertAlmostEqual(report["terms"]["x"]["standard_error"], reference.bse[1], places=8)
         self.assertEqual(report["inference"]["independent_cluster_count"], 40)
+        self.assertAlmostEqual(report["inference"]["row_share_effective_cluster_count"], 40.0)
+        self.assertEqual(report["inference"]["cluster_size_diagnostic"]["status"],
+                         "SUFFICIENT_BY_COUNT_HEURISTIC")
         auto_options = {"independent_unit_field": "lot_id", "minimum_clusters": 30}
         auto, _ = fit_linear_model(rows, {"x": {"role": "controllable", "unit": "u"}}, "y", auto_options)
         self.assertEqual(auto["inference"]["covariance"], "cluster")
@@ -84,6 +87,31 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertIsNone(small["terms"]["x"]["ci95"])
         small_auto, _ = fit_linear_model(rows[:80], {"x": {"role": "controllable", "unit": "u"}}, "y", auto_options)
         self.assertEqual(small_auto["status"], "INCONCLUSIVE")
+
+    def test_extreme_cluster_size_imbalance_withholds_nominally_large_cluster_inference(self):
+        rows = []
+        for cluster in range(30):
+            x = float(cluster % 2)
+            size = 360 if cluster == 0 else 12
+            for replicate in range(size):
+                noise = 0.17 * math.sin(cluster * 2.1 + replicate * 0.7)
+                rows.append({"id": f"SYN-IMBALANCE-{cluster}-{replicate}",
+                             "factors": {"x": x}, "metrics": {"y": 3.0 + noise},
+                             "lot_id": f"LOT-{cluster:02d}"})
+        report, model = fit_linear_model(
+            rows, {"x": {"role": "controllable", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 30})
+        self.assertEqual(report["inference"]["independent_cluster_count"], 30)
+        self.assertLess(report["inference"]["row_share_effective_cluster_count"], 4.0)
+        self.assertEqual(report["inference"]["cluster_size_diagnostic"]["status"],
+                         "INSUFFICIENT_EFFECTIVE_CLUSTER_COUNT")
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertIsNotNone(model)
+        self.assertEqual(model.predict({"x": 0.5})["status"], "UNCERTAINTY_UNAVAILABLE")
+        self.assertIsNone(report["terms"]["x"]["ci95"])
+        self.assertTrue(any("observation-count concentration" in warning
+                            for warning in report["diagnostic_warnings"]))
 
     def test_cluster_field_must_not_split_a_declared_independent_unit(self):
         rows = []

@@ -8,7 +8,7 @@ bias. statsmodels is used only by qualification/reference scripts.
 from __future__ import annotations
 
 from itertools import combinations
-from math import copysign, isfinite, sqrt
+from math import copysign, floor, isfinite, sqrt
 from statistics import mean
 import json
 
@@ -408,6 +408,8 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     covariance = None
     inferential_df = df
     cluster_count = None
+    effective_cluster_count = None
+    cluster_size_diagnostic = None
     sst = sum((value-y_mean)**2 for value in y)
     residual_norm = sqrt(sum(value*value for value in residuals))
     response_norm = sqrt(sst)
@@ -421,14 +423,31 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
         if not isinstance(minimum_clusters, int) or isinstance(minimum_clusters, bool) or minimum_clusters < 10:
             raise ModelError("minimum_clusters must be an integer of at least 10")
         grouped_clusters = {}
+        grouped_row_counts = {}
         for i, row in enumerate(rows):
             _check_cancel(cancel)
             key = _key(_get_field(row, cluster_field))
             grouped_clusters.setdefault(key, [0.0]*p)
+            grouped_row_counts[key] = grouped_row_counts.get(key, 0) + 1
             for j in range(p):
                 grouped_clusters[key][j] += x[i][j]*residuals[i]
         cluster_count = len(grouped_clusters)
-        inferential_df = cluster_count-1
+        row_shares = [count / n for count in grouped_row_counts.values()]
+        effective_cluster_count = 1.0 / sum(share*share for share in row_shares)
+        dominant_cluster_share = max(row_shares, default=1.0)
+        cluster_size_diagnostic = {
+            "method": "inverse_Herfindahl_of_observation_count_shares",
+            "row_share_effective_cluster_count": effective_cluster_count,
+            "dominant_cluster_row_share": dominant_cluster_share,
+            "minimum_required_effective_clusters": minimum_clusters,
+            "status": "INSUFFICIENT_EFFECTIVE_CLUSTER_COUNT"
+            if effective_cluster_count + 1e-9 < minimum_clusters else "SUFFICIENT_BY_COUNT_HEURISTIC",
+            "interpretation": "row-count balance is a conservative abstention screen, not a model-based effective sample size or a coverage guarantee",
+        }
+        # A nominal cluster count is not enough when a few groups dominate the
+        # sample. The effective count is used only to withhold unstable
+        # inference; it never upgrades or validates a model.
+        inferential_df = min(cluster_count - 1, floor(effective_cluster_count + 1e-9) - 1)
     if degenerate_residuals:
         warnings.append("residual variation is numerically degenerate; inferential intervals withheld")
     elif covariance_type == "classical":
@@ -447,6 +466,10 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
         grouped = grouped_clusters
         if cluster_count < minimum_clusters:
             warnings.append(f"cluster-robust intervals withheld: {cluster_count} clusters is below minimum_clusters={minimum_clusters}")
+        elif effective_cluster_count + 1e-9 < minimum_clusters:
+            warnings.append(
+                "cluster-robust intervals withheld: observation-count concentration yields "
+                f"{effective_cluster_count:.2f} effective clusters, below minimum_clusters={minimum_clusters}")
         else:
             meat = [[0.0]*p for _ in range(p)]
             for score in grouped.values():
@@ -498,6 +521,8 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                                     for field in fixed_fields},
               "inference": {"covariance": covariance_type, "independent_cluster_field": options.get("cluster_field") if covariance_type == "cluster" else None,
                             "independent_cluster_count": cluster_count, "inference_df": inferential_df if covariance is not None else None,
+                            "row_share_effective_cluster_count": effective_cluster_count,
+                            "cluster_size_diagnostic": cluster_size_diagnostic,
                             "confidence_level": 0.95, "minimum_clusters": minimum_clusters if covariance_type == "cluster" else None,
                             "declared_independent_unit_field": independent_unit_field,
                             "declared_independent_unit_count": independent_unit_count,

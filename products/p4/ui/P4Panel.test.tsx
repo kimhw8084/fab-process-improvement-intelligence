@@ -125,6 +125,26 @@ describe("P4 headless suite module", () => {
     expect(within(d01).getAllByText(/COMPLETED_DIAGNOSTIC/).length).toBeGreaterThan(0);
   });
 
+  it("explains when cluster-size concentration withholds uncertainty", () => {
+    const imbalancedEvidence = structuredClone(evidence);
+    const artifact = imbalancedEvidence.artifacts?.[0] as Record<string, unknown>;
+    const d01 = artifact.D01_sensitivity as Record<string, unknown>;
+    d01.status = "INCONCLUSIVE";
+    d01.terms = { pressure: { estimate: 0.4, ci95: null, standard_error: null } };
+    d01.inference = {
+      covariance: "cluster", independent_cluster_count: 30, row_share_effective_cluster_count: 3.75,
+      cluster_size_diagnostic: { method: "inverse_Herfindahl_of_observation_count_shares",
+        row_share_effective_cluster_count: 3.75, dominant_cluster_row_share: 0.508,
+        minimum_required_effective_clusters: 30, status: "INSUFFICIENT_EFFECTIVE_CLUSTER_COUNT" },
+    };
+    d01.diagnostic_warnings = ["cluster-robust intervals withheld: observation-count concentration yields 3.75 effective clusters, below minimum_clusters=30"];
+    render(<P4Panel sourcePreview={sourcePreview} evidence={imbalancedEvidence} />);
+    const d01Region = screen.getByRole("region", { name: "D01 · Factor sensitivity" });
+    expect(within(d01Region).getAllByText(/row_share_effective_cluster_count/).length).toBeGreaterThan(0);
+    expect(within(d01Region).getByText(/observation-count concentration yields 3.75 effective clusters/)).toBeTruthy();
+    expect(within(d01Region).getByText(/95% interval Not provided/)).toBeTruthy();
+  });
+
   it("filters the D02 table while preserving observed, interpolated, and unsupported labels", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
