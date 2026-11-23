@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0",
+  "as_of_source_commit": "da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,18 +15,19 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-    "next_executable_action": {
-    "acceptance": "Validate the refreshed disposable P1 evidence against current source, then run the full source-bound release runner, rebuild and reproduce the archive, and qualify a fresh no-pip extraction under OS network denial. E10 is PASS only if all exact-source checks agree.",
-    "first_command": "rtk /tmp/p4-qualification-env/bin/python -c 'import json,sys; from pathlib import Path; sys.path.insert(0,\".\"); from qualification.run_release_checks import disposable_snapshot_fingerprint_matches; d=json.loads(Path(\"qualification/evidence/p1-disposable-host-qualification-2026-11-23.json\").read_text()); assert disposable_snapshot_fingerprint_matches(d[\"disposable_composition\"][\"snapshot_fingerprint\"]); print(\"P1 fingerprint PASS\")'",
+  "next_executable_action": {
+    "acceptance": "Commit the refreshed 22-test UI qualification and progress evidence; build the exact archive; reproduce it in two clean worktrees; qualify fresh no-pip extraction under OS network denial; rerun the complete source-bound gate and require E10 to match the evaluated commit and exact ZIP.",
+    "first_command": "rtk git add release/UI_COMPONENT_QUALIFICATION.json progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Refresh P4 panel qualification evidence'",
     "inspect": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "qualification/run_release_checks.py",
+      "release/UI_COMPONENT_QUALIFICATION.json",
       "qualification/build_transfer_bundle.py",
+      "qualification/check_reproducibility.py",
       "qualification/offline_qualify.py",
+      "qualification/run_release_checks.py",
       "release/GATE_REPORT.json"
     ],
     "priority": 1,
-    "task": "Requalify the exact current D02 source and P1 evidence in the offline release. Commit the refreshed evidence/progress, run the complete source-bound release runner, rebuild/reproduce the archive, and verify fresh extraction under OS network denial. Then resume independent D01–D05 scientific challenges."
+    "task": "The full runner now passes E02 at da50bb0 but correctly marks E10 pending because the archive embeds older source 196153b. Commit the refreshed P4 UI report and checkpoint, build/reproduce the exact archive, qualify fresh offline extraction under network denial, rerun the gate and verify E10. Then resume independent D01\u2013D05 scientific challenges."
   },
   "ordered_queue": [
     {
@@ -62,15 +63,15 @@
     {
       "priority": 7,
       "status": "DISPOSABLE P1 COMPOSITION VERIFIED AGAINST D02 SOURCE 644eab9; AUTHORITATIVE OWNER ACCEPTANCE PENDING",
-      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01–D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
+      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01\u2013D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
     },
     {
       "priority": 8,
-      "status": "RELEASE_REFRESH_REQUIRED_AFTER_P1_EVIDENCE_CHANGE; E02_E03_E10_PASS_AT_874E30F_PRE-REFRESH; CANDIDATE",
-      "task": "At 874e30f, 215-file ZIP SHA-256 6dd9ed75963d1bc063ff480479d129717e827ced152748717d44f9a760478e33 reproduced in two detached clean worktrees; fresh no-pip/macOS network-denied extraction passed; full runner passed 203 tests/0 skipped and E02/E03/E10. The P1 evidence source fingerprint was then refreshed after current-source route/UI checks, so rebuild and rerun the final exact artifact gates."
+      "status": "E02_PASS_AT_da50bb0; E10_PENDING_FINAL_ARCHIVE; CANDIDATE",
+      "task": "Current runner at da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7 passed 203 Python tests, schema, E02 and disposable P1 source/hash checks. Old archive metadata remains at 196153b. Refresh/commit the 22-test P4 UI qualification report, rebuild the exact bundle, reproduce twice, perform fresh offline extraction under network denial and rerun the full gate."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Product source commit 644eab904beac1c75382a6e378212819ebcb31e0 includes the D02 whole-set counterevidence veto. Refreshed disposable P1 evidence has a valid 29-file fingerprint and current P4 source pins, but progress/evidence are uncommitted and prior release artifacts are not yet accepted for this source. Validate evidence, commit progress/P1 evidence, run full source-bound gates, reproduce the archive and freshly qualify offline extraction. Product remains CANDIDATE; no public push."
+  "worktree_state": "Product source 644eab904beac1c75382a6e378212819ebcb31e0 adds the D02 whole-set counterevidence veto; qualification checkpoint da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7 records refreshed P1 evidence. Full runner passes 203 tests and E02; source-current performance report is regenerated. E10 remains pending because archive metadata is 196153b. Commit the refreshed UI qualification/progress, rebuild/reproduce and offline-qualify the exact package, rerun gates. Product remains CANDIDATE; no public push."
 }

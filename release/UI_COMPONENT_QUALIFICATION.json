@@ -9,10 +9,10 @@
   },
   "component_tests": {
     "diagnostic": null,
-    "expected_test_count": 21,
+    "expected_test_count": 22,
     "return_code": 0,
     "test_file": "products/p4/ui/P4Panel.test.tsx",
-    "tests_passed": 21
+    "tests_passed": 22
   },
   "contract_sha256": {
     "suite-chart.v1.schema.json": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
@@ -21,8 +21,8 @@
   "contract_snapshot_match": true,
   "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
   "p4_source_sha256": {
-    "products/p4/ui/P4Panel.test.tsx": "fd3065a9657780a8b658fa18072e581f3ab33f607205e9bc423f84604bd7803d",
-    "products/p4/ui/P4Panel.tsx": "b5a951ac60c181b2669e38845465bf5768a2c9c6f11bae386cd68a1c553d6ca2",
+    "products/p4/ui/P4Panel.test.tsx": "5acfc32ad88650eb9169c744f023abb1ee8a2667dd7d1c393c21362884b094aa",
+    "products/p4/ui/P4Panel.tsx": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
     "tests/fixtures/mcp_p4_panel_bridge.json": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",

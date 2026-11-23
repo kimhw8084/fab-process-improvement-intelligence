@@ -1,3 +1,10 @@
+## Checkpoint — exact-source release gates refreshed; archive pending (2026-11-23)
+
+- Full `qualification/run_release_checks.py` at `da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7`: 203 Python tests PASS, 0 skipped; schema PASS; D01–D03 adversarial benchmarks, D04 comparison, dependency/source checks, MCP and P1 compatibility passed in their recorded scopes. D02 demo reports 76 pointwise advisory candidates and explicitly no conditional/simultaneous guarantee. E01–E04/E06 and E02 PASS. E07 remains pending authoritative P1/accessibility, E08 target OS, E09 independent security/license review, E11 engineer baseline and E05/E12 internal authorization. State remains CANDIDATE.
+- The first runner attempt exposed a stale source performance fingerprint. Regenerated `release/BENCHMARK_REPORT.json` at da50bb0; Statsmodels 0.15 coefficient parity max absolute difference `2.842170943040401e-14`; 900-row synthetic workflow p50 266.82 ms, p95 274.02 ms, peak allocation 3,226,350 bytes. These are local synthetic measurements, not an engineering latency target or ROI.
+- The runner correctly leaves E10 `PENDING_FINAL_ARCHIVE`: current workspace archive metadata names source `196153b8b52b11ae2f5668bbd8e971ae000ae935`, not da50bb0. Refreshed `release/UI_COMPONENT_QUALIFICATION.json` now captures 22 component tests and current source hashes; it is packaged source and needs a local commit. Generated benchmark/gate/offline sidecars remain mutable local evidence.
+- Exact next action: commit refreshed UI qualification plus progress records; run `qualification/build_transfer_bundle.py`, `qualification/check_reproducibility.py`, then fresh extraction via `sandbox-exec` with `(version 1)(allow default)(deny network*)` invoking `qualification/offline_qualify.py release/FAB_INTELLIGENCE_P4_CANDIDATE.zip`. Verify ZIP/source commit/checksum and rerun full release gate to establish E10 only if all evidence matches. No publication.
+
 ## Checkpoint — D02 whole-set independent counterevidence veto (2026-11-23)
 
 - Current product source commit: `644eab904beac1c75382a6e378212819ebcb31e0`. This checkpoint preserves all prior D01–D05, Golden, MCP and release work.
