@@ -20,6 +20,7 @@ test_full_rank_near_collinear_factors_warn_and_retain_wide_uncertainty (test_d01
 test_hc3_matches_independent_statsmodels_reference (test_d01_d02_independent.RobustRegressionQualification.test_hc3_matches_independent_statsmodels_reference) ... ok
 test_identifiability_and_degenerate_residuals_withhold_inference (test_d01_d02_independent.RobustRegressionQualification.test_identifiability_and_degenerate_residuals_withhold_inference) ... ok
 test_influence_diagnostics_flag_high_leverage_and_outlier (test_d01_d02_independent.RobustRegressionQualification.test_influence_diagnostics_flag_high_leverage_and_outlier) ... ok
+test_numeric_lot_id_type_drift_cannot_inflate_independent_cluster_count (test_d01_d02_independent.RobustRegressionQualification.test_numeric_lot_id_type_drift_cannot_inflate_independent_cluster_count) ... ok
 test_quadratic_model_recovers_held_out_nonlinear_response (test_d01_d02_independent.RobustRegressionQualification.test_quadratic_model_recovers_held_out_nonlinear_response) ... ok
 test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference (test_d01_d02_independent.RobustRegressionQualification.test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference) ... ok
 test_shared_dependence_field_declaration_is_schema_qualified (test_d01_d02_independent.RobustRegressionQualification.test_shared_dependence_field_declaration_is_schema_qualified) ... ok
@@ -200,6 +201,6 @@ test_p4_contribution_matches_p1_ui_module_contract (test_shared_ui_contract.Shar
 test_p4_scatter_payload_matches_p1_chart_contract (test_shared_ui_contract.SharedUiContractTests.test_p4_scatter_payload_matches_p1_chart_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 199 tests in 12.737s
+Ran 200 tests in 13.148s
 
 OK

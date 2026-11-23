@@ -20,8 +20,8 @@
     },
     "maximum_absolute_coefficient_difference": 2.842170943040401e-14,
     "metrics": {
-      "p50_ms": 0.08133333176374435,
-      "p95_ms": 0.12779142707586288,
+      "p50_ms": 0.08020736277103424,
+      "p95_ms": 0.12766756117343903,
       "peak_python_alloc_bytes_one_run": 96688,
       "repeats": 25
     },
@@ -30,7 +30,7 @@
     "version": "0.15.0"
   },
   "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (900-row integrated fixture and independent scaling tasks)",
-  "product_source_manifest_sha256": "addfea3cc52575b906bb27d0278a7453bca038347060861ea68e9370dcbd1c6b",
+  "product_source_manifest_sha256": "ff142523d040a3a6a110970fcf9b9eaf9f46e42e207b8d3a1cf1b48d542dda1e",
   "product_source_sha256": {
     "fabintel/__init__.py": "1701050bc6b2245204dd74ba9829f6216b6d6689bf5ae78305ab0bbd1b0cf288",
     "fabintel/__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
@@ -47,9 +47,9 @@
     "products/p4/design.py": "0c4e73cd0f84a77f35b395c3cd2eb1b41fd1e14bf1b66f7c2b0561cbd5b597ca",
     "products/p4/engine.py": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
     "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
-    "products/p4/regression.py": "8c8ee6319e84ed52f38b68508e711699a3a4574189ca9f25439cb0f5cc74330b",
+    "products/p4/regression.py": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
     "products/p4/tradeoffs.py": "05d2f661e3882fa660079684315a0d2eb128d6c9e75aa966c46adfa9ce0743d6",
-    "products/p4/window.py": "b0e510bef64de947dbb7f8a38ee2d81aa31c7606bf3b1fd72a986681334bd283"
+    "products/p4/window.py": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df"
   },
   "reproducibility": "25 repetitions per task; deterministic input fixtures; perf_counter and tracemalloc",
   "result_checks": {
@@ -86,35 +86,35 @@
       "observations": 5000
     }
   },
-  "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
+  "source_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
   "tasks": {
     "integrated_full_workflow_demo_900_rows": {
-      "p50_ms": 256.570708937943,
-      "p95_ms": 267.68116746097803,
+      "p50_ms": 266.7902922257781,
+      "p95_ms": 275.6527904421091,
       "peak_python_alloc_bytes_one_run": 3225838,
       "repeats": 25
     },
     "single_metric_sensitivity_1000_rows": {
-      "p50_ms": 10.283875279128551,
-      "p95_ms": 11.280625127255917,
+      "p50_ms": 10.423666797578335,
+      "p95_ms": 11.583499610424042,
       "peak_python_alloc_bytes_one_run": 1314972,
       "repeats": 25
     },
     "single_metric_sensitivity_18_rows": {
-      "p50_ms": 0.3148745745420456,
-      "p95_ms": 0.3369571641087532,
+      "p50_ms": 0.329749658703804,
+      "p95_ms": 0.334334559738636,
       "peak_python_alloc_bytes_one_run": 27530,
       "repeats": 25
     },
     "single_metric_sensitivity_5000_rows": {
-      "p50_ms": 50.85824988782406,
-      "p95_ms": 52.96320840716362,
+      "p50_ms": 53.3094173297286,
+      "p95_ms": 55.23099936544895,
       "peak_python_alloc_bytes_one_run": 6122470,
       "repeats": 25
     },
     "synthetic_schema_catalog_13000_tables": {
-      "p50_ms": 8.576417341828346,
-      "p95_ms": 12.230416759848595,
+      "p50_ms": 8.664000779390335,
+      "p95_ms": 12.895042076706886,
       "peak_python_alloc_bytes_one_run": 6521827,
       "repeats": 25
     }

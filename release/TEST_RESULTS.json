@@ -355,12 +355,12 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "f2a403a08673c8b33e8c422adba50482431382fb",
-    "product_code_unchanged_after_benchmark": false,
-    "product_source_manifest_matches": false,
-    "product_source_manifest_sha256": "37ee7575e90360004588c8e171b4452c74d8092a4997979180e9ff1c0a8ee703",
-    "source_commit": "4261d394c1e4f735079ec33c76b371ff386143ce",
-    "status": "FAIL"
+    "package_source_snapshot": "af36c5ab58be77657b5454cf34ec645b55a89382",
+    "product_code_unchanged_after_benchmark": true,
+    "product_source_manifest_matches": true,
+    "product_source_manifest_sha256": "ff142523d040a3a6a110970fcf9b9eaf9f46e42e207b8d3a1cf1b48d542dda1e",
+    "source_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
+    "status": "PASS"
   },
   "source_security_scan": {
     "evidence": "release/SOURCE_SECURITY_SCAN.json",
@@ -371,7 +371,7 @@
     "tool": "Bandit",
     "version": "1.9.4"
   },
-  "state": "FAIL",
+  "state": "PASS",
   "synthetic_mcp_external_mock": {
     "evidence": "requirements/synthetic-mcp-mapping.v1.json",
     "result": {
@@ -409,12 +409,12 @@
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 12.737,
+    "duration_seconds": 13.148,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 199,
+    "tests_run": 200,
     "tests_skipped": 0
   }
 }

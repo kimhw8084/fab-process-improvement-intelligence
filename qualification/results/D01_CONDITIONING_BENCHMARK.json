@@ -179,7 +179,7 @@
   "method": "fixed-design independent Gaussian-noise Monte Carlo with known separate coefficients",
   "noise_sd": 0.5,
   "observations_per_trial": 120,
-  "product_source_sha256": "8c8ee6319e84ed52f38b68508e711699a3a4574189ca9f25439cb0f5cc74330b",
+  "product_source_sha256": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
   "schema": "p4-d01-conditioning-benchmark/v1",
   "seed": 20261123,
   "trials_per_design": 250,
