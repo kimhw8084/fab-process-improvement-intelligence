@@ -322,6 +322,29 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getAllByText(/not a multiplicity-adjusted or population guarantee/).length).toBeGreaterThan(0);
   });
 
+  it("shows when mixed evaluation strata make calibration transfer diagnostics incomplete", () => {
+    const challenged = JSON.parse(JSON.stringify(evidence)) as P4Evidence;
+    const dossier = challenged.artifacts?.[0] as Record<string, unknown>;
+    const supported = dossier.D02_supported_region as Record<string, unknown>;
+    const simultaneous = supported.simultaneous_exact_setting_screen as Record<string, unknown>;
+    simultaneous.calibration_transfer_assessment = {
+      status: "INSUFFICIENT_TRANSFER_DIAGNOSTICS",
+      observed_counterevidence: ["INSUFFICIENT_ASSIGNABLE_STRATA"],
+      unassignable_strata_units: { CALIBRATION: 0, EVALUATION: 1 },
+      interpretation: "Available evaluation strata are incomplete; transfer is not established.",
+    };
+
+    render(<P4Panel sourcePreview={sourcePreview} evidence={challenged} />);
+    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const transfer = within(d02).getByRole("table", {
+      name: "Calibration transfer assessment; descriptive, not validation",
+    });
+    expect(within(transfer).getByRole("rowheader", { name: "status" })).toBeTruthy();
+    expect(within(transfer).getByText("INSUFFICIENT_TRANSFER_DIAGNOSTICS")).toBeTruthy();
+    expect(within(transfer).getByText(/EVALUATION.*1/)).toBeTruthy();
+    expect(within(transfer).getByText(/incomplete/)).toBeTruthy();
+  });
+
   it("surfaces the optional three-preperiod curvature placebo in D05 evidence", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     const d05 = screen.getByRole("region", { name: "D05 · Change effectiveness" });

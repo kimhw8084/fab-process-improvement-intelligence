@@ -685,6 +685,20 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(transfer["unassignable_strata_units"]["EVALUATION"], 1)
         self.assertIn("insufficient", transfer["interpretation"])
 
+        # The same rule applies to a calibration lot whose rows cannot be
+        # assigned to one declared stratum; the remaining matched lots alone
+        # cannot justify a transfer-match status.
+        for item in rows:
+            item["tool_id"] = "TOOL-A"
+        calibration_lot = next(item["lot_id"] for item in rows
+                               if item["analysis_partition"] == "CALIBRATION")
+        calibration_row = next(item for item in rows if item["lot_id"] == calibration_lot)
+        calibration_row["tool_id"] = "TOOL-B"
+        calibration_challenge = explore_window(rows, factors, METRIC, data)
+        calibration_transfer = calibration_challenge["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
+        self.assertEqual(calibration_transfer["status"], "INSUFFICIENT_TRANSFER_DIAGNOSTICS")
+        self.assertEqual(calibration_transfer["unassignable_strata_units"]["CALIBRATION"], 1)
+
     def test_transfer_detects_heldout_band_misses_when_declared_strata_and_panel_match(self):
         rows, factors, data = self._dataset()
         for item in rows:
