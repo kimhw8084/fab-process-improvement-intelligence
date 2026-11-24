@@ -6,7 +6,7 @@ import math
 import random
 import unittest
 
-from products.p4.regression import fit_linear_model
+from products.p4.regression import ModelError, fit_linear_model
 from products.p4.engine import _model_specification_sensitivity
 from products.p4.design import propose_window_confirmation
 from products.p4.window import (explore_window, _finite_rank_quantile, _partition_composition_diagnostic,
@@ -536,6 +536,21 @@ class RobustRegressionQualification(unittest.TestCase):
                          "NO_HEURISTIC_FLAG")
         self.assertFalse(any("near-collinearity heuristic" in warning
                              for warning in report["diagnostic_warnings"]))
+
+    def test_declared_measurement_uncertainty_refuses_unpropagated_inference(self):
+        rows = [{"id": f"MEAS-{i}", "factors": {"x": float(i)},
+                 "metrics": {"y": 3.0 + 2.0*i},
+                 "measurement_uncertainty": {"x_standard_uncertainty": 0.25}}
+                for i in range(20)]
+        with self.assertRaisesRegex(ModelError, "not propagated.*inference is refused"):
+            fit_linear_model(rows, {"x": {"role": "measured", "unit": "u"}}, "y")
+
+        clean_rows = [{key: value for key, value in row.items() if key != "measurement_uncertainty"}
+                      for row in rows]
+        report, _ = fit_linear_model(
+            clean_rows, {"x": {"role": "measured", "unit": "u"}}, "y")
+        self.assertIn("measurement uncertainty was not supplied or propagated",
+                      report["assumptions"])
 
     def test_influence_diagnostics_flag_high_leverage_and_outlier(self):
         high_rows = [{"id": f"SYN-{i}", "factors": {"x": x}, "metrics": {"y": 1+2*x}}
