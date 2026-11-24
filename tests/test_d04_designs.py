@@ -416,6 +416,16 @@ class WindowConfirmationQualification(unittest.TestCase):
         unknown = {**self.spec, "candidate_factors": {"a": 0.2, "b": 0.8}}
         self.assertEqual(propose_window_confirmation(self.window, self.controls, self.bounds, unknown,
                                                      [], self.metrics)["status"], "REFUSED")
+        withheld = {**self.window, "candidate_cells": [{**self.cell, "supported_candidate": False}]}
+        refused = propose_window_confirmation(withheld, self.controls, self.bounds, self.spec,
+                                              [], self.metrics)
+        self.assertEqual(refused["status"], "REFUSED")
+        self.assertIn("no longer retained", refused["reason"])
+        extrapolated = {**self.window, "candidate_cells": [{**self.cell, "region_class": "extrapolated"}]}
+        refused = propose_window_confirmation(extrapolated, self.controls, self.bounds, self.spec,
+                                              [], self.metrics)
+        self.assertEqual(refused["status"], "REFUSED")
+        self.assertIn("observed or supported interpolated", refused["reason"])
         forbidden = [{"a": [0.0, 0.1]}]
         refused = propose_window_confirmation(self.window, self.controls, self.bounds, self.spec,
                                               forbidden, self.metrics)

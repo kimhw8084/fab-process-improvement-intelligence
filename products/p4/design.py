@@ -351,6 +351,10 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
                           if isinstance(cell, dict) and cell.get("factors") == candidate_factors), None)
     if d02_candidate is None:
         return refuse("the requested setting is not a currently supported D02 candidate")
+    if d02_candidate.get("supported_candidate") is not True:
+        return refuse("the exact setting is no longer retained as a supported D02 advisory candidate")
+    if d02_candidate.get("region_class") not in ("observed", "interpolated"):
+        return refuse("D02 confirmation is limited to observed or supported interpolated settings")
     candidate_control_factors = {name: candidate_factors.get(name) for name in controls}
     if (any(not isinstance(candidate_control_factors[name], (int, float))
             or isinstance(candidate_control_factors[name], bool)
