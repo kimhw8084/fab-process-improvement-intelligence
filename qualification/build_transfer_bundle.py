@@ -22,7 +22,7 @@ EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE
             RELEASE / "TEST_LOG.txt", RELEASE / "TEST_RESULTS.json", BUILD_METADATA,
             RELEASE / "SCHEMA_VALIDATION.json", RELEASE / "BENCHMARK_REPORT.json",
             RELEASE / "full_workflow_demo_evidence.json", RELEASE / "DEPENDENCY_AUDIT.json",
-            RELEASE / "SOURCE_SECURITY_SCAN.json"}
+            RELEASE / "SOURCE_SECURITY_SCAN.json", RELEASE / "UI_COMPONENT_QUALIFICATION.json"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
 # Workspace-only execution ledgers are kept beside the source but are not product transfer contents.
 EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/", "qualification/results/", "progress/")

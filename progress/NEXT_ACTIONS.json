@@ -1,11 +1,10 @@
 {
   "active_uncommitted_changes": [
-    "D05 shared-dependence detection/refusal added to randomized and DiD analysis; P1-owned panel labels the retained contrast as descriptive and displays the dependence diagnostic.",
-    "Independent qualification/benchmark_d05_cluster_dependence.py and E02 runner binding added; 1,000-trial oracle result is 52.6% naive unit Welch coverage, 95.9% chamber-mean reference coverage, and 1,000/1,000 declared-dependence refusals.",
-    "D05 unit tests 31 PASS; schema contract test 1 PASS; P4 panel 28 PASS; bridge tests 2 PASS; bridge fixture rebuilt twice at SHA-256 23c943462e1a23707fe7f5849f74cb9b4fc6e37c02dc872fda60cee8930641ac; full exact-source release runner not yet run.",
-    "Previous f40a0fd archive is stale after the current D05 source changes. No public push or release."
+    "Release builder now treats release/UI_COMPONENT_QUALIFICATION.json as generated sidecar; 14 focused tests pass. Commit this repair and the progress checkpoint.",
+    "At c5ce50a the full runner executed 253 tests; E02 initially failed on a stale general benchmark report. That report was refreshed against c5ce50a (Statsmodels 0.15.0; maximum OLS coefficient delta 2.84e-14); the D05 cluster benchmark passed. Full runner must be rerun.",
+    "Exact archive build, two clean rebuilds, and fresh no-pip network-denied extraction remain to be executed after the repair commit. No publication or push."
   ],
-  "as_of_source_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9",
+  "as_of_source_commit": "c5ce50a430f573b378fd3922409f658f45d59514",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -339,29 +338,28 @@
       "schema_and_UI_contract": "12 PASS"
     },
     "D05_shared_cluster_dependence": {
-      "status": "IMPLEMENTED_FOCUSED_QUALIFIED; FULL_SOURCE_GATE_PENDING",
-      "contract": "shared_dependence_fields on randomized and DiD study; repeated shared grouping across independent units returns INCONCLUSIVE, descriptive contrast only, no Welch interval or causal claim; randomized attrition requires full assignment-ledger shared_groups",
-      "scope_limit": "caller must map/declare grouping fields; omitted/latent dependence is undetected; no cluster-aware estimator is claimed",
+      "status": "IMPLEMENTED_SOURCE_COMMITTED; FULL_RUN_PENDING",
+      "source_commit": "c5ce50a430f573b378fd3922409f658f45d59514",
       "independent_trials": 1000,
       "naive_unit_welch_coverage": 0.526,
-      "naive_unit_welch_wilson95": [
+      "naive_wilson95": [
         0.49501179061158157,
         0.5567892179471697
       ],
-      "scipy_chamber_mean_reference_coverage": 0.959,
+      "chamber_mean_reference_coverage": 0.959,
       "reference_wilson95": [
         0.9448520067923587,
         0.9696350289179017
       ],
       "declared_dependence_refusals": 1000,
-      "declared_intervals_emitted": 0,
-      "causal_claims": 0,
-      "focused_d05_tests": "31 PASS",
-      "panel_tests": "28 PASS; strict TypeScript and P1 snapshot PASS",
-      "bridge_fixture_sha256": "23c943462e1a23707fe7f5849f74cb9b4fc6e37c02dc872fda60cee8930641ac",
-      "bridge_tests": "2 PASS",
-      "schema_contract_test": "1 PASS",
-      "benchmark_engine_sha256": "64e9a75ab1200b3d805164b45f2fd6276169b2c18680e3136d8672f521098011"
+      "intervals_emitted": 0,
+      "focused_tests": "31 D05; 14 schema/UI",
+      "scope": "Declared dependence only; latent omitted dependence is undetected; no cluster estimator or causal guarantee."
+    },
+    "archive_builder_sidecar_repair": {
+      "change": "Exclude release/UI_COMPONENT_QUALIFICATION.json from product-source inventory and allow it as generated evidence sidecar.",
+      "tests": "tests.test_schema_and_ui: 14 PASS",
+      "status": "IMPLEMENTED_UNCOMMITTED; archive gates pending"
     }
   },
   "never_do": [
@@ -370,18 +368,18 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the D05 shared-cluster refusal and qualification changes, then run exact-source release gates, rebuild the bundle, verify clean-worktree reproducibility, and sandbox a fresh no-pip extraction.",
-  "next_executable_action": "Commit the D05 implementation, benchmark, fixture, UI, tests and progress checkpoint; then run rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py and rebuild/reproduce/offline-qualify the exact archive.",
+  "next_action": "Commit the release-builder sidecar exclusion and progress/test repair, then refresh exact-source benchmark, run full release gates, rebuild/reproduce/offline-qualify the archive, and advance to the next independent scientific gap.",
+  "next_executable_action": "rtk git add qualification/build_transfer_bundle.py tests/test_schema_and_ui.py progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md progress/NEXT_ACTIONS.json && rtk git commit -m \"Exclude mutable UI qualification evidence from source bundle\"; then run rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py and rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py.",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "NEXT",
-      "task": "Commit and source-qualify D05 shared-cluster refusal; refresh exact archive, clean-worktree rebuilds and fresh network-denied extraction."
+      "status": "IN_PROGRESS",
+      "task": "Commit archive sidecar repair; rerun exact-source release gates; rebuild, reproduce twice, and fresh offline-qualify D05 archive."
     },
     {
       "priority": 2,
-      "status": "NEXT_AFTER_RELEASE",
-      "task": "Continue the next independent D01/D03/D05 challenge that can change a claim or refusal; preserve descriptive and noncausal limitations."
+      "status": "NEXT",
+      "task": "Advance the highest-value independent D01-D05 challenge that can alter a scientific claim/refusal; retain truthful scope."
     },
     {
       "priority": 3,
@@ -395,14 +393,14 @@
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; previous E10 archive binds f40a0fd and is stale for current D05 changes; rerun source-bound gates and exact offline artifact checks",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current D05 artifact not yet rebuilt and source-bound E01-E04/E06/E10 requalification pending",
     "INTERNAL_QUALIFICATION_PENDING": true,
     "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D05 has a new limited-scope cluster-dependence refusal; other synthetic assumptions and real fab evidence remain open",
     "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 source/owner and formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9",
-  "worktree_state": "Current base commit f40a0fd passed E01-E04/E06/E10 with 247 tests and exact local archive. D05 shared-cluster safeguards, randomized attrition ledger validation, independent benchmark, schema, UI and tests are pending local commit; current tests/fixture pass, but prior archive/release evidence is stale. No publication.",
-  "evidence_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9"
+  "source_commit": "c5ce50a430f573b378fd3922409f658f45d59514",
+  "worktree_state": "D05 shared-cluster refusal is committed at c5ce50a. Release-builder sidecar exclusion and regression assertions are implemented but uncommitted. Focused schema/UI tests: 14 PASS. Exact-source release runner and archive gates remain pending.",
+  "evidence_commit": "c5ce50a430f573b378fd3922409f658f45d59514"
 }
