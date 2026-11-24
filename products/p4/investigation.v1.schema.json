@@ -28,6 +28,19 @@
       },
       "additionalProperties": false
     },
+    "familywise_t_precommit": {
+      "type": "object",
+      "required": ["precommit_reference", "candidate_setting_ids", "objectives"],
+      "properties": {
+        "precommit_reference": {"type": "string", "minLength": 1},
+        "candidate_setting_ids": {"type": "array", "minItems": 2, "maxItems": 40, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "objectives": {"type": "array", "minItems": 2, "maxItems": 10, "uniqueItems": true,
+          "items": {"type": "object", "required": ["metric", "direction"],
+            "properties": {"metric": {"type": "string", "minLength": 1}, "direction": {"enum": ["maximize", "minimize"]}},
+            "additionalProperties": false}}
+      },
+      "additionalProperties": false
+    },
     "observations": {"type": "array", "minItems": 1, "maxItems": 5000, "items": {"$ref": "#/$defs/observation"}},
     "sources": {"type": "array", "items": {"$ref": "#/$defs/source"}},
     "robustness": {"type": "object", "properties": {"min_independent_units": {"type": "integer", "minimum": 2}, "independent_unit_field": {"type": "string"}}, "additionalProperties": false},

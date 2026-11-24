@@ -15,6 +15,11 @@ class CrossStepTradeoffQualification(unittest.TestCase):
             "multi_step": True,
             "objectives": [{"metric": "yield", "direction": "maximize"},
                            {"metric": "defect", "direction": "minimize"}],
+            "familywise_t_precommit": {
+                "precommit_reference": "SYN-D03-PRECOMMIT-01",
+                "candidate_setting_ids": ["SYN-SETTING-1", "SYN-SETTING-2", "SYN-SETTING-3"],
+                "objectives": [{"metric": "yield", "direction": "maximize"},
+                               {"metric": "defect", "direction": "minimize"}]},
             "sources": [{"id": "SYN-UPSTREAM"}, {"id": "SYN-DOWNSTREAM"}],
             "linkage": {
                 "approved": True, "relationship_id": "SYN-REL-01", "contract_version": "1.0.0",
@@ -53,6 +58,8 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                        "scope": "marginal_95_interval_separation_only"}, result["interval_separated_dominance"])
         self.assertEqual(setting2["mean_pareto_status"], "NONDOMINATED_BY_MEANS")
         self.assertEqual(result["familywise_mean_envelope"]["status"], "AVAILABLE_APPROXIMATE_BONFERRONI_ENVELOPE")
+        self.assertEqual(result["familywise_mean_envelope"]["precommit_source_qualification_status"],
+                         "CALLER_SUPPLIED_NOT_AUTHENTICATED")
         self.assertIn({"dominant_setting_id": "SYN-SETTING-3", "dominated_setting_id": "SYN-SETTING-1",
                        "scope": "Bonferroni_familywise_simultaneous_mean_rectangles"},
                       result["familywise_interval_separated_dominance"])
@@ -271,12 +278,40 @@ class CrossStepTradeoffQualification(unittest.TestCase):
             row["unit_id"] = "SYN-UNIT-" + row["unit_id"].rsplit("-", 1)[1]
         matched = observed_tradeoffs(matched_rows, self.metric_defs,
                                      {"pressure": {"role": "controllable"}},
-                                     {"tradeoff_unit_field": "unit_id", "tradeoff_min_independent_units": 3},
+                                     {"tradeoff_unit_field": "unit_id", "tradeoff_min_independent_units": 3,
+                                      "familywise_t_precommit": self.data["familywise_t_precommit"]},
                                      objectives)
         self.assertEqual(matched["familywise_mean_envelope"]["status"],
                          "AVAILABLE_APPROXIMATE_BONFERRONI_ENVELOPE")
         self.assertEqual(matched["familywise_mean_envelope"]["population_compatibility"],
                          "IDENTICAL_INDEPENDENT_UNIT_SET_AT_EVERY_INCLUDED_SETTING")
+
+    def test_observed_t_familywise_withholds_uncommitted_or_mismatched_families(self):
+        objectives = self.data["objectives"]
+        base = {"tradeoff_unit_field": "unit_id", "tradeoff_min_independent_units": 3}
+        matched_rows = copy.deepcopy(self.rows)
+        for row in matched_rows:
+            row["unit_id"] = "SYN-UNIT-" + row["unit_id"].rsplit("-", 1)[1]
+        result = observed_tradeoffs(matched_rows, self.metric_defs,
+                                    {"pressure": {"role": "controllable"}}, base, objectives)
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "NOT_AVAILABLE_PRECOMMIT_NOT_DECLARED")
+
+        omitted_setting = copy.deepcopy(self.data["familywise_t_precommit"])
+        omitted_setting["candidate_setting_ids"].pop()
+        result = observed_tradeoffs(matched_rows, self.metric_defs,
+                                    {"pressure": {"role": "controllable"}},
+                                    {**base, "familywise_t_precommit": omitted_setting}, objectives)
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "PRECOMMITTED_SETTING_FAMILY_MISMATCH")
+
+        wrong_objective = copy.deepcopy(self.data["familywise_t_precommit"])
+        wrong_objective["objectives"][0]["direction"] = "minimize"
+        result = observed_tradeoffs(matched_rows, self.metric_defs,
+                                    {"pressure": {"role": "controllable"}},
+                                    {**base, "familywise_t_precommit": wrong_objective}, objectives)
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "PRECOMMITTED_OBJECTIVE_FAMILY_MISMATCH")
 
     def test_mixed_type_unit_ids_remain_distinct_in_observed_pareto_means(self):
         rows = []

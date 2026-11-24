@@ -37,6 +37,15 @@ class SourceContractTests(unittest.TestCase):
         self.assertTrue(contract["properties"]["candidate_setting_ids"]["uniqueItems"])
         self.assertEqual(contract["properties"]["metric_bounds"]["additionalProperties"]["maxItems"], 2)
 
+    def test_d03_t_envelope_requires_exact_precommitted_setting_and_objective_family(self):
+        schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        contract = schema["properties"]["familywise_t_precommit"]
+        self.assertEqual(set(contract["required"]), {
+            "precommit_reference", "candidate_setting_ids", "objectives"})
+        self.assertEqual(contract["properties"]["candidate_setting_ids"]["maxItems"], 40)
+        self.assertTrue(contract["properties"]["candidate_setting_ids"]["uniqueItems"])
+        self.assertTrue(contract["properties"]["objectives"]["uniqueItems"])
+
     def test_schema_files_identify_version(self):
         for name in ("evidence.v1.schema.json", "product-manifest.v1.schema.json"):
             doc = json.loads((ROOT / "contracts" / name).read_text(encoding="utf-8"))

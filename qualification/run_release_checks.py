@@ -732,6 +732,41 @@ def main():
         "runtime_dependencies_added": False,
         "scope": "independent synthetic rare-event stress; demonstrates an interval failure mode on the specified generator only"
     }
+    d03_familywise_path = ROOT / "qualification" / "results" / "D03_FAMILYWISE_BENCHMARK.json"
+    d03_familywise_run, _ = run([sys.executable, "-m", "qualification.benchmark_d03_familywise",
+                                 "--trials", "500", "--bootstrap-resamples", "999", "--units", "30",
+                                 "--output", "qualification/results/D03_FAMILYWISE_BENCHMARK.json"])
+    d03_familywise = json.loads(d03_familywise_path.read_text(encoding="utf-8")) if d03_familywise_path.exists() else {}
+    d03_familywise_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d03_familywise.py").read_bytes()).hexdigest()
+    d03_adaptive = d03_familywise.get("adaptive_setting_selection_challenge", {})
+    d03_fixed = d03_familywise.get("scenarios", {})
+    d03_familywise_pass = (
+        d03_familywise_run.returncode == 0
+        and d03_familywise.get("schema") == "p4-d03-familywise-benchmark/v1"
+        and d03_familywise.get("product_tradeoffs_sha256") == d03_current_hashes.get("products/p4/tradeoffs.py")
+        and d03_familywise.get("benchmark_script_sha256") == d03_familywise_script_hash
+        and set(d03_fixed) == {"correlated_normal", "correlated_heavy_t5"}
+        and all(item.get("trials", 0) >= 500
+                and item.get("methods", {}).get("product_bonferroni_rectangle", {}).get("false_dominance_rate", 1) <= 0.05
+                for item in d03_fixed.values())
+        and d03_adaptive.get("trials", 0) >= 500
+        and d03_adaptive.get("declared_full_family_refusal_fraction") == 1.0
+        and d03_adaptive.get("selected_only_familywise_interval_release_fraction") == 0.0
+    )
+    d03_familywise_result = {
+        "status": "PASS" if d03_familywise_pass else "FAIL",
+        "evidence": "qualification/results/D03_FAMILYWISE_BENCHMARK.json",
+        "product_source_hash_matches": d03_familywise.get("product_tradeoffs_sha256") == d03_current_hashes.get("products/p4/tradeoffs.py"),
+        "benchmark_script_hash_matches": d03_familywise.get("benchmark_script_sha256") == d03_familywise_script_hash,
+        "adaptive_selection_trials": d03_adaptive.get("trials"),
+        "adaptive_full_family_refusal_fraction": d03_adaptive.get("declared_full_family_refusal_fraction"),
+        "selected_only_interval_release_fraction": d03_adaptive.get("selected_only_familywise_interval_release_fraction"),
+        "legacy_selected_setting_interval_coverage": d03_adaptive.get("legacy_selected_setting_t_interval_coverage"),
+        "fixed_family_joint_coverage": {key: item.get("methods", {}).get("product_bonferroni_rectangle", {}).get("joint_mean_coverage_rate")
+                                        for key, item in d03_fixed.items()},
+        "scope": "synthetic correlated-family and adaptive-omission challenge; precommit evidence remains caller-supplied and unauthenticated"
+    }
     performance_path = ROOT / "release" / "BENCHMARK_REPORT.json"
     performance = json.loads(performance_path.read_text(encoding="utf-8")) if performance_path.exists() else {}
     performance_source_commit = performance.get("source_commit", "")
@@ -883,7 +918,7 @@ def main():
         and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass and d01_continuous_pass
         and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass
         and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass
-        and d03_bounded_pass and d03_zero_pass and mcp_pass and mcp_sdk_pass
+        and d03_bounded_pass and d03_zero_pass and d03_familywise_pass and mcp_pass and mcp_sdk_pass
         and dependency_audit_pass and d04_pass and performance_pass
         and ui_component_pass and security_pass
     )
@@ -906,6 +941,7 @@ def main():
                "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
                "d03_bounded_mean_benchmark": d03_benchmark_result,
                "d03_zero_variance_benchmark": d03_zero_result,
+               "d03_familywise_selection_benchmark": d03_familywise_result,
                "scientific_performance_benchmark": performance_result,
                "dependency_audit": dependency_audit_result,
                "ui_module_qualification": ui_result,
@@ -943,6 +979,7 @@ def main():
         "d02_stratified_calibration_benchmark": d02_stratified_result,
         "d03_bounded_mean_benchmark": d03_benchmark_result,
         "d03_zero_variance_benchmark": d03_zero_result,
+        "d03_familywise_selection_benchmark": d03_familywise_result,
         "scientific_performance_benchmark": performance_result,
         "dependency_audit": dependency_audit_result,
         "ui_module_qualification": ui_result,
@@ -952,7 +989,7 @@ def main():
         "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
         "gates": {
             "E01": {"status": "PASS" if demo_result["status"] == "PASS" else "FAIL", "evidence": ["release/full_workflow_demo_evidence.json", "release/TEST_LOG.txt"], "scope": "synthetic end-to-end capability flow"},
-            "E02": {"status": "PASS" if critical_pass and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass and d01_continuous_pass and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass and d02_stratified_pass and d04_pass and d03_bounded_pass and d03_zero_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d02_actual_selector_benchmark.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d01_cluster_imbalance.py", "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json", "qualification/benchmark_d01_exposure_support.py", "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json", "qualification/benchmark_d01_crossed_dependence.py", "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json", "qualification/benchmark_d01_conditioning.py", "qualification/results/D01_CONDITIONING_BENCHMARK.json", "qualification/benchmark_d01_continuous_cluster_support.py", "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_adaptive_selection.py", "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json", "qualification/benchmark_d02_actual_selector.py", "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d02_stratum_transfer.py", "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json", "qualification/benchmark_d02_response_drift.py", "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json", "qualification/benchmark_d02_stratified_calibration.py", "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "qualification/benchmark_d03_zero_variance.py", "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary and concentrated continuous exposure, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks"},
+            "E02": {"status": "PASS" if critical_pass and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass and d01_continuous_pass and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass and d02_stratified_pass and d04_pass and d03_bounded_pass and d03_zero_pass and d03_familywise_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d02_actual_selector_benchmark.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d01_cluster_imbalance.py", "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json", "qualification/benchmark_d01_exposure_support.py", "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json", "qualification/benchmark_d01_crossed_dependence.py", "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json", "qualification/benchmark_d01_conditioning.py", "qualification/results/D01_CONDITIONING_BENCHMARK.json", "qualification/benchmark_d01_continuous_cluster_support.py", "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_adaptive_selection.py", "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json", "qualification/benchmark_d02_actual_selector.py", "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d02_stratum_transfer.py", "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json", "qualification/benchmark_d02_response_drift.py", "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json", "qualification/benchmark_d02_stratified_calibration.py", "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "qualification/benchmark_d03_zero_variance.py", "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json", "qualification/benchmark_d03_familywise.py", "qualification/results/D03_FAMILYWISE_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary and concentrated continuous exposure, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 fixed-family correlated mean envelope, adaptive-setting omission refusal, skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks"},
             "E03": {"status": "PASS" if critical_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_offline_server.py"], "scope": "unsafe, invalid, leakage, permission, cancellation and host/origin cases"},
             "E04": {"status": "PASS" if frozen_pass and schema_status == "PASS" else "FAIL", "evidence": ["contracts/", "products/p4/investigation.v1.schema.json", "release/SCHEMA_VALIDATION.json"]},
             "E05": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "qualification/internal-capability-report.v1.schema.json"], "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally"},

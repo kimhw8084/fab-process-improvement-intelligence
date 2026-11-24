@@ -9,12 +9,13 @@ population evidence or a runtime dependency.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 from pathlib import Path
 
 import numpy as np
-from scipy.stats import bootstrap
+from scipy.stats import bootstrap, t as student_t
 
 from products.p4.tradeoffs import observed_tradeoffs
 
@@ -26,6 +27,11 @@ METRIC_DEFS = {"quality": {"unit": "score", "direction": "maximize"},
                "defect": {"unit": "count", "direction": "minimize"}}
 FACTOR_DEFS = {"pressure": {"role": "controllable", "unit": "u"}}
 OBSERVED_SPEC = {"tradeoff_unit_field": "lot_id", "tradeoff_min_independent_units": 11}
+SETTING_IDS = ["SYN-SETTING-1", "SYN-SETTING-2", "SYN-SETTING-3", "SYN-SETTING-4"]
+PRECOMMIT = {"precommit_reference": "SYN-D03-FIXED-FAMILY-PLAN",
+             "candidate_setting_ids": SETTING_IDS,
+             "objectives": OBJECTIVES}
+OBSERVED_SPEC["familywise_t_precommit"] = PRECOMMIT
 
 
 def _wilson(successes, trials):
@@ -161,12 +167,45 @@ def run_benchmark(trials=500, bootstrap_resamples=999, seed=20261123, units=30):
             },
             "max_standardized_width_ratio_to_bonferroni": float(np.mean(bootstrap_widths)/np.mean(bonf_widths)),
         }
+    selection_trials = min(trials, 500)
+    selected_only_refusals = 0
+    selected_only_interval_releases = 0
+    naive_selected_t_coverage = 0
+    for _ in range(selection_trials):
+        values = _draw_lot_matrix(rng, units)
+        selected_index = int(np.argmax(np.mean(values[:, :, 0], axis=0)))
+        selected_pressure = SETTINGS[selected_index]
+        selected_rows = [row for row in _make_rows(values)
+                         if row["factors"]["pressure"] == selected_pressure]
+        result = observed_tradeoffs(selected_rows, METRIC_DEFS, FACTOR_DEFS,
+                                    OBSERVED_SPEC, OBJECTIVES)
+        envelope = result["familywise_mean_envelope"]
+        selected_only_refusals += int(envelope["status"] == "PRECOMMITTED_SETTING_FAMILY_MISMATCH")
+        selected_only_interval_releases += int(any(
+            candidate["uncertainty"]["quality"].get("familywise_ci95") is not None
+            for candidate in result["candidate_settings"]))
+        selected = values[:, selected_index, 0]
+        center = float(np.mean(selected))
+        radius = float(student_t.ppf(0.975, units-1)*np.std(selected, ddof=1)/math.sqrt(units))
+        naive_selected_t_coverage += int(center-radius <= 5.0 <= center+radius)
+
+    root = Path(__file__).resolve().parents[1]
     return {"schema": "p4-d03-familywise-benchmark/v1", "seed": seed,
+            "product_tradeoffs_sha256": hashlib.sha256((root / "products" / "p4" / "tradeoffs.py").read_bytes()).hexdigest(),
+            "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "objective_family_size": 8, "resampling_unit": "whole independent lot row vector, preserving cross-setting and cross-metric dependence",
             "generator": "four equal-mean settings; correlated settings and objectives; normal and scaled multivariate t(5) unit effects",
             "mature_alternative": "scipy.stats.bootstrap vectorized mean resampling with paired unit rows; a max-standardized family statistic is computed only in qualification code",
             "bootstrap_resamples": bootstrap_resamples,
             "product_decision_rule": "retain the offline dependency-free Bonferroni envelope because the narrower bootstrap method did not meet family-wise coverage in either challenge",
+            "adaptive_setting_selection_challenge": {
+                "trials": selection_trials,
+                "selector": "retain only the setting with the largest observed quality mean among four equal-mean settings",
+                "legacy_selected_setting_t_interval_coverage": naive_selected_t_coverage/selection_trials,
+                "legacy_selected_setting_t_interval_coverage_wilson95": _wilson(naive_selected_t_coverage, selection_trials),
+                "declared_full_family_refusal_fraction": selected_only_refusals/selection_trials,
+                "selected_only_familywise_interval_release_fraction": selected_only_interval_releases/selection_trials,
+                "scope": "synthetic selection-bias diagnostic; exact precommit matching cannot authenticate when the caller created or changed the cited plan"},
             "scenarios": scenarios,
             "limitations": ["finite Monte Carlo results do not prove population coverage",
                             "settings are treated as a fixed finite family before mean inspection",

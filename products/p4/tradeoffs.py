@@ -104,7 +104,7 @@ def _familywise_t_critical(df, family_size):
 
 def _familywise_mean_envelope(candidates, objectives, *, allow=True,
                               unavailable_status="NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION",
-                              bounded_contract=None, metric_units=None):
+                              bounded_contract=None, metric_units=None, t_precommit=None):
     family_size = len(candidates) * len(objectives)
     summary = {"status": "NOT_AVAILABLE", "familywise_alpha": 0.05,
                "mean_parameter_count": family_size,
@@ -249,6 +249,36 @@ def _familywise_mean_envelope(candidates, objectives, *, allow=True,
     if any(candidate.get("independent_units", 0) < 11 for candidate in candidates):
         summary["status"] = "NOT_AVAILABLE_REQUIRES_11_INDEPENDENT_UNITS_PER_SETTING"
         return summary, []
+    if not isinstance(t_precommit, dict):
+        summary["status"] = "NOT_AVAILABLE_PRECOMMIT_NOT_DECLARED"
+        summary["reason"] = "the complete candidate-setting and objective family must be caller-declared before ranking"
+        return summary, []
+    reference = t_precommit.get("precommit_reference")
+    declared_ids = t_precommit.get("candidate_setting_ids")
+    declared_objectives = t_precommit.get("objectives")
+    if (not isinstance(reference, str) or not reference.strip()
+            or not isinstance(declared_ids, list)
+            or any(not isinstance(value, str) or not value.strip() for value in declared_ids)
+            or len(declared_ids) != len(set(declared_ids))):
+        summary["status"] = "INVALID_T_PRECOMMIT_CONTRACT"
+        summary["reason"] = "a nonempty precommit reference and unique candidate setting IDs are required"
+        return summary, []
+    actual_ids = [candidate.get("id") for candidate in candidates]
+    if len(declared_ids) != len(actual_ids) or set(declared_ids) != set(actual_ids):
+        summary["status"] = "PRECOMMITTED_SETTING_FAMILY_MISMATCH"
+        summary["reason"] = "the declared candidate setting family does not exactly match the assessed settings"
+        return summary, []
+    actual_objectives = {(item["metric"], item["direction"]) for item in objectives}
+    if (not isinstance(declared_objectives, list)
+            or any(not isinstance(item, dict) or not isinstance(item.get("metric"), str)
+                   or item.get("direction") not in ("maximize", "minimize") for item in declared_objectives)
+            or len(declared_objectives) != len(set((item.get("metric"), item.get("direction"))
+                                                   for item in declared_objectives))
+            or {(item.get("metric"), item.get("direction")) for item in declared_objectives}
+            != actual_objectives):
+        summary["status"] = "PRECOMMITTED_OBJECTIVE_FAMILY_MISMATCH"
+        summary["reason"] = "the declared objective family does not exactly match the assessed metrics and directions"
+        return summary, []
     for candidate in candidates:
         df = candidate["independent_units"] - 1
         critical = _familywise_t_critical(df, family_size)
@@ -292,6 +322,11 @@ def _familywise_mean_envelope(candidates, objectives, *, allow=True,
             else "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR")
     summary.update({"status": "AVAILABLE_APPROXIMATE_BONFERRONI_ENVELOPE",
                     "familywise_alpha": 0.05, "familywise_confidence_target": 0.95,
+                    "precommit_reference": reference,
+                    "precommitted_candidate_setting_ids": sorted(declared_ids),
+                    "precommitted_objectives": sorted(declared_objectives,
+                        key=lambda item: (item["metric"], item["direction"])),
+                    "precommit_source_qualification_status": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
                     "critical_value_domain": {"minimum_degrees_of_freedom": 10,
                                               "maximum_degrees_of_freedom": 300,
                                               "maximum_mean_parameter_count": 40},
@@ -433,6 +468,7 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
                             "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS" if unassessed_settings else
                             "NOT_AVAILABLE_INCOMPATIBLE_INDEPENDENT_UNIT_COHORTS"),
         bounded_contract=data.get("familywise_mean_bounds"),
+        t_precommit=data.get("familywise_t_precommit"),
         metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
     familywise_envelope["population_compatibility"] = (
         "IDENTICAL_INDEPENDENT_UNIT_SET_AT_EVERY_INCLUDED_SETTING" if identical_unit_cohorts
@@ -673,6 +709,7 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         unavailable_status=("NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION" if excluded_units_total
                             else "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS"),
         bounded_contract=data.get("familywise_mean_bounds"),
+        t_precommit=data.get("familywise_t_precommit"),
         metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
     familywise_envelope["population_compatibility"] = (
         "DECLARED_MATCHING_POPULATION_ID_IN_SYNTHETIC_APPROVED_RELATIONSHIP"
