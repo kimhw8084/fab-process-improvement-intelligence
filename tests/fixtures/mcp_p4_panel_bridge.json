@@ -28467,10 +28467,12 @@
       "input_sha256": "e0b26632f4b4bbb9bab3dc3192e8e7bea11b07158e35d8c631f449a3caa6f4b8",
       "mcp_acquisition": {
         "audit_id": "SYN-AUDIT-READ-1",
+        "audit_operation_id": "SYN-OP-READ-1",
         "audit_query_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "environment": "SYNTHETIC_TEST_ONLY",
         "logical_contract_version": "1.0.0",
         "normalized_rows": 900,
+        "operation_id": "SYN-OP-READ-1",
         "permission_scope": "SYNTHETIC_READ",
         "read_only": true,
         "relationship_id": "SYN-RELATIONSHIP-1",
@@ -28634,15 +28636,15 @@
     "contracts/adapter-operations.v1.json": "546ffe9a3a04d1d039c112908b684e72de258408c18ca5d51e60787a02e2210c",
     "contracts/evidence.v1.schema.json": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
-    "fabintel/mock_mcp_server.py": "8b801e87df7dd5466606f167b00efff1dbed4740926b144c79de7224db83675f",
+    "fabintel/mock_mcp_server.py": "07a5db181a422affdaa39bd03bea09bb824bc73666dbe3fcfbd6460973bb3508",
     "products/p4/design.py": "0c4e73cd0f84a77f35b395c3cd2eb1b41fd1e14bf1b66f7c2b0561cbd5b597ca",
     "products/p4/engine.py": "db8e9fe22453adf3894f167f1f16796d245f49ee89de12f5dfea4848a98d4766",
-    "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
+    "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
     "products/p4/regression.py": "527e54b6202bd2a0c82a866f9c9c53813136ec033c988df1293941ca2a286c99",
     "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
     "products/p4/window.py": "32294b5008500658107e325deca6a97fbc6900a6e5f3b07cff91b85e403dd323",
     "qualification/build_mcp_panel_bridge_fixture.py": "870e73c1f8c08efc7ccfae32868bc02ec3a961e88c2a270b0b8318a969e6f99d",
-    "tests/test_mcp_transport.py": "0a1c9d032ecb5e8d10a7c465f4e32ebae9cd37a53e54c3792756ed488141b458"
+    "tests/test_mcp_transport.py": "39fc395a14b42bf6e3e270288b4eadf3859d9661cfb6b949ac385d91734a9a87"
   },
   "source_preview": {
     "coverage": {

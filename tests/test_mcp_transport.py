@@ -25,9 +25,9 @@ def mapping_config(transport):
         "discover": ["tool_versions", "semantic_versions", "limits", "auth_scopes", "audit_support"],
         "semantics": ["column_definitions", "grain", "units", "effectivity", "approval", "source_versions", "semantic_version"],
         "relationships": ["approved", "keys", "cardinality", "grain", "effectivity", "source_reference", "relationship_contract"],
-        "read_bounded": ["typed_rows", "audit_id", "source_versions", "truncation", "source_hashes"],
+        "read_bounded": ["typed_rows", "audit_id", "operation_id", "source_versions", "truncation", "source_hashes"],
         "cancel": ["confirmed_stopped"],
-        "audit": ["permission_scope", "sources", "timestamps", "query_hash"],
+        "audit": ["operation_id", "permission_scope", "sources", "timestamps", "query_hash"],
     }
     names = {operation: f"synthetic.test.{operation}" for operation in outputs}
     return {"config_version": "1.0.0", "environment": "SYNTHETIC_TEST_ONLY", "qualification_status": "PENDING_INTERNAL",
@@ -74,6 +74,7 @@ class McpStdioQualification(unittest.TestCase):
         self.assertTrue(read["truncation"])
         self.assertEqual(set(read["source_hashes"]), {"SYN-SOURCE-A"})
         self.assertTrue(self.adapter.call("cancel", {"operation_id": "SYN-OP-STOPPED"})["confirmed_stopped"])
+        self.assertEqual(self.adapter.call("audit", {"operation_id": "SYN-OP-1"})["operation_id"], "SYN-OP-1")
         self.assertEqual(len(self.adapter.call("audit", {"operation_id": "SYN-OP-1"})["query_hash"]), 64)
 
     def test_unapproved_semantics_source_and_oversized_or_write_read_are_blocked(self):
@@ -210,6 +211,8 @@ class McpToP4WorkflowQualification(unittest.TestCase):
         acquisition = result["provenance"]["mcp_acquisition"]
         self.assertEqual(acquisition["status"], "ANALYSIS_COMPLETED")
         self.assertEqual(acquisition["logical_contract_version"], "1.0.0")
+        self.assertEqual(acquisition["operation_id"], "SYN-OP-READ-1")
+        self.assertEqual(acquisition["audit_operation_id"], "SYN-OP-READ-1")
         self.assertEqual(acquisition["row_count"], 900)
         self.assertFalse(acquisition["truncation"])
         self.assertTrue(acquisition["read_only"])
@@ -239,7 +242,7 @@ class McpToP4WorkflowQualification(unittest.TestCase):
 
     def test_audit_scope_and_duplicate_source_receipts_must_match_the_request(self):
         for scenario, expected in (("audit_scope_invalid", "effective permission scope"),
-                                   ("audit_sources_duplicated", "exact requested source population")):
+                ("audit_sources_duplicated", "exact requested source population")):
             with self.subTest(scenario=scenario):
                 adapter = self._adapter(scenario)
                 try:
@@ -248,7 +251,7 @@ class McpToP4WorkflowQualification(unittest.TestCase):
                     adapter.client.close()
                 self.assertEqual(result["status"], "REFUSED")
                 self.assertIn(expected, " ".join(result["limitations"]))
-                self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "AUDITED_READ_COMPLETED")
+                self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "READ_RETURNED_AUDIT_NOT_CONFIRMED")
                 self.assertEqual(result["provenance"]["mcp_acquisition"]["audit_id"], "SYN-AUDIT-READ-1")
 
     def test_relationship_metric_labels_must_match_the_explicit_p4_mapping_before_read(self):
@@ -269,6 +272,18 @@ class McpToP4WorkflowQualification(unittest.TestCase):
         self.assertIn("relationship metric", " ".join(result["limitations"]))
         self.assertNotIn("read_bounded", calls)
         self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "NOT_STARTED")
+
+    def test_audit_operation_id_must_match_the_bounded_read(self):
+        adapter = self._adapter("audit_operation_mismatch")
+        try:
+            result = run_mcp_investigation(adapter, self.request())
+        finally:
+            adapter.client.close()
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertIn("audit operation ID does not match", " ".join(result["limitations"]))
+        acquisition = result["provenance"]["mcp_acquisition"]
+        self.assertEqual(acquisition["status"], "READ_RETURNED_AUDIT_NOT_CONFIRMED")
+        self.assertEqual(acquisition["operation_id"], "SYN-OP-READ-1")
 
     def test_p4_evidence_extensions_fail_closed_without_mutating_logical_contract_v1(self):
         for scenario, expected in (("missing_semantic_evidence", "semantic_version"),
@@ -357,6 +372,8 @@ class McpToP4WorkflowQualification(unittest.TestCase):
         self.assertIn("cancelled after read", " ".join(result["limitations"]))
         self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "CANCELLED_AFTER_AUDITED_READ")
         self.assertEqual(result["provenance"]["mcp_acquisition"]["audit_id"], "SYN-AUDIT-READ-1")
+        self.assertEqual(result["provenance"]["mcp_acquisition"]["audit_operation_id"], "SYN-OP-READ-1")
+        self.assertTrue(result["provenance"]["mcp_acquisition"]["cancel_confirmed"])
 
     def test_internal_configuration_mock_qualification_stays_pending_signoff(self):
         sources = ["SYN-SOURCE-A", "SYN-SOURCE-B"]

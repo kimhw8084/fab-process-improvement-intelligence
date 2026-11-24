@@ -82,6 +82,32 @@ def _validate_time_window(value):
     return start, end
 
 
+def _validate_audit_record(read, audit, source_ids, permission_scope):
+    operation_id = read.get("operation_id")
+    if not isinstance(operation_id, str) or not operation_id:
+        raise McpError("bounded read omitted its operation ID")
+    if audit.get("operation_id") != operation_id:
+        raise McpError("audit operation ID does not match the bounded-read operation ID")
+    if audit.get("permission_scope") != permission_scope:
+        raise McpError("audit record effective permission scope differs from the requested scope")
+    audited_sources = audit.get("sources")
+    if (not isinstance(audited_sources, list) or len(audited_sources) != len(source_ids)
+            or any(not isinstance(source, str) for source in audited_sources)
+            or set(audited_sources) != set(source_ids)):
+        raise McpError("audit record source list differs from the exact requested source population")
+    query_hash = audit.get("query_hash")
+    if not isinstance(query_hash, str) or not _SHA256.fullmatch(query_hash):
+        raise McpError("audit query hash is missing or malformed")
+    timestamps = audit.get("timestamps")
+    if not isinstance(timestamps, dict):
+        raise McpError("audit timestamps are required")
+    started = _parse_time(timestamps.get("started"), "audit started timestamp")
+    ended = _parse_time(timestamps.get("ended"), "audit ended timestamp")
+    if started > ended:
+        raise McpError("audit start timestamp is after its end timestamp")
+    return operation_id
+
+
 def _validate_relationship(adapter, source_ids, time_window, semantics, analysis_template, normalization):
     if len(source_ids) == 1:
         return None
@@ -142,6 +168,7 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
         raise McpError("truncated or oversized reads cannot be treated as a complete analysis population")
     source_versions = read.get("source_versions")
     semantic_versions = semantics.get("source_versions")
+    timestamps = audit["timestamps"]
     if (not isinstance(source_versions, dict) or set(source_versions) != set(source_ids)
             or not isinstance(semantic_versions, dict) or set(semantic_versions) != set(source_ids)
             or source_versions != semantic_versions):
@@ -150,24 +177,6 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
     if not isinstance(source_hashes, dict) or set(source_hashes) != set(source_ids) or any(
             not isinstance(source_hashes[source], str) or not _SHA256.fullmatch(source_hashes[source]) for source in source_ids):
         raise McpError("bounded read must provide a SHA-256 content hash for every requested source")
-    if audit.get("permission_scope") != permission_scope:
-        raise McpError("audit record effective permission scope differs from the requested scope")
-    audited_sources = audit.get("sources")
-    if (not isinstance(audited_sources, list) or len(audited_sources) != len(source_ids)
-            or any(not isinstance(source, str) for source in audited_sources)
-            or set(audited_sources) != set(source_ids)):
-        raise McpError("audit record source list differs from the exact requested source population")
-    query_hash = audit.get("query_hash")
-    if not isinstance(query_hash, str) or not _SHA256.fullmatch(query_hash):
-        raise McpError("audit query hash is missing or malformed")
-    timestamps = audit.get("timestamps")
-    if not isinstance(timestamps, dict):
-        raise McpError("audit timestamps are required")
-    started = _parse_time(timestamps.get("started"), "audit started timestamp")
-    ended = _parse_time(timestamps.get("ended"), "audit ended timestamp")
-    if started > ended:
-        raise McpError("audit start timestamp is after its end timestamp")
-
     columns = _columns(semantics)
     units = semantics.get("units", {})
     row_id_field = normalization.get("row_id_field")
@@ -360,20 +369,23 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
         audit_id = read.get("audit_id")
         if not isinstance(audit_id, str) or not audit_id:
             raise McpError("bounded read omitted its audit receipt ID")
-        audit = adapter.call("audit", {"operation_id": audit_id})
+        operation_id = read.get("operation_id")
+        if not isinstance(operation_id, str) or not operation_id:
+            raise McpError("bounded read omitted its operation ID")
+        audit = adapter.call("audit", {"operation_id": operation_id})
+        audit_operation_id = _validate_audit_record(read, audit, source_ids, permission_scope)
         acquisition = {"status": "AUDITED_READ_COMPLETED", "environment": "SYNTHETIC_TEST_ONLY",
             "logical_contract_version": adapter.contract.get("contract_version"),
             "semantic_version": semantic_version, "source_ids": source_ids,
             "source_versions": read.get("source_versions"), "source_hashes": read.get("source_hashes"),
             "row_count": len(read.get("typed_rows", [])) if isinstance(read.get("typed_rows"), list) else None,
             "truncation": read.get("truncation"), "read_only": True, "time_window": time_window,
-            "audit_id": audit_id, "audit_query_hash": audit.get("query_hash"),
+            "operation_id": operation_id, "audit_id": audit_id, "audit_operation_id": audit_operation_id,
+            "audit_query_hash": audit.get("query_hash"),
             "permission_scope": audit.get("permission_scope"), "relationship_id": relationship.get("relationship_id") if relationship else None}
         if _cancelled(cancel):
             cancel_result = None
-            operation_id = read.get("operation_id")
-            if isinstance(operation_id, str) and operation_id:
-                cancel_result = adapter.call("cancel", {"operation_id": operation_id})
+            cancel_result = adapter.call("cancel", {"operation_id": operation_id})
             acquisition["status"] = "CANCELLED_AFTER_AUDITED_READ"
             acquisition["cancel_confirmed"] = cancel_result.get("confirmed_stopped") if cancel_result else False
             return _refused(request, "MCP investigation was cancelled after read; no P4 analysis was started", acquisition)
@@ -396,5 +408,6 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
     except (McpError, McpPermissionError, ValueError, TypeError, KeyError, AttributeError, IndexError) as exc:
         if read and acquisition.get("status") == "NOT_STARTED":
             acquisition = {"status": "READ_RETURNED_AUDIT_NOT_CONFIRMED", "audit_id": read.get("audit_id"),
+                           "operation_id": read.get("operation_id"),
                            "row_count": len(read.get("typed_rows", [])) if isinstance(read.get("typed_rows"), list) else None}
         return _refused(request, str(exc), acquisition)

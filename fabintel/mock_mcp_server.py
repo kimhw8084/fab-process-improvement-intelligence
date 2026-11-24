@@ -122,12 +122,13 @@ def _tool_result(name, args, scenario="normal"):
         if scenario == "missing_read_hashes":
             result.pop("source_hashes")
     elif name == "synthetic.test.cancel":
-        result = {"confirmed_stopped": args.get("operation_id") == "SYN-OP-STOPPED"}
+        result = {"confirmed_stopped": args.get("operation_id") in ("SYN-OP-STOPPED", "SYN-OP-READ-1")}
     elif name == "synthetic.test.audit":
         audit_scope = "SYNTHETIC_TEST_ONLY" if scenario == "audit_scope_invalid" else "SYNTHETIC_READ"
         audit_sources = (["SYN-SOURCE-A", "SYN-SOURCE-B", "SYN-SOURCE-A"]
                          if scenario == "audit_sources_duplicated" else ["SYN-SOURCE-A", "SYN-SOURCE-B"])
-        result = {"permission_scope": audit_scope, "sources": audit_sources,
+        result = {"operation_id": "SYN-OP-OTHER" if scenario == "audit_operation_mismatch" else args.get("operation_id"),
+                  "permission_scope": audit_scope, "sources": audit_sources,
                   "timestamps": {"started": "2026-01-01T00:00:00Z", "ended": "2026-01-01T00:00:01Z"},
                   "query_hash": "invalid" if scenario == "audit_invalid" else "0"*64}
     else:
@@ -279,7 +280,7 @@ def main():
         "source_version_drift", "relationship_unapproved", "relationship_many_to_many",
         "server_truncated", "audit_invalid", "missing_semantic_evidence", "missing_semantic_source_versions",
         "missing_relationship_evidence", "missing_read_hashes", "audit_scope_invalid",
-        "audit_sources_duplicated", "relationship_metric_mapping_drift"), default="normal")
+        "audit_sources_duplicated", "relationship_metric_mapping_drift", "audit_operation_mismatch"), default="normal")
     args = parser.parse_args()
     SCENARIO = args.scenario
     stdio() if args.transport == "stdio" else http(args.host, args.port)
