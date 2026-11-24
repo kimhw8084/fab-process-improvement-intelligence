@@ -1,3 +1,26 @@
+# Latest requirement evidence — D02 confirmation consistency guard (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D02-to-D04 refusal | Confirmation now checks explicit top-level withheld screening/counterevidence metadata and candidate-count consistency before accepting a candidate. Three contradictory envelopes refuse with zero runs and no execution. | Focused D04 + D01/D02 suites: 96 PASS. Synthetic contract guard; no data authenticity is claimed. |
+| D04 alias challenge | Fixed 200-trial four-factor benchmark: fractional/full factorial, CCD and D-optimal 0/200 signal; LHS 200/200. | Previously passed at source `3febbf4`; geometry only. Rebind with current source. |
+| Exact archive | Previous ZIP `25c235d6…` and E02/E10 identify source `3febbf4`; implementation is now `8bd90aa8276d74fb72c9d1c235d810ab36116924`. | Rebuild/reproduce/offline-qualify and run current-source gates. |
+| P1/internal | Additive focus ring proposal is available; owner/rendered accessibility, company source authorization, target, approvals and ROI remain pending. | Pending; do not claim suite or transfer completion. |
+
+---
+
+# Latest requirement evidence — exact-source D04 and offline qualification (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D04 geometry qualification | Fixed 200-trial two- and four-factor challenges: factorial/CCD/D-opt geometries were blind to the selected finite harmonic responses; LHS detected them in recorded runs. Four-factor benchmark includes resolution-IV fractional factorial. | E02 PASS. Geometry only; does not establish power, general superiority, or production performance. |
+| Exact offline release (E10) | Source `3febbf430acb489840d0d5872ead998c8fc6ff74`; ZIP SHA-256 `25c235d6b4287b2210a608dca7cfe7c30d008566e07e8605603f5eefbec961c7`; manifest SHA-256 `c4cdef9206d1ff6b7f1126b756b35259f534d810ac051c91afaacddb9bf91e3e`. Two clean builds identical; fresh no-pip extraction verified 220 files; synthetic D01–D05 workflow passed with socket probe DENIED. | E10 PASS on macOS ARM64/Python 3.11.7 only; company target OS remains unknown. |
+| Current regression | 241 Python tests, zero skipped; E01–E04/E06 PASS. Product state CANDIDATE. | Continue D02/D04 independent scientific challenges; do not equate candidate qualification with release readiness. |
+| P1 accessibility | Disposable stylesheet screen failed original focus-ring contrast on three surfaces; additive P1-owned proposal has selected source-level screen PASS. | Authoritative P1 owner, rendered focus, keyboard/zoom/screen-reader and formal accessibility remain pending. |
+| Internal gates | Company MCP authorization/semantics, target policy, legal/security/production approvals, and engineer ROI are unverified. | PENDING; no public distribution. |
+
+---
+
 # Latest requirement evidence — D04 off-grid DOE aliasing (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |

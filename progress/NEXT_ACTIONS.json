@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "Progress checkpoint and P1 focus-indicator proposal must be committed before exact-source archive build.",
-    "Generated release outputs currently bind ea1f9fe and must be refreshed after source 688f809."
+    "Progress ledger records D02 fail-closed confirmation guard; commit before packaging.",
+    "Release reports and archive are generated sidecars stale for current implementation."
   ],
-  "as_of_source_commit": "688f809cde369fb8dcbf2856f2bcdba0f9b0db04",
+  "as_of_source_commit": "8bd90aa8276d74fb72c9d1c235d810ab36116924",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -14,10 +14,10 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "240 PASS, 0 skipped",
-    "qualification": "E01-E04, E06 PASS; E05/E12 internal; E07 owner/accessibility, E08 target OS, E09 legal/security and E11 ROI pending",
-    "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
-    "status": "PASS_CANDIDATE; E02 PASS; E10 requires new exact-source archive after D02 qualification change"
+    "python_tests": "241 PASS, 0 skipped",
+    "qualification": "E01-E04, E06, E10 PASS; E05/E12 internal; E07 authoritative P1/accessibility, E08 target OS, E09 legal/security and E11 ROI pending",
+    "source_commit": "3febbf430acb489840d0d5872ead998c8fc6ff74",
+    "status": "PASS_CANDIDATE; E02 PASS; E10 PASS"
   },
   "latest_checkpoint": {
     "D01_mcp_uncertainty": {
@@ -39,6 +39,17 @@
       "implementation": "Fits requested model on actual training rows and scores disjoint later independent groups; reports bias, MAE, RMSE, training-mean baseline, exact row/group counts",
       "limitations": "Caller split reference unauthenticated; descriptive supplied holdout only; does not establish future performance or causality",
       "status": "EXISTING_PATH_AND_ORACLE_VERIFIED; NO_CHANGE_JUSTIFIED"
+    },
+    "D02_confirmation_envelope_consistency": {
+      "refusals": [
+        "WITHHELD screening metadata",
+        "WITHHELD counterevidence metadata",
+        "candidate_count mismatch"
+      ],
+      "scope": "caller-supplied envelope consistency; does not authenticate provenance",
+      "source_commit": "8bd90aa8276d74fb72c9d1c235d810ab36116924",
+      "status": "IMPLEMENTED_FOCUSED_TESTED",
+      "tests": "96 PASS across D01/D02 and D04 design suites"
     },
     "D02_confirmation_veto": {
       "status": "INDEPENDENT_INTEGRATION_PASS",
@@ -73,17 +84,16 @@
       "trials": 100
     },
     "D04_four_factor_aliasing": {
-      "focused_tests": "28 PASS",
-      "scope": "four-factor higher-order synthetic geometry only; full fixed 200 trials pending; no statistical power or production claim",
-      "source_commit": "688f809cde369fb8dcbf2856f2bcdba0f9b0db04",
-      "status": "IMPLEMENTED_FOCUSED_TESTED_FULL_BENCHMARK_PENDING",
-      "strategies": [
-        "fractional_factorial",
-        "full_factorial",
-        "central_composite",
-        "d_optimal",
-        "latin_hypercube"
-      ]
+      "scope": "fixed synthetic geometry only; not power or production qualification",
+      "signal_trials": {
+        "central_composite": 0,
+        "d_optimal": 0,
+        "fractional_factorial": 0,
+        "full_factorial": 0,
+        "latin_hypercube": 200
+      },
+      "status": "PASS_GEOMETRY_CHALLENGE",
+      "trials": 200
     },
     "D04_off_grid_aliasing": {
       "focused_tests": "28 PASS",
@@ -127,9 +137,9 @@
       "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
     },
     "P1_focus_indicator": {
-      "scope": "disposable snapshot; not rendered or formal accessibility qualification",
-      "source_level_screen": "original outline below 3:1 selected-surface contrast; layered white outline/dark ring candidate passes selected source-level screen",
-      "status": "PROPOSAL_SCREENED_AUTHORITATIVE_OWNER_PENDING"
+      "evidence": "progress/P1_FOCUS_INDICATOR_CHANGE_PROPOSAL.md",
+      "scope": "disposable source-level color screen; no formal/rendered accessibility claim",
+      "status": "OWNER_PENDING"
     },
     "archive": {
       "sha256": "8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde",
@@ -144,6 +154,13 @@
     },
     "date": "2026-11-24",
     "engine_version": "1.2.2",
+    "exact_archive": {
+      "clean_builds": "2 identical",
+      "manifest_sha256": "c4cdef9206d1ff6b7f1126b756b35259f534d810ac051c91afaacddb9bf91e3e",
+      "offline": "PASS; 220 files; no pip; sandbox socket denied",
+      "source_commit": "3febbf430acb489840d0d5872ead998c8fc6ff74",
+      "zip_sha256": "25c235d6b4287b2210a608dca7cfe7c30d008566e07e8605603f5eefbec961c7"
+    },
     "final_release_qualification": {
       "passed_gates": [
         "E01",
@@ -232,47 +249,32 @@
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Commit this checkpoint; build archive at resulting exact HEAD; reproduce in two clean worktrees; run fresh no-pip sandboxed offline extraction; run full exact-source release gates and verify E02/E10."
+      "task": "Commit progress checkpoint; build exact archive; reproduce in two clean worktrees; run fresh no-pip sandboxed offline extraction; run release gates and inspect all statuses."
     },
     {
       "priority": 2,
-      "status": "PENDING_EXTERNAL",
-      "task": "Submit P1-owned focus-indicator change proposal for authoritative owner integration and rendered accessibility qualification; do not fork the P1 shell."
+      "status": "NEXT",
+      "task": "Continue bounded D02/D04 independent assumption challenge only where an oracle can change product behavior or refusal."
     },
     {
       "priority": 3,
-      "status": "NEXT",
-      "task": "Continue D02 by evaluating whether the existing exact-setting confirmation plan reduces uncertainty under independent held-out response challenges; retain refusal when its assumptions fail."
+      "status": "PENDING_EXTERNAL",
+      "task": "Authoritative P1 owner to assess focus-indicator proposal and qualify rendered accessibility on approved source."
     },
     {
       "priority": 4,
-      "status": "AUDIT_NO_DEFECT",
-      "task": "D03 missing-objective and uncertainty-reversal audit found no oracle-backed defect."
-    },
-    {
-      "priority": 5,
-      "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
-      "task": "D04 temporal holdout, two-factor off-grid aliasing and four-factor challenge added; full new 200-trial result pending."
-    },
-    {
-      "priority": 6,
-      "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
-      "task": "D05 hidden-confounder challenge preserves inconclusive behavior; causal claims remain unauthenticated."
-    },
-    {
-      "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Company authorization, source semantics, target policy, legal/security/production approvals and real engineer ROI."
+      "task": "Company MCP authorization/semantics, target policy, legal/security/production approvals, and engineer ROI."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED until refreshed exact-source E10 and applicable pending gates",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E02/E10 need rebinding at current source and external gates remain",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 scientific claims remain bounded and work continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source acceptance and formal accessibility; disposable composition only"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; ongoing independent science qualification",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source and formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "688f809cde369fb8dcbf2856f2bcdba0f9b0db04",
-  "worktree_state": "D04 four-factor fractional-aliasing challenge is committed at 688f809; focused D04 suite 28 PASS. Previous archive and final gates bind ea1f9fe and are stale. Rebuild/reproduce/offline qualify, then rerun exact-source release gates."
+  "source_commit": "8bd90aa8276d74fb72c9d1c235d810ab36116924",
+  "worktree_state": "D02/D04 implementation commit 8bd90aa; focused D01/D02 and D04 suites 96 PASS. Prior archive/gates bind 3febbf4 and are stale; refresh exact-source archive/reproducibility/offline/gates."
 }

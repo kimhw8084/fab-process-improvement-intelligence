@@ -1,3 +1,23 @@
+# Latest engineering checkpoint — D02 confirmation contradiction refusal (2026-11-24)
+
+- Source commit `8bd90aa8276d74fb72c9d1c235d810ab36116924` hardens `propose_window_confirmation`: it refuses a D02 object that has an explicit withheld screening/counterevidence status, a malformed review field, or a reported candidate count that contradicts the candidate list. This prevents inconsistent caller-supplied evidence from reopening confirmation. Focused D04 + D01/D02 suites: 96 PASS; changed Python compiles and diff check passes.
+- The 200-trial four-factor D04 aliasing benchmark passed at prior source `3febbf4`: fractional factorial/full factorial/central composite/grid D-optimal detected 0/200 constructed responses; Latin hypercube detected 200/200. Geometry only.
+- The exact archive `25c235d6…` and E02/E10 gates are stale after `8bd90aa8276d74fb72c9d1c235d810ab36116924`. Next action: commit this progress checkpoint, rebuild, reproduce in two clean worktrees, qualify fresh no-pip sandboxed extraction, then run the complete release runner once.
+- P1 focus style handoff remains in `progress/P1_FOCUS_INDICATOR_CHANGE_PROPOSAL.md`; authoritative owner, rendered accessibility, company authorization/semantics, target OS, legal/security/production approval and ROI remain pending. Candidate only; no public distribution.
+
+---
+
+# Latest engineering checkpoint — D04 aliasing and exact-source qualification (2026-11-24)
+
+- Exact source `3febbf430acb489840d0d5872ead998c8fc6ff74` passed the full release runner: 241 Python tests, zero skips; E01–E04, E06 and E10 PASS. State remains CANDIDATE. E05/E12 company-only; E07 authoritative P1 and formal accessibility; E08 target OS; E09 legal/security; E11 engineer ROI remain pending.
+- D04 fixed 200-trial geometry benchmark: two-factor full factorial/CCD/grid D-optimal detected 0/200 constructed off-grid responses; LHS detected 200/200. Four-factor fractional/full factorial/CCD/grid D-optimal detected 0/200; LHS detected 200/200. The synthetic finite harmonics expose geometry aliasing only; no inferential power, general response guarantee, or production recommendation.
+- Current reproducible ZIP SHA-256 `25c235d6b4287b2210a608dca7cfe7c30d008566e07e8605603f5eefbec961c7` (9,303,307 bytes), source manifest SHA-256 `c4cdef9206d1ff6b7f1126b756b35259f534d810ac051c91afaacddb9bf91e3e`; two clean worktrees matched byte-for-byte. Fresh macOS ARM64/Python 3.11.7 extraction passed with no pip and socket access denied; all 220 source files verified; D01–D05 synthetic workflow emitted its documented PARTIAL/LIMITED_SCOPE states.
+- P1 focus screen: caller-snapshot source screen flagged the existing focus ring on body/card/navigation. The additive P1-owner CSS proposal is `progress/P1_FOCUS_INDICATOR_CHANGE_PROPOSAL.md`; its source-level candidate screen passes selected colors only. Rendered keyboard, zoom, assistive technology, authoritative host and owner acceptance remain pending.
+- Exact next action: inspect the paired confirmation-power oracle and assumptions with `rtk rg -n "confirmation|paired|noncentral|power" tests/test_d04_designs.py qualification/benchmark_d04* products/p4/design.py`, then run a fixed independent tail/dependence challenge only if it can alter an output or refusal.
+- No public distribution. Samsung authorization/semantics, P1 owner, target OS, legal/security/production approval and real engineering ROI remain unverified.
+
+---
+
 # Latest requirement evidence — four-factor DOE aliasing and P1 focus (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |
