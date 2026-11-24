@@ -1,3 +1,12 @@
+# Latest verification — D03 incomplete observed-front handling (2026-11-24)
+
+| Requirement | Current executed evidence | Status / next action |
+|---|---|---|
+| D03 observed and cross-step fronts | Commit `1c1b75f` adds an explicit `unassessed_settings` list for every observed setting below the independent-unit minimum. A synthetic underpowered dominator (20/30 cross-step units; 2/3 observed units) is omitted from ranking but now forces `LIMITED_SCOPE`, names the omitted setting, warns that the front is incomplete, and disables familywise comparison. | Defect corrected; the front remains descriptive among assessed settings and is not a recommendation. Focused D03 tests: 22 PASS. |
+| Engineer evidence | The P4 panel renders the omitted setting, factors, eligible/required independent-unit counts, and reason in a semantic table. Component tests: 24 PASS; strict TypeScript PASS. | Verified as a headless P1 module; no competing shell. Formal accessibility and current browser observation remain pending. |
+| Shared P1 composition | Disposable source overlay fingerprint `8372f71a290fae95f4807b5a95f45c2bfa20ad51aef3a46ec07286e1dc642e51` (35 files). P1 host routes 32 PASS; frontend 59 PASS; typecheck/build PASS; bundle 831,485 bytes. | Synthetic unversioned host only; recorded browser run predates commit `1c1b75f`; owner and source acceptance pending. |
+| Regression and release | P4 Python suite 218 PASS/0 failures/0 skipped. Bridge fixture regenerated twice identically: `b42358cba3bac7ca1e621c63a2e47c76857a364a3dead895c15c6dc07b16efcb`. | Archive and runner reports predate `1c1b75f`; refresh exact-source qualification, reproducible builds, and offline extraction. No publication. |
+
 # Latest verification — D01 continuous cluster-level support (2026-11-23)
 
 | Requirement | Current executed evidence | Status / next action |

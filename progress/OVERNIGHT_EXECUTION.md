@@ -1,3 +1,12 @@
+# Latest checkpoint — D03 incomplete-front refusal and engineer evidence (2026-11-24)
+
+- Source commit: `1c1b75fb1cb6cfb48621bbb878634eccb9db93e8`. D03 now lists observed settings omitted below the independent-unit minimum, marks the observed Pareto front incomplete, sets `LIMITED_SCOPE`, and withholds familywise comparison when any observed setting is unassessed. The headless P1-compatible panel shows these settings in an accessible native table.
+- Adversarial reproduction in both observed and approved cross-step paths: a low-sample setting whose known sample mean dominates every ranked setting was omitted while the prior result could report `VALID`. Regression checks require the omitted setting to appear in the unassessed list and the incomplete-front warning. D03 focused suite 22 PASS.
+- Executed checks: P4 Python suite 218 PASS/0 failures/0 skipped; P4 module 24 PASS/typecheck PASS; disposable P1 host routes 32 PASS; frontend 59 PASS; P1 typecheck/build PASS (831,485-byte JavaScript bundle; shared-ECharts size advisory). Synthetic MCP bridge fixture rebuilt twice identically: SHA-256 `b42358cba3bac7ca1e621c63a2e47c76857a364a3dead895c15c6dc07b16efcb`.
+- The 35-file disposable P1 composition fingerprint is `8372f71a290fae95f4807b5a95f45c2bfa20ad51aef3a46ec07286e1dc642e51`; route/frontend/component checks match the source overlay. Its browser transcript remains bound to P4 `36967b4`, so suite integration stays unqualified. P1 is unversioned and not owner-approved.
+- The release reports and ZIP are stale for `1c1b75f`; exact-source gates remain to run. Next: commit refreshed qualification/progress ledgers, regenerate benchmark/security evidence, run source checks, rebuild the archive, compare two clean detached builds, fresh no-pip network-denied extraction, and rerun E10. Continue into D04/D05 afterward.
+- PENDING_INTERNAL: actual source permissions/semantics, authoritative P1 owner/host and formal accessibility, target OS/network policy, company approvals, and engineering ROI. No public push or publication.
+
 # Latest checkpoint — D01 numeric cluster-support correction (2026-11-24)
 
 - Implementation commit: `485c4a3fdf3325c7d3d880f5bbf2b07710129164`; exact-source P1 qualification evidence commit: `1399030cc89cfdb9a96509893fdc1043185a32a2a`; exact-source runner check: `0de129b1c77a6229fd02b7cba58dfef6640538d7`.
