@@ -23,6 +23,18 @@ TOOLS = [
     {"name": "synthetic.test.cancel", "description": "Synthetic cancellation status", "inputSchema": {"type": "object", "properties": {"operation_id": {"type": "string"}}}},
     {"name": "synthetic.test.audit", "description": "Synthetic audit metadata", "inputSchema": {"type": "object", "properties": {"operation_id": {"type": "string"}}}},
 ]
+_ALT_FIELDS = {
+    "row_id": "measurement_id", "unit_id": "lot_key", "lot_id": "parent_lot_key",
+    "wafer_id": "wafer_key", "chamber": "chamber_code", "analysis_partition": "study_phase",
+    "upstream_unit_id": "upstream_lot_key", "downstream_unit_id": "downstream_lot_key",
+    "event_ts": "measured_at", "upstream_event_ts": "upstream_finished_at",
+    "downstream_event_ts": "downstream_finished_at", "population_id": "process_population",
+    "pressure": "press_set", "temperature": "thermal_set",
+    "response_primary": "quality_score", "response_primary_uncertainty": "quality_score_error",
+    "response_secondary": "defect_rate", "synthetic_value": "aux_reading",
+}
+_ALT_SEMANTIC_VERSION = "SYNTHETIC-ALT-SEMANTICS-1"
+_ALT_SOURCE_VERSION = "SYN-SOURCE-ALT-V2"
 
 
 class RpcFailure(Exception):
@@ -35,7 +47,7 @@ def _tool_result(name, args, scenario="normal"):
         raise RpcFailure(-32602, "arguments must be an object")
     if name == "synthetic.test.discover":
         result = {"tool_versions": {tool["name"]: "SYNTHETIC-1" for tool in TOOLS},
-                  "semantic_versions": ["SYNTHETIC-SEMANTICS-1"],
+                  "semantic_versions": [_ALT_SEMANTIC_VERSION if scenario == "alternate_schema" else "SYNTHETIC-SEMANTICS-1"],
                   "limits": {"max_rows": 1000, "max_seconds": 30},
                   "auth_scopes": (["SYNTHETIC_TEST_ONLY"] if scenario == "permission_denied" else ["SYNTHETIC_READ"]),
                   "audit_support": True}
@@ -67,16 +79,35 @@ def _tool_result(name, args, scenario="normal"):
         ]
         if scenario == "semantic_schema_drift":
             columns = [column for column in columns if column["name"] != "response_primary"]
+        units = {"synthetic_value": "SYNTHETIC-U", "x": "SYNTHETIC-U", "y": "SYNTHETIC-U",
+                 "pressure": "SYNTHETIC-PRESSURE", "temperature": "SYNTHETIC-TEMPERATURE",
+                 "response_primary": "SYNTHETIC-INDEX", "response_primary_uncertainty": "SYNTHETIC-INDEX",
+                 "response_secondary": "SYNTHETIC-RATE"}
+        grain = "one row per synthetic process observation"
+        semantic_version = "SYNTHETIC-SEMANTICS-1"
+        source_version = "SYN-SOURCE-V1"
+        if scenario == "alternate_schema":
+            columns = [{**column, "name": _ALT_FIELDS.get(column["name"], column["name"])} for column in columns]
+            columns.extend([{"name": "upstream_family", "type": "string", "unit": "SYNTHETIC-ID",
+                             "description": "approved upstream product-family grouping"},
+                            {"name": "downstream_family", "type": "string", "unit": "SYNTHETIC-ID",
+                             "description": "approved downstream product-family grouping"}])
+            for column in columns:
+                if column["name"] == "press_set":
+                    column["description"] = "quality result descriptor; intentionally misleading"
+                elif column["name"] == "quality_score":
+                    column["description"] = "equipment pressure descriptor; intentionally misleading"
+            units = {_ALT_FIELDS.get(field, field): unit for field, unit in units.items()}
+            units.update({"upstream_family": "SYNTHETIC-ID", "downstream_family": "SYNTHETIC-ID"})
+            grain = "one alternate synthetic measurement row per wafer"
+            semantic_version = _ALT_SEMANTIC_VERSION
+            source_version = _ALT_SOURCE_VERSION
         result = {"column_definitions": columns,
-                  "grain": "one row per synthetic process observation",
-                  "units": {"synthetic_value": "SYNTHETIC-U", "x": "SYNTHETIC-U", "y": "SYNTHETIC-U",
-                            "pressure": "SYNTHETIC-PRESSURE", "temperature": "SYNTHETIC-TEMPERATURE",
-                            "response_primary": "SYNTHETIC-INDEX",
-                            "response_primary_uncertainty": "SYNTHETIC-INDEX",
-                            "response_secondary": "SYNTHETIC-RATE"},
+                  "grain": grain,
+                  "units": units,
                   "effectivity": {"start": "2026-01-01T00:00:00Z", "end": None}, "approval": "SYNTHETIC-APPROVAL",
-                  "semantic_version": "SYNTHETIC-SEMANTICS-1",
-                  "source_versions": {source: "SYN-SOURCE-V1" for source in sources}}
+                  "semantic_version": semantic_version,
+                  "source_versions": {source: source_version for source in sources}}
         if scenario == "missing_semantic_evidence":
             result.pop("semantic_version")
         if scenario == "missing_semantic_source_versions":
@@ -86,21 +117,36 @@ def _tool_result(name, args, scenario="normal"):
         if not isinstance(ids, list) or any(source not in ("SYN-SOURCE-A", "SYN-SOURCE-B") for source in ids):
             raise RpcFailure(-32001, "synthetic entity is not approved")
         upstream, downstream = (ids + ["SYN-SOURCE-A", "SYN-SOURCE-B"])[:2]
-        relationship_contract = {"approved": True, "relationship_id": "SYN-RELATIONSHIP-1",
-            "contract_version": "1.0.0", "approval_reference": "SYN-RELATIONSHIP-APPROVAL-1",
-            "upstream": {"source_id": upstream, "key_field": "upstream_unit_id", "event_time_field": "upstream_event_ts",
-                         "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
-                         "metric_field": "response_primary",
-                         "metric": "unmapped_quality" if scenario == "relationship_metric_mapping_drift" else "yield_index"},
-            "downstream": {"source_id": downstream, "key_field": "downstream_unit_id", "event_time_field": "downstream_event_ts",
-                           "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
-                           "metric_field": "response_secondary", "metric": "defect_rate"},
-            "maximum_lag_seconds": 3600, "unit_field": "unit_id", "decision_factors": ["pressure"]}
+        if scenario == "alternate_schema":
+            relationship_contract = {"approved": True, "relationship_id": "SYN-ALT-RELATIONSHIP-1",
+                "contract_version": "1.1.0", "approval_reference": "SYN-ALT-RELATIONSHIP-APPROVAL-1",
+                "upstream": {"source_id": upstream, "key_field": "upstream_lot_key", "event_time_field": "upstream_finished_at",
+                             "population_field": "process_population", "population_id": "SYNTHETIC-POPULATION-ALT-1",
+                             "metric_field": "quality_score", "metric": "yield_index"},
+                "downstream": {"source_id": downstream, "key_field": "downstream_lot_key", "event_time_field": "downstream_finished_at",
+                               "population_field": "process_population", "population_id": "SYNTHETIC-POPULATION-ALT-1",
+                               "metric_field": "defect_rate", "metric": "defect_rate"},
+                "maximum_lag_seconds": 3600, "unit_field": "lot_key", "decision_factors": ["pressure"],
+                "population_composition_fields": [{"name": "product_family", "upstream_field": "upstream_family",
+                                                   "downstream_field": "downstream_family"}]}
+        else:
+            relationship_contract = {"approved": True, "relationship_id": "SYN-RELATIONSHIP-1",
+                "contract_version": "1.0.0", "approval_reference": "SYN-RELATIONSHIP-APPROVAL-1",
+                "upstream": {"source_id": upstream, "key_field": "upstream_unit_id", "event_time_field": "upstream_event_ts",
+                             "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
+                             "metric_field": "response_primary",
+                             "metric": "unmapped_quality" if scenario == "relationship_metric_mapping_drift" else "yield_index"},
+                "downstream": {"source_id": downstream, "key_field": "downstream_unit_id", "event_time_field": "downstream_event_ts",
+                               "population_field": "population_id", "population_id": "SYNTHETIC-POPULATION-1",
+                               "metric_field": "response_secondary", "metric": "defect_rate"},
+                "maximum_lag_seconds": 3600, "unit_field": "unit_id", "decision_factors": ["pressure"]}
         result = {"approved": scenario != "relationship_unapproved", "keys": {"upstream": "upstream_unit_id", "downstream": "downstream_unit_id"},
                   "cardinality": "many_to_many" if scenario == "relationship_many_to_many" else "one_to_one",
-                  "grain": "one row per synthetic process observation",
+                  "grain": "one alternate synthetic measurement row per wafer" if scenario == "alternate_schema" else "one row per synthetic process observation",
                   "effectivity": {"max_lag_seconds": 3600}, "source_reference": "SYN-RELATIONSHIP-1",
                   "relationship_contract": relationship_contract}
+        if scenario == "alternate_schema":
+            result["keys"] = {"upstream": "upstream_lot_key", "downstream": "downstream_lot_key"}
         if scenario == "missing_relationship_evidence":
             result.pop("relationship_contract")
     elif name == "synthetic.test.read_bounded":
@@ -112,8 +158,14 @@ def _tool_result(name, args, scenario="normal"):
         if not isinstance(planned, list):
             raise RpcFailure(-32602, "synthetic_rows must be a list")
         selected = planned[:limit]
+        if scenario == "alternate_schema":
+            selected = [{**{_ALT_FIELDS.get(key, key): value for key, value in row.items()},
+                         "process_population": "SYNTHETIC-POPULATION-ALT-1",
+                         "upstream_family": "SYNTHETIC-FAMILY-A",
+                         "downstream_family": "SYNTHETIC-FAMILY-A"} for row in selected]
         source_ids = args.get("approved_plan", {}).get("source_ids", ["SYN-SOURCE-A"])
-        versions = {source: ("SYN-SOURCE-DRIFT" if scenario == "source_version_drift" else "SYN-SOURCE-V1")
+        versions = {source: ("SYN-SOURCE-DRIFT" if scenario == "source_version_drift" else
+                             _ALT_SOURCE_VERSION if scenario == "alternate_schema" else "SYN-SOURCE-V1")
                     for source in source_ids}
         hashes = {source: hashlib.sha256(json.dumps({"source": source, "rows": selected}, sort_keys=True,
                                                    separators=(",", ":")).encode()).hexdigest()
@@ -283,7 +335,8 @@ def main():
         "source_version_drift", "relationship_unapproved", "relationship_many_to_many",
         "server_truncated", "audit_invalid", "missing_semantic_evidence", "missing_semantic_source_versions",
         "missing_relationship_evidence", "missing_read_hashes", "audit_scope_invalid",
-        "audit_sources_duplicated", "relationship_metric_mapping_drift", "audit_operation_mismatch"), default="normal")
+        "audit_sources_duplicated", "relationship_metric_mapping_drift", "audit_operation_mismatch",
+        "alternate_schema"), default="normal")
     args = parser.parse_args()
     SCENARIO = args.scenario
     stdio() if args.transport == "stdio" else http(args.host, args.port)

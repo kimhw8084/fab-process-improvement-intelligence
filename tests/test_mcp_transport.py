@@ -3,16 +3,21 @@ import copy
 import importlib.util
 import json
 import os
+import subprocess
 import sys
+import tempfile
 import threading
+import time
 import unittest
 from unittest.mock import patch
 from http.server import ThreadingHTTPServer
 from pathlib import Path
+from urllib.request import Request, urlopen
 
 from fabintel.mcp_client import (McpError, McpPermissionError, configured_adapter,
                                  transport_from_config)
 from fabintel.mock_mcp_server import Handler
+from fabintel.site_config import validate_site_config
 from products.p4.mcp_workflow import run_mcp_investigation
 from qualification.site_mcp_qualification import qualify as qualify_site_mcp
 
@@ -198,7 +203,89 @@ class McpToP4WorkflowQualification(unittest.TestCase):
     def _adapter(scenario="normal"):
         config = mapping_config({"type": "stdio", "command": [sys.executable, "-m", "fabintel.mock_mcp_server",
             "--scenario", scenario], "cwd": str(ROOT), "timeout_seconds": 5})
+        if scenario == "alternate_schema":
+            config["approved_semantic_versions"] = ["SYNTHETIC-ALT-SEMANTICS-1"]
         return configured_adapter(config, allow_synthetic_test=True)
+
+    @classmethod
+    def alternate_request(cls):
+        request = cls.request()
+        request["semantic_version"] = "SYNTHETIC-ALT-SEMANTICS-1"
+        template = request["analysis_template"]
+        template["grain"] = "one alternate synthetic measurement row per wafer"
+        template["multi_step"] = True
+        for metric in template["metrics"]:
+            metric.pop("min", None)
+            metric.pop("max", None)
+            if metric["name"] == "yield_index":
+                metric["min"] = 0
+            elif metric["name"] == "defect_rate":
+                metric["max"] = 100
+        normalization = request["normalization"]
+        normalization.update({"row_id_field": "measurement_id", "unit_field": "lot_key",
+            "timestamp_field": "measured_at", "factor_fields": {"pressure": "press_set", "temperature": "thermal_set"},
+            "metric_fields": {"yield_index": "quality_score", "defect_rate": "defect_rate"},
+            "passthrough_fields": ["parent_lot_key", "wafer_key", "chamber_code", "study_phase"]})
+        template["robustness"]["independent_unit_field"] = "parent_lot_key"
+        template["model"]["cluster_field"] = "parent_lot_key"
+        template["model"]["fixed_effect_fields"] = ["chamber_code"]
+        template["validation_split"]["group_field"] = "parent_lot_key"
+        template["validation_split"]["timestamp_field"] = "measured_at"
+        window = template["window_exploration"]
+        window["independent_unit_field"] = "parent_lot_key"
+        window["calibration"]["group_field"] = "parent_lot_key"
+        window["calibration"]["partition_field"] = "study_phase"
+        window["evaluation_strata"] = ["chamber_code"]
+        window["fixed_effects"] = {"chamber_code": "SYN-CH-A"}
+        return request
+
+    def test_standalone_workbench_runs_configured_mcp_acquisition_through_d01_d05(self):
+        from fabintel.server import LocalServer
+
+        request = self.request()
+        config = mapping_config({"type": "stdio", "command": [sys.executable, "-m", "fabintel.mock_mcp_server"],
+                                 "cwd": str(ROOT), "timeout_seconds": 5})
+        config["p4_profile"] = {"semantic_version": request["semantic_version"],
+            "permission_scope": request["permission_scope"], "time_window": request["time_window"],
+            "approved_plan": request["approved_plan"], "permission_context": request["permission_context"],
+            "max_rows": request["max_rows"], "normalization": request["normalization"],
+            "analysis_template": request["analysis_template"]}
+        server = LocalServer(0, mcp_config=config, allow_synthetic_mcp_test=True)
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        base = f"http://127.0.0.1:{server.server_port}"
+        try:
+            with urlopen(base + "/api/mcp/status", timeout=5) as response:
+                status = json.loads(response.read())
+            self.assertTrue(status["enabled"], status)
+            req = Request(base + "/api/mcp-jobs", data=b"{}",
+                          headers={"Content-Type": "application/json"}, method="POST")
+            with urlopen(req, timeout=5) as response:
+                started = json.loads(response.read())
+            deadline = time.monotonic() + 25
+            job = None
+            while time.monotonic() < deadline:
+                with urlopen(base + started["poll"], timeout=5) as response:
+                    job = json.loads(response.read())
+                if job["status"] != "RUNNING":
+                    break
+                time.sleep(0.05)
+            self.assertIsNotNone(job)
+            self.assertEqual(job["status"], "COMPLETED", job)
+            result = job["result"]
+            self.assertIn(result["status"], ("VALID", "PARTIAL"))
+            self.assertEqual(result["provenance"]["mcp_acquisition"]["row_count"], 900)
+            dossier = result["artifacts"][0]
+            self.assertEqual(dossier["D01_sensitivity"]["status"], "VALID")
+            self.assertIn(dossier["D02_supported_region"]["status"], ("VALID", "INCONCLUSIVE"))
+            self.assertIn(dossier["D03_tradeoffs"]["status"], ("VALID", "LIMITED_SCOPE"))
+            self.assertEqual(dossier["D04_experiment_proposal"]["status"], "PROPOSED")
+            self.assertEqual(dossier["D05_effectiveness"]["status"], "ESTIMATED")
+        finally:
+            server.jobs.stop_all()
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
 
     def test_real_sdk_read_relationship_normalization_and_d01_d05_evidence_flow(self):
         adapter = self._adapter()
@@ -221,6 +308,54 @@ class McpToP4WorkflowQualification(unittest.TestCase):
         self.assertEqual(dossier["D01_sensitivity"]["status"], "VALID")
         self.assertIn(dossier["D02_supported_region"]["status"], ("VALID", "INCONCLUSIVE"))
         self.assertIn(dossier["D03_tradeoffs"]["status"], ("VALID", "LIMITED_SCOPE"))
+        self.assertEqual(dossier["D04_experiment_proposal"]["status"], "PROPOSED")
+        self.assertEqual(dossier["D05_effectiveness"]["status"], "ESTIMATED")
+
+    def test_alternate_schema_onboarding_then_cross_step_d01_d05_workflow(self):
+        request = self.alternate_request()
+        adapter = self._adapter("alternate_schema")
+        config = adapter.config
+        config["p4_profile"] = {"semantic_version": request["semantic_version"],
+            "permission_scope": request["permission_scope"], "time_window": request["time_window"],
+            "approved_plan": {"source_ids": request["approved_source_ids"], "time_window": request["time_window"]},
+            "permission_context": request["permission_context"], "max_rows": request["max_rows"],
+            "normalization": request["normalization"], "analysis_template": request["analysis_template"]}
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                config_path = Path(temp_dir) / "alternate-site.json"
+                review_path = Path(temp_dir) / "onboarding-review.json"
+                draft_path = Path(temp_dir) / "unapproved-site-draft.json"
+                config_path.write_text(json.dumps(config), encoding="utf-8")
+                completed = subprocess.run([sys.executable, "-m", "fabintel", "mcp-onboard",
+                    "--config", str(config_path), "--synthetic-test", "--output", str(review_path),
+                    "--draft-config-output", str(draft_path)], cwd=ROOT, capture_output=True,
+                    text=True, timeout=20, check=False)
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+                review = json.loads(review_path.read_text(encoding="utf-8"))
+                draft_config = json.loads(draft_path.read_text(encoding="utf-8"))
+            self.assertEqual(review["status"], "REVIEW_REQUIRED", review)
+            self.assertEqual(review["authorized_review"]["status"], "PENDING_SITE_OWNER")
+            self.assertTrue(all(item["discovered"] for item in review["tool_mapping_review"]))
+            self.assertEqual(review["relationship_review"]["status"], "REVIEW_REQUIRED")
+            self.assertTrue(all(item["status"] == "REVIEW_REQUIRED" for item in review["source_role_proposals"]))
+            press = next(item for item in review["source_role_proposals"] if item["target_role"] == "factor:pressure")
+            self.assertEqual(press["source_field"], "press_set")
+            self.assertEqual(press["status"], "REVIEW_REQUIRED")
+            self.assertEqual(review["draft_config"]["status"], "UNAPPROVED_REVIEW_COPY_WRITTEN")
+            self.assertEqual(draft_config["qualification_status"], "PENDING_INTERNAL")
+            self.assertTrue(validate_site_config(draft_config)["p4_workflow_ready"])
+
+            result = run_mcp_investigation(adapter, request)
+        finally:
+            adapter.client.close()
+        self.assertIn(result["status"], ("VALID", "PARTIAL"), result)
+        self.assertEqual(result["provenance"]["mcp_acquisition"]["row_count"], 900)
+        dossier = result["artifacts"][0]
+        self.assertEqual(dossier["D01_sensitivity"]["status"], "VALID")
+        self.assertIn(dossier["D02_supported_region"]["status"], ("VALID", "INCONCLUSIVE"))
+        self.assertEqual(dossier["D03_tradeoffs"]["status"], "VALID", dossier["D03_tradeoffs"])
+        self.assertEqual(dossier["D03_tradeoffs"]["relationship_id"], "SYN-ALT-RELATIONSHIP-1")
+        self.assertEqual(dossier["D03_tradeoffs"]["compatible_paired_units"], 900)
         self.assertEqual(dossier["D04_experiment_proposal"]["status"], "PROPOSED")
         self.assertEqual(dossier["D05_effectiveness"]["status"], "ESTIMATED")
         self.assertEqual({source["id"] for source in result["sources"]},

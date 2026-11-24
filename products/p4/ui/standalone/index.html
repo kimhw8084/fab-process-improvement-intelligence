@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>P4 · Process Improvement Intelligence</title>
+  <link rel="stylesheet" href="/ui/styles.css">
+  <link rel="stylesheet" href="/ui/mcp.css">
+  <script src="/ui/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to analysis</a>
+  <header class="topbar">
+    <div class="brand-mark" aria-hidden="true">P4</div>
+    <div class="brand-copy"><strong>FAB Intelligence</strong><span>Process Improvement</span></div>
+    <div class="local-badge"><span class="status-dot"></span> Local · this device</div>
+  </header>
+
+  <main id="main" class="layout">
+    <section class="intro" aria-labelledby="page-title">
+      <div class="eyebrow">ENGINEERING WORKBENCH <span> / </span> P4</div>
+      <h1 id="page-title">Process improvement intelligence</h1>
+      <p>Investigate process factors, candidate windows, tradeoffs, experiments, and intervention evidence. Every result is advisory and carries its assumptions and limits.</p>
+      <div class="capability-list" aria-label="Analysis capabilities">
+        <span>D01 · Factors</span><span>D02 · Process windows</span><span>D03 · Tradeoffs</span><span>D04 · Experiments</span><span>D05 · Effectiveness</span>
+      </div>
+    </section>
+
+    <section class="work-grid" aria-label="Investigation workflow">
+      <aside class="panel source-panel" aria-labelledby="source-heading">
+        <div class="panel-heading"><div><span class="step">01</span><h2 id="source-heading">Investigation data</h2></div><span id="source-state" class="state-tag">No data loaded</span></div>
+        <p class="muted">Load a local investigation JSON file or start with the bundled synthetic case. Files stay in this browser session.</p>
+        <div class="button-row">
+          <button id="load-demo" class="button button-secondary" type="button">Load synthetic example</button>
+          <label class="button button-secondary file-button" for="file-input">Choose JSON file</label>
+          <input id="file-input" class="visually-hidden" type="file" accept="application/json,.json">
+        </div>
+        <label class="field-label" for="investigation-json">Investigation JSON <span>· editable locally</span></label>
+        <textarea id="investigation-json" spellcheck="false" autocomplete="off" aria-describedby="json-help" placeholder="Choose a local JSON file or load the synthetic example."></textarea>
+        <p id="json-help" class="field-help">Expected: approved bounds, process context, units, objective, observations, and source references when applicable.</p>
+        <div id="preview" class="preview-box" aria-live="polite">Source preview appears after data is loaded.</div>
+        <details class="safety-note"><summary>Data and authorization boundary</summary><p>Local files and the synthetic fixture stay in this browser session. MCP connects only when an engineer starts a read through a separately approved and qualified site configuration. P4 does not infer source permissions, write recipes, or control equipment.</p></details>
+        <section class="mcp-card" aria-labelledby="mcp-heading">
+          <div class="mcp-heading"><span class="step">OPTIONAL</span><h3 id="mcp-heading">Configured MCP acquisition</h3><span id="mcp-state" class="state-tag">Not configured</span></div>
+          <p id="mcp-message" class="field-help">No site configuration is loaded. Local analysis remains available.</p>
+          <button id="run-mcp" class="button button-secondary" type="button" disabled>Run configured read-only investigation</button>
+          <p class="field-help">The query plan, source allowlist, mappings, and row limit come only from the reviewed site configuration. This action performs a bounded read and audit; it cannot write process settings.</p>
+        </section>
+      </aside>
+
+      <section class="panel run-panel" aria-labelledby="run-heading">
+        <div class="panel-heading"><div><span class="step">02</span><h2 id="run-heading">Run investigation</h2></div><span class="read-only-tag">READ ONLY</span></div>
+        <p class="muted">The analysis runs D01–D05 where the supplied or acquired design supports them. Unsupported claims are withheld with a reason.</p>
+        <button id="run-analysis" class="button button-primary" type="button" disabled>Analyze supplied evidence <span aria-hidden="true">→</span></button>
+        <button id="cancel-analysis" class="button button-danger" type="button" hidden>Cancel analysis</button>
+        <div id="run-status" class="run-status" role="status" aria-live="polite">Load data to begin.</div>
+        <div class="guardrail-card"><strong>Advisory analysis only</strong><p>No automatic recipe changes or equipment actions are available in P4.</p></div>
+        <div class="method-card"><strong>What the result includes</strong><ul><li>Source and population scope</li><li>Uncertainty and counterevidence</li><li>Assumptions, refusals, and evidence provenance</li></ul></div>
+      </section>
+    </section>
+
+    <section id="results" class="results" aria-labelledby="results-heading" hidden>
+      <div class="results-title"><div><div class="eyebrow">03 / EVIDENCE REVIEW</div><h2 id="results-heading">Investigation result</h2></div><button id="export-result" class="button button-secondary" type="button" disabled>Export evidence JSON</button></div>
+      <div id="result-banner" class="result-banner" role="status"></div>
+      <div id="claims" class="claim-list"></div>
+      <div id="visuals" class="visual-grid"></div>
+      <h3 class="section-label">D01–D05 analysis</h3>
+      <div id="capability-results" class="capability-grid"></div>
+      <details class="raw-evidence"><summary>Inspect complete evidence envelope</summary><pre id="raw-json"></pre></details>
+      <p class="result-limit">A supported model or observed tradeoff is not a production guarantee. Review source validity, assumptions, and exact setting evidence before engineering use.</p>
+    </section>
+
+    <section id="preflight" class="preflight" aria-label="Internal qualification status"></section>
+    <footer><span>P4 · offline-first process analysis</span><span>Optional site connection · configuration required</span></footer>
+  </main>
+</body>
+</html>

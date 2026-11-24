@@ -52,7 +52,7 @@ def _is_loopback(host):
         return False
 
 
-def transport_from_config(config):
+def transport_from_config(config, *, require_environment=True):
     """Validate P4 transport settings and return SDK-ready parameters."""
     transport = config.get("transport") if isinstance(config, dict) else None
     if not isinstance(transport, dict):
@@ -78,9 +78,10 @@ def transport_from_config(config):
         child_env = {}
         for child, parent in env_from.items():
             value = os.environ.get(parent)
-            if value is None:
+            if value is None and require_environment:
                 raise McpPermissionError(f"configured stdio environment source is unset: {parent}")
-            child_env[child] = value
+            if value is not None:
+                child_env[child] = value
         return {"type": "stdio", "command": command[0], "args": command[1:],
                 "cwd": cwd, "env": child_env, "timeout": timeout}
     if kind == "streamable_http":

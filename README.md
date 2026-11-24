@@ -1,6 +1,6 @@
 # FAB Process Improvement Intelligence (P4)
 
-This folder contains an offline, standard-library-only candidate for P4 engineer workflows.
+This folder contains an offline, standard-library-only candidate for P4 engineer workflows, including its own loopback workbench. The optional MCP adapter uses the official MCP Python SDK; it is not required to run local analysis.
 
 - **D01:** linear, interaction, quadratic, categorical fixed-effect, and category-specific slope models with pivoted QR identifiability checks, HC3 or independent-cluster covariance, confidence intervals, leverage, and residual diagnostics.
 - **D02:** bounded one/two-factor response-surface exploration. Cells are labeled observed, interpolated, extrapolated, unsupported, or forbidden. A candidate requires a disjoint independent-unit calibration holdout, local support, and empirical intervals inside every explicit metric limit. The finite 95% order-statistic rank does not guarantee conditional coverage; candidates remain advisory and are not production recipes.
@@ -8,7 +8,7 @@ This folder contains an offline, standard-library-only candidate for P4 engineer
 - **D04:** randomized full factorial, regular half-fraction, Latin hypercube, finite-grid D-optimal, and sequential EI suggestions. Designs are non-executing. Sequential proposals require independent-unit clustered uncertainty, grouped holdout validation, and an engineer-specified prediction-error limit.
 - **D05:** randomized intention-to-treat and three-period difference-in-differences estimates with assignment denominators, attrition, baseline/pretrend diagnostics, documented bounds, counterevidence, and refusal behavior.
 
-The configurable MCP adapter supports stdio and Streamable HTTP for an explicitly mapped, site-owned server. The only bundled mapping and live tests use a synthetic mock. No actual company tool, source semantics, permissions, endpoint, or join is supplied.
+The standalone UI serves local HTML/CSS/JavaScript with no frontend framework, chart runtime, CDN, or product-host dependency. It loads local JSON or a bundled synthetic case, runs D01–D05 analysis, renders scientific figures with table alternatives, and exports the complete evidence envelope. The configurable MCP adapter supports stdio and Streamable HTTP for an explicitly mapped, site-owned server. The only bundled mapping and live tests use a synthetic mock. No actual company tool, source semantics, permissions, endpoint, or join is supplied.
 
 **Release state: CANDIDATE.** The offline scientific, synthetic MCP, DOE benchmark, dependency advisory, and local UI qualifications are recorded in this folder. Do not use `EXTERNAL_TRANSFER_READY`: source ownership and distribution rights, independent source security review, company target OS, formal accessibility review, actual company source semantics/permissions, engineer acceptance, and internal approval remain unverified.
 
@@ -16,7 +16,7 @@ Start with [START_HERE.md](START_HERE.md). The original self-contained build req
 
 ## Reproduce the full scientific qualification
 
-The application runtime remains standard-library-only. The independent reference tests and OSS tournaments use a separate pinned environment:
+The application runtime and standalone workbench remain standard-library-only. The independent reference tests and OSS tournaments use a separate pinned environment:
 
 ```bash
 python3 -m venv .qualification-venv

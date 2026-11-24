@@ -4,7 +4,7 @@
   "title": "FAB Process Improvement Intelligence",
   "entrypoints": {
     "cli": "python -m fabintel",
-    "ui_route": "/fab-intelligence/p4",
+    "standalone_ui": "python -m fabintel serve; http://127.0.0.1:8765/",
     "analysis": "products.p4.engine:analyze"
   },
   "capabilities": [
@@ -17,7 +17,8 @@
   "dependencies": [
     "Python >=3.10 standard-library scientific core and CLI",
     "Optional MCP adapter: official MCP Python SDK 2.3.0 with a 28-wheel, SHA-256-locked macOS ARM64 CPython 3.11 candidate bundle; other platforms are not staged",
-    "React 19.2 and TypeScript host toolchain are P1-owned suite peer dependencies; P4 bundles no UI runtime, chart library, or table framework"
+    "Standalone UI uses local HTML, CSS, browser JavaScript and semantic SVG; no UI framework or chart runtime",
+    "P4 runs independently; the retained P1 panel contribution is optional and is not a product runtime dependency"
   ],
   "release_state": "CANDIDATE"
 }

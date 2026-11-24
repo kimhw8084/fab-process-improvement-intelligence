@@ -27,6 +27,27 @@ def envelope(product_id, raw_input, status, claims, limitations=(), *, mode='SYN
     validate_envelope(ev)
     return ev
 
+def authorized_envelope(product_id, raw_input, status, claims, limitations=(), *, assumptions=(), sources=None,
+                        authorization_reference):
+    """Build an envelope only after the site-owned acquisition path qualifies.
+
+    This helper records caller-supplied authorization provenance; it does not
+    authenticate the company approval or replace site-side qualification.
+    """
+    if product_id not in PRODUCT_IDS or status not in STATUSES:
+        raise ContractError('unknown product or status')
+    if not isinstance(authorization_reference, str) or not authorization_reference.strip():
+        raise ContractError('internal evidence requires an explicit site authorization reference')
+    input_hash = digest(raw_input)
+    ev = {'schema_version': CONTRACT_VERSION, 'investigation_id': f'P4-{input_hash[:12]}',
+          'product_id': product_id, 'mode': 'INTERNAL_AUTHORIZED', 'status': status,
+          'claims': list(claims), 'sources': sources or [], 'assumptions': list(assumptions),
+          'limitations': list(limitations),
+          'provenance': {'engine_version': '1.0.0', 'input_sha256': input_hash,
+                         'authorization_reference': authorization_reference}}
+    validate_envelope(ev)
+    return ev
+
 def validate_envelope(ev):
     allowed={'schema_version','investigation_id','product_id','mode','status','claim_category','claims','sources',
              'populations','transformations','units','assumptions','counterevidence','limitations','uncertainty','artifacts','provenance'}
@@ -43,6 +64,9 @@ def validate_envelope(ev):
         raise ContractError('incomplete provenance')
     if len(provenance['input_sha256']) != 64 or any(c not in '0123456789abcdef' for c in provenance['input_sha256'].lower()):
         raise ContractError('input_sha256 must be a SHA-256 hex digest')
+    if ev['mode']=='INTERNAL_AUTHORIZED' and (not isinstance(provenance.get('authorization_reference'), str)
+            or not provenance['authorization_reference'].strip()):
+        raise ContractError('internal evidence requires an explicit site authorization reference')
     for claim in ev['claims']:
         if not isinstance(claim,dict) or set(claim)-{'statement','category','source_ids','method','certainty'}: raise ContractError('invalid claim object')
         for field in ('statement','category','source_ids','method','certainty'):
@@ -57,7 +81,8 @@ def validate_envelope(ev):
         for key in ('id','approved_semantic_version','grain','source_hash'):
             if not isinstance(source.get(key),str) or not source[key]: raise ContractError('incomplete source reference')
         if ev['mode']=='SYNTHETIC_DEMO' and not source['id'].startswith('SYN-'): raise ContractError('synthetic source is not labeled')
-        if ev['mode']=='INTERNAL_AUTHORIZED' and not source.get('permissions_ref'): raise ContractError('internal source has no permission reference')
+        if ev['mode']=='INTERNAL_AUTHORIZED' and (not isinstance(source.get('permissions_ref'), str)
+                or not source['permissions_ref'].strip()): raise ContractError('internal source has no permission reference')
     if ev['status'] in ('INCONCLUSIVE','REFUSED') and not ev['limitations']:
         raise ContractError('an inconclusive/refused result requires a reason')
     return True

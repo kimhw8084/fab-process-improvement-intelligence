@@ -11,7 +11,7 @@ from datetime import datetime
 from math import isfinite
 import re
 
-from fabintel.contracts import envelope, validate_envelope
+from fabintel.contracts import envelope, authorized_envelope, validate_envelope
 from fabintel.mcp_client import McpError, McpPermissionError
 from products.p4.engine import analyze
 
@@ -37,7 +37,14 @@ def _parse_time(value, label):
 
 
 def _refused(request, reason, acquisition=None):
-    result = envelope("p4", request if isinstance(request, dict) else {}, "REFUSED", [], [str(reason)])
+    raw = request if isinstance(request, dict) else {}
+    if (isinstance(acquisition, dict) and acquisition.get("environment") == "INTERNAL_APPROVED_ONLY"
+            and acquisition.get("qualification_status") == "QUALIFIED_INTERNAL"
+            and acquisition.get("site_approval_reference")):
+        result = authorized_envelope("p4", raw, "REFUSED", [], [str(reason)],
+                                     authorization_reference=acquisition["site_approval_reference"])
+    else:
+        result = envelope("p4", raw, "REFUSED", [], [str(reason)])
     if acquisition is not None:
         result["provenance"]["mcp_acquisition"] = acquisition
     validate_envelope(result)
@@ -109,7 +116,8 @@ def _validate_audit_record(read, audit, source_ids, permission_scope):
     return operation_id
 
 
-def _validate_relationship(adapter, source_ids, time_window, semantics, analysis_template, normalization):
+def _validate_relationship(adapter, source_ids, time_window, semantics, analysis_template, normalization,
+                           *, internal_authorized=False):
     if len(source_ids) == 1:
         return None
     if len(source_ids) != 2:
@@ -120,10 +128,12 @@ def _validate_relationship(adapter, source_ids, time_window, semantics, analysis
         raise McpPermissionError("relationship is not approved one-to-one; P4 will not infer or repair a join")
     if not isinstance(contract, dict) or contract.get("approved") is not True:
         raise McpPermissionError("relationship response omitted its approved, versioned contract")
-    if (not isinstance(contract.get("relationship_id"), str) or not contract["relationship_id"].startswith("SYN-")
-            or not isinstance(contract.get("approval_reference"), str) or not contract["approval_reference"].startswith("SYN-")
+    if (not isinstance(contract.get("relationship_id"), str) or not contract["relationship_id"].strip()
+            or not isinstance(contract.get("approval_reference"), str) or not contract["approval_reference"].strip()
+            or (not internal_authorized and (not contract["relationship_id"].startswith("SYN-")
+                or not contract["approval_reference"].startswith("SYN-")))
             or not isinstance(contract.get("contract_version"), str) or not contract["contract_version"]):
-        raise McpError("synthetic relationship contract identity/version is incomplete")
+        raise McpError("relationship contract identity/version is incomplete or not explicitly synthetic")
     upstream, downstream = contract.get("upstream"), contract.get("downstream")
     if not isinstance(upstream, dict) or not isinstance(downstream, dict):
         raise McpError("relationship endpoints are incomplete")
@@ -162,7 +172,7 @@ def _validate_relationship(adapter, source_ids, time_window, semantics, analysis
 
 
 def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_scope, time_window,
-                    analysis_template, normalization, relationship):
+                    analysis_template, normalization, relationship, *, permission_reference=None):
     if not isinstance(raw_rows, list) or not raw_rows:
         raise McpError("bounded read returned no typed rows")
     if len(raw_rows) > MAX_ACQUISITION_ROWS or read.get("truncation") is not False:
@@ -290,14 +300,37 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
                    or not isinstance(raw.get(endpoint["metric_field"]), (int, float))
                    for endpoint in (up, down)):
                 raise McpError("joined relationship metric field is missing or nonnumeric")
-            normalized[up["key_field"]] = up_key
-            normalized[down["key_field"]] = down_key
+            # Retain only fields explicitly named by the approved relationship.
+            # D03 consumes these after normalization to revalidate paired unit,
+            # time, population, and objective evidence instead of trusting the
+            # MCP join result alone.
+            relationship_fields = set()
+            for endpoint in (up, down):
+                relationship_fields.update(endpoint[key] for key in
+                    ("key_field", "event_time_field", "population_field", "metric_field"))
+            for field in relationship_fields:
+                if not isinstance(field, str) or not field or field not in columns:
+                    raise McpError("approved relationship references an unavailable semantic field")
+                if field not in raw:
+                    raise McpError(f"approved relationship field is absent from the bounded row: {field}")
+                normalized[field] = raw[field]
+            for composition in relationship.get("population_composition_fields", []):
+                if not isinstance(composition, dict):
+                    raise McpError("approved population composition mapping is malformed")
+                for key in ("upstream_field", "downstream_field"):
+                    field = composition.get(key)
+                    if not isinstance(field, str) or not field or field not in columns:
+                        raise McpError("approved population composition field is unavailable in semantic catalog")
+                    _require_column(columns, units, field, expected_type="string")
+                    if field not in raw:
+                        raise McpError(f"approved population composition field is absent from bounded row: {field}")
+                    normalized[field] = raw[field]
         observations.append(normalized)
 
     versions = read["source_versions"]
     source_refs = [{"id": source_id, "approved_semantic_version": semantics["semantic_version"],
                     "grain": semantics["grain"], "source_hash": source_hashes[source_id],
-                    "permissions_ref": permission_scope, "observed_at": timestamps["ended"]}
+                    "permissions_ref": permission_reference or permission_scope, "observed_at": timestamps["ended"]}
                    for source_id in source_ids]
     return observations, source_refs, versions, source_hashes
 
@@ -305,16 +338,30 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
 def run_mcp_investigation(adapter, request, *, cancel=None):
     """Acquire through configured logical operations, normalize, then analyze.
 
-    The present engine only accepts synthetic mode. Company configs remain
-    PENDING_INTERNAL and cannot use this workflow as internal qualification.
+    Internal acquisition is available only to a site configuration already
+    marked QUALIFIED_INTERNAL by the site owner. This function records that
+    assertion but cannot authenticate company approval or server permissions.
     """
-    acquisition = {"status": "NOT_STARTED", "environment": "SYNTHETIC_TEST_ONLY"}
+    config = adapter.config
+    environment = config.get("environment")
+    internal_authorized = environment == "INTERNAL_APPROVED_ONLY"
+    acquisition = {"status": "NOT_STARTED", "environment": environment or "UNKNOWN"}
     read = None
     try:
         if not isinstance(request, dict):
             raise McpError("MCP investigation request must be an object")
-        if adapter.config.get("environment") != "SYNTHETIC_TEST_ONLY":
-            raise McpPermissionError("P4 MCP analysis composition remains synthetic-only; company qualification is pending")
+        if environment == "SYNTHETIC_TEST_ONLY":
+            if config.get("qualification_status") != "PENDING_INTERNAL":
+                raise McpPermissionError("synthetic MCP config must retain PENDING_INTERNAL qualification")
+        elif environment == "INTERNAL_APPROVED_ONLY":
+            if (config.get("qualification_status") != "QUALIFIED_INTERNAL"
+                    or not isinstance(config.get("site_approval_reference"), str)
+                    or not config["site_approval_reference"].strip()):
+                raise McpPermissionError("internal MCP analysis requires site-qualified config and an explicit site approval reference")
+            acquisition.update({"qualification_status": "QUALIFIED_INTERNAL",
+                                "site_approval_reference": config["site_approval_reference"]})
+        else:
+            raise McpPermissionError("MCP analysis requires explicit synthetic-test or internally qualified configuration")
         if _cancelled(cancel):
             return _refused(request, "MCP investigation was cancelled before any source acquisition", acquisition)
         source_ids = request.get("approved_source_ids")
@@ -344,8 +391,8 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
             raise McpError("explicit normalization map and P4 analysis template are required")
         if any(key in analysis_template for key in ("observations", "sources", "linkage", "request_actuation", "request_recipe_change")):
             raise McpError("analysis template may not bypass acquired rows, source lineage, relationship, or actuation gates")
-        if analysis_template.get("mode") == "INTERNAL_AUTHORIZED":
-            raise McpPermissionError("synthetic MCP adapter cannot label analysis as internally authorized")
+        if "mode" in analysis_template:
+            raise McpPermissionError("analysis mode is derived from the configured acquisition environment")
 
         discovered = adapter.call("discover", {"permission_scope": permission_scope})
         tool_versions = discovered.get("tool_versions")
@@ -381,7 +428,8 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
         lower, upper = _validate_time_window(time_window)
         if lower < semantic_start or (semantic_end and upper > semantic_end):
             raise McpPermissionError("requested time window is outside semantic effective dates")
-        relationship = _validate_relationship(adapter, source_ids, time_window, semantics, analysis_template, normalization)
+        relationship = _validate_relationship(adapter, source_ids, time_window, semantics, analysis_template, normalization,
+                                              internal_authorized=internal_authorized)
         if _cancelled(cancel):
             return _refused(request, "MCP investigation was cancelled before the bounded read", acquisition)
 
@@ -396,7 +444,7 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
             raise McpError("bounded read omitted its operation ID")
         audit = adapter.call("audit", {"operation_id": operation_id})
         audit_operation_id = _validate_audit_record(read, audit, source_ids, permission_scope)
-        acquisition = {"status": "AUDITED_READ_COMPLETED", "environment": "SYNTHETIC_TEST_ONLY",
+        acquisition.update({"status": "AUDITED_READ_COMPLETED", "environment": environment,
             "logical_contract_version": adapter.contract.get("contract_version"),
             "semantic_version": semantic_version, "source_ids": source_ids,
             "source_versions": read.get("source_versions"), "source_hashes": read.get("source_hashes"),
@@ -404,7 +452,7 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
             "truncation": read.get("truncation"), "read_only": True, "time_window": time_window,
             "operation_id": operation_id, "audit_id": audit_id, "audit_operation_id": audit_operation_id,
             "audit_query_hash": audit.get("query_hash"),
-            "permission_scope": audit.get("permission_scope"), "relationship_id": relationship.get("relationship_id") if relationship else None}
+            "permission_scope": audit.get("permission_scope"), "relationship_id": relationship.get("relationship_id") if relationship else None})
         if _cancelled(cancel):
             cancel_result = None
             cancel_result = adapter.call("cancel", {"operation_id": operation_id})
@@ -414,13 +462,16 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
 
         observations, source_refs, source_versions, source_hashes = _normalize_rows(
             read.get("typed_rows"), source_ids, semantics, read, audit, permission_scope, time_window,
-            analysis_template, normalization, relationship)
+            analysis_template, normalization, relationship,
+            permission_reference=config.get("site_approval_reference") if internal_authorized else None)
         data = dict(analysis_template)
+        if internal_authorized:
+            data["mode"] = "INTERNAL_AUTHORIZED"
         data["observations"] = observations
         data["sources"] = source_refs
         if relationship:
             data["linkage"] = relationship
-        result = analyze(data, cancel=cancel)
+        result = analyze(data, cancel=cancel, acquisition=acquisition if internal_authorized else None)
         acquisition.update({"status": ("ANALYSIS_REFUSED" if result.get("status") == "REFUSED"
                                          else "ANALYSIS_COMPLETED"),
                             "normalized_rows": len(observations),

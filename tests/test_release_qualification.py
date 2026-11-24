@@ -2,11 +2,8 @@
 import unittest
 
 from qualification.benchmark import integrated_demo_is_qualified, product_source_fingerprint
-from qualification.run_release_checks import (benchmark_matches_product_sources, benchmark_workflow_is_qualified,
-                                               disposable_bridge_snapshot_matches,
-                                               disposable_p1_browser_workflow_matches,
-                                               disposable_p1_gate_reason,
-                                               disposable_snapshot_fingerprint_matches)
+from qualification.run_release_checks import benchmark_matches_product_sources, benchmark_workflow_is_qualified
+from qualification.ui_evidence import REQUIRED_STANDALONE_CHECKS, standalone_ui_evidence_matches
 from qualification.workflow_qualification import analysis_result_is_qualified
 
 
@@ -68,70 +65,38 @@ class PerformanceWorkflowQualificationTests(unittest.TestCase):
         self.assertFalse(benchmark_workflow_is_qualified(report))
 
 
-class DisposableSnapshotEvidenceTests(unittest.TestCase):
-    def test_p1_gate_reason_distinguishes_hash_mismatch_from_stale_browser(self):
-        stale_browser = disposable_p1_gate_reason(True, False)
-        self.assertIn("hashes match", stale_browser)
-        self.assertIn("browser observation is stale", stale_browser)
-        self.assertNotIn("does not hash-match", stale_browser)
-        mismatched_source = disposable_p1_gate_reason(False, False)
-        self.assertIn("does not hash-match", mismatched_source)
-        current_browser = disposable_p1_gate_reason(True, True)
-        self.assertIn("owner acceptance", current_browser)
-
-    def test_explicit_snapshot_manifest_is_verified(self):
-        import hashlib
-
-        hashes = {"contracts/suite-ui.types.ts": "a" * 64, "tests/test_suite_host.py": "b" * 64}
-        manifest = "\n".join(f"{digest}  {name}" for name, digest in sorted(hashes.items())) + "\n"
-        digest = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
-        evidence = {"files": 2, "file_sha256": hashes, "manifest_sha256": digest, "sha256": digest}
-        self.assertTrue(disposable_snapshot_fingerprint_matches(evidence))
-        evidence["file_sha256"]["tests/test_suite_host.py"] = "c" * 64
-        self.assertFalse(disposable_snapshot_fingerprint_matches(evidence))
-
-    def test_snapshot_without_hash_inventory_or_with_invalid_hash_is_rejected(self):
-        self.assertFalse(disposable_snapshot_fingerprint_matches({"files": 27, "sha256": "a" * 64,
-                                                                  "manifest_sha256": "a" * 64}))
-
-    def test_mcp_bridge_snapshot_requires_the_exact_fixture_and_positive_boundary_tests(self):
-        import hashlib
-
-        fixture_sha256 = "c" * 64
-        hashes = {"tests/fixtures/mcp_p4_panel_bridge.json": fixture_sha256}
-        manifest = f"{fixture_sha256}  tests/fixtures/mcp_p4_panel_bridge.json\n"
-        digest = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
-        snapshot = {"files": 1, "file_sha256": hashes, "manifest_sha256": digest, "sha256": digest}
-        bridge = {"fixture_sha256": fixture_sha256, "p4_panel_component_tests": 18,
-                  "python_bridge_fixture_tests": 2}
-        self.assertTrue(disposable_bridge_snapshot_matches(snapshot, bridge, fixture_sha256))
-        self.assertFalse(disposable_bridge_snapshot_matches(snapshot, bridge, "d" * 64))
-        self.assertFalse(disposable_bridge_snapshot_matches(snapshot, {**bridge, "python_bridge_fixture_tests": 0},
-                                                            fixture_sha256))
-        without_fixture = {**snapshot, "file_sha256": {}, "files": 0}
-        self.assertFalse(disposable_bridge_snapshot_matches(without_fixture, bridge, fixture_sha256))
-
-    def test_p1_browser_refusal_requires_structured_access_and_suppression_evidence(self):
-        browser = {
-            "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
-            "success_request": "COMPLETED",
-            "p4_source_commit": "CURRENT-SOURCE",
-            "capabilities": ["D01", "D02", "D03", "D04", "D05"],
-            "permission_refusal": {
-                "status": "REFUSED", "source_status": "ACCESS_REFUSED",
-                "semantic_version": "NOT_ACCESSED", "fixture_values": "suppressed",
-                "analysis": "not performed",
-            },
+class StandaloneP4BrowserEvidenceTests(unittest.TestCase):
+    def report(self):
+        return {
+            "schema": "p4-standalone-ui-browser/v1",
+            "status": "PASS_STANDALONE_INTERACTION_LIMITED_SCOPE",
+            "source_commit": "CURRENT-SOURCE",
+            "source_sha256": {"app.js": "a" * 64},
+            "browser": "Chromium",
+            "checks": {name: True for name in REQUIRED_STANDALONE_CHECKS},
+            "external_requests": [], "page_errors": [], "failed_responses": [],
+            "accessibility_scope": {"keyboard_workflow": "checked",
+                                    "screen_reader_and_formal_wcag_audit": "not performed"},
+            "scope": "P4 standalone local application only; no P1 or other product host",
         }
-        self.assertTrue(disposable_p1_browser_workflow_matches(browser, "CURRENT-SOURCE"))
-        self.assertFalse(disposable_p1_browser_workflow_matches(browser, "STALE-SOURCE"))
-        changed = {**browser, "permission_refusal": {**browser["permission_refusal"], "fixture_values": "visible"}}
-        self.assertFalse(disposable_p1_browser_workflow_matches(changed, "CURRENT-SOURCE"))
-        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "permission_refusal": "REFUSED"}, "CURRENT-SOURCE"))
-        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "capabilities": ["D01"]}, "CURRENT-SOURCE"))
-        self.assertFalse(disposable_snapshot_fingerprint_matches({"files": 1, "file_sha256": {"x": "bad"},
-                                                                  "sha256": "a" * 64,
-                                                                  "manifest_sha256": "a" * 64}))
+
+    def test_source_bound_standalone_browser_workflow_is_accepted(self):
+        report = self.report()
+        self.assertTrue(standalone_ui_evidence_matches(report, "CURRENT-SOURCE", report["source_sha256"]))
+
+    def test_stale_or_incomplete_browser_evidence_is_rejected(self):
+        report = self.report()
+        self.assertFalse(standalone_ui_evidence_matches(report, "STALE-SOURCE", report["source_sha256"]))
+        report["checks"]["evidence_export_downloaded"] = False
+        self.assertFalse(standalone_ui_evidence_matches(report, "CURRENT-SOURCE", report["source_sha256"]))
+
+    def test_external_requests_errors_or_accessibility_overclaim_are_rejected(self):
+        report = self.report()
+        report["external_requests"] = ["https://example.invalid"]
+        self.assertFalse(standalone_ui_evidence_matches(report, "CURRENT-SOURCE", report["source_sha256"]))
+        report = self.report()
+        report["accessibility_scope"]["screen_reader_and_formal_wcag_audit"] = "passed"
+        self.assertFalse(standalone_ui_evidence_matches(report, "CURRENT-SOURCE", report["source_sha256"]))
 
 
 class OfflineWorkflowQualificationTests(unittest.TestCase):

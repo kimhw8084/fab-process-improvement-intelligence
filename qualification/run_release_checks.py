@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from qualification.benchmark import product_source_fingerprint  # noqa: E402
 from qualification.workflow_qualification import analysis_result_is_qualified, performance_record_is_qualified  # noqa: E402
-from products.p4.engine import ENGINE_VERSION  # noqa: E402
+from qualification.ui_evidence import STANDALONE_SOURCE_PATHS, standalone_ui_evidence_matches  # noqa: E402
 
 
 def run(command):
@@ -39,59 +39,6 @@ def benchmark_matches_product_sources(performance):
 
 def benchmark_workflow_is_qualified(performance):
     return performance_record_is_qualified(performance)
-
-
-def disposable_snapshot_fingerprint_matches(snapshot):
-    hashes = snapshot.get("file_sha256")
-    if not isinstance(hashes, dict) or not hashes or snapshot.get("files") != len(hashes):
-        return False
-    if any(not isinstance(name, str) or not name or not isinstance(digest, str)
-           or re.fullmatch(r"[0-9a-f]{64}", digest) is None for name, digest in hashes.items()):
-        return False
-    manifest = "\n".join(f"{digest}  {name}" for name, digest in sorted(hashes.items())) + "\n"
-    digest = hashlib.sha256(manifest.encode("utf-8")).hexdigest()
-    return snapshot.get("manifest_sha256") == digest and snapshot.get("sha256") == digest
-
-
-def disposable_bridge_snapshot_matches(snapshot, bridge_evidence, current_fixture_sha256):
-    if not disposable_snapshot_fingerprint_matches(snapshot) or not isinstance(bridge_evidence, dict):
-        return False
-    return (
-        snapshot.get("file_sha256", {}).get("tests/fixtures/mcp_p4_panel_bridge.json") == current_fixture_sha256
-        and bridge_evidence.get("fixture_sha256") == current_fixture_sha256
-        and bridge_evidence.get("p4_panel_component_tests", 0) > 0
-        and bridge_evidence.get("python_bridge_fixture_tests", 0) > 0
-    )
-
-
-def disposable_p1_browser_workflow_matches(browser, current_p4_source_commit):
-    refusal = browser.get("permission_refusal") if isinstance(browser, dict) else None
-    return (
-        browser.get("status") == "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL"
-        and browser.get("success_request") == "COMPLETED"
-        and isinstance(refusal, dict)
-        and refusal.get("status") == "REFUSED"
-        and refusal.get("source_status") == "ACCESS_REFUSED"
-        and refusal.get("semantic_version") == "NOT_ACCESSED"
-        and refusal.get("fixture_values") == "suppressed"
-        and refusal.get("analysis") == "not performed"
-        and set(browser.get("capabilities", [])) == {"D01", "D02", "D03", "D04", "D05"}
-        and browser.get("p4_source_commit") == current_p4_source_commit
-    )
-
-
-def disposable_p1_gate_reason(source_hashes_match, browser_source_matches):
-    if not source_hashes_match:
-        return ("the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; "
-                "its browser observation cannot establish current-source host behavior; authoritative P1 ownership, "
-                "formal accessibility, and target-host behavior remain pending")
-    if not browser_source_matches:
-        return ("the disposable P1 source and bridge hashes match the current P4 overlay, but the recorded browser "
-                "observation is stale and provides no current-source browser evidence; authoritative P1 ownership, "
-                "formal accessibility, and target-host behavior remain pending")
-    return ("the current P4 source passed only the recorded synthetic workflow and refusal inside an unversioned "
-            "disposable P1 composition; authoritative P1 ownership, owner acceptance, formal accessibility, and "
-            "target-host behavior remain pending")
 
 
 def archive_qualification_pass(evaluated_commit):
@@ -1108,80 +1055,23 @@ def main():
                                "scope": "optional benchmark dependency tree; product runtime has no third-party Python packages",
                                "vulnerabilities_found": dependency_audit.get("vulnerabilities_found")}
 
-    ui_path = ROOT / "release" / "UI_COMPONENT_QUALIFICATION.json"
-    ui_report = json.loads(ui_path.read_text(encoding="utf-8")) if ui_path.exists() else {}
-    ui_test_source = (ROOT / "products" / "p4" / "ui" / "P4Panel.test.tsx").read_text(encoding="utf-8")
-    ui_source_test_count = len(re.findall(r"(?m)^\s*it\(", ui_test_source))
-    ui_test_report = ui_report.get("component_tests", {})
-    ui_component_pass = (ui_report.get("status") == "PASS_LOCAL_MODULE_ONLY"
-                         and ui_test_report.get("expected_test_count") == ui_source_test_count
-                         and ui_test_report.get("tests_passed") == ui_source_test_count
-                         and ui_report.get("typecheck", {}).get("status") == "PASS"
-                         and ui_report.get("contract_snapshot_match") is True)
-    p1_host_evidence_path = ROOT / "qualification" / "evidence" / "p1-disposable-host-qualification-2026-11-23.json"
-    p1_host_evidence = json.loads(p1_host_evidence_path.read_text(encoding="utf-8")) if p1_host_evidence_path.exists() else {}
-    p1_host_checks = p1_host_evidence.get("executed_checks", {})
-    p1_browser = p1_host_checks.get("browser", {})
-    p1_composition = p1_host_evidence.get("disposable_composition", {})
-    p1_current_source = p1_composition.get("current_p4_source", {})
-    p1_implementation_commit = p1_composition.get("p4_source_commit")
-    current_p4_hashes = {
-        "engine_sha256": hashlib.sha256((ROOT / "products" / "p4" / "engine.py").read_bytes()).hexdigest(),
-        "panel_sha256": hashlib.sha256((ROOT / "products" / "p4" / "ui" / "P4Panel.tsx").read_bytes()).hexdigest(),
-        "panel_test_sha256": hashlib.sha256((ROOT / "products" / "p4" / "ui" / "P4Panel.test.tsx").read_bytes()).hexdigest(),
+    standalone_ui_path = ROOT / "release" / "P4_STANDALONE_UI_BROWSER.json"
+    standalone_ui_report = json.loads(standalone_ui_path.read_text(encoding="utf-8")) if standalone_ui_path.exists() else {}
+    standalone_ui_hashes = {
+        name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+        for name in STANDALONE_SOURCE_PATHS
     }
-    current_p4_additional_hashes = {
-        "products/p4/design.py": hashlib.sha256((ROOT / "products" / "p4" / "design.py").read_bytes()).hexdigest(),
-        "products/p4/mcp_workflow.py": hashlib.sha256((ROOT / "products" / "p4" / "mcp_workflow.py").read_bytes()).hexdigest(),
-        "products/p4/tradeoffs.py": hashlib.sha256((ROOT / "products" / "p4" / "tradeoffs.py").read_bytes()).hexdigest(),
-        "products/p4/window.py": hashlib.sha256((ROOT / "products" / "p4" / "window.py").read_bytes()).hexdigest(),
-        "products/p4/regression.py": hashlib.sha256((ROOT / "products" / "p4" / "regression.py").read_bytes()).hexdigest(),
-        "products/p4/investigation.v1.schema.json": hashlib.sha256((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_bytes()).hexdigest(),
-        "products/p4/ui_contribution.json": hashlib.sha256((ROOT / "products" / "p4" / "ui_contribution.json").read_bytes()).hexdigest(),
-        "fixtures/full_workflow_demo.json": hashlib.sha256((ROOT / "fixtures" / "full_workflow_demo.json").read_bytes()).hexdigest(),
-        "qualification/build_demo_fixture.py": hashlib.sha256((ROOT / "qualification" / "build_demo_fixture.py").read_bytes()).hexdigest(),
+    standalone_ui_pass = standalone_ui_evidence_matches(
+        standalone_ui_report, evaluated_commit, standalone_ui_hashes)
+    ui_result = {
+        "status": "PASS_STANDALONE_INTERACTION_LIMITED_SCOPE" if standalone_ui_pass else "NOT_RUN_OR_STALE",
+        "evidence": "release/P4_STANDALONE_UI_BROWSER.json",
+        "scope": "P4 standalone local application only; no P1 or other product host",
+        "source_bound_to_evaluated_commit": standalone_ui_pass,
+        "source_hashes_match": standalone_ui_report.get("source_sha256") == standalone_ui_hashes,
+        "checks": standalone_ui_report.get("checks", {}),
+        "formal_screen_reader_and_wcag_audit": "PENDING",
     }
-    p1_pin = p1_composition.get("p4_registry_pin", {})
-    p1_snapshot = p1_composition.get("snapshot_fingerprint", {})
-    p1_bridge = p1_composition.get("mcp_panel_bridge_fixture", {})
-    p1_bridge_fixture_path = ROOT / "tests" / "fixtures" / "mcp_p4_panel_bridge.json"
-    p1_bridge_fixture_sha256 = hashlib.sha256(p1_bridge_fixture_path.read_bytes()).hexdigest() if p1_bridge_fixture_path.is_file() else None
-    p1_additional_hashes = p1_composition.get("additional_p4_source_sha256", {})
-    p1_source_hashes_match = (p1_current_source == current_p4_hashes
-                              and p1_additional_hashes == current_p4_additional_hashes
-                              and p1_pin.get("engine_sha256") == current_p4_hashes["engine_sha256"]
-                              and p1_pin.get("engine_version") == ENGINE_VERSION
-                              and p1_pin.get("source_commit") == p1_implementation_commit
-                              and disposable_bridge_snapshot_matches(p1_snapshot, p1_bridge, p1_bridge_fixture_sha256))
-    p1_browser_current_source_match = p1_browser.get("p4_source_commit") == p1_implementation_commit
-    p1_disposable_host_pass = (
-        p1_source_hashes_match
-        and
-        p1_host_evidence.get("status") == "PASS_DISPOSABLE_COMPOSITION_ONLY"
-        and p1_host_checks.get("p1_frontend_tests", {}).get("status") == "PASS"
-        and p1_host_checks.get("p1_frontend_tests", {}).get("tests", 0) > 0
-        and p1_host_checks.get("p1_typecheck", {}).get("status") == "PASS"
-        and p1_host_checks.get("p1_production_build", {}).get("status") == "PASS"
-        and p1_host_checks.get("p1_host_route_tests", {}).get("status") == "PASS"
-        and p1_host_checks.get("p4_panel_tests", {}).get("status") == "PASS"
-        and disposable_p1_browser_workflow_matches(p1_browser, p1_implementation_commit)
-    )
-    p1_gate_reason = disposable_p1_gate_reason(p1_source_hashes_match, p1_browser_current_source_match)
-    ui_result = {"status": "PASS_LOCAL_MODULE_ONLY" if ui_component_pass else "NOT_RUN_OR_FAIL",
-                 "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
-                 "component_tests": ui_test_report.get("tests_passed"),
-                 "source_declared_tests": ui_source_test_count,
-                 "typecheck": ui_report.get("typecheck", {}).get("status"),
-                 "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY" if p1_disposable_host_pass else "NOT_RUN_OR_FAIL",
-                 "disposable_host_evidence": {
-                     "status": "PASS_DISPOSABLE_COMPOSITION_ONLY" if p1_disposable_host_pass else "NOT_RUN_OR_FAIL",
-                     "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-                     "scope": p1_host_evidence.get("scope", "not verified"),
-                     "current_p4_source_hashes_match": p1_source_hashes_match,
-                     "browser_evidence_matches_current_p4_commit": p1_browser_current_source_match,
-                     "p1_owner_and_source_version": "PENDING",
-                     "formal_accessibility": "PENDING"
-                 }}
 
     security_path = ROOT / "release" / "SOURCE_SECURITY_SCAN.json"
     security_report = json.loads(security_path.read_text(encoding="utf-8")) if security_path.exists() else {}
@@ -1217,7 +1107,7 @@ def main():
         and d02_stratified_pass and d02_subgroup_pass
         and d03_bounded_pass and d03_zero_pass and d03_familywise_pass and d03_mix_pass and d05_conf_pass and d05_cluster_pass and mcp_pass and mcp_sdk_pass
         and dependency_audit_pass and d04_pass and performance_pass
-        and ui_component_pass and security_pass
+        and standalone_ui_pass and security_pass
     )
     results = {"state": "PASS" if qualification_pass else "FAIL",
                "unit_tests": test_summary, "integrated_demo": demo_result,
@@ -1300,16 +1190,16 @@ def main():
             "E04": {"status": "PASS" if frozen_pass and schema_status == "PASS" else "FAIL", "evidence": ["contracts/", "products/p4/investigation.v1.schema.json", "release/SCHEMA_VALIDATION.json"]},
             "E05": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "qualification/internal-capability-report.v1.schema.json"], "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally"},
             "E06": {"status": "PASS" if mcp_pass and mcp_sdk_pass else "FAIL", "evidence": ["release/MCP_SDK_QUALIFICATION.json", "release/LICENSE_SECURITY_REVIEW.md", "tests/test_mcp_transport.py", "requirements/synthetic-mcp-mapping.v1.json", "vendor/mcp-sdk/2.3.0/macos-arm64-cp311/requirements.lock"], "scope": "official MCP SDK hash-locked offline install and stdio/Streamable HTTP protocol tests against a synthetic mock; company tool names/permissions/source semantics remain unconfigured"},
-            "E07": {"status": "PENDING_AUTHORITATIVE_HOST_AND_FORMAL_ACCESSIBILITY" if ui_component_pass and p1_disposable_host_pass else "PENDING_HOST_AND_FORMAL_ACCESSIBILITY" if ui_component_pass else "NOT_RUN_OR_FAIL", "evidence": ["release/UI_COMPONENT_QUALIFICATION.json", "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json", "products/p4/ui/P4Panel.test.tsx", "products/p4/ui/P4Panel.tsx"], "reason": p1_gate_reason},
+            "E07": {"status": "PASS_LIMITED_SCOPE" if standalone_ui_pass else "NOT_RUN_OR_STALE", "evidence": ["release/P4_STANDALONE_UI_BROWSER.json", "qualification/standalone_ui_browser.py"], "scope": "P4 standalone local application interaction only; keyboard path and evidence export verified in local Chromium. Formal screen-reader/WCAG review and company host qualification remain pending."},
             "E08": {"status": "PENDING_TARGET_OS", "evidence": ["release/NO_NETWORK_QUALIFICATION.md", "qualification/offline_qualify.py"], "reason": "a local-host offline bundle run is recorded separately; the company target OS remains unknown"},
             "E09": {"status": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW", "dependency_audit": "PASS" if dependency_audit_pass else "FAIL", "source_security_scan": source_security_result["status"], "evidence": ["release/SBOM.spdx.json", "release/DEPENDENCY_AUDIT.json", "release/SOURCE_SECURITY_SCAN.json", "release/LICENSE_SECURITY_REVIEW.md"], "reason": "local advisory and source scans are limited-scope evidence; independent manual/OS security review, license interpretation/approval, and owner/legal distribution rights remain unresolved"},
             "E10": {"status": "PASS" if archive_qualification_pass(evaluated_commit) else "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime"} if archive_qualification_pass(evaluated_commit) else {"status": "PENDING_FINAL_ARCHIVE", "evidence": ["release/TRANSFER_BUNDLE.sha256", "release/BUILD_REPRODUCIBILITY.json", "release/OFFLINE_QUALIFICATION.json", "qualification/build_transfer_bundle.py"], "reason": "the exact current archive, clean-source reproducible build and fresh extracted offline runtime must all match"},
             "E11": {"status": "PENDING_ENGINEER_BASELINE", "evidence": ["qualification/BENCHMARK_PLAN.md", "release/BENCHMARK_REPORT.json"], "reason": "synthetic latency is measured; no eligible engineer task-time, review-burden or ROI baseline exists"},
             "E12": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "docs/INTERNAL_COMPANY_FIRST_RUN.md"], "reason": "company MCP, host, policy owner and engineer qualification require authorized site testing"}
         },
-        "internal": {"state": "PENDING_INTERNAL", "unverified": ["real MCP and auth scopes", "source semantics and joins", "authoritative P1 source/version/registration and owner-accepted D01-D05 capability contract", "company target OS and approved host", "company data pilot", "engineer acceptance", "owner/legal transfer approval", "literal R01-R53 and Golden standard"]},
+        "internal": {"state": "PENDING_INTERNAL", "unverified": ["real MCP and auth scopes", "source semantics and joins", "company target OS and approved standalone host", "company data pilot", "engineer acceptance", "owner/legal transfer approval", "literal R01-R53 and Golden standard"]},
         "known_critical_defects": [],
-        "release_blockers": ["no actual authorized MCP connector", "disposable P1 composition compatibility was demonstrated; authoritative P1 source/version/registration ownership and owner acceptance remain pending", "formal accessibility and target-host behavior remain unqualified", "license ownership and distribution rights are not declared", "independent source security review not completed", "company target OS and formal UX/user baselines not supplied"]
+        "release_blockers": ["no actual authorized MCP connector", "formal screen-reader/WCAG review and company target-host behavior remain unqualified", "license ownership and distribution rights are not declared", "independent source security review not completed", "company target OS and engineer ROI baseline not supplied"]
     }
     path = ROOT / "release" / "GATE_REPORT.json"
     path.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")

@@ -1,4 +1,4 @@
-"""Deterministic, synthetic-only P4 analysis. No network or actuation path exists."""
+"""Deterministic P4 analysis; external access is composed only by the MCP workflow."""
 from __future__ import annotations
 
 from itertools import combinations, product
@@ -8,7 +8,7 @@ from random import Random
 from statistics import mean, median, variance
 from typing import Any
 
-from fabintel.contracts import claim, envelope, validate_envelope
+from fabintel.contracts import claim, envelope, authorized_envelope, validate_envelope
 from products.p4.regression import fit_linear_model, critical_t_975, ModelError, RegressionCancelled
 from products.p4.window import explore_window, WindowError
 from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
@@ -1598,15 +1598,21 @@ def _model_specification_sensitivity(rows, factor_defs, metric, options, base_re
             "interpretation": "formula sensitivity is descriptive on the same observations; point-sign changes flag model dependence, and displayed intervals are unadjusted across formulas"}
 
 
-def _source_refs(data):
+def _source_refs(data, *, internal_authorized=False):
     sources = data.get("sources", [])
     if not isinstance(sources, list):
         raise ValueError("sources must be a list")
     for source in sources:
-        if not isinstance(source, dict) or not str(source.get("id", "")).startswith("SYN-"):
-            raise ValueError("this build accepts synthetic source references only")
-        if not str(source.get("approved_semantic_version", "")).startswith("SYNTHETIC-"):
+        if not isinstance(source, dict) or not isinstance(source.get("id"), str) or not source["id"].strip():
+            raise ValueError("source references require an explicit source ID")
+        if not isinstance(source.get("approved_semantic_version"), str) or not source["approved_semantic_version"].strip():
+            raise ValueError("source references require an explicit semantic version")
+        if not internal_authorized and (not source["id"].startswith("SYN-")
+                or not source["approved_semantic_version"].startswith("SYNTHETIC-")):
             raise ValueError("synthetic mode cannot label a source as company-approved")
+        if internal_authorized and (not isinstance(source.get("permissions_ref"), str)
+                or not source["permissions_ref"].strip()):
+            raise ValueError("internal source references require a site permission reference")
         source_hash = source.get("source_hash")
         if not isinstance(source.get("grain"), str) or not source["grain"]:
             raise ValueError("source references require grain and source_hash")
@@ -1615,7 +1621,7 @@ def _source_refs(data):
     return sources
 
 
-def _validate_lineage(rows, sources, data):
+def _validate_lineage(rows, sources, data, *, internal_authorized=False):
     known = {source["id"] for source in sources}
     used = set()
     for row in rows:
@@ -1625,43 +1631,92 @@ def _validate_lineage(rows, sources, data):
             refs = [one] if one is not None else []
         if not isinstance(refs, list) or not refs or any(not isinstance(ref, str) or ref not in known for ref in refs):
             if sources or refs:
-                raise ValueError("each sourced observation must identify its synthetic source ID")
+                raise ValueError("each sourced observation must identify its configured source ID")
             continue
         if len(refs) > 1:
             linkage = data.get("linkage", {})
             if (not isinstance(linkage, dict) or linkage.get("approved") is not True
-                    or not str(linkage.get("relationship_id", "")).startswith("SYN-")
-                    or not str(linkage.get("approval_reference", "")).startswith("SYN-")):
-                raise ValueError("multi-source observations require an explicit versioned relationship contract reference")
+                    or not isinstance(linkage.get("relationship_id"), str) or not linkage["relationship_id"].strip()
+                    or not isinstance(linkage.get("approval_reference"), str) or not linkage["approval_reference"].strip()
+                    or (not internal_authorized and (not linkage["relationship_id"].startswith("SYN-")
+                        or not linkage["approval_reference"].startswith("SYN-")))):
+                raise ValueError("multi-source observations require an explicit approved versioned relationship contract reference")
         used.update(refs)
     if sources and used != known:
         raise ValueError("source references must exactly match the sources used by observations")
     return sorted(used)
 
 
-def analyze(data: dict[str, Any], *, cancel=None):
-    """Build one reproducible evidence dossier; every data path is read-only and synthetic."""
+def _qualified_acquisition(value):
+    if not isinstance(value, dict):
+        return False
+    required = ("site_approval_reference", "audit_id", "audit_query_hash", "semantic_version")
+    return (value.get("environment") == "INTERNAL_APPROVED_ONLY"
+            and value.get("qualification_status") == "QUALIFIED_INTERNAL"
+            and value.get("status") == "AUDITED_READ_COMPLETED"
+            and all(isinstance(value.get(key), str) and value[key].strip() for key in required)
+            and value.get("read_only") is True
+            and isinstance(value.get("source_ids"), list) and bool(value["source_ids"])
+            and isinstance(value.get("source_hashes"), dict)
+            and set(value["source_ids"]) == set(value["source_hashes"])
+            and all(isinstance(value["source_hashes"].get(source), str)
+                    and len(value["source_hashes"][source]) == 64 for source in value["source_ids"]))
+
+
+def _acquisition_matches_data(data, acquisition):
+    sources = data.get("sources") if isinstance(data, dict) else None
+    if not isinstance(sources, list):
+        return False
+    if [source.get("id") for source in sources if isinstance(source, dict)] != acquisition["source_ids"]:
+        return False
+    for source in sources:
+        if (not isinstance(source, dict)
+                or source.get("approved_semantic_version") != acquisition["semantic_version"]
+                or source.get("source_hash") != acquisition["source_hashes"].get(source.get("id"))
+                or source.get("permissions_ref") != acquisition["site_approval_reference"]):
+            return False
+    return True
+
+
+def analyze(data: dict[str, Any], *, cancel=None, acquisition=None):
+    """Build a reproducible evidence dossier; manufacturing changes are unavailable.
+
+    Internal mode is only accepted when invoked by the validated, site-configured
+    MCP composition with a matching audited-read receipt. Direct JSON analysis
+    remains synthetic-only.
+    """
     if not isinstance(data, dict):
         data = {"_invalid_input_type": type(data).__name__}
     if data.get("request_actuation") or data.get("request_recipe_change"):
         return envelope("p4", data, "REFUSED", [], ["No equipment commands, recipe writes, or manufacturing actuation are available."])
-    if data.get("mode") == "INTERNAL_AUTHORIZED":
-        return envelope("p4", data, "REFUSED", [], ["No real Fab Insight MCP connector is configured; synthetic-only analysis cannot qualify internal data."])
+    internal_authorized = (data.get("mode") == "INTERNAL_AUTHORIZED"
+                           and _qualified_acquisition(acquisition)
+                           and _acquisition_matches_data(data, acquisition))
+    if data.get("mode") == "INTERNAL_AUTHORIZED" and not internal_authorized:
+        return envelope("p4", {"request": data, "authority": "not-qualified"}, "REFUSED", [],
+                        ["Internal data requires the configured MCP workflow, qualified site configuration, read-only bounded acquisition, and matching audit evidence."])
+
+    def result_envelope(status, claims, limitations, *, assumptions=(), sources=None):
+        if internal_authorized:
+            return authorized_envelope("p4", data, status, claims, limitations, assumptions=assumptions,
+                                       sources=sources, authorization_reference=acquisition["site_approval_reference"])
+        return envelope("p4", data, status, claims, limitations, assumptions=assumptions, sources=sources)
+
     if data.get("constraints_approved") is not True:
-        return envelope("p4", data, "REFUSED", [], ["Engineer-approved factor bounds and process constraints are absent."])
+        return result_envelope("REFUSED", [], ["Engineer-approved factor bounds and process constraints are absent."])
     if isinstance(data.get("factors"), list):
         context = data.get("context")
         metadata = ("grain", "sampling_unit", "timestamp_semantics")
         if (not isinstance(data.get("objective"), str) or not data["objective"].strip() or
                 not isinstance(context, dict) or not context or
                 any(not isinstance(data.get(k), str) or not data[k].strip() for k in metadata)):
-            return envelope("p4", data, "REFUSED", [], ["Canonical investigations require an objective, process context, row grain, sampling unit, and timestamp semantics."])
+            return result_envelope("REFUSED", [], ["Canonical investigations require an objective, process context, row grain, sampling unit, and timestamp semantics."])
     try:
         _check_cancel(cancel)
-        sources = _source_refs(data)
+        sources = _source_refs(data, internal_authorized=internal_authorized)
         fdefs, mdefs, rows = _normalise(data, cancel)
         _validate_declared_independent_unit(rows, data)
-        source_ids = _validate_lineage(rows, sources, data)
+        source_ids = _validate_lineage(rows, sources, data, internal_authorized=internal_authorized)
         primary_metric = data.get("primary_metric", next(iter(mdefs)))
         if primary_metric not in mdefs:
             raise ValueError("primary_metric must name a defined metric")
@@ -1689,16 +1744,18 @@ def analyze(data: dict[str, Any], *, cancel=None):
         split = _validate_time_split(data.get("validation_split"), rows, fdefs, mdefs,
                                      sensitivity_options, primary_metric, cancel)
     except AnalysisCancelled:
-        return envelope("p4", data, "REFUSED", [], ["Analysis was cancelled before a result was produced; no external operation was started."])
+        return result_envelope("REFUSED", [], ["Analysis was cancelled before a result was produced; no additional external operation was started."])
     except RegressionCancelled:
-        return envelope("p4", data, "REFUSED", [], ["Analysis was cancelled before a result was produced; no external operation was started."])
+        return result_envelope("REFUSED", [], ["Analysis was cancelled before a result was produced; no additional external operation was started."])
     except InterruptedError:
-        return envelope("p4", data, "REFUSED", [], ["Analysis was cancelled before a result was produced; no external operation was started."])
+        return result_envelope("REFUSED", [], ["Analysis was cancelled before a result was produced; no additional external operation was started."])
     except (ValueError, TypeError, KeyError, OverflowError) as exc:
-        return envelope("p4", data, "REFUSED", [], [f"Invalid or unsupported investigation: {exc}"])
+        return result_envelope("REFUSED", [], [f"Invalid or unsupported investigation: {exc}"])
 
-    limitations = ["Synthetic demonstration only; no company sources, permissions, or engineering approval were used.",
-                   "Associations are not intervention effects; observed feasible points are not production recipes."]
+    limitations = (["Site authorization, source semantics, and server-enforced permissions are caller/site supplied and are not independently authenticated by P4.",
+                    "Associations are not intervention effects; observed feasible points are not production recipes."] if internal_authorized else
+                   ["Synthetic demonstration only; no company sources, permissions, or engineering approval were used.",
+                    "Associations are not intervention effects; observed feasible points are not production recipes."])
     claims = []
     partial = False
     if sensitivity.get("status") == "VALID":
@@ -1779,9 +1836,12 @@ def analyze(data: dict[str, Any], *, cancel=None):
     if split.get("status") in ("REFUSED", "INCONCLUSIVE"):
         partial = True
 
-    out = envelope("p4", data, "PARTIAL" if partial else "VALID", claims, limitations,
-                   assumptions=["All observations and source references are supplied synthetic fixtures.",
-                                "No actuation, recipe recommendation, or real company-data access is available."], sources=sources)
+    assumptions = (["The site-owned MCP administrator has qualified the configured mappings and supplied this audited bounded read; P4 does not independently authenticate that authority.",
+                    "No actuation, recipe recommendation, or equipment-control action is available."] if internal_authorized else
+                   ["All observations and source references are supplied synthetic fixtures.",
+                    "No actuation, recipe recommendation, or real company-data access is available."])
+    out = result_envelope("PARTIAL" if partial else "VALID", claims, limitations,
+                          assumptions=assumptions, sources=sources)
     out["provenance"].update({"engine_version": ENGINE_VERSION, "method_version": "p4-robust-surface-2"})
     out["populations"] = [{"n": len(rows), "grain": data.get("grain", "one supplied observation row"),
                            "sampled_unit": data.get("sampling_unit", "not specified"),
@@ -1797,8 +1857,9 @@ def analyze(data: dict[str, Any], *, cancel=None):
                               {"check": "study-design validity", "result": effect.get("reason", effect.get("design", "not requested"))},
                               {"check": "temporal/group holdout", "result": split.get("status")}]
     out["artifacts"] = [{"type": "p4_decision_dossier", "objective": data.get("objective", "unspecified engineering objective"),
-                         "context": data.get("context", {}), "source_inspection": {"mode": "SYNTHETIC_DEMO", "sources": sources,
-                             "permissions": "synthetic only", "approved_company_semantics": False},
+                         "context": data.get("context", {}), "source_inspection": {"mode": "INTERNAL_AUTHORIZED" if internal_authorized else "SYNTHETIC_DEMO", "sources": sources,
+                             "permissions": "site configuration and audit receipt supplied; not independently authenticated" if internal_authorized else "synthetic only",
+                             "semantic_approval_status": "SITE_CONFIGURATION_CLAIMS_QUALIFIED_NOT_INDEPENDENTLY_AUTHENTICATED" if internal_authorized else "SYNTHETIC_ONLY"},
                          "D01_sensitivity": sensitivity, "D03_tradeoffs": tradeoffs,
                          "D02_observed_process_window": feasible, "D02_supported_region": supported_region,
                          "D02_robust_observed_region": robustness,

@@ -22,7 +22,7 @@ python -m fabintel preflight
 python -m fabintel serve
 ```
 
-Open the loopback address printed in the terminal. The service binds only to `127.0.0.1`; it reads no external assets, makes no outbound calls, and keeps request data in process memory. Use **Load synthetic walkthrough**, inspect the request, run the dossier, and export the evidence JSON. `Ctrl-C` cancels active analyses and stops the server.
+Open the loopback address printed in the terminal. The service binds only to `127.0.0.1`; it reads no external assets, makes no outbound calls, and keeps request data in process memory. Use **Load synthetic example**, inspect/edit the request, run the dossier, review D01–D05 and export the evidence JSON. `Ctrl-C` cancels active analyses and stops the server.
 
 ## Included resources
 
@@ -32,7 +32,7 @@ Open the loopback address printed in the terminal. The service binds only to `12
 - `fixtures/full_workflow_demo.json`: synthetic end-to-end D01–D05 example.
 - `fixtures/p4_independent_oracles.json` and `tests/test_p4_scientific.py`: independent numeric and adversarial cases.
 - `qualification/`: reproducible demo generator, first-run preflight checker, benchmark protocol, and challenge catalog.
-- `ui/index.html`: bundled local engineer interface.
+- `products/p4/ui/standalone/`: bundled local engineer interface, styles, and browser workflow (no P1 dependency).
 - `release/`: gate report, build/install/rollback instructions, SBOM, security/license findings, hashes, and transfer archive when built.
 
 An engineer or authorized site owner must complete the internal steps documented in `docs/INTERNAL_COMPANY_FIRST_RUN.md`. No actual internal source mapping, permission, or company approval is included here.

@@ -1,6 +1,8 @@
 """Independent fail-closed and numeric qualification for cross-step tradeoffs."""
 import copy
+import json
 from math import log, sqrt
+from pathlib import Path
 import unittest
 
 from products.p4.tradeoffs import _familywise_t_critical, cross_step_tradeoffs, observed_tradeoffs
@@ -234,6 +236,27 @@ class CrossStepTradeoffQualification(unittest.TestCase):
         refused = cross_step_tradeoffs(self.rows, self.metric_defs, missing_objective)
         self.assertEqual(refused["status"], "LIMITED_SCOPE")
         self.assertEqual(refused["downstream_claim"], "withheld")
+
+    def test_engine_refuses_a_missing_objective_without_complete_case_pareto(self):
+        source = Path(__file__).resolve().parents[1] / "fixtures" / "full_workflow_demo.json"
+        investigation = json.loads(source.read_text(encoding="utf-8"))
+        investigation["observations"][0]["metrics"].pop("yield_index")
+        result = analyze(investigation)
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertTrue(any("missing or non-finite metric values" in item
+                            for item in result.get("limitations", [])))
+        self.assertEqual(result.get("claims", []), [])
+
+    def test_engine_refuses_conflicting_metric_constraints_before_pareto(self):
+        source = Path(__file__).resolve().parents[1] / "fixtures" / "full_workflow_demo.json"
+        investigation = json.loads(source.read_text(encoding="utf-8"))
+        investigation["metrics"][0]["min"] = 20
+        investigation["metrics"][0]["max"] = 10
+        result = analyze(investigation)
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertTrue(any("minimum exceeds maximum" in item
+                            for item in result.get("limitations", [])))
+        self.assertEqual(result.get("claims", []), [])
 
     def test_constant_observed_metrics_do_not_create_zero_width_population_intervals(self):
         rows = copy.deepcopy(self.rows)

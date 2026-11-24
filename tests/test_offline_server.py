@@ -41,13 +41,27 @@ class OfflineServerTests(unittest.TestCase):
         with urlopen(req, timeout=5) as response:
             return response.status, json.loads(response.read())
 
-    def test_headless_fixture_has_no_competing_ui_and_completes_analysis_job(self):
-        for path in ("/", "/ui/index.html"):
-            with self.assertRaises(HTTPError) as page_error:
-                urlopen(self.base + path, timeout=5)
-            self.assertEqual(page_error.exception.code, 404)
+    def test_standalone_workbench_and_local_analysis_job(self):
+        with urlopen(self.base + "/", timeout=5) as response:
+            page = response.read().decode()
+            self.assertIn("Process improvement intelligence", page)
+            self.assertIn("/ui/app.js", page)
+            self.assertIn("default-src 'self'; script-src 'self'; style-src 'self'", response.headers["Content-Security-Policy"])
+        with urlopen(self.base + "/ui/app.js", timeout=5) as response:
+            self.assertIn("Export evidence JSON", (ROOT / "products/p4/ui/standalone/index.html").read_text())
+            self.assertIn("/api/jobs", response.read().decode())
+        with urlopen(self.base + "/ui/styles.css", timeout=5) as response:
+            self.assertEqual(response.status, 200)
+        with urlopen(self.base + "/ui/mcp.css", timeout=5) as response:
+            self.assertEqual(response.status, 200)
+        _, sample = self.get_json(self.base + "/api/demo")
+        self.assertEqual(sample.get("mode", "SYNTHETIC_DEMO"), "SYNTHETIC_DEMO")
         _, health = self.get_json(self.base + "/api/health")
         self.assertEqual(health["mode"], "SYNTHETIC_DEMO")
+        self.assertEqual(health["ui"], "standalone")
+        _, mcp = self.get_json(self.base + "/api/mcp/status")
+        self.assertFalse(mcp["enabled"])
+        self.assertEqual(mcp["state"], "NOT_CONFIGURED")
         _, started = self.post_json(self.base + "/api/jobs", self.demo)
         deadline = time.time() + 5
         while time.time() < deadline:
@@ -71,6 +85,14 @@ class OfflineServerTests(unittest.TestCase):
         with self.assertRaises(HTTPError) as origin_error:
             urlopen(req, timeout=5)
         self.assertEqual(origin_error.exception.code, 403)
+
+    def test_unconfigured_mcp_acquisition_is_refused_without_opening_transport(self):
+        req = Request(self.base + "/api/mcp-jobs", data=b"{}",
+                      headers={"Content-Type": "application/json"}, method="POST")
+        with self.assertRaises(HTTPError) as denied:
+            urlopen(req, timeout=5)
+        self.assertEqual(denied.exception.code, 403)
+        self.assertIn("site owner", json.loads(denied.exception.read())["error"])
 
     def test_cancel_endpoint_stops_large_local_job(self):
         started_analyze = threading.Event()

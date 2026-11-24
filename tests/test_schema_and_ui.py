@@ -138,6 +138,7 @@ class SourceContractTests(unittest.TestCase):
         self.assertNotIn("release/DEPENDENCY_AUDIT.json", packaged)
         self.assertNotIn("release/SOURCE_SECURITY_SCAN.json", packaged)
         self.assertNotIn("release/UI_COMPONENT_QUALIFICATION.json", packaged)
+        self.assertNotIn("release/P4_STANDALONE_UI_BROWSER.json", packaged)
         self.assertIn("release/SBOM.spdx.json", packaged)
         self.assertTrue((ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json").is_file())
         self.assertTrue(is_generated_qualification_output("qualification/results/new-report.json"))
@@ -146,6 +147,7 @@ class SourceContractTests(unittest.TestCase):
         self.assertTrue(is_generated_qualification_output("release/DEPENDENCY_AUDIT.json"))
         self.assertTrue(is_generated_qualification_output("release/SOURCE_SECURITY_SCAN.json"))
         self.assertTrue(is_generated_qualification_output("release/UI_COMPONENT_QUALIFICATION.json"))
+        self.assertTrue(is_generated_qualification_output("release/P4_STANDALONE_UI_BROWSER.json"))
         self.assertTrue(is_generated_qualification_output("progress/NEXT_ACTIONS.json"))
         self.assertTrue(is_generated_qualification_output("qualification/evidence/legacy/old-run.json"))
         self.assertFalse(is_generated_qualification_output("products/p4/window.py"))
@@ -157,6 +159,7 @@ class SourceContractTests(unittest.TestCase):
         generated_status = ("M  qualification/results/current.json\n M release/BENCHMARK_REPORT.json\n"
                             " M release/DEPENDENCY_AUDIT.json\n M release/SOURCE_SECURITY_SCAN.json\n"
                             " M release/UI_COMPONENT_QUALIFICATION.json\n M progress/NEXT_ACTIONS.json\n"
+                            " M release/P4_STANDALONE_UI_BROWSER.json\n"
                             "?? progress/new-checkpoint.json\n M qualification/evidence/legacy/old-run.json")
         completed = SimpleNamespace(stdout=generated_status)
         with patch("qualification.build_transfer_bundle.subprocess.run", return_value=completed):
