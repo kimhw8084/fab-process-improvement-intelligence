@@ -4,45 +4,54 @@
       "fixtures/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
       "products/p4/design.py": "0c4e73cd0f84a77f35b395c3cd2eb1b41fd1e14bf1b66f7c2b0561cbd5b597ca",
       "products/p4/investigation.v1.schema.json": "5b312a38735c53a84bc6ba87ef3827c89614df06eac1110b8a9bdef25eb55451",
-      "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
+      "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
       "products/p4/regression.py": "527e54b6202bd2a0c82a866f9c9c53813136ec033c988df1293941ca2a286c99",
       "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
       "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
-      "products/p4/window.py": "77d48577c5f65c77a393fe087573e0073b00d52659a43741d57a9b86809586dc",
+      "products/p4/window.py": "32294b5008500658107e325deca6a97fbc6900a6e5f3b07cff91b85e403dd323",
       "qualification/build_demo_fixture.py": "48b346e5dfc60c0106dbd3109cdc35e288aa623b6c02984ecfc39bfe8f016e06"
     },
+    "composition_binding_override": {
+      "disposable_vite_proxy_target": "http://127.0.0.1:8875",
+      "p1_source_workspace_modified": false,
+      "reason": "The default P1 Vite proxy pointed to an already-running local service on port 8765; its P4 response reported the stale 1.1.0 engine and was discarded."
+    },
     "current_p4_source": {
-      "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-      "panel_sha256": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
-      "panel_test_sha256": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5"
+      "engine_sha256": "db8e9fe22453adf3894f167f1f16796d245f49ee89de12f5dfea4848a98d4766",
+      "panel_sha256": "b6544583e1c763f604d15ec9d7fac1bd9051b06c7811f7e085dbe5fc47e230a6",
+      "panel_test_sha256": "0d88c0ecb55e689f7b22707eafd321cb836c338800f89a70b7c20af16e5ed05b"
     },
     "mcp_panel_bridge_fixture": {
-      "deterministic_two_build_check": "PASS; two outputs were byte-identical",
-      "fixture_sha256": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d",
+      "deterministic_two_build_check": "PASS; two independent generator invocations were byte-identical",
+      "fixture_sha256": "938c7b179dddfbb607c92c03c7a9f4532c57d9d1de59c8a2c0844d84ad65c739",
       "generator": "qualification/build_mcp_panel_bridge_fixture.py using official Python MCP SDK 2.3.0 synthetic mocks",
-      "limitation": "This validates the exact MCP-produced evidence-to-P4-panel boundary. The disposable P1 server route still analyzes its local demo fixture and does not itself invoke MCP.",
-      "p4_panel_component_tests": 22,
+      "limitation": "This validates exact MCP-produced evidence through the P4 panel contract. P1 source and owner approval are not authoritative; all semantics and data remain synthetic.",
+      "p4_panel_component_tests": 24,
       "python_bridge_fixture_tests": 2,
-      "refusal": "permission denial returns empty REFUSED evidence; P4 panel suppresses D01-D05 findings and positive charts",
+      "refusal": "Permission denial returns empty REFUSED evidence; the P4 panel suppresses findings and positive charts.",
       "schema_check": "PASS; success and refusal envelopes",
-      "success": "900 bounded read-only rows normalized, exact source/audit provenance, D01-D05 dossier sections rendered through P1 chart/table contract"
+      "success": "900 bounded read-only rows normalized with exact source, operation and audit provenance; D01-D05 shown in the P1 host UI."
     },
     "mcp_qualification_snapshot": {
       "contracts/adapter-operations.v1.json": "546ffe9a3a04d1d039c112908b684e72de258408c18ca5d51e60787a02e2210c",
       "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
-      "fabintel/mock_mcp_server.py": "8b801e87df7dd5466606f167b00efff1dbed4740926b144c79de7224db83675f",
-      "tests/test_mcp_transport.py": "0a1c9d032ecb5e8d10a7c465f4e32ebae9cd37a53e54c3792756ed488141b458"
+      "fabintel/mock_mcp_server.py": "07a5db181a422affdaa39bd03bea09bb824bc73666dbe3fcfbd6460973bb3508",
+      "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
+      "requirements/synthetic-mcp-mapping.v1.json": "1558fe7de7e1a8a60f1009c5fa80d641712d2d98e566f7ba905f033c3ebb203f",
+      "tests/test_mcp_transport.py": "39fc395a14b42bf6e3e270288b4eadf3859d9661cfb6b949ac385d91734a9a87"
     },
+    "p1_composition_path": "/tmp/p4-p1-host-current",
     "p4_registry_pin": {
-      "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-      "engine_version": "1.2.0"
+      "engine_sha256": "db8e9fe22453adf3894f167f1f16796d245f49ee89de12f5dfea4848a98d4766",
+      "engine_version": "1.2.0",
+      "source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02"
     },
-    "p4_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0",
+    "p4_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
     "snapshot_fingerprint": {
       "file_sha256": {
         "contracts/SHARED_ARCHITECTURE.md": "bd88276779573435164831bcf5d2036cc3d09a3d641635b0df8f95186ec18382",
         "contracts/SUITE_UI_INTEGRATION_V1.md": "565ae7cb105343d1396889491dc8396383c5b4a06e881e3975cc377d27425006",
-        "contracts/adapter-operations.v1.json": "4be19a83a4914e52600d01a789c28c70dc7cdbea1a5cb1dd75505d59113bcedf",
+        "contracts/adapter-operations.v1.json": "e76c041979204e42cadcfef6ce2c2981ee3a5523b0cefdfbba3eebc755781aeb",
         "contracts/evidence.v1.schema.json": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
         "contracts/product-manifest.v1.schema.json": "6c9758be247756afb0c80316b361412687c643e947418e2b598ccc148ba7d4d3",
         "contracts/suite-chart.v1.schema.json": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
@@ -50,35 +59,43 @@
         "contracts/suite-spatial-map.v1.schema.json": "ecbf26d77f64c3a6a90c172e7e46d2db6f0493306c0f6d501a422a43444641b7",
         "contracts/suite-ui-module.v1.schema.json": "e3f0da372a2528d993a8a1555403c6e115df7256edfc8cfc0f09be3995e17c4f",
         "contracts/suite-ui.types.ts": "dfc3d3cfee90da1f4ab1773c22e032081b5db99abd9bff4b1c2031d0a4e43890",
+        "fabintel/contracts.py": "aca8464053e25bea3d6c6e61a841ab589c0d3f0a1c76330fa2566fc262d9326d",
+        "fabintel/mcp_client.py": "97f43d76b9da3f4b1a36d29164e41e772bb68bfbeddf158c43502fb618d306ac",
+        "fabintel/mock_mcp_server.py": "214efd103181659e872680386219f25a2021f96afe768a55ae93ede59115588e",
+        "fabintel/server.py": "9182f8fb32bfa7d39b8b76f258ceece68a76857a3efe107c5f24b65a75df0a61",
+        "fabintel/synthetic_mcp_investigation.py": "0cc7f43beb51476e8c2377677655f965b5ce027765b260a0ed9eeb66ccbd097c",
         "fixtures/p4/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
-        "integration/product-source-registry.v1.json": "eacea29b4004d082f9a30fe4d902de1a9aad58a75a20dc31b7316eb5a0c3d01f",
-        "integration/suite-ui-e2e.v1.json": "2522a81960bcf69da939269cb68469371ce6676c31725c3a30d8efa8d5e9f1ac",
+        "integration/product-source-registry.v1.json": "de06f8d38321e2e4611b4b8d27f3725c3ab9f6d625c9b70d1418a6c246cff7c8",
+        "integration/suite-ui-e2e.v1.json": "635945736bf772aa23d02417234e6be085d020d94f2587b9e5bf7b0d227df703",
         "package-lock.json": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
         "package.json": "82415b23fd078424ef3c010e213052d575b012dd6f2a9ff0f932bad71e700f07",
         "products/p1/ui/SharedVisualizations.test.tsx": "f75943e7e3e30db686b3369bd31ec173c459bba993326b2f4bced9724c342990",
         "products/p1/ui/SharedVisualizations.tsx": "af42ecc5b29cc7afcde42156c555b486a0b7321f91a40af33f7489bedc1c1d39",
-        "products/p1/ui/SuiteHost.test.tsx": "5d759107af30ab2e5b369de1829f2ce61f0b3954c8c9e1954c0381de1cfdbba8",
-        "products/p1/ui/SuiteHost.tsx": "2b4acf0c234ed6f13818e8e43cac2e58156572d660ab6c3bd6c52ebbbf44c034",
+        "products/p1/ui/SuiteHost.test.tsx": "862e14df5548b9b5b33a96e73c8e78734cf2f80ed93bf1f1e1aefb091d921156",
+        "products/p1/ui/SuiteHost.tsx": "1bb1a1e5a2a9ec2ff6ddff4e617cb7768c1ab62793b3ac3032b14ebf1ac436d8",
         "products/p1/ui/main.tsx": "654293246d15759cc543208b19d3ecfa483a509fee9158806d275f957617d333",
         "products/p1/ui/suite.css": "d1d80dd866d85d02003b1a48bdd1a3cbd8e4bd16432eae1e39ab0ec0f1e44c81",
         "products/p1/ui/suiteSpatialMap.test.ts": "63b59654a33c32b1956d6d3ec90d9339d67d17e40de3c47055f45169cb7a19b9",
         "products/p1/ui/suiteSpatialMap.ts": "495c1bce7415de23fa3ba291798d001d9c5a5248340371ab2bdeeea6c6891df1",
-        "products/p4/ui/P4Panel.tsx": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
+        "products/p4/ui/P4Panel.tsx": "b6544583e1c763f604d15ec9d7fac1bd9051b06c7811f7e085dbe5fc47e230a6",
         "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
-        "tests/fixtures/mcp_p4_panel_bridge.json": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d",
-        "tests/test_suite_host.py": "39fe50be4de6fe059b9ce00770704ac7c108cff10838b2e345264b73d37c46a0",
+        "requirements/synthetic-mcp-mapping.v1.json": "3045e016ed122cd60be1f1145b07aa2807b89d12704bb03c9b1ac90b36b133bd",
+        "tests/fixtures/mcp_p4_panel_bridge.json": "938c7b179dddfbb607c92c03c7a9f4532c57d9d1de59c8a2c0844d84ad65c739",
+        "tests/test_suite_host.py": "dc7e0d94c5821ee63cf98fd32e949e433164493c607188a4fa07a502d3a91153",
         "tsconfig.json": "a6a2994c6c1db73d909e2779dc8643a71adb296598b24232a4649e15c10ead54",
         "vite.config.ts": "847b24f17f655e3ce0148ed4ead36d4ebd6340827a187ecf8dab00be4dcf5588"
       },
-      "files": 29,
-      "manifest_sha256": "0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8",
-      "scope": "29 explicitly listed suite contracts, shared P1 UI/host implementation and tests, frontend build configuration, P4 contribution/panel, P4 synthetic workflow fixture, and official-SDK MCP-to-panel evidence fixture. Integrity digest of disposable composition evidence; not authoritative P1 source revision.",
-      "sha256": "0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8"
+      "files": 35,
+      "manifest_sha256": "dcd2e429f86217355c9b38b7353cf74a15529b1ea94fadcc46db0f3163b5c0e0",
+      "scope": "35 explicitly hashed P1 shared UI/host contracts, components and tests plus P4 contribution/module, host MCP route, SDK client, synthetic peer, logical mapping, and MCP-to-panel fixture. P1 source is unversioned; the dev proxy override is contained only in the disposable composition.",
+      "sha256": "dcd2e429f86217355c9b38b7353cf74a15529b1ea94fadcc46db0f3163b5c0e0"
     },
-    "source_snapshot_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0"
+    "source_snapshot_commit": "UNVERSIONED_DISPOSABLE_P1_COMPOSITION",
+    "source_tree_state": "P4 source committed at 3c6de8d3b7030ca4f7f009b3a81e380d6406bf02 and overlaid into the disposable P1 copy; the P1 registry and MCP-to-panel fixture pin the exact P4 source, the synthetic peer uses the declared synthetic metric labels, and only the disposable Vite proxy target is rebound to the current local API."
   },
   "executed_checks": {
     "browser": {
+      "analysis_status": "PARTIAL",
       "capabilities": [
         "D01",
         "D02",
@@ -86,145 +103,100 @@
         "D04",
         "D05"
       ],
-      "current_source_ui_recheck": {
-        "analysis_status": "PARTIAL",
-        "capabilities_visible": [
-          "D01",
-          "D02",
-          "D03",
-          "D04",
-          "D05"
-        ],
-        "default_demo_triggers_veto": false,
-        "recommendation_status_column_visible": true,
-        "request_lifecycle": "COMPLETED",
-        "route": "/fab-intelligence/p4#p4-d02",
-        "scope": "Synthetic workflow in disposable local P1 composition; browser content observation at P4 source 644eab9. Panel implementation remained unchanged in D01 update; sparse-arm backend state was not triggered in browser.",
-        "source_revision_observed": "644eab904beac1c75382a6e378212819ebcb31e0",
-        "whole_set_counterevidence_rule_visible": true,
-        "withheld_state_qualification": "Current-source P4 component test and independent D02 evaluation tests verify withheld presentation/behavior; default browser fixture has no observed failing exact candidate."
-      },
-      "d02_calibration_transfer": {
-        "candidate_selection_influence": false,
-        "interpretation": "the precommitted finite-panel band is unavailable, so transfer cannot be assessed",
-        "scope": "synthetic disposable P1 composition only",
-        "source_bundle": "/assets/index-Fs8nBT3_.js",
-        "status": "CALIBRATION_BAND_UNAVAILABLE",
-        "visible": true
-      },
-      "d02_partition_composition": {
-        "candidate_evaluation_status": "DESCRIPTIVE",
-        "complete_set_audit": "INSUFFICIENT_COMPLETE_SET_EVALUATION",
-        "diagnostic_status": "DESCRIPTIVE",
-        "evaluated_candidates": 3,
-        "evaluation_partition_status": "DESCRIPTIVE",
-        "evaluation_strata_absent_from_calibration_count": 0,
-        "exact_observed_candidate": {
-          "independent_units": 10,
-          "observed_infeasible_units": 0,
-          "setting": {
-            "pressure": 2.0,
-            "temperature": 40.0
-          },
-          "wilson95_descriptive_interval": [
-            0,
-            0.2775327998628892
-          ]
+      "current_source": "The initial run through the pre-existing port 8765 backend was discarded after it reported a stale engine; this observation used the disposable P1 Vite host explicitly bound to the current P4 API at port 8875.",
+      "d01": "Clustered robust quadratic and interaction model, chamber fixed effect, formula/identifiability/time-group diagnostics rendered; associations explicitly not causal.",
+      "d02": {
+        "conditional_coverage_claim": false,
+        "evaluated_exact_candidates": 3,
+        "independent_evaluation_units": 10,
+        "interpretation": "Model hypotheses only; most selected candidates lack exact-setting evaluation data and require independent-lot confirmation.",
+        "joint_coverage": "NOT_ESTABLISHED",
+        "observed_infeasible_units": 0,
+        "regions": {
+          "extrapolated": 0,
+          "interpolated": 73,
+          "observed": 3,
+          "unsupported": 0
         },
-        "fields": [
-          "chamber"
-        ],
-        "independent_units": {
-          "CALIBRATION": 20,
-          "EVALUATION": 10,
-          "TRAIN": 30
-        },
-        "interpretation": "The 10 untouched lots match the fixed chamber and show zero observed infeasible outcomes at this one exact selected setting. The descriptive Wilson interval is not a coverage guarantee. Only 3 of 76 selected candidates have exact setting evaluation data; the complete-set failure audit is withheld.",
-        "pairwise_categorical_total_variation_distances": {
-          "CALIBRATION__EVALUATION": 0,
-          "TRAIN__CALIBRATION": 0,
-          "TRAIN__EVALUATION": 0
-        },
-        "unevaluated_candidates": 73,
-        "visible": true
+        "screened_advisory_candidates": 76
       },
-      "d03_current_source_observation": {
-        "accessible_data_table_present": true,
+      "d03": {
         "familywise_envelope": "NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION",
-        "independent_unit_ranges_and_interval_method_visible": true,
-        "interpretation": "Observed mean frontier only; whole-unit constraint selection excludes 600 synthetic units and no causal or population claim is made.",
-        "objective_units_visible": true,
-        "pareto_chart_rendered_by_shared_p1_renderer": true,
-        "status": "LIMITED_SCOPE"
+        "population_note": "600 synthetic independent units are excluded by supplied outcome constraints; no causal claim.",
+        "status": "LIMITED_SCOPE",
+        "visualization": "Shared P1 Apache ECharts scatter plot and accessible data table with objective units/directions."
       },
-      "disposable_composition_ui_recheck": {
-        "analysis": "PARTIAL with explicit synthetic limits",
-        "capabilities": [
-          "D01",
-          "D02",
-          "D03",
-          "D04",
-          "D05"
+      "d04": {
+        "actuation": "none",
+        "design": "Non-executing randomized full factorial",
+        "runs": 8,
+        "status": "PROPOSED"
+      },
+      "d05": {
+        "design": "Synthetic randomized two-arm comparison",
+        "estimate": 5,
+        "interpretation": "conditional on stated assumptions",
+        "small_sample_warning": true
+      },
+      "input_sha256": "e0b26632f4b4bbb9bab3dc3192e8e7bea11b07158e35d8c631f449a3caa6f4b8",
+      "investigation_id": "SYN-p4-e0b26632f4b4",
+      "mcp_acquisition": {
+        "audit_operation_id": "SYN-OP-READ-1",
+        "normalized_rows": 900,
+        "operation_id": "SYN-OP-READ-1",
+        "permission_scope": "SYNTHETIC_READ",
+        "read_only": true,
+        "row_count": 900,
+        "semantic_version": "SYNTHETIC-SEMANTICS-1",
+        "source_ids": [
+          "SYN-SOURCE-A",
+          "SYN-SOURCE-B"
         ],
-        "d02_evidence_list": "300 items collapsed by default; exact values available on demand",
-        "d03_visualization": "shared P1 ECharts scatter chart and accessible data table",
-        "request": "COMPLETED",
-        "scope": "Synthetic-only disposable P1 snapshot; not owner acceptance or company qualification"
+        "status": "ANALYSIS_COMPLETED",
+        "truncation": false
       },
-      "evidence_status": "PARTIAL",
-      "latest_d02_row_count_change": {
-        "details": "300 exact candidate observation IDs stay collapsed in the observed settings table; expanding the native disclosure exposed the complete serialized list ending in SYN-OBS-0899; disclosure was collapsed after inspection.",
-        "evidence": "P4 component test and real browser inspection in disposable P1 composition",
-        "status": "PASS"
-      },
-      "mcp_workflow": "hash-pinned in disposable P1 snapshot; MCP transport-to-analysis behavior independently qualified by P4 official SDK tests",
+      "p4_engine_version": "1.2.0",
+      "p4_method_version": "p4-robust-surface-2",
+      "p4_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
       "permission_refusal": {
         "analysis": "not performed",
         "fixture_values": "suppressed",
+        "investigation_id": "SYN-p4-abd757ba2e42",
         "semantic_version": "NOT_ACCESSED",
         "source_status": "ACCESS_REFUSED",
         "status": "REFUSED",
         "visible_message": "Positive findings and charts are withheld because this result is refused."
       },
-      "route": "/fab-intelligence/p4",
-      "served_p4_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0 (functional source; the served window module preceded a comment-only edit committed in this revision)",
-      "served_source_commit": "UNVERSIONED_DISPOSABLE_P1_COMPOSITION",
-      "source_snapshot_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0",
+      "route": "http://127.0.0.1:8897/fab-intelligence/p4",
+      "source_preview": {
+        "metric_units": {
+          "defect_rate": "SYNTHETIC-RATE",
+          "yield_index": "SYNTHETIC-INDEX"
+        },
+        "observation_grain": "one row per synthetic process observation",
+        "status": "SYNTHETIC_ONLY",
+        "time_window": "2026-01-01T00:00:00Z through 2026-02-01T00:00:00Z"
+      },
+      "source_version": "UNVERSIONED_DISPOSABLE_P1_COMPOSITION",
       "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
       "success_request": "COMPLETED",
-      "success_run_observation": {
-        "capabilities": [
-          "D01",
-          "D02",
-          "D03",
-          "D04",
-          "D05"
-        ],
-        "d01": "Clustered robust model, nonlinear/interactions and diagnostics shown; claim remains observational association, not intervention effect.",
-        "d02": "76 advisory pointwise screening candidates; exact-setting independent evaluation incomplete for the searched set; no simultaneous or conditional coverage claim.",
-        "d03": "Shared P1 scatter plot and accessible data table rendered; status LIMITED_SCOPE; outcome-based population selection and unavailable family-wise envelope shown.",
-        "d04": "Eight-run non-executing factorial proposal rendered with blocking and approximate power fields.",
-        "d05": "Synthetic randomized two-arm estimate rendered with small-sample warning and conditional assumptions.",
-        "input_sha256": "68deece4b38f994e0b7018cff54b1c27e8f31a601eb0a8b98a38c2e61b35d050",
-        "p4_engine_version": "1.2.0",
-        "source_snapshot_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0",
-        "visualization_runtime": "Apache ECharts 6.1.0 via shared P1 renderer"
-      }
+      "visualization_runtime": "Apache ECharts 6.1.0 via shared P1 renderer"
     },
     "current_p4_requalification": {
-      "browser_reobserved_after_d01_sparse_exposure_guard": false,
+      "browser_current_p4_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
+      "browser_reobserved_after_d01_sparse_exposure_guard": true,
       "d01_sparse_exposure_behavior": "INCONCLUSIVE with point estimate retained and coefficient/prediction uncertainty withheld below 10 independent lots per binary cluster-level factor level",
       "d01_sparse_exposure_benchmark": "PASS; 3,000 trials; 3/27 sparse-arm CR1 coverage 90.37%, Welch reference 96.23%, P4 abstains in 3,000/3,000; 10/20 P4 coverage 94.70%; Statsmodels endpoint delta <=1.1e-11",
-      "limitations": "D01 sparse-arm behavior is covered by current model/dossier tests and P4 component test, but the P1 browser fixture does not trigger it. Browser observation remains the earlier synthetic D02/PARTIAL workflow at source 644eab9; P1 owner acceptance, formal accessibility and target-host qualification remain pending.",
-      "p1_frontend_tests": "PASS; 50 tests rerun including 23 P4 panel tests",
-      "p1_host_route_tests": "PASS; 11 tests rerun in disposable P1 composition against current P4 panel/window/schema overlay; server remains synthetic local fixture",
-      "p1_production_build": "PASS; 801928-byte uncompressed JavaScript bundle; SHA-256 17619f6055b27ac38e4d45a94b2394e102b4ebd872fbf1c31ca537175bc7fe66",
-      "p1_typecheck": "PASS; current P1 TypeScript typecheck rerun",
-      "p4_full_python_unittest": "PASS; 207 tests, 0 skipped; exact source commit 6eeb324cddf080ddc1bf5a4c878edc12815aae0b",
-      "p4_panel_sha256": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
-      "p4_panel_test_sha256": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5",
-      "p4_panel_tests": "PASS; 23 component tests with strict TypeScript check and P1 contract snapshot match",
-      "p4_source_commit": "6eeb324cddf080ddc1bf5a4c878edc12815aae0b"
+      "limitations": "Browser run confirms the synthetic P1 host lifecycle only; P1 source/owner, actual company semantics, formal WCAG and screen-reader review, target-host qualification, and ROI remain pending.",
+      "p1_frontend_tests": "PASS; 59 tests across 7 files on current disposable P1/P4 composition",
+      "p1_host_route_tests": "PASS; 32 tests on current disposable P1/P4 composition",
+      "p1_production_build": "PASS; 830640-byte uncompressed JavaScript bundle; SHA-256 defb12ee53d6ab6eb83f384d25bc64a39e092faf4f63032285e70331dc8d0c39",
+      "p1_typecheck": "PASS; current disposable P1 TypeScript typecheck",
+      "p4_full_python_unittest": "PASS; 210 tests, 0 skipped; source commit 3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
+      "p4_panel_sha256": "b6544583e1c763f604d15ec9d7fac1bd9051b06c7811f7e085dbe5fc47e230a6",
+      "p4_panel_test_sha256": "0d88c0ecb55e689f7b22707eafd321cb836c338800f89a70b7c20af16e5ed05b",
+      "p4_panel_tests": "PASS; 24 component tests, strict TypeScript check and P1 contract snapshot match",
+      "p4_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02"
     },
     "d01_crossed_dependence": {
       "browser_reobserved": false,
@@ -237,58 +209,64 @@
       "two_way_statsmodels_reference_false_positive_rate": 0.04666666666666667
     },
     "limitations": [
-      "P1 source has no resolvable Git revision; the 29-file fingerprint is an explicit integrity digest of the disposable composition evidence and not an authoritative source identity.",
-      "Disposable registry and route test pin updates are local fixture changes, not upstream P1 changes.",
-      "The demo has an independent 10-lot D02 evaluation set for fixed chamber A, but only 3 of 76 supported candidates have exact setting outcomes; complete-set evaluation is withheld.",
-      "P1 owner confirmation, formal accessibility/screen-reader review, target-host qualification, company permissions and source mappings remain pending."
+      "P1 source workspace is unversioned; a disposable composition fingerprint is integrity evidence, not a source revision or owner acceptance.",
+      "The synthetic MCP mapping and peer use only synthetic test semantics; actual company permissions, source mappings and data remain PENDING_INTERNAL.",
+      "Target OS/network policy, company security/legal/production approval, engineering acceptance and ROI remain pending.",
+      "A temporary Vite proxy override was applied only in the disposable P1 copy to route to the current local P4 API; the P1 workspace was not modified.",
+      "No formal WCAG audit or operating-system screen-reader test was performed."
     ],
     "p1_frontend_tests": {
-      "command": "npm test -- --run",
+      "command": "rtk npm test -- --run",
+      "scope": "Current disposable P1 source, current P4 panel, P1 registry pin and bridge fixture.",
       "status": "PASS",
-      "tests": 50
+      "test_files": 7,
+      "tests": 59
     },
     "p1_host_route_tests": {
-      "command": "python -m unittest discover -s tests -p test_suite_host.py -v",
-      "current_p4_source": "Current P4 panel/window/schema overlay at 6eeb324cddf080ddc1bf5a4c878edc12815aae0b; 11 route tests rerun in disposable P1 composition; synthetic route fixture does not exercise the D01 sparse-arm backend behavior",
-      "p4_source_pins": "PASS",
+      "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -p test_suite_host.py -v",
+      "p4_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
+      "scope": "Current disposable P1 host source and P4 module/engine; no authoritative P1 revision or company semantics.",
       "status": "PASS",
-      "tests": 11
+      "tests": 32
     },
     "p1_production_build": {
-      "bundle_bytes_uncompressed": 801928,
-      "bundle_sha256": "17619f6055b27ac38e4d45a94b2394e102b4ebd872fbf1c31ca537175bc7fe66",
-      "command": "npm run build",
+      "bundle_bytes_uncompressed": 830640,
+      "bundle_sha256": "defb12ee53d6ab6eb83f384d25bc64a39e092faf4f63032285e70331dc8d0c39",
+      "command": "rtk npm run build",
       "status": "PASS",
-      "warning": "single shared ECharts bundle exceeds 500 KB advisory"
+      "warning": "Vite emitted the advisory that the single shared ECharts bundle exceeds 500 kB after minification."
     },
     "p1_typecheck": {
-      "command": "npm run typecheck",
+      "command": "rtk npm run typecheck",
       "status": "PASS"
     },
     "p4_mcp_to_analysis": {
       "adversarial_cases": [
+        "audit operation ID mismatch",
         "wrong audit permission scope",
         "duplicate audit source receipt",
-        "approved relationship metric label/source field mismatch refused before read"
+        "relationship metric label/source field mismatch refused before read",
+        "source and semantic version drift",
+        "bounded-read cancellation correlated to the returned operation ID"
       ],
-      "focused_tests": 16,
+      "focused_tests": 17,
       "focused_tests_status": "PASS",
-      "full_python_tests": 190,
+      "full_python_tests": 210,
       "full_python_tests_status": "PASS",
       "limitations": [
-        "Synthetic only; no company authorization or source mapping.",
-        "MCP-generated success and refusal envelopes are validated and rendered through the P4 panel contract; the P1 host route itself still serves its local demo fixture and does not invoke MCP."
+        "Synthetic only; actual company authorization, source mappings and semantics remain pending.",
+        "The available P1 source has no valid Git HEAD or owner qualification."
       ],
-      "schema_check": "PASS; 7 instances including MCP success/refusal bridge envelopes",
       "sdk": "Official Python MCP SDK 2.3.0 with synthetic stdio and loopback Streamable HTTP mocks",
-      "source_commit": "f331381efa24fabc2b8ad6ebb6f15db167c7e0f0"
+      "source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02"
     },
     "p4_panel_tests": {
-      "command": "npm test -- --run products/p4/ui/P4Panel.test.tsx",
-      "component_test_sha256": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5",
+      "command": "rtk /tmp/p4-qualification-env/bin/python qualification/ui_component_check.py --suite-root /tmp/p4-p1-host-current",
       "contract_snapshot_match": true,
+      "panel_sha256": "b6544583e1c763f604d15ec9d7fac1bd9051b06c7811f7e085dbe5fc47e230a6",
+      "panel_test_sha256": "0d88c0ecb55e689f7b22707eafd321cb836c338800f89a70b7c20af16e5ed05b",
       "status": "PASS",
-      "tests": 23,
+      "tests": 24,
       "typecheck": "PASS"
     }
   },
@@ -302,19 +280,22 @@
     "The browser content observation is the earlier synthetic D02/PARTIAL workflow at P4 source 644eab9; no browser re-observation is claimed for the D01 sparse-exposure backend change."
   ],
   "p1_source": {
-    "git_metadata_present": false,
+    "git_metadata_present": true,
     "p4_registry_pin_before_disposable_composition": {
       "engine_sha256": "72871ee21a3a7749ae2fb23cc84f92b5a2aa7021ac4ebd03bd8cf573d4d3a915",
       "engine_version": "1.1.0"
     },
     "snapshot_fingerprint": {
-      "files": 29,
-      "manifest_sha256": "b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e",
-      "sha256": "b960982e9e55170714ca342e04fdcba5b06ff8f877bbc7a71478efebea1e1f6e"
-    }
+      "files": 28,
+      "manifest_sha256": "fa12a067c6c1bfcdbb9009b5fbcf4a3d7a641dafc58bc1fc93e247ba3bf7effa",
+      "scope": "P1 source files present before disposable composition; source snapshot digest only, not an authoritative revision",
+      "sha256": "fa12a067c6c1bfcdbb9009b5fbcf4a3d7a641dafc58bc1fc93e247ba3bf7effa"
+    },
+    "source_path": "/Users/haewonkim/home/work/product 1/FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22",
+    "source_version_status": "UNVERSIONED_NO_VALID_HEAD; Git metadata directory exists but current source has no resolvable commit"
   },
   "qualification_date": "2026-11-23",
   "schema": "p4-p1-disposable-host-qualification/v1",
-  "scope": "Synthetic local browser workflow over an unversioned accessible P1 source snapshot composed in disposable /tmp copy with current P4 source and evaluation fixture; not upstream or company qualification",
+  "scope": "Synthetic current-source P1 host composition only. Current P1 source is unversioned, host owner approval and company qualification are pending.",
   "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
 }

@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "52a9689f9985bfa1c59b5a520ce86d343b7f5b11",
+  "as_of_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -9,6 +9,72 @@
     "company legal, security and production approvals",
     "P1 owner/source revision and authoritative suite capability contract"
   ],
+  "latest_checkpoint": {
+    "changed_product_files": [
+      "products/p4/mcp_workflow.py",
+      "fabintel/mock_mcp_server.py",
+      "requirements/synthetic-mcp-mapping.v1.json",
+      "tests/test_mcp_transport.py",
+      "tests/fixtures/mcp_p4_panel_bridge.json",
+      "qualification/build_transfer_bundle.py",
+      "tests/test_schema_and_ui.py"
+    ],
+    "committed_base": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
+    "date": "2026-11-23",
+    "executed_evidence": {
+      "bridge_fixture": {
+        "byte_identical": true,
+        "independent_builds": 2,
+        "sha256": "938c7b179dddfbb607c92c03c7a9f4532c57d9d1de59c8a2c0844d84ad65c739"
+      },
+      "browser_workflow": {
+        "current_p4_engine": "1.2.0",
+        "p1_source": "UNVERSIONED_DISPOSABLE",
+        "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL"
+      },
+      "combined_mcp_schema_package_tests": {
+        "passed": 27,
+        "status": "PASS"
+      },
+      "focused_mcp_tests": {
+        "passed": 17,
+        "status": "PASS"
+      },
+      "p1_frontend_tests": {
+        "passed": 59,
+        "status": "PASS",
+        "test_files": 7
+      },
+      "p1_host_route_tests": {
+        "passed": 32,
+        "status": "PASS"
+      },
+      "p1_production_build": {
+        "bytes": 830640,
+        "sha256": "defb12ee53d6ab6eb83f384d25bc64a39e092faf4f63032285e70331dc8d0c39",
+        "status": "PASS"
+      },
+      "p1_typecheck": "PASS",
+      "p4_panel": {
+        "p1_contract_snapshot": "MATCH",
+        "passed": 24,
+        "strict_typecheck": "PASS"
+      },
+      "python_regression": {
+        "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v",
+        "passed": 210,
+        "skipped": 0,
+        "status": "PASS"
+      }
+    },
+    "limitations": [
+      "P1 source and owner acceptance are pending; host evidence is disposable and synthetic.",
+      "Formal WCAG/screen-reader, target OS/network policy, actual company source authorization/semantics, security/legal/production approvals and ROI remain pending.",
+      "No public distribution or remote push."
+    ],
+    "next_action": "Commit the refreshed current-P1 host evidence, progress ledgers and P4 UI component report. Build the exact resulting source archive, regenerate current-source performance and limited security evidence, run the full source-bound release checks, then verify reproducibility and fresh no-pip offline extraction.",
+    "release_runner_after_this_source": "PENDING; exact archive and current-source performance/security report not yet rebuilt."
+  },
   "never_do": [
     "publish or push",
     "invent Samsung semantics, permissions, credentials or approvals",
@@ -16,24 +82,21 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 1,
-    "task": "Compile and commit the release-runner aggregate-gate correction, then rebuild the exact committed source archive and regenerate performance and limited security evidence before rerunning the complete source-bound qualification. Refresh disposable P1 source pins and workflow evidence against the exact current P4 files.",
-    "acceptance": "The aggregate qualification result must agree with E02; performance and security evidence must bind to the current source commit; P1 hash pins must match the present engine, window, panel, tests, fixture, and additional P4 source list; the full runner must record every gate honestly.",
-    "first_command": "rtk /tmp/p4-qualification-env/bin/python -m py_compile qualification/run_release_checks.py",
-    "commit_after": "rtk git add qualification/run_release_checks.py progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Align aggregate qualification with E02'",
+    "acceptance": "P1 current P4 engine/panel/source pins and the 35-file disposable composition digest match; current run records 210 Python tests, all D01-D05 checks, current performance/security evidence, honest pending internal gates, reproducible archive checksums and offline behavior. No publication.",
+    "first_command": "rtk git status --short",
     "follow_up_commands": [
+      "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md release/UI_COMPONENT_QUALIFICATION.json",
+      "rtk git commit -m 'Refresh current P1 qualification evidence'",
       "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py"
+      "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
+      "rtk /tmp/p4-qualification-env/bin/python qualification/check_reproducibility.py",
+      "rtk /tmp/p4-qualification-env/bin/python qualification/offline_qualify.py"
     ],
-    "inspect": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "qualification/run_release_checks.py",
-      "qualification/build_transfer_bundle.py",
-      "qualification/benchmark.py",
-      "qualification/refresh_security_evidence.py"
-    ]
+    "priority": 0,
+    "source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
+    "task": "Commit the refreshed current-P1 host evidence, progress ledgers and P4 UI component report. Build the exact resulting source archive, regenerate current-source performance and limited security evidence, run the full source-bound release checks, then verify reproducibility and fresh no-pip offline extraction."
   },
   "ordered_queue": [
     {
@@ -44,7 +107,7 @@
     {
       "priority": 2,
       "status": "IMPLEMENTED_WITH_LIMITS; BINARY_CLUSTER_LEVEL_EXPOSURE_SUPPORT_SCREEN_AND_HELDOUT_BENCHMARK",
-      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84–95.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
+      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84\u201395.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
     },
     {
       "priority": 3,
@@ -69,7 +132,7 @@
     {
       "priority": 7,
       "status": "DISPOSABLE P1 COMPOSITION VERIFIED AGAINST D02 SOURCE 644eab9; AUTHORITATIVE OWNER ACCEPTANCE PENDING",
-      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01–D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
+      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01\u2013D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
     },
     {
       "priority": 8,
@@ -79,74 +142,5 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Source implementation, tests, benchmark, fixture, UI evidence and docs committed at 52a9689f9985bfa1c59b5a520ce86d343b7f5b11. Generated release/benchmark sidecars are modified and stale pending the exact-source runner; two P1 browser evidence sidecars remain untracked under excluded qualification/results. No product source is dirty and nothing has been pushed. Full release runner at 52a9689 executed 209 tests/0 skips and completed schema/scientific sub-benchmarks, but returned exit 1 because release/BENCHMARK_REPORT.json still names source 51011bdd and source fingerprint mismatches 52a9689. E02 scientific checks passed, but report was correctly CANDIDATE. Found and fixed runner aggregation omission so top-level state includes D02 adaptive-selection and actual-selector booleans. Disposable P1 current-source hashes are stale and need refresh.",
-  "latest_checkpoint": {
-    "date": "2026-11-23",
-    "committed_base": "52a9689f9985bfa1c59b5a520ce86d343b7f5b11",
-    "changed_product_files": [
-      "products/p4/engine.py",
-      "products/p4/window.py",
-      "products/p4/ui/P4Panel.tsx",
-      "products/p4/ui/P4Panel.test.tsx",
-      "tests/test_d01_d02_independent.py",
-      "tests/test_p4_scientific.py",
-      "tests/test_d02_actual_selector_benchmark.py",
-      "tests/test_mcp_panel_bridge_fixture.py",
-      "tests/fixtures/mcp_p4_panel_bridge.json",
-      "qualification/benchmark_d02_actual_selector.py",
-      "qualification/build_mcp_panel_bridge_fixture.py",
-      "qualification/run_release_checks.py",
-      "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
-      "release/UI_COMPONENT_QUALIFICATION.json",
-      "docs/SCIENCE_AND_METHODS.md",
-      "docs/PRODUCT_SPEC.md"
-    ],
-    "executed_evidence": {
-      "python_regression": {
-        "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v",
-        "passed": 209,
-        "skipped": 0
-      },
-      "focused_tests": {
-        "passed": 6
-      },
-      "p4_ui_module": {
-        "passed": 24,
-        "strict_typecheck": "PASS",
-        "p1_contract_snapshot": "MATCH"
-      },
-      "bridge_fixture_sha256": "5750b9bafb02c214935d9c0c04b8a2f3999a6322c918dadf095b8d1eec46f580",
-      "actual_selector_benchmark": {
-        "trials": 250,
-        "false_feasible_interpolated_trials": 247,
-        "wilson95": [
-          0.9653192195729803,
-          0.9959106801194657
-        ],
-        "mean_candidate_cells": 35.636,
-        "predeclared_center_false_feasible_trials": 0
-      },
-      "schema_validation": {
-        "status": "PASS",
-        "instances": 7
-      },
-      "python_bytecode_compilation": "PASS"
-    },
-    "company_pending": [
-      "Samsung source authorization and semantic mapping",
-      "authoritative company requirements",
-      "approved target host/OS/network policies",
-      "real manufacturing data and engineer ROI",
-      "internal legal/security/production approval",
-      "authoritative P1 owner acceptance"
-    ],
-    "release_runner_at_52a9689": {
-      "status": "FAIL_E02_STALE_PERFORMANCE_SOURCE",
-      "tests": 209,
-      "skipped": 0,
-      "schema_instances_passed": 7,
-      "new_d02_selector_benchmark": "PASS_DIAGNOSTIC_EXECUTED",
-      "aggregate_gate_correction": "IMPLEMENTED_UNCOMMITTED"
-    }
-  }
+  "worktree_state": "P4 implementation and MCP correlation fix committed at 3c6de8d3b7030ca4f7f009b3a81e380d6406bf02; current P1 disposable evidence, progress ledgers and release/UI_COMPONENT_QUALIFICATION.json are updated but pending local evidence commit. Generated release/qualification sidecars are stale or in progress. No remote push. Current exact-source tests: 210 Python PASS/0 skipped; P1 host 32 PASS; P1 frontend 59 PASS; P1 typecheck/build PASS; P4 panel 24 PASS. Full release runner, reproducibility and no-pip offline qualification after this commit remain unrun."
 }

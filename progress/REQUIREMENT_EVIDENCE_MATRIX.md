@@ -1,4 +1,15 @@
-# Latest verification — D02 actual selector challenge, source 52a9689 (2026-11-23)
+# Latest verification — MCP-to-P4 and current disposable P1 host (2026-11-23)
+
+| Requirement | Evidence from executed checks | Status and next action |
+|---|---|---|
+| MCP audit/read integrity | Source commit `3c6de8d3b7030ca4f7f009b3a81e380d6406bf02` binds audit call and receipt to the bounded-read operation ID, checks exact source population, permission scope and receipt shape; cancellation uses the same operation ID. New operation-mismatch adversarial case. | Implemented; 17 focused MCP tests PASS. Company permissions/mappings remain pending. |
+| MCP-to-P4 evidence bridge | Official MCP SDK synthetic peer → exact synthetic logical mapping → 900 read-only rows → source/relationship validation → D01–D05 dossier → P4 evidence panel. Two fixture builds matched at `938c7b179dddfbb607c92c03c7a9f4532c57d9d1de59c8a2c0844d84ad65c739`. | Synthetic path PASS; refusal produces empty evidence. Not company qualification. |
+| P4 scientific regression | Current source commit `3c6de8d3b7030ca4f7f009b3a81e380d6406bf02`: 210 Python tests PASS / 0 skipped; focused MCP/schema/package tests 27 PASS; bytecode compile PASS. | D01–D05 retain documented scope limits; D02 250-trial hidden-interaction counterexample remains an explicit model-form risk, not a population estimate. |
+| Shared P1 host | Current P1 disposable composition fingerprint `dcd2e429f86217355c9b38b7353cf74a15529b1ea94fadcc46db0f3163b5c0e0`; 32 host-route tests, 59 frontend tests, typecheck and production build PASS; 24 P4 panel tests and strict typecheck PASS. Browser success shows engine 1.2.0, audited 900 rows, D01–D05; permission refusal shows ACCESS_REFUSED / NOT_ACCESSED and suppresses findings/charts. | Disposable current-source compatibility only. P1 has no valid source revision or owner acceptance; suite integration remains unverified. |
+| Release | Implementation commit `3c6de8d3b7030ca4f7f009b3a81e380d6406bf02` and P1/UI evidence have not yet been assembled into the final deterministic archive and full runner. | Commit evidence checkpoint, rebuild exact archive, regenerate benchmark/security records, run full qualification, then reproducibility and fresh no-pip network-denied extraction. |
+| Internal authorization / distribution | No company source, permissions or internal approvals used; nothing pushed or published. | PENDING_INTERNAL; no public distribution. |
+
+# Prior verification — D02 actual selector challenge, source 52a9689 (2026-11-23)
 
 | Requirement | Evidence in current worktree | Status / next action |
 |---|---|---|
@@ -6,7 +17,7 @@
 | D02/D04 engineer evidence | Per-cell D02 evaluation status and required review action; D04 includes objective, units/direction/limits, factor bounds, information-value status, pre-run uncertainty, reviewer requirements and next-iteration evidence. Missing engineering objective refuses. | Implemented with limits. DOE remains non-executing; caller bounds/power sources require review. |
 | MCP-to-panel provenance | Rebuilt official-SDK synthetic success/refusal fixture twice byte-identically, SHA-256 `5750b9bafb02c214935d9c0c04b8a2f3999a6322c918dadf095b8d1eec46f580`; fingerprints now include all core P4 science modules. | Synthetic only; actual site permissions and semantic mapping pending. |
 | UI and regression | P4 panel 24 PASS, strict typecheck PASS, P1 contract snapshot PASS; Python regression 209 PASS/0 skipped; focused D02/MCP tests 6 PASS. | Current UI module and headless evidence verified. Disposable P1 host/browser remains non-authoritative; formal accessibility pending. |
-| Release | Full runner executed at `52a9689f9985bfa1c59b5a520ce86d343b7f5b11`: 209 tests PASS/0 skipped, schema 7 PASS, D01-D05 sub-benchmarks and E01/E03/E04/E06 PASS; E02 correctly failed because the performance report and source fingerprint were still from 51011bdd. Inspection also found top-level aggregate state omitted the D02 adaptive-selection and actual-selector checks even though E02 included them; the runner edit now includes both. | Commit runner correction; rebuild exact source and regenerate performance/security evidence, refresh P1 source pins, rerun full source-bound qualification, then reproduce/offline qualify the archive. No publication. |
+| Release | Full runner executed at `52a9689f9985bfa1c59b5a520ce86d343b7f5b11`: 209 tests PASS/0 skipped, schema 7 PASS, D01–D05 sub-benchmarks and E01/E03/E04/E06 PASS; E02 correctly failed because the performance report and source fingerprint were still from 51011bdd. Top-level aggregate omission of the D02 adaptive-selection and actual-selector checks was corrected and committed at `50ec025c671b23b4a2fb92cb3500d63a45170e6e`. | At exact 50ec025, rebuild source, regenerate performance/security evidence, refresh P1 source pins, rerun full source-bound qualification, then reproduce/offline qualify the archive. No publication. |
 
 # Historical verification — current worktree over source 51011bdd
 

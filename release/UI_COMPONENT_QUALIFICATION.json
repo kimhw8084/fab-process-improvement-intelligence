@@ -23,14 +23,14 @@
   "p4_source_sha256": {
     "products/p4/ui/P4Panel.test.tsx": "0d88c0ecb55e689f7b22707eafd321cb836c338800f89a70b7c20af16e5ed05b",
     "products/p4/ui/P4Panel.tsx": "b6544583e1c763f604d15ec9d7fac1bd9051b06c7811f7e085dbe5fc47e230a6",
-    "tests/fixtures/mcp_p4_panel_bridge.json": "5750b9bafb02c214935d9c0c04b8a2f3999a6322c918dadf095b8d1eec46f580"
+    "tests/fixtures/mcp_p4_panel_bridge.json": "938c7b179dddfbb607c92c03c7a9f4532c57d9d1de59c8a2c0844d84ad65c739"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
   "status": "PASS_LOCAL_MODULE_ONLY",
   "suite_commit": null,
   "suite_git_metadata": "unavailable in extracted P1 folder",
   "suite_package_lock_sha256": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
-  "suite_root_name": "p4-p1-host-qualification",
+  "suite_root_name": "p4-p1-host-current",
   "suite_tool_versions": {
     "react": "^19.2.0",
     "typescript": "5.9.3",
