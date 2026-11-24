@@ -1,3 +1,12 @@
+# Latest qualification checkpoint — D05 source and current P1 synthetic MCP workflow (2026-11-24)
+
+- Product source: `893369ab444489a90ccedd30bbeda4b6129c120a` (engine 1.2.1). D05 now validates cointervention distributions at every observed arm-by-period and adjacent transition; missing unit-period labels remain `UNREPORTED`, so the assumption gate withholds numerical interpretation instead of reading missing history as no cointervention. Focused D05 suite: 24 PASS; full Python suite: 223 PASS; P4 panel: 25 PASS and strict typecheck PASS.
+- Current-source disposable P1 composition: 35-file fingerprint `600dfeed82eb7d429c3db6629b76977a58a8f862ecbbfda7b75cda70eab3497a`; host routes 32 PASS, frontend 60 PASS, P1 typecheck and production build PASS (831,741-byte JS bundle; existing ECharts advisory). P4 MCP bridge fixture SHA-256 `590f21fef42b68bca566f86c778dd019bc65fa1f2d02c5f1bfb05c44cbe09863`.
+- Live disposable-host browser workflow at `http://127.0.0.1:8898/fab-intelligence/p4`: official-SDK synthetic MCP path completed with 900 bounded synthetic rows; D01–D05, provenance, and shared accessible Pareto table rendered. A separate refusal returned `ACCESS_REFUSED`, `NOT_ACCESSED` semantics, suppressed values and no analysis. Only the 1.2.1 source was observed. This is synthetic disposable-host evidence, not authoritative P1 integration or formal accessibility qualification.
+- Browser/P1 evidence updated in `qualification/evidence/p1-disposable-host-qualification-2026-11-23.json` and `qualification/results/P1_SHARED_UI_BROWSER_SCREEN.json`. No source implementation changed in this evidence refresh.
+- Remaining gates: P1 owner/source and formal accessibility; Samsung permissions/semantics; approved target OS/network; legal/security/production authorization; real engineer ROI. E07/E08/E09/E11/E05/E12 remain unpassed. No public push.
+- Exact next action: run `rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py` against the refreshed evidence, repair any external/local gate defects, rebuild and independently verify the offline archive, then resume the highest-value scientific adversarial gap.
+
 # Latest verification — D03, release evidence, and D04 method selection (2026-11-24)
 
 | Requirement | Current executed evidence | Status / next action |

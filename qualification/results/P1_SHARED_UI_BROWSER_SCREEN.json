@@ -1,0 +1,55 @@
+{
+  "host": {
+    "backend_url": "http://127.0.0.1:8878",
+    "base_url": "http://127.0.0.1:8898",
+    "chart_runtime": "Apache ECharts 6.1.0",
+    "ownership": "unversioned disposable P1 composition; owner acceptance pending",
+    "shared_contract": "suite-ui-module.v1",
+    "snapshot_path": "/tmp/p4-p1-host-current"
+  },
+  "observed_at": "2026-11-24",
+  "p4_source": {
+    "bridge_fixture_sha256": "590f21fef42b68bca566f86c778dd019bc65fa1f2d02c5f1bfb05c44cbe09863",
+    "commit": "893369ab444489a90ccedd30bbeda4b6129c120a",
+    "engine_sha256": "d00f3a08d320fe793842b553b5cf0e3cdf5802d27915cd22d61ec10639b87ef4",
+    "panel_sha256": "e47cdc045e1b62d0130980a33f16ed10ef864cc24cd6b98b8f69a27eeef45f8d",
+    "panel_test_sha256": "2968dcc31d0260394d32bd197d99f5f722851b6be474a8a6152f368dbb5e5650",
+    "schema_sha256": "3cffc0753402842ddef1dbe5f798d9582c1ac96c4d54ef4889e2fa2a8a356c54",
+    "window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20"
+  },
+  "permission_refusal": {
+    "analysis": "NOT_PERFORMED",
+    "fixture_values": "SUPPRESSED",
+    "investigation_id": "Current-source refusal observed; identifier not retained in AX capture.",
+    "observation_grain": "Not accessed",
+    "positive_findings_and_charts": "WITHHELD",
+    "request_status": "REFUSED",
+    "semantic_version": "NOT_ACCESSED",
+    "source_status": "ACCESS_REFUSED"
+  },
+  "schema": "p4-p1-host-browser-screen/v1",
+  "scope_limits": [
+    "Synthetic-only; no company source, data, permission, mapping, or approval used.",
+    "P1 snapshot unversioned/disposable; owner acceptance pending.",
+    "Not a formal WCAG/assistive-technology, target-host, production, or ROI qualification."
+  ],
+  "status": "SYNTHETIC_CURRENT_SOURCE_WORKFLOW_AND_REFUSAL_VERIFIED",
+  "success_workflow": {
+    "accessible_pareto_table": true,
+    "analysis_status": "PARTIAL",
+    "capabilities_rendered": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05"
+    ],
+    "engine_version": "1.2.1",
+    "input_sha256": "e0b26632f4b4bbb9bab3dc3192e8e7bea11b07158e35d8c631f449a3caa6f4b8",
+    "investigation_id": "SYN-p4-e0b26632f4b4",
+    "meaning": "Current-source synthetic MCP request and P4 analysis rendered through disposable P1 host; shared Pareto table and provenance visible.",
+    "normalized_rows": 900,
+    "request_status": "COMPLETED",
+    "source_count": 2
+  }
+}

@@ -1,11 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "progress/OVERNIGHT_EXECUTION.md",
-    "progress/NEXT_ACTIONS.json",
-    "progress/REQUIREMENT_EVIDENCE_MATRIX.md",
-    "release and qualification result sidecars generated for source b0e3011"
+    "refreshed disposable P1 browser/host evidence",
+    "progress checkpoint ledgers"
   ],
-  "as_of_source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+  "as_of_source_commit": "893369ab444489a90ccedd30bbeda4b6129c120a",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,43 +13,34 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "D04_benchmark": {
-      "D_optimal_efficiency_percent": 100,
-      "LHS_tested_seed_marginals_preserved": true,
-      "decision": "retain bounded implementations and refusal behavior",
-      "multimodal_next_best": "32/32 refused on untouched grouped RMSE limit",
-      "quadratic_next_best_acceptance": "64/64; mean accepted true-function regret 3.75e-5",
-      "runtime_optimizer_added": false
+    "D05_cointervention_diagnostic": {
+      "behavior": "Missing unit-period labels are UNREPORTED; all observed periods/transitions are compared; no causal inference without supported declared history.",
+      "focused_tests": "24 PASS",
+      "full_python_tests": "223 PASS",
+      "status": "IMPLEMENTED_AND_TESTED"
     },
-    "P1": {
-      "E07": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY",
-      "browser": "STALE; 36967b4",
-      "composition_hashes": "MATCH"
+    "P1_disposable_host": {
+      "browser": "Current P4 1.2.1 source, synthetic MCP 900-row completion and permission refusal observed",
+      "build": "PASS; 831741-byte JS output",
+      "composition_files": 35,
+      "composition_sha256": "600dfeed82eb7d429c3db6629b76977a58a8f862ecbbfda7b75cda70eab3497a",
+      "frontend_tests": 60,
+      "panel_tests": 25,
+      "routes": 32,
+      "typecheck": "PASS"
     },
-    "archive": {
-      "bytes": 9281029,
-      "files": 218,
-      "offline_no_pip_network_denied": "PASS; macOS ARM64/Python 3.11.7",
-      "sha256": "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9",
-      "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
-      "two_detached_builds": "PASS"
-    },
-    "date": "2026-11-24",
-    "implementation_commits": [
-      "1c1b75fb1cb6cfb48621bbb878634eccb9db93e8",
-      "f0a0e14"
+    "company_only_gates": [
+      "actual source permissions and semantic mappings",
+      "authoritative company requirements",
+      "approved target OS/network",
+      "legal/security/production approval",
+      "real engineering ROI"
     ],
-    "next_action": "Audit D05 study diagnostics and seek an independent assumption-violation counterexample.",
-    "other_pending_gates": {
-      "E05": "PENDING_INTERNAL",
-      "E08": "PENDING_TARGET_OS",
-      "E09": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW",
-      "E11": "PENDING_ENGINEER_BASELINE",
-      "E12": "PENDING_INTERNAL"
-    },
+    "date": "2026-11-24",
+    "next_action": "Run the source-bound release runner and offline artifact qualification, repair any external gate defect, then continue scientific adversarial work.",
     "product_state": "CANDIDATE",
-    "release_runner": "PASS; E01-E04, E06 and E10; 219 tests, zero skipped",
-    "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00"
+    "release_runner": "PENDING_AFTER_EVIDENCE_REFRESH",
+    "source_commit": "893369ab444489a90ccedd30bbeda4b6129c120a"
   },
   "never_do": [
     "publish or push",
@@ -59,42 +48,37 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Proceed to D05 adversarial study-design evaluation.",
-  "next_executable_action": "rtk rg -n \"def _effectiveness|pretrend|placebo|negative.control|sensitivity\" products/p4/engine.py tests/test_d05_studies.py",
+  "next_action": "Run release checks against current source and evidence; verify reproducible offline artifact; continue the D05/D01\u2013D04 adversarial queue.",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Audit D05 for reproducible fail-open assumptions; test randomization, DiD, placebo/negative-control, trend, mix-shift, timing and sensitivity behavior."
+      "task": "Run source-bound release checks and exact offline archive reproducibility; repair failures without widening claims."
     },
     {
       "priority": 2,
       "status": "PENDING",
-      "task": "Implement only a demonstrated correction; run focused and full scientific regression."
+      "task": "Continue independent D05 assumption challenges, followed by the highest-value D01-D04 gap."
     },
     {
       "priority": 3,
       "status": "PENDING",
-      "task": "Requalify release for any source change; retain E07/E08/E09/E11/E05/E12 as pending."
+      "task": "Revisit P1 integration only when an authoritative owner source is available; current disposable compatibility is synthetic."
     },
     {
       "priority": 4,
-      "status": "PENDING_EXTERNAL",
-      "task": "Current P1 browser and authoritative owner/accessibility/target-host qualification."
-    },
-    {
-      "priority": 5,
       "status": "PENDING_INTERNAL",
-      "task": "Company source authority, target policy, independent legal/security approval, and engineer ROI."
+      "task": "Company source authority, target policy, legal/security/production approval, and engineer ROI."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; release-critical internal/target gates pending",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; internal and target gates remain pending",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; continue D05 and remaining review",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; source hashes match, browser/owner/formal accessibility pending"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; scientific backlog continues",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; current disposable synthetic workflow passes, authoritative host and formal accessibility are pending"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Implementation source b0e3011 qualified with archive SHA 62db694b...; refreshed release sidecars and latest checkpoint are pending local evidence commit. P1 screen images remain untracked. No public push."
+  "worktree_state": "D05 implementation committed at 893369a; current-source disposable P1 and progress evidence refreshed locally; exact release runner and offline artifact not yet rerun. No public push."
 }
