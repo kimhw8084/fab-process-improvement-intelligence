@@ -1,0 +1,35 @@
+{
+  "benchmark": "D01_CLUSTER_ROBUST_INFERENCE_HEAVY_TAILED_ERRORS",
+  "benchmark_script_sha256": "aca7e687079796127e7e65b36b1b09287327d5a17559c0f05d2a1a57c9922af3",
+  "clusters": 50,
+  "generator": "independent lots; x assigned once per lot; standardized t4 lot intercept plus Gaussian row noise; fixed linear formula and known slope",
+  "limitations": [
+    "fixed synthetic linear generator; not a coverage guarantee for other error laws or fab populations",
+    "the reference uses the same CR1 cluster-sandwich estimator and is an independent implementation, not an independent method",
+    "Monte Carlo Wilson bounds quantify simulation error only",
+    "the five low-information refusals remain excluded from coverage among inferred"
+  ],
+  "maximum_absolute_estimate_se_or_endpoint_difference": 5.1493082242615174e-08,
+  "p4": {
+    "coverage_among_inferred": 0.9456066945606695,
+    "coverage_wilson95_monte_carlo": [
+      0.9312617360116379,
+      0.9570959297698288
+    ],
+    "inferred_trials": 1195,
+    "mean_inference_df": 49,
+    "refused_trials": 5
+  },
+  "product_source_sha256": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
+  "rows_per_cluster": 4,
+  "schema": "p4-d01-heavy-tailed-cluster-benchmark/v1",
+  "seed": 32117,
+  "statsmodels_clustered_ols_reference": {
+    "coverage_all_trials": 0.9458333333333333,
+    "version": "0.15.0"
+  },
+  "status": "PASS",
+  "synthetic_only": true,
+  "trials": 1200,
+  "true_slope": 0.7
+}
