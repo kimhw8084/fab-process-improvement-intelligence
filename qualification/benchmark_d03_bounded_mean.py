@@ -33,6 +33,11 @@ BOUNDS_CONTRACT = {
     "metric_units": {"quality": "score", "defect": "fraction"},
     "metric_bounds": {"quality": [0.0, 1.0], "defect": [0.0, 1.0]},
 }
+T_PRECOMMIT = {
+    "precommit_reference": "SYNTHETIC-T-FAMILY-PLAN-v1",
+    "candidate_setting_ids": [f"SYN-SETTING-{setting:g}" for setting in SETTINGS],
+    "objectives": OBJECTIVES,
+}
 TRUTH = {"quality": 0.45 / 2.45,
          "defect": 1.0 - 0.45 / 2.45}
 
@@ -62,6 +67,9 @@ def draw_rows(rng: random.Random, units: int) -> list[dict]:
 
 def evaluate_method(rows: list[dict], units: int, bounded: bool) -> tuple[bool, bool, float]:
     data = dict(OBSERVED_SPEC)
+    # The approximate t path is available only for this exact declared family.
+    # The synthetic reference tests matching, not that the caller precommitted.
+    data["familywise_t_precommit"] = T_PRECOMMIT
     if bounded:
         data["familywise_mean_bounds"] = BOUNDS_CONTRACT
     result = observed_tradeoffs(rows, METRIC_DEFS, FACTOR_DEFS, data, OBJECTIVES)
@@ -125,6 +133,12 @@ def run_benchmark(trials: int = 500, seed: int = 20261123) -> dict:
         "qualification_script_sha256": hashlib.sha256(script_path.read_bytes()).hexdigest(),
         "seed": seed,
         "objective_family_size": 8,
+        "t_family_precommit_contract": {
+            "reference": T_PRECOMMIT["precommit_reference"],
+            "candidate_setting_ids": T_PRECOMMIT["candidate_setting_ids"],
+            "objectives": T_PRECOMMIT["objectives"],
+            "authentication": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
+        },
         "candidate_settings": list(BOUNDS_CONTRACT["candidate_setting_ids"]),
         "support": "Each independent-lot aggregate is a convex combination of Beta draws and lies in [0,1].",
         "generator": "Highly right-skewed quality Beta(0.45,2) and reflected defect; a shared lot component induces cross-setting correlation while preserving independent lots and the exact marginal means.",
@@ -133,6 +147,7 @@ def run_benchmark(trials: int = 500, seed: int = 20261123) -> dict:
         "limitations": [
             "Monte Carlo evidence on one bounded skewed generator does not prove distribution-free coverage; the theorem depends on independent units and truthful hard support bounds.",
             "Candidate IDs and metric family are matched exactly at runtime, but the supplied precommit reference is not authenticated.",
+            "The approximate t-envelope challenge uses a fixed synthetic caller-declared setting/objective family; it does not establish that real users selected the family before seeing outcomes.",
             "Wide Hoeffding intervals can prevent useful dominance decisions; interval separation is neither causal nor population harmonization.",
         ],
     }

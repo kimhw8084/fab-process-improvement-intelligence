@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "current-source disposable P1 evidence/browser record and progress checkpoint; release-runner refresh is next",
-    "release and benchmark sidecars/archive remain generated and stale until the source-bound runner and exact archive qualification are repeated"
+    "D03 bounded-mean benchmark fixture now declares the exact fixed synthetic t-family; focused path check, py_compile, and diff check passed",
+    "progress checkpoint records source-bound runner E02 cause; performance report and release outputs need regeneration"
   ],
-  "as_of_source_commit": "0240f4d965b679664dece63e74e840b85cfaad2c",
+  "as_of_source_commit": "ba924b710d3598f44cb68597c46910dc88c04bac",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -13,32 +13,24 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "D03_familywise_mean_envelope": {
-      "adaptive_selection_challenge": "500 trials; single selected-setting t interval coverage 91.4%; declaring only selected ID against four-setting family refused in 100% of trials",
-      "fixed_family_benchmark": "500 trials/scenario; Bonferroni mean coverage 95.8% normal and 96.8% scaled t(5); zero false dominance",
-      "limitations": "synthetic fixed families only; Monte Carlo results are not guarantees; outcome-selected comparisons remain LIMITED_SCOPE",
-      "rejected_alternative": "paired max-standardized SciPy bootstrap was narrower but joint coverage 90.4% normal and 93.6% scaled t(5); retained the simpler offline Bonferroni method",
-      "requirements": "caller declares nonempty reference plus exact candidate-setting IDs and exact objective metric/direction family; matching does not authenticate plan timing or origin",
-      "status": "IMPLEMENTED_PRECOMMIT_FAMILY_REQUIRED"
+    "D03_bounded_benchmark_repair": {
+      "change": "qualification fixture now supplies exact fixed synthetic t family and objectives before analysis",
+      "limitation": "plan string is synthetic and not authenticated",
+      "status": "IMPLEMENTED_FOCUSED_PATHS_PASS"
     },
-    "P1_disposable_host": {
-      "P4_component_tests": "25 PASS",
-      "browser": "Current-source synthetic success and permission refusal observed; 900 normalized rows, D01-D05 rendered; refusal ACCESS_REFUSED, semantics NOT_ACCESSED, values suppressed",
-      "frontend_tests": "60 PASS",
-      "production_build": "PASS exit 0, 832336-byte JS, SHA-256 f03edf7be6030d3481d0b43b0084e4944ed82993d9c98b1bb481a581d245bf12",
-      "route_tests": "32 PASS",
-      "scope": "unversioned disposable P1 host; owner acceptance, formal accessibility, target platform and actual company mappings pending",
-      "snapshot_sha256": "17a97873a19f2fbf3ef60c6ce2f4cc9a70a1c194f17dc22b1d2de915234eb04c",
-      "typecheck": "PASS exit 0"
-    },
+    "current_p1_evidence_commit": "ba924b710d3598f44cb68597c46910dc88c04bac",
     "date": "2026-11-24",
     "engine_version": "1.2.2",
-    "python_suite": "232 PASS, 0 failures, 0 skipped",
     "release_archive": {
-      "next": "source-bound release checks, then rebuild/reproduce/offline-extract the exact archive only after science stabilizes",
-      "status": "STALE_AFTER_D03_SOURCE_CHANGE"
+      "next": "refresh performance benchmark and release runner before archive rebuild",
+      "status": "STALE"
     },
-    "source_commit": "0240f4d965b679664dece63e74e840b85cfaad2c"
+    "release_runner": {
+      "exit_code": 1,
+      "gates": "E01/E03/E04/E06 pass; E02 failed due stale D03 bounded benchmark precommit fixture and stale source performance manifest; E07-E12 remain honest pending states",
+      "python_tests": "232 PASS, 0 failures/skips"
+    },
+    "source_commit": "ba924b710d3598f44cb68597c46910dc88c04bac"
   },
   "never_do": [
     "publish or push",
@@ -46,48 +38,53 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit refreshed P1 browser/source evidence and progress ledgers; run source-bound release gates once, inspect exact gate states, then continue D02 independent challenge.",
-  "next_executable_action": "rtk git diff --check && rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json qualification/results/P1_SHARED_UI_BROWSER_SCREEN.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Refresh current-source P1 qualification evidence\"",
+  "next_action": "Commit the fixed-family D03 qualification fixture and checkpoint; refresh the source-bound software performance report; rerun the release runner once and inspect gates; then continue D02.",
+  "next_executable_action": "rtk git diff --check && rtk git add qualification/benchmark_d03_bounded_mean.py progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Align bounded mean benchmark with D03 precommit guard\"",
   "ordered_queue": [
     {
-      "priority": 1,
+      "priority": 0,
       "status": "NEXT",
-      "task": "D02: strengthen independent selector, cross-population/time shift and exact-setting confirmation-value challenges; preserve honest no-coverage scope."
+      "task": "Repair current release qualification by committing the benchmark fixture update, rerunning product-source performance evidence, and rerunning release gates."
+    },
+    {
+      "priority": 1,
+      "status": "NEXT_AFTER_RELEASE_REPAIR",
+      "task": "D02: continue independent selector, cross-population/time shift and exact-setting confirmation-value challenges."
     },
     {
       "priority": 2,
       "status": "IN_PROGRESS",
-      "task": "D01: continue held-out stability, omitted-variable and cluster-dependence challenges after caller-nominated adjustment sensitivity."
+      "task": "D01: continue held-out stability, omitted-variable and dependence challenges."
     },
     {
       "priority": 3,
       "status": "IN_PROGRESS",
-      "task": "D03: precommitted familywise t envelope now fails closed; continue missing-objective reversal, source relationship and constraint-selection evaluation."
+      "task": "D03: precommitted familywise mean envelope now fails closed; continue objective reversal, compatible population and selection analysis."
     },
     {
       "priority": 4,
       "status": "PENDING",
-      "task": "D04: compare constrained sequential designs with fixed independent nonlinear/noisy oracles; retain factorial unless demonstrated improvement."
+      "task": "D04: continue independently benchmarked constrained/sequential DOE only where it improves on factorial baselines."
     },
     {
       "priority": 5,
       "status": "PENDING",
-      "task": "D05: extend placebo, pretrend, negative-control and sensitivity refusal cases without causal overclaim."
+      "task": "D05: continue placebo, pretrend, negative-control and sensitivity refusal cases."
     },
     {
       "priority": 6,
       "status": "PENDING_EXTERNAL",
-      "task": "Verify authoritative P1 host/version/owner integration and formal accessibility when source and owner acceptance are available."
+      "task": "Authoritative P1 source/owner acceptance and formal accessibility."
     },
     {
       "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Actual company authorization, semantic mappings, target policies, legal/security/production approval and engineer ROI."
+      "task": "Actual company authorization, mappings, target policies, security/legal/production approval and engineer ROI."
     },
     {
       "priority": 8,
       "status": "PENDING_FINAL_QUALIFICATION",
-      "task": "After scientific changes stabilize, refresh source-bound gates, exact archive rebuild/reproducibility, network-denied extraction, rollback and release evidence."
+      "task": "After science stabilizes, exact archive rebuild, reproduction, network-denied extraction, rollback and release evidence."
     }
   ],
   "outcomes": {
@@ -98,5 +95,5 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "P4 product source is committed at 0240f4d; 232 Python tests pass; current P1 disposable success/refusal and build evidence plus progress checkpoint are being committed; release outputs/archive still require source-bound refresh."
+  "worktree_state": "P4 source commit 0240f4d and current-source P1 evidence commit ba924b7 are committed; D03 bounded benchmark fixture fix and progress update are now prepared; previous release runner had 232 PASS but E02 failed on two identified stale benchmark records; archive remains stale."
 }

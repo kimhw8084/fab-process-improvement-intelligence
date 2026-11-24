@@ -1,3 +1,11 @@
+# Latest evidence — Qualification repair after D03 precommit guard (2026-11-24)
+
+| Requirement | Evidence | Next action |
+|---|---|---|
+| D03 qualification alignment | Release runner at `ba924b7`: 232 tests PASS. E02 failed only after source-hash checks caught an obsolete bounded-mean fixture (missing the exact caller family now required for t intervals) and an old product-source performance record. Fixture repaired; focused current-source t and Hoeffding paths PASS; py_compile and diff check PASS. | Commit fixture/ledger repair, run software benchmark to refresh product fingerprints, then release runner once. |
+| P1 and release scope | Current-source disposable P1 success and permission refusal verified; 35-file snapshot fingerprint `17a97873a19f2fbf3ef60c6ce2f4cc9a70a1c194f17dc22b1d2de915234eb04c`; P1 route 32, frontend 60, P4 panel 25; typecheck and production build PASS. | P1 remains unversioned/disposable; owner, formal accessibility and target-host acceptance pending. Archive stale. |
+| Distribution and internal qualification | No publication. Company authorization/semantics, target OS/network, company approvals and ROI evidence are not present. | Keep `EXTERNAL_TRANSFER_READY` unestablished; company-only dependencies remain pending. |
+
 # Latest requirement evidence — D03 familywise precommit guard (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |

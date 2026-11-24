@@ -1,3 +1,10 @@
+# Qualification repair checkpoint — D03 fixed-family benchmark (2026-11-24)
+
+- The source-bound release runner at evidence commit `ba924b7` executed 232 Python tests (PASS), schema/demo/UI/MCP checks, and all tracked science challenges. E02 correctly failed because two source-dependent checks were stale: the D03 bounded-mean fixture exercised its approximate t path without the new exact family declaration, and the general performance report still fingerprinted the pre-D03 product source.
+- Corrected `qualification/benchmark_d03_bounded_mean.py` to supply a fixed synthetic family of four setting IDs and both objective directions before outcome evaluation. It labels the reference synthetic and unauthenticated. A focused current-source check verified both the t envelope and separately bounded Hoeffding envelope; `py_compile` and `git diff --check` passed.
+- Immediate next action: commit this benchmark repair and ledger update, then run `rtk /tmp/p4-qualification-env/bin/python -m qualification.benchmark` once to refresh the product-source performance report; after that run `rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py` once and inspect E02 plus all gate states. This benchmark report measures software only; no engineer ROI is inferred.
+- All source-bound D03 familywise evidence remains synthetic and fixed-panel. The P1 host is current-source but unversioned/disposable. The archive is still stale; do not rebuild it until science stabilizes. Product state remains CANDIDATE.
+
 # Latest engineering checkpoint — D03 precommitted familywise mean evidence (2026-11-24)
 
 - P4 source commit `0240f4d965b679664dece63e74e840b85cfaad2c` requires the caller to declare the exact setting and objective family before the approximate Student-t familywise envelope is available; references remain unauthenticated. Missing/mismatched families refuse. Existing independently bounded Hoeffding results are unchanged.
