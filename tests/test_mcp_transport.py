@@ -226,6 +226,44 @@ class McpToP4WorkflowQualification(unittest.TestCase):
         self.assertEqual({source["id"] for source in result["sources"]},
                          {"SYN-SOURCE-A", "SYN-SOURCE-B"})
 
+    def test_mapped_measurement_uncertainty_survives_normalization_and_blocks_unpropagated_inference(self):
+        request = self.request()
+        for row in request["approved_plan"]["synthetic_rows"]:
+            row["response_primary_uncertainty"] = 0.1
+        request["normalization"]["measurement_uncertainty_fields"] = {
+            "yield_index": "response_primary_uncertainty"}
+        adapter = self._adapter()
+        try:
+            result = run_mcp_investigation(adapter, request)
+        finally:
+            adapter.client.close()
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertIn("measurement_uncertainty was supplied but is not propagated",
+                      " ".join(result["limitations"]))
+        self.assertEqual(result.get("artifacts", []), [])
+        self.assertEqual(result["provenance"]["mcp_acquisition"]["status"], "ANALYSIS_REFUSED")
+        self.assertEqual(result["provenance"]["mcp_acquisition"]["measurement_uncertainty_metrics"],
+                         ["yield_index"])
+
+    def test_mapped_measurement_uncertainty_rejects_invalid_values_and_semantic_units(self):
+        for invalid_value, invalid_field in ((-0.1, "response_primary_uncertainty"),
+                                             (0.1, "synthetic_value")):
+            with self.subTest(value=invalid_value, field=invalid_field):
+                request = self.request()
+                for row in request["approved_plan"]["synthetic_rows"]:
+                    row[invalid_field] = invalid_value
+                request["normalization"]["measurement_uncertainty_fields"] = {
+                    "yield_index": invalid_field}
+                adapter = self._adapter()
+                try:
+                    result = run_mcp_investigation(adapter, request)
+                finally:
+                    adapter.client.close()
+                self.assertEqual(result["status"], "REFUSED")
+                self.assertEqual(result.get("artifacts", []), [])
+                expected = ("finite and nonnegative" if invalid_value < 0 else "semantic unit mismatch")
+                self.assertIn(expected, " ".join(result["limitations"]))
+
     def test_semantic_and_source_version_drift_refuse_after_auditing_the_read(self):
         for scenario, expected in (("semantic_schema_drift", "semantic schema drift"),
                                    ("source_version_drift", "source versions")):

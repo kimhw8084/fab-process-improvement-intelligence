@@ -8,6 +8,7 @@ no company tool names, source meanings, or authorization claims.
 from __future__ import annotations
 
 from datetime import datetime
+from math import isfinite
 import re
 
 from fabintel.contracts import envelope, validate_envelope
@@ -184,23 +185,36 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
     timestamp_field = normalization.get("timestamp_field")
     factor_fields = normalization.get("factor_fields")
     metric_fields = normalization.get("metric_fields")
+    uncertainty_fields = normalization.get("measurement_uncertainty_fields", {})
     passthrough_fields = normalization.get("passthrough_fields", [])
     if any(not isinstance(value, str) or not value for value in (row_id_field, unit_field, timestamp_field)):
         raise McpError("row ID, unit, and timestamp fields must be explicitly mapped")
     if not isinstance(factor_fields, dict) or not isinstance(metric_fields, dict):
         raise McpError("factor_fields and metric_fields must be explicit target-to-source maps")
+    if not isinstance(uncertainty_fields, dict):
+        raise McpError("measurement_uncertainty_fields must be an explicit metric-to-source map")
     if not isinstance(passthrough_fields, list) or any(not isinstance(field, str) or not field for field in passthrough_fields):
         raise McpError("passthrough_fields must be an explicit list of source field names")
     target_factors = {item.get("name"): item for item in analysis_template.get("factors", []) if isinstance(item, dict)}
     target_metrics = {item.get("name"): item for item in analysis_template.get("metrics", []) if isinstance(item, dict)}
     if set(factor_fields) != set(target_factors) or set(metric_fields) != set(target_metrics):
         raise McpError("normalization maps must cover the declared P4 factors and metrics exactly")
+    if (not set(uncertainty_fields).issubset(target_metrics)
+            or any(not isinstance(value, str) or not value for value in uncertainty_fields.values())
+            or len(set(uncertainty_fields.values())) != len(uncertainty_fields)):
+        raise McpError("measurement-uncertainty mappings must uniquely identify declared metric source fields")
+    mapped_sources = {row_id_field, unit_field, timestamp_field,
+                      *factor_fields.values(), *metric_fields.values(), *passthrough_fields}
+    if mapped_sources.intersection(uncertainty_fields.values()):
+        raise McpError("measurement-uncertainty source fields must be distinct from other normalized fields")
     _require_column(columns, units, row_id_field, expected_type="string")
     _require_column(columns, units, unit_field, expected_type="string")
     _require_column(columns, units, timestamp_field, expected_type="string")
     for target, source_name in factor_fields.items():
         _require_column(columns, units, source_name, expected_type="number", target_unit=target_factors[target].get("unit"))
     for target, source_name in metric_fields.items():
+        _require_column(columns, units, source_name, expected_type="number", target_unit=target_metrics[target].get("unit"))
+    for target, source_name in uncertainty_fields.items():
         _require_column(columns, units, source_name, expected_type="number", target_unit=target_metrics[target].get("unit"))
     for field in passthrough_fields:
         if field not in columns:
@@ -241,6 +255,14 @@ def _normalize_rows(raw_rows, source_ids, semantics, read, audit, permission_sco
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 raise McpError(f"mapped metric is missing or not numeric: {source_name}")
             normalized["metrics"][target] = value
+        if uncertainty_fields:
+            normalized["measurement_uncertainty"] = {}
+            for target, source_name in uncertainty_fields.items():
+                value = raw.get(source_name)
+                if (isinstance(value, bool) or not isinstance(value, (int, float))
+                        or not isfinite(value) or value < 0):
+                    raise McpError(f"mapped measurement uncertainty must be finite and nonnegative: {source_name}")
+                normalized["measurement_uncertainty"][target] = value
         for field in passthrough_fields:
             if field not in raw:
                 raise McpError(f"mapped passthrough value is missing from typed row: {field}")
@@ -399,8 +421,11 @@ def run_mcp_investigation(adapter, request, *, cancel=None):
         if relationship:
             data["linkage"] = relationship
         result = analyze(data, cancel=cancel)
-        acquisition.update({"status": "ANALYSIS_COMPLETED", "normalized_rows": len(observations),
+        acquisition.update({"status": ("ANALYSIS_REFUSED" if result.get("status") == "REFUSED"
+                                         else "ANALYSIS_COMPLETED"),
+                            "normalized_rows": len(observations),
                             "source_versions": source_versions, "source_hashes": source_hashes,
+                            "measurement_uncertainty_metrics": sorted(normalization.get("measurement_uncertainty_fields", {})),
                             "relationship_id": relationship.get("relationship_id") if relationship else None})
         result["provenance"]["mcp_acquisition"] = acquisition
         validate_envelope(result)

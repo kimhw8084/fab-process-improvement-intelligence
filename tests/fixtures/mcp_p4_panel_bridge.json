@@ -28555,6 +28555,7 @@
         "audit_query_hash": "0000000000000000000000000000000000000000000000000000000000000000",
         "environment": "SYNTHETIC_TEST_ONLY",
         "logical_contract_version": "1.0.0",
+        "measurement_uncertainty_metrics": [],
         "normalized_rows": 900,
         "operation_id": "SYN-OP-READ-1",
         "permission_scope": "SYNTHETIC_READ",
@@ -28720,15 +28721,15 @@
     "contracts/adapter-operations.v1.json": "546ffe9a3a04d1d039c112908b684e72de258408c18ca5d51e60787a02e2210c",
     "contracts/evidence.v1.schema.json": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
-    "fabintel/mock_mcp_server.py": "07a5db181a422affdaa39bd03bea09bb824bc73666dbe3fcfbd6460973bb3508",
+    "fabintel/mock_mcp_server.py": "b927a3c29e583ed1425a3cb3f763c464ee63d2aa60dc7228756ee33a91ce391a",
     "products/p4/design.py": "cb84fe34a9293a7c84d73a22a6046760a1a8c6e2afacc5f39a25f88380e37f0d",
     "products/p4/engine.py": "568bfa4e85b9c297f9e7f99ea8f700983e04cc7dfe1cbae2b3527dada9277a60",
-    "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
+    "products/p4/mcp_workflow.py": "a85a9a7ae946cb1eac27bb83eb28269dc34a628447b4bdec71c580a3203ff962",
     "products/p4/regression.py": "519a8d73738ae7ec123a26713d5b3ffc2db57d914fc46f59bc60bec244cb5d9f",
     "products/p4/tradeoffs.py": "081e484444a4ff7a5ca578daf6f2f87cb35c1405be611fffdac4b080efefa274",
     "products/p4/window.py": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
     "qualification/build_mcp_panel_bridge_fixture.py": "870e73c1f8c08efc7ccfae32868bc02ec3a961e88c2a270b0b8318a969e6f99d",
-    "tests/test_mcp_transport.py": "39fc395a14b42bf6e3e270288b4eadf3859d9661cfb6b949ac385d91734a9a87"
+    "tests/test_mcp_transport.py": "5cbb293c11742ec13e0c8a75bfddea0af9e082fa4aaf3b52d328128b0b08e4e9"
   },
   "source_preview": {
     "coverage": {

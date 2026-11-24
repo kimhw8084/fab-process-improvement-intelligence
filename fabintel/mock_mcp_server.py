@@ -61,6 +61,7 @@ def _tool_result(name, args, scenario="normal"):
             {"name": "pressure", "type": "number", "unit": "SYNTHETIC-PRESSURE"},
             {"name": "temperature", "type": "number", "unit": "SYNTHETIC-TEMPERATURE"},
             {"name": "response_primary", "type": "number", "unit": "SYNTHETIC-INDEX"},
+            {"name": "response_primary_uncertainty", "type": "number", "unit": "SYNTHETIC-INDEX"},
             {"name": "response_secondary", "type": "number", "unit": "SYNTHETIC-INDEX"},
             {"name": "synthetic_value", "type": "number", "unit": "SYNTHETIC-U"},
         ]
@@ -70,7 +71,9 @@ def _tool_result(name, args, scenario="normal"):
                   "grain": "one row per synthetic process observation",
                   "units": {"synthetic_value": "SYNTHETIC-U", "x": "SYNTHETIC-U", "y": "SYNTHETIC-U",
                             "pressure": "SYNTHETIC-PRESSURE", "temperature": "SYNTHETIC-TEMPERATURE",
-                            "response_primary": "SYNTHETIC-INDEX", "response_secondary": "SYNTHETIC-RATE"},
+                            "response_primary": "SYNTHETIC-INDEX",
+                            "response_primary_uncertainty": "SYNTHETIC-INDEX",
+                            "response_secondary": "SYNTHETIC-RATE"},
                   "effectivity": {"start": "2026-01-01T00:00:00Z", "end": None}, "approval": "SYNTHETIC-APPROVAL",
                   "semantic_version": "SYNTHETIC-SEMANTICS-1",
                   "source_versions": {source: "SYN-SOURCE-V1" for source in sources}}
