@@ -232,6 +232,9 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
       candidate_scope: supported.candidate_scope, joint_validation_status: supported.joint_validation_status,
       candidate_screening_status: supported.candidate_screening_status,
       candidate_count: supported.candidate_count, screened_candidate_count: supported.screened_candidate_count,
+      candidate_counts_by_region: supported.candidate_counts_by_region,
+      screened_candidate_counts_by_region: supported.screened_candidate_counts_by_region,
+      candidate_count_semantics: supported.candidate_count_semantics,
       candidate_counterevidence: supported.candidate_counterevidence,
       data_roles: supported.data_roles, uncertainty_scope: supported.uncertainty_scope,
       region_counts: supported.region_counts, uncertainty_rule: supported.uncertainty_rule,
@@ -265,6 +268,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     }} />
     <KeyValueTable label="Simultaneous exact-setting calibration" value={simultaneousScreen} />
     <p role="note">The finite-panel candidate flag describes only the declared calibration panel. Evaluation transfer checks are post-selection diagnostics and cannot validate future coverage.</p>
+    <p role="note">Interpolated cells are model-based hypotheses and require exact-setting confirmation on independent lots before any process decision.</p>
     <KeyValueTable label="Calibration transfer assessment; descriptive, not validation" value={transferAssessment} />
     <KeyValueTable label="Complete-set selected-candidate failure audit" value={evaluation.candidate_selection_audit} />
     {evaluationCandidates.length > 0 && <table>
@@ -305,7 +309,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     {cells.length === 0 ? <p>No supported-region cells were returned.</p> : <div>
       <table>
         <caption>Advisory screening cells with pointwise local diagnostics and a separate assumption-conditional exact-setting panel screen</caption>
-        <thead><tr>{factorNames.map((factor) => <th scope="col" key={factor}>{factor}</th>)}<th scope="col">Evidence region</th><th scope="col">Pointwise screening result</th><th scope="col">Recommendation status</th><th scope="col">Simultaneous exact-setting screen</th>
+        <thead><tr>{factorNames.map((factor) => <th scope="col" key={factor}>{factor}</th>)}<th scope="col">Evidence region</th><th scope="col">Pointwise screening result</th><th scope="col">Recommendation status</th><th scope="col">Exact-setting independent evaluation</th><th scope="col">Required engineer review</th><th scope="col">Simultaneous exact-setting screen</th>
           {metrics.map((metric) => <th scope="col" key={metric}>{metric}: estimate and calibrated interval</th>)}</tr></thead>
         <tbody>{filtered.map((cell, index) => <tr key={index}>
           {factorNames.map((factor) => <td key={factor}>{text(asObject(cell.factors)[factor])}</td>)}
@@ -314,6 +318,8 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
             ? "Withheld by independent counterevidence"
             : cell.supported_candidate === true ? "Available for advisory review"
               : cell.screened_candidate === true ? "Not recommended" : "Not screened as a candidate"}</td>
+          <td>{text(asObject(cell.independent_evaluation).status)}; {text(asObject(cell.independent_evaluation).independent_units)} independent lots; {text(asObject(cell.independent_evaluation).observed_infeasible_units)} observed infeasible</td>
+          <td>{text(cell.candidate_review_status)}; {text(cell.required_engineer_action)}</td>
           <td>{cell.simultaneous_supported_candidate === true ? `Passes calibration-panel screen under unverified assumptions; transfer: ${text(cell.evaluation_transfer_status)}` : cell.simultaneous_supported_candidate === false ? "Does not pass or is outside exact-setting panel scope" : "Not established"}</td>
           {metrics.map((metric) => {
             const prediction = asObject(asObject(cell.predictions)[metric]);
@@ -369,10 +375,12 @@ function D04Section({ result }: { result?: JsonObject }) {
     <h3 id="p4-d04-heading">D04 · Next experiment proposal</h3>
     <p>Status: <Status value={result?.status} />. Proposed runs: {text(result?.run_count)}. Executed: {text(result?.executed)}.</p>
     <p>{text(result?.qualification || result?.reason)} No equipment command is issued by this module.</p>
-    <KeyValueTable label="Design and authorization requirements" value={{ design: result?.design, power: result?.power, blocking: result?.blocking,
+    <KeyValueTable label="Design and authorization requirements" value={{ design: result?.design, objective: result?.objective,
+      factor_definitions: result?.factor_definitions, information_value: result?.information_value,
+      pre_execution_uncertainty: result?.pre_execution_uncertainty, power: result?.power, blocking: result?.blocking,
       authorization_fields: result?.authorization_fields, actuation: result?.actuation, randomization_seed: result?.randomization_seed,
       constraint_evaluation: result?.constraint_evaluation, objective_statement: result?.objective_statement,
-      objective: result?.objective, candidate_evidence: result?.candidate_evidence,
+      candidate_evidence: result?.candidate_evidence,
       reference_factors: result?.reference_factors, required_engineer_review: result?.required_engineer_review,
       evidence_required_before_next_iteration: result?.evidence_required_before_next_iteration }} />
     <table>

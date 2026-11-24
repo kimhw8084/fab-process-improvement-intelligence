@@ -399,6 +399,93 @@ def _mean_difference_interval(treated, control):
     return estimate, se, df, [estimate - tcrit * se, estimate + tcrit * se]
 
 
+def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metric_defs):
+    """Attach the engineering objective and decision context to every DOE plan."""
+    if not isinstance(plan, dict) or plan.get("status") != "PROPOSED":
+        return plan
+
+    statement = spec.get("objective_statement") or data.get("objective")
+    if not isinstance(statement, str) or not statement.strip():
+        return {**plan, "status": "REFUSED", "reason": "an engineering objective statement is required",
+                "run_count": 0, "runs": [], "executed": False, "actuation": "none"}
+
+    metric_names = []
+    if strategy in ("next_best", "confirm_window_candidate"):
+        target = spec.get("target_metric")
+        if isinstance(target, str) and target in metric_defs:
+            metric_names.append(target)
+        for name in spec.get("constraint_metrics", []):
+            if isinstance(name, str) and name in metric_defs and name not in metric_names:
+                metric_names.append(name)
+    else:
+        for objective in data.get("objectives", []):
+            if isinstance(objective, dict) and objective.get("metric") in metric_defs:
+                if objective["metric"] not in metric_names:
+                    metric_names.append(objective["metric"])
+        if not metric_names:
+            primary = data.get("primary_metric")
+            if isinstance(primary, str) and primary in metric_defs:
+                metric_names.append(primary)
+            else:
+                metric_names.extend(name for name in metric_defs if name not in metric_names)
+
+    supplied_objectives = {item.get("metric"): item for item in data.get("objectives", [])
+                           if isinstance(item, dict) and isinstance(item.get("metric"), str)}
+    metrics = []
+    for name in metric_names:
+        definition = metric_defs[name]
+        objective = supplied_objectives.get(name, {})
+        metrics.append({"metric": name, "unit": definition.get("unit"),
+                        "direction": objective.get("direction", definition.get("direction", "characterize")),
+                        "min": definition.get("min"), "max": definition.get("max")})
+    source = "experiment_design.objective_statement" if spec.get("objective_statement") else "investigation.objective"
+    existing_objective = plan.get("objective")
+    objective = dict(existing_objective) if isinstance(existing_objective, dict) else {}
+    objective.update({"source": source, "metrics": metrics,
+                      "selection_policy": ("separate objectives; no scalar weighting or tradeoff preference is inferred"
+                                           if len(metrics) > 1 else "no process setting is automatically selected")})
+
+    factor_definitions = [{"name": name, "unit": fdefs[name].get("unit", "unspecified"),
+                           "approved_bounds": list(bounds[name]), "role": fdefs[name].get("role", "controllable")}
+                          for name in plan.get("factors", []) if name in fdefs and name in bounds]
+    if "expected_improvement" in plan:
+        information = {"status": "MODEL_BASED_ADVISORY", "method": plan.get("acquisition"),
+                       "value": plan.get("expected_improvement"),
+                       "qualification": "depends on the supplied response model, grouped validation, support screen, and stated assumptions; not a guarantee"}
+    elif isinstance(plan.get("power"), dict):
+        information = {"status": plan["power"].get("status", "APPROXIMATE"),
+                       "method": plan["power"].get("method"), "diagnostic": plan["power"],
+                       "qualification": plan["power"].get("qualification", "assumption-conditional planning diagnostic; not a power guarantee for the complete design")}
+    else:
+        information = {"status": "NOT_ESTIMATED", "value": None,
+                       "reason": "the supplied design specification does not support a power or response-information estimate"}
+
+    if isinstance(plan.get("prediction"), dict):
+        uncertainty = {"status": plan["prediction"].get("status", "MODEL_ESTIMATE"),
+                      "prediction": plan["prediction"],
+                      "grouped_validation": plan.get("grouped_surface_validation"),
+                      "qualification": "model-based uncertainty is conditional on development/evaluation populations and supplied model assumptions"}
+    else:
+        uncertainty = {"status": "NOT_ESTIMATED_FOR_NEW_RUNS",
+                       "reason": "design geometry alone cannot establish outcome uncertainty before runs are executed"}
+
+    review = list(plan.get("required_engineer_review", []))
+    review.extend(["confirm the engineering objective, metric direction and constraints",
+                   "verify each factor unit and approved bound against the authorized process window",
+                   "review design assumptions, randomization, blocking, run budget and operational feasibility"])
+    evidence = list(plan.get("evidence_required_before_next_iteration", []))
+    evidence.extend(["record assigned and executed run order, block, replicate, deviations and failed runs",
+                     "retain measurements at the declared observation grain with metric units and measurement method",
+                     "record the population (product, tool, chamber, lot and time), exclusions, missing outcomes and source/version hashes"])
+    plan.update({"objective": objective, "objective_statement": statement.strip(), "objective_source": source,
+                 "factor_definitions": factor_definitions, "information_value": information,
+                 "pre_execution_uncertainty": uncertainty,
+                 "required_engineer_review": list(dict.fromkeys(review)),
+                 "evidence_required_before_next_iteration": list(dict.fromkeys(evidence)),
+                 "qualification": plan.get("qualification", "non-executing advisory design; engineer review required")})
+    return plan
+
+
 def _experiment_design(fdefs, data, rows=None, mdefs=None, process_window=None, cancel=None):
     spec = data.get("experiment_design")
     if not spec:
@@ -417,11 +504,13 @@ def _experiment_design(fdefs, data, rows=None, mdefs=None, process_window=None, 
         return {"status": "REFUSED", "reason": "positive integer run_budget and replicates are required", "executed": False}
     strategy = spec.get("strategy", "full_factorial")
     if strategy == "confirm_window_candidate":
-        return propose_window_confirmation(process_window, controls, bounds, spec,
+        plan = propose_window_confirmation(process_window, controls, bounds, spec,
                                            data.get("forbidden_regions", []), mdefs or {}, cancel)
+        return _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, mdefs or {})
     if strategy != "full_factorial":
-        return propose_design(strategy, controls, bounds, spec, data.get("forbidden_regions", []),
+        plan = propose_design(strategy, controls, bounds, spec, data.get("forbidden_regions", []),
                               rows=rows, metric_defs=mdefs, model_options=data.get("model", {}), cancel=cancel)
+        return _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, mdefs or {})
     forbidden = data.get("forbidden_regions", [])
     corners = list(product(*[(bounds[n][0], bounds[n][1]) for n in controls]))
     if len(corners) > 1024:
@@ -451,11 +540,12 @@ def _experiment_design(fdefs, data, rows=None, mdefs=None, process_window=None, 
         return {"status": "REFUSED", "reason": "blocks must be a positive integer", "executed": False}
     blocking = assign_blocks(runs, controls, block_count, seed, cancel=cancel)
     power = _power_assumption(spec, runs, controls)
-    return {"status": "PROPOSED", "design": "randomized full factorial at approved bounds",
+    plan = {"status": "PROPOSED", "design": "randomized full factorial at approved bounds",
             "factors": controls, "run_count": len(runs), "runs": runs,
             "randomization_seed": seed, "blocking": blocking,
             "power": power, "authorization_fields": ["engineer_approval_id", "process_owner_approval_id", "safety_review_id"],
             "executed": False, "actuation": "none"}
+    return _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, mdefs or {})
 
 
 def _effectiveness(data, metric_defs=None):
@@ -1295,7 +1385,14 @@ def analyze(data: dict[str, Any], *, cancel=None):
         # diagnostic in D01, but do not turn it into a misleading claim.
         partial = True
     if supported_region.get("status") == "VALID":
-        claims.append(claim(f"A supported response-surface region contains {supported_region['candidate_count']} conservative candidate cells; the cells are advisory and remain subject to engineer review.",
+        region_counts = supported_region.get("candidate_counts_by_region", {})
+        observed_count = region_counts.get("observed", 0) if isinstance(region_counts, dict) else 0
+        interpolated_count = region_counts.get("interpolated", 0) if isinstance(region_counts, dict) else 0
+        claims.append(claim(
+                            f"The response-surface model screened {supported_region['candidate_count']} settings for advisory review "
+                            f"({observed_count} observed, {interpolated_count} interpolated). Interpolated settings are unvalidated model hypotheses "
+                            "and require exact-setting confirmation on independent lots; this screen does not validate a process window, "
+                            "conditional coverage, or future performance.",
                             category="DESCRIPTIVE", method=supported_region["method"], source_ids=source_ids,
                             certainty="CONDITIONAL"))
     elif supported_region.get("status") not in ("NOT_REQUESTED",):

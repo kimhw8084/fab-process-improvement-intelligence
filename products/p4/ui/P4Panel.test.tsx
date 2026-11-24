@@ -80,7 +80,12 @@ const evidence: P4Evidence = {
       paired_difference_sd_confidence_level: 0.95, paired_difference_sd_degrees_of_freedom: 29,
       paired_sd_scope: "caller-supplied conservative upper bound; P4 does not recompute or authenticate it" },
     objective_statement: "Confirm the candidate versus an engineer-supplied reference.",
-    objective: { metric: "yield_index", unit: "index", direction: "maximize", minimum_detectable_effect: 1.0 },
+    objective: { source: "experiment_design.objective_statement",
+      metrics: [{ metric: "yield_index", unit: "index", direction: "maximize", min: 85, max: null }],
+      selection_policy: "no process setting is automatically selected", metric: "yield_index", unit: "index", direction: "maximize", minimum_detectable_effect: 1.0 },
+    factor_definitions: [{ name: "pressure", unit: "kPa", approved_bounds: [1, 3], role: "controllable" }],
+    information_value: { status: "APPROXIMATE", method: "blocked contrast", qualification: "planning diagnostic only" },
+    pre_execution_uncertainty: { status: "NOT_ESTIMATED_FOR_NEW_RUNS", reason: "outcomes are not yet observed" },
     candidate_evidence: { region_class: "observed", simultaneous_supported_candidate: false, target_metric_interval95: [87.5, 88.9] },
     constraint_evaluation: { status: "MODEL_BASED_INTERVAL_SCREEN_ONLY", constraint_metrics: ["defect_rate"], qualification: "No feasibility guarantee." },
     runs: [{ run_order: 1, block: 1, arm: "candidate", order_within_block: 1, replicate: 1, pressure: 1 },
@@ -117,9 +122,29 @@ describe("P4 headless suite module", () => {
     }
     expect(screen.getByText("SYNTHETIC-SEMANTICS-1")).toBeTruthy();
     expect(screen.getByText("No company source permission is configured.", { exact: false })).toBeTruthy();
+    expect(screen.getAllByText(/Interpolated settings are unvalidated model hypotheses and require exact-setting confirmation/).length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/does not validate a process window, conditional coverage, or future performance/).length).toBeGreaterThan(0);
     expect(screen.getByRole("table", { name: /Observed Pareto setting means/ })).toBeTruthy();
     expect(renderChart).toHaveBeenCalledWith(expect.objectContaining({ chart_id: "p4-supported-pareto", kind: "scatter" }));
     expect(screen.getByText(/SYN-AUDIT-READ-1/)).toBeTruthy();
+
+    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const cells = within(d02).getByRole("table", { name: /Advisory screening cells/ });
+    expect(within(cells).getByRole("columnheader", { name: "Exact-setting independent evaluation" })).toBeTruthy();
+    expect(within(cells).getAllByText(/MODEL_INTERPOLATION_ADVISORY_REQUIRES_EXACT_CONFIRMATION/).length).toBeGreaterThan(0);
+    expect(within(cells).getAllByText(/PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS/).length).toBeGreaterThan(0);
+    expect(within(cells).getAllByText(/NO_EXACT_SETTING_EVALUATION_DATA; 0 independent lots/).length).toBeGreaterThan(0);
+
+    const d04 = screen.getByRole("region", { name: "D04 · Next experiment proposal" });
+    const design = within(d04).getByRole("table", { name: "Design and authorization requirements" });
+    for (const field of ["objective_statement", "factor_definitions", "information_value",
+      "pre_execution_uncertainty", "required_engineer_review", "evidence_required_before_next_iteration"]) {
+      expect(within(design).getByRole("row", { name: new RegExp(field) })).toBeTruthy();
+    }
+    expect(within(design).getByText(/estimate lot-clustered response surfaces/)).toBeTruthy();
+    expect(within(design).getByText(/SYNTHETIC-PRESSURE/)).toBeTruthy();
+    expect(within(design).getByText(/NOT_ESTIMATED_FOR_NEW_RUNS/)).toBeTruthy();
+    expect(within(d04).getByRole("table", { name: "Proposed run order for engineer review" })).toBeTruthy();
   });
 
   it("renders the MCP permission refusal without positive P4 findings or charts", () => {
@@ -184,6 +209,26 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getByText(/No process-window candidates are recommended/)).toBeTruthy();
     expect(within(d02).getByRole("columnheader", { name: "Recommendation status" })).toBeTruthy();
     expect(within(d02).getByText("Withheld by independent counterevidence")).toBeTruthy();
+  });
+
+  it("shows per-cell independent evaluation and exact confirmation action for interpolation", () => {
+    const interpolationEvidence = structuredClone(evidence);
+    const dossier = interpolationEvidence.artifacts?.[0] as Record<string, unknown>;
+    const supported = dossier.D02_supported_region as Record<string, unknown>;
+    supported.grid = [{ ...d02Grid[1], screened_candidate: true, supported_candidate: true,
+      candidate_review_status: "MODEL_INTERPOLATION_ADVISORY_REQUIRES_EXACT_CONFIRMATION",
+      required_engineer_action: "PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS",
+      independent_evaluation: { status: "NO_EXACT_SETTING_EVALUATION_DATA", independent_units: 0,
+        observed_infeasible_units: null } }];
+
+    render(<P4Panel sourcePreview={sourcePreview} evidence={interpolationEvidence} />);
+    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const cells = within(d02).getByRole("table", { name: /Advisory screening cells/ });
+    expect(within(cells).getByRole("columnheader", { name: "Exact-setting independent evaluation" })).toBeTruthy();
+    expect(within(cells).getByRole("columnheader", { name: "Required engineer review" })).toBeTruthy();
+    expect(within(cells).getByText(/NO_EXACT_SETTING_EVALUATION_DATA; 0 independent lots/)).toBeTruthy();
+    expect(within(cells).getByText(/PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS/)).toBeTruthy();
+    expect(within(d02).getByText(/Interpolated cells are model-based hypotheses/)).toBeTruthy();
   });
 
   it("shows source scope, claims, limitations, and provenance", () => {
@@ -488,6 +533,8 @@ describe("P4 headless suite module", () => {
     expect(within(runTable).getByRole("cell", { name: "candidate" })).toBeTruthy();
     expect(within(runTable).getByRole("cell", { name: "reference" })).toBeTruthy();
     expect(within(d04).getByText(/Confirm the candidate versus an engineer-supplied reference/)).toBeTruthy();
+    expect(within(d04).getByText(/approved_bounds/)).toBeTruthy();
+    expect(within(d04).getByText(/NOT_ESTIMATED_FOR_NEW_RUNS/)).toBeTruthy();
       expect(screen.getByText(/Observational DiD remains descriptive; conditional interpretation is withheld/)).toBeTruthy();
     expect(screen.getByText("NOT_WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND")).toBeTruthy();
   });

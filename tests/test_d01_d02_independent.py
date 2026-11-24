@@ -496,10 +496,22 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(center["predictions"]["quality"]["calibration_units"], 20)
         self.assertEqual(result["calibration"]["training_unit_count"], 30)
         self.assertEqual(result["calibration"]["calibration_unit_count"], 20)
-        self.assertEqual(result["candidate_scope"], "ADVISORY_POINTWISE_SCREENING_ONLY")
+        self.assertEqual(result["candidate_scope"], "MODEL_BASED_ADVISORY_SCREENING_ONLY")
+        self.assertIn("does not validate model form", result["candidate_count_semantics"])
+        self.assertEqual(result["screened_candidate_counts_by_region"]["interpolated"],
+                         sum(cell["screened_candidate"] and cell["region_class"] == "interpolated"
+                             for cell in result["grid"]))
         self.assertEqual(result["joint_validation_status"], "NOT_ESTABLISHED")
         self.assertIn("Selection among cells can inflate false-feasible findings", result["selection_warning"])
         self.assertEqual(result["independent_candidate_evaluation"]["status"], "NOT_PROVIDED")
+        interpolated = next(cell for cell in result["candidate_cells"]
+                            if cell["region_class"] == "interpolated")
+        self.assertEqual(interpolated["independent_evaluation"]["status"], "NOT_PROVIDED")
+        self.assertEqual(interpolated["candidate_review_status"],
+                         "MODEL_INTERPOLATION_ADVISORY_REQUIRES_EXACT_CONFIRMATION")
+        self.assertEqual(interpolated["required_engineer_action"],
+                         "PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS")
+        self.assertIn("model-based hypotheses", result["candidate_review_rule"])
 
     def test_numeric_lot_identity_cannot_cross_partitions_through_int_float_alias(self):
         rows, factors, data = self._dataset()
@@ -926,6 +938,13 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertTrue(hidden_cell["screened_candidate"])
         self.assertFalse(hidden_cell["supported_candidate"])
         self.assertEqual(hidden_cell["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
+        self.assertEqual(hidden_cell["independent_evaluation"]["status"],
+                         "OBSERVED_INDEPENDENT_INFEASIBILITY")
+        self.assertEqual(hidden_cell["independent_evaluation"]["independent_units"], 20)
+        self.assertEqual(hidden_cell["candidate_review_status"],
+                         "WITHHELD_COMPLETE_SET_BY_INDEPENDENT_COUNTEREVIDENCE")
+        self.assertEqual(hidden_cell["required_engineer_action"],
+                         "DO_NOT_ADVANCE; REVIEW_COUNTEREVIDENCE_AND_PLAN_A_NEW_EXPERIMENT")
         self.assertLess(hidden_cell["predictions"]["quality"]["predictive_interval95"][1], 0.20)
         evaluation = next(cell for cell in result["independent_candidate_evaluation"]["candidates"]
                           if cell["factors"] == hidden_cell["factors"])
@@ -963,6 +982,10 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(partial["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
         self.assertEqual(partial["independent_candidate_evaluation"]["candidate_selection_audit"]["complete_independent_units"], 0)
         self.assertEqual(partial["candidate_counterevidence"]["status"], "WITHHELD_BY_OBSERVED_CANDIDATE_FAILURE")
+        partial_hidden_cell = next(cell for cell in partial["grid"]
+                                   if cell["factors"] == {"pressure": 0.5, "power": 0.5})
+        self.assertEqual(partial_hidden_cell["independent_evaluation"]["status"],
+                         "OBSERVED_INDEPENDENT_INFEASIBILITY")
 
     def test_heldout_tool_and_future_period_effects_are_cross_classified(self):
         rows, factors, data = self._dataset()

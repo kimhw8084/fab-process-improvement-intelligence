@@ -53,6 +53,11 @@ def build_fixture() -> dict:
     }
     source_paths = (
         "qualification/build_mcp_panel_bridge_fixture.py",
+        "products/p4/engine.py",
+        "products/p4/window.py",
+        "products/p4/design.py",
+        "products/p4/tradeoffs.py",
+        "products/p4/regression.py",
         "products/p4/mcp_workflow.py",
         "fabintel/mcp_client.py",
         "fabintel/mock_mcp_server.py",

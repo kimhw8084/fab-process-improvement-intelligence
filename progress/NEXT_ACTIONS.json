@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "6eeb324cddf080ddc1bf5a4c878edc12815aae0b",
+  "as_of_source_commit": "51011bddb07875ebf3cfb071469cfe223cd49402",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,19 +16,19 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "Commit refreshed P1 current-source evidence and the checkpoint. Regenerate performance/source evidence at exact commit 6eeb324, run the full release gates including the new D01 challenge, repair failures, then rebuild/reproduce the ZIP, qualify fresh no-pip extraction under network denial, and rerun E10.",
-    "first_command": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Pin P1 evidence to D01 sparse-arm qualification'",
+    "priority": 1,
+    "task": "Commit the verified D02 actual-selector challenge, D02 claim/scope correction, D04 evidence enrichment, MCP bridge provenance, UI assertions, and progress checkpoint locally; then run exact-source full qualification and repair any failures.",
+    "acceptance": "A local commit contains only the listed implementation, tests, benchmark, fixture, qualification evidence, documentation and ledgers; the subsequent full release runner validates the exact committed tree before archive rebuilding.",
+    "first_command": "rtk git add products/p4/engine.py products/p4/window.py products/p4/ui/P4Panel.tsx products/p4/ui/P4Panel.test.tsx tests/test_d01_d02_independent.py tests/test_p4_scientific.py tests/test_d02_actual_selector_benchmark.py tests/test_mcp_panel_bridge_fixture.py tests/fixtures/mcp_p4_panel_bridge.json qualification/benchmark_d02_actual_selector.py qualification/build_mcp_panel_bridge_fixture.py qualification/run_release_checks.py qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json release/UI_COMPONENT_QUALIFICATION.json docs/SCIENCE_AND_METHODS.md docs/PRODUCT_SPEC.md progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md",
+    "commit_command": "rtk git commit -m 'Qualify D02 interpolation screen limitations'",
+    "follow_up_command": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
     "inspect": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "qualification/benchmark.py",
-      "qualification/refresh_security_evidence.py",
+      "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
       "qualification/run_release_checks.py",
       "qualification/build_transfer_bundle.py",
       "qualification/check_reproducibility.py",
       "qualification/offline_qualify.py"
-    ],
-    "priority": 1,
-    "task": "D01 sparse-arm refusal is committed at 6eeb324 and independently qualified; P1 source pins are refreshed but uncommitted. Commit them, regenerate exact-source performance and limited security evidence, run full source-bound gates, then rebuild/reproduce/offline qualify the archive and confirm E10. Resume adversarial D01\u2013D05 work after the release checkpoint."
+    ]
   },
   "ordered_queue": [
     {
@@ -39,7 +39,7 @@
     {
       "priority": 2,
       "status": "IMPLEMENTED_WITH_LIMITS; BINARY_CLUSTER_LEVEL_EXPOSURE_SUPPORT_SCREEN_AND_HELDOUT_BENCHMARK",
-      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84\u201395.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
+      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84–95.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
     },
     {
       "priority": 3,
@@ -64,7 +64,7 @@
     {
       "priority": 7,
       "status": "DISPOSABLE P1 COMPOSITION VERIFIED AGAINST D02 SOURCE 644eab9; AUTHORITATIVE OWNER ACCEPTANCE PENDING",
-      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01\u2013D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
+      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01–D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
     },
     {
       "priority": 8,
@@ -74,5 +74,66 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Product source 6eeb324cddf080ddc1bf5a4c878edc12815aae0b includes the D01 sparse cluster-level binary exposure abstention, independent 3,000-trial benchmark, E02 gate, critical case and 23-test UI evidence. Full suite 207 PASS, schema 7 PASS, P1 module 23/typecheck PASS, P1 frontend 50/typecheck/build and route 11 PASS. Disposable P1 source pins have been refreshed but evidence/progress are uncommitted. Prior exact archive E02/E10 at a6f93ea is stale. Commit evidence, rerun performance/security/full gates, rebuild and requalify exact archive. Product remains CANDIDATE; no push."
+  "worktree_state": "Committed base 51011bddb07875ebf3cfb071469cfe223cd49402. Uncommitted source changes now include per-cell D02 evaluation/review evidence, stricter model-screen-only scope and claim text, candidate counts by observed/interpolated region, D04 objective/bounds/review enrichment, the actual-selector 250-trial hidden-harmonic benchmark and E02 runner integration, wider MCP bridge fingerprints, updated UI/tests/docs/progress, regenerated bridge fixture, and the current local module qualification record. Executed: full Python suite 209 PASS/0 skipped; focused D02/MCP tests 6 PASS; P4 UI 24 PASS, strict TypeScript PASS, contract snapshot match PASS; evidence schema 7 PASS; Python bytecode compilation PASS; 250-trial benchmark 247/250 synthetic trials with an interpolated latent-mean violation (98.8%, Wilson95 96.53-99.59%), exact center baseline 0/250 by construction. Release ZIP and other release sidecars are stale. No push.",
+  "latest_checkpoint": {
+    "date": "2026-11-23",
+    "committed_base": "51011bddb07875ebf3cfb071469cfe223cd49402",
+    "changed_product_files": [
+      "products/p4/engine.py",
+      "products/p4/window.py",
+      "products/p4/ui/P4Panel.tsx",
+      "products/p4/ui/P4Panel.test.tsx",
+      "tests/test_d01_d02_independent.py",
+      "tests/test_p4_scientific.py",
+      "tests/test_d02_actual_selector_benchmark.py",
+      "tests/test_mcp_panel_bridge_fixture.py",
+      "tests/fixtures/mcp_p4_panel_bridge.json",
+      "qualification/benchmark_d02_actual_selector.py",
+      "qualification/build_mcp_panel_bridge_fixture.py",
+      "qualification/run_release_checks.py",
+      "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
+      "release/UI_COMPONENT_QUALIFICATION.json",
+      "docs/SCIENCE_AND_METHODS.md",
+      "docs/PRODUCT_SPEC.md"
+    ],
+    "executed_evidence": {
+      "python_regression": {
+        "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v",
+        "passed": 209,
+        "skipped": 0
+      },
+      "focused_tests": {
+        "passed": 6
+      },
+      "p4_ui_module": {
+        "passed": 24,
+        "strict_typecheck": "PASS",
+        "p1_contract_snapshot": "MATCH"
+      },
+      "bridge_fixture_sha256": "5750b9bafb02c214935d9c0c04b8a2f3999a6322c918dadf095b8d1eec46f580",
+      "actual_selector_benchmark": {
+        "trials": 250,
+        "false_feasible_interpolated_trials": 247,
+        "wilson95": [
+          0.9653192195729803,
+          0.9959106801194657
+        ],
+        "mean_candidate_cells": 35.636,
+        "predeclared_center_false_feasible_trials": 0
+      },
+      "schema_validation": {
+        "status": "PASS",
+        "instances": 7
+      },
+      "python_bytecode_compilation": "PASS"
+    },
+    "company_pending": [
+      "Samsung source authorization and semantic mapping",
+      "authoritative company requirements",
+      "approved target host/OS/network policies",
+      "real manufacturing data and engineer ROI",
+      "internal legal/security/production approval",
+      "authoritative P1 owner acceptance"
+    ]
+  }
 }

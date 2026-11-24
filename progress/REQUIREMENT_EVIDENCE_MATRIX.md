@@ -1,4 +1,25 @@
-# Current continuation checkpoint — 2026-11-23, product source 6eeb324
+# Latest verification — D02 actual selector challenge, current worktree over 51011bdd (2026-11-23)
+
+| Requirement | Evidence in current worktree | Status / next action |
+|---|---|---|
+| D02 actual candidate selection | Direct `explore_window` invocation in 250 independent trials with a held-out known harmonic response that is zero at observed settings but changes between settings. 247/250 trials had a selected interpolated latent-mean violation (98.8%, Wilson95 96.53–99.59%); mean selected set 35.636 cells, 34.636 interpolated. Predeclared exact center had 0/250 false-feasible outcomes by construction. No evaluation partition or oracle reaches P4. | Stress test only; no fab risk/coverage claim. Response is to restrict interpretation: `MODEL_BASED_ADVISORY_SCREENING_ONLY`, separate observed/interpolated counts, exact independent-lot action per interpolation, and narrower claim text. |
+| D02/D04 engineer evidence | Per-cell D02 evaluation status and required review action; D04 includes objective, units/direction/limits, factor bounds, information-value status, pre-run uncertainty, reviewer requirements and next-iteration evidence. Missing engineering objective refuses. | Implemented with limits. DOE remains non-executing; caller bounds/power sources require review. |
+| MCP-to-panel provenance | Rebuilt official-SDK synthetic success/refusal fixture twice byte-identically, SHA-256 `5750b9bafb02c214935d9c0c04b8a2f3999a6322c918dadf095b8d1eec46f580`; fingerprints now include all core P4 science modules. | Synthetic only; actual site permissions and semantic mapping pending. |
+| UI and regression | P4 panel 24 PASS, strict typecheck PASS, P1 contract snapshot PASS; Python regression 209 PASS/0 skipped; focused D02/MCP tests 6 PASS. | Current UI module and headless evidence verified. Disposable P1 host/browser remains non-authoritative; formal accessibility pending. |
+| Release | Committed base 51011bdd; changes uncommitted; exact ZIP and release sidecars stale. | Commit the source/evidence checkpoint, then run full source-bound qualification, reproducible archive and fresh offline extraction. No publication. |
+
+# Historical verification — current worktree over source 51011bdd
+
+| Requirement | Evidence in current worktree | Status / next action |
+|---|---|---|
+| D02 reviewability | Per-grid-cell exact-setting independent evaluation status/count, observed failure counts, and explicit review/action fields. Exact evaluation remains descriptive and separate from fitting/calibration/selection. Whole-set counterevidence yields a do-not-advance action on screened cells. Full regression passes. | Implemented with limits. Next independently challenge the actual P4 selector under multiplicity and selection; conditional/future coverage remains unestablished. |
+| D04 reviewability | Proposal enrichment reports objective/source, units/direction/limits, factor units and supplied safe bounds, information-value status, pre-run uncertainty, engineer review, and evidence for iteration. Missing objective refuses; proposals remain non-executing. | Implemented with limits. Bounds and variance sources are caller-supplied; no actuation. |
+| MCP-to-P4 evidence bridge | Rebuilt exact synthetic success/refusal bridge fixture twice; both builds had SHA-256 `96db6163850efaed01412e4b95c6e105f9e153f030e4b981c63eea9381cf73c0`. Focused MCP transport/bridge tests 18 PASS; UI assertions inspect actual D02/D04 fixture states. | Synthetic official-SDK mock only; no company mapping or permission. |
+| Shared panel module | Current P4 panel 24 tests PASS, strict TypeScript PASS, local P1 contract snapshot match PASS. Disposable P1 browser workflow rendered current source with READY→SUBMITTED→COMPLETED and D01–D05. | Demonstrated compatibility only; P1 host/contract owner and formal accessibility acceptance pending. |
+| Regression | `rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v`: 208 tests PASS, 0 skipped. | Full source-bound release/archive gates must be refreshed after committing current source. |
+| Release state | Current commit `51011bddb07875ebf3cfb071469cfe223cd49402` is only the committed base; implementation/tests/fixture are modified and release outputs are stale. | CANDIDATE. No push/publication. Next: independent benchmark of actual D02 selection logic; then commit and rerun exact-source qualification. |
+
+# Historical verification — product source 6eeb324
 
 | Requirement | Latest verified evidence | Current status / next action |
 |---|---|---|

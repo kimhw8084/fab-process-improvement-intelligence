@@ -31,6 +31,31 @@ class McpPanelBridgeFixtureTests(unittest.TestCase):
             "D01_sensitivity", "D02_supported_region", "D03_tradeoffs",
             "D04_experiment_proposal", "D05_effectiveness")))
 
+        window = dossier["D02_supported_region"]
+        self.assertEqual(window["candidate_count"], 76)
+        self.assertEqual(window["candidate_scope"], "MODEL_BASED_ADVISORY_SCREENING_ONLY")
+        self.assertIn("does not validate model form", window["candidate_count_semantics"])
+        self.assertGreater(window["screened_candidate_counts_by_region"]["interpolated"], 0)
+        interpolated = next(cell for cell in window["grid"] if cell.get("screened_candidate"))
+        self.assertEqual(interpolated["candidate_review_status"],
+                         "MODEL_INTERPOLATION_ADVISORY_REQUIRES_EXACT_CONFIRMATION")
+        self.assertEqual(interpolated["required_engineer_action"],
+                         "PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS")
+        self.assertEqual(interpolated["independent_evaluation"]["status"],
+                         "NO_EXACT_SETTING_EVALUATION_DATA")
+
+        proposal = dossier["D04_experiment_proposal"]
+        self.assertEqual(proposal["status"], "PROPOSED")
+        self.assertFalse(proposal["executed"])
+        self.assertEqual(proposal["actuation"], "none")
+        self.assertTrue(proposal["objective_statement"])
+        self.assertTrue(proposal["factor_definitions"])
+        self.assertIn(proposal["information_value"]["status"], ("APPROXIMATE", "NOT_ESTIMATED"))
+        self.assertEqual(proposal["pre_execution_uncertainty"]["status"],
+                         "NOT_ESTIMATED_FOR_NEW_RUNS")
+        self.assertTrue(proposal["required_engineer_review"])
+        self.assertTrue(proposal["evidence_required_before_next_iteration"])
+
     def test_mcp_permission_refusal_is_empty_and_bridge_sources_match_fingerprints(self):
         fixture = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))
         evidence = fixture["refusal_evidence"]

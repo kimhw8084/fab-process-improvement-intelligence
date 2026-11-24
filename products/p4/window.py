@@ -1262,6 +1262,10 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
               for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")}
     evaluation = _evaluate_selected_cells(candidates, evaluation_rows, selected, constrained, unit_field,
                                           fixed_settings, evaluation_strata)
+    evaluation_by_setting = {
+        tuple(float(item["factors"][name]) for name in selected): item
+        for item in evaluation.get("candidates", [])
+    }
     screened_candidates = candidates
     selection_audit = evaluation.get("candidate_selection_audit", {})
     complete_evaluation_units = selection_audit.get("complete_independent_units", 0)
@@ -1296,6 +1300,41 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         candidate_screening_status = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
     else:
         candidate_screening_status = "AVAILABLE_ADVISORY_SCREENING" if screened_candidates else "NO_POINTWISE_CANDIDATES"
+    for cell in grid:
+        setting_key = tuple(float(cell["factors"][name]) for name in selected)
+        evaluated = evaluation_by_setting.get(setting_key)
+        if evaluated is None:
+            evaluation_status = ("NOT_PROVIDED" if evaluation.get("status") == "NOT_PROVIDED"
+                                 else "NO_EXACT_SETTING_EVALUATION_DATA")
+            evaluated_units = 0
+            observed_failures = None
+        else:
+            evaluation_status = evaluated.get("status", "UNAVAILABLE")
+            evaluated_units = evaluated.get("independent_units", 0)
+            observed_failures = evaluated.get("observed_infeasible_units")
+            if observed_failures:
+                evaluation_status = "OBSERVED_INDEPENDENT_INFEASIBILITY"
+            elif evaluated_units:
+                evaluation_status = "NO_INFEASIBILITY_OBSERVED_NOT_VALIDATION"
+
+        cell["independent_evaluation"] = {
+            "status": evaluation_status,
+            "independent_units": evaluated_units,
+            "observed_infeasible_units": observed_failures,
+            "interpretation": "descriptive exact-setting outcomes only; no population or future-performance guarantee",
+        }
+        if cell["screened_candidate"] and candidate_screening_status == "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE":
+            cell["candidate_review_status"] = "WITHHELD_COMPLETE_SET_BY_INDEPENDENT_COUNTEREVIDENCE"
+            cell["required_engineer_action"] = "DO_NOT_ADVANCE; REVIEW_COUNTEREVIDENCE_AND_PLAN_A_NEW_EXPERIMENT"
+        elif cell["screened_candidate"] and cell["region_class"] == "interpolated":
+            cell["candidate_review_status"] = "MODEL_INTERPOLATION_ADVISORY_REQUIRES_EXACT_CONFIRMATION"
+            cell["required_engineer_action"] = "PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS"
+        elif cell["screened_candidate"]:
+            cell["candidate_review_status"] = "OBSERVED_SETTING_ADVISORY_REQUIRES_ENGINEER_REVIEW"
+            cell["required_engineer_action"] = "REVIEW_OBSERVED_POPULATION_AND_CONFIRM_REPEATABILITY"
+        else:
+            cell["candidate_review_status"] = "NOT_A_SCREENED_CANDIDATE"
+            cell["required_engineer_action"] = "NO_CANDIDATE_ACTION"
     partitions = {calibration_report["training_value"]: matching_rows,
                   calibration_report["calibration_value"]: calibration_rows}
     if calibration_report.get("evaluation_value") is not None:
@@ -1337,6 +1376,14 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
     simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)
     simultaneous_summary["pointwise_supported_candidate_count"] = len(candidates)
     simultaneous_summary["pointwise_screened_candidate_count"] = len(screened_candidates)
+    screened_candidate_counts_by_region = {
+        name: sum(cell["screened_candidate"] and cell["region_class"] == name for cell in grid)
+        for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")
+    }
+    candidate_counts_by_region = {
+        name: sum(cell["supported_candidate"] and cell["region_class"] == name for cell in grid)
+        for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")
+    }
     simultaneous_summary["status_scope"] = (
         "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY"
         if simultaneous_calibration.get("status") == "AVAILABLE" else "NOT_AVAILABLE")
@@ -1383,7 +1430,15 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             "model_diagnostics": fit_reports, "convex_hull_normalized": hull,
             "extrapolation_within_approved_bounds_present": extrapolation_present,
             "candidate_count": len(candidates), "candidate_cells": candidates,
-            "candidate_scope": "ADVISORY_POINTWISE_SCREENING_ONLY",
+            "candidate_counts_by_region": candidate_counts_by_region,
+            "screened_candidate_counts_by_region": screened_candidate_counts_by_region,
+            "candidate_count_semantics": (
+                "model-screened advisory hypotheses; a local grouped calibration interval does not validate model form, "
+                "interpolation, conditional coverage, or future process performance"),
+            "candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
+            "candidate_review_rule": (
+                "interpolated cells remain model-based hypotheses and require exact-setting confirmation on independent lots; "
+                "observed evaluation outcomes are descriptive only and a counterexample withholds the complete screened set"),
             "simultaneous_candidate_count": len(simultaneous_candidates),
             "joint_validation_status": "NOT_ESTABLISHED",
             "selection_warning": (

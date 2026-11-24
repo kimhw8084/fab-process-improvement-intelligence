@@ -1,0 +1,4347 @@
+{
+  "actual_p4_candidate_family": {
+    "any_false_feasible_trial_rate": 0.988,
+    "any_false_feasible_trial_wilson95": [
+      0.9653192195729803,
+      0.9959106801194657
+    ],
+    "candidate_cell_false_feasible_fraction": 0.2329105399034684,
+    "interpolated_cell_false_feasible_fraction": 0.23963506178542557,
+    "interpolation_false_feasible_trial_rate": 0.988,
+    "interpolation_false_feasible_trial_wilson95": [
+      0.9653192195729803,
+      0.9959106801194657
+    ],
+    "mean_candidate_cells": 35.636,
+    "mean_interpolated_candidate_cells": 34.636,
+    "scope": "pre-independent-confirmation model screen; known synthetic latent mean violations, not observed production risk",
+    "selected_trials": 250,
+    "trials_with_any_latent_mean_above_limit": 247,
+    "trials_with_interpolated_latent_mean_above_limit": 247
+  },
+  "benchmark_script_sha256": "de7a69f1ba1216b43837afb0a701a4e9372e841f5cf0d590c9521a3410284469",
+  "calibration_lots_per_trial": 20,
+  "evaluation_partition_supplied_to_product": false,
+  "generator": "random signed odd-harmonic interaction; zero at all 3x3 observed settings, variable between settings; independent Gaussian lot and observation noise",
+  "grid_points_per_axis": 9,
+  "independent_oracle": "known latent response function evaluated at every P4-selected cell after selection; never supplied to the product",
+  "interpolated_review_action_consistent_trials": 250,
+  "limitations": [
+    "deliberately omitted high-frequency interactions are outside the quadratic response model",
+    "all results are synthetic and generator-specific; no manufacturing failure-rate or coverage claim",
+    "the exact center baseline is guaranteed feasible by this challenge construction and is not a general product comparison",
+    "an independent exact-setting confirmation is required before any process decision; the product is advisory and read-only"
+  ],
+  "method": "direct invocation of products.p4.window.explore_window with its local grouped calibration and candidate screen",
+  "observed_settings": [
+    [
+      0.0,
+      0.0
+    ],
+    [
+      0.0,
+      1.0
+    ],
+    [
+      0.0,
+      2.0
+    ],
+    [
+      1.0,
+      0.0
+    ],
+    [
+      1.0,
+      1.0
+    ],
+    [
+      1.0,
+      2.0
+    ],
+    [
+      2.0,
+      0.0
+    ],
+    [
+      2.0,
+      1.0
+    ],
+    [
+      2.0,
+      2.0
+    ]
+  ],
+  "predeclared_baseline": {
+    "false_feasible_trial_rate": 0.0,
+    "false_feasible_trials": 0,
+    "screen": "same P4 local interval at this fixed exact observed setting",
+    "selected_trials": 250,
+    "setting": {
+      "power": 1.0,
+      "pressure": 1.0
+    },
+    "wilson95": [
+      8.673617379884035e-19,
+      0.015133299495444574
+    ]
+  },
+  "product_window_sha256": "32294b5008500658107e325deca6a97fbc6900a6e5f3b07cff91b85e403dd323",
+  "required_candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
+  "schema": "p4-d02-actual-selector-interpolation-benchmark/v1",
+  "seed": 20261123,
+  "status": "DIAGNOSTIC_COMPLETE",
+  "training_lots_per_trial": 30,
+  "trial_summaries": [
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.09038775239928193,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 31,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.09591160307723312,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 30,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": -0.09756722147241781,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.06797443714431621,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.03295131599458807,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": -0.06687471933039238,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.03187248910958026,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": -0.0908598513240479,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": 0.09357006776148692,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.057002984180550734,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.053990405066548605,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 42,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.07755257879518934,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 41,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10484451198365637,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.10877930194266079,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.0379814171819068,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 11,
+      "false_feasible_interpolated_count": 11,
+      "harmonic_amplitude": 0.07358476161001315,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10872195319692639,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07365953207105239,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": 0.052146995775167765,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08947488955201033,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.1041946814911482,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 24,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.054696328893209745,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 23,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07243629629449906,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": 0.08323943586590166,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.08901922028375626,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03997415250936477,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04860215329591344,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03803077925809334,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10177374288309052,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 28,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.05155395398070285,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 27,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.037771536952625286,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07858629113527714,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 23,
+      "false_feasible_candidate_count": 1,
+      "false_feasible_interpolated_count": 1,
+      "harmonic_amplitude": -0.04566912359493304,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 22,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07910418068724878,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.041613381049067574,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08627245476335793,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.05429170354208576,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.05434460834156425,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.06554587970375605,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.060948640601699154,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10036650688266531,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 31,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": -0.06890931191990934,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 30,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.0801865921762542,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 21,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.1011544810073674,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 20,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.1098867540504065,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03182424772824732,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 11,
+      "false_feasible_interpolated_count": 11,
+      "harmonic_amplitude": 0.07548547691586907,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.07341347187615983,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 5,
+      "false_feasible_interpolated_count": 5,
+      "harmonic_amplitude": 0.03605919991446009,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.10199834306397494,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07938296524298832,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04242317829157336,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 35,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.03958083732283962,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 34,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.09894673143621495,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.0842529229088671,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.10966838705558281,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.030601550380187605,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.03309443979053386,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 34,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.06512873817972009,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 33,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 38,
+      "false_feasible_candidate_count": 3,
+      "false_feasible_interpolated_count": 3,
+      "harmonic_amplitude": 0.040991733744052405,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 37,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.03911353151932106,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07739907438979304,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.10485307068932834,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.099560055293903,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.036353877676129284,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.05815744550702978,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.09389498689739349,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07434242206677963,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04385957526055246,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 27,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.0886430477401802,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 26,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04429698594857639,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": -0.0912166902203427,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.056131458802733986,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.09242979103333507,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.0701879926878742,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.09068888075342627,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.05318372018809969,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04558074155154771,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04134620124266425,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04340743160846264,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10044311650130122,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.08844826131478688,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.031156909302354263,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07757249583892792,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 9,
+      "false_feasible_interpolated_count": 9,
+      "harmonic_amplitude": -0.10648157665431807,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.0708826137585393,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.05301880703461122,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": 0.09656772825358127,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.0686748565120241,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.05160900233764221,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.052698657127947954,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 40,
+      "false_feasible_candidate_count": 4,
+      "false_feasible_interpolated_count": 4,
+      "harmonic_amplitude": 0.037362296762884356,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 39,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.05851109094635647,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03609618809186986,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.03665322337389171,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.06082345248127412,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": 0.07718298455775385,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07860749369250158,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 4,
+      "false_feasible_interpolated_count": 4,
+      "harmonic_amplitude": -0.033750314520535,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.06951192791334027,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08341426643688574,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.03916071472181157,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.1013103529177677,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 31,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.10810837635998383,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 30,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 15,
+      "false_feasible_interpolated_count": 15,
+      "harmonic_amplitude": -0.10803081023546328,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.0628744389884665,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.08443457821729405,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.08871298622591284,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 21,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.09395199434068752,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 20,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07014581070786732,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.033431200842501854,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.10808220532330086,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07681906693590396,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10186873386091631,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07832601590735558,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.05918062190472205,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.09546447291680105,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.0958393713243688,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 35,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03535750602924546,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 34,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08226085848595018,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08634142940555728,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10735665938613431,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.06399651217875632,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.03070866257805841,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 40,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.05153635092588414,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 39,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.09038364094496347,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 23,
+      "false_feasible_candidate_count": 5,
+      "false_feasible_interpolated_count": 5,
+      "harmonic_amplitude": 0.07414381800221162,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 22,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.05222002316896368,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08726893343905343,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.046500863814859,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.09630002940865987,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.05674680319375884,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 31,
+      "false_feasible_candidate_count": 9,
+      "false_feasible_interpolated_count": 9,
+      "harmonic_amplitude": 0.10805257795638734,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 30,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": 0.10278137801290238,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04121065239659542,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.07615590121665913,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.056786047681637336,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04966932137603983,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.03799214436768786,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.0843394261802024,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07879908719351977,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 4,
+      "false_feasible_interpolated_count": 4,
+      "harmonic_amplitude": -0.042471571107740094,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 15,
+      "false_feasible_interpolated_count": 15,
+      "harmonic_amplitude": -0.10937164941290328,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.07337828135527538,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08131401105777616,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07483157924576578,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.09642270314040373,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.10022356261748809,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.05852216825893967,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.03702087496169249,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.048641709916750736,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.048863698821457434,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.07766949440076534,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.09735619061071636,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": 0.0509435176613896,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08062425654941885,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03317030224896514,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.06895807216236843,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 32,
+      "false_feasible_candidate_count": 9,
+      "false_feasible_interpolated_count": 9,
+      "harmonic_amplitude": -0.09794031993402763,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 31,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.08208044457869823,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07375162902231527,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.07997484323742486,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.07953161444517531,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.08344615786116504,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08417512066520849,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03745330877613402,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 28,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.03035172529991998,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 27,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.10338254544303693,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 23,
+      "false_feasible_candidate_count": 5,
+      "false_feasible_interpolated_count": 5,
+      "harmonic_amplitude": -0.06414225489655973,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 22,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.09185618980322718,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04448206281662555,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08066534755034194,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.05398610987456112,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 34,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.07704448350102447,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 33,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08723889780518815,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08600885657696819,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 11,
+      "false_feasible_interpolated_count": 11,
+      "harmonic_amplitude": 0.07824793790756623,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.036761497191336624,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": -0.08620295678527334,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 40,
+      "false_feasible_candidate_count": 3,
+      "false_feasible_interpolated_count": 3,
+      "harmonic_amplitude": 0.03913137285336411,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 39,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 1,
+      "false_feasible_interpolated_count": 1,
+      "harmonic_amplitude": 0.03474068797976772,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10481507063534017,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08229225665773288,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04930562465788558,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07807816661053273,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 36,
+      "false_feasible_candidate_count": 9,
+      "false_feasible_interpolated_count": 9,
+      "harmonic_amplitude": -0.08728426737395603,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 35,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 43,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": 0.06189567985442114,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 42,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": false,
+      "any_false_feasible_interpolation": false,
+      "candidate_count": 22,
+      "false_feasible_candidate_count": 0,
+      "false_feasible_interpolated_count": 0,
+      "harmonic_amplitude": 0.032674049556273795,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 21,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 23,
+      "false_feasible_candidate_count": 5,
+      "false_feasible_interpolated_count": 5,
+      "harmonic_amplitude": 0.08215043559994276,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 22,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.055713994370847925,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.07493800446083834,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 24,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.053292163953163704,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 23,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04827489607390198,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": 0.0517884971801682,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.06975409907849592,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.05838847605344817,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.08593672691212276,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.1045464664769049,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 21,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.09427869166224381,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 20,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 13,
+      "false_feasible_interpolated_count": 13,
+      "harmonic_amplitude": -0.09468332938520456,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.04475348258415038,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.043300716443073387,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 25,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": 0.09866971777856025,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 24,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08509424630118863,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.05125199734737469,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": -0.03495851657413773,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.07777981298010084,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 27,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.0944816607073711,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 26,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 35,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.08743295228693887,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 34,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 23,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": 0.09250002788929215,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 22,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.04242559715509882,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": -0.0972631918151828,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 11,
+      "false_feasible_interpolated_count": 11,
+      "harmonic_amplitude": -0.05417433090420843,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.07265886415189171,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07675492954046143,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10359371694460102,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.09520861568513009,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 11,
+      "false_feasible_interpolated_count": 11,
+      "harmonic_amplitude": 0.08953706777164597,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 22,
+      "false_feasible_candidate_count": 4,
+      "false_feasible_interpolated_count": 4,
+      "harmonic_amplitude": 0.055902447759585756,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 21,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.07755884538342808,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": false,
+      "any_false_feasible_interpolation": false,
+      "candidate_count": 21,
+      "false_feasible_candidate_count": 0,
+      "false_feasible_interpolated_count": 0,
+      "harmonic_amplitude": 0.031633982259015495,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 20,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.06922449669406842,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.08416582677589508,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.05013598569477857,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 23,
+      "false_feasible_candidate_count": 1,
+      "false_feasible_interpolated_count": 1,
+      "harmonic_amplitude": 0.05016451072287605,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 22,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.10565521472003137,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.08978821273865753,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 32,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": 0.09635580636717048,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 31,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": -0.06446473771560485,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 10,
+      "false_feasible_interpolated_count": 10,
+      "harmonic_amplitude": -0.10692801576081369,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.06393761705568099,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": false,
+      "any_false_feasible_interpolation": false,
+      "candidate_count": 10,
+      "false_feasible_candidate_count": 0,
+      "false_feasible_interpolated_count": 0,
+      "harmonic_amplitude": 0.048275877237135986,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 9,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.09214899152257863,
+      "harmonic_frequencies": [
+        3,
+        5
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.07798259496464892,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 41,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": 0.051210063852048085,
+      "harmonic_frequencies": [
+        5,
+        5
+      ],
+      "interpolated_candidate_count": 40,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.08480379693201665,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.051480117912498444,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.042333217148015266,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": 0.05749279062674788,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 26,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": 0.08565938427170891,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 25,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 29,
+      "false_feasible_candidate_count": 6,
+      "false_feasible_interpolated_count": 6,
+      "harmonic_amplitude": -0.0640645830033113,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 28,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 33,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.08152144583731039,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 32,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 30,
+      "false_feasible_candidate_count": 7,
+      "false_feasible_interpolated_count": 7,
+      "harmonic_amplitude": 0.061792048048437735,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 29,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 40,
+      "false_feasible_candidate_count": 14,
+      "false_feasible_interpolated_count": 14,
+      "harmonic_amplitude": -0.09777572843736422,
+      "harmonic_frequencies": [
+        1,
+        3
+      ],
+      "interpolated_candidate_count": 39,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 45,
+      "false_feasible_candidate_count": 16,
+      "false_feasible_interpolated_count": 16,
+      "harmonic_amplitude": 0.0937996607558707,
+      "harmonic_frequencies": [
+        3,
+        3
+      ],
+      "interpolated_candidate_count": 44,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.10594928523005429,
+      "harmonic_frequencies": [
+        5,
+        3
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 12,
+      "false_feasible_interpolated_count": 12,
+      "harmonic_amplitude": 0.10930221361396614,
+      "harmonic_frequencies": [
+        3,
+        1
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 37,
+      "false_feasible_candidate_count": 2,
+      "false_feasible_interpolated_count": 2,
+      "harmonic_amplitude": 0.0301563100004118,
+      "harmonic_frequencies": [
+        1,
+        5
+      ],
+      "interpolated_candidate_count": 36,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 39,
+      "false_feasible_candidate_count": 11,
+      "false_feasible_interpolated_count": 11,
+      "harmonic_amplitude": -0.06989922242073532,
+      "harmonic_frequencies": [
+        5,
+        1
+      ],
+      "interpolated_candidate_count": 38,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    },
+    {
+      "any_false_feasible_candidate": true,
+      "any_false_feasible_interpolation": true,
+      "candidate_count": 27,
+      "false_feasible_candidate_count": 8,
+      "false_feasible_interpolated_count": 8,
+      "harmonic_amplitude": -0.0978617733369031,
+      "harmonic_frequencies": [
+        1,
+        1
+      ],
+      "interpolated_candidate_count": 26,
+      "interpolated_review_action_consistent": true,
+      "observed_candidate_count": 1,
+      "predeclared_center_false_feasible": false,
+      "predeclared_center_selected": true
+    }
+  ],
+  "trials": 250
+}

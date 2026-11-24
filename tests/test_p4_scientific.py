@@ -281,13 +281,44 @@ class P4IndependentChallenges(unittest.TestCase):
         self.assertEqual(a, b)
         self.assertFalse(a["executed"])
         self.assertEqual(a["actuation"], "none")
+        self.assertEqual(a["objective_statement"], self.full["objective"])
+        self.assertEqual(a["objective"]["source"], "investigation.objective")
+        self.assertEqual(a["objective"]["selection_policy"],
+                         "separate objectives; no scalar weighting or tradeoff preference is inferred")
+        self.assertEqual(a["objective"]["metrics"], [
+            {"metric": "yield_index", "unit": "synthetic index", "direction": "maximize", "min": 85, "max": None},
+            {"metric": "defect_rate", "unit": "synthetic rate", "direction": "minimize", "min": None, "max": 2.8},
+        ])
+        self.assertEqual(a["factor_definitions"], [
+            {"name": "pressure", "unit": "synthetic pressure unit", "approved_bounds": [1, 3], "role": "controllable"},
+            {"name": "temperature", "unit": "synthetic temperature unit", "approved_bounds": [40, 50], "role": "controllable"},
+        ])
+        self.assertIn("planning approximation", a["information_value"]["qualification"])
+        self.assertEqual(a["pre_execution_uncertainty"]["status"], "NOT_ESTIMATED_FOR_NEW_RUNS")
+        self.assertTrue(a["required_engineer_review"])
+        self.assertTrue(a["evidence_required_before_next_iteration"])
+        self.assertEqual(len(a["runs"]), 8)
         request = copy.deepcopy(self.full)
         request["experiment_design"]["run_budget"] = 2
         self.assertEqual(dossier(analyze(request))["D04_experiment_proposal"]["status"], "REFUSED")
 
+    def test_doe_refuses_when_no_engineering_objective_is_supplied(self):
+        request = copy.deepcopy(self.full)
+        request["objective"] = "   "
+        result = analyze(request)
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertTrue(any("require an objective" in item for item in result.get("limitations", [])))
+
     def test_d02_candidate_flows_into_d04_randomized_confirmation_with_limits_and_evidence(self):
-        baseline = dossier(analyze(self.full))
+        baseline_evidence = analyze(self.full)
+        baseline = dossier(baseline_evidence)
         supported = baseline["D02_supported_region"]
+        self.assertEqual(supported["candidate_scope"], "MODEL_BASED_ADVISORY_SCREENING_ONLY")
+        self.assertGreater(supported["screened_candidate_counts_by_region"]["interpolated"], 0)
+        d02_claim = next(claim for claim in baseline_evidence["claims"]
+                         if "response-surface model screened" in claim["statement"])
+        self.assertIn("unvalidated model hypotheses", d02_claim["statement"])
+        self.assertIn("does not validate a process window", d02_claim["statement"])
         candidate = supported["candidate_cells"][0]
         reference = {}
         for factor in self.full["factors"]:
