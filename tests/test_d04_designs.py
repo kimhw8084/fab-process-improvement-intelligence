@@ -4,6 +4,7 @@ import random
 import unittest
 from datetime import datetime, timedelta, timezone
 
+from qualification.benchmark_d04_aliasing import run_benchmark as run_aliasing_benchmark
 from products.p4.design import assign_blocks, propose_design, propose_window_confirmation
 
 
@@ -11,6 +12,15 @@ class DesignQualification(unittest.TestCase):
     def setUp(self):
         self.controls = ["a", "b", "c", "d"]
         self.bounds = {name: [0.0, 1.0] for name in self.controls}
+
+    def test_off_grid_aliasing_challenge_distinguishes_existing_design_geometries(self):
+        result = run_aliasing_benchmark(trials=1, seed=20261124)
+        self.assertEqual(result["schema"], "p4-d04-design-aliasing-benchmark/v1")
+        self.assertEqual(result["status"], "PASS_GEOMETRY_CHALLENGE")
+        for name in ("full_factorial", "central_composite", "d_optimal"):
+            self.assertEqual(result["strategies"][name]["trials_with_signal_over_epsilon"], 0)
+        self.assertEqual(result["strategies"]["latin_hypercube"]["trials_with_signal_over_epsilon"], 1)
+        self.assertFalse(result["statistical_power_evaluated"])
 
     def test_fractional_factorial_has_resolution_four_and_reproducible_alias_description(self):
         spec = {"run_budget": 8, "seed": 12, "blocks": 2}
