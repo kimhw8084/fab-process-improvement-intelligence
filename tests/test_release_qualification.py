@@ -5,6 +5,7 @@ from qualification.benchmark import integrated_demo_is_qualified, product_source
 from qualification.run_release_checks import (benchmark_matches_product_sources, benchmark_workflow_is_qualified,
                                                disposable_bridge_snapshot_matches,
                                                disposable_p1_browser_workflow_matches,
+                                               disposable_p1_gate_reason,
                                                disposable_snapshot_fingerprint_matches)
 from qualification.workflow_qualification import analysis_result_is_qualified
 
@@ -68,6 +69,16 @@ class PerformanceWorkflowQualificationTests(unittest.TestCase):
 
 
 class DisposableSnapshotEvidenceTests(unittest.TestCase):
+    def test_p1_gate_reason_distinguishes_hash_mismatch_from_stale_browser(self):
+        stale_browser = disposable_p1_gate_reason(True, False)
+        self.assertIn("hashes match", stale_browser)
+        self.assertIn("browser observation is stale", stale_browser)
+        self.assertNotIn("does not hash-match", stale_browser)
+        mismatched_source = disposable_p1_gate_reason(False, False)
+        self.assertIn("does not hash-match", mismatched_source)
+        current_browser = disposable_p1_gate_reason(True, True)
+        self.assertIn("owner acceptance", current_browser)
+
     def test_explicit_snapshot_manifest_is_verified(self):
         import hashlib
 

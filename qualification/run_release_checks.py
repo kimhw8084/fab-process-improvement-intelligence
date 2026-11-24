@@ -79,6 +79,20 @@ def disposable_p1_browser_workflow_matches(browser, current_p4_source_commit):
     )
 
 
+def disposable_p1_gate_reason(source_hashes_match, browser_source_matches):
+    if not source_hashes_match:
+        return ("the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; "
+                "its browser observation cannot establish current-source host behavior; authoritative P1 ownership, "
+                "formal accessibility, and target-host behavior remain pending")
+    if not browser_source_matches:
+        return ("the disposable P1 source and bridge hashes match the current P4 overlay, but the recorded browser "
+                "observation is stale and provides no current-source browser evidence; authoritative P1 ownership, "
+                "formal accessibility, and target-host behavior remain pending")
+    return ("the current P4 source passed only the recorded synthetic workflow and refusal inside an unversioned "
+            "disposable P1 composition; authoritative P1 ownership, owner acceptance, formal accessibility, and "
+            "target-host behavior remain pending")
+
+
 def archive_qualification_pass(evaluated_commit):
     release = ROOT / "release"
     archive = release / "FAB_INTELLIGENCE_P4_CANDIDATE.zip"
@@ -820,10 +834,7 @@ def main():
         and p1_host_checks.get("p4_panel_tests", {}).get("status") == "PASS"
         and disposable_p1_browser_workflow_matches(p1_browser, p1_implementation_commit)
     )
-    p1_gate_reason = (
-        "the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; its previous synthetic browser run is stale and provides no current-source host integration evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending"
-        if not p1_source_hashes_match or not p1_browser_current_source_match else
-        "current P4 source passed only the recorded synthetic workflow and refusal inside an unversioned disposable P1 composition; authoritative P1 ownership, owner acceptance, formal accessibility, and target-host behavior remain pending")
+    p1_gate_reason = disposable_p1_gate_reason(p1_source_hashes_match, p1_browser_current_source_match)
     ui_result = {"status": "PASS_LOCAL_MODULE_ONLY" if ui_component_pass else "NOT_RUN_OR_FAIL",
                  "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
                  "component_tests": ui_test_report.get("tests_passed"),
