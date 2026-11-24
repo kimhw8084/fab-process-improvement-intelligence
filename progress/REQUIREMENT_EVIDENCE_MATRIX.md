@@ -1,3 +1,12 @@
+# Latest verification — D03, release evidence, and D04 method selection (2026-11-24)
+
+| Requirement | Current executed evidence | Status / next action |
+|---|---|---|
+| D04 designs | Independent benchmark: finite-grid D-optimal efficiency 100%; seeded LHS marginal strata preserved. Sequential next-best on 32 seeds/function accepted 32/32 smooth and 32/32 asymmetric quadratic proposals with mean true-function regret about `3.75e-5`; multimodal proposals refused 32/32 when held-out grouped RMSE exceeded the caller's bound. scikit-optimize remains qualification-only. | Retain current simpler implementations and honest refusal; do not add a runtime optimizer for the benchmarked scope. This is synthetic evidence only. |
+| E07 qualification report | Release checker now distinguishes hash mismatch from stale browser. Current P1 composition/P4 hashes match, but browser remains bound to `36967b4`; E07 correctly stays pending. | Current-source browser, P1 owner/source identity, formal accessibility, and target host remain unverified. |
+| Exact release | Source `b0e3011`; 219 PASS/0 skipped. Archive 218 files, 9,281,029 bytes, SHA-256 `62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9`; two detached builds and fresh OS-network-denied no-pip extraction PASS; E10 PASS. | Candidate only; macOS ARM64/Python 3.11.7 evidence does not qualify another target OS or authorize transfer. |
+| Remaining queue | D01–D03 corrections remain committed and limited-scope; D04 benchmark supports existing method/refusal. | Continue D05 assumption and sensitivity audit; keep internal/security/target gates pending. |
+
 # Latest verification — E07 source and browser freshness diagnosis (2026-11-24)
 
 | Requirement | Current executed evidence | Status / next action |

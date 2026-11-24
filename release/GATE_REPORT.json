@@ -222,7 +222,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
+  "evaluated_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -328,7 +328,7 @@
         "products/p4/ui/P4Panel.test.tsx",
         "products/p4/ui/P4Panel.tsx"
       ],
-      "reason": "the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; its previous synthetic browser run is stale and provides no current-source host integration evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending",
+      "reason": "the disposable P1 source and bridge hashes match the current P4 overlay, but the recorded browser observation is stale and provides no current-source browser evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending",
       "status": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY"
     },
     "E08": {
@@ -427,7 +427,7 @@
   },
   "known_critical_defects": [],
   "product": "p4",
-  "product_source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
+  "product_source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
   "release_blockers": [
     "no actual authorized MCP connector",
     "disposable P1 composition compatibility was demonstrated; authoritative P1 source/version/registration ownership and owner acceptance remain pending",
@@ -446,11 +446,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "6c7455bc0e539a0555ec850e7fa697abebd88908",
+    "package_source_snapshot": "b0e30118ada66b202f981a04931f33d6f0e60a00",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
     "product_source_manifest_sha256": "2fc5f1fd4a59f1a5f87ad9aa095e8d8eb2997bc41db9534e39e6333ac4bee03b",
-    "source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
+    "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -505,12 +505,12 @@
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 13.817,
+    "duration_seconds": 14.084,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 218,
+    "tests_run": 219,
     "tests_skipped": 0
   }
 }

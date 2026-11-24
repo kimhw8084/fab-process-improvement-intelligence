@@ -1,7 +1,7 @@
 {
   "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
   "archive_checksum_verified": true,
-  "archive_sha256": "899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f",
+  "archive_sha256": "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9",
   "capability_statuses": {
     "D01": "VALID",
     "D02": "VALID",

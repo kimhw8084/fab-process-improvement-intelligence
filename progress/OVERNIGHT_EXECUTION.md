@@ -1,3 +1,11 @@
+# Latest qualification checkpoint — D03/E07 corrections and D04 benchmark (2026-11-24)
+
+- Exact source: `b0e30118ada66b202f981a04931f33d6f0e60a00`; final runner: 219 PASS/0 failures/0 skips; E01–E04, E06, E10 PASS. State remains `CANDIDATE`.
+- Current archive: 218 source files, 9,281,029 bytes, SHA-256 `62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9`. Two clean detached builds matched. Fresh no-pip extraction passed with OS network denial on macOS ARM64/Python 3.11.7.
+- `f0a0e14` corrects E07 diagnosis. Current disposable P1 source and bridge hashes match, but its live browser record is stale (`36967b4`); E07 remains pending for fresh browser evidence, authoritative P1 acceptance, formal accessibility and target-host behavior. E05/E12, E08, E09 and E11 remain pending internal/target/legal/security/ROI dependencies. No public push.
+- D04 decision from the committed independent OSS benchmark: retain bounded standard-library designs. Finite-grid D-optimal efficiency was 100%; LHS preserved all tested seeded marginal strata. Across 32 seeds each, P4 accepted smooth and asymmetric quadratic cases (64/64; mean accepted regret `3.75e-5`) and refused all multimodal cases on untouched grouped error; scikit-optimize was benchmark-only and is not added to runtime. No claim that synthetic surfaces establish fab performance.
+- Exact next task: inspect D05 effectiveness diagnostics, reproduce a meaningful held-out violation of an existing study assumption, and repair or narrow the output. Product completion and suite integration remain unestablished.
+
 # Latest checkpoint — truthful P1 gate diagnosis (2026-11-24)
 
 - Source commit `f0a0e14` separates current-source hash verification from browser freshness in E07. Verified the 35-file disposable P1 fingerprint, current P4 source hashes and MCP bridge fixture all match; the browser observation is stale at `36967b4`. E07 remains pending, now for the accurate reason: no current-source browser evidence, authoritative P1 owner acceptance, formal accessibility or target-host verification.

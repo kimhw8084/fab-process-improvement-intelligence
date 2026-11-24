@@ -145,7 +145,26 @@ test_never_claim_caused_or_control (test_engine.EngineCase.test_never_claim_caus
 test_mcp_permission_refusal_is_empty_and_bridge_sources_match_fingerprints (test_mcp_panel_bridge_fixture.McpPanelBridgeFixtureTests.test_mcp_permission_refusal_is_empty_and_bridge_sources_match_fingerprints) ... ok
 test_mcp_success_envelope_has_all_five_capabilities_and_exact_source_provenance (test_mcp_panel_bridge_fixture.McpPanelBridgeFixtureTests.test_mcp_success_envelope_has_all_five_capabilities_and_exact_source_provenance) ... ok
 test_endpoint_allowlist_and_cleartext_network_policy (test_mcp_transport.McpHttpQualification.test_endpoint_allowlist_and_cleartext_network_policy) ... ok
-test_streamable_http_sse_handshake_and_mapping (test_mcp_transport.McpHttpQualification.test_streamable_http_sse_handshake_and_mapping) ... ok
+test_streamable_http_sse_handshake_and_mapping (test_mcp_transport.McpHttpQualification.test_streamable_http_sse_handshake_and_mapping) ... ----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 49851)
+Traceback (most recent call last):
+  File "/opt/anaconda3/lib/python3.11/socketserver.py", line 691, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/anaconda3/lib/python3.11/socketserver.py", line 361, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/anaconda3/lib/python3.11/socketserver.py", line 755, in __init__
+    self.handle()
+  File "/opt/anaconda3/lib/python3.11/http/server.py", line 438, in handle
+    self.handle_one_request()
+  File "/opt/anaconda3/lib/python3.11/http/server.py", line 404, in handle_one_request
+    self.raw_requestline = self.rfile.readline(65537)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/lib/python3.11/socket.py", line 706, in readinto
+    return self._sock.recv_into(b)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+ConnectionResetError: [Errno 54] Connection reset by peer
+----------------------------------------
+ok
 test_company_pending_config_is_rejected_before_any_transport_is_started (test_mcp_transport.McpStdioQualification.test_company_pending_config_is_rejected_before_any_transport_is_started) ... ok
 test_initialize_pagination_and_all_contract_mappings (test_mcp_transport.McpStdioQualification.test_initialize_pagination_and_all_contract_mappings) ... ok
 test_missing_discovered_mapping_and_missing_result_mapping_fail_closed (test_mcp_transport.McpStdioQualification.test_missing_discovered_mapping_and_missing_result_mapping_fail_closed) ... ok
@@ -196,6 +215,7 @@ test_stale_or_incomplete_product_source_fingerprint_is_rejected (test_release_qu
 test_explicit_snapshot_manifest_is_verified (test_release_qualification.DisposableSnapshotEvidenceTests.test_explicit_snapshot_manifest_is_verified) ... ok
 test_mcp_bridge_snapshot_requires_the_exact_fixture_and_positive_boundary_tests (test_release_qualification.DisposableSnapshotEvidenceTests.test_mcp_bridge_snapshot_requires_the_exact_fixture_and_positive_boundary_tests) ... ok
 test_p1_browser_refusal_requires_structured_access_and_suppression_evidence (test_release_qualification.DisposableSnapshotEvidenceTests.test_p1_browser_refusal_requires_structured_access_and_suppression_evidence) ... ok
+test_p1_gate_reason_distinguishes_hash_mismatch_from_stale_browser (test_release_qualification.DisposableSnapshotEvidenceTests.test_p1_gate_reason_distinguishes_hash_mismatch_from_stale_browser) ... ok
 test_snapshot_without_hash_inventory_or_with_invalid_hash_is_rejected (test_release_qualification.DisposableSnapshotEvidenceTests.test_snapshot_without_hash_inventory_or_with_invalid_hash_is_rejected) ... ok
 test_complete_partial_demo_is_qualified_without_erasing_limits (test_release_qualification.IntegratedDemoStatusTests.test_complete_partial_demo_is_qualified_without_erasing_limits) ... ok
 test_missing_or_unexpected_capability_refuses_benchmark_qualification (test_release_qualification.IntegratedDemoStatusTests.test_missing_or_unexpected_capability_refuses_benchmark_qualification) ... ok
@@ -219,6 +239,6 @@ test_p4_contribution_matches_p1_ui_module_contract (test_shared_ui_contract.Shar
 test_p4_scatter_payload_matches_p1_chart_contract (test_shared_ui_contract.SharedUiContractTests.test_p4_scatter_payload_matches_p1_chart_contract) ... ok
 
 ----------------------------------------------------------------------
-Ran 218 tests in 13.817s
+Ran 219 tests in 14.084s
 
 OK
