@@ -6916,7 +6916,7 @@
             "observed": 3,
             "unsupported": 0
           },
-          "candidate_review_rule": "interpolated cells remain model-based hypotheses and require exact-setting confirmation on independent lots; observed evaluation outcomes are descriptive only and a counterexample withholds the complete screened set",
+          "candidate_review_rule": "interpolated cells remain model-based hypotheses and require exact-setting confirmation on independent lots; observed evaluation outcomes are descriptive only; exact infeasibility, a calibration-band miss, unseen declared evaluation strata, or a precommitted-panel mismatch withholds the complete screened set",
           "candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
           "candidate_screening_status": "AVAILABLE_ADVISORY_SCREENING",
           "convex_hull_normalized": [
@@ -27083,7 +27083,7 @@
             "observed": 3,
             "unsupported": 0
           },
-          "selection_warning": "Candidates are screened over a searched grid using local grouped calibration. Selection among cells can inflate false-feasible findings; these intervals do not establish simultaneous or conditional coverage. A separate maximum-score band is available only when an explicit precommit record declares the model, threshold, metric family, and exact-setting panel and every calibration unit matches that panel. The record's references and timing remain unauthenticated. Any observed infeasible outcome at an exact screened setting in the independent evaluation partition withholds the entire candidate set; the evaluation is never used to retain a favorable subset. Validate a preselected exact setting on independent engineering units before any process decision.",
+          "selection_warning": "Candidates are screened over a searched grid using local grouped calibration. Selection among cells can inflate false-feasible findings; these intervals do not establish simultaneous or conditional coverage. A separate maximum-score band is available only when an explicit precommit record declares the model, threshold, metric family, and exact-setting panel and every calibration unit matches that panel. The record's references and timing remain unauthenticated. Any observed infeasible outcome at an exact screened setting, a calibration-band miss, unseen declared evaluation strata, or a precommitted-panel mismatch in the independent evaluation partition withholds the entire candidate set; evaluation is never used to retain a favorable subset. A known mix difference alone remains a descriptive warning. Validate a preselected exact setting on independent engineering units before any process decision.",
           "simultaneous_candidate_count": 0,
           "simultaneous_exact_setting_screen": {
             "calibration_transfer_assessment": {
@@ -28642,7 +28642,7 @@
     "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
     "products/p4/regression.py": "527e54b6202bd2a0c82a866f9c9c53813136ec033c988df1293941ca2a286c99",
     "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
-    "products/p4/window.py": "32294b5008500658107e325deca6a97fbc6900a6e5f3b07cff91b85e403dd323",
+    "products/p4/window.py": "60cbf5ce21d3241c3ec1e9e981f77be13d9d45c2bf1a3ca9218928d78d688525",
     "qualification/build_mcp_panel_bridge_fixture.py": "870e73c1f8c08efc7ccfae32868bc02ec3a961e88c2a270b0b8318a969e6f99d",
     "tests/test_mcp_transport.py": "39fc395a14b42bf6e3e270288b4eadf3859d9661cfb6b949ac385d91734a9a87"
   },
