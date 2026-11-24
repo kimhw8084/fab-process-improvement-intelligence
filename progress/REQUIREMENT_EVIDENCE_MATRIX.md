@@ -1,3 +1,12 @@
+# Latest evidence — D02 confirmation refusal guard (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D02-to-D04 exact confirmation | Commit `b515f9d` requires the exact cell to remain `supported_candidate=true` and to be observed/interpolated before a confirmation design can be proposed. Added withheld-flag and extrapolated-region refusals. Focused design tests 23 PASS; full Python suite 232 PASS, 0 failures/skips. MCP bridge fixture regenerated twice identically: `290bc6664cc174e4dd216f5e254c6c4ab1f2cc23c25e024037933bb978e373a2`. | This prevents contradictory supplied window evidence from reopening a candidate. Next connect the independent complete-set evaluation veto fixture end-to-end through the confirmation planner. |
+| Current qualification evidence | Last release runner at `66a5685` had E02 PASS and 232 tests PASS; it predates D02 commit `b515f9d`. P1 fingerprint/browser and performance source hashes also predate current code. | Requalify once scientific edits stabilize. |
+| Distribution integrity | Existing ZIP `8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde` and repro/offline records identify source `00bb6a6`, not current P4. | E10 `PENDING_FINAL_ARCHIVE`; rebuild and verify exact archive at a later stable source. |
+| Company and suite gates | P1 source/owner, formal accessibility, target OS/network, actual Samsung authorization/mappings, company security/legal/production approval, and ROI remain unverified. | Remain pending; no external release/transfer-ready claim. |
+
 # Latest evidence — Qualification repair after D03 precommit guard (2026-11-24)
 
 | Requirement | Evidence | Next action |

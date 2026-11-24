@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "D03 bounded-mean benchmark fixture now declares the exact fixed synthetic t-family; focused path check, py_compile, and diff check passed",
-    "progress checkpoint records source-bound runner E02 cause; performance report and release outputs need regeneration"
+    "latest D02 source/test/fixture commit b515f9d has 232 Python tests passing; progress checkpoint awaits commit",
+    "release reports, P1 current-source fingerprint, and exact archive require refresh after scientific source changes stabilize"
   ],
-  "as_of_source_commit": "ba924b710d3598f44cb68597c46910dc88c04bac",
+  "as_of_source_commit": "b515f9d695cc2fc2ff06ceb439debdfde90de800",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -13,24 +13,43 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "D03_bounded_benchmark_repair": {
-      "change": "qualification fixture now supplies exact fixed synthetic t family and objectives before analysis",
-      "limitation": "plan string is synthetic and not authenticated",
-      "status": "IMPLEMENTED_FOCUSED_PATHS_PASS"
+    "D02_confirmation_guard": {
+      "adversarial_cases": [
+        "withheld candidate refuses",
+        "extrapolated candidate refuses"
+      ],
+      "focused_tests": "23 PASS",
+      "rules": [
+        "exact D02 cell must remain supported_candidate=true",
+        "region class must be observed or interpolated"
+      ],
+      "status": "IMPLEMENTED"
     },
-    "current_p1_evidence_commit": "ba924b710d3598f44cb68597c46910dc88c04bac",
+    "MCP_bridge_fixture": {
+      "sha256": "290bc6664cc174e4dd216f5e254c6c4ab1f2cc23c25e024037933bb978e373a2",
+      "status": "REBUILT_TWICE_IDENTICALLY"
+    },
+    "current_source_release_state": {
+      "E10": "PENDING_FINAL_ARCHIVE",
+      "P1_fingerprint_and_browser": "STALE_AFTER_D02_CHANGE",
+      "archive_sha256": "8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde",
+      "archive_source_commit": "00bb6a681564c7dcf2c8ac17536fd479761bcaca",
+      "product_performance": "STALE_AFTER_D02_CHANGE"
+    },
     "date": "2026-11-24",
     "engine_version": "1.2.2",
-    "release_archive": {
-      "next": "refresh performance benchmark and release runner before archive rebuild",
-      "status": "STALE"
+    "last_release_runner": {
+      "E01_E03_E04_E06": "PASS",
+      "E02": "PASS",
+      "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
+      "status": "STALE_AFTER_D02_CHANGE"
     },
-    "release_runner": {
-      "exit_code": 1,
-      "gates": "E01/E03/E04/E06 pass; E02 failed due stale D03 bounded benchmark precommit fixture and stale source performance manifest; E07-E12 remain honest pending states",
-      "python_tests": "232 PASS, 0 failures/skips"
-    },
-    "source_commit": "ba924b710d3598f44cb68597c46910dc88c04bac"
+    "source_commit": "b515f9d695cc2fc2ff06ceb439debdfde90de800",
+    "tests": {
+      "diff_check": "PASS",
+      "py_compile": "PASS",
+      "python_suite": "232 PASS, 0 failures, 0 skipped"
+    }
   },
   "never_do": [
     "publish or push",
@@ -38,38 +57,33 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the fixed-family D03 qualification fixture and checkpoint; refresh the source-bound software performance report; rerun the release runner once and inspect gates; then continue D02.",
-  "next_executable_action": "rtk git diff --check && rtk git add qualification/benchmark_d03_bounded_mean.py progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Align bounded mean benchmark with D03 precommit guard\"",
+  "next_action": "Extend independent D02 complete-set counterevidence through propose_window_confirmation, proving withheld candidates cannot be reopened by the confirmation planner.",
+  "next_executable_action": "rtk rg -n \"candidate_counterevidence|WITHHELD_COMPLETE_SET|INDEPENDENT_COUNTEREVIDENCE|candidate_cells\" tests/test_d01_d02_independent.py tests/test_d04_designs.py",
   "ordered_queue": [
     {
-      "priority": 0,
-      "status": "NEXT",
-      "task": "Repair current release qualification by committing the benchmark fixture update, rerunning product-source performance evidence, and rerunning release gates."
-    },
-    {
       "priority": 1,
-      "status": "NEXT_AFTER_RELEASE_REPAIR",
-      "task": "D02: continue independent selector, cross-population/time shift and exact-setting confirmation-value challenges."
+      "status": "NEXT",
+      "task": "D02: connect complete-set independent-evaluation veto cases to the D04 exact-confirmation planner; then continue selection/shift and experiment-value qualification."
     },
     {
       "priority": 2,
       "status": "IN_PROGRESS",
-      "task": "D01: continue held-out stability, omitted-variable and dependence challenges."
+      "task": "D01: held-out stability, omitted-variable and dependence challenges."
     },
     {
       "priority": 3,
       "status": "IN_PROGRESS",
-      "task": "D03: precommitted familywise mean envelope now fails closed; continue objective reversal, compatible population and selection analysis."
+      "task": "D03: continue objective reversal, compatible populations and selection; guarded familywise envelope is implemented."
     },
     {
       "priority": 4,
       "status": "PENDING",
-      "task": "D04: continue independently benchmarked constrained/sequential DOE only where it improves on factorial baselines."
+      "task": "D04: benchmark constrained/sequential strategy improvements beyond current factorial and expected-improvement baseline."
     },
     {
       "priority": 5,
       "status": "PENDING",
-      "task": "D05: continue placebo, pretrend, negative-control and sensitivity refusal cases."
+      "task": "D05: continue placebo, pretrend, negative-control and confounding sensitivity cases."
     },
     {
       "priority": 6,
@@ -79,21 +93,21 @@
     {
       "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Actual company authorization, mappings, target policies, security/legal/production approval and engineer ROI."
+      "task": "Company authorization, semantics, target policy, legal/security/production approval and engineer ROI."
     },
     {
       "priority": 8,
       "status": "PENDING_FINAL_QUALIFICATION",
-      "task": "After science stabilizes, exact archive rebuild, reproduction, network-denied extraction, rollback and release evidence."
+      "task": "After scientific changes stabilize, rerun source-bound benchmarks, current P1 qualification, release gates, and exact offline archive verification."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current release archive and reports are stale and final gates remain",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; source-bound runner, P1 evidence and archive are stale",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 scientific/product work continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; current compatibility is a disposable P1 composition without owner acceptance or formal accessibility"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 scientific/product backlog continues",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 compatibility evidence predates b515f9d and lacks owner acceptance/formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "P4 source commit 0240f4d and current-source P1 evidence commit ba924b7 are committed; D03 bounded benchmark fixture fix and progress update are now prepared; previous release runner had 232 PASS but E02 failed on two identified stale benchmark records; archive remains stale."
+  "worktree_state": "P4 source commit b515f9d is committed; 232 Python tests pass. Progress checkpoint is being committed. Current release runner was at 66a5685 and passed E02 but is stale after the D02 change; archive and P1 evidence are also stale."
 }
