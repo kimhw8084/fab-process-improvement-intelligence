@@ -17,6 +17,7 @@ The following describe expected behaviors **to be implemented and actually execu
 | P4-10 | physical constraint violation | **exclude from candidate or refuse experiment** | forbidden-domain oracle |
 | P4-11 | multiobjective tradeoff with downstream degradation | **report both objectives and conflict** | known Pareto oracle |
 | P4-12 | future leakage in split | **time/run-separated validation required** | held-out experiment oracle |
+| P4-26 | equal declared cohort ID but setting-specific product-family mix | **withhold cross-step Pareto comparison when declared composition differs or is absent** | exact Fraction stratum oracle; seeded zero-within-stratum-effect Simpson challenge |
 
 ## Cross-product external release gates
 | ID | Check | Evidence required |

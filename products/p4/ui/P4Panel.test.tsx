@@ -624,6 +624,31 @@ describe("P4 headless suite module", () => {
     expect(screen.getByRole("img", { name: "Host rendered limited-scope Pareto scatter" })).toBeTruthy();
   });
 
+  it("shows the D03 population-mix audit when comparison is withheld", () => {
+    const incompatibleEvidence = structuredClone(evidence);
+    const artifact = incompatibleEvidence.artifacts?.[0] as Record<string, unknown>;
+    const tradeoffs = artifact.D03_tradeoffs as Record<string, unknown>;
+    tradeoffs.status = "LIMITED_SCOPE";
+    tradeoffs.pareto_values = [];
+    tradeoffs.pareto_observation_ids = [];
+    tradeoffs.pareto_status_scope = "Cross-setting Pareto comparison withheld; means are descriptive per setting.";
+    tradeoffs.population_composition_audit = {
+      status: "MISMATCHED_DECLARED_STRATUM_DISTRIBUTIONS",
+      fields: [{ name: "product_family", upstream_field: "upstream.product_family",
+        downstream_field: "downstream.product_family" }],
+      settings: [{ id: "SYN-SETTING-1", strata: [{ values: { product_family: "FAMILY-A" }, count: 30, proportion: 1 }] },
+        { id: "SYN-SETTING-2", strata: [{ values: { product_family: "FAMILY-B" }, count: 30, proportion: 1 }] }],
+      interpretation: "Observed mix differs; no cross-setting Pareto comparison is made.",
+    };
+    render(<P4Panel sourcePreview={sourcePreview} evidence={incompatibleEvidence} />);
+
+    const d03 = screen.getByRole("region", { name: "D03 · Cross-step and multiobjective tradeoffs" });
+    expect(within(d03).getByRole("table", { name: "Cross-setting population composition audit" })).toBeTruthy();
+    expect(within(d03).getByText("MISMATCHED_DECLARED_STRATUM_DISTRIBUTIONS")).toBeTruthy();
+    expect(within(d03).getByText(/Cross-setting Pareto comparison withheld/)).toBeTruthy();
+    expect(within(d03).queryByRole("img", { name: /Pareto/ })).toBeNull();
+  });
+
   it("shows D04 as a non-executed proposal and withholds unsupported causal D05", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
     expect(screen.getByText(/Proposed runs: 2\. Executed: false/)).toBeTruthy();

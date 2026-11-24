@@ -1,0 +1,64 @@
+{
+  "benchmark": "D03_CROSS_STEP_COMPOSITION_SHIFT_FALSE_PARETO",
+  "benchmark_script_sha256": "dbfe93f0a775c8b014ec2a343c6ab2086b899add49b2bc9ec471bf3456bbdae5",
+  "examples": {
+    "matched_different_sizes": {
+      "oracle_counts": {
+        "1.0": {
+          "A": 15,
+          "B": 15
+        },
+        "2.0": {
+          "A": 20,
+          "B": 20
+        },
+        "3.0": {
+          "A": 25,
+          "B": 25
+        }
+      },
+      "p4_composition_status": "MATCHED_DECLARED_STRATUM_DISTRIBUTIONS",
+      "p4_front_count": 3,
+      "p4_status": "VALID"
+    },
+    "mismatched": {
+      "naive_dominated_setting_count": 2,
+      "oracle_counts": {
+        "1.0": {
+          "A": 30,
+          "B": 0
+        },
+        "2.0": {
+          "A": 12,
+          "B": 18
+        },
+        "3.0": {
+          "A": 3,
+          "B": 27
+        }
+      },
+      "p4_composition_status": "MISMATCHED_DECLARED_STRATUM_DISTRIBUTIONS",
+      "p4_front": [],
+      "p4_status": "LIMITED_SCOPE"
+    }
+  },
+  "limitations": [
+    "fixed two-stratum synthetic generator; no fab population or effect size claim",
+    "matching observed proportions does not establish exchangeability, randomization, or causal effects",
+    "only source-declared categorical fields can be audited; unmeasured mix differences remain unknown"
+  ],
+  "matched_mix_front_available_rate": 1.0,
+  "matched_mix_oracle_agreements": 250,
+  "mismatched_population_oracle_trials": 250,
+  "mismatched_trials_with_mix_only_naive_dominance": 250,
+  "naive_mix_only_false_dominance_rate": 1.0,
+  "oracle": "independent exact Fraction comparison of product-family proportions and manual two-objective mean dominance",
+  "p4_composition_refusals": 250,
+  "p4_mismatch_refusal_rate": 1.0,
+  "product_source_sha256": "cca7a01b63d842c6821ae949d8586b83335b982bc3a56783a8b5f5785752010c",
+  "schema": "p4-d03-population-mix-benchmark/v1",
+  "seed": 86117,
+  "status": "PASS",
+  "synthetic_only": true,
+  "trials": 250
+}

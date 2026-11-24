@@ -74,6 +74,25 @@ class SourceContractTests(unittest.TestCase):
         self.assertTrue(contract["properties"]["candidate_setting_ids"]["uniqueItems"])
         self.assertTrue(contract["properties"]["objectives"]["uniqueItems"])
 
+    def test_relationship_contract_has_synchronized_source_composition_mappings(self):
+        investigation = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        relationship_v1 = json.loads((ROOT / "products" / "p4" / "relationships.v1.schema.json").read_text(encoding="utf-8"))
+        relationship_v1_1 = json.loads((ROOT / "products" / "p4" / "relationships.v1.1.schema.json").read_text(encoding="utf-8"))
+        embedded = investigation["$defs"]["relationship_contract_v1_1"]["properties"]["population_composition_fields"]
+        standalone = relationship_v1_1["properties"]["population_composition_fields"]
+        self.assertEqual(embedded, standalone)
+        self.assertEqual(embedded["items"]["required"], ["name", "upstream_field", "downstream_field"])
+        self.assertFalse(embedded["items"]["additionalProperties"])
+        self.assertEqual(relationship_v1_1["$id"], "urn:fabintel:p4:relationship-contract:1.1.0")
+        self.assertIn("population_composition_fields", relationship_v1_1["required"])
+        self.assertNotIn("population_composition_fields", relationship_v1["properties"])
+        self.assertEqual(investigation["$defs"]["relationship_contract_v1"]["properties"]["contract_version"]["const"], "1.0.0")
+        self.assertEqual(investigation["$defs"]["relationship_contract_v1_1"]["properties"]["contract_version"]["const"], "1.1.0")
+        self.assertEqual(investigation["properties"]["linkage"]["oneOf"], [
+            {"$ref": "#/$defs/relationship_contract_v1"},
+            {"$ref": "#/$defs/relationship_contract_v1_1"},
+        ])
+
     def test_schema_files_identify_version(self):
         for name in ("evidence.v1.schema.json", "product-manifest.v1.schema.json"):
             doc = json.loads((ROOT / "contracts" / name).read_text(encoding="utf-8"))

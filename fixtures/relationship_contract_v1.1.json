@@ -1,0 +1,35 @@
+{
+  "approved": true,
+  "relationship_id": "SYN-REL-POPULATION-COMPOSITION-01",
+  "contract_version": "1.1.0",
+  "approval_reference": "SYN-APPROVAL-POPULATION-COMPOSITION-01",
+  "maximum_lag_seconds": 86400,
+  "unit_field": "unit_id",
+  "decision_factors": ["pressure"],
+  "minimum_independent_units": 30,
+  "population_composition_fields": [
+    {
+      "name": "product_family",
+      "upstream_field": "upstream.product_family",
+      "downstream_field": "downstream.product_family"
+    }
+  ],
+  "upstream": {
+    "source_id": "SYN-UPSTREAM",
+    "key_field": "upstream.unit_id",
+    "event_time_field": "upstream.event_ts",
+    "population_field": "upstream.population_id",
+    "population_id": "SYN-COHORT-01",
+    "metric_field": "metrics.yield",
+    "metric": "yield"
+  },
+  "downstream": {
+    "source_id": "SYN-DOWNSTREAM",
+    "key_field": "downstream.unit_id",
+    "event_time_field": "downstream.event_ts",
+    "population_field": "downstream.population_id",
+    "population_id": "SYN-COHORT-01",
+    "metric_field": "metrics.defect",
+    "metric": "defect"
+  }
+}

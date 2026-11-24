@@ -364,6 +364,7 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
     <h3 id="p4-d03-heading">D03 · Cross-step and multiobjective tradeoffs</h3>
     <p>Status: <Status value={result?.status} />. {text(result?.qualification || result?.reason)}</p>
     <p>{text(result?.pareto_status_scope)}</p>
+    <KeyValueTable label="Cross-setting population composition audit" value={result?.population_composition_audit} />
     <KeyValueTable label="Constraint eligibility and excluded population" value={result?.constraint_exclusion_audit} />
     <KeyValueTable label="Family-wise mean uncertainty envelope" value={result?.familywise_mean_envelope} />
     {typeof result?.selection_warning === "string" && <p role="note">{text(result.selection_warning)}</p>}

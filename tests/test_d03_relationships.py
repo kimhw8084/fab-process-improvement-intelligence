@@ -22,7 +22,7 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                                {"metric": "defect", "direction": "minimize"}]},
             "sources": [{"id": "SYN-UPSTREAM"}, {"id": "SYN-DOWNSTREAM"}],
             "linkage": {
-                "approved": True, "relationship_id": "SYN-REL-01", "contract_version": "1.0.0",
+                "approved": True, "relationship_id": "SYN-REL-01", "contract_version": "1.1.0",
                 "approval_reference": "SYN-APPROVAL-01", "maximum_lag_seconds": 86400,
                 "unit_field": "unit_id", "decision_factors": ["pressure"], "minimum_independent_units": 30,
                 "upstream": {"source_id": "SYN-UPSTREAM", "key_field": "upstream.unit_id",
@@ -30,7 +30,12 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                               "population_id": "SYN-COHORT-01", "metric_field": "metrics.yield", "metric": "yield"},
                 "downstream": {"source_id": "SYN-DOWNSTREAM", "key_field": "downstream.unit_id",
                                 "event_time_field": "downstream.event_ts", "population_field": "downstream.population_id",
-                                "population_id": "SYN-COHORT-01", "metric_field": "metrics.defect", "metric": "defect"}}
+                                "population_id": "SYN-COHORT-01", "metric_field": "metrics.defect", "metric": "defect"},
+                "population_composition_fields": [{
+                    "name": "product_family",
+                    "upstream_field": "upstream.product_family",
+                    "downstream_field": "downstream.product_family",
+                }]}
         }
         self.rows = []
         for setting, avg_yield, avg_defect in ((1, 80, 5), (2, 85, 6), (3, 82, 4)):
@@ -41,12 +46,16 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                     "factors": {"pressure": float(setting)},
                     "metrics": {"yield": avg_yield+noise, "defect": avg_defect-noise*0.3},
                     "source_ids": ["SYN-UPSTREAM", "SYN-DOWNSTREAM"],
-                    "upstream": {"unit_id": unit_id, "event_ts": "2026-01-01T00:00:00Z", "population_id": "SYN-COHORT-01"},
-                    "downstream": {"unit_id": unit_id, "event_ts": "2026-01-01T03:00:00Z", "population_id": "SYN-COHORT-01"}})
+                    "upstream": {"unit_id": unit_id, "event_ts": "2026-01-01T00:00:00Z", "population_id": "SYN-COHORT-01",
+                                 "product_family": "FAMILY-A" if unit % 2 == 0 else "FAMILY-B"},
+                    "downstream": {"unit_id": unit_id, "event_ts": "2026-01-01T03:00:00Z", "population_id": "SYN-COHORT-01",
+                                   "product_family": "FAMILY-A" if unit % 2 == 0 else "FAMILY-B"}})
 
     def test_paired_population_metrics_and_uncertainty_produce_hand_checked_front(self):
         result = cross_step_tradeoffs(self.rows, self.metric_defs, self.data)
         self.assertEqual(result["status"], "VALID")
+        self.assertEqual(result["population_composition_audit"]["status"],
+                         "MATCHED_DECLARED_STRATUM_DISTRIBUTIONS")
         self.assertEqual(result["pareto_observation_ids"], ["SYN-SETTING-2", "SYN-SETTING-3"])
         setting2 = next(item for item in result["candidate_settings"] if item["factors"]["pressure"] == 2)
         self.assertAlmostEqual(setting2["means"]["yield"], 85.0)
@@ -65,6 +74,37 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                       result["familywise_interval_separated_dominance"])
         self.assertIn("SYN-SETTING-2", result["familywise_nondominated_setting_ids"])
 
+    def test_cross_step_pareto_is_withheld_when_product_mix_changes_across_settings(self):
+        rows = copy.deepcopy(self.rows)
+        data = copy.deepcopy(self.data)
+        data["linkage"]["population_composition_fields"] = [{
+            "name": "product_family",
+            "upstream_field": "upstream.product_family",
+            "downstream_field": "downstream.product_family",
+        }]
+        counts_by_setting = {1: 30, 2: 15, 3: 0}
+        unit_index_by_setting = {1: 0, 2: 0, 3: 0}
+        for row in rows:
+            setting = int(row["factors"]["pressure"])
+            unit_index = unit_index_by_setting[setting]
+            unit_index_by_setting[setting] += 1
+            family = "FAMILY-A" if unit_index < counts_by_setting[setting] else "FAMILY-B"
+            row["upstream"]["product_family"] = family
+            row["downstream"]["product_family"] = family
+            row["metrics"]["yield"] = 90.0 if family == "FAMILY-A" else 70.0
+            row["metrics"]["defect"] = 1.0 if family == "FAMILY-A" else 10.0
+
+        result = cross_step_tradeoffs(rows, self.metric_defs, data)
+
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertEqual(result["population_composition_audit"]["status"],
+                         "MISMATCHED_DECLARED_STRATUM_DISTRIBUTIONS")
+        self.assertEqual(result["mean_pareto_setting_ids"], [])
+        self.assertEqual(result["pareto_observation_ids"], [])
+        self.assertEqual(result["pareto_values"], [])
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "NOT_AVAILABLE_POPULATION_COMPOSITION_MISMATCH")
+
     def test_sparse_cross_step_setting_makes_front_explicitly_incomplete(self):
         rows = copy.deepcopy(self.rows)
         for unit in range(20):
@@ -74,9 +114,11 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                          "metrics": {"yield": 90.0 + unit / 100, "defect": 2.0},
                          "source_ids": ["SYN-UPSTREAM", "SYN-DOWNSTREAM"],
                          "upstream": {"unit_id": unit_id, "event_ts": "2026-01-01T00:00:00Z",
-                                      "population_id": "SYN-COHORT-01"},
+                                      "population_id": "SYN-COHORT-01",
+                                      "product_family": "FAMILY-A" if unit % 2 == 0 else "FAMILY-B"},
                          "downstream": {"unit_id": unit_id, "event_ts": "2026-01-01T03:00:00Z",
-                                        "population_id": "SYN-COHORT-01"}})
+                                        "population_id": "SYN-COHORT-01",
+                                        "product_family": "FAMILY-A" if unit % 2 == 0 else "FAMILY-B"}})
         result = cross_step_tradeoffs(rows, self.metric_defs, self.data)
         self.assertEqual(result["status"], "LIMITED_SCOPE")
         self.assertNotIn("SYN-SETTING-4", result["pareto_observation_ids"])
@@ -476,9 +518,11 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                     "metrics": {"yield": avg_yield + noise, "defect": avg_defect - noise * 0.3},
                     "source_ids": ["SYN-UPSTREAM", "SYN-DOWNSTREAM"],
                     "upstream": {"unit_id": unit_id, "event_ts": "2026-01-01T00:00:00Z",
-                                 "population_id": "SYN-COHORT-01"},
+                                 "population_id": "SYN-COHORT-01",
+                                 "product_family": "FAMILY-A" if unit % 2 == 0 else "FAMILY-B"},
                     "downstream": {"unit_id": unit_id, "event_ts": "2026-01-01T03:00:00Z",
-                                   "population_id": "SYN-COHORT-01"},
+                                   "population_id": "SYN-COHORT-01",
+                                   "product_family": "FAMILY-A" if unit % 2 == 0 else "FAMILY-B"},
                 })
 
         result = analyze(request)
@@ -494,6 +538,49 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                          "AVAILABLE_BOUNDED_HOEFFDING_ENVELOPE")
         self.assertEqual(tradeoffs["familywise_mean_envelope"]["hard_bounds_units"],
                          {"defect": "count", "yield": "%"})
+
+    def test_cross_step_pareto_is_withheld_without_approved_composition_fields(self):
+        data = copy.deepcopy(self.data)
+        data["linkage"].pop("population_composition_fields")
+        data["linkage"]["contract_version"] = "1.0.0"
+
+        result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
+
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertEqual(result["population_composition_audit"]["status"],
+                         "NOT_ASSESSED_NO_DECLARED_COMPOSITION_FIELDS")
+        self.assertEqual(result["mean_pareto_setting_ids"], [])
+        self.assertEqual(result["pareto_values"], [])
+
+    def test_v1_relationship_cannot_silently_carry_v1_1_composition_fields(self):
+        data = copy.deepcopy(self.data)
+        data["linkage"]["contract_version"] = "1.0.0"
+
+        result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
+
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertIn("require relationship contract v1.1.0", result["reason"])
+        self.assertEqual(result["pareto_observation_ids"], [])
+
+    def test_unhashable_relationship_version_fails_closed(self):
+        data = copy.deepcopy(self.data)
+        data["linkage"]["contract_version"] = ["1.1.0"]
+
+        result = cross_step_tradeoffs(self.rows, self.metric_defs, data)
+
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertEqual(result["pareto_observation_ids"], [])
+
+    def test_cross_step_refuses_disagreeing_source_stratum_values(self):
+        rows = copy.deepcopy(self.rows)
+        rows[0]["downstream"]["product_family"] = "FAMILY-OTHER"
+
+        result = cross_step_tradeoffs(rows, self.metric_defs, self.data)
+
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertEqual(result["population_composition_audit"]["status"],
+                         "UPSTREAM_DOWNSTREAM_COMPOSITION_MISMATCH")
+        self.assertEqual(result["pareto_observation_ids"], [])
 
 
 if __name__ == "__main__":

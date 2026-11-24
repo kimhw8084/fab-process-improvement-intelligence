@@ -517,9 +517,14 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     if link.get("approved") is not True or any(key not in link for key in required):
         return {"status": "LIMITED_SCOPE", "reason": "relationship contract or approval reference is incomplete",
                 "pareto_observation_ids": [], "downstream_claim": "withheld"}
-    if (not str(link["relationship_id"]).startswith("SYN-") or link["contract_version"] != "1.0.0"
+    if (not str(link["relationship_id"]).startswith("SYN-")
+            or not isinstance(link["contract_version"], str)
+            or link["contract_version"] not in {"1.0.0", "1.1.0"}
             or not str(link["approval_reference"]).startswith("SYN-")):
         return {"status": "LIMITED_SCOPE", "reason": "only the versioned synthetic relationship contract can be qualified offline",
+                "pareto_observation_ids": [], "downstream_claim": "withheld"}
+    if link["contract_version"] == "1.0.0" and "population_composition_fields" in link:
+        return {"status": "LIMITED_SCOPE", "reason": "population composition mappings require relationship contract v1.1.0",
                 "pareto_observation_ids": [], "downstream_claim": "withheld"}
     upstream, downstream = link["upstream"], link["downstream"]
     if not isinstance(upstream, dict) or not isinstance(downstream, dict):
@@ -581,9 +586,27 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     if not isinstance(minimum_units, int) or isinstance(minimum_units, bool) or minimum_units < 3:
         raise RelationshipError("minimum_independent_units must be at least 3")
 
+    raw_composition_fields = link.get("population_composition_fields")
+    composition_fields = []
+    composition_field_status = "DECLARED"
+    if raw_composition_fields is None:
+        composition_field_status = "NOT_ASSESSED_NO_DECLARED_COMPOSITION_FIELDS"
+    elif (not isinstance(raw_composition_fields, list) or not raw_composition_fields
+          or any(not isinstance(item, dict)
+                 or any(not isinstance(item.get(key), str) or not item[key].strip()
+                        for key in ("name", "upstream_field", "downstream_field"))
+                 for item in raw_composition_fields)
+          or len({item.get("name") for item in raw_composition_fields
+                  if isinstance(item, dict)}) != len(raw_composition_fields)):
+        composition_field_status = "INVALID_DECLARED_COMPOSITION_FIELDS"
+    else:
+        composition_fields = raw_composition_fields
+
     seen_pairs, seen_units = set(), set()
     groups = {}
     setting_audit = {}
+    composition_counts = {}
+    composition_labels = {}
     def metric_pass(value, definition):
         return ((definition.get("min") is None or value >= definition["min"])
                 and (definition.get("max") is None or value <= definition["max"]))
@@ -637,6 +660,31 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         mapped_row = {**row, "metrics": {**row["metrics"], upstream["metric"]: float(up_value),
                                            downstream["metric"]: float(down_value)}}
         setting = tuple(row["factors"][name] for name in decision_factors)
+        if composition_fields:
+            stratum = {}
+            for field in composition_fields:
+                try:
+                    upstream_value = _path(row, field["upstream_field"])
+                    downstream_value = _path(row, field["downstream_field"])
+                    upstream_identity = _identity_key(upstream_value)
+                    downstream_identity = _identity_key(downstream_value)
+                except RelationshipError as exc:
+                    return {"status": "LIMITED_SCOPE",
+                            "reason": f"declared population composition field is missing or invalid: {exc}",
+                            "pareto_observation_ids": [], "downstream_claim": "withheld",
+                            "population_composition_audit": {"status": "INVALID_OBSERVED_COMPOSITION_VALUE",
+                                "field": field["name"]}}
+                if upstream_identity != downstream_identity:
+                    return {"status": "LIMITED_SCOPE",
+                            "reason": "upstream and downstream population composition values disagree",
+                            "pareto_observation_ids": [], "downstream_claim": "withheld",
+                            "population_composition_audit": {"status": "UPSTREAM_DOWNSTREAM_COMPOSITION_MISMATCH",
+                                "field": field["name"]}}
+                stratum[field["name"]] = upstream_value
+            stratum_key = json.dumps(stratum, sort_keys=True, separators=(",", ":"))
+            setting_composition = composition_counts.setdefault(setting, {})
+            setting_composition[stratum_key] = setting_composition.get(stratum_key, 0) + 1
+            composition_labels[stratum_key] = stratum
         audit = setting_audit.setdefault(setting, {"all_independent_units": 0, "eligible_independent_units": 0,
                                                    "excluded_independent_units": 0})
         audit["all_independent_units"] += 1
@@ -661,6 +709,46 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
                             "reason": "below independent-unit minimum"}
                            for setting, audit in setting_audit.items()
                            if audit["eligible_independent_units"] < minimum_units]
+
+    composition_profiles = []
+    for setting, counts in composition_counts.items():
+        total = sum(counts.values())
+        composition_profiles.append({
+            "id": "SYN-SETTING-" + "-".join(f"{value:g}" for value in setting),
+            "factors": dict(zip(decision_factors, setting)),
+            "independent_units": total,
+            "strata": [{"values": composition_labels[key], "count": count,
+                        "proportion": count/total}
+                       for key, count in sorted(counts.items())],
+        })
+    if composition_field_status != "DECLARED":
+        composition_status = composition_field_status
+    elif len(composition_counts) < 2:
+        composition_status = "NOT_ASSESSED_FEWER_THAN_TWO_SETTINGS"
+    else:
+        setting_items = list(composition_counts.items())
+        reference_total = sum(setting_items[0][1].values())
+        reference_counts = setting_items[0][1]
+        same_proportions = True
+        for _, counts in setting_items[1:]:
+            total = sum(counts.values())
+            for key in set(reference_counts) | set(counts):
+                if counts.get(key, 0)*reference_total != reference_counts.get(key, 0)*total:
+                    same_proportions = False
+                    break
+            if not same_proportions:
+                break
+        composition_status = ("MATCHED_DECLARED_STRATUM_DISTRIBUTIONS" if same_proportions
+                              else "MISMATCHED_DECLARED_STRATUM_DISTRIBUTIONS")
+    population_composition_audit = {
+        "status": composition_status,
+        "fields": [{"name": item["name"], "upstream_field": item["upstream_field"],
+                    "downstream_field": item["downstream_field"]}
+                   for item in composition_fields],
+        "settings": composition_profiles,
+        "method": "exact comparison of observed categorical stratum proportions before metric-constraint screening",
+        "interpretation": "matching declared proportions are descriptive compatibility evidence only; they do not establish exchangeability, random assignment, or a causal effect",
+    }
 
     candidates = []
     uncertainty_limitations = []
@@ -699,21 +787,38 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     if not candidates:
         return {"status": "LIMITED_SCOPE", "reason": "no constraint-eligible decision setting met the independent-unit minimum",
                 "minimum_independent_units": minimum_units, "pareto_observation_ids": [], "downstream_claim": "withheld",
-                "constraint_exclusion_audit": constraint_audit, "unassessed_settings": unassessed_settings}
-    front = [candidate for candidate in candidates if not any(other is not candidate and _dominates(other, candidate, objectives)
-                                                               for other in candidates)]
-    mean_front_ids = [candidate["id"] for candidate in front]
-    interval_dominance = _uncertainty_dominance_audit(candidates, objectives, set(mean_front_ids))
+                "constraint_exclusion_audit": constraint_audit, "unassessed_settings": unassessed_settings,
+                "population_composition_audit": population_composition_audit}
+    population_composition_compatible = (
+        composition_status == "MATCHED_DECLARED_STRATUM_DISTRIBUTIONS")
+    if population_composition_compatible:
+        front = [candidate for candidate in candidates if not any(
+            other is not candidate and _dominates(other, candidate, objectives) for other in candidates)]
+        mean_front_ids = [candidate["id"] for candidate in front]
+        interval_dominance = _uncertainty_dominance_audit(candidates, objectives, set(mean_front_ids))
+    else:
+        front, mean_front_ids, interval_dominance = [], [], []
+        for candidate in candidates:
+            candidate["mean_pareto_status"] = "NOT_COMPARED_POPULATION_COMPOSITION_UNVERIFIED_OR_MISMATCHED"
+            candidate["uncertainty_dominance_status"] = "NOT_COMPARED_POPULATION_COMPOSITION_UNVERIFIED_OR_MISMATCHED"
+            candidate["interval_separated_dominated_by"] = []
     familywise_envelope, familywise_dominance = _familywise_mean_envelope(
-        candidates, objectives, allow=excluded_units_total == 0 and not unassessed_settings,
+        candidates, objectives, allow=(excluded_units_total == 0 and not unassessed_settings
+                                       and population_composition_compatible),
         unavailable_status=("NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION" if excluded_units_total
+                            else "NOT_AVAILABLE_POPULATION_COMPOSITION_UNVERIFIED"
+                            if composition_status == "NOT_ASSESSED_NO_DECLARED_COMPOSITION_FIELDS"
+                            else "NOT_AVAILABLE_INVALID_COMPOSITION_FIELDS"
+                            if composition_status == "INVALID_DECLARED_COMPOSITION_FIELDS"
+                            else "NOT_AVAILABLE_POPULATION_COMPOSITION_MISMATCH"
+                            if composition_status == "MISMATCHED_DECLARED_STRATUM_DISTRIBUTIONS"
+                            else "NOT_AVAILABLE_POPULATION_COMPOSITION_UNVERIFIED"
+                            if composition_status != "MATCHED_DECLARED_STRATUM_DISTRIBUTIONS"
                             else "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS"),
         bounded_contract=data.get("familywise_mean_bounds"),
         t_precommit=data.get("familywise_t_precommit"),
         metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
-    familywise_envelope["population_compatibility"] = (
-        "DECLARED_MATCHING_POPULATION_ID_IN_SYNTHETIC_APPROVED_RELATIONSHIP"
-        if upstream["population_id"] == downstream["population_id"] else "NOT_ESTABLISHED")
+    familywise_envelope["population_compatibility"] = composition_status
     comparisons = []
     for left, right in combinations(candidates, 2):
         overlaps, comparison_status = {}, {}
@@ -736,7 +841,10 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
         warning_parts.append("Constraint-eligible paired units only are summarized; compare the per-setting exclusion audit before interpreting population tradeoffs.")
     if unassessed_settings:
         warning_parts.append("Some observed settings were omitted because they did not meet the independent-unit minimum; the Pareto front is incomplete.")
-    return {"status": "VALID" if excluded_units_total == 0 and uncertainty_available and not unassessed_settings else "LIMITED_SCOPE",
+    if not population_composition_compatible:
+        warning_parts.append("The cross-setting Pareto front and family-wise comparison are withheld because the declared population-stratum proportions are missing or differ; the shared population ID alone does not establish comparable product/tool/chamber mix.")
+    return {"status": "VALID" if excluded_units_total == 0 and uncertainty_available and not unassessed_settings
+            and population_composition_compatible else "LIMITED_SCOPE",
             "method": "paired_population_marginal_pareto_with_t_intervals",
             "relationship_id": link["relationship_id"], "relationship_contract_version": link["contract_version"],
             "approval_reference": link["approval_reference"], "population_id": upstream["population_id"],
@@ -747,6 +855,7 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             "compatible_paired_units": len(seen_units),
             "eligible_paired_units": sum(item["eligible_independent_units"] for item in setting_audit.values()),
             "candidate_settings": candidates,
+            "population_composition_audit": population_composition_audit,
             "constraint_exclusion_audit": constraint_audit,
             "selection_warning": " ".join(warning_parts) or None,
             "unassessed_settings": unassessed_settings,
@@ -756,7 +865,9 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             "familywise_interval_separated_dominance": familywise_dominance,
             "familywise_nondominated_setting_ids": [candidate["id"] for candidate in candidates
                                                        if candidate["familywise_dominance_status"] == "NO_FAMILYWISE_INTERVAL_SEPARATED_DOMINATOR"],
-            "pareto_status_scope": "mean-based observed front; marginal interval separation is diagnostic only; the separate Bonferroni envelope is assumption-conditional and unavailable after outcome-based constraint selection",
+            "pareto_status_scope": ("mean-based observed front; exact declared-stratum proportion matching is required; marginal interval separation is diagnostic only; the separate Bonferroni envelope is assumption-conditional"
+                                    if population_composition_compatible else
+                                    "cross-setting Pareto comparison withheld; candidate means are descriptive per setting because declared population-stratum proportions are unverified or mismatched"),
             "pareto_values": [{"id": c["id"], "factors": c["factors"], **c["means"]} for c in front],
             "tradeoff_count": len(front), "uncertainty_comparisons": comparisons,
             "uncertainty_available": uncertainty_available,

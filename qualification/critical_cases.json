@@ -223,5 +223,14 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_d05_studies.py::EffectivenessQualification.test_did_withholds_estimate_when_timing_is_missing_or_conflicts_with_cutoff"
+  },
+  {
+    "id": "P4-26",
+    "input_challenge": "cross-step settings share a declared population ID but differ in product-family proportions, creating a mix-only Pareto winner",
+    "required_result": "audit explicitly mapped upstream/downstream strata and withhold the cross-setting Pareto and family-wise comparisons when their observed proportions are missing or mismatched; allow matched proportions across unequal sample sizes",
+    "oracle": "250 seeded trials; exact Fraction proportion oracle; no within-family setting effect; na\u00efve aggregate means create false dominance in every mismatched trial",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_cross_step_pareto_is_withheld_when_product_mix_changes_across_settings; qualification/benchmark_d03_population_mix.py"
   }
 ]
