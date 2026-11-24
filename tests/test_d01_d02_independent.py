@@ -8,6 +8,7 @@ import unittest
 
 from products.p4.regression import fit_linear_model
 from products.p4.engine import _model_specification_sensitivity
+from products.p4.design import propose_window_confirmation
 from products.p4.window import (explore_window, _finite_rank_quantile, _partition_composition_diagnostic,
                                 _simultaneous_exact_setting_calibration)
 
@@ -1230,6 +1231,12 @@ class SupportedWindowQualification(unittest.TestCase):
         self.assertEqual(result["simultaneous_exact_setting_screen"]["pointwise_supported_candidate_count"], 0)
         self.assertEqual(result["simultaneous_exact_setting_screen"]["pointwise_screened_candidate_count"],
                          result["screened_candidate_count"])
+        reopened = propose_window_confirmation(
+            result, ["pressure", "power"], {"pressure": [0, 2], "power": [0, 2]},
+            {"candidate_factors": {"pressure": 0.5, "power": 0.5}}, [], METRIC)
+        self.assertEqual(reopened["status"], "REFUSED")
+        self.assertEqual(reopened["run_count"], 0)
+        self.assertEqual(reopened["executed"], False)
 
         # One exact failed setting is enough to veto the searched set even if
         # the holdout does not cover every candidate and cannot form a setwise
