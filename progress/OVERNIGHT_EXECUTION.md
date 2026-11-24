@@ -475,3 +475,31 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 
 - The clean-worktree guard rejected dirty `progress/` even though the bundle excludes it. Aligned the guard with `EXCLUDED_SOURCE_PREFIXES` (progress and legacy qualification evidence) and added tracked/untracked regression cases. Focused schema/UI/builder suite: 14 PASS; `git diff --check` PASS.
 - The previous exact-source runner at `1235259` passed 259 Python tests and E01-E04/E06; E10 awaits final archive. The builder correction changes source, so regenerate performance evidence and rerun the full release runner after commit.
+
+- Builder correction committed at `abe0bb9d8c9425c831245c585ec9c9fb1771477b`; exact-source release runner and archive qualification are pending for this commit.
+
+
+# Exact offline candidate — 2026-11-24
+
+- Source commit `abe0bb9d8c9425c831245c585ec9c9fb1771477b`: 259 Python tests PASS/0 skipped; E01/E02/E03/E04/E06/E10 PASS. Remaining: E05 internal; E07 authoritative P1/formal accessibility; E08 target OS; E09 rights and independent security review; E11 engineer baseline; E12 company qualification. Product state remains CANDIDATE.
+- ZIP `release/FAB_INTELLIGENCE_P4_CANDIDATE.zip`: SHA-256 `60cef5877f55810c1d964f6b685e119f0caf1ba80edd20ea56f213d5c74a89d9`, 9332523 bytes, 224 source files; manifest SHA-256 `755795db41ddbeda673c04813f0b826e68b3827d998823f3e2a9a281ac88e6a5`.
+- Two clean detached worktree builds matched byte-for-byte. Fresh extraction used a no-pip venv, verified all source files, ran doctor/demo/D01-D05, and the macOS OS sandbox denied the network probe. Scope: macOS 26.6.2 ARM64 / CPython 3.11.7 only.
+- D02 subgroup diagnostic found held-out miss fractions pooled 2.47%, A 0.52%, B 100% in the fixed synthetic nonlinear drift challenge; counts matched the independent oracle. Descriptive counterevidence only.
+- No publication or push. Company authorization, actual source semantics, target-host, formal security/accessibility and ROI remain unverified. Next: D01 independent uncertainty/identifiability challenge.
+
+
+# D01 heavy-tail and D03 population-composition checkpoint — 2026-11-24
+
+- Source commit: `ac67074b6c9156d8b2169380dc2c2d1edef8ab6a`. D01 adds an E02-gated, 1,200-trial independent-lot t4 challenge against Statsmodels CR1 parity: 1,195 inferred / 5 refused, P4 coverage 94.56% (Wilson95 93.13–95.71%), reference coverage 94.58%, maximum estimate/SE/endpoint difference `5.15e-8`. This is fixed-generator evidence only, not a general coverage guarantee.
+- D03 now requires P4 relationship contract v1.1.0 with explicit upstream/downstream stratum field mappings for cross-step Pareto comparison. Exact proportion mismatch or absent mappings withhold the front and family-wise comparison; per-setting means remain visible. 250/250 shifted-mix trials exposed false naïve dominance and were withheld; 250/250 matched-mix controls with unequal sample sizes retained their front. Matching observed proportions is not proof of exchangeability or causality.
+- D03 focused tests: 43 PASS; JSON Schema qualification: 8 PASS; P4 component tests: 30 PASS; strict TypeScript: PASS. These do not replace the full current-source runner.
+- Current exact source commit is `{commit}`. Last full runner used the pinned qualification venv and passed 259 tests/0 skips plus E01–E04/E06, but its report `evaluated_commit` is `abe0bb9`; E10 is stale for current HEAD.
+- Exact next action: `rtk /tmp/p4-qualification-env/bin/python -m qualification.benchmark`, then `rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py`; inspect all gate states, then run reproducible archive and fresh offline-extraction qualification for `ac67074b6c9156d8b2169380dc2c2d1edef8ab6a`. No push/publication.
+
+
+## Exact-source qualification repair — 2026-11-24
+
+- Regenerated the synthetic MCP-to-P4 bridge fixture twice from the official-SDK mock workflow; both byte-identical outputs have SHA-256 `aaa48c1dd7b3be84896f57df0de89e92c2066c93b7e960cb2580db07d84d15f1`. Focused bridge tests: 2 PASS.
+- The full pinned runner evaluated `ac67074b6c9156d8b2169380dc2c2d1edef8ab6a`: 265 Python tests PASS, 0 skipped; E01/E02/E03/E04/E06 PASS; schema and D01-D05 synthetic workflow PASS. Local P4 module: 30 tests and strict TypeScript PASS. Disposable P1 fingerprint is stale; E07 is not qualified.
+- Gates still pending: E05 company source authorization/semantics, E07 authoritative P1 and formal accessibility, E08 approved target OS, E09 rights and independent security review, E10 exact final archive, E11 engineer baseline/ROI, E12 internal qualification. State remains CANDIDATE; no distribution.
+- Exact next action: commit the regenerated bridge fixture and checkpoint ledger locally; rerun the pinned release runner at the new HEAD; then rebuild the local ZIP, reproduce it in two clean detached worktrees, and fresh-extract/run with no pip and network denial. After E10, continue the highest-value independent D02/D04/D05 qualification gap.

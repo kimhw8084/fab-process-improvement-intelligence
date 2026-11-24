@@ -1,10 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "Release builder clean-worktree guard now accepts the same progress/ and legacy-evidence prefixes already excluded from the source bundle; unit regressions pass.",
-    "Prior exact-source run at 1235259: 259 PASS/0 skipped; E01-E04/E06 PASS; E10 awaited package rebuild. This release runner evidence predates the builder guard change.",
-    "Only generated release/qualification sidecars and progress docs are otherwise dirty."
+    "Generated release/ and qualification/results/ sidecars are not source; builder excludes the declared paths.",
+    "progress/ checkpoint files are workspace evidence and intentionally excluded from the transfer bundle."
   ],
-  "as_of_source_commit": "1235259d6a6853e195192bc6a1ba4cf6a91c8bba",
+  "as_of_source_commit": "ac67074b6c9156d8b2169380dc2c2d1edef8ab6a",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -15,10 +14,23 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "258 PASS, zero skipped",
-    "qualification": "E01,E02,E03,E04,E06,E10 PASS at b29abf8; E05,E07,E08,E09,E11,E12 pending.",
-    "source_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3",
-    "status": "CANDIDATE; no external transfer or internal qualification claim"
+    "python_tests": "See release/TEST_RESULTS.json",
+    "qualification": {
+      "E01": "PASS",
+      "E02": "PASS",
+      "E03": "PASS",
+      "E04": "PASS",
+      "E05": "PENDING_INTERNAL",
+      "E06": "PASS",
+      "E07": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY",
+      "E08": "PENDING_TARGET_OS",
+      "E09": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW",
+      "E10": "PASS",
+      "E11": "PENDING_ENGINEER_BASELINE",
+      "E12": "PENDING_INTERNAL"
+    },
+    "source_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
+    "status": "CANDIDATE; E01-E04/E06/E10 PASS; internal/host/target/security/ROI gates pending"
   },
   "latest_checkpoint": {
     "D05_cluster_randomized": {
@@ -81,7 +93,105 @@
       "repair": "Clean-worktree guard now uses the same excluded source prefixes.",
       "focused_tests": "tests/test_schema_and_ui.py: 14 PASS; git diff --check PASS.",
       "full_release": "Not rerun after this builder change.",
-      "status": "FOCUSED_TESTED_PENDING_SOURCE_COMMIT_AND_RELEASE_RUN"
+      "status": "COMMITTED; focused tests 14 PASS; exact-source release runner pending",
+      "source_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b"
+    },
+    "D01_heavy_tailed_clusters": {
+      "clusters": 50,
+      "coverage_among_inferred": 0.9456066945606695,
+      "coverage_wilson95_monte_carlo": [
+        0.9312617360116379,
+        0.9570959297698288
+      ],
+      "generator": "independent lots with lot-level x, standardized t4 lot intercept and Gaussian row noise",
+      "limitations": "Fixed synthetic generator and same CR1 estimator; Monte Carlo interval is not a general coverage guarantee; refusal cases are not counted as inference coverage.",
+      "maximum_absolute_estimate_se_or_endpoint_difference": 5.1493082242615174e-08,
+      "p4_inferred": 1195,
+      "p4_refused": 5,
+      "qualification": "E02 gate added; included in last full run at matching working-tree content, whose evaluated git commit was abe0bb9; exact current commit rerun pending.",
+      "rows_per_cluster": 4,
+      "seed": 32117,
+      "source_commit": "b60120f",
+      "statsmodels_cr1_reference_coverage_all_trials": 0.9458333333333333,
+      "trials": 1200
+    },
+    "D03_population_composition": {
+      "behavior": "Audits source-matched categorical strata before metric-constraint screening; exact observed proportion mismatch or missing mappings suppress the cross-setting Pareto/family-wise comparison while retaining per-setting descriptive means. Matching is descriptive, not evidence of exchangeability or causality.",
+      "contract": "P4 relationship contract v1.1.0; legacy v1.0 remains parseable but cannot carry the new fields and does not produce a cross-setting Pareto front without them.",
+      "files": [
+        "products/p4/tradeoffs.py",
+        "products/p4/relationships.v1.1.schema.json",
+        "products/p4/investigation.v1.schema.json",
+        "qualification/benchmark_d03_population_mix.py",
+        "qualification/results/D03_POPULATION_MIX_BENCHMARK.json"
+      ],
+      "held_out_benchmark": "250 seeded trials; manual two-objective mean-dominance and exact Fraction proportion oracle; na\u00efve mix-only false-dominance rate 1.0, P4 mismatch refusal 1.0, matched different-size front availability 1.0.",
+      "source_commit": "ac67074b6c9156d8b2169380dc2c2d1edef8ab6a",
+      "status": "IMPLEMENTED_AND_FOCUSED_QUALIFIED; full release runner and archive rebinding pending.",
+      "verification": "tests.test_d03_relationships + tests.test_schema_and_ui: 43 PASS; schema_check: 8 PASS; P4 headless UI: 30 PASS and strict typecheck PASS."
+    },
+    "exact_release_abe0bb9": {
+      "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+      "archive_bytes": 9332523,
+      "archive_sha256": "60cef5877f55810c1d964f6b685e119f0caf1ba80edd20ea56f213d5c74a89d9",
+      "clean_build_sha256": [
+        "60cef5877f55810c1d964f6b685e119f0caf1ba80edd20ea56f213d5c74a89d9",
+        "60cef5877f55810c1d964f6b685e119f0caf1ba80edd20ea56f213d5c74a89d9"
+      ],
+      "d02_subgroup_miss_fractions": {
+        "A": 0.0052,
+        "B": 1.0,
+        "pooled": 0.024705882352941175
+      },
+      "distribution": "NOT_PUBLISHED; user prohibition honored",
+      "gate_statuses": {
+        "E01": "PASS",
+        "E02": "PASS",
+        "E03": "PASS",
+        "E04": "PASS",
+        "E05": "PENDING_INTERNAL",
+        "E06": "PASS",
+        "E07": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY",
+        "E08": "PENDING_TARGET_OS",
+        "E09": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW",
+        "E10": "PASS",
+        "E11": "PENDING_ENGINEER_BASELINE",
+        "E12": "PENDING_INTERNAL"
+      },
+      "host": "macOS 26.6.2 ARM64 / CPython 3.11.7",
+      "network_probe": "DENIED",
+      "offline_extract_no_pip": "PASS",
+      "reproducibility": "PASS",
+      "source_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
+      "source_files": 224,
+      "source_manifest_sha256": "755795db41ddbeda673c04813f0b826e68b3827d998823f3e2a9a281ac88e6a5",
+      "status": "CANDIDATE; only E01-E04/E06/E10 passed",
+      "tests_run": 259,
+      "tests_skipped": 0
+    },
+    "exact_source_release_runner_ac67074": {
+      "bridge_fixture_sha256": "aaa48c1dd7b3be84896f57df0de89e92c2066c93b7e960cb2580db07d84d15f1",
+      "bridge_rebuilds": "2 identical; 2 focused tests PASS",
+      "gates_passed": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06"
+      ],
+      "gates_pending": [
+        "E05",
+        "E07",
+        "E08",
+        "E09",
+        "E10",
+        "E11",
+        "E12"
+      ],
+      "python_tests": "265 PASS; 0 skipped",
+      "source_commit": "ac67074b6c9156d8b2169380dc2c2d1edef8ab6a",
+      "status": "PASS_CANDIDATE; E10 archive rebuild required; no publication",
+      "ui": "30 component tests and strict TypeScript PASS; disposable P1 fingerprint stale"
     }
   },
   "prior_checkpoint_history": {
@@ -432,39 +542,40 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the builder guard correction and test, regenerate the performance report for the new commit, rerun exact-source release checks, then build/reproduce/offline-qualify the archive.",
-  "next_executable_action": "rtk git add qualification/build_transfer_bundle.py tests/test_schema_and_ui.py progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Honor offline build source exclusions\"",
+  "next_action": "Commit tests/fixtures/mcp_p4_panel_bridge.json and the progress checkpoint locally; rerun the pinned release runner at the resulting HEAD; build the ZIP, reproduce it in two clean detached worktrees, and fresh-extract/qualify with no pip and network denial. Then continue the next independent D02/D04/D05 scientific gap.",
+  "next_executable_action": "Commit tests/fixtures/mcp_p4_panel_bridge.json and the progress checkpoint locally; rerun the pinned release runner at the resulting HEAD; build the ZIP, reproduce it in two clean detached worktrees, and fresh-extract/qualify with no pip and network denial. Then continue the next independent D02/D04/D05 scientific gap.",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "D02: create an independent held-out calibration and selection challenge with nonlinear drift within declared strata; verify abstention and avoid unsupported coverage claims."
+      "task": "D01: inspect measurement uncertainty/identifiability and clustered inference; independently benchmark a failure that can change a claim or refusal."
     },
     {
       "priority": 2,
       "status": "NEXT",
-      "task": "Advance the highest-value independent D01-D05 challenge that can alter a scientific claim/refusal; retain truthful scope."
+      "task": "D03: challenge objective direction, compatible populations, and uncertainty reversal across observed/predicted tradeoffs."
     },
     {
       "priority": 3,
       "status": "PENDING_EXTERNAL",
-      "task": "Verify current P1 owner/source revision, authoritative shared host registration and rendered/formal accessibility."
+      "task": "P1 owner/versioned host acceptance and formal accessibility; exact proposed synthetic MCP metric mapping remains in progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md."
     },
     {
       "priority": 4,
       "status": "PENDING_INTERNAL",
-      "task": "Obtain actual MCP permissions and semantics, approved target policy, authorized data, independent company security/legal/production review and engineer ROI baseline."
+      "task": "Authorized company sources/semantics, approved target host and policy, security/legal/production approvals, real engineer ROI."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E05/E07/E08/E09/E11/E12 remain pending even though E01-E04/E06/E10 pass",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E05/E07/E08/E09/E11/E12 remain pending.",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 remain bounded by synthetic evidence and stated method assumptions; actual fab capability/ROI not established",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 source/owner and formal accessibility"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 are synthetically qualified within explicit method limits, no real fab capability or ROI verified.",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative versioned P1 host/owner acceptance and formal accessibility."
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "1235259d6a6853e195192bc6a1ba4cf6a91c8bba",
-  "worktree_state": "Release-builder exclusion correction and regression test focused-tested; local commit next. Existing generated sidecars remain excluded and require refresh at the next exact source commit.",
-  "evidence_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3"
+  "source_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
+  "worktree_state": "Current code at ac67074; regenerated MCP bridge fixture and exact-source runner PASS; evidence fixture/progress need local commit; release outputs are mutable sidecars; no public distribution.",
+  "evidence_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
+  "next_executable_command": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py"
 }
