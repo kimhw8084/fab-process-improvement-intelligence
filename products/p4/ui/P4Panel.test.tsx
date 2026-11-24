@@ -513,6 +513,11 @@ describe("P4 headless suite module", () => {
       inference_unit: "declared_randomization_cluster",
       inference_method: "Welch t interval over equally weighted declared randomization-cluster means",
       inference_unit_counts: { treatment: 5, control: 5 },
+      cluster_size_summary: { estimand: "equal-weight cluster means; lot-weighted effect is not estimated",
+        treatment: { randomization_clusters: 5, assigned_units: 21, assigned_units_per_cluster_min: 4,
+          assigned_units_per_cluster_median: 4, assigned_units_per_cluster_max: 5 },
+        control: { randomization_clusters: 5, assigned_units: 20, assigned_units_per_cluster_min: 4,
+          assigned_units_per_cluster_median: 4, assigned_units_per_cluster_max: 4 } },
       assumptions: ["equal weight per randomization cluster defines the estimand"],
     };
     render(<P4Panel sourcePreview={sourcePreview} evidence={challenged} />);
@@ -521,6 +526,8 @@ describe("P4 headless suite module", () => {
     const table = within(d05).getByRole("table", { name: "Uncertainty and sensitivity" });
     expect(within(table).getByRole("row", { name: /inference_unit_counts/ }).textContent).toContain('"treatment":5');
     expect(within(table).getByRole("row", { name: /inference_method/ }).textContent).toContain("cluster means");
+    expect(within(d05).getByText(/not per lot when cluster sizes differ/)).toBeTruthy();
+    expect(within(table).getByRole("row", { name: /cluster_size_summary/ }).textContent).toContain('"assigned_units":21');
   });
 
   it("shows arm-specific cointervention frequencies and withholds the DiD gate on imbalance", () => {

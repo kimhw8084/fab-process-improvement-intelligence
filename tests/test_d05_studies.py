@@ -73,6 +73,24 @@ class EffectivenessQualification(unittest.TestCase):
         self.assertEqual(result["dependence_diagnostic"]["status"], "SHARED_GROUPS_DETECTED")
         self.assertIn("equal weight per randomization cluster defines the estimand", result["assumptions"])
 
+    def test_cluster_randomization_exposes_unequal_cluster_sizes_and_non_lot_estimand(self):
+        study = cluster_randomized_study()
+        cluster = "SYN-treatment-chamber-0"
+        unit_id = "SYN-treatment-0-extra"
+        study["observations"].append({"unit_id": unit_id, "group": "treatment", "quality": 99.0,
+                                      "chamber_id": cluster, "baseline_temp": 50.0})
+        study["assignment_ledger"].append({"unit_id": unit_id, "group": "treatment",
+                                            "shared_groups": {"chamber_id": cluster}})
+        result = _effectiveness({"effectiveness": study})
+        sizes = result["cluster_size_summary"]
+        self.assertEqual(sizes["treatment"], {
+            "randomization_clusters": 5, "assigned_units": 21,
+            "assigned_units_per_cluster_min": 4, "assigned_units_per_cluster_median": 4,
+            "assigned_units_per_cluster_max": 5,
+        })
+        self.assertEqual(sizes["control"]["assigned_units"], 20)
+        self.assertIn("lot-weighted effect is not estimated", sizes["estimand"])
+
     def test_cluster_randomization_refuses_missing_ledger_mapping_mixed_arms_and_sparse_clusters(self):
         study = cluster_randomized_study()
         study["assignment_ledger"][0].pop("shared_groups")

@@ -5,7 +5,7 @@ from itertools import combinations, product
 from datetime import datetime
 from math import isfinite, sqrt
 from random import Random
-from statistics import mean, variance
+from statistics import mean, median, variance
 from typing import Any
 
 from fabintel.contracts import claim, envelope, validate_envelope
@@ -15,7 +15,7 @@ from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
 from products.p4.design import (assign_blocks, propose_design, propose_multiobjective_next_best,
                                 propose_window_confirmation, DesignError)
 
-ENGINE_VERSION = "1.2.4"
+ENGINE_VERSION = "1.2.5"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10
@@ -489,6 +489,24 @@ def _randomization_cluster_means(study, records, ledger, metric, fields, attriti
     return grouped, None
 
 
+def _cluster_size_summary(grouped):
+    """Expose assignment-unit counts without changing the equal-cluster estimand."""
+    summary = {"estimand": "equal-weight cluster means; lot-weighted effect is not estimated"}
+    for arm, clusters in grouped.items():
+        sizes = sorted(len(cluster["members"]) for cluster in clusters)
+        middle = len(sizes) // 2
+        cluster_median = (float(sizes[middle]) if len(sizes) % 2
+                          else (sizes[middle - 1] + sizes[middle]) / 2.0)
+        summary[arm] = {
+            "randomization_clusters": len(sizes),
+            "assigned_units": sum(sizes),
+            "assigned_units_per_cluster_min": sizes[0],
+            "assigned_units_per_cluster_median": cluster_median,
+            "assigned_units_per_cluster_max": sizes[-1],
+        }
+    return summary
+
+
 def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metric_defs):
     """Attach the engineering objective and decision context to every DOE plan."""
     if not isinstance(plan, dict) or plan.get("status") != "PROPOSED":
@@ -831,6 +849,8 @@ def _effectiveness(data, metric_defs=None):
                                      "Welch t interval over assigned independent-unit outcomes"),
                 "inference_unit_counts": {group: len(cluster_randomization[group]) for group in cluster_randomization}
                     if cluster_randomization is not None else {"treatment": len(treated), "control": len(control)},
+                "cluster_size_summary": (_cluster_size_summary(cluster_randomization)
+                                          if cluster_randomization is not None else None),
                 "attrition": attrition, "baseline_balance": baseline,
                 "dependence_diagnostic": dependence_diagnostic,
                 "causal_claim": True, "assumptions": (["valid documented random allocation to the declared clusters",

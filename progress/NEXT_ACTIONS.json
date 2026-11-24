@@ -1,8 +1,8 @@
 {
   "active_uncommitted_changes": [
-    "D05 now supports only explicitly declared cluster-randomized studies with complete assignment/outcome ledgers, at least five independent clusters per arm, equal-cluster estimand, conservative interval calculation, cross-cluster dependence refusal, and visible method/count/assumption evidence. Observational and DiD shared-dependence cases still refuse inference.",
-    "Independent 1,000-trial-per-case D05 benchmark uses an exact SciPy cluster-mean Welch oracle: 6 cluster-count/shock cases, P4 coverage 95.0-97.2%, every P4 interval contains the oracle interval, and every Wilson lower bound exceeds 0.90. Scope is synthetic and does not qualify arbitrary few-cluster, informative-size, or FAB cases.",
-    "Release runner executed 257 Python tests, zero skipped. E01/E03/E04/E06 and focused adversarial gates passed; E02 overall failed solely because release/BENCHMARK_REPORT.json fingerprints pre-change P4 source. Regenerate benchmark under the pinned environment after source commit, then rerun runner. P1/browser hashes are stale for 1.2.4; E07 remains pending."
+    "D05 explicitly declared cluster-randomized studies use complete assignment/outcome ledgers, at least five independent clusters per arm, equal-cluster estimand, conservative interval calculation, and cross-cluster dependence refusal. Engine 1.2.5 adds per-arm cluster-size summaries and states that lot-weighted effect is not estimated; DiD/shared-dependence cases still refuse inference.",
+    "Independent 1,000-trial-per-case D05 benchmark for 1.2.4 used exact SciPy cluster-mean Welch oracle: 6 cluster-count/shock cases, P4 coverage 95.0-97.2%, every P4 interval contains the oracle interval, and every Wilson lower bound exceeds 0.90. Scope is synthetic and does not qualify arbitrary few-cluster, informative-size, or FAB cases.",
+    "Current 1.2.5 verification: D05 + schema/UI tests 50 PASS; P4 component tests 29 PASS, strict TypeScript and P1 contract snapshot PASS; MCP-to-panel fixture built twice identically (SHA-256 ca0a633e3a622ac9ed31cec1c388451002e1b425957c497772d70e1ea29b1f2a). Full suite, source-bound benchmarks, runner and artifact are now stale and must be regenerated after commit."
   ],
   "as_of_source_commit": "891bf2e2a42426f535f4e7f6e6ab9c120aeda9d5",
   "date": "2026-11-24",
@@ -15,10 +15,10 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "257 PASS, zero skipped in latest runner; current source is uncommitted",
-    "qualification": "Latest run E01,E03,E04,E06 and targeted scientific challenges passed; E02 failed only on stale general performance fingerprint. E05,E07,E08,E09,E11,E12 remain pending.",
-    "source_commit": "891bf2e2a42426f535f4e7f6e6ab9c120aeda9d5",
-    "status": "CANDIDATE; general performance report is stale for current source"
+    "python_tests": "257 PASS, zero skipped on source 48327de using D05 1.2.4; current 1.2.5 receives focused coverage only",
+    "qualification": "E01-E04,E06,E10 PASS at 48327de before cluster-size disclosure. Re-run after current source commit. E05,E07,E08,E09,E11,E12 remain pending.",
+    "source_commit": "48327de558d25181b5d043e8faa23bd04a4724dd",
+    "status": "CANDIDATE; artifact stale for current cluster-size UI/evidence change"
   },
   "latest_checkpoint": {
     "D05_cluster_randomized": {

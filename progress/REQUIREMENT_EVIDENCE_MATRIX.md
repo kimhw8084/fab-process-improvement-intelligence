@@ -1,3 +1,11 @@
+# Latest requirement evidence — D05 cluster-size estimand visibility (2026-11-24)
+
+| Requirement | Executed evidence | Status / remaining limit |
+|---|---|---|
+| D05 estimand and cluster support visibility | Engine 1.2.5 outputs per-arm randomization-cluster count, total assignment units and min/median/max assigned units per cluster. It identifies an equal-cluster mean estimand and explicitly says lot-weighted effect is not estimated. The shared P1 panel shows both the size distribution and estimand caveat. Unequal-size test uses 21 versus 20 units and 5 clusters per arm. | D05 + schema/UI tests 50 PASS; P4 panel 29 PASS, strict TS and P1 schema snapshot PASS. Synthetic and headless only; no authoritative P1 owner/host, formal accessibility or real population qualification. |
+| MCP-to-panel bridge | Official-SDK deterministic fixture rebuilt twice; SHA-256 `ca0a633e3a622ac9ed31cec1c388451002e1b425957c497772d70e1ea29b1f2a`; current engine version 1.2.5 and refusal path preserved. | Synthetic approvals and mappings only; actual company authority remains pending. |
+| Release | Last exact 1.2.4 source `48327de` had E01-E04/E06/E10 PASS, 257 tests, ZIP `3a75403b4c07edd5889ddc07b9b0d6907fefde94d030fbd7ac9afa2f4c1c5cfd`. | 1.2.5 changed source/UI after that artifact. Full runner, archive reproduction and offline extraction must be repeated before rebinding E10. |
+
 # Latest requirement evidence — D05 declared cluster-randomized inference (2026-11-24)
 
 | Requirement | Executed evidence | Status / remaining limit |

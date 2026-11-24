@@ -170,7 +170,7 @@
         "shared_dependence_fields": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1},
           "description": "Caller-declared time-invariant row fields such as chamber or tool. Repeated values across units withhold unit-level Welch uncertainty. When a randomized outcome is missing, assignment-ledger entries must include matching values in shared_groups. Omission or unique values do not prove independence."},
         "randomization_cluster_field": {"type": "string", "minLength": 1,
-          "description": "Optional explicit randomization cluster field for a randomized study. Must also appear in shared_dependence_fields and in every assignment-ledger shared_groups entry. P4 analyzes equal-weight cluster means, requires complete outcomes and at least five independent clusters per arm, and retains normality/exchangeability limitations; this threshold is not a universal guarantee."},
+          "description": "Optional explicit randomization cluster field for a randomized study. Must also appear in shared_dependence_fields and in every assignment-ledger shared_groups entry. P4 analyzes equal-weight cluster means and reports per-arm cluster-size summaries; it does not estimate a lot-weighted effect when cluster sizes differ. Complete outcomes and at least five independent clusters per arm are required, with normality/exchangeability limitations; this threshold is not a universal guarantee."},
         "differential_trend_bound": {"type": "number", "minimum": 0},
         "differential_trend_bound_source": {"type": "string", "minLength": 1},
         "differential_trend_bound_method": {"type": "string", "minLength": 1},
