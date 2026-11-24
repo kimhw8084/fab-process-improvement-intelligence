@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "5cc3e06339a201365e69e7e824a3b028321afc99",
+  "as_of_source_commit": "36967b43add029149acaf078778735a67ebd703e",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -11,61 +11,48 @@
   ],
   "latest_checkpoint": {
     "date": "2026-11-23",
-    "committed_base": "5cc3e06339a201365e69e7e824a3b028321afc99",
-    "implementation_commit": "5cc3e06339a201365e69e7e824a3b028321afc99",
-    "changed_product_files": [
-      "products/p4/window.py",
-      "products/p4/investigation.v1.schema.json"
+    "committed_base": "36967b43add029149acaf078778735a67ebd703e",
+    "implementation_commit": "36967b43add029149acaf078778735a67ebd703e",
+    "changed_evidence_files": [
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
+      "qualification/results/P1_SHARED_UI_BROWSER_SCREEN.json"
     ],
-    "changed_qualification_files": [
-      "qualification/benchmark_d02_stratified_calibration.py",
-      "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json",
-      "qualification/DECISION_RECORD.md",
-      "tests/test_d01_d02_independent.py",
-      "tests/test_schema_and_ui.py",
-      "tests/fixtures/mcp_p4_panel_bridge.json"
-    ],
-    "defect_and_change": {
-      "finding": "Pooled exact-panel calibration undercovered a high-variance tool group after calibration/evaluation composition shifted; 95% rank alone does not ensure conditional coverage.",
-      "correction": "Added optional caller-predeclared finite strata; independent-unit maximum scores are calibrated within each group, then the most conservative group radius is applied. Underpowered/unplanned/mixed categories refuse. Coverage is stated only within predeclared groups for one future unit and the precommitted exact panel.",
-      "company_authorization": "PENDING_INTERNAL; category fields and semantics remain caller-supplied and unauthenticated."
-    },
     "executed_evidence": {
-      "python_full_suite": {
+      "current_source": "36967b43add029149acaf078778735a67ebd703e",
+      "python_tests": {
         "passed": 213,
         "failed": 0,
-        "skipped": 0,
-        "status": "PASS",
-        "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v"
+        "skipped": 0
       },
-      "bridge_fixture": {
-        "status": "PASS",
-        "sha256": "c14cad73ea4c6080a770f61d98e8a068555bfe671d84490c5bfccd853eaecf57"
-      },
-      "independent_shift_challenge": {
+      "p1_routes": 32,
+      "p1_frontend_tests": 59,
+      "p4_panel_tests": 24,
+      "typecheck": "PASS",
+      "production_build": "PASS",
+      "browser_success": "D01-D05 visible; PARTIAL evidence; accessible Pareto table",
+      "browser_refusal": "REFUSED; source ACCESS_REFUSED; semantic NOT_ACCESSED; positive evidence withheld",
+      "d02_stratified_shift": {
         "trials": 2500,
-        "seed": 817203,
-        "pooled_high_group_coverage": 0.9076,
-        "pooled_wilson95": [
-          0.8956144251,
-          0.9183348738
-        ],
-        "stratified_high_group_coverage": 0.9512,
-        "stratified_wilson95": [
-          0.942040422,
-          0.9589750924
-        ]
+        "pooled_coverage": 0.9076,
+        "stratified_coverage": 0.9512
       },
-      "p1_host_current_source": "NOT_REQUALIFIED; prior evidence is pinned to 1e18f26 and is not a current-source pass",
-      "release_archive": "STALE; rebuild and run exact-source release gates"
+      "zip_sha256_before_evidence_commit": "671850dca4dc0034f9dd8ba5f8437401796cb0225d732d305db6ee4fc5a234fb",
+      "reproducibility": "PASS at product commit 36967b4; must rerun for evidence commit",
+      "offline_network_denial": "PASS at product commit 36967b4; must rerun for evidence commit"
     },
-    "limitations": [
-      "Synthetic simulation does not establish production coverage or validate exchangeability.",
-      "Coverage is not conditional on settings/factors within a stratum and does not apply to unplanned categories.",
-      "P1 owner/source revision, formal accessibility, target host, company permissions, actual source semantics and ROI remain pending.",
-      "No public push or publication."
+    "pending": [
+      "E05/E12 actual internal authorization and source semantics",
+      "E07 authoritative P1 source/owner and formal accessibility",
+      "E08 company target OS",
+      "E09 ownership/legal and independent security review",
+      "E11 engineer ROI baseline"
     ],
-    "next_action": "Requalify exact committed source with full release, reproducibility and fresh offline checks; P1 evidence must be current-source before any integration status update."
+    "limitations": [
+      "Synthetic-only evidence; P1 source unversioned/disposable.",
+      "No public publication; status remains CANDIDATE.",
+      "Focus-indicator screen FAIL_SCREEN outside dark header; formal accessibility remains pending."
+    ],
+    "next_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record current-source P1 qualification\""
   },
   "never_do": [
     "publish or push",
@@ -73,63 +60,31 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_executable_action": {
-    "priority": 1,
-    "task": "Run full release qualification for source 5cc3e06; repair failures, then reproduce and qualify the offline archive.",
-    "source_commit": "5cc3e06339a201365e69e7e824a3b028321afc99",
-    "acceptance": "All executed external gates are tied to current source; known company-only gates remain explicitly pending. Keep distribution local.",
-    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
-    "follow_up_commands": [
-      "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py --pip-audit /tmp/p4-qualification-env/bin/pip-audit --bandit /tmp/p4-qualification-env/bin/bandit",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/check_reproducibility.py"
-    ]
-  },
+  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record current-source P1 qualification\"",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; PREDECLARED_GROUP_SPLIT_CONFORMAL; UNDERPOWERED/UNPLANNED/UNASSIGNABLE REFUSAL",
-      "task": "D02 adds optional group-aware finite-panel calibration while preserving pooled default. Independent 2,500-trial challenge: after 50:50 calibration shifted to high-variance-only future units, pooled coverage 90.76% versus worst-group 95.12%; assumptions are within-group exchangeability, fixed model/panel/thresholds, and enough independent units per declared category. Full release requalification is pending for source 5cc3e06; no conditional-on-settings or production claim."
+      "task": "Commit refreshed current-source P1 composition/browser evidence and checkpoint.",
+      "status": "NEXT"
     },
     {
       "priority": 2,
-      "status": "IMPLEMENTED_WITH_LIMITS; BINARY_CLUSTER_LEVEL_EXPOSURE_SUPPORT_SCREEN_AND_HELDOUT_BENCHMARK",
-      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84\u201395.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
+      "task": "Run full exact-source release qualification; build ZIP, compare two detached builds, run fresh no-pip network-denied extraction, then rerun runner for E10.",
+      "status": "PENDING"
     },
     {
       "priority": 3,
-      "status": "IMPLEMENTED_WITH_LIMITS; ZERO_VARIANCE_MARGINAL_INTERVAL_FALSE_CERTAINTY_FIXED_AND_STRESSED",
-      "task": "D03 now requires each row-level source reference to be a list of exact source-ID strings; malformed/empty source registries, empty observations, duplicate or malformed objective families, and objective-direction conflicts fail closed. Independent relationship tests: 19 PASS. Existing mean Pareto, marginal interval diagnostics, and optional bounded Hoeffding/Bonferroni envelope retain their explicit population and distribution limits. Cross-step Student-t uncertainty no longer collapses to zero width when observed variance is zero; marginal intervals and interval-separated dominance are withheld and the analysis is marked LIMITED_SCOPE. Independent rare-event benchmark (1000 trials): legacy false-preference pairs 760, corrected 0; 1575/1575 degenerate intervals withheld; 926 trials limited. Synthetic-only mechanism; current full release runner pending."
+      "task": "Audit the next highest-value independent D01/D03 scientific counterexample and implement only if a reproducible defect is found.",
+      "status": "PENDING"
     },
     {
       "priority": 4,
-      "status": "IMPLEMENTED_WITH_LIMITS; TYPE_PRESERVING_INDEPENDENT_UNIT_IDENTITY_QUALIFIED",
-      "task": "D04 now preserves Python type identity for independent-unit IDs across development/holdout separation, CV, metrics, cluster counts, incumbent means and support checks; numeric 1 and string \"1\" are distinct, while missing/nested/non-scalar identities refuse. Focused D04 suite: 23 PASS. Sequential and power calculations retain stated caller-supplied variance-bound and normality/independence limitations."
-    },
-    {
-      "priority": 5,
-      "status": "IMPLEMENTED_WITH_LIMITS; HIDDEN_BIAS_AND_INVALID_ASSUMPTIONS_QUALIFIED",
-      "task": "D05 has pretrend and curvature placebos, population/composition gates, negative-control falsification, unit-checked differential-trend sensitivity, exact null tipping points, exact string ledger identity, and bounded randomized attrition calculations that refuse when observed values violate supplied limits. Observational DiD always has causal_claim=false; bound adequacy remains pending independent substantive qualification. The 1,000-trial hidden-confounder challenge shows why underbound sources must not qualify automatically."
-    },
-    {
-      "priority": 6,
-      "status": "IMPLEMENTED_SYNTHETIC_ONLY; SDK_SUCCESS_AND_REFUSAL_BRIDGE_QUALIFIED; 201_CURRENT_RELEASE_TESTS_PASS",
-      "task": "Official MCP SDK 2.3.0 mock acquisition validates source semantics/version/hash, approved relationship, grain, time/read bounds, audit, cancellation, normalization and D01-D05 evidence. f331381 fixed audit-scope, duplicate receipt and relationship endpoint mapping checks before read. Deterministic success/refusal bridge fixture hash 5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d; SDK output is schema checked and rendered through the P1 contract-compatible P4 panel, including refusal suppression. Current exact-source release run at 607cf95: 199 Python tests, 0 failures/skips; P1 host-side routes 11 PASS. Company authorization and P1 server-side MCP lifecycle remain pending."
-    },
-    {
-      "priority": 7,
-      "status": "DISPOSABLE_P1_CURRENT_SOURCE_MCP_FLOW_VERIFIED; AUTHORITATIVE_OWNER_ACCEPTANCE_PENDING",
-      "task": "Current P1 disposable composition hash-pins the exact P4 engine/window/panel/test/bridge source (291441b67a5cb28e6ef96a7328c48ad6684f43ec02bac81b0e4c6a6dbcf507b7); 32 P1 routes, 59 frontend tests, typecheck, build, and live synthetic MCP success/refusal workflows pass. P1 remains unversioned; owner acceptance and formal accessibility pending."
-    },
-    {
-      "priority": 8,
-      "status": "EXACT_ARCHIVE_AND_FULL_RUNNER_PENDING_FOR_5cc3e06; CANDIDATE; NO_DISTRIBUTION",
-      "task": "Current D02 code and 213-test regression are committed, but release benchmark/security outputs and candidate archive are stale. Run exact-source release checks, two detached rebuilds, and fresh network-denied offline qualification. P1 evidence is prior-source disposable compatibility only."
+      "task": "Keep company-only authorization/semantics/host/ROI and authoritative P1 ownership/accessibility explicitly pending.",
+      "status": "PENDING_INTERNAL"
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Source commit 5cc3e06 is clean; generated release and unrelated benchmark sidecars are stale or modified and must be refreshed/reviewed. Do not stage them indiscriminately.",
-  "next_action": "Refresh exact-source benchmark/security reports, build the archive, run full release gates, then verify detached reproducibility and fresh no-pip network-denied extraction. Requalify P1 only against a current source composition. No push or publication."
+  "worktree_state": "Product source at 36967b4; current-source disposable P1 evidence has been refreshed and must be committed before exact archive generation. Mutable release outputs and qualification/results are sidecars; no public push/publication.",
+  "next_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record current-source P1 qualification\"; then run qualification/run_release_checks.py, build_transfer_bundle.py, check_reproducibility.py, fresh offline_qualify.py under sandbox-exec network denial, and the final release runner."
 }
