@@ -1,3 +1,12 @@
+# Latest evidence — D01 measurement refusal and D04 power disclosure (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D01 measurement uncertainty | Supplied row `measurement_uncertainty` makes `fit_linear_model` refuse before producing estimates. With no supplied measurement information, the returned assumption explicitly says uncertainty was not supplied or propagated. Independent fail-closed test added. | No correction is claimed. This is conservative; evaluate D03 uncertainty reversal next. |
+| D04 paired confirmation power | Proposal distinguishes chi-square SD upper bound (requires independent normal paired differences) from engineer-approved hard bound; normal-tail approximation and heavy-tail/dependent-block limits are explicit and require engineer review. | Approximation and caller evidence remain unauthenticated; no experiment execution. |
+| Current qualification | Full Python 234 PASS; MCP fixture rebuilt twice at `03334e03…`; last release runner E02 PASS at `66a5685`, before current source. | Requalify after scientific changes; P1, benchmark and archive fingerprints are stale. |
+| Transfer | Existing ZIP hash `8659fdc6…` is source `00bb6a6`, not current `599aca0`. | E10 pending; company-only permissions, P1 owner, target and approvals remain pending. |
+
 # Latest evidence — D02 independent veto through experiment planning (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |

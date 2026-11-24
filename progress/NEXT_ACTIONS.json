@@ -1,8 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "progress checkpoint records completed D02 held-out veto to D04 confirmation refusal integration; release evidence intentionally waits for scientific stabilization"
+    "progress checkpoint for source 599aca0 awaiting commit; no product changes remain uncommitted",
+    "release reports, P1 source/browser evidence, performance fingerprint and archive are stale after product-source updates"
   ],
-  "as_of_source_commit": "4c123c0d132b55adf59126dd8c06bba0eeb27477",
+  "as_of_source_commit": "599aca0812e8a08d2332ac529e9f228ee138bc03",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -12,29 +13,44 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "D02_veto_to_confirmation": {
-      "confirmation_result": "REFUSED; run_count 0; executed false",
-      "source_challenge": "held-out hidden interaction causes complete candidate-set veto",
-      "status": "INDEPENDENT_INTEGRATION_PASS"
+    "D01_measurement_error": {
+      "method": "no errors-in-variables correction claimed",
+      "status": "FAIL_CLOSED_AND_DISCLOSED",
+      "supplied_row_uncertainty": "fit raises ModelError before coefficient/inference output",
+      "unsupplied_uncertainty": "assumption states not supplied or propagated"
+    },
+    "D02_confirmation_veto": {
+      "status": "INDEPENDENT_INTEGRATION_PASS",
+      "withheld_candidate_set": "confirmation returns REFUSED, 0 runs, executed false"
+    },
+    "D04_power_assumptions": {
+      "chi_square_sd_bound": "independent normal paired differences required; P4 does not verify",
+      "engineer_hard_bound": "separately labeled, source/validity unauthenticated",
+      "power_approximation": "normal tail; warns heavy tails/influence/dependent blocks can invalidate"
+    },
+    "MCP_bridge_fixture": {
+      "sha256": "03334e03a6cfbd22cc81316016768ad6ffa150d75fd03af69c8beeee8d2e42e0",
+      "status": "REBUILT_TWICE_IDENTICALLY"
+    },
+    "archive": {
+      "sha256": "8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde",
+      "source_commit": "00bb6a681564c7dcf2c8ac17536fd479761bcaca",
+      "status": "STALE; E10 PENDING_FINAL_ARCHIVE"
     },
     "date": "2026-11-24",
     "engine_version": "1.2.2",
-    "last_source_bound_release_runner": {
+    "last_release_runner": {
       "E02": "PASS",
-      "commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
-      "current_tree": "STALE_AFTER_D02_PRODUCT_CHANGE"
+      "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
+      "status": "STALE_AFTER_599ACA0_PRODUCT_SOURCE"
     },
-    "product_source_commit": "b515f9d695cc2fc2ff06ceb439debdfde90de800",
-    "release_archive": {
-      "sha256": "8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde",
-      "source_commit": "00bb6a681564c7dcf2c8ac17536fd479761bcaca",
-      "status": "STALE"
-    },
-    "source_commit": "4c123c0d132b55adf59126dd8c06bba0eeb27477",
+    "source_commit": "599aca0812e8a08d2332ac529e9f228ee138bc03",
     "tests": {
-      "D01_D02_independent_file": "66 PASS",
-      "D04_design_file": "23 PASS",
-      "latest_full_suite": "232 PASS at product source b515f9d; test-only integration addition then passed in focused file"
+      "diff_check": "PASS",
+      "focused_D01_D02": "67 PASS",
+      "focused_design": "24 PASS",
+      "full_python": "234 PASS, 0 failures, 0 skipped",
+      "py_compile": "PASS"
     }
   },
   "never_do": [
@@ -43,57 +59,57 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Audit D01 predictor measurement uncertainty and determine whether to implement a transparent, assumption-bounded sensitivity diagnostic.",
-  "next_executable_action": "rtk rg -n \"measurement|reliability|error_in_variables|uncertainty\" products/p4/regression.py products/p4/engine.py products/p4/investigation.v1.schema.json tests/test_d01_d02_independent.py",
+  "next_action": "Audit D03 missing-objective and interval-reversal behavior; implement and independently test only a real false-preference or uncertainty-handling gap.",
+  "next_executable_action": "rtk rg -n \"familywise_interval|missing|uncertainty|direction|population_compatibility\" tests/test_d03_relationships.py products/p4/tradeoffs.py qualification/benchmark_d03_familywise.py",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "IN_PROGRESS",
-      "task": "D02: independent complete-set veto is linked to zero-run confirmation refusal; further scientific selection/shift gaps remain."
+      "task": "D02: held-out complete-set veto now blocks exact confirmation; further selector/shift/experiment-value work remains."
     },
     {
       "priority": 2,
-      "status": "NEXT",
-      "task": "D01: audit predictor measurement error and provide an explicit, qualified sensitivity treatment if feasible."
+      "status": "IN_PROGRESS",
+      "task": "D01: clustered/categorical sensitivities and explicit measurement-error refusal are covered; continue held-out stability and model-selection challenges."
     },
     {
       "priority": 3,
-      "status": "IN_PROGRESS",
-      "task": "D03: continue objective reversal and compatible-population analysis after exact-family t guard."
+      "status": "NEXT",
+      "task": "D03: audit missing objectives, interval uncertainty reversals and compatible-population comparisons; add independent challenge if actionable."
     },
     {
       "priority": 4,
-      "status": "PENDING",
-      "task": "D04: challenge powered confirmation assumptions and compare sequential design methods on independent mechanisms."
+      "status": "IN_PROGRESS",
+      "task": "D04: paired confirmation power now exposes normality and normal-tail assumptions; continue independent strategy qualification."
     },
     {
       "priority": 5,
       "status": "PENDING",
-      "task": "D05: continue placebo, pretrend, negative-control and confounding sensitivity challenges."
+      "task": "D05: continue placebo, pretrend, negative-control and sensitivity challenges."
     },
     {
       "priority": 6,
       "status": "PENDING_EXTERNAL",
-      "task": "Authoritative P1 source/owner acceptance and formal accessibility."
+      "task": "Authoritative P1 host/source owner acceptance and formal accessibility."
     },
     {
       "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Actual company authorization, semantic mappings, target policies and approvals; engineer ROI."
+      "task": "Company source authorization, mappings, target policy, approvals and ROI."
     },
     {
       "priority": 8,
       "status": "PENDING_FINAL_QUALIFICATION",
-      "task": "After science stabilizes, refresh current P1, source-bound release checks, exact archive, reproducibility and offline extraction."
+      "task": "After science stabilizes, rerun performance, P1/browser, release runner, exact archive reproducibility and offline extraction."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; release and host evidence stale after D02 source change",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; runner/P1/archive evidence stale for current source",
     "INTERNAL_QUALIFICATION_PENDING": true,
     "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 work continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; last disposable P1 evidence predates current product source and lacks owner acceptance/formal accessibility"
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; current-source P1 evidence predates 599aca0; no owner acceptance/formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Latest source HEAD 4c123c0 includes D02 product guard plus the independent veto-to-confirmation test. Focused test files pass; 232 full tests last passed before the test-only integration assertion. Current release reports/archive and P1 evidence predate D02 source changes."
+  "worktree_state": "Product source commit 599aca0 is current and fully tested (234 Python tests PASS); checkpoint is being committed. P1 and release outputs remain source-stale by design until science stabilizes."
 }
