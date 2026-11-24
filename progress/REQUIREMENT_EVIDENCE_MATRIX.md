@@ -1,4 +1,14 @@
-# Latest verification — P1 host MCP-to-P4 flow at implementation source 1e18f26 (2026-11-23)
+# Latest verification — D02 group-aware calibration at source 5cc3e06 (2026-11-23)
+
+| Requirement | Latest executed evidence | Status and next action |
+|---|---|---|
+| D02 process-window uncertainty | Optional precommitted strata use per-independent-unit max scores within each category and a conservative maximum of group-specific finite ranks. 2,500-trial high-variance transfer challenge: pooled coverage 90.76% (Wilson95 89.56–91.83%); stratified coverage 95.12% (94.20–95.90%). Unknown, mixed, unassignable or underpowered categories refuse/withhold; known composition shifts stay descriptive. | Implemented with assumptions and exact-setting-only scope. Does not imply factor-conditional, production, or target-population coverage. Independent synthetic oracle is checked in `qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json`. |
+| D02 independent qualification | `rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v`: 213 PASS, 0 failures, 0 skips. MCP bridge fixture regenerated with current window/schema source; SHA-256 `c14cad73ea4c6080a770f61d98e8a068555bfe671d84490c5bfccd853eaecf57`. | Current source checks pass. No P1 current-source qualification has been performed after this code change. |
+| Exact-source release | Local source commit `5cc3e06339a201365e69e7e824a3b028321afc99`. Existing archive and release reports predate it. | Build exact source archive, refresh benchmarks/security, run full release gates, reproduce two detached builds, and run fresh network-denied no-pip offline qualification. |
+| P1/shared suite | Prior disposable P1 MCP success/refusal qualification remains pinned to source `1e18f26`; P4 module UI files and P1 contract did not change in this D02 refinement. | Do not call the old snapshot current-source evidence or declare `SUITE_INTEGRATION_COMPLETE`; re-overlay and requalify if integration status is needed. P1 owner, authoritative source and formal accessibility remain pending. |
+| Company qualification / distribution | No company source semantics, permissions, target host, engineer ROI, legal/security approval, or authorization used. No push or publication. | PENDING_INTERNAL; stay local until explicitly authorized and independently reviewed. |
+
+# Prior verification — P1 host MCP-to-P4 flow at implementation source 1e18f26 (2026-11-23)
 
 | Requirement | Latest executed evidence | Status and next action |
 |---|---|---|

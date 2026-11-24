@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "df35995e369bca608774663305e703234774875b",
+  "as_of_source_commit": "5cc3e06339a201365e69e7e824a3b028321afc99",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -11,66 +11,61 @@
   ],
   "latest_checkpoint": {
     "date": "2026-11-23",
-    "committed_base": "df35995e369bca608774663305e703234774875b",
-    "implementation_commit": "1e18f265b82aef58b2271c394a0fe5724144edde",
-    "changed_product_files": [],
+    "committed_base": "5cc3e06339a201365e69e7e824a3b028321afc99",
+    "implementation_commit": "5cc3e06339a201365e69e7e824a3b028321afc99",
+    "changed_product_files": [
+      "products/p4/window.py",
+      "products/p4/investigation.v1.schema.json"
+    ],
     "changed_qualification_files": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "release/UI_COMPONENT_QUALIFICATION.json"
+      "qualification/benchmark_d02_stratified_calibration.py",
+      "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json",
+      "qualification/DECISION_RECORD.md",
+      "tests/test_d01_d02_independent.py",
+      "tests/test_schema_and_ui.py",
+      "tests/fixtures/mcp_p4_panel_bridge.json"
     ],
     "defect_and_change": {
-      "finding": "P1 disposable composition evidence and UI module report remained pinned to the previous MCP bridge/source snapshot; the P1 browser workflow had not yet re-observed the current code.",
-      "correction": "Recomputed the composition fingerprint for all 35 files; pinned current P4 engine/window/panel/test and regenerated bridge hashes; executed current P1 synthetic MCP success and refusal journeys and recorded bounded row counts, provenance and withholding behavior.",
-      "company_authorization": "PENDING_INTERNAL; synthetic fixture approvals are not company approvals."
+      "finding": "Pooled exact-panel calibration undercovered a high-variance tool group after calibration/evaluation composition shifted; 95% rank alone does not ensure conditional coverage.",
+      "correction": "Added optional caller-predeclared finite strata; independent-unit maximum scores are calibrated within each group, then the most conservative group radius is applied. Underpowered/unplanned/mixed categories refuse. Coverage is stated only within predeclared groups for one future unit and the precommitted exact panel.",
+      "company_authorization": "PENDING_INTERNAL; category fields and semantics remain caller-supplied and unauthenticated."
     },
     "executed_evidence": {
-      "release_mcp_focused_suite": {
-        "passed": 29,
-        "status": "PASS"
+      "python_full_suite": {
+        "passed": 213,
+        "failed": 0,
+        "skipped": 0,
+        "status": "PASS",
+        "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v"
       },
-      "p4_panel": {
-        "passed": 24,
-        "strict_typecheck": "PASS",
-        "p1_contract_snapshot": "MATCH"
+      "bridge_fixture": {
+        "status": "PASS",
+        "sha256": "c14cad73ea4c6080a770f61d98e8a068555bfe671d84490c5bfccd853eaecf57"
       },
-      "p1_host_route_tests": {
-        "passed": 32,
-        "status": "PASS"
-      },
-      "p1_frontend_tests": {
-        "passed": 59,
-        "files": 7,
-        "status": "PASS"
-      },
-      "p1_typecheck": "PASS",
-      "p1_production_build": "PASS",
-      "bundle_bytes": 830640,
-      "p1_current_composition_files": 35,
-      "p1_current_composition_sha256": "291441b67a5cb28e6ef96a7328c48ad6684f43ec02bac81b0e4c6a6dbcf507b7",
-      "browser_mcp_flow": {
-        "status": "PASS_SYNTHETIC_LIVE_P1_WORKFLOW_AND_REFUSAL",
-        "read_rows": 900,
-        "read_only": true,
-        "capabilities": [
-          "D01",
-          "D02",
-          "D03",
-          "D04",
-          "D05"
+      "independent_shift_challenge": {
+        "trials": 2500,
+        "seed": 817203,
+        "pooled_high_group_coverage": 0.9076,
+        "pooled_wilson95": [
+          0.8956144251,
+          0.9183348738
         ],
-        "refusal": "ACCESS_REFUSED / NOT_ACCESSED / positive evidence withheld"
+        "stratified_high_group_coverage": 0.9512,
+        "stratified_wilson95": [
+          0.942040422,
+          0.9589750924
+        ]
       },
-      "current_full_release_runner": "PENDING; prior 5702c6e run had stale bridge hash, now regenerated at 1e18f26"
+      "p1_host_current_source": "NOT_REQUALIFIED; prior evidence is pinned to 1e18f26 and is not a current-source pass",
+      "release_archive": "STALE; rebuild and run exact-source release gates"
     },
     "limitations": [
-      "The disposable P1 source is unversioned; fingerprint is integrity evidence only.",
-      "Synthetic MCP source IDs, scopes and semantics do not represent company authorization.",
-      "The earlier full runner at 5702c6e is stale and is not a current PASS.",
-      "Conditional/simultaneous process-window population coverage is unestablished.",
-      "No public distribution, remote push, target-host, owner, formal accessibility or ROI approval."
+      "Synthetic simulation does not establish production coverage or validate exchangeability.",
+      "Coverage is not conditional on settings/factors within a stratum and does not apply to unplanned categories.",
+      "P1 owner/source revision, formal accessibility, target host, company permissions, actual source semantics and ROI remain pending.",
+      "No public push or publication."
     ],
-    "next_action": "Commit the refreshed P1 host evidence and progress ledgers; then rebuild and fully qualify the exact source, inspect failures, reproduce detached builds and verify fresh no-pip offline extraction under network denial.",
-    "release_runner_after_this_source": "PENDING; exact archive/benchmark/security/full runner not yet executed at this evidence checkpoint."
+    "next_action": "Requalify exact committed source with full release, reproducibility and fresh offline checks; P1 evidence must be current-source before any integration status update."
   },
   "never_do": [
     "publish or push",
@@ -79,24 +74,23 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "priority": 0,
-    "task": "Qualify the exact source checkpoint commit df35995; then continue D02 transfer/generalization adversarial evaluation.",
-    "source_commit": "df35995e369bca608774663305e703234774875b",
-    "acceptance": "Current-source full Python/scientific gates, UI evidence, benchmark/security records, archive source manifest, two detached clean builds and fresh no-pip macOS network-denied extraction are verified. Stay local and do not claim external or internal readiness while approval gates are pending.",
+    "priority": 1,
+    "task": "Run full release qualification for source 5cc3e06; repair failures, then reproduce and qualify the offline archive.",
+    "source_commit": "5cc3e06339a201365e69e7e824a3b028321afc99",
+    "acceptance": "All executed external gates are tied to current source; known company-only gates remain explicitly pending. Keep distribution local.",
     "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
     "follow_up_commands": [
       "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py --pip-audit /tmp/p4-qualification-env/bin/pip-audit --bandit /tmp/p4-qualification-env/bin/bandit",
       "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/check_reproducibility.py",
-      "rtk sandbox-exec -p '(version 1)(allow default)(deny network*)' /tmp/p4-qualification-env/bin/python qualification/offline_qualify.py release/FAB_INTELLIGENCE_P4_CANDIDATE.zip"
+      "rtk /tmp/p4-qualification-env/bin/python qualification/check_reproducibility.py"
     ]
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; TRANSFER_COUNTEREVIDENCE_VETO; CONDITIONAL_COVERAGE_UNESTABLISHED",
-      "task": "D02 preserves the separation between fitting, calibration and evaluation, local empirical intervals, exact-panel assumptions, OOD region labels and exact-setting confirmation. New independent evaluation failures, calibration-band misses, unseen declared evaluation strata and exact-panel structure mismatches can only withhold the complete candidate set; known-stratum empirical mix differences remain descriptive. Focused D01/D02 suite: 57 PASS; P4 panel: 24 PASS/typecheck/P1 snapshot. Full exact-source release checks pending at 3a85374."
+      "status": "IMPLEMENTED_WITH_LIMITS; PREDECLARED_GROUP_SPLIT_CONFORMAL; UNDERPOWERED/UNPLANNED/UNASSIGNABLE REFUSAL",
+      "task": "D02 adds optional group-aware finite-panel calibration while preserving pooled default. Independent 2,500-trial challenge: after 50:50 calibration shifted to high-variance-only future units, pooled coverage 90.76% versus worst-group 95.12%; assumptions are within-group exchangeability, fixed model/panel/thresholds, and enough independent units per declared category. Full release requalification is pending for source 5cc3e06; no conditional-on-settings or production claim."
     },
     {
       "priority": 2,
@@ -130,12 +124,12 @@
     },
     {
       "priority": 8,
-      "status": "EXACT_ARCHIVE_AND_FULL_RUNNER_PENDING_FOR_1e18f26; CANDIDATE; NO_DISTRIBUTION",
-      "task": "The previous 5702c6e run exposed a stale MCP bridge fixture source hash; fixture was regenerated twice identically and committed at 1e18f26. Current evidence and P1 composition hashes are refreshed. Build exact archive and rerun full gates, then detached reproducibility and fresh no-pip network-denied extraction."
+      "status": "EXACT_ARCHIVE_AND_FULL_RUNNER_PENDING_FOR_5cc3e06; CANDIDATE; NO_DISTRIBUTION",
+      "task": "Current D02 code and 213-test regression are committed, but release benchmark/security outputs and candidate archive are stale. Run exact-source release checks, two detached rebuilds, and fresh network-denied offline qualification. P1 evidence is prior-source disposable compatibility only."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Qualification and progress evidence checkpoint committed; only generated benchmark/release sidecars are modified or untracked. Do not stage release sidecars until individually reviewed.",
-  "next_action": "Refresh benchmark and limited security evidence, build the exact archive at the evidence checkpoint source, run the full release gates, repair failures, then verify detached reproducibility and fresh network-denied no-pip extraction."
+  "worktree_state": "Source commit 5cc3e06 is clean; generated release and unrelated benchmark sidecars are stale or modified and must be refreshed/reviewed. Do not stage them indiscriminately.",
+  "next_action": "Refresh exact-source benchmark/security reports, build the archive, run full release gates, then verify detached reproducibility and fresh no-pip network-denied extraction. Requalify P1 only against a current source composition. No push or publication."
 }
