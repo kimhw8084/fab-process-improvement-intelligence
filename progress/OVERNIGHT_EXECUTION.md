@@ -1,3 +1,13 @@
+# Latest engineering checkpoint — D04 off-grid DOE aliasing challenge (2026-11-24)
+
+- Source commit `0373b890e9809bbbe4aa706d453728516c2c24d4` adds an independent 200-trial geometry benchmark. Two-level factorial, face-centered central-composite, and 3-level-grid D-optimal designs are blind to a seeded family of between-level harmonic interactions; Latin-hypercube points expose the constructed signal in 200/200 trials. This is a geometry-only, finite synthetic challenge: it measures neither statistical power nor manufacturing risk and does not justify automatic LHS selection.
+- Focused D04 design suite: 28 PASS. Changed Python files compile; `rtk proxy git diff --check` passes. The release runner now binds the challenge into D04 and E02 evidence.
+- Latest gate/archive sidecars still evaluate parent source `159fd7b`; they are stale for this commit. Product status remains CANDIDATE.
+- Exact next action after committing the progress ledgers: run `rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py`, then the two-worktree reproducibility check and fresh offline extraction; run the full release runner once to bind the final exact-source gates.
+- Company authorization/semantics, authoritative P1 owner acceptance and formal accessibility, target OS, legal/security/production approvals, and measured engineering ROI remain pending. No public distribution.
+
+---
+
 # Latest engineering checkpoint — D01 refusal and D04 power assumptions (2026-11-24)
 
 - Current source `599aca0812e8a08d2332ac529e9f228ee138bc03` contains D02 withheld-candidate confirmation refusal, D01 measurement-uncertainty fail-closed behavior, and D04 explicit paired-power distribution assumptions. Row-level `measurement_uncertainty` is refused because the model does not propagate it; when absent, D01 states that measurement uncertainty is not supplied or propagated. No errors-in-variables correction is claimed.

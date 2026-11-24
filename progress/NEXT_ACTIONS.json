@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "D02 benchmark, test and gate changes committed as 1058b63; current release sidecars are generated and not yet bound to the new source archive.",
-    "Progress ledgers are being committed so the archive builder accepts a clean source tree; company gates remain pending."
+    "Progress checkpoint records D04 geometry-only aliasing evidence; commit before building the exact-source archive.",
+    "Release sidecars are generated and stale until exact-source archive qualification and final gate binding."
   ],
-  "as_of_source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
+  "as_of_source_commit": "0373b890e9809bbbe4aa706d453728516c2c24d4",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -14,10 +14,10 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
-    "status": "PASS_CANDIDATE; E02 PASS; E10 requires new exact-source archive after D02 qualification change",
     "python_tests": "240 PASS, 0 skipped",
-    "qualification": "E01-E04, E06 PASS; E05/E12 internal; E07 owner/accessibility, E08 target OS, E09 legal/security and E11 ROI pending"
+    "qualification": "E01-E04, E06 PASS; E05/E12 internal; E07 owner/accessibility, E08 target OS, E09 legal/security and E11 ROI pending",
+    "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
+    "status": "PASS_CANDIDATE; E02 PASS; E10 requires new exact-source archive after D02 qualification change"
   },
   "latest_checkpoint": {
     "D01_mcp_uncertainty": {
@@ -44,6 +44,18 @@
       "status": "INDEPENDENT_INTEGRATION_PASS",
       "withheld_candidate_set": "confirmation returns REFUSED, 0 runs, executed false"
     },
+    "D02_model_form_identifiability": {
+      "decision": "No product-side data-only model-disagreement score added; it cannot distinguish this pair. Retain advisory label and require exact-setting evidence or an authorized prior.",
+      "false_feasible_interpolation_trial_rate": 0.988,
+      "hidden_surface_false_feasible_candidates": 12,
+      "hidden_surface_false_feasible_interpolations": 12,
+      "independent_selector_trials": 250,
+      "observations_sha256": "a71f3d60acd46835d0ecf3debeabeb172aa102f9344ad4cfa39a489738964a20",
+      "paired_selected_candidate_count": 41,
+      "safe_surface_false_feasible_candidates": 0,
+      "selector_output_sha256": "0e4bf9e36d5bb42700ff10ece3b5dc44635995b10d9d53e2770b2c648bc8d51c",
+      "status": "PASS_NONIDENTIFIABILITY_DEMONSTRATED"
+    },
     "D03_tradeoff_audit": {
       "mean_front_scope": "EXPLICITLY_DISTINGUISHED_FROM_FAMILYWISE_EVIDENCE",
       "missing_objective_family": "REFUSED_OR_LIMITED_SCOPE",
@@ -59,6 +71,14 @@
       "status": "IMPLEMENTED_AND_VERIFIED",
       "time_ordered_accepted": "0/100; all refused at the engineer-specified 0.2 RMSE limit",
       "trials": 100
+    },
+    "D04_off_grid_aliasing": {
+      "focused_tests": "28 PASS",
+      "result": "full_factorial=0/200, central_composite=0/200, d_optimal=0/200, latin_hypercube=200/200 with constructed signal",
+      "scope": "geometry-only finite synthetic challenge; not statistical power or production risk",
+      "source_commit": "0373b890e9809bbbe4aa706d453728516c2c24d4",
+      "status": "IMPLEMENTED_AND_FOCUSED_TESTED",
+      "trials": 200
     },
     "D04_power_assumptions": {
       "chi_square_sd_bound": "independent normal paired differences required; P4 does not verify",
@@ -107,9 +127,6 @@
     "date": "2026-11-24",
     "engine_version": "1.2.2",
     "final_release_qualification": {
-      "status": "PASS_CANDIDATE",
-      "source_commit": "8efb39371f52c6a8230a405e62085a27b3367599",
-      "tests": "240 PASS; 0 skipped",
       "passed_gates": [
         "E01",
         "E02",
@@ -125,21 +142,48 @@
         "E09",
         "E11",
         "E12"
-      ]
+      ],
+      "source_commit": "8efb39371f52c6a8230a405e62085a27b3367599",
+      "status": "PASS_CANDIDATE",
+      "tests": "240 PASS; 0 skipped"
     },
     "last_release_runner": {
       "E02": "PASS",
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
       "status": "STALE_AFTER_071EADE_PRODUCT_SOURCE"
     },
+    "latest_source_qualification": {
+      "E02": "PASS",
+      "E10": "PENDING_FINAL_ARCHIVE",
+      "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
+      "status": "PASS_CANDIDATE",
+      "tests": "240 PASS, 0 skipped"
+    },
+    "mcp_bridge_fixture": {
+      "sha256": "d7c5a68993be254e07bd4d774f818601caf60450f7b27ae6f0e27417ff8aa1b9",
+      "status": "REBUILT_TWICE_IDENTICALLY; 2 fixture tests PASS; schema PASS"
+    },
     "offline_archive": {
-      "status": "PASS",
+      "fresh_no_pip_network_denied_extraction": "PASS; socket DENIED",
+      "host": "macOS 26.6.2 ARM64 / Python 3.11.7",
       "sha256": "992e2c78876b90bb94a3b7f062ae1218682995eaff7defa7125aaccab7fd3b1c",
       "source_files": 219,
       "source_manifest_sha256": "f9e7b34d1df334238ea9cfa3b030c00e136b8337dc8a5cb13a5f448d68000c08",
-      "two_clean_builds": "IDENTICAL",
-      "fresh_no_pip_network_denied_extraction": "PASS; socket DENIED",
-      "host": "macOS 26.6.2 ARM64 / Python 3.11.7"
+      "status": "PASS",
+      "two_clean_builds": "IDENTICAL"
+    },
+    "p1_current_source_requalification": {
+      "browser": "P1 shared route rendered D01-D05 on 900 synthetic rows; permission denial REFUSED, NOT_ACCESSED, values suppressed, no analysis",
+      "build": "PASS; 832932 bytes; f13d3ebbdf917da76213c6c8e125114afe4de9763b34f3cd6b0bb14b762d595d",
+      "frontend_tests": "61 PASS",
+      "host_routes": "32 PASS",
+      "owner_acceptance": "PENDING",
+      "p4_panel_tests": "26 PASS",
+      "snapshot_files": 35,
+      "snapshot_sha256": "af55246cbad8062757a43cf9f6818faf8eba40eb7e1e786c38387d69aa017120",
+      "source_commit": "7a474e2abca404bf0328a37ce0d11d9cc09cd3fe",
+      "status": "PASS_DISPOSABLE_COMPOSITION_ONLY",
+      "typecheck": "PASS"
     },
     "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
     "tests": {
@@ -156,42 +200,6 @@
       "py_compile": "PASS",
       "py_compile_and_diff_check": "PASS",
       "schema_and_UI_contract": "12 PASS"
-    },
-    "p1_current_source_requalification": {
-      "status": "PASS_DISPOSABLE_COMPOSITION_ONLY",
-      "source_commit": "7a474e2abca404bf0328a37ce0d11d9cc09cd3fe",
-      "snapshot_files": 35,
-      "snapshot_sha256": "af55246cbad8062757a43cf9f6818faf8eba40eb7e1e786c38387d69aa017120",
-      "frontend_tests": "61 PASS",
-      "host_routes": "32 PASS",
-      "p4_panel_tests": "26 PASS",
-      "typecheck": "PASS",
-      "build": "PASS; 832932 bytes; f13d3ebbdf917da76213c6c8e125114afe4de9763b34f3cd6b0bb14b762d595d",
-      "browser": "P1 shared route rendered D01-D05 on 900 synthetic rows; permission denial REFUSED, NOT_ACCESSED, values suppressed, no analysis",
-      "owner_acceptance": "PENDING"
-    },
-    "mcp_bridge_fixture": {
-      "status": "REBUILT_TWICE_IDENTICALLY; 2 fixture tests PASS; schema PASS",
-      "sha256": "d7c5a68993be254e07bd4d774f818601caf60450f7b27ae6f0e27417ff8aa1b9"
-    },
-    "D02_model_form_identifiability": {
-      "status": "PASS_NONIDENTIFIABILITY_DEMONSTRATED",
-      "independent_selector_trials": 250,
-      "false_feasible_interpolation_trial_rate": 0.988,
-      "paired_selected_candidate_count": 41,
-      "safe_surface_false_feasible_candidates": 0,
-      "hidden_surface_false_feasible_candidates": 12,
-      "hidden_surface_false_feasible_interpolations": 12,
-      "observations_sha256": "a71f3d60acd46835d0ecf3debeabeb172aa102f9344ad4cfa39a489738964a20",
-      "selector_output_sha256": "0e4bf9e36d5bb42700ff10ece3b5dc44635995b10d9d53e2770b2c648bc8d51c",
-      "decision": "No product-side data-only model-disagreement score added; it cannot distinguish this pair. Retain advisory label and require exact-setting evidence or an authorized prior."
-    },
-    "latest_source_qualification": {
-      "status": "PASS_CANDIDATE",
-      "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
-      "tests": "240 PASS, 0 skipped",
-      "E02": "PASS",
-      "E10": "PENDING_FINAL_ARCHIVE"
     }
   },
   "never_do": [
@@ -201,57 +209,52 @@
     "create a competing product UI shell"
   ],
   "next_action": "Commit the checkpoint ledger, build source archive at the resulting commit, reproduce in two clean worktrees, perform fresh no-pip network-denied extraction, then run final gate binding once. Resume D02 engineering value/experiment-selection work after E10 is current.",
-  "next_executable_action": "rtk git diff --check",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Rebuild and bind reproducible offline archive to the D02 qualification source; run one final exact-source gate binding for E10."
+      "task": "Commit progress checkpoint; build exact-source archive at 0373b89; reproduce in two clean worktrees; run fresh no-pip sandboxed offline extraction; bind final gate runner."
     },
     {
       "priority": 2,
       "status": "NEXT",
-      "task": "Continue D02 from the paired nonidentifiability result: assess whether predeclared exact-setting confirmation design maximizes useful information without implying unobserved-window coverage."
+      "task": "Resume D02 after release binding: pursue an independent, actionable uncertainty-reduction experiment challenge without implying unsupported window coverage."
     },
     {
       "priority": 3,
       "status": "AUDIT_NO_DEFECT",
-      "task": "D03: missing-objective and uncertainty-reversal source/test audit found no oracle-backed defect; retain existing refusal and scope labels."
+      "task": "D03 missing-objective and uncertainty-reversal audit found no oracle-backed defect; retain current refusal and scope labels."
     },
     {
       "priority": 4,
       "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
-      "task": "D04: chronological independent-unit holdout added to next_best; fixed 100-trial hidden temporal-shift benchmark rejected 100/100 ordered holdouts while random grouping accepted 74/100. Synthetic scope only; no future or production guarantee."
+      "task": "D04 chronological holdout and off-grid DOE aliasing challenge are independently benchmarked; remain synthetic and limited."
     },
     {
       "priority": 5,
       "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
-      "task": "D05: confounder benchmark repaired with complete explicit co-intervention history; numeric sensitivity gates passed in 626/1,000 underbound trials with wrong effect direction, but interpretation eligibility and causal claims remained zero."
+      "task": "D05 hidden-confounder challenge preserves inconclusive behavior; causal claims remain unauthenticated."
     },
     {
       "priority": 6,
       "status": "PENDING_EXTERNAL",
-      "task": "Authoritative P1 host/source owner acceptance and formal accessibility."
+      "task": "Authoritative P1 source/owner acceptance and formal accessibility qualification."
     },
     {
       "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Company source authorization, mappings, target policy, approvals and ROI."
-    },
-    {
-      "priority": 8,
-      "status": "NEXT",
-      "task": "Regenerate full current-source release evidence after science updates; run independent release gates, verify D04/D05 benchmark bindings, P1 compatibility, archive reproducibility and offline extraction."
+      "task": "Company source authorization, mappings, target policies, approvals and engineer ROI."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current source is 1058b63 with E10 pending refresh; E05/E07/E08/E09/E11/E12 remain pending.",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; exact source archive and company/external gates remain",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 continue and D02 interpolation misses remain prominently limited",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING P1 owner/source acceptance and formal accessibility; disposable current-source compatibility PASS"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; continue scientific qualification",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source acceptance and formal accessibility; disposable compatibility only"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
-  "worktree_state": "Product code/qualification source HEAD 1058b63; full runner PASS for E01-E04/E06 and 240 tests. E10 stale until archive for the resulting checkpoint source is built, reproduced and offline-qualified."
+  "source_commit": "0373b890e9809bbbe4aa706d453728516c2c24d4",
+  "worktree_state": "D04 aliasing benchmark, test and release-gate integration committed at 0373b89. Focused D04 tests 28 PASS. Exact-source archive, reproducibility, offline extraction and final release gates remain pending."
 }

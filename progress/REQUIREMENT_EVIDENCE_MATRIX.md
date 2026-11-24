@@ -1,3 +1,14 @@
+# Latest requirement evidence — D04 off-grid DOE aliasing (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D04 design geometry | Fixed independent benchmark: 200 harmonic-response trials; full factorial, central-composite, and 3-level D-optimal geometries observed zero signal; Latin hypercube exposed signal in 200/200 trials. This is geometry-only and does not estimate power. | Challenge is bound into the source release runner and E02 evidence. No automatic design preference follows. |
+| D04 tests | Focused design suite 28 PASS; changed files compile and diff check passes. | Full exact-source release qualification and archive refresh remain. |
+| Current artifact | Previous archive and gates identify parent source `159fd7b`; new source is `0373b89`. | Rebuild, reproduce in two clean worktrees, qualify fresh offline extraction, then bind final gates. |
+| Pending gates | Company MCP authorization/semantics, authoritative P1 owner/accessibility, target OS, legal/security/production approval, and engineer ROI are unverified. | Keep PENDING_INTERNAL / PENDING_EXTERNAL; no public distribution. |
+
+---
+
 # Latest evidence — D01 measurement refusal and D04 power disclosure (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |
