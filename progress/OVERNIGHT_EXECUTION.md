@@ -463,3 +463,15 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 - Verification executed: full Python suite 259 PASS/0 skipped; D01/D02 focused suite 68 PASS; P1 host overlay 32 PASS; P1 frontend 64 PASS; strict typecheck PASS; P4 component 29 PASS; schema validation PASS; MCP-to-panel fixture built twice byte-identically at SHA `3bc6575cd6793cb21ef03351b6cf778efc4e4f35c5e5021a69e0b006a6e938b8`.
 - New D02 benchmark source hash: `375ae98016f06bab4f0c68b35792958d84bcca8e1a0f274abf9e51f611c7bc0c`; result file is regenerated and binds the current source and benchmark script.
 - Next: commit the product change and run the exact-source release runner, then rebuild/reproduce/offline-qualify the archive if all source-bound gates pass.
+
+
+# D02 exact source checkpoint — 2026-11-24
+
+- Source commit `1235259d6a6853e195192bc6a1ba4cf6a91c8bba` includes the regenerated bridge fixture fingerprinting the D02 stratum diagnostic. Prior full run executed 259 tests and E01-E04/E06 passed at the same working-tree content, but referenced parent commit `ab3c0e8`; regenerate the performance report and rerun release checks to bind evidence to this exact commit.
+- Then rebuild the ZIP, run two clean detached builds, and run fresh no-pip extraction with OS network denial.
+
+
+# Offline builder exclusion repair — 2026-11-24
+
+- The clean-worktree guard rejected dirty `progress/` even though the bundle excludes it. Aligned the guard with `EXCLUDED_SOURCE_PREFIXES` (progress and legacy qualification evidence) and added tracked/untracked regression cases. Focused schema/UI/builder suite: 14 PASS; `git diff --check` PASS.
+- The previous exact-source runner at `1235259` passed 259 Python tests and E01-E04/E06; E10 awaits final archive. The builder correction changes source, so regenerate performance evidence and rerun the full release runner after commit.

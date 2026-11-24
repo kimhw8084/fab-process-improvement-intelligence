@@ -33,7 +33,7 @@ GENERATED_OUTPUT_FILES = {path.relative_to(ROOT).as_posix() for path in EXCLUDED
 
 def is_generated_qualification_output(relative_path):
     """Return whether a mutable build or qualification output is outside product source."""
-    return relative_path in GENERATED_OUTPUT_FILES or relative_path.startswith("qualification/results/")
+    return relative_path in GENERATED_OUTPUT_FILES or relative_path.startswith(EXCLUDED_SOURCE_PREFIXES)
 
 
 def git(*args):

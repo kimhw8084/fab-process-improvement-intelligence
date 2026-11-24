@@ -1,11 +1,10 @@
 {
   "active_uncommitted_changes": [
-    "D02 adds descriptive held-out interval miss rates by caller-predeclared stratum; model fit, calibration, candidate selection and abstention rules are unchanged.",
-    "Added independent hidden nonlinear stratum-drift benchmark and exact result, plus UI table, test, release-gate integration and P1 compatibility proposal.",
-    "Executed 259 Python tests PASS/0 skipped; D01/D02 68 PASS; P1 current-source disposable host 32 PASS; frontend 64 PASS; TypeScript, P4 component 29, schema and fixture reproducibility checks PASS.",
-    "Older generated release/qualification sidecars from the b29 runner remain dirty and are intentionally not staged; they will be refreshed after the new source commit."
+    "Release builder clean-worktree guard now accepts the same progress/ and legacy-evidence prefixes already excluded from the source bundle; unit regressions pass.",
+    "Prior exact-source run at 1235259: 259 PASS/0 skipped; E01-E04/E06 PASS; E10 awaited package rebuild. This release runner evidence predates the builder guard change.",
+    "Only generated release/qualification sidecars and progress docs are otherwise dirty."
   ],
-  "as_of_source_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3",
+  "as_of_source_commit": "1235259d6a6853e195192bc6a1ba4cf6a91c8bba",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -74,8 +73,15 @@
       "independent_oracle": "Direct grouping/max residual; exact P4 subgroup miss counts and denominators matched.",
       "tests": "259 Python PASS/0 skipped; D01/D02 68 PASS; P1 host 32 PASS; frontend 64 PASS; P4 component 29 PASS; strict TS/schema PASS.",
       "bridge_fixture_sha256": "3bc6575cd6793cb21ef03351b6cf778efc4e4f35c5e5021a69e0b006a6e938b8",
-      "source_commit": "PENDING_LOCAL_COMMIT",
-      "status": "IMPLEMENTED_AND_FOCUSED_QUALIFIED; full source-bound release runner pending"
+      "source_commit": "1235259d6a6853e195192bc6a1ba4cf6a91c8bba",
+      "status": "IMPLEMENTED_AND_FOCUSED_QUALIFIED; full suite/release runner rerun required because bridge fixture was committed after prior run"
+    },
+    "release_builder_exclusions": {
+      "defect": "Clean-worktree guard ignored only generated output files and qualification/results, while source bundling also excluded progress/ and qualification/evidence/legacy/.",
+      "repair": "Clean-worktree guard now uses the same excluded source prefixes.",
+      "focused_tests": "tests/test_schema_and_ui.py: 14 PASS; git diff --check PASS.",
+      "full_release": "Not rerun after this builder change.",
+      "status": "FOCUSED_TESTED_PENDING_SOURCE_COMMIT_AND_RELEASE_RUN"
     }
   },
   "prior_checkpoint_history": {
@@ -426,8 +432,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the D02 subgroup diagnostic and proposal, then run the exact-source release runner. If E01-E04/E06 gates pass, rebuild the offline candidate, reproduce it twice from clean source and repeat fresh no-pip/network-denied extraction.",
-  "next_executable_action": "rtk git add products/p4/window.py products/p4/ui/P4Panel.tsx products/p4/ui/P4Panel.test.tsx tests/test_d01_d02_independent.py qualification/benchmark_d02_subgroup_misses.py qualification/results/D02_SUBGROUP_MISSES_BENCHMARK.json qualification/run_release_checks.py progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Report D02 held-out misses by stratum\"",
+  "next_action": "Commit the builder guard correction and test, regenerate the performance report for the new commit, rerun exact-source release checks, then build/reproduce/offline-qualify the archive.",
+  "next_executable_action": "rtk git add qualification/build_transfer_bundle.py tests/test_schema_and_ui.py progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Honor offline build source exclusions\"",
   "ordered_queue": [
     {
       "priority": 1,
@@ -458,7 +464,7 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3",
-  "worktree_state": "D02 source, independent benchmark, UI, tests, release gate and progress evidence modified and focused-tested; local commit next. Prior b29 generated release/qualification sidecars remain dirty and will be refreshed after commit.",
+  "source_commit": "1235259d6a6853e195192bc6a1ba4cf6a91c8bba",
+  "worktree_state": "Release-builder exclusion correction and regression test focused-tested; local commit next. Existing generated sidecars remain excluded and require refresh at the next exact source commit.",
   "evidence_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3"
 }

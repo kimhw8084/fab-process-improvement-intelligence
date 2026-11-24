@@ -460,3 +460,15 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 |---|---|---|
 | Detect subgroup failure diluted by pooled held-out interval misses | Implemented a descriptive by-predeclared-stratum breakdown, with complete denominators, misses, Wilson intervals, and separate mixed/unplanned counts. Independent fixed challenge: 5,000 A units miss 0.52%, 100 B units miss 100% under B-only hidden quadratic response drift; pooled misses 2.47%. P4 counts equal a direct independent oracle. | Counterevidence diagnostic only. Does not estimate conditional coverage, validate exchangeability or infer a fab population. No change to model fit, calibration, ranking or candidate selection. |
 | Regression and integration | Python suite 259 PASS/0 skipped; D01/D02 68 PASS; P1 host overlay 32 PASS; frontend 64 PASS; TypeScript and schema checks PASS; P4 UI component 29 PASS; bridge fixture deterministic twice at `3bc6575cd6793cb21ef03351b6cf778efc4e4f35c5e5021a69e0b006a6e938b8`. | Release runner/archive must be rerun after local source commit. P1 workspace remains unversioned and unapproved. |
+
+
+# D02 exact source checkpoint — 2026-11-24
+
+- Source commit `1235259d6a6853e195192bc6a1ba4cf6a91c8bba` includes the regenerated bridge fixture fingerprinting the D02 stratum diagnostic. Prior full run executed 259 tests and E01-E04/E06 passed at the same working-tree content, but referenced parent commit `ab3c0e8`; regenerate the performance report and rerun release checks to bind evidence to this exact commit.
+- Then rebuild the ZIP, run two clean detached builds, and run fresh no-pip extraction with OS network denial.
+
+
+# Offline builder exclusion repair — 2026-11-24
+
+- The clean-worktree guard rejected dirty `progress/` even though the bundle excludes it. Aligned the guard with `EXCLUDED_SOURCE_PREFIXES` (progress and legacy qualification evidence) and added tracked/untracked regression cases. Focused schema/UI/builder suite: 14 PASS; `git diff --check` PASS.
+- The previous exact-source runner at `1235259` passed 259 Python tests and E01-E04/E06; E10 awaits final archive. The builder correction changes source, so regenerate performance evidence and rerun the full release runner after commit.
