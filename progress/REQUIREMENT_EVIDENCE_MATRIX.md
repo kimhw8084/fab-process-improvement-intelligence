@@ -263,3 +263,12 @@ Status distinguishes implemented synthetic evidence from company qualification. 
 ## Baseline release gates
 
 Latest current-source checks: P1 disposable composition and live synthetic browser success/refusal were requalified against product source `36967b43add029149acaf078778735a67ebd703e`; release tests and reproducibility/offline checks passed at that source, but the P1 evidence update is not yet part of the source commit and E10 must be rerun after it is committed. E05/E12 remain PENDING_INTERNAL; E07 owner/formal-accessibility, E08 target OS, E09 independent rights/security review, E11 ROI remain pending. No transfer-ready claim or publication.
+
+
+# P1 current disposable composition — 2026-11-24
+
+| Requirement | Current evidence | Remaining limit |
+|---|---|---|
+| Shared P1 host compatibility | Current P4 source overlay hash-matches the 35-file disposable P1 composition; P1 frontend 61, route tests 32, P4 panel 26, typecheck and production build passed. Real-browser synthetic workflow completed PARTIAL and MCP denial suppressed semantics/results. | P1 source is unversioned and disposable; no owner acceptance, formal accessibility or target-host qualification.
+| Exact offline archive | Source `8b64bcad5039756d4df0d056d450943546d014ae`; two detached rebuilds matched SHA-256 `57dce52a3c6de88bcb6ebbe67583d797039d9174a2581d34050860bbd2d557f0`; fresh macOS ARM64 extraction verified 219 source files with pip absent and network denied. | Archive is stale after the current P1 evidence refresh; rebuild and requalify exact final source.
+| Distribution/security/internal | Synthetic-only and public distribution remains unauthorized. | Company mapping/permissions, authoritative P1 acceptance, target OS, independent license/security review, engineering ROI, and company approvals remain pending.

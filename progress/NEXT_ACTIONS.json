@@ -2,7 +2,8 @@
   "active_uncommitted_changes": [
     "Generated release outputs and unrelated D01/D03/P1 qualification sidecars are dirty and are not current-source release evidence; do not stage blindly"
   ],
-  "as_of_source_commit": "6a190a81756376f08443bd6e170dbf067fbcae6c",
+  "as_of_source_commit": "8b64bcad5039756d4df0d056d450943546d014ae",
+  "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -11,43 +12,96 @@
     "company legal, security and production approvals",
     "P1 owner/source revision and authoritative suite capability contract"
   ],
+  "last_release_runner": {
+    "python_tests": "240 PASS, 0 skipped",
+    "qualification": "E01-E04 and E06 PASS; E07 pending authoritative owner/formal accessibility; E08-E12 pending as applicable; report rerun required after current P1 evidence commit and final archive",
+    "source_commit": "8b64bcad5039756d4df0d056d450943546d014ae",
+    "status": "PASS_CANDIDATE"
+  },
   "latest_checkpoint": {
+    "D01_mcp_uncertainty": {
+      "fixture_sha256": "06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4",
+      "focused_mcp_tests": "19 PASS",
+      "full_suite_after_change": "NOT_RUN",
+      "invalid_nonnegative_and_unit_cases": "REFUSED",
+      "status": "IMPLEMENTED_AND_FOCUSED_TESTED"
+    },
     "D01_measurement_error": {
       "method": "no errors-in-variables correction claimed",
       "status": "FAIL_CLOSED_AND_DISCLOSED",
       "supplied_row_uncertainty": "MCP mapping now preserves explicit per-metric uncertainty; fit raises ModelError before coefficient/inference output",
       "unsupplied_uncertainty": "assumption states not supplied or propagated"
     },
-    "D01_mcp_uncertainty": {
-      "status": "IMPLEMENTED_AND_FOCUSED_TESTED",
-      "focused_mcp_tests": "19 PASS",
-      "invalid_nonnegative_and_unit_cases": "REFUSED",
-      "fixture_sha256": "06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4",
-      "full_suite_after_change": "NOT_RUN"
-    },
-    "D03_tradeoff_audit": {
-      "status": "NO_REPRODUCED_ORACLE_DEFECT",
-      "missing_objective_family": "REFUSED_OR_LIMITED_SCOPE",
-      "zero_variance_interval": "NOT_ESTIMABLE",
-      "mean_front_scope": "EXPLICITLY_DISTINGUISHED_FROM_FAMILYWISE_EVIDENCE"
+    "D01_time_holdout_audit": {
+      "adversarial_case": "A +10 outcome shift on all held-out groups increases held-out RMSE by more than 8",
+      "fixture": "80 training lots, 20 later test lots, 180 held-out rows",
+      "implementation": "Fits requested model on actual training rows and scores disjoint later independent groups; reports bias, MAE, RMSE, training-mean baseline, exact row/group counts",
+      "limitations": "Caller split reference unauthenticated; descriptive supplied holdout only; does not establish future performance or causality",
+      "status": "EXISTING_PATH_AND_ORACLE_VERIFIED; NO_CHANGE_JUSTIFIED"
     },
     "D02_confirmation_veto": {
       "status": "INDEPENDENT_INTEGRATION_PASS",
       "withheld_candidate_set": "confirmation returns REFUSED, 0 runs, executed false"
+    },
+    "D03_tradeoff_audit": {
+      "mean_front_scope": "EXPLICITLY_DISTINGUISHED_FROM_FAMILYWISE_EVIDENCE",
+      "missing_objective_family": "REFUSED_OR_LIMITED_SCOPE",
+      "status": "NO_REPRODUCED_ORACLE_DEFECT",
+      "zero_variance_interval": "NOT_ESTIMABLE"
+    },
+    "D04_chronological_holdout": {
+      "determinism": "Two benchmark executions produced identical result files",
+      "product_source_sha256": "e66e785fe0a4a3d87037d5cc9111b43a95d4984b46bcc31dd3a11c770919020f",
+      "random_group_accepted": "74/100",
+      "result_sha256": "cb443aa99d7b4b431609eb24dc855456a5ae0b77c71a45d0e11455dd4c3a3ee4",
+      "scope": "Synthetic known quadratic response with late +0.5 shift; caller split reference unauthenticated; descriptive only",
+      "status": "IMPLEMENTED_AND_VERIFIED",
+      "time_ordered_accepted": "0/100; all refused at the engineer-specified 0.2 RMSE limit",
+      "trials": 100
     },
     "D04_power_assumptions": {
       "chi_square_sd_bound": "independent normal paired differences required; P4 does not verify",
       "engineer_hard_bound": "separately labeled, source/validity unauthenticated",
       "power_approximation": "normal tail; warns heavy tails/influence/dependent blocks can invalidate"
     },
+    "D05_confounded_effect_sensitivity": {
+      "benchmark_script_sha256": "bbcc7456d7620ea9d181fe2fe10dcbbf0f8617d095cb45439bd3a009fe9fd767",
+      "benchmark_source_commit": "68a054d50d9a64db163881311be5ffa35e64d02a",
+      "engine_sha256": "568bfa4e85b9c297f9e7f99ea8f700983e04cc7dfe1cbae2b3527dada9277a60",
+      "interpretation_eligible": 0,
+      "observational_causal_claims": 0,
+      "oracle_adequate_bound_coverage": "973/1000; Wilson lower 0.961",
+      "quarter_strength_underbound_coverage": "40/1000",
+      "raw_interval_coverage": "5/1000",
+      "result_sha256": "8ed269fcf3a7c915b8513bf164ba1845368a32a256d8aa606d70595a06554bf8",
+      "scope": "Synthetic; sensitivity-bound adequacy is not authenticated; numeric diagnostics do not establish causality",
+      "status": "BENCHMARK_REPAIRED_AND_PASSING",
+      "trials": 1000,
+      "underbound_numeric_gate_wrong_direction": "626/1000"
+    },
     "MCP_bridge_fixture": {
       "sha256": "06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4",
       "status": "REBUILT_TWICE_IDENTICALLY"
+    },
+    "P1_disposable_host_current_source": {
+      "browser": "synthetic success COMPLETED/PARTIAL with D01-D05; MCP denial REFUSED, semantics NOT_ACCESSED, positive evidence withheld",
+      "checks": "frontend 61 PASS; host routes 32 PASS; P4 panel 26 PASS; typecheck PASS; build PASS (832932-byte JS, SHA-256 f13d3ebbdf917da76213c6c8e125114afe4de9763b34f3cd6b0bb14b762d595d)",
+      "composition_sha256": "b92041e828fdd331b6bbcbcb432d3b938c2b83ed87a8d6c7c347959b64ce6e74",
+      "evidence_sha256": "cca59ead62e842fa98f25ff87d618dc6bac02d298a28e87d205b6c54f78034c1",
+      "limitation": "P1 is unversioned/disposable; not owner acceptance, formal accessibility, company permission or target-host qualification",
+      "p4_source_commit": "09ad1d5e2961d6646ac6a3ac771f2a9cb9229167",
+      "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
     },
     "archive": {
       "sha256": "8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde",
       "source_commit": "00bb6a681564c7dcf2c8ac17536fd479761bcaca",
       "status": "STALE; E10 PENDING_FINAL_ARCHIVE"
+    },
+    "bridge_fixture": {
+      "focused_tests": "2 PASS",
+      "note": "Current P1 snapshot hashes are stale for the refreshed fixture; owner acceptance remains pending",
+      "sha256": "ca32cf65bfbd99b15263491863eaf2be36b1f49e82b978b82c0a8573e1833c11",
+      "status": "REBUILT_TWICE_IDENTICALLY"
     },
     "date": "2026-11-24",
     "engine_version": "1.2.2",
@@ -56,59 +110,28 @@
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
       "status": "STALE_AFTER_071EADE_PRODUCT_SOURCE"
     },
+    "offline_archive": {
+      "offline": "fresh extraction on macOS 26.6.2 ARM64, Python 3.11.7, no pip, sandbox network probe denied; 219 files verified",
+      "rebuild": "two clean detached builds matched",
+      "sha256": "57dce52a3c6de88bcb6ebbe67583d797039d9174a2581d34050860bbd2d557f0",
+      "source_commit": "8b64bcad5039756d4df0d056d450943546d014ae",
+      "status": "PASS_AT_PREVIOUS_SOURCE_COMMIT_NOW_STALE_AFTER_P1_EVIDENCE_REFRESH"
+    },
     "source_commit": "6a190a81756376f08443bd6e170dbf067fbcae6c",
     "tests": {
+      "D05_benchmark": "1000 trials; PASS; source and script hashes verified",
+      "benchmark": "100-trial benchmark executed twice; result hash identical",
       "diff_check": "PASS",
       "focused_D01_D02": "67 PASS",
-      "focused_design": "24 PASS",
-      "focused_MCP": "19 PASS",
-      "full_python": "240 PASS at 68a054d code with current D04/D05 and refreshed bridge fixture",
-      "py_compile": "PASS",
       "focused_D04": "27 PASS",
-      "schema_and_UI_contract": "12 PASS",
-      "benchmark": "100-trial benchmark executed twice; result hash identical",
-      "py_compile_and_diff_check": "PASS",
       "focused_D05": "26 PASS",
-      "D05_benchmark": "1000 trials; PASS; source and script hashes verified",
-      "mcp_bridge_fixture": "2 PASS; two deterministic rebuilds"
-    },
-    "D04_chronological_holdout": {
-      "status": "IMPLEMENTED_AND_VERIFIED",
-      "product_source_sha256": "e66e785fe0a4a3d87037d5cc9111b43a95d4984b46bcc31dd3a11c770919020f",
-      "result_sha256": "cb443aa99d7b4b431609eb24dc855456a5ae0b77c71a45d0e11455dd4c3a3ee4",
-      "trials": 100,
-      "random_group_accepted": "74/100",
-      "time_ordered_accepted": "0/100; all refused at the engineer-specified 0.2 RMSE limit",
-      "determinism": "Two benchmark executions produced identical result files",
-      "scope": "Synthetic known quadratic response with late +0.5 shift; caller split reference unauthenticated; descriptive only"
-    },
-    "D05_confounded_effect_sensitivity": {
-      "status": "BENCHMARK_REPAIRED_AND_PASSING",
-      "benchmark_source_commit": "68a054d50d9a64db163881311be5ffa35e64d02a",
-      "benchmark_script_sha256": "bbcc7456d7620ea9d181fe2fe10dcbbf0f8617d095cb45439bd3a009fe9fd767",
-      "engine_sha256": "568bfa4e85b9c297f9e7f99ea8f700983e04cc7dfe1cbae2b3527dada9277a60",
-      "result_sha256": "8ed269fcf3a7c915b8513bf164ba1845368a32a256d8aa606d70595a06554bf8",
-      "trials": 1000,
-      "raw_interval_coverage": "5/1000",
-      "oracle_adequate_bound_coverage": "973/1000; Wilson lower 0.961",
-      "quarter_strength_underbound_coverage": "40/1000",
-      "underbound_numeric_gate_wrong_direction": "626/1000",
-      "interpretation_eligible": 0,
-      "observational_causal_claims": 0,
-      "scope": "Synthetic; sensitivity-bound adequacy is not authenticated; numeric diagnostics do not establish causality"
-    },
-    "bridge_fixture": {
-      "status": "REBUILT_TWICE_IDENTICALLY",
-      "sha256": "ca32cf65bfbd99b15263491863eaf2be36b1f49e82b978b82c0a8573e1833c11",
-      "focused_tests": "2 PASS",
-      "note": "Current P1 snapshot hashes are stale for the refreshed fixture; owner acceptance remains pending"
-    },
-    "D01_time_holdout_audit": {
-      "status": "EXISTING_PATH_AND_ORACLE_VERIFIED; NO_CHANGE_JUSTIFIED",
-      "implementation": "Fits requested model on actual training rows and scores disjoint later independent groups; reports bias, MAE, RMSE, training-mean baseline, exact row/group counts",
-      "fixture": "80 training lots, 20 later test lots, 180 held-out rows",
-      "adversarial_case": "A +10 outcome shift on all held-out groups increases held-out RMSE by more than 8",
-      "limitations": "Caller split reference unauthenticated; descriptive supplied holdout only; does not establish future performance or causality"
+      "focused_MCP": "19 PASS",
+      "focused_design": "24 PASS",
+      "full_python": "240 PASS at 68a054d code with current D04/D05 and refreshed bridge fixture",
+      "mcp_bridge_fixture": "2 PASS; two deterministic rebuilds",
+      "py_compile": "PASS",
+      "py_compile_and_diff_check": "PASS",
+      "schema_and_UI_contract": "12 PASS"
     }
   },
   "never_do": [
@@ -117,8 +140,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Run the complete current-source release qualification now that D04 and D05 changes are committed; repair only reproducible gate failures, then requalify the actual P1 host snapshot if available.",
-  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
+  "next_action": "Commit the current P1 disposable-host evidence and checkpoint ledger, rebuild the archive at that exact commit, prove two clean detached builds and a fresh sandboxed offline extraction, then run the exact-source release gates once.",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
   "ordered_queue": [
     {
       "priority": 1,
@@ -162,12 +185,13 @@
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; runner/P1/archive evidence stale for current source",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; rebuild/archive gates pending and internal/security/target-host requirements remain",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 work continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; current-source P1 evidence predates 071eade; no owner acceptance/formal accessibility"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D02 hidden-interaction limitations disclosed and D01-D05 remain advisory",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING P1 owner/source acceptance and formal accessibility; disposable current-source compatibility passed"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Latest checkpoint commit 6a190a8; full Python suite 240 PASS. D01 train-only temporal/group holdout path and +10 drift oracle are already implemented and passed. Generated release artifacts remain stale and dirty; P1 snapshot does not match current fixture/source; no readiness claim."
+  "source_commit": "8b64bcad5039756d4df0d056d450943546d014ae",
+  "worktree_state": "Generated release reports/ZIP and D01/D03/P1 benchmark sidecars are dirty; P1 host evidence is freshly updated and will be committed with checkpoint. Do not stage unrelated generated results."
 }
