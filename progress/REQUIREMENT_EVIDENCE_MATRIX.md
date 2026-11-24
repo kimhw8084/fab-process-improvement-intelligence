@@ -295,3 +295,14 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 |---|---|---|
 | pip-audit | 48 dependency instances; zero known advisories at 2026-11-24T11:05:02Z. | Default PyPI advisory service snapshot; no OS/interpreter/license or full security clearance. |
 | Bandit 1.9.4 | Product Python source commit `294289fa29b884626fcdda7a188d67fae18e1218`: 8 LOW B311, zero MEDIUM/HIGH; dispositions recorded. | Limited static scan; independent human review and legal/ownership approval remain pending. |
+
+
+# Current checkpoint — P1 composition and bridge refresh (2026-11-24)
+
+| Gate | Executed evidence | Current disposition |
+|---|---|---|
+| MCP bridge | Deterministic regenerated fixture SHA `d7c5a68993be254e07bd4d774f818601caf60450f7b27ae6f0e27417ff8aa1b9`; 2 fixture tests and 7 schema instances PASS. | Synthetic MCP only; no internal source permission or semantic mapping. |
+| P1 disposable host | Exact 35-file overlay manifest `af55246cbad8062757a43cf9f6818faf8eba40eb7e1e786c38387d69aa017120`; frontend 61, host routes 32, P4 panel 26; typecheck/build PASS. | PASS_DISPOSABLE_COMPOSITION_ONLY; P1 remains unversioned and owner acceptance/formal accessibility are pending. |
+| Live workflow | Observed current synthetic analysis and refusal in P1 shared shell. Refusal withheld values, did not access semantics or execute analysis. | Synthetic browser evidence; no company data or authority. |
+| Exact release | Prior run at `7a474e2` executed 240 tests and failed only stale fixture fingerprint; fixture and P1 pins refreshed. | Rerun once after checkpoint commit; no current release PASS claimed. |
+| Next | Commit refreshed fixture/evidence/progress, then run release checks and archive/offline gates. Resume D02 model-form challenge after release repair. | Company approval, target OS, formal accessibility/security/legal and ROI remain pending. |
