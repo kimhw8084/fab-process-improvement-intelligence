@@ -23,7 +23,7 @@
   "p4_source_sha256": {
     "products/p4/ui/P4Panel.test.tsx": "ff14d703acb65585fd4af050cef083a72cdf892f907e289b1a0bc6528bb3ec94",
     "products/p4/ui/P4Panel.tsx": "a9072da54096965a1c4e4edcff66aacb23be4b3104f70f0b0b9c9dd9d86f07e7",
-    "tests/fixtures/mcp_p4_panel_bridge.json": "d933dd4ebb44c70fe34dbbb57bd21c9a0c427c2783c8f4755476179284f04a09"
+    "tests/fixtures/mcp_p4_panel_bridge.json": "5de8504dd7d328b0a57ad44bd06c54bb10570bd28a6b2e1659347298eb028dc0"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
   "status": "PASS_LOCAL_MODULE_ONLY",
