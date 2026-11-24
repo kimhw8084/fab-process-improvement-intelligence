@@ -377,6 +377,13 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
                        "settings": [{"factors": dict(zip(controls, setting)), **audit}
                                     for setting, audit in setting_audit.items()],
                        "interpretation": "constraint-based selection can change compared populations; it is reported by setting and is not adjusted inference"}
+    unassessed_settings = [{"id": "SYN-SETTING-"+"-".join(f"{value:g}" for value in setting),
+                            "factors": dict(zip(controls, setting)),
+                            "eligible_independent_units": audit["eligible_independent_units"],
+                            "required_independent_units": minimum_units,
+                            "reason": "below independent-unit minimum"}
+                           for setting, audit in setting_audit.items()
+                           if audit["eligible_independent_units"] < minimum_units]
     candidates = []
     uncertainty_available = True
     for setting, unit_rows in groups.items():
@@ -410,7 +417,7 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
     if not candidates:
         return {"status": "LIMITED_SCOPE", "reason": "no setting met the independent-unit minimum",
                 "minimum_independent_units": minimum_units, "pareto_observation_ids": [],
-                "constraint_exclusion_audit": exclusion_audit,
+                "constraint_exclusion_audit": exclusion_audit, "unassessed_settings": unassessed_settings,
                 "selection_warning": "No setting met the independent-unit minimum after whole-unit constraint screening; inspect the exclusion audit."}
     front = [candidate for candidate in candidates if not any(other is not candidate and _dominates(other, candidate, objectives)
                                                                for other in candidates)]
@@ -420,23 +427,30 @@ def observed_tradeoffs(rows, metric_defs, factor_defs, data, objectives, cancel=
     identical_unit_cohorts = (not eligible_unit_sets or all(values == eligible_unit_sets[0]
                                                             for values in eligible_unit_sets[1:]))
     familywise_envelope, familywise_dominance = _familywise_mean_envelope(
-        candidates, objectives, allow=excluded_units_total == 0 and identical_unit_cohorts,
+        candidates, objectives, allow=excluded_units_total == 0 and not unassessed_settings and identical_unit_cohorts,
         unavailable_status=("NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION"
-                            if excluded_units_total else "NOT_AVAILABLE_INCOMPATIBLE_INDEPENDENT_UNIT_COHORTS"),
+                            if excluded_units_total else
+                            "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS" if unassessed_settings else
+                            "NOT_AVAILABLE_INCOMPATIBLE_INDEPENDENT_UNIT_COHORTS"),
         bounded_contract=data.get("familywise_mean_bounds"),
         metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
     familywise_envelope["population_compatibility"] = (
         "IDENTICAL_INDEPENDENT_UNIT_SET_AT_EVERY_INCLUDED_SETTING" if identical_unit_cohorts
         else "SETTING_SPECIFIC_INDEPENDENT_UNIT_SETS_DIFFER")
-    selection_warning = ("Constraint-passing outcomes are selected at the whole independent-unit level. "
-                         "Excluded unit counts are shown; candidate means describe only the eligible subset and may not be comparable to the full source population.") if excluded_units_total else None
-    return {"status": "VALID" if uncertainty_available and excluded_units_total == 0 else "LIMITED_SCOPE",
+    warning_parts = []
+    if excluded_units_total:
+        warning_parts.append("Constraint-passing outcomes are selected at the whole independent-unit level. Excluded unit counts are shown; candidate means describe only the eligible subset and may not be comparable to the full source population.")
+    if unassessed_settings:
+        warning_parts.append("Some observed settings were omitted because they did not meet the independent-unit minimum; the Pareto front is incomplete.")
+    selection_warning = " ".join(warning_parts) or None
+    return {"status": "VALID" if uncertainty_available and excluded_units_total == 0 and not unassessed_settings else "LIMITED_SCOPE",
             "method": "independent-unit-aggregated-Pareto-with-marginal-t-intervals",
             "objective_metrics": [{**objective, "unit": metric_defs[objective["metric"]].get("unit")}
                                   for objective in objectives],
             "decision_factors": controls, "independent_unit_field": unit_field,
             "minimum_independent_units": minimum_units, "candidate_settings": candidates,
             "constraint_exclusion_audit": exclusion_audit, "selection_warning": selection_warning,
+            "unassessed_settings": unassessed_settings,
             "pareto_setting_ids": mean_front_ids, "mean_pareto_setting_ids": mean_front_ids,
             "interval_separated_dominance": interval_dominance,
             "familywise_mean_envelope": familywise_envelope,
@@ -604,6 +618,13 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
                         "settings": [{"factors": dict(zip(decision_factors, setting)), **audit}
                                      for setting, audit in setting_audit.items()],
                         "interpretation": "constraint selection can change the compared population; means are limited to eligible independent units"}
+    unassessed_settings = [{"id": "SYN-SETTING-" + "-".join(f"{value:g}" for value in setting),
+                            "factors": dict(zip(decision_factors, setting)),
+                            "eligible_independent_units": audit["eligible_independent_units"],
+                            "required_independent_units": minimum_units,
+                            "reason": "below independent-unit minimum"}
+                           for setting, audit in setting_audit.items()
+                           if audit["eligible_independent_units"] < minimum_units]
 
     candidates = []
     uncertainty_limitations = []
@@ -642,13 +663,15 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
     if not candidates:
         return {"status": "LIMITED_SCOPE", "reason": "no constraint-eligible decision setting met the independent-unit minimum",
                 "minimum_independent_units": minimum_units, "pareto_observation_ids": [], "downstream_claim": "withheld",
-                "constraint_exclusion_audit": constraint_audit}
+                "constraint_exclusion_audit": constraint_audit, "unassessed_settings": unassessed_settings}
     front = [candidate for candidate in candidates if not any(other is not candidate and _dominates(other, candidate, objectives)
                                                                for other in candidates)]
     mean_front_ids = [candidate["id"] for candidate in front]
     interval_dominance = _uncertainty_dominance_audit(candidates, objectives, set(mean_front_ids))
     familywise_envelope, familywise_dominance = _familywise_mean_envelope(
-        candidates, objectives, allow=excluded_units_total == 0,
+        candidates, objectives, allow=excluded_units_total == 0 and not unassessed_settings,
+        unavailable_status=("NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION" if excluded_units_total
+                            else "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS"),
         bounded_contract=data.get("familywise_mean_bounds"),
         metric_units={metric: definition.get("unit") for metric, definition in metric_defs.items()})
     familywise_envelope["population_compatibility"] = (
@@ -671,7 +694,12 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
                             "marginal_intervals_overlap": overlaps,
                             "marginal_interval_status": comparison_status})
     uncertainty_available = not uncertainty_limitations
-    return {"status": "VALID" if excluded_units_total == 0 and uncertainty_available else "LIMITED_SCOPE",
+    warning_parts = []
+    if excluded_units_total:
+        warning_parts.append("Constraint-eligible paired units only are summarized; compare the per-setting exclusion audit before interpreting population tradeoffs.")
+    if unassessed_settings:
+        warning_parts.append("Some observed settings were omitted because they did not meet the independent-unit minimum; the Pareto front is incomplete.")
+    return {"status": "VALID" if excluded_units_total == 0 and uncertainty_available and not unassessed_settings else "LIMITED_SCOPE",
             "method": "paired_population_marginal_pareto_with_t_intervals",
             "relationship_id": link["relationship_id"], "relationship_contract_version": link["contract_version"],
             "approval_reference": link["approval_reference"], "population_id": upstream["population_id"],
@@ -683,8 +711,8 @@ def cross_step_tradeoffs(rows, metric_defs, data, cancel=None):
             "eligible_paired_units": sum(item["eligible_independent_units"] for item in setting_audit.values()),
             "candidate_settings": candidates,
             "constraint_exclusion_audit": constraint_audit,
-            "selection_warning": ("Constraint-eligible paired units only are summarized; compare the per-setting exclusion audit before interpreting population tradeoffs."
-                                  if excluded_units_total else None),
+            "selection_warning": " ".join(warning_parts) or None,
+            "unassessed_settings": unassessed_settings,
             "pareto_observation_ids": mean_front_ids, "mean_pareto_setting_ids": mean_front_ids,
             "interval_separated_dominance": interval_dominance,
             "familywise_mean_envelope": familywise_envelope,

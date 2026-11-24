@@ -335,6 +335,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
 function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?: P4PanelProps["renderChart"] }) {
   const chart = chartFromTradeoffs(result);
   const rows = asList(result?.candidate_settings).map(asObject);
+  const unassessed = asList(result?.unassessed_settings).map(asObject);
   const objectives = asList(result?.objective_metrics).map(asObject);
   return <section id="p4-d03" aria-labelledby="p4-d03-heading">
     <h3 id="p4-d03-heading">D03 · Cross-step and multiobjective tradeoffs</h3>
@@ -343,6 +344,15 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
     <KeyValueTable label="Constraint eligibility and excluded population" value={result?.constraint_exclusion_audit} />
     <KeyValueTable label="Family-wise mean uncertainty envelope" value={result?.familywise_mean_envelope} />
     {typeof result?.selection_warning === "string" && <p role="note">{text(result.selection_warning)}</p>}
+    {unassessed.length > 0 && <table>
+      <caption>Observed settings not ranked because they missed the independent-unit minimum</caption>
+      <thead><tr><th scope="col">Setting</th><th scope="col">Factor values</th><th scope="col">Eligible independent units</th><th scope="col">Required</th><th scope="col">Reason</th></tr></thead>
+      <tbody>{unassessed.map((setting, index) => <tr key={`${text(setting.id)}-${index}`}>
+        <th scope="row">{text(setting.id)}</th><td>{text(setting.factors)}</td>
+        <td>{text(setting.eligible_independent_units)}</td><td>{text(setting.required_independent_units)}</td>
+        <td>{text(setting.reason)}</td>
+      </tr>)}</tbody>
+    </table>}
     <p>Objectives: {objectives.map((item) => `${text(item.metric)} (${text(item.direction)}, ${text(item.unit || "unit unspecified")})`).join("; ") || "not provided"}.</p>
     {chart && <AccessibleChart model={chart} renderChart={renderChart} />}
     <table>

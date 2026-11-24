@@ -511,6 +511,9 @@ describe("P4 headless suite module", () => {
     const tradeoffs = artifact.D03_tradeoffs as Record<string, unknown>;
     tradeoffs.status = "LIMITED_SCOPE";
     tradeoffs.selection_warning = "Candidate means describe only the eligible subset; excluded units are reported.";
+    tradeoffs.unassessed_settings = [{ id: "SYN-SETTING-4", factors: { pressure: 4 },
+      eligible_independent_units: 20, required_independent_units: 30,
+      reason: "below independent-unit minimum" }];
     tradeoffs.constraint_exclusion_audit = { status: "DESCRIPTIVE_CONSTRAINT_SELECTION", excluded_independent_units: 43,
       interpretation: "Constraint-based selection can change compared populations; no adjusted inference." };
     const renderChart = vi.fn(() => <div role="img" aria-label="Host rendered limited-scope Pareto scatter" />);
@@ -519,6 +522,14 @@ describe("P4 headless suite module", () => {
     expect(within(d03).getByText("Constraint eligibility and excluded population")).toBeTruthy();
     expect(within(d03).getByText(/excluded_independent_units/)).toBeTruthy();
     expect(within(d03).getByText("Candidate means describe only the eligible subset; excluded units are reported.")).toBeTruthy();
+    const unassessed = within(d03).getByRole("table", {
+      name: "Observed settings not ranked because they missed the independent-unit minimum",
+    });
+    expect(within(unassessed).getByRole("rowheader", { name: "SYN-SETTING-4" })).toBeTruthy();
+    expect(within(unassessed).getByText('{"pressure":4}')).toBeTruthy();
+    expect(within(unassessed).getByText("20")).toBeTruthy();
+    expect(within(unassessed).getByText("30")).toBeTruthy();
+    expect(within(unassessed).getByText("below independent-unit minimum")).toBeTruthy();
     expect(renderChart).toHaveBeenCalledWith(expect.objectContaining({
       schema_version: "suite-chart.v1", kind: "scatter",
       title: "Observed Pareto setting means (limited scope)",

@@ -28019,9 +28019,71 @@
             }
           ],
           "qualification": "setting-level descriptive mean-based Pareto set among whole-unit constraint-eligible observations; constraint-based selection may change compared populations; marginal interval separation is not adjusted; the separate Bonferroni mean envelope is assumption-conditional and does not establish causal effects or reconcile incompatible setting populations",
-          "selection_warning": "Constraint-passing outcomes are selected at the whole independent-unit level. Excluded unit counts are shown; candidate means describe only the eligible subset and may not be comparable to the full source population.",
+          "selection_warning": "Constraint-passing outcomes are selected at the whole independent-unit level. Excluded unit counts are shown; candidate means describe only the eligible subset and may not be comparable to the full source population. Some observed settings were omitted because they did not meet the independent-unit minimum; the Pareto front is incomplete.",
           "status": "LIMITED_SCOPE",
           "tradeoff_count": 2,
+          "unassessed_settings": [
+            {
+              "eligible_independent_units": 0,
+              "factors": {
+                "pressure": 1.0,
+                "temperature": 40.0
+              },
+              "id": "SYN-SETTING-1-40",
+              "reason": "below independent-unit minimum",
+              "required_independent_units": 3
+            },
+            {
+              "eligible_independent_units": 0,
+              "factors": {
+                "pressure": 1.0,
+                "temperature": 45.0
+              },
+              "id": "SYN-SETTING-1-45",
+              "reason": "below independent-unit minimum",
+              "required_independent_units": 3
+            },
+            {
+              "eligible_independent_units": 0,
+              "factors": {
+                "pressure": 1.0,
+                "temperature": 50.0
+              },
+              "id": "SYN-SETTING-1-50",
+              "reason": "below independent-unit minimum",
+              "required_independent_units": 3
+            },
+            {
+              "eligible_independent_units": 0,
+              "factors": {
+                "pressure": 2.0,
+                "temperature": 45.0
+              },
+              "id": "SYN-SETTING-2-45",
+              "reason": "below independent-unit minimum",
+              "required_independent_units": 3
+            },
+            {
+              "eligible_independent_units": 0,
+              "factors": {
+                "pressure": 2.0,
+                "temperature": 50.0
+              },
+              "id": "SYN-SETTING-2-50",
+              "reason": "below independent-unit minimum",
+              "required_independent_units": 3
+            },
+            {
+              "eligible_independent_units": 0,
+              "factors": {
+                "pressure": 3.0,
+                "temperature": 50.0
+              },
+              "id": "SYN-SETTING-3-50",
+              "reason": "below independent-unit minimum",
+              "required_independent_units": 3
+            }
+          ],
           "uncertainty_available": true
         },
         "D04_experiment_proposal": {
@@ -28658,7 +28720,7 @@
     "products/p4/engine.py": "db8e9fe22453adf3894f167f1f16796d245f49ee89de12f5dfea4848a98d4766",
     "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
     "products/p4/regression.py": "519a8d73738ae7ec123a26713d5b3ffc2db57d914fc46f59bc60bec244cb5d9f",
-    "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
+    "products/p4/tradeoffs.py": "e062b546e4d59dda95f4785596808888456102dc1d4b1daa94fb0bd16a10dea0",
     "products/p4/window.py": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
     "qualification/build_mcp_panel_bridge_fixture.py": "870e73c1f8c08efc7ccfae32868bc02ec3a961e88c2a270b0b8318a969e6f99d",
     "tests/test_mcp_transport.py": "39fc395a14b42bf6e3e270288b4eadf3859d9661cfb6b949ac385d91734a9a87"

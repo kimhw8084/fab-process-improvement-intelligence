@@ -58,6 +58,52 @@ class CrossStepTradeoffQualification(unittest.TestCase):
                       result["familywise_interval_separated_dominance"])
         self.assertIn("SYN-SETTING-2", result["familywise_nondominated_setting_ids"])
 
+    def test_sparse_cross_step_setting_makes_front_explicitly_incomplete(self):
+        rows = copy.deepcopy(self.rows)
+        for unit in range(20):
+            unit_id = f"SYN-UNIT-4-{unit:02d}"
+            rows.append({"id": f"SYN-PAIR-4-{unit:02d}", "unit_id": unit_id,
+                         "factors": {"pressure": 4.0},
+                         "metrics": {"yield": 90.0 + unit / 100, "defect": 2.0},
+                         "source_ids": ["SYN-UPSTREAM", "SYN-DOWNSTREAM"],
+                         "upstream": {"unit_id": unit_id, "event_ts": "2026-01-01T00:00:00Z",
+                                      "population_id": "SYN-COHORT-01"},
+                         "downstream": {"unit_id": unit_id, "event_ts": "2026-01-01T03:00:00Z",
+                                        "population_id": "SYN-COHORT-01"}})
+        result = cross_step_tradeoffs(rows, self.metric_defs, self.data)
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertNotIn("SYN-SETTING-4", result["pareto_observation_ids"])
+        self.assertNotIn("SYN-SETTING-4", [item["id"] for item in result["candidate_settings"]])
+        self.assertEqual(result["unassessed_settings"], [{
+            "id": "SYN-SETTING-4", "factors": {"pressure": 4.0},
+            "eligible_independent_units": 20, "required_independent_units": 30,
+            "reason": "below independent-unit minimum"}])
+        self.assertIn("Pareto front is incomplete", result["selection_warning"])
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS")
+
+    def test_sparse_observed_setting_makes_front_explicitly_incomplete(self):
+        rows = []
+        for pressure, count in ((1, 3), (2, 3), (3, 2)):
+            for unit in range(count):
+                rows.append({"id": f"OBS-{pressure}-{unit}", "unit_id": f"UNIT-{pressure}-{unit}",
+                             "factors": {"pressure": pressure},
+                             "metrics": {"yield": 80 + pressure + unit / 10,
+                                         "defect": 5 - pressure + unit / 10}})
+        result = observed_tradeoffs(
+            rows, self.metric_defs, {"pressure": {"role": "controllable"}},
+            {"tradeoff_unit_field": "unit_id", "tradeoff_min_independent_units": 3},
+            self.data["objectives"])
+        self.assertEqual(result["status"], "LIMITED_SCOPE")
+        self.assertNotIn("SYN-SETTING-3", result["pareto_setting_ids"])
+        self.assertEqual(result["unassessed_settings"], [{
+            "id": "SYN-SETTING-3", "factors": {"pressure": 3},
+            "eligible_independent_units": 2, "required_independent_units": 3,
+            "reason": "below independent-unit minimum"}])
+        self.assertIn("Pareto front is incomplete", result["selection_warning"])
+        self.assertEqual(result["familywise_mean_envelope"]["status"],
+                         "NOT_AVAILABLE_INSUFFICIENT_UNITS_FOR_SOME_SETTINGS")
+
     def test_mismatched_keys_and_duplicate_units_withhold_tradeoffs(self):
         rows = copy.deepcopy(self.rows)
         rows[0]["downstream"]["unit_id"] = "SYN-DIFFERENT"
