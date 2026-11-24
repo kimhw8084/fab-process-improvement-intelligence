@@ -214,5 +214,14 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_p4_scientific.py::P4IndependentChallenges.test_cluster_level_binary_exposure_withholds_sparse_arm_uncertainty_in_dossier"
+  },
+  {
+    "id": "P4-25",
+    "input_challenge": "panel DiD labels observations pre/post without a source timestamp, contradicts the intervention cutoff, or reverses declared preperiod order",
+    "required_result": "INCONCLUSIVE with no estimate or causal claim; return a specific timing diagnostic",
+    "oracle": "independent timezone-aware ISO-8601 cutoff comparison and strict within-unit period ordering",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_d05_studies.py::EffectivenessQualification.test_did_withholds_estimate_when_timing_is_missing_or_conflicts_with_cutoff"
   }
 ]

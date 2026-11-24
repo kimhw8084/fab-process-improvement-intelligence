@@ -415,12 +415,14 @@ function D05Section({ result }: { result?: JsonObject }) {
         ? "Observational DiD remains a descriptive estimate. Numerical diagnostics pass under the declared assumptions, but conditional interpretation is pending independent qualification of the sensitivity-bound source; P4 makes no causal claim."
         : "Observational DiD remains descriptive; conditional interpretation is withheld because required diagnostics or sensitivity evidence are incomplete.")
       : (result.causal_claim === true ? "A conditional randomized-study interpretation is reported with its stated assumptions." : "Causal interpretation is withheld; this estimate is not presented as causal.")}</p>
+    {typeof result.reason === "string" && <p role="status">{text(result.reason)}</p>}
     {typeof concurrentIntervention.status === "string" && <p role="status">Concurrent intervention history: {text(concurrentIntervention.status)}. {text(concurrentIntervention.interpretation)}</p>}
     <KeyValueTable label="Uncertainty and sensitivity" value={{ standard_error: result.se, ci95_welch_t_approximation: result.ci95_welch_t_approximation,
       welch_degrees_of_freedom: result.welch_df, sensitivity: result.sensitivity, attrition: result.attrition,
       baseline_balance: result.baseline_balance, placebo_pretrend: result.placebo_pretrend,
       pretrend_stability_placebo: result.pretrend_stability_placebo,
       population_compatibility: result.population_compatibility,
+      intervention_timing_diagnostic: result.intervention_timing_diagnostic || result.timing_diagnostic,
       negative_control_diagnostic: result.negative_control_diagnostic,
       concurrent_intervention_diagnostic: result.concurrent_intervention_diagnostic,
       conditional_assumptions_passed: result.conditional_assumptions_passed,

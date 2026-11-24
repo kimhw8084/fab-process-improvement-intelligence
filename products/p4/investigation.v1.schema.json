@@ -134,7 +134,9 @@
       "properties": {
         "authorized": {"type": "boolean"}, "design": {"enum": ["randomized", "difference_in_differences", "before_after"]},
         "metric": {"type": "string"}, "metric_unit": {"type": "string", "minLength": 1},
-        "observations": {"type": "array", "items": {"type": "object"}},
+        "intervention_time": {"type": "string", "format": "date-time", "description": "Timezone-aware intervention cutoff required for DiD timing verification."},
+        "observations": {"type": "array", "items": {"type": "object", "properties": {
+          "timestamp": {"type": "string", "format": "date-time", "description": "Timezone-aware observation time required for DiD timing verification."}}}},
         "assignment_ledger": {"type": "array", "items": {"type": "object", "required": ["unit_id", "group"],
           "properties": {"unit_id": {"type": "string"}, "group": {"enum": ["treatment", "control"]}}, "additionalProperties": false}},
         "outcome_bounds": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},

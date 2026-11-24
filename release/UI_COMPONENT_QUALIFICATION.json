@@ -21,9 +21,9 @@
   "contract_snapshot_match": true,
   "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
   "p4_source_sha256": {
-    "products/p4/ui/P4Panel.test.tsx": "2968dcc31d0260394d32bd197d99f5f722851b6be474a8a6152f368dbb5e5650",
-    "products/p4/ui/P4Panel.tsx": "e47cdc045e1b62d0130980a33f16ed10ef864cc24cd6b98b8f69a27eeef45f8d",
-    "tests/fixtures/mcp_p4_panel_bridge.json": "590f21fef42b68bca566f86c778dd019bc65fa1f2d02c5f1bfb05c44cbe09863"
+    "products/p4/ui/P4Panel.test.tsx": "927eeb1adc5c55cc8a75e35128b8f51fbf6c678cb50033ec25a470b9749af755",
+    "products/p4/ui/P4Panel.tsx": "4be9381f057903fca1e96d8ef8a5f85fa008901a8e7dc2cc570b671100984c98",
+    "tests/fixtures/mcp_p4_panel_bridge.json": "1f7cc11b34757cbd8f27f0f4defb7fcec7c3d3f29198852a312a414f4b13b836"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
   "status": "PASS_LOCAL_MODULE_ONLY",

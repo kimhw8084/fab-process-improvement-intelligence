@@ -3,11 +3,15 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import random
 from pathlib import Path
+import subprocess
 
 from products.p4.engine import _effectiveness
+
+ROOT = Path(__file__).resolve().parent.parent
 
 
 def wilson(successes: int, trials: int) -> list[float]:
@@ -44,15 +48,18 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
                 product = "SYN-A" if unit < 15 else "SYN-B"
                 common = true_effect + hidden_bias if group == "treatment" else 0.0
                 noise = rng.gauss(0.0, 1.0)
+                period_times = {"pre2": "2025-11-01T00:00:00Z", "pre": "2025-12-01T00:00:00Z",
+                                "post": "2026-02-01T00:00:00Z"}
                 for period, value in (("pre2", base), ("pre", base + 0.1),
                                       ("post", base + 0.1 + common + noise)):
                     rows.append({"unit_id": unit_id, "group": group, "period": period,
-                                 "quality": value, "product_id": product})
+                                 "quality": value, "timestamp": period_times[period], "product_id": product})
         study = {
             "authorized": True,
             "authorization_id": f"SYN-AUTH-{trial}",
             "intervention_id": f"SYN-CHANGE-{trial}",
             "design": "difference_in_differences",
+            "intervention_time": "2026-01-01T00:00:00Z",
             "metric": "quality",
             "metric_unit": "synthetic quality unit",
             "assignment_ledger": ledger,
@@ -85,6 +92,12 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
         underbound_sensitivity.append(abs(point - true_effect))
     return {
         "schema": "p4-d05-known-confounder-benchmark/v1",
+        "source_provenance": {
+            "source_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True,
+                                               capture_output=True, text=True).stdout.strip(),
+            "engine_sha256": hashlib.sha256((ROOT / "products/p4/engine.py").read_bytes()).hexdigest(),
+            "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        },
         "method": "independent-unit two-preperiod/one-post DiD; injected treatment-only post shock; fixed source-bound underestimation at 25% of the known shock",
         "seed": seed,
         "trials": trials,

@@ -92,6 +92,8 @@ const evidence: P4Evidence = {
       { run_order: 2, block: 1, arm: "reference", order_within_block: 2, replicate: 1, pressure: 2 }], factors: ["pressure"],
   },
   D05_effectiveness: { status: "INCONCLUSIVE", design: "difference_in_differences", estimate: null, causal_claim: false,
+    reason: "DiD period labels conflict with the documented intervention cutoff.",
+    timing_diagnostic: { status: "PERIOD_CUTOFF_CONFLICT", period: "post" },
     assumptions: ["Parallel trends cannot be established."], qualification: "Sensitivity result crosses zero.", diagnostics: { pretrend: "NOT_WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND" },
     sensitivity: { bounds: [-0.2, 0.3] }, attrition: { excluded: 1 },
     pretrend_stability_placebo: { status: "NOT_WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND", ci95: [-1.1, -0.9] },
@@ -577,6 +579,9 @@ describe("P4 headless suite module", () => {
     expect(within(d04).getByText(/approved_bounds/)).toBeTruthy();
     expect(within(d04).getByText(/NOT_ESTIMATED_FOR_NEW_RUNS/)).toBeTruthy();
       expect(screen.getByText(/Observational DiD remains descriptive; conditional interpretation is withheld/)).toBeTruthy();
+    const d05 = screen.getByRole("region", { name: "D05 · Change effectiveness" });
+    expect(within(d05).getByText(/period labels conflict with the documented intervention cutoff/)).toBeTruthy();
+    expect(within(d05).getByText(/PERIOD_CUTOFF_CONFLICT/)).toBeTruthy();
     expect(screen.getByText("NOT_WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND")).toBeTruthy();
   });
 
@@ -584,6 +589,7 @@ describe("P4 headless suite module", () => {
     const conditionalEvidence = structuredClone(evidence);
     const artifact = conditionalEvidence.artifacts?.[0] as Record<string, unknown>;
     artifact.D05_effectiveness = { status: "ESTIMATED", design: "difference_in_differences", estimate: 1.5,
+      intervention_timing_diagnostic: { status: "ALIGNED_TO_DECLARED_CUTOFF", timestamped_observations: 90 },
       causal_claim: false, conditional_assumptions_passed: true, conditional_interpretation_eligible: false,
       conditional_interpretation_scope: "PENDING_BOUND_SOURCE_QUALIFICATION",
       bound_source_qualification: "NOT_ESTABLISHED_BY_AVAILABLE_ADAPTER",
@@ -594,6 +600,7 @@ describe("P4 headless suite module", () => {
     const d05 = screen.getByRole("region", { name: "D05 · Change effectiveness" });
     expect(within(d05).getByText(/conditional interpretation is pending independent qualification/)).toBeTruthy();
     expect(within(d05).getByText(/NOT_ESTABLISHED_BY_AVAILABLE_ADAPTER/)).toBeTruthy();
+    expect(within(d05).getByText(/ALIGNED_TO_DECLARED_CUTOFF/)).toBeTruthy();
   });
 
   it("withholds claims, charts, and decision sections for refused evidence", () => {

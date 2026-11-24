@@ -96,14 +96,18 @@ class EffectivenessQualification(unittest.TestCase):
                 row_periods = {"pre": pre, "post": post}
                 if include_pretrend:
                     row_periods["pre2"] = pre2
+                timestamps = {"pre3": "2025-10-01T00:00:00Z", "pre2": "2025-11-01T00:00:00Z",
+                              "pre": "2025-12-01T00:00:00Z", "post": "2026-02-01T00:00:00Z"}
                 for period, value in row_periods.items():
                     rows.append({"unit_id": f"SYN-{group}-{unit}", "group": group, "period": period, "quality": value,
+                                 "timestamp": timestamps[period],
                                  "concurrent_intervention_id": "none",
                                  "product_id": "SYN-PRODUCT-A" if unit < 15 else "SYN-PRODUCT-B"})
         ledger = [{"unit_id": f"SYN-{group}-{unit}", "group": group}
                   for group in ("treatment", "control") for unit in range(30)]
         return {"authorized": True, "design": "difference_in_differences", "intervention_id": "SYN-CHANGE",
                 "authorization_id": "SYN-AUTH", "metric": "quality", "assignment_ledger": ledger,
+                "intervention_time": "2026-01-01T00:00:00Z",
                 "metric_unit": "synthetic quality unit",
                 "population_fields": ["product_id"],
                 "differential_trend_bound": 0.5, "differential_trend_bound_source": "SYN-BOUND-SOURCE",
@@ -118,6 +122,7 @@ class EffectivenessQualification(unittest.TestCase):
         self.assertAlmostEqual(result["estimate"], 2.0)
         self.assertFalse(result["causal_claim"])
         self.assertTrue(result["conditional_assumptions_passed"])
+        self.assertEqual(result["intervention_timing_diagnostic"]["status"], "ALIGNED_TO_DECLARED_CUTOFF")
         self.assertFalse(result["conditional_interpretation_eligible"])
         self.assertEqual(result["conditional_interpretation_scope"], "PENDING_BOUND_SOURCE_QUALIFICATION")
         self.assertEqual(result["bound_source_qualification"], "NOT_ESTABLISHED_BY_AVAILABLE_ADAPTER")
@@ -129,6 +134,51 @@ class EffectivenessQualification(unittest.TestCase):
         self.assertTrue(result["sensitivity"]["robust_to_declared_bound"])
         self.assertEqual(result["sensitivity"]["bound_authentication"], "NOT_VERIFIABLE_BY_P4")
         self.assertFalse(result["diagnostics"]["small_sample_warning"])
+
+    def test_did_withholds_estimate_when_timing_is_missing_or_conflicts_with_cutoff(self):
+        study = self.did_study()
+        del study["intervention_time"]
+        missing_cutoff = _effectiveness({"effectiveness": study})
+        self.assertEqual(missing_cutoff["status"], "INCONCLUSIVE")
+        self.assertEqual(missing_cutoff["timing_diagnostic"]["status"], "MISSING_OR_INVALID_INTERVENTION_TIME")
+        self.assertFalse(missing_cutoff["causal_claim"])
+
+        study = self.did_study()
+        study["intervention_time"] = "2026-01-01T00:00:00"  # timezone is required
+        naive_cutoff = _effectiveness({"effectiveness": study})
+        self.assertEqual(naive_cutoff["status"], "INCONCLUSIVE")
+        self.assertFalse(naive_cutoff["causal_claim"])
+
+        study = self.did_study()
+        del study["observations"][0]["timestamp"]
+        missing_time = _effectiveness({"effectiveness": study})
+        self.assertEqual(missing_time["status"], "INCONCLUSIVE")
+        self.assertEqual(missing_time["timing_diagnostic"]["status"], "INCOMPLETE_OR_INVALID_SOURCE_TIMESTAMPS")
+        self.assertFalse(missing_time["causal_claim"])
+
+        study = self.did_study()
+        study["observations"][0]["timestamp"] = "2025-11-01T00:00:00"  # timezone is required
+        naive_observation_time = _effectiveness({"effectiveness": study})
+        self.assertEqual(naive_observation_time["status"], "INCONCLUSIVE")
+        self.assertFalse(naive_observation_time["causal_claim"])
+
+        study = self.did_study()
+        next(row for row in study["observations"] if row["period"] == "post")["timestamp"] = "2025-12-15T00:00:00Z"
+        conflict = _effectiveness({"effectiveness": study})
+        self.assertEqual(conflict["status"], "INCONCLUSIVE")
+        self.assertEqual(conflict["timing_diagnostic"]["status"], "PERIOD_CUTOFF_CONFLICT")
+        self.assertFalse(conflict["causal_claim"])
+
+    def test_did_rejects_reversed_preperiod_timestamps(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            if row["period"] == "pre2":
+                row["timestamp"] = "2025-12-01T00:00:00Z"
+            elif row["period"] == "pre":
+                row["timestamp"] = "2025-11-01T00:00:00Z"
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertEqual(result["timing_diagnostic"]["status"], "PERIOD_ORDER_CONFLICT")
 
     def test_detected_parallel_trend_violation_withholds_causal_claim(self):
         result = _effectiveness({"effectiveness": self.did_study(pretrend_difference=2.0)})
@@ -149,7 +199,8 @@ class EffectivenessQualification(unittest.TestCase):
                 row["quality"] = baseline + (3.1 if row["group"] == "treatment" else 0.1)
             if row["period"] == "pre2":
                 third_period.append({"unit_id": row["unit_id"], "group": row["group"],
-                                     "period": "pre3", "quality": baseline})
+                                     "period": "pre3", "quality": baseline,
+                                     "timestamp": "2025-10-01T00:00:00Z"})
         study["observations"].extend(third_period)
         result = _effectiveness({"effectiveness": study})
         self.assertEqual(result["pretrend_diagnostic"]["status"],
@@ -200,7 +251,8 @@ class EffectivenessQualification(unittest.TestCase):
         for row in list(study["observations"]):
             if row["period"] == "pre" and row["unit_id"] == "SYN-treatment-0":
                 study["observations"].append({"unit_id": row["unit_id"], "group": row["group"],
-                                              "period": "pre3", "quality": 100})
+                                              "period": "pre3", "quality": 100,
+                                              "timestamp": "2025-10-01T00:00:00Z"})
                 break
         result = _effectiveness({"effectiveness": study})
         self.assertEqual(result["pretrend_stability_placebo"]["status"], "INCOMPLETE_COVERAGE")

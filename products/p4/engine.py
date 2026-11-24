@@ -14,7 +14,7 @@ from products.p4.window import explore_window, WindowError
 from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
 from products.p4.design import assign_blocks, propose_design, propose_window_confirmation
 
-ENGINE_VERSION = "1.2.1"
+ENGINE_VERSION = "1.2.2"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10
@@ -694,6 +694,49 @@ def _effectiveness(data, metric_defs=None):
             return {"status": "INCONCLUSIVE", "reason": "population_fields must be a unique list of nonempty categorical source fields", "causal_claim": False}
         if any(row.get("group") not in ("treatment", "control") or row.get("period") not in ("pre3", "pre2", "pre", "post") for row in records):
             return {"status": "INCONCLUSIVE", "reason": "DiD requires group and ordered periods pre3, pre2, pre, and/or post", "causal_claim": False}
+        raw_intervention_time = study.get("intervention_time")
+        try:
+            intervention_time = datetime.fromisoformat(str(raw_intervention_time).replace("Z", "+00:00"))
+            if intervention_time.tzinfo is None or intervention_time.utcoffset() is None:
+                raise ValueError("timezone missing")
+        except (TypeError, ValueError):
+            return {"status": "INCONCLUSIVE",
+                    "reason": "DiD requires a timezone-aware intervention_time and source timestamps for every period",
+                    "timing_diagnostic": {"status": "MISSING_OR_INVALID_INTERVENTION_TIME"}, "causal_claim": False}
+        period_order = {"pre3": 0, "pre2": 1, "pre": 2, "post": 3}
+        timestamps_by_unit = {}
+        timing_counts = {"pre_intervention": 0, "post_intervention": 0}
+        for row in records:
+            try:
+                timestamp = datetime.fromisoformat(str(row.get("timestamp")).replace("Z", "+00:00"))
+                if timestamp.tzinfo is None or timestamp.utcoffset() is None:
+                    raise ValueError("timezone missing")
+            except (TypeError, ValueError):
+                return {"status": "INCONCLUSIVE", "reason": "DiD requires timezone-aware source timestamps for every period",
+                        "timing_diagnostic": {"status": "INCOMPLETE_OR_INVALID_SOURCE_TIMESTAMPS",
+                                              "unit_id": row.get("unit_id"), "period": row.get("period")},
+                        "causal_claim": False}
+            is_post = row["period"] == "post"
+            if (is_post and timestamp < intervention_time) or (not is_post and timestamp >= intervention_time):
+                return {"status": "INCONCLUSIVE", "reason": "DiD period labels conflict with the documented intervention cutoff",
+                        "timing_diagnostic": {"status": "PERIOD_CUTOFF_CONFLICT", "unit_id": row.get("unit_id"),
+                                              "period": row["period"], "timestamp": timestamp.isoformat(),
+                                              "intervention_time": intervention_time.isoformat()},
+                        "causal_claim": False}
+            timing_counts["post_intervention" if is_post else "pre_intervention"] += 1
+            timestamps_by_unit.setdefault(row.get("unit_id"), []).append((period_order[row["period"]], timestamp, row["period"]))
+        for unit_id, period_timestamps in timestamps_by_unit.items():
+            ordered = sorted(period_timestamps)
+            if any(left[1] >= right[1] for left, right in zip(ordered, ordered[1:])):
+                return {"status": "INCONCLUSIVE", "reason": "DiD measurements must follow the declared period order within each unit",
+                        "timing_diagnostic": {"status": "PERIOD_ORDER_CONFLICT", "unit_id": unit_id,
+                                              "periods": [item[2] for item in ordered],
+                                              "timestamps": [item[1].isoformat() for item in ordered]},
+                        "causal_claim": False}
+        timing_diagnostic = {"status": "ALIGNED_TO_DECLARED_CUTOFF", "intervention_time": intervention_time.isoformat(),
+                             "timestamped_observations": len(records), **timing_counts,
+                             "within_unit_period_order": "STRICTLY_INCREASING",
+                             "qualification": "Source labels and timestamps were compared; P4 cannot authenticate intervention occurrence, clock provenance, or timestamp semantics."}
         ledger = study.get("assignment_ledger")
         if not isinstance(ledger, list) or not ledger or any(not isinstance(item, dict) for item in ledger):
             return {"status": "INCONCLUSIVE", "reason": "DiD requires an assignment ledger to establish the independent-unit denominator", "causal_claim": False}
@@ -1033,6 +1076,7 @@ def _effectiveness(data, metric_defs=None):
                 "bound_source_qualification": bound_source_qualification,
                 "causal_claim_limitation": "P4 reports observational DiD as a descriptive estimate with sensitivity diagnostics. The available adapter cannot substantively qualify the supplied bound against independent engineering evidence, so P4 neither marks a conditional interpretation eligible nor emits an observational DiD causal claim",
                 "attrition": attrition, "pretrend_diagnostic": pretrend,
+                "intervention_timing_diagnostic": timing_diagnostic,
                 "placebo_pretrend": {**pretrend, "interpretation": "pre-intervention treatment-control trend contrast is a placebo diagnostic, not proof of parallel trends"},
                 "pretrend_stability_placebo": stability_placebo,
                 "population_compatibility": population_compatibility,
@@ -1049,6 +1093,7 @@ def _effectiveness(data, metric_defs=None):
                                 "population_compatibility_status": population_compatibility.get("status"),
                                 "placebo_pretrend_status": pretrend.get("status"),
                                 "negative_control_status": negative_control_diagnostic.get("status"),
+                                "intervention_timing_status": timing_diagnostic["status"],
                                 "differential_concurrent_intervention": differential_concurrent_intervention,
                                 "concurrent_intervention_ids": {group: sorted(values) for group, values in concurrent_intervention_ids.items()},
                                 "effect_direction_supported_under_trend_bound": direction_supported,

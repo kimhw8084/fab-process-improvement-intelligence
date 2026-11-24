@@ -8,7 +8,7 @@ from pathlib import Path
 
 from fabintel.catalog import synthetic_catalog
 from fabintel.contracts import validate_envelope
-from fabintel.project import analyze
+from fabintel.project import analyze, ENGINE_VERSION
 from fabintel.server import preflight_report, serve
 
 BASE = Path(__file__).resolve().parent.parent
@@ -56,7 +56,7 @@ def main():
 
     if args.command == "doctor":
         obj = {"state": "CANDIDATE", "external_transfer_ready": False, "internal_state": "PENDING_INTERNAL",
-               "product_id": "p4", "engine_version": "1.2.1",
+               "product_id": "p4", "engine_version": ENGINE_VERSION,
                "dependencies": {"scientific_core": "Python standard library only",
                                 "mcp_adapter": "optional pinned SDK extra; macOS ARM64 CPython 3.11 candidate only",
                                 "ui": "P1-owned React host peer; no P4 shell or chart runtime"},
