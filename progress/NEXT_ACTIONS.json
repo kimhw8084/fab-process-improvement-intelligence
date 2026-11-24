@@ -1,9 +1,8 @@
 {
   "active_uncommitted_changes": [
-    "progress checkpoint for source 071eade is being recorded",
-    "release reports, P1 source/browser evidence, performance fingerprint and archive are stale after product-source updates"
+    "Generated release outputs and unrelated D01/D03/P1 qualification sidecars are dirty from earlier runs and are not certified against source 96d7b3d; do not stage blindly"
   ],
-  "as_of_source_commit": "071eadecb64c4755af79cf8e12ed914dfb0e09e5",
+  "as_of_source_commit": "96d7b3d5820a113ecb216d48092afaa5249ee2d1",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -57,14 +56,28 @@
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
       "status": "STALE_AFTER_071EADE_PRODUCT_SOURCE"
     },
-    "source_commit": "071eadecb64c4755af79cf8e12ed914dfb0e09e5",
+    "source_commit": "96d7b3d5820a113ecb216d48092afaa5249ee2d1",
     "tests": {
       "diff_check": "PASS",
       "focused_D01_D02": "67 PASS",
       "focused_design": "24 PASS",
       "focused_MCP": "19 PASS",
       "full_python": "234 PASS at 599aca0; not rerun after 071eade",
-      "py_compile": "PASS"
+      "py_compile": "PASS",
+      "focused_D04": "27 PASS",
+      "schema_and_UI_contract": "12 PASS",
+      "benchmark": "100-trial benchmark executed twice; result hash identical",
+      "py_compile_and_diff_check": "PASS"
+    },
+    "D04_chronological_holdout": {
+      "status": "IMPLEMENTED_AND_VERIFIED",
+      "product_source_sha256": "e66e785fe0a4a3d87037d5cc9111b43a95d4984b46bcc31dd3a11c770919020f",
+      "result_sha256": "cb443aa99d7b4b431609eb24dc855456a5ae0b77c71a45d0e11455dd4c3a3ee4",
+      "trials": 100,
+      "random_group_accepted": "74/100",
+      "time_ordered_accepted": "0/100; all refused at the engineer-specified 0.2 RMSE limit",
+      "determinism": "Two benchmark executions produced identical result files",
+      "scope": "Synthetic known quadratic response with late +0.5 shift; caller split reference unauthenticated; descriptive only"
     }
   },
   "never_do": [
@@ -73,8 +86,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Evaluate D04 next-best selection under time drift using an untouched predeclared time-ordered independent-unit holdout; preserve the RMSE refusal gate.",
-  "next_executable_action": "rtk rg -n \"grouped_surface_validation|validation_fraction|validation_seed|evaluation_rmse\" products/p4/design.py tests/test_d04_designs.py qualification/benchmark_d04_oss.py",
+  "next_action": "Audit D05 hidden-confounder benchmark assumptions and product refusal behavior; reproduce the independent challenge, then test one-sided/pretrend sensitivity failure modes and fix only an oracle-backed defect.",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark_d05_confounding.py",
   "ordered_queue": [
     {
       "priority": 1,
@@ -93,13 +106,13 @@
     },
     {
       "priority": 4,
-      "status": "NEXT",
-      "task": "D04: paired power assumptions are explicit; add/qualify a time-ordered independent-unit holdout for next-best under drift while preserving the engineer RMSE refusal threshold."
+      "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
+      "task": "D04: chronological independent-unit holdout added to next_best; fixed 100-trial hidden temporal-shift benchmark rejected 100/100 ordered holdouts while random grouping accepted 74/100. Synthetic scope only; no future or production guarantee."
     },
     {
       "priority": 5,
-      "status": "PENDING",
-      "task": "D05: continue placebo, pretrend, negative-control and sensitivity challenges."
+      "status": "NEXT",
+      "task": "D05: audit hidden-confounder challenge, study assumptions, refusal behavior, and sensitivity-bound adequacy against the independent oracle."
     },
     {
       "priority": 6,
@@ -125,5 +138,5 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Product source commit 071eade is current; focused MCP suite 19 PASS, prior full suite 234 PASS at 599aca0. P1 and release outputs remain source-stale by design until science stabilizes."
+  "worktree_state": "D04 source committed at 96d7b3d; focused D04 27 PASS, schema/UI source contracts 12 PASS, deterministic 100-trial benchmark reproduced twice, py_compile/diff-check PASS. Generated release and unrelated qualification sidecars remain dirty and are not current-source qualification."
 }
