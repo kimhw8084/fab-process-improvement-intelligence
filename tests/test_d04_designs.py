@@ -400,6 +400,9 @@ class WindowConfirmationQualification(unittest.TestCase):
                          "ONE_SIDED_CHI_SQUARE_UPPER_CONFIDENCE_BOUND")
         self.assertEqual(first["power"]["paired_sd_scope"],
                          "caller-supplied conservative upper bound; P4 does not recompute or authenticate it")
+        self.assertIn("independent normal paired differences are required",
+                      first["power"]["paired_difference_distribution_assumption"])
+        self.assertIn("heavy tails", " ".join(first["power"]["approximation_limitations"]))
         self.assertFalse(first["candidate_evidence"]["simultaneous_supported_candidate"])
         self.assertEqual(first["candidate_evidence"]["target_metric_interval95"], [2.0, 2.6])
         grouped = {}
@@ -460,6 +463,19 @@ class WindowConfirmationQualification(unittest.TestCase):
         refused = propose_window_confirmation(self.window, self.controls, self.bounds,
                                               low_confidence, [], self.metrics)
         self.assertEqual(refused["status"], "REFUSED")
+
+    def test_engineer_hard_sd_bound_is_distinguished_from_chi_square_normality(self):
+        hard_bound = {**self.spec, "paired_difference_sd_basis": "ENGINEER_APPROVED_HARD_BOUND",
+                      "paired_difference_sd_confidence_level": None,
+                      "paired_difference_sd_degrees_of_freedom": None}
+        proposal = propose_window_confirmation(self.window, self.controls, self.bounds,
+                                               hard_bound, [], self.metrics)
+        self.assertEqual(proposal["status"], "PROPOSED")
+        assumption = proposal["power"]["paired_difference_distribution_assumption"]
+        self.assertIn("engineer-approved hard SD upper bound", assumption)
+        self.assertNotIn("required for the one-sided chi-square", assumption)
+        self.assertIn("target-power approximation is suitable",
+                      " ".join(proposal["required_engineer_review"]))
 
 
 if __name__ == "__main__":

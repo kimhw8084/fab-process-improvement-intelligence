@@ -454,6 +454,11 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
                          "order_within_block": position, "run_order": len(runs)+1})
 
     direction = definition.get("direction", "unspecified")
+    sd_distribution_assumption = (
+        "independent normal paired differences are required for the one-sided chi-square SD upper bound; P4 does not verify this"
+        if paired_sd_basis == "ONE_SIDED_CHI_SQUARE_UPPER_CONFIDENCE_BOUND" else
+        "caller supplies an engineer-approved hard SD upper bound; P4 does not authenticate its validity or population scope"
+    )
     candidate_evidence = {
         "factors": candidate_factors,
         "region_class": d02_candidate.get("region_class"),
@@ -476,6 +481,8 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
                   "paired_difference_sd": paired_sd,
                   "paired_difference_sd_source": spec["paired_difference_sd_source"],
                   "paired_difference_sd_basis": paired_sd_basis,
+                  "paired_difference_distribution_assumption": sd_distribution_assumption,
+                  "assumption_status": "CALLER_SUPPLIED_NOT_VERIFIED",
                   "paired_difference_sd_confidence_level": paired_sd_confidence,
                   "paired_difference_sd_degrees_of_freedom": paired_sd_df,
                   "paired_sd_scope": "caller-supplied conservative upper bound; P4 does not recompute or authenticate it",
@@ -483,7 +490,9 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
                   "normal_approximation_reference_pairs": normal_pairs,
                   "required_complete_pairs": required_pairs,
                   "approximation_limitations": ["assumes independent randomized blocks and a valid conservative paired-difference SD upper bound",
+                                                "the chi-square SD upper bound requires independent normal paired differences; P4 does not test distributional assumptions",
                                                 "Student-t critical is a Cornish-Fisher approximation restricted to at least 11 pairs; power tail remains normal and is not exact noncentral-t power",
+                                                "heavy tails, influential paired differences, or dependence between blocks can invalidate the power approximation",
                                                 "one extra pair was retained after comparison with a fixed SciPy noncentral-t qualification grid; this is not a universal guarantee",
                                                 "the SD bound method, population relevance, and source references are caller-supplied and unverified"]},
         "blocking": {"method": "randomized complete pairs; one candidate and one reference run within each block",
@@ -493,7 +502,8 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
         "run_count": required_runs, "run_budget": budget, "runs": runs,
         "factors": controls, "randomization_seed": seed,
         "required_engineer_review": ["confirm the exact candidate/reference settings and all approved bounds",
-                                     "verify the paired-difference SD conservative upper-bound method, source, population, and MDE evidence",
+                                     "verify the paired-difference SD bound assumptions and source; the chi-square bound requires independent normal paired differences, otherwise supply an engineer-approved hard bound",
+                                     "verify the target-power approximation is suitable for the paired-difference distribution and study population",
                                      "approve randomization, blocking, measurement, safety and operational feasibility"],
         "evidence_required_before_next_iteration": ["assigned and executed order with block and arm identity",
                                                      "source paired differences and the upper-bound calculation record, including confidence level and degrees of freedom where applicable",
