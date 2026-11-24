@@ -2,7 +2,7 @@
   "active_uncommitted_changes": [
     "Generated release outputs and unrelated D01/D03/P1 qualification sidecars are dirty and are not current-source release evidence; do not stage blindly"
   ],
-  "as_of_source_commit": "4ab21c10556f98e9ce70edece26f6519218ac83a",
+  "as_of_source_commit": "294289fa29b884626fcdda7a188d67fae18e1218",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -166,7 +166,7 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the tested D01 source-completeness disclosure, refresh the scoped security scan and packaged review, rebuild and qualify the exact archive once, then resume D02 model-form disagreement benchmarking.",
+  "next_action": "Commit the refreshed limited-scope security review and checkpoint ledger, rebuild and qualify the exact current archive once, then resume D02 model-form disagreement benchmarking.",
   "next_executable_action": "rtk git diff --check",
   "ordered_queue": [
     {
@@ -218,6 +218,6 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "4ab21c10556f98e9ce70edece26f6519218ac83a",
-  "worktree_state": "Source commit 4ab21c1 remains the last packaged baseline; D01 source-completeness disclosure and review-doc corrections are changed locally, so its archive is stale. Focused D01 scientific suite 29/29 PASS. Generated qualification sidecars remain dirty; public distribution remains unapproved."
+  "source_commit": "294289fa29b884626fcdda7a188d67fae18e1218",
+  "worktree_state": "D01 disclosure code and focused test are committed at 294289f; current limited-scope audit refreshed: 48 dependency instances, zero known advisories, Bandit 8 LOW and zero MEDIUM/HIGH. Packaged review/ledger still need commit; prior archive at 4ab21c1 is stale. Focused D01 suite 29/29 PASS; public distribution remains unapproved."
 }

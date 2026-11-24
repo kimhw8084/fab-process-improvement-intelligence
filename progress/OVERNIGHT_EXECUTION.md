@@ -859,3 +859,9 @@ At start, the only dirty paths were regenerated `release/` package/evidence file
 - Existing delivered-row behavior is fail-closed: missing or non-finite outcomes refuse rather than assume complete cases. The independent known-effect test demonstrates complete-case slope bias from 9 to 5 while P4 refuses the request. Focused scientific suite: 29 PASS.
 - The audit found a reporting gap for rows omitted before acquisition: the engine cannot verify a sampling denominator from delivered observations. Successful D01 reports now disclose this limit in their assumptions; `docs/PRODUCT_SPEC.md` and qualification evidence state the denominator dependency. No source completeness is inferred.
 - Changed locally: `products/p4/regression.py`, `tests/test_p4_scientific.py`, `docs/PRODUCT_SPEC.md`, `qualification/DECISION_RECORD.md`, `release/LICENSE_SECURITY_REVIEW.md`, and checkpoint files. The last archive at source `4ab21c1` is stale after these changes; rebuild after the next science work is stable.
+
+## Checkpoint — scoped security evidence refreshed (2026-11-24)
+
+- At D01 code commit `294289fa29b884626fcdda7a188d67fae18e1218`, pip-audit checked 48 optional dependency instances against its default PyPI advisory service: zero known advisories. Bandit 1.9.4 scanned P4 runtime sources: 8 LOW B311, zero MEDIUM/HIGH. Findings are limited-scope evidence, not legal/security clearance.
+- `release/LICENSE_SECURITY_REVIEW.md` now records the exact scan timestamp and code commit. E09 remains pending for ownership/license rights and independent security review. The prior source-bound archive is stale; package only after this review and checkpoint are committed.
+- Immediate next action: `rtk git diff --check`, commit review/checkpoint changes, then run `rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py` once against the committed source. Resume D02 model-form experiment design afterward.

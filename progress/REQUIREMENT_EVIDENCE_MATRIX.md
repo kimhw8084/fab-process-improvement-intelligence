@@ -287,3 +287,11 @@ Latest current-source checks: P1 disposable composition and live synthetic brows
 ## D01 missingness and acquisition completeness — 2026-11-24
 
 Delivered rows with missing or non-finite outcomes are refused; the independent known-effect test reproduces complete-case slope bias (9 to 5) and verifies refusal with no claims. Successful D01 reports now state that source rows omitted before acquisition cannot be verified without an independently supplied sampling denominator. Focused scientific suite: 29 PASS. Source completeness remains unverified.
+
+
+## Scoped security evidence — 2026-11-24
+
+| Check | Executed result | Limitation |
+|---|---|---|
+| pip-audit | 48 dependency instances; zero known advisories at 2026-11-24T11:05:02Z. | Default PyPI advisory service snapshot; no OS/interpreter/license or full security clearance. |
+| Bandit 1.9.4 | Product Python source commit `294289fa29b884626fcdda7a188d67fae18e1218`: 8 LOW B311, zero MEDIUM/HIGH; dispositions recorded. | Limited static scan; independent human review and legal/ownership approval remain pending. |
