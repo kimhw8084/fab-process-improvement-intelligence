@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "progress ledgers record D01 adjustment-sensitivity implementation and evidence",
-    "release and benchmark sidecars remain generated for parent source 00bb6a681564c7dcf2c8ac17536fd479761bcaca; stale after D01 change"
+    "current-source disposable P1 evidence/browser record and progress checkpoint; release-runner refresh is next",
+    "release and benchmark sidecars/archive remain generated and stale until the source-bound runner and exact archive qualification are repeated"
   ],
-  "as_of_source_commit": "3c8fabc0461283de3fb80c3c59a35191157a37a9",
+  "as_of_source_commit": "0240f4d965b679664dece63e74e840b85cfaad2c",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -13,29 +13,32 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
+    "D03_familywise_mean_envelope": {
+      "adaptive_selection_challenge": "500 trials; single selected-setting t interval coverage 91.4%; declaring only selected ID against four-setting family refused in 100% of trials",
+      "fixed_family_benchmark": "500 trials/scenario; Bonferroni mean coverage 95.8% normal and 96.8% scaled t(5); zero false dominance",
+      "limitations": "synthetic fixed families only; Monte Carlo results are not guarantees; outcome-selected comparisons remain LIMITED_SCOPE",
+      "rejected_alternative": "paired max-standardized SciPy bootstrap was narrower but joint coverage 90.4% normal and 93.6% scaled t(5); retained the simpler offline Bonferroni method",
+      "requirements": "caller declares nonempty reference plus exact candidate-setting IDs and exact objective metric/direction family; matching does not authenticate plan timing or origin",
+      "status": "IMPLEMENTED_PRECOMMIT_FAMILY_REQUIRED"
+    },
+    "P1_disposable_host": {
+      "P4_component_tests": "25 PASS",
+      "browser": "Current-source synthetic success and permission refusal observed; 900 normalized rows, D01-D05 rendered; refusal ACCESS_REFUSED, semantics NOT_ACCESSED, values suppressed",
+      "frontend_tests": "60 PASS",
+      "production_build": "PASS exit 0, 832336-byte JS, SHA-256 f03edf7be6030d3481d0b43b0084e4944ed82993d9c98b1bb481a581d245bf12",
+      "route_tests": "32 PASS",
+      "scope": "unversioned disposable P1 host; owner acceptance, formal accessibility, target platform and actual company mappings pending",
+      "snapshot_sha256": "17a97873a19f2fbf3ef60c6ce2f4cc9a70a1c194f17dc22b1d2de915234eb04c",
+      "typecheck": "PASS exit 0"
+    },
     "date": "2026-11-24",
-    "source_commit": "3c8fabc0461283de3fb80c3c59a35191157a37a9",
     "engine_version": "1.2.2",
-    "D01_adjustment_sensitivity": {
-      "status": "IMPLEMENTED",
-      "maximum_declared_fields": 16,
-      "scope": "one-at-a-time same-sample descriptive fixed-effect adjustment; no automatic selection or causal inference",
-      "independent_challenge": "80 rows with product/factor confounding; pooled slope >7, adjusted known slope 2 within 0.01",
-      "invalid_duplicate_or_oversized_request": "REFUSED"
-    },
-    "MCP_bridge_fixture": {
-      "status": "REBUILT_TWICE_IDENTICALLY",
-      "sha256": "f370eb6d581468fe36acc21ba1dd6182940d85cb200acd4c07cc8280ed646ac3"
-    },
-    "tests": {
-      "python_suite": "230 PASS, 0 failures, 0 skipped",
-      "diff_check": "PASS"
-    },
+    "python_suite": "232 PASS, 0 failures, 0 skipped",
     "release_archive": {
-      "last_qualified_commit": "00bb6a681564c7dcf2c8ac17536fd479761bcaca",
-      "status": "STALE_AFTER_D01_CHANGE"
+      "next": "source-bound release checks, then rebuild/reproduce/offline-extract the exact archive only after science stabilizes",
+      "status": "STALE_AFTER_D03_SOURCE_CHANGE"
     },
-    "next_action": "Continue D02 candidate review and exact-setting confirmation audit; defer release regeneration until the science backlog stabilizes."
+    "source_commit": "0240f4d965b679664dece63e74e840b85cfaad2c"
   },
   "never_do": [
     "publish or push",
@@ -43,57 +46,57 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Audit D02 candidate review and confirmation selection; identify an independent experiment-selection gap and implement only if its oracle demonstrates value.",
-  "next_executable_action": "rtk sed -n '320,505p' products/p4/design.py && rtk sed -n '1510,1688p' products/p4/window.py",
+  "next_action": "Commit refreshed P1 browser/source evidence and progress ledgers; run source-bound release gates once, inspect exact gate states, then continue D02 independent challenge.",
+  "next_executable_action": "rtk git diff --check && rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json qualification/results/P1_SHARED_UI_BROWSER_SCREEN.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Refresh current-source P1 qualification evidence\"",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "D02: inspect actual candidate classification and exact-setting confirmation; independently test selection/coverage limits and experiment information value."
+      "task": "D02: strengthen independent selector, cross-population/time shift and exact-setting confirmation-value challenges; preserve honest no-coverage scope."
     },
     {
       "priority": 2,
       "status": "IN_PROGRESS",
-      "task": "D01: caller-nominated adjustment sensitivity is implemented; continue held-out, selection and stability challenges."
+      "task": "D01: continue held-out stability, omitted-variable and cluster-dependence challenges after caller-nominated adjustment sensitivity."
     },
     {
       "priority": 3,
-      "status": "PENDING",
-      "task": "D03: continue uncertainty/missing-objective reversal and compatible-population qualification."
+      "status": "IN_PROGRESS",
+      "task": "D03: precommitted familywise t envelope now fails closed; continue missing-objective reversal, source relationship and constraint-selection evaluation."
     },
     {
       "priority": 4,
       "status": "PENDING",
-      "task": "D04: continue independent constrained/sequential DOE and replication/blocking challenges."
+      "task": "D04: compare constrained sequential designs with fixed independent nonlinear/noisy oracles; retain factorial unless demonstrated improvement."
     },
     {
       "priority": 5,
       "status": "PENDING",
-      "task": "D05: continue placebo, pretrend, negative-control and underbound-confounding challenges."
+      "task": "D05: extend placebo, pretrend, negative-control and sensitivity refusal cases without causal overclaim."
     },
     {
       "priority": 6,
       "status": "PENDING_EXTERNAL",
-      "task": "Verify authoritative P1 host/version/owner integration and formal accessibility when source is available."
+      "task": "Verify authoritative P1 host/version/owner integration and formal accessibility when source and owner acceptance are available."
     },
     {
       "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Company authorization, semantic mappings, target policies, legal/security/production approval and ROI."
+      "task": "Actual company authorization, semantic mappings, target policies, legal/security/production approval and engineer ROI."
     },
     {
       "priority": 8,
       "status": "PENDING_FINAL_QUALIFICATION",
-      "task": "After science stabilizes, refresh source-bound P1, security, dependency, benchmark, reproducibility, archive, offline and rollback evidence."
+      "task": "After scientific changes stabilize, refresh source-bound gates, exact archive rebuild/reproducibility, network-denied extraction, rollback and release evidence."
     }
   ],
   "outcomes": {
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D02/D01/D03/D04/D05 scientific backlog continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 compatibility evidence does not establish authoritative owner acceptance or formal accessibility",
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; archive stale after D01 and release gates remain",
-    "INTERNAL_QUALIFICATION_PENDING": true
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current release archive and reports are stale and final gates remain",
+    "INTERNAL_QUALIFICATION_PENDING": true,
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 scientific/product work continues",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; current compatibility is a disposable P1 composition without owner acceptance or formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D01 adjustment-sensitivity source commit is 3c8fabc0461283de3fb80c3c59a35191157a37a9; 230 Python tests pass. Progress checkpoint pending commit. Parent-source release outputs are preserved but stale."
+  "worktree_state": "P4 product source is committed at 0240f4d; 232 Python tests pass; current P1 disposable success/refusal and build evidence plus progress checkpoint are being committed; release outputs/archive still require source-bound refresh."
 }

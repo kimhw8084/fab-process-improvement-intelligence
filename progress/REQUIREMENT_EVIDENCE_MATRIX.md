@@ -1,3 +1,12 @@
+# Latest requirement evidence — D03 familywise precommit guard (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D03 familywise objective uncertainty | Commit `0240f4d`; unbounded approximate t-envelope requires nonempty caller precommit reference, exact setting IDs and exact metric/direction family. Missing/mismatched family refuses; caller plan authenticity remains unverified. Independent 500-trial scenarios: Bonferroni joint mean coverage 95.8% normal / 96.8% scaled t(5), zero false dominance; marginal t 76.8% / 77.6%; narrower paired max bootstrap 90.4% / 93.6% and rejected. Adaptive selected-only legacy t coverage 91.4%; incomplete-family declaration refused in 100%. | Synthetic fixed-panel evidence only. Outcome-based constraint selection makes demo family envelope `NOT_AVAILABLE_AFTER_OUTCOME_BASED_CONSTRAINT_SELECTION`; no causal or population guarantee. Continue D03 objective reversal and population compatibility challenges. |
+| Current P1 compatibility | Disposable current-source browser success and refusal observed: bounded 900-row synthetic acquisition rendered D01–D05; refusal returned ACCESS_REFUSED/NOT_ACCESSED and suppressed values. Snapshot 35 files SHA-256 `17a97873a19f2fbf3ef60c6ce2f4cc9a70a1c194f17dc22b1d2de915234eb04c`. Route 32 PASS, frontend 60 PASS, P4 panel 25 PASS, TypeScript exit 0, production build 832,336-byte JS SHA-256 `f03edf7be6030d3481d0b43b0084e4944ed82993d9c98b1bb481a581d245bf12`. | Disposable unversioned host only; P1 owner/version, formal accessibility and target-host qualification pending. Source-bound runner refresh next. |
+| Product and release status | Current-source Python suite 232 PASS, 0 failures/skips. | Product remains `CANDIDATE`; source ZIP and release reports stale after D03 change. Refresh runner once, then continue D02 independent selection/shift and experiment-value challenge. No public distribution. |
+| Internal dependencies | Company authorization/semantic mappings, approved OS/network, authoritative P1 source/owner, legal/security/production approval and ROI evidence remain absent. | `PENDING_INTERNAL` / `PENDING_EXTERNAL`; do not infer approval or `EXTERNAL_TRANSFER_READY`. |
+
 # Latest requirement evidence — 2026-11-24
 
 | Requirement | Current evidence | Status / next action |
