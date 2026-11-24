@@ -1257,10 +1257,21 @@ def _validate_time_split(validation, rows=None, factor_defs=None, metric_defs=No
             "causal_claim": False}
 
 
+def _declared_adjustment_fields(options):
+    adjustment_fields = options.get("adjustment_sensitivity_fields", [])
+    if (not isinstance(adjustment_fields, list) or len(adjustment_fields) > 16
+            or any(not isinstance(field, str) or not field.strip() or field != field.strip()
+                   for field in adjustment_fields)
+            or len(set(adjustment_fields)) != len(adjustment_fields)):
+        raise ModelError("adjustment_sensitivity_fields must contain at most 16 unique nonempty row field paths")
+    return adjustment_fields
+
+
 def _model_specification_sensitivity(rows, factor_defs, metric, options, base_report, cancel=None):
-    """Compare fixed term ablations/expansions; never select a winning formula."""
+    """Compare fixed terms and caller-nominated adjustments; never select a formula."""
     specification = base_report.get("model_specification", {})
     factors = specification.get("factors", [])
+    adjustment_fields = _declared_adjustment_fields(options)
 
     def signature(candidate):
         selected = candidate.get("factor_fields", factors)
@@ -1296,6 +1307,14 @@ def _model_specification_sensitivity(rows, factor_defs, metric, options, base_re
         without_fixed_effects = dict(options)
         without_fixed_effects.update({"fixed_effect_fields": [], "fixed_effect_interactions": []})
         requested.append(("without_declared_fixed_effects", without_fixed_effects))
+    base_fixed_fields = list(specification.get("fixed_effect_fields", []))
+    already_adjusted = [field for field in adjustment_fields if field in base_fixed_fields]
+    for field in adjustment_fields:
+        if field in base_fixed_fields:
+            continue
+        adjusted = dict(options)
+        adjusted["fixed_effect_fields"] = [*base_fixed_fields, field]
+        requested.append((f"adjustment_field:{field}", adjusted))
 
     base_signature = signature(options)
     unique = []
@@ -1349,8 +1368,11 @@ def _model_specification_sensitivity(rows, factor_defs, metric, options, base_re
                              "point_direction_stable": not ("positive" in signs and "negative" in signs),
                              "sign_reversal_observed": "positive" in signs and "negative" in signs,
                              "estimate_range": [min(estimates), max(estimates)] if estimates else None}
-    return {"status": "COMPLETED_DIAGNOSTIC", "method": "caller-specified formula plus fixed linear, quadratic, interaction, and declared-fixed-effect ablations",
+    return {"status": "COMPLETED_DIAGNOSTIC", "method": "caller-specified formula plus fixed linear, quadratic, interaction, declared-fixed-effect ablations, and one-at-a-time caller-nominated adjustments",
             "base_formula": specification, "variants": variants, "factor_stability": stability,
+            "adjustment_sensitivity": {"requested_fields": adjustment_fields,
+                                       "already_in_base_formula": already_adjusted,
+                                       "scope": "same-sample descriptive adjustment using caller-supplied measured row fields; does not identify confounders, establish causal effects, auto-adjust, or select a formula"},
             "model_selection": "none; the caller formula is retained and no variant is chosen by these diagnostics",
             "interpretation": "formula sensitivity is descriptive on the same observations; point-sign changes flag model dependence, and displayed intervals are unadjusted across formulas"}
 
@@ -1425,6 +1447,7 @@ def analyze(data: dict[str, Any], *, cancel=None):
         options = data.get("model", {})
         if not isinstance(options, dict):
             raise ValueError("model options must be an object")
+        _declared_adjustment_fields(options)
         sensitivity_options = dict(options)
         robustness_spec = data.get("robustness", {})
         declared_unit = robustness_spec.get("independent_unit_field") if isinstance(robustness_spec, dict) else None

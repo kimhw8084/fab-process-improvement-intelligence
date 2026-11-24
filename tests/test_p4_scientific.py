@@ -53,6 +53,27 @@ class P4IndependentChallenges(unittest.TestCase):
                             or "relationship field is missing: lot_id" in item
                             for item in withheld["limitations"]))
 
+    def test_duplicate_adjustment_sensitivity_fields_refuse_the_investigation(self):
+        request = copy.deepcopy(self.full)
+        request["model"]["adjustment_sensitivity_fields"] = ["product", "product"]
+        result = analyze(request)
+        self.assertEqual(result["status"], "REFUSED")
+        self.assertEqual(result["claims"], [])
+        self.assertIn("unique nonempty row field paths", result["limitations"][0])
+
+    def test_declared_adjustment_sensitivity_runs_through_the_d01_dossier(self):
+        request = copy.deepcopy(self.full)
+        for index, observation in enumerate(request["observations"]):
+            observation["product"] = "A" if index % 2 else "B"
+        request["model"]["adjustment_sensitivity_fields"] = ["product", "chamber"]
+        report = dossier(analyze(request))["D01_sensitivity"]["formula_sensitivity"]
+        self.assertEqual(report["adjustment_sensitivity"]["requested_fields"], ["product", "chamber"])
+        self.assertEqual(report["adjustment_sensitivity"]["already_in_base_formula"], ["chamber"])
+        adjusted = next(item for item in report["variants"]
+                        if item["formula"] == "adjustment_field:product")
+        self.assertEqual(adjusted["status"], "VALID")
+        self.assertEqual(adjusted["fixed_effect_fields"], ["chamber", "product"])
+
     def test_cluster_level_binary_exposure_withholds_sparse_arm_uncertainty_in_dossier(self):
         request = copy.deepcopy(self.full)
         request["model"]["factor_fields"] = ["pressure"]

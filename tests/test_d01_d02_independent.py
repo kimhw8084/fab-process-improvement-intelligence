@@ -1,6 +1,7 @@
 """Independent adversarial checks for robust modeling and D02 support rules."""
 from __future__ import annotations
 
+import json
 import math
 import random
 import unittest
@@ -390,6 +391,46 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertGreater(no_fixed["factor_terms"]["x"]["estimate"], 0)
         self.assertEqual(sensitivity["model_selection"],
                          "none; the caller formula is retained and no variant is chosen by these diagnostics")
+
+    def test_formula_sensitivity_compares_only_caller_nominated_adjustment_fields(self):
+        rows = []
+        cells = (("A", 0, 32), ("A", 1, 8), ("B", 0, 8), ("B", 1, 32))
+        for product, x, count in cells:
+            for _ in range(count):
+                product_effect = 10.0 if product == "B" else 0.0
+                noise = 0.02 * math.sin(len(rows) * 1.7)
+                rows.append({"factors": {"x": float(x)}, "metrics": {"y": 2*x + product_effect + noise},
+                             "product": product, "lot_id": f"LOT-{len(rows)}"})
+        definitions = {"x": {"role": "controllable", "unit": "unit"}}
+        options = {"adjustment_sensitivity_fields": ["product"],
+                   "independent_unit_field": "lot_id"}
+        base, _ = fit_linear_model(rows, definitions, "y", options)
+        self.assertEqual(base["status"], "VALID")
+        self.assertGreater(base["terms"]["x"]["estimate"], 7.0)
+        sensitivity = _model_specification_sensitivity(rows, definitions, "y", options, base)
+        adjusted = next(item for item in sensitivity["variants"]
+                        if item["formula"] == "adjustment_field:product")
+        self.assertEqual(adjusted["status"], "VALID")
+        self.assertAlmostEqual(adjusted["factor_terms"]["x"]["estimate"], 2.0, delta=0.01)
+        self.assertEqual(adjusted["fixed_effect_fields"], ["product"])
+        self.assertEqual(sensitivity["adjustment_sensitivity"]["requested_fields"], ["product"])
+        self.assertIn("does not identify confounders", sensitivity["adjustment_sensitivity"]["scope"])
+        self.assertEqual(sensitivity["model_selection"].split(";")[0], "none")
+
+    def test_adjustment_sensitivity_schema_is_bounded_and_explicit(self):
+        from pathlib import Path
+
+        schema = json.loads(Path("products/p4/investigation.v1.schema.json").read_text(encoding="utf-8"))
+        field = schema["properties"]["model"]["properties"]["adjustment_sensitivity_fields"]
+        self.assertEqual(field["maxItems"], 16)
+        self.assertTrue(field["uniqueItems"])
+        self.assertIn("do not establish confounding", field["description"])
+
+    def test_adjustment_sensitivity_rejects_duplicate_or_unbounded_requests(self):
+        for fields in (["product", "product"], [f"field_{i}" for i in range(17)]):
+            with self.assertRaises(ValueError):
+                _model_specification_sensitivity([], {}, "y",
+                                                 {"adjustment_sensitivity_fields": fields}, {})
 
     def test_formula_sensitivity_retains_a_quadratic_alternative_without_selecting_it(self):
         rows = []
