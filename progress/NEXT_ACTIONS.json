@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "36967b43add029149acaf078778735a67ebd703e",
+  "as_of_source_commit": "0de129b1c77a6229fd02b7cba58dfef6640538d7",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -10,49 +10,58 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "date": "2026-11-23",
-    "committed_base": "36967b43add029149acaf078778735a67ebd703e",
-    "implementation_commit": "36967b43add029149acaf078778735a67ebd703e",
-    "changed_evidence_files": [
-      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "qualification/results/P1_SHARED_UI_BROWSER_SCREEN.json"
+    "changed_implementation_files": [
+      "products/p4/regression.py",
+      "tests/test_d01_d02_independent.py",
+      "tests/test_release_qualification.py",
+      "qualification/benchmark_d01_continuous_cluster_support.py",
+      "qualification/run_release_checks.py",
+      "tests/fixtures/mcp_p4_panel_bridge.json",
+      "qualification/DECISION_RECORD.md",
+      "integration/proposals/CHANGE-003-P1-FOCUS-INDICATOR.md"
     ],
+    "committed_base": "0de129b1c77a6229fd02b7cba58dfef6640538d7",
+    "date": "2026-11-24",
+    "evidence_commit": "1399030cc89cfdb9a96509893fdc1043185a32a2",
+    "exact_source_runner": "PASS; E01-E04 and E06 PASS; E02 PASS; 216 tests, 0 skipped; E10 pending final archive",
+    "exact_source_runner_commit": "0de129b1c77a6229fd02b7cba58dfef6640538d7",
     "executed_evidence": {
-      "current_source": "36967b43add029149acaf078778735a67ebd703e",
-      "python_tests": {
-        "passed": 213,
+      "balanced_20_cluster_coverage_counterevidence": 0.9358333333,
+      "bridge_fixture_sha256": "5c7e6cb10845dd3db179ab83012825ae4b37235baf7608d41a91cfda748a8552",
+      "browser_current_source": "STALE; recorded at 36967b4",
+      "concentrated_design_abstained_trials": 1200,
+      "concentrated_reference_false_positive_rate": 0.7,
+      "d01_cluster_support_trials_per_scenario": 1200,
+      "d01_d02_focused_tests": 63,
+      "disposable_p1_snapshot": "PASS_HASH_MATCH",
+      "p1_frontend_tests": 59,
+      "p1_host_routes": 32,
+      "p1_production_build": "PASS",
+      "p1_typecheck": "PASS",
+      "p4_panel_tests": 24,
+      "p4_python_tests": {
         "failed": 0,
+        "passed": 216,
         "skipped": 0
       },
-      "p1_routes": 32,
-      "p1_frontend_tests": 59,
-      "p4_panel_tests": 24,
-      "typecheck": "PASS",
-      "production_build": "PASS",
-      "browser_success": "D01-D05 visible; PARTIAL evidence; accessible Pareto table",
-      "browser_refusal": "REFUSED; source ACCESS_REFUSED; semantic NOT_ACCESSED; positive evidence withheld",
-      "d02_stratified_shift": {
-        "trials": 2500,
-        "pooled_coverage": 0.9076,
-        "stratified_coverage": 0.9512
-      },
-      "zip_sha256_before_evidence_commit": "671850dca4dc0034f9dd8ba5f8437401796cb0225d732d305db6ee4fc5a234fb",
-      "reproducibility": "PASS at product commit 36967b4; must rerun for evidence commit",
-      "offline_network_denial": "PASS at product commit 36967b4; must rerun for evidence commit"
+      "spread_50_cluster_coverage": 0.9483333333
     },
+    "implementation_commit": "485c4a3fdf3325c7d3d880f5bbf2b07710129164",
+    "next_action": "rtk git add progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record D01 release qualification checkpoint\"",
     "pending": [
-      "E05/E12 actual internal authorization and source semantics",
-      "E07 authoritative P1 source/owner and formal accessibility",
-      "E08 company target OS",
-      "E09 ownership/legal and independent security review",
-      "E11 engineer ROI baseline"
+      "Commit checkpoint ledgers",
+      "Refresh performance report for resulting commit identity and rerun exact-source release qualification",
+      "Build ZIP, compare two clean detached builds, fresh no-pip network-denied extraction, rerun for E10",
+      "Current-source browser workflow and authoritative P1 owner/accessibility remain pending",
+      "Company-only authorization, semantics, target OS, legal/security and ROI remain pending"
     ],
-    "limitations": [
-      "Synthetic-only evidence; P1 source unversioned/disposable.",
-      "No public publication; status remains CANDIDATE.",
-      "Focus-indicator screen FAIL_SCREEN outside dark header; formal accessibility remains pending."
-    ],
-    "next_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record current-source P1 qualification\""
+    "security": {
+      "dependency_instances": 48,
+      "high_or_medium": 0,
+      "known_vulnerabilities": 0,
+      "scope": "limited local scan only",
+      "source_findings": 8
+    }
   },
   "never_do": [
     "publish or push",
@@ -60,31 +69,36 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record current-source P1 qualification\"",
+  "next_action": "rtk git add progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record D01 release qualification checkpoint\"",
+  "next_executable_action": "Commit current checkpoint ledgers; refresh qualification/benchmark.py; rerun qualification/run_release_checks.py; build, reproduce twice, and offline-qualify the exact archive; final-run for E10",
   "ordered_queue": [
     {
       "priority": 1,
-      "task": "Commit refreshed current-source P1 composition/browser evidence and checkpoint.",
-      "status": "NEXT"
+      "status": "NEXT",
+      "task": "Commit the current run record and exact next actions."
     },
     {
       "priority": 2,
-      "task": "Run full exact-source release qualification; build ZIP, compare two detached builds, run fresh no-pip network-denied extraction, then rerun runner for E10.",
-      "status": "PENDING"
+      "status": "PENDING",
+      "task": "Refresh commit-bound performance evidence and rerun full exact-source release checks."
     },
     {
       "priority": 3,
-      "task": "Audit the next highest-value independent D01/D03 scientific counterexample and implement only if a reproducible defect is found.",
-      "status": "PENDING"
+      "status": "PENDING",
+      "task": "Build exact ZIP, verify two detached rebuilds and fresh no-pip network-denied extraction; final runner must confirm E10."
     },
     {
       "priority": 4,
-      "task": "Keep company-only authorization/semantics/host/ROI and authoritative P1 ownership/accessibility explicitly pending.",
-      "status": "PENDING_INTERNAL"
+      "status": "PENDING",
+      "task": "Continue independent D03/D05 scientific audit after external release gates; do not repeat solved research."
+    },
+    {
+      "priority": 5,
+      "status": "PENDING_EXTERNAL",
+      "task": "Keep current-source browser, authoritative P1 owner/accessibility, company authorization/semantics, target OS, ROI and legal/security approval pending until verified."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Product source at 36967b4; current-source disposable P1 evidence has been refreshed and must be committed before exact archive generation. Mutable release outputs and qualification/results are sidecars; no public push/publication.",
-  "next_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record current-source P1 qualification\"; then run qualification/run_release_checks.py, build_transfer_bundle.py, check_reproducibility.py, fresh offline_qualify.py under sandbox-exec network denial, and the final release runner."
+  "worktree_state": "Implementation 485c4a3, evidence 1399030, and release check 0de129b are committed. Updated progress ledgers are the only required commit before archive work; generated release/results sidecars are stale/current-run outputs. No publication."
 }

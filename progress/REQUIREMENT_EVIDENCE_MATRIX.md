@@ -1,3 +1,13 @@
+# Latest verification — D01 continuous cluster-level support (2026-11-23)
+
+| Requirement | Current executed evidence | Status / next action |
+|---|---|---|
+| D01 clustered numeric exposure | `485c4a3` adds a concentration-triggered abstention for multi-level numeric factors constant within clusters. Independent 1,200-trial nulls: P4 abstained 1,200/1,200 for concentrated 30-lot exposure (Statsmodels false-positive rate 70.0%); spread 50-lot coverage 94.83%, endpoint delta `<1e-7`; balanced 20-lot/five-level coverage 93.58% with Wilson95 `[0.9205,0.9484]`, retained as undercoverage counterevidence. | Implemented with limits. Effective-information threshold 10 is a refusal heuristic, not an effective sample size, df correction, or coverage guarantee. |
+| Scientific and integration regression | P4 Python 216 PASS / 0 failures / 0 skipped; focused D01/D02 63 PASS; current disposable P1 host routes 32 PASS; P1 frontend 59 PASS; P4 module 24 PASS; typecheck and local production build PASS. Bridge fixture two builds identical at SHA-256 `5c7e6cb10845dd3db179ab83012825ae4b37235baf7608d41a91cfda748a8552`. | Verified against local synthetic fixtures and an unversioned disposable P1 snapshot. No company data or authority. |
+| Browser and suite qualification | P1 snapshot fingerprint matches current overlaid P4 sources. The browser success/refusal transcript is explicitly bound to P4 `36967b4`, not current implementation commit `485c4a3`; the release helper now rejects stale browser evidence. | Current-source browser re-observation, P1 owner/source identity, and formal accessibility remain pending; E07 must not pass. |
+| Release integrity | Runner at `0de129b` passed E01–E04/E06, including E02 and 216/0/0 tests; dependency audit: 0 advisories/48 instances; limited Bandit scan: 8 low, 0 high/medium. E07 reports current P4 hash match but rejects browser evidence from `36967b4`; E10 is still pending. | Commit checkpoint ledgers, refresh commit-bound performance evidence, rerun source gates, rebuild exact archive, verify two clean builds and fresh offline/no-network extraction, then rerun for E10. |
+| Internal authority and distribution | Actual Samsung semantics/permissions, company target, ownership/legal/security review, and engineer ROI are unavailable. No remote changes. | PENDING_INTERNAL; public distribution remains unauthorized. |
+
 # Latest verification — D02 group-aware calibration at source 5cc3e06 (2026-11-23)
 
 | Requirement | Latest executed evidence | Status and next action |
