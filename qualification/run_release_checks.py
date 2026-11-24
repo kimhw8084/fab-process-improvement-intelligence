@@ -778,6 +778,7 @@ def main():
     p1_browser = p1_host_checks.get("browser", {})
     p1_composition = p1_host_evidence.get("disposable_composition", {})
     p1_current_source = p1_composition.get("current_p4_source", {})
+    p1_implementation_commit = p1_composition.get("p4_source_commit")
     current_p4_hashes = {
         "engine_sha256": hashlib.sha256((ROOT / "products" / "p4" / "engine.py").read_bytes()).hexdigest(),
         "panel_sha256": hashlib.sha256((ROOT / "products" / "p4" / "ui" / "P4Panel.tsx").read_bytes()).hexdigest(),
@@ -804,8 +805,9 @@ def main():
                               and p1_additional_hashes == current_p4_additional_hashes
                               and p1_pin.get("engine_sha256") == current_p4_hashes["engine_sha256"]
                               and p1_pin.get("engine_version") == "1.2.0"
+                              and p1_pin.get("source_commit") == p1_implementation_commit
                               and disposable_bridge_snapshot_matches(p1_snapshot, p1_bridge, p1_bridge_fixture_sha256))
-    p1_browser_current_source_match = p1_browser.get("p4_source_commit") == evaluated_commit
+    p1_browser_current_source_match = p1_browser.get("p4_source_commit") == p1_implementation_commit
     p1_disposable_host_pass = (
         p1_source_hashes_match
         and
@@ -816,7 +818,7 @@ def main():
         and p1_host_checks.get("p1_production_build", {}).get("status") == "PASS"
         and p1_host_checks.get("p1_host_route_tests", {}).get("status") == "PASS"
         and p1_host_checks.get("p4_panel_tests", {}).get("status") == "PASS"
-        and disposable_p1_browser_workflow_matches(p1_browser, evaluated_commit)
+        and disposable_p1_browser_workflow_matches(p1_browser, p1_implementation_commit)
     )
     p1_gate_reason = (
         "the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; its previous synthetic browser run is stale and provides no current-source host integration evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending"
