@@ -1,6 +1,6 @@
 {
   "advisory_scanner": "pip-audit 2.10.1",
-  "created_utc": "2026-11-24T23:36:23Z",
+  "created_utc": "2026-11-24T23:52:05Z",
   "inventory_host": {
     "architecture": "arm64",
     "os": "macOS-26.6.2-arm64-arm-64bit",
@@ -363,5 +363,5 @@
   ],
   "schema": "p4-qualification-license-inventory/v1",
   "scope": "Resolved qualification/reference packages only; these wheels are not bundled and are not P4 runtime dependencies.",
-  "source_audit_timestamp_utc": "2026-11-24T11:05:02Z"
+  "source_audit_timestamp_utc": "2026-11-24T23:51:45Z"
 }
