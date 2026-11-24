@@ -310,5 +310,5 @@
   "qualification_date": "2026-11-24",
   "schema": "p4-p1-disposable-host-qualification/v1",
   "scope": "Current-source synthetic P4 compatibility in an unversioned disposable P1 composition; not owner, company authorization, target-platform, or formal accessibility qualification.",
-  "status": "CURRENT_SOURCE_SYNTHETIC_WORKFLOW_REFUSAL_AND_D02_ADVISORY_UI_VERIFIED"
+  "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
 }
