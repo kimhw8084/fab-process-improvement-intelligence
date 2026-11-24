@@ -1,3 +1,11 @@
+# Latest engineering checkpoint — D02 veto-to-confirmation integration (2026-11-24)
+
+- Test commit `4c123c0` carries the independent D02 complete-set held-out failure result through `propose_window_confirmation`. The exact hidden-failure candidate set is already INCONCLUSIVE/withheld; D04 confirmation now returns REFUSED, zero runs, `executed=false`. The targeted D01/D02 suite passed 66 tests; the D04 design suite passed 23 tests; the complete 232-test suite last passed at product source `b515f9d` before this test-only addition.
+- The latest complete release runner was at `66a5685`: E01–E04 and E06 PASS, E02 PASS, 232 tests PASS. It predates the D02 product guard and subsequent test integration. P1 overlay/browser evidence, product performance fingerprint, reports and release archive are stale for the current source tree.
+- D02 complete-set veto evidence remains synthetic and diagnostic; it does not prove future population safety or conditional coverage. Current candidate confirmation remains advisory, read-only and non-executing.
+- Exact next action: audit D01 predictor measurement-error handling and its claim/limitation envelope with `rtk rg -n "measurement|reliability|error_in_variables|uncertainty" products/p4/regression.py products/p4/engine.py products/p4/investigation.v1.schema.json tests/test_d01_d02_independent.py` and inspect the D01 report assembly before choosing an implementable sensitivity diagnostic.
+- Keep `PRODUCT_IMPLEMENTATION_COMPLETE`, `SUITE_INTEGRATION_COMPLETE`, and `EXTERNAL_TRANSFER_READY` unestablished. Samsung authorization/semantics, authoritative P1 owner/source, accessibility, target OS/network, internal approvals and ROI remain pending.
+
 # Latest engineering checkpoint — D02 withheld-candidate confirmation guard (2026-11-24)
 
 - Commit `b515f9d` hardens `propose_window_confirmation`: an exact setting must still be retained as a D02 supported advisory candidate and classified observed/interpolated. Contradictory withheld flags or extrapolated regions now refuse before a design is emitted. No experimental action or actuation is enabled.

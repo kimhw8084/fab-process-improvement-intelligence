@@ -1,3 +1,11 @@
+# Latest evidence — D02 independent veto through experiment planning (2026-11-24)
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D02/D04 candidate confirmation | Independent hidden-interaction evaluation withholds the complete screened candidate set. The withheld result was passed directly to `propose_window_confirmation`; planner returned `REFUSED`, 0 runs, `executed=false`. Focused D01/D02 tests 66 PASS; D04 design tests 23 PASS. | Synthetic integration evidence only; selection, model-form and population safety remain unproven. Continue D02/D01 scientific work. |
+| Current-source qualification | Last full suite 232 PASS after D02 product guard; the later test-only integration passed within the 66-test focused file. Last release runner at `66a5685` had E02 PASS but predates current D02 source. | Requalify all source-bound gates and P1/browser when scientific changes stabilize. |
+| Distribution | ZIP `8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde` identifies old source `00bb6a6`, not current. | E10 pending. Company-only requirements remain pending; no public push. |
+
 # Latest evidence — D02 confirmation refusal guard (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |
