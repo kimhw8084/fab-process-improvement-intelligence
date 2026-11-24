@@ -2,12 +2,9 @@
   "active_uncommitted_changes": [
     "progress/OVERNIGHT_EXECUTION.md",
     "progress/NEXT_ACTIONS.json",
-    "progress/REQUIREMENT_EVIDENCE_MATRIX.md",
-    "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-    "release/UI_COMPONENT_QUALIFICATION.json",
-    "generated release and qualification result sidecars (stale until exact-source rerun)"
+    "progress/REQUIREMENT_EVIDENCE_MATRIX.md"
   ],
-  "as_of_source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
+  "as_of_source_commit": "f0a0e14",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -19,39 +16,26 @@
   "latest_checkpoint": {
     "date": "2026-11-24",
     "executed_evidence": {
-      "archive_bytes": 9280785,
-      "archive_files": 218,
-      "archive_sha256": "899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f",
-      "browser_current_source": "STALE; 36967b4",
-      "d03_focus": 22,
-      "dependency_audit": "0 known advisories / 48 instances",
-      "limited_source_scan": "8 low; 0 high/medium",
-      "offline_extraction": "PASS; no-pip venv; OS network denied; macOS ARM64/Python 3.11.7",
-      "p1_frontend": 59,
-      "p1_routes": 32,
-      "p1_snapshot_sha256": "8372f71a290fae95f4807b5a95f45c2bfa20ad51aef3a46ec07286e1dc642e51",
-      "p4_panel": 24,
-      "release_runner": "PASS; E01-E04, E06, E10; 218 tests, zero skipped",
-      "reproducible_detached_builds": 2
+      "p1_bridge_hash_matches": true,
+      "p1_browser_source": "STALE; 36967b4",
+      "p1_snapshot_files": 35,
+      "p1_source_hashes_match": true,
+      "release_qualification_tests": 11
     },
     "gate_states": {
-      "E05": "PENDING_INTERNAL",
       "E07": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY",
-      "E08": "PENDING_TARGET_OS",
-      "E09": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW",
-      "E11": "PENDING_ENGINEER_BASELINE",
-      "E12": "PENDING_INTERNAL"
+      "previous_E10": "PASS for 6c7455b only; stale for f0a0e14"
     },
-    "implementation_commit": "1c1b75fb1cb6cfb48621bbb878634eccb9db93e8",
-    "next_action": "Continue D04 independent DOE design challenge; then D05 study-design sensitivity and refusal audit.",
+    "implementation_commit": "f0a0e14; truthful E07 source/browser diagnosis",
+    "next_action": "Refresh source-bound benchmark/security/full gates, then rebuild and qualify the archive for f0a0e14; continue D04.",
     "pending": [
-      "D04 independent design-quality challenge and implementation if warranted",
-      "D05 invalid-assumption, negative-control and sensitivity challenges",
-      "Current-source P1 browser/owner/formal accessibility",
-      "Target OS, legal/security/license authorization, company permissions/semantics, engineer ROI"
+      "Current-source P1 browser and authoritative owner/accessibility",
+      "Target OS, legal/security/license authorization",
+      "Company source permission/semantics and engineer ROI",
+      "D04 and D05 substantive scientific challenges"
     ],
-    "product_state": "CANDIDATE",
-    "source_qualification_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908"
+    "previous_archive_sha256": "899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f",
+    "previous_e10_source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908"
   },
   "never_do": [
     "publish or push",
@@ -59,8 +43,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Continue the ordered scientific queue at D04; keep non-qualified gates explicitly pending.",
-  "next_executable_action": "rtk sed -n 1,280p products/p4/design.py",
+  "next_action": "Commit this diagnostic checkpoint, then rerun exact-source release qualification.",
+  "next_executable_action": "rtk git add progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Record E07 diagnostic checkpoint\"",
   "ordered_queue": [
     {
       "priority": 1,
@@ -96,5 +80,5 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Source commit 6c7455b passed E10 for archive SHA 899a0788...; release/results sidecars and refreshed progress checkpoint are modified for local evidence commit. No public push."
+  "worktree_state": "Implementation commit f0a0e14 is committed; three progress ledgers are updated but pending. Prior archive remains verified only for source 6c7455b. P1 screen sidecars remain untracked local evidence; no public push."
 }

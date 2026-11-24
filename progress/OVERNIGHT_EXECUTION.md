@@ -1,3 +1,9 @@
+# Latest checkpoint — truthful P1 gate diagnosis (2026-11-24)
+
+- Source commit `f0a0e14` separates current-source hash verification from browser freshness in E07. Verified the 35-file disposable P1 fingerprint, current P4 source hashes and MCP bridge fixture all match; the browser observation is stale at `36967b4`. E07 remains pending, now for the accurate reason: no current-source browser evidence, authoritative P1 owner acceptance, formal accessibility or target-host verification.
+- New gate-diagnostic regression tests: 11 PASS. Current P4 product code and prior 218-test scientific suite are unchanged, but the release checker itself is in the archive, so the `6c7455b` ZIP/E10 evidence is stale for source `f0a0e14`.
+- Next action: commit this ledger checkpoint, rerun current-source benchmark/security/full release gates, rebuild/reproduce/offline-qualify the archive and confirm E10; then resume D04. No external or company-only dependency is needed for those tasks.
+
 # Latest qualification checkpoint — D03 source and exact offline archive (2026-11-24)
 
 - Source commit qualified: `6c7455bc0e539a0555ec850e7fa697abebd88908`; release runner: E01–E04, E06, and E10 PASS; full suite 218 PASS/0 failures/0 skips. D03 is intentionally `LIMITED_SCOPE` in the integrated demo.

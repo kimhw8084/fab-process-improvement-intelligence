@@ -1,3 +1,10 @@
+# Latest verification — E07 source and browser freshness diagnosis (2026-11-24)
+
+| Requirement | Current executed evidence | Status / next action |
+|---|---|---|
+| E07 source/browser distinction | Source commit `f0a0e14` fixes the gate reason. Independently recomputed: P1 35-file composition, current P4 module hashes, P4 relationship engine hash and current bridge fixture match. The browser transcript is separately bound to `36967b4` and is stale. Focused gate tests 11 PASS. | E07 correctly remains pending for current-browser evidence, authoritative P1 owner/source, formal accessibility, and target-host qualification. |
+| Exact archive | Previous candidate SHA-256 `899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f` passed E10 for source `6c7455b`. The release checker change is packaged source. | Rebuild and rerun reproducibility, no-pip network-denied extraction, and E10 for current source before proceeding. |
+
 # Latest verification — D03 correction and reproducible offline release (2026-11-24)
 
 | Requirement | Current executed evidence | Status / next action |
