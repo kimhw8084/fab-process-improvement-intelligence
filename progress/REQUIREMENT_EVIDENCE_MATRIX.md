@@ -1,3 +1,13 @@
+# Latest D02 calibration-transfer qualification — source 3a85374 (2026-11-23)
+
+| Requirement | Latest executed evidence | Status and next action |
+|---|---|---|
+| D02 transfer refusal | Actual `explore_window` tests changed from accepting 25 pointwise/9 exact-panel candidates under unseen strata or a panel row-count mismatch to returning 0 candidates and 0 exact-panel candidates; screened count and pre-veto grid remain auditable. Both tests failed before the correction. | Implemented as hard withdrawal for calibration-band misses, unseen declared evaluation strata and exact-panel structure mismatches. It is not a population-risk estimate. Known-stratum composition distance stays descriptive; no arbitrary threshold. |
+| D02 focused qualification | `rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -p test_d01_d02_independent.py -v`: 57 PASS. P4 UI component: 24 PASS, strict TypeScript PASS, P1 contract snapshot MATCH. | Current-source focused checks PASS; full regression and release-runner at source 3a85374 pending. |
+| Shared P1 UI | Headless P4 panel displays generic counterevidence withholding and transfer status under P1 module contracts. Prior P1 browser flow showed synthetic success and permission refusal at the prior component version. | Local component compatibility only. Browser should be refreshed if integration evidence is needed; authoritative P1 host/source/owner and formal accessibility remain pending. |
+| Exact archive | Previous source ad72d30 ZIP SHA-256 `26412c753e49ad85c75dbe57c178c9a58982b412de2481a0029357bf14cf1ae8`, 216 files; clean detached builds matched and no-pip network-denied extraction passed. It predates 3a85374. | Stale for current D02 source. Rebuild, refresh current reports, run full release qualification, reproduce and offline qualify. No push/publication. |
+| Internal qualification / distribution | No actual Samsung source or permission evidence used. | PENDING_INTERNAL; no public distribution or remote push. |
+
 # Latest verification — MCP-to-P4 and current disposable P1 host (2026-11-23)
 
 | Requirement | Evidence from executed checks | Status and next action |

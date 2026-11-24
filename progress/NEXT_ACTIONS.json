@@ -1,6 +1,6 @@
 {
-  "active_uncommitted_changes": true,
-  "as_of_source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
+  "active_uncommitted_changes": false,
+  "as_of_source_commit": "3a85374",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -10,70 +10,57 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "changed_product_files": [
-      "products/p4/mcp_workflow.py",
-      "fabintel/mock_mcp_server.py",
-      "requirements/synthetic-mcp-mapping.v1.json",
-      "tests/test_mcp_transport.py",
-      "tests/fixtures/mcp_p4_panel_bridge.json",
-      "qualification/build_transfer_bundle.py",
-      "tests/test_schema_and_ui.py"
-    ],
-    "committed_base": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
     "date": "2026-11-23",
+    "committed_base": "ad72d306934f4ddd6e953f525bafd9d651497430",
+    "implementation_commit": "3a85374",
+    "changed_product_files": [
+      "products/p4/window.py",
+      "tests/test_d01_d02_independent.py",
+      "products/p4/ui/P4Panel.tsx",
+      "products/p4/ui/P4Panel.test.tsx",
+      "docs/SCIENCE_AND_METHODS.md",
+      "docs/PRODUCT_SPEC.md",
+      "release/UI_COMPONENT_QUALIFICATION.json"
+    ],
+    "defect_and_change": {
+      "finding": "Independent evaluation reported unseen declared strata or exact-panel structure mismatch as calibration-transfer counterevidence, but the old D02 path still returned 25 candidates and 9 simultaneous candidates.",
+      "correction": "Calibration-band misses, unseen declared evaluation strata, and precommitted-panel structure mismatches now withhold the entire candidate set and all simultaneous candidates. The pre-veto grid remains auditable; the engine never keeps a favorable subset. A known-stratum empirical composition difference alone remains descriptive because no evidence-based threshold distinguishes sampling noise from consequential drift.",
+      "pre_fix_test_failures": 2
+    },
     "executed_evidence": {
-      "bridge_fixture": {
-        "byte_identical": true,
-        "independent_builds": 2,
-        "sha256": "938c7b179dddfbb607c92c03c7a9f4532c57d9d1de59c8a2c0844d84ad65c739"
-      },
-      "browser_workflow": {
-        "current_p4_engine": "1.2.0",
-        "p1_source": "UNVERSIONED_DISPOSABLE",
-        "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL"
-      },
-      "combined_mcp_schema_package_tests": {
-        "passed": 27,
-        "status": "PASS"
-      },
-      "focused_mcp_tests": {
-        "passed": 17,
-        "status": "PASS"
-      },
-      "p1_frontend_tests": {
-        "passed": 59,
+      "d01_d02_independent_suite": {
+        "passed": 57,
         "status": "PASS",
-        "test_files": 7
+        "duration_seconds": 2.255
       },
-      "p1_host_route_tests": {
-        "passed": 32,
-        "status": "PASS"
-      },
-      "p1_production_build": {
-        "bytes": 830640,
-        "sha256": "defb12ee53d6ab6eb83f384d25bc64a39e092faf4f63032285e70331dc8d0c39",
-        "status": "PASS"
-      },
-      "p1_typecheck": "PASS",
       "p4_panel": {
-        "p1_contract_snapshot": "MATCH",
         "passed": 24,
-        "strict_typecheck": "PASS"
+        "status": "PASS",
+        "strict_typecheck": "PASS",
+        "p1_contract_snapshot": "MATCH"
       },
-      "python_regression": {
-        "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -v",
-        "passed": 210,
+      "previous_exact_release_at_ad72d30": {
+        "full_python_tests_passed": 210,
         "skipped": 0,
-        "status": "PASS"
+        "E02": "PASS",
+        "overall_state": "CANDIDATE",
+        "zip_sha256": "26412c753e49ad85c75dbe57c178c9a58982b412de2481a0029357bf14cf1ae8",
+        "source_files": 216,
+        "two_detached_clean_builds": "MATCH",
+        "offline_fresh_extract": "PASS_NO_PIP_NETWORK_DENIED",
+        "source_files_verified": 216,
+        "archive_gate": "PASS"
       }
     },
     "limitations": [
-      "P1 source and owner acceptance are pending; host evidence is disposable and synthetic.",
-      "Formal WCAG/screen-reader, target OS/network policy, actual company source authorization/semantics, security/legal/production approvals and ROI remain pending.",
+      "The exact archive and full release-runner evidence are for ad72d30 and are stale for the D02 change.",
+      "P1 browser evidence predates this presentational change; the headless module was rerun against P1 contracts.",
+      "A known-stratum mix difference remains a descriptive warning; no transfer guarantee is claimed.",
+      "P1 owner, formal accessibility, company mappings/permissions, target OS, legal/security approvals and engineering ROI remain pending.",
       "No public distribution or remote push."
     ],
-    "next_action": "Commit the refreshed current-P1 host evidence, progress ledgers and P4 UI component report. Build the exact resulting source archive, regenerate current-source performance and limited security evidence, run the full source-bound release checks, then verify reproducibility and fresh no-pip offline extraction.",
-    "release_runner_after_this_source": "PENDING; exact archive and current-source performance/security report not yet rebuilt."
+    "next_action": "Commit this ledger checkpoint, rebuild the exact source archive at the resulting commit, refresh benchmark and limited security evidence, run the full release checks, then reproduce the ZIP twice and run fresh no-pip extraction under OS network denial.",
+    "release_runner_after_this_source": "PENDING; ad72d30 reports must not be treated as current for the D02 transfer-veto source."
   },
   "never_do": [
     "publish or push",
@@ -82,32 +69,30 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "P1 current P4 engine/panel/source pins and the 35-file disposable composition digest match; current run records 210 Python tests, all D01-D05 checks, current performance/security evidence, honest pending internal gates, reproducible archive checksums and offline behavior. No publication.",
+    "priority": 0,
+    "task": "Requalify the D02 transfer-counterevidence veto at the exact committed source, then continue the highest-value D02 calibration-transfer benchmark gap.",
+    "source_commit": "3a85374",
+    "acceptance": "Current source archive, full 210+ Python suite, all scientific gates, P4 UI module, current benchmark/security reports, detached reproducibility and fresh no-pip network-denied extraction are source-bound and honest. Product stays local and CANDIDATE while external/internal approval gates remain pending.",
     "first_command": "rtk git status --short",
     "follow_up_commands": [
-      "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md release/UI_COMPONENT_QUALIFICATION.json",
-      "rtk git commit -m 'Refresh current P1 qualification evidence'",
       "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py",
+      "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py --pip-audit /tmp/p4-qualification-env/bin/pip-audit --bandit /tmp/p4-qualification-env/bin/bandit",
       "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/check_reproducibility.py",
-      "rtk /tmp/p4-qualification-env/bin/python qualification/offline_qualify.py"
-    ],
-    "priority": 0,
-    "source_commit": "3c6de8d3b7030ca4f7f009b3a81e380d6406bf02",
-    "task": "Commit the refreshed current-P1 host evidence, progress ledgers and P4 UI component report. Build the exact resulting source archive, regenerate current-source performance and limited security evidence, run the full source-bound release checks, then verify reproducibility and fresh no-pip offline extraction."
+      "rtk sandbox-exec -p '(version 1)(allow default)(deny network*)' /tmp/p4-qualification-env/bin/python qualification/offline_qualify.py release/FAB_INTELLIGENCE_P4_CANDIDATE.zip"
+    ]
   },
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_WITH_LIMITS; ACTIVE_THRESHOLD_BINDING_AND_WHOLE_SET_COUNTEREVIDENCE_VETO; CONDITIONAL_COVERAGE_UNESTABLISHED",
-      "task": "D02 retains pointwise/exact-panel calibration with explicit assumptions and no conditional/future coverage claim. It binds precommitted active thresholds and now withholds the entire screened set on any exact independent evaluation counterexample, including partial holdouts. An independent hidden nonlinear interaction produced 25 apparent feasible cells, 2 exact heldout failures and at least one infeasible candidate in all 20 complete evaluation lots; this is a model-form counterexample, not a population-risk estimate. Existing transfer/selection/drift challenges remain generator-specific; only 3/76 default candidates have exact-setting evaluation."
+      "status": "IMPLEMENTED_WITH_LIMITS; TRANSFER_COUNTEREVIDENCE_VETO; CONDITIONAL_COVERAGE_UNESTABLISHED",
+      "task": "D02 preserves the separation between fitting, calibration and evaluation, local empirical intervals, exact-panel assumptions, OOD region labels and exact-setting confirmation. New independent evaluation failures, calibration-band misses, unseen declared evaluation strata and exact-panel structure mismatches can only withhold the complete candidate set; known-stratum empirical mix differences remain descriptive. Focused D01/D02 suite: 57 PASS; P4 panel: 24 PASS/typecheck/P1 snapshot. Full exact-source release checks pending at 3a85374."
     },
     {
       "priority": 2,
       "status": "IMPLEMENTED_WITH_LIMITS; BINARY_CLUSTER_LEVEL_EXPOSURE_SUPPORT_SCREEN_AND_HELDOUT_BENCHMARK",
-      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84\u201395.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
+      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84–95.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
     },
     {
       "priority": 3,
@@ -132,7 +117,7 @@
     {
       "priority": 7,
       "status": "DISPOSABLE P1 COMPOSITION VERIFIED AGAINST D02 SOURCE 644eab9; AUTHORITATIVE OWNER ACCEPTANCE PENDING",
-      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01\u2013D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
+      "task": "Disposable P1 current-source composition passed 11 host-route tests, 49 frontend tests (22 P4 panel tests), typecheck, production build and a browser synthetic workflow/refusal. The 29-file fingerprint is 0fc25697b63495e754262fe85220369910cf4f95fd9fd11baaa71dcf88a61fb8. Browser confirms the completed PARTIAL flow, D01–D05, recommendation status and counterevidence explanation; default fixture does not trigger veto. P1 is unversioned and disposable; owner/source acceptance and formal accessibility remain pending."
     },
     {
       "priority": 8,
@@ -142,5 +127,5 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "P4 implementation and MCP correlation fix committed at 3c6de8d3b7030ca4f7f009b3a81e380d6406bf02; current P1 disposable evidence, progress ledgers and release/UI_COMPONENT_QUALIFICATION.json are updated but pending local evidence commit. Generated release/qualification sidecars are stale or in progress. No remote push. Current exact-source tests: 210 Python PASS/0 skipped; P1 host 32 PASS; P1 frontend 59 PASS; P1 typecheck/build PASS; P4 panel 24 PASS. Full release runner, reproducibility and no-pip offline qualification after this commit remain unrun."
+  "worktree_state": "D02 transfer-veto implementation committed at 3a85374; this checkpoint records focused evidence and prior exact ad72d30 release results. The previous ZIP and full runner are stale for current D02 source. No remote push."
 }
