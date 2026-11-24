@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "Progress checkpoint records D04 geometry-only aliasing evidence; commit before building the exact-source archive.",
-    "Release sidecars are generated and stale until exact-source archive qualification and final gate binding."
+    "Progress checkpoint and P1 focus-indicator proposal must be committed before exact-source archive build.",
+    "Generated release outputs currently bind ea1f9fe and must be refreshed after source 688f809."
   ],
-  "as_of_source_commit": "0373b890e9809bbbe4aa706d453728516c2c24d4",
+  "as_of_source_commit": "688f809cde369fb8dcbf2856f2bcdba0f9b0db04",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -72,6 +72,19 @@
       "time_ordered_accepted": "0/100; all refused at the engineer-specified 0.2 RMSE limit",
       "trials": 100
     },
+    "D04_four_factor_aliasing": {
+      "focused_tests": "28 PASS",
+      "scope": "four-factor higher-order synthetic geometry only; full fixed 200 trials pending; no statistical power or production claim",
+      "source_commit": "688f809cde369fb8dcbf2856f2bcdba0f9b0db04",
+      "status": "IMPLEMENTED_FOCUSED_TESTED_FULL_BENCHMARK_PENDING",
+      "strategies": [
+        "fractional_factorial",
+        "full_factorial",
+        "central_composite",
+        "d_optimal",
+        "latin_hypercube"
+      ]
+    },
     "D04_off_grid_aliasing": {
       "focused_tests": "28 PASS",
       "result": "full_factorial=0/200, central_composite=0/200, d_optimal=0/200, latin_hypercube=200/200 with constructed signal",
@@ -112,6 +125,11 @@
       "limitation": "P1 is unversioned/disposable; not owner acceptance, formal accessibility, company permission or target-host qualification",
       "p4_source_commit": "09ad1d5e2961d6646ac6a3ac771f2a9cb9229167",
       "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
+    },
+    "P1_focus_indicator": {
+      "scope": "disposable snapshot; not rendered or formal accessibility qualification",
+      "source_level_screen": "original outline below 3:1 selected-surface contrast; layered white outline/dark ring candidate passes selected source-level screen",
+      "status": "PROPOSAL_SCREENED_AUTHORITATIVE_OWNER_PENDING"
     },
     "archive": {
       "sha256": "8659fdc6265e032898e07b19022f5040302fe5d92dbdf97cd2ac3ba1b9ee5fde",
@@ -214,47 +232,47 @@
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Commit progress checkpoint; build exact-source archive at 0373b89; reproduce in two clean worktrees; run fresh no-pip sandboxed offline extraction; bind final gate runner."
+      "task": "Commit this checkpoint; build archive at resulting exact HEAD; reproduce in two clean worktrees; run fresh no-pip sandboxed offline extraction; run full exact-source release gates and verify E02/E10."
     },
     {
       "priority": 2,
-      "status": "NEXT",
-      "task": "Resume D02 after release binding: pursue an independent, actionable uncertainty-reduction experiment challenge without implying unsupported window coverage."
+      "status": "PENDING_EXTERNAL",
+      "task": "Submit P1-owned focus-indicator change proposal for authoritative owner integration and rendered accessibility qualification; do not fork the P1 shell."
     },
     {
       "priority": 3,
-      "status": "AUDIT_NO_DEFECT",
-      "task": "D03 missing-objective and uncertainty-reversal audit found no oracle-backed defect; retain current refusal and scope labels."
+      "status": "NEXT",
+      "task": "Continue D02 by evaluating whether the existing exact-setting confirmation plan reduces uncertainty under independent held-out response challenges; retain refusal when its assumptions fail."
     },
     {
       "priority": 4,
-      "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
-      "task": "D04 chronological holdout and off-grid DOE aliasing challenge are independently benchmarked; remain synthetic and limited."
+      "status": "AUDIT_NO_DEFECT",
+      "task": "D03 missing-objective and uncertainty-reversal audit found no oracle-backed defect."
     },
     {
       "priority": 5,
       "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
-      "task": "D05 hidden-confounder challenge preserves inconclusive behavior; causal claims remain unauthenticated."
+      "task": "D04 temporal holdout, two-factor off-grid aliasing and four-factor challenge added; full new 200-trial result pending."
     },
     {
       "priority": 6,
-      "status": "PENDING_EXTERNAL",
-      "task": "Authoritative P1 source/owner acceptance and formal accessibility qualification."
+      "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
+      "task": "D05 hidden-confounder challenge preserves inconclusive behavior; causal claims remain unauthenticated."
     },
     {
       "priority": 7,
       "status": "PENDING_INTERNAL",
-      "task": "Company source authorization, mappings, target policies, approvals and engineer ROI."
+      "task": "Company authorization, source semantics, target policy, legal/security/production approvals and real engineer ROI."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; exact source archive and company/external gates remain",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED until refreshed exact-source E10 and applicable pending gates",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; continue scientific qualification",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source acceptance and formal accessibility; disposable compatibility only"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 scientific claims remain bounded and work continues",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source acceptance and formal accessibility; disposable composition only"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "0373b890e9809bbbe4aa706d453728516c2c24d4",
-  "worktree_state": "D04 aliasing benchmark, test and release-gate integration committed at 0373b89. Focused D04 tests 28 PASS. Exact-source archive, reproducibility, offline extraction and final release gates remain pending."
+  "source_commit": "688f809cde369fb8dcbf2856f2bcdba0f9b0db04",
+  "worktree_state": "D04 four-factor fractional-aliasing challenge is committed at 688f809; focused D04 suite 28 PASS. Previous archive and final gates bind ea1f9fe and are stale. Rebuild/reproduce/offline qualify, then rerun exact-source release gates."
 }
