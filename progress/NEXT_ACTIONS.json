@@ -1,7 +1,8 @@
 {
   "active_uncommitted_changes": [
-    "Refreshed qualification/evidence/p1-disposable-host-qualification-2026-11-23.json and tests/fixtures/mcp_p4_panel_bridge.json; progress checkpoint needs commit.",
-    "Generated qualification/results and release sidecars are stale/non-final until exact-source archive and gates rerun."
+    "D01 regression support heuristic now abstains below 20 effective information clusters for multi-level numeric cluster-level exposures; independent benchmark and direct test updated.",
+    "MCP bridge fixture regenerated twice at 5de8504d; current P1 overlay/browser and full release gates need refresh.",
+    "Progress checkpoint records the actual focused test and benchmark results; prior archive/gates bind 6004b39."
   ],
   "as_of_source_commit": "49f3f0c918b54479fa62c20792a23fe44e6e6879",
   "date": "2026-11-24",
@@ -14,10 +15,10 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "241 passed, 1 failed of 242; stale fixture source fingerprint",
-    "qualification": "NOT_FINAL; E07 stale disposable evidence before repair; E10 binds old archive",
-    "source_commit": "49f3f0c918b54479fa62c20792a23fe44e6e6879",
-    "status": "FAILED_STALE_FIXTURE; focused repair tests 13 PASS, full runner not rerun"
+    "python_tests": "242 PASS, 0 skipped at 6004b39; predates D01 change",
+    "qualification": "E01-E04, E06, E10 PASS at 6004b39; E05/E07/E08/E09/E11/E12 pending",
+    "source_commit": "6004b39abd59448c77715ca73f12ef69c655b9f4",
+    "status": "PASS_CANDIDATE; stale for current D01 change"
   },
   "latest_checkpoint": {
     "D01_mcp_uncertainty": {
@@ -244,6 +245,18 @@
       "p1_disposable_browser": "synthetic success/refusal observed; 900 rows; D01-D05; refusal withheld semantics/values and skipped analysis",
       "p1_checks": "frontend 61, host routes 32, P4 panel 26, typecheck and build PASS",
       "status": "EVIDENCE_REPAIRED; FULL_RUNNER_PENDING"
+    },
+    "D01_numeric_cluster_support_refinement": {
+      "old_threshold": 10,
+      "new_threshold": 20,
+      "reason": "independent null benchmark at 20 balanced lots: 93.58% CR1 interval coverage; effective information support 11.76",
+      "focused_tests": "67 PASS",
+      "benchmark_trials_per_scenario": 1200,
+      "20_cluster_action": "withheld all 1200 intervals; point estimates retained",
+      "50_spread_cluster_action": "retained all 1200; 94.83% coverage; matches statsmodels reference",
+      "scope": "heuristic abstention only; no universal threshold or coverage guarantee",
+      "bridge_fixture_sha256": "5de8504dd7d328b0a57ad44bd06c54bb10570bd28a6b2e1659347298eb028dc0",
+      "status": "IMPLEMENTED_AND_FOCUSED_QUALIFIED"
     }
   },
   "never_do": [
@@ -252,13 +265,13 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit refreshed bridge fixture, disposable P1 evidence and progress; rebuild exact-source archive, reproduce, offline-qualify, then rerun full release gates.",
-  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json tests/fixtures/mcp_p4_panel_bridge.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md",
+  "next_action": "Refresh P1 disposable source pin, route/component tests and browser against the changed regression engine; run full tests/release checks; rebuild, reproduce and offline-qualify the archive.",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python -m unittest tests.test_mcp_panel_bridge_fixture tests.test_release_qualification -v",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "NEXT",
-      "task": "Stage and commit repaired fixture/P1 evidence/progress; build exact archive; reproduce in two clean worktrees; perform fresh no-pip network-denied extraction; run release gates."
+      "status": "IN_PROGRESS",
+      "task": "Finish D01 cluster-support qualification and current-source P1 compatibility; run full regression/release qualification; rebuild and verify exact offline archive."
     },
     {
       "priority": 2,
@@ -277,13 +290,13 @@
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; exact-source archive/gates need regeneration; E05/E07/E08/E09/E11/E12 remain pending or externally gated",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current product change invalidated prior full release gates/archive binding; rerun required",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; ongoing scientific qualification",
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01 support boundary refined; D02-D05 remain under ongoing qualification",
     "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source and formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
   "source_commit": "49f3f0c918b54479fa62c20792a23fe44e6e6879",
-  "worktree_state": "Current-source fixture and disposable P1 evidence repaired; focused bridge/release evidence tests 13 PASS. Previous full runner failed one stale-fingerprint test; archive/release sidecars require regeneration."
+  "worktree_state": "Uncommitted D01 continuous cluster support refinement; 67 focused tests pass and 1,200-trial-per-scenario statsmodels benchmark passes. Prior release PASS at 6004b39 is stale for this product change."
 }

@@ -29,6 +29,7 @@ def wilson(successes, total, z=1.959963984540054):
 def run_scenario(rng, exposures, reps=8, minimum_clusters=30):
     covered = inferred = abstained = reference_covered = 0
     parity = 0.0
+    effective_information_clusters = None
     for _ in range(TRIALS):
         rows, x, y, groups = [], [], [], []
         cluster_effects = [rng.gauss(0, 1.0) for _ in exposures]
@@ -42,6 +43,9 @@ def run_scenario(rng, exposures, reps=8, minimum_clusters=30):
             rows, {"exposure": {"role": "measured", "unit": "u"}}, "y",
             {"covariance": "cluster", "cluster_field": "lot_id",
              "independent_unit_field": "lot_id", "minimum_clusters": minimum_clusters})
+        if effective_information_clusters is None:
+            support = report.get("inference", {}).get("cluster_level_factor_support", [])
+            effective_information_clusters = support[0].get("effective_information_cluster_count") if support else None
         term = report["terms"]["exposure"]
         interval = term["ci95"]
         if interval is None:
@@ -64,6 +68,7 @@ def run_scenario(rng, exposures, reps=8, minimum_clusters=30):
         "product_inferred_trials": inferred, "product_abstained_trials": abstained,
         "product_coverage_among_inferred": covered / inferred if inferred else None,
         "product_coverage_wilson95": wilson(covered, inferred) if inferred else None,
+        "effective_information_cluster_count": effective_information_clusters,
         "statsmodels_reference_coverage": reference_covered / TRIALS,
         "statsmodels_reference_false_positive_rate": 1 - reference_covered / TRIALS,
         "max_product_reference_interval_endpoint_error": parity,
@@ -89,9 +94,9 @@ def main():
         and 0.90 <= spread["product_coverage_among_inferred"] <= 0.98
         and spread["product_coverage_wilson95"][0] <= 0.95 <= spread["product_coverage_wilson95"][1]
         and max(item["max_product_reference_interval_endpoint_error"] for item in results.values()) < 1e-7
-        and five_level["product_inferred_trials"] == TRIALS
-        and 0.88 <= five_level["product_coverage_among_inferred"] <= 0.99
-        and five_level["max_product_reference_interval_endpoint_error"] < 1e-7
+        and five_level["product_inferred_trials"] == 0
+        and five_level["product_abstained_trials"] == TRIALS
+        and five_level["effective_information_cluster_count"] < 20
     )
     try:
         commit = subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True,
@@ -113,17 +118,17 @@ def main():
             "factor": "continuous numeric exposure fixed within each cluster",
             "concentration_case": "29 distinct cluster values in [0,0.02], one at 1.0",
             "supported_case": "50 equally spaced cluster exposures from -1 to 1",
-            "lower_cluster_count_case": "20 clusters balanced across five exposure levels; product minimum_clusters set to 20",
-            "limitations": "Synthetic unconditional null challenge; does not establish conditional coverage or validate a production threshold.",
+            "lower_cluster_count_case": "20 clusters balanced across five exposure levels; held-out benchmark measured 93.58% CR1 interval coverage and P4 now withholds uncertainty under its 20 effective-information-cluster heuristic",
+            "limitations": "Synthetic unconditional null challenge; threshold is a cautious abstention rule and does not establish conditional coverage or validate a universal production cutoff.",
         },
         "method": {
             "screen": "inverse Herfindahl of n_cluster*(x_cluster-x_row_weighted_mean)^2 shares",
-            "threshold": 10,
+            "threshold": 20,
             "interpretation": "conservative abstention heuristic only, not an inferential effective sample size, df correction, or coverage guarantee",
         },
         "reference": {"name": "statsmodels clustered OLS CR1", "version": sm.__version__},
         "metrics": results,
-        "decision": "Withhold clustered uncertainty for multi-level numeric factors constant within clusters when between-cluster information is highly concentrated; retain the estimate and label the threshold heuristic. The balanced 20-cluster case matches the reference but its 93.58% coverage is counterevidence to nominal 95% behavior at this cluster count. These synthetic challenges test the refusal boundary and reference parity, not a coverage promise.",
+        "decision": "Withhold clustered uncertainty for multi-level numeric factors constant within clusters when effective between-cluster information is below 20. The balanced 20-cluster case had 93.58% reference coverage and is now withheld; the well-spread 50-cluster case remains inferential and falls within the benchmark Wilson interval. This finite synthetic challenge justifies a conservative refusal heuristic, not a universal cutoff or coverage promise.",
     }
     out = ROOT / "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json"
     out.parent.mkdir(parents=True, exist_ok=True)

@@ -359,7 +359,7 @@ def main():
     d01_spread = d01_continuous_metrics.get("spread_50_cluster_exposure", {})
     d01_five_level = d01_continuous_metrics.get("balanced_20_cluster_five_level_exposure", {})
     d01_spread_ci = d01_spread.get("product_coverage_wilson95", [1, 0])
-    d01_five_level_ci = d01_five_level.get("product_coverage_wilson95", [1, 0])
+    d01_five_level_ci = d01_five_level.get("product_coverage_wilson95")
     d01_continuous_pass = (
         d01_continuous_run.returncode == 0
         and d01_continuous.get("schema") == "p4-d01-continuous-cluster-support/v1"
@@ -372,10 +372,10 @@ def main():
         and d01_spread.get("product_inferred_trials") == d01_continuous.get("trials_per_scenario")
         and len(d01_spread_ci) == 2 and d01_spread_ci[0] <= 0.95 <= d01_spread_ci[1]
         and d01_spread.get("max_product_reference_interval_endpoint_error", float("inf")) < 1e-7
-        and d01_five_level.get("product_inferred_trials") == d01_continuous.get("trials_per_scenario")
-        and d01_five_level.get("max_product_reference_interval_endpoint_error", float("inf")) < 1e-7
-        and len(d01_five_level_ci) == 2
-        and 0.88 <= d01_five_level.get("product_coverage_among_inferred", 0) <= 0.99
+        and d01_five_level.get("product_inferred_trials") == 0
+        and d01_five_level.get("product_abstained_trials") == d01_continuous.get("trials_per_scenario")
+        and d01_five_level.get("effective_information_cluster_count", float("inf")) < 20
+        and d01_five_level.get("product_coverage_among_inferred") is None
     )
     d01_continuous_result = {
         "status": "PASS" if d01_continuous_pass else "FAIL",
@@ -387,6 +387,7 @@ def main():
         "spread_product_coverage": d01_spread.get("product_coverage_among_inferred"),
         "20_cluster_five_level_coverage_counterevidence": d01_five_level.get("product_coverage_among_inferred"),
         "20_cluster_five_level_coverage_wilson95": d01_five_level_ci,
+        "20_cluster_five_level_product_abstentions": d01_five_level.get("product_abstained_trials"),
         "runtime_dependencies_added": False,
         "scope": "synthetic numeric cluster-assignment challenge; the information-concentration threshold is abstention-only and does not establish coverage"
     }

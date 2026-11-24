@@ -376,3 +376,11 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 - Refreshed disposable P1 evidence against the 35-file current composition: manifest SHA-256 `65623fb29d566d08c289f9dc38dc769ff3bfd881d80f0d62b344daa58b1667f6`; current-source synthetic browser success/refusal, P1 route 32, frontend 61, P4 panel 26, typecheck and production build evidence are recorded. Still not P1 owner acceptance, formal accessibility, company authorization or target-host qualification.
 - The previous exact-source runner at `49f3...` failed one Python test because fixture and P1 evidence fingerprints were stale; generated release sidecars therefore remain non-final.
 - Next: commit this evidence/fixture/progress checkpoint, rebuild the archive, reproduce in two clean worktrees, verify fresh no-pip network-denied extraction, then run the full release gate runner.
+
+# D01 clustered-support refinement — 2026-11-24
+
+- Independent null challenge identified counterevidence: balanced five-level numeric exposure with 20 lots produced 93.58% nominal CR1 interval coverage over 1,200 trials. The prior 10 effective-information-cluster screen still emitted intervals.
+- Raised the multi-level cluster-assigned numeric-factor abstention heuristic to 20 effective information clusters. This does not alter point estimates or claim coverage; it withholds intervals below threshold. The independent 50-lot spread case remains inferred with 94.83% coverage matching statsmodels CR1; concentrated case remains fully withheld.
+- New direct test and held-out benchmark: D01/D02 focused suite 67 PASS; continuous-cluster benchmark 1,200 trials per scenario PASS. Product threshold is explicitly a heuristic, not a universal cutoff. One D02 exact-fixed-control test fixture now supplies adequate independent information for the expanded quadratic model; its out-of-domain evaluation test remains unchanged.
+- Current code and benchmark edits are uncommitted; previous 242-test/release PASS binds `6004b39` and is stale for the code change. MCP bridge fixture rebuilt twice at SHA `5de8504dd7d328b0a57ad44bd06c54bb10570bd28a6b2e1659347298eb028dc0`.
+- Next: run the focused bridge/evidence tests, update/requalify the disposable P1 overlay and browser against current regression source, run full Python and release checks, then rebuild/reproduce/offline-qualify the archive.

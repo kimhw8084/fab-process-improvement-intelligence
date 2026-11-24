@@ -24,7 +24,7 @@ class RegressionCancelled(Exception):
 # A numerical screening threshold for multi-level numeric predictors that are
 # constant within the covariance cluster. This is an abstention heuristic, not
 # a validated effective sample size or a coverage guarantee.
-MIN_CLUSTER_LEVEL_INFORMATION_SUPPORT = 10
+MIN_CLUSTER_LEVEL_INFORMATION_SUPPORT = 20
 
 
 def _check_cancel(cancel):
@@ -711,7 +711,7 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                               "HC3 handles heteroskedasticity but assumes independent observations",
                               "cluster covariance allows within-cluster dependence and relies on independent clusters",
                               "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
-                              "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
+                              "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 20-count threshold is a heuristic and does not guarantee coverage",
                               "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
                               "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
                               "classical covariance additionally assumes homoskedastic errors",

@@ -170,7 +170,7 @@ class RobustRegressionQualification(unittest.TestCase):
              "independent_unit_field": "lot_id", "minimum_clusters": 30})
         support = report["inference"]["cluster_level_factor_support"][0]
         self.assertEqual(support["design"], "MULTI_LEVEL_FACTOR_CONSTANT_WITHIN_CLUSTER")
-        self.assertLess(support["effective_information_cluster_count"], 10)
+        self.assertLess(support["effective_information_cluster_count"], 20)
         self.assertEqual(support["status"], "INSUFFICIENT_CLUSTER_LEVEL_SUPPORT")
         self.assertEqual(report["status"], "INCONCLUSIVE")
         self.assertIsNotNone(report["terms"]["exposure"]["estimate"])
@@ -192,10 +192,10 @@ class RobustRegressionQualification(unittest.TestCase):
              "independent_unit_field": "lot_id", "minimum_clusters": 30})
         support = report["inference"]["cluster_level_factor_support"][0]
         self.assertEqual(report["status"], "VALID")
-        self.assertGreaterEqual(support["effective_information_cluster_count"], 10)
+        self.assertGreaterEqual(support["effective_information_cluster_count"], 20)
         self.assertEqual(support["status"], "SCREEN_PASSED")
 
-    def test_five_balanced_numeric_cluster_levels_at_declared_minimum_are_not_overblocked(self):
+    def test_five_balanced_numeric_cluster_levels_with_known_undercoverage_withhold_intervals(self):
         rows = []
         for cluster in range(20):
             exposure = float((cluster % 5) - 2)
@@ -209,9 +209,12 @@ class RobustRegressionQualification(unittest.TestCase):
             {"covariance": "cluster", "cluster_field": "lot_id",
              "independent_unit_field": "lot_id", "minimum_clusters": 20})
         support = report["inference"]["cluster_level_factor_support"][0]
-        self.assertEqual(report["status"], "VALID")
-        self.assertGreaterEqual(support["effective_information_cluster_count"], 10)
-        self.assertEqual(support["status"], "SCREEN_PASSED")
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertEqual(support["minimum_required_effective_information_clusters"], 20)
+        self.assertLess(support["effective_information_cluster_count"], 20)
+        self.assertEqual(support["status"], "INSUFFICIENT_CLUSTER_LEVEL_SUPPORT")
+        self.assertIsNotNone(report["terms"]["exposure"]["estimate"])
+        self.assertIsNone(report["terms"]["exposure"]["ci95"])
 
     def test_within_lot_binary_assignment_does_not_trigger_between_lot_screen(self):
         rows = []
@@ -1362,12 +1365,18 @@ class SupportedWindowQualification(unittest.TestCase):
         data["window_exploration"]["fixed_settings"] = {"humidity": 50.0}
         for item in rows:
             lot = int(item["lot_id"].split("-")[1])
-            item["analysis_partition"] = "TRAIN" if lot < 20 else "CALIBRATION" if lot < 40 else "EVALUATION"
-            item["factors"]["humidity"] = 40.0 + 5.0 * (lot % 5)
+            item["analysis_partition"] = "TRAIN" if lot < 30 else "CALIBRATION"
+            item["factors"]["humidity"] = 40.0 if lot < 14 else 60.0 if lot < 28 else 50.0
             item["metrics"]["quality"] += 0.002 * (item["factors"]["humidity"] - 50.0)
-        for item in rows:
-            if item["analysis_partition"] == "EVALUATION":
-                item["factors"]["humidity"] = 90.0
+        template = [item for item in rows if item["lot_id"] == "LOT-00"]
+        for lot in range(50, 60):
+            for source in template:
+                item = {**source, "id": f"EVAL-{lot}-{source['id']}",
+                        "factors": {**source["factors"], "humidity": 90.0},
+                        "metrics": {**source["metrics"],
+                                    "quality": source["metrics"]["quality"] + 0.08},
+                        "lot_id": f"LOT-{lot:02d}", "analysis_partition": "EVALUATION"}
+                rows.append(item)
         data["model"]["minimum_clusters"] = 20
         data["window_exploration"]["min_independent_units"] = 20
         data["window_exploration"]["calibration"]["evaluation_value"] = "EVALUATION"

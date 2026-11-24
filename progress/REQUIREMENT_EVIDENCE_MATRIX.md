@@ -368,3 +368,10 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 | MCP→P4→panel source binding | Fixture rebuilt twice identically at SHA-256 `d933dd4ebb44c70fe34dbbb57bd21c9a0c427c2783c8f4755476179284f04a09`; bridge and release evidence focused tests 13 PASS. | Refusal fixture has empty claims/sources/artifacts; synthetic only. |
 | P1 disposable compatibility | 35-file snapshot manifest `65623fb29d566d08c289f9dc38dc769ff3bfd881d80f0d62b344daa58b1667f6`; current-source browser success/refusal and 61 frontend, 32 route, 26 P4 panel tests recorded; typecheck/build PASS. | Compatibility evidence only; P1 source is unversioned, owner acceptance and formal accessibility pending. |
 | Exact-source release | Prior runner at `49f3f0c` failed one test on stale bridge fingerprint; fixture and disposable evidence were repaired, focused tests now 13 PASS. | Rebuild archive/reproducibility/offline qualification and rerun full gate runner after commit. |
+
+## D01 numeric cluster support — 2026-11-24
+
+| Requirement | Executed evidence | Status / next action |
+|---|---|---|
+| Clustered uncertainty under weak continuous-factor support | Independent statsmodels CR1 null benchmark, 1,200 trials per scenario: at 20 balanced lots P4 withholds 1,200/1,200 intervals after observing 93.58% reference coverage and effective information count 11.76; at 50 spread lots P4 retains 1,200/1,200 intervals with 94.83% coverage (reference-matched, Wilson interval includes 95%); concentrated design withholds 1,200/1,200. Focused D01/D02: 67 PASS. | Threshold 20 is a conservative abstention heuristic only; no conditional or production coverage guarantee. Full regression/P1/archive qualification pending. |
+| Current source bridge | Regenerated twice identically: `5de8504dd7d328b0a57ad44bd06c54bb10570bd28a6b2e1659347298eb028dc0`. | P1 disposable source pin and live browser require refresh after the regression change. |
