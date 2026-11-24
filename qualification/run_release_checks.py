@@ -63,7 +63,7 @@ def disposable_bridge_snapshot_matches(snapshot, bridge_evidence, current_fixtur
     )
 
 
-def disposable_p1_browser_workflow_matches(browser):
+def disposable_p1_browser_workflow_matches(browser, current_p4_source_commit):
     refusal = browser.get("permission_refusal") if isinstance(browser, dict) else None
     return (
         browser.get("status") == "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL"
@@ -75,6 +75,7 @@ def disposable_p1_browser_workflow_matches(browser):
         and refusal.get("fixture_values") == "suppressed"
         and refusal.get("analysis") == "not performed"
         and set(browser.get("capabilities", [])) == {"D01", "D02", "D03", "D04", "D05"}
+        and browser.get("p4_source_commit") == current_p4_source_commit
     )
 
 
@@ -331,6 +332,48 @@ def main():
             "minimum_near_collinear_to_baseline_interval_width_ratio"),
         "runtime_dependencies_added": False,
         "scope": "fixed-design known-effect synthetic sensitivity; heuristic thresholds expose instability but do not certify identifiability or model correctness"
+    }
+
+    d01_continuous_path = ROOT / "qualification" / "results" / "D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json"
+    d01_continuous_run, _ = run([sys.executable, "-m", "qualification.benchmark_d01_continuous_cluster_support"])
+    d01_continuous = json.loads(d01_continuous_path.read_text(encoding="utf-8")) if d01_continuous_path.exists() else {}
+    d01_continuous_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d01_continuous_cluster_support.py").read_bytes()).hexdigest()
+    d01_continuous_metrics = d01_continuous.get("metrics", {})
+    d01_concentrated = d01_continuous_metrics.get("concentrated_30_cluster_exposure", {})
+    d01_spread = d01_continuous_metrics.get("spread_50_cluster_exposure", {})
+    d01_five_level = d01_continuous_metrics.get("balanced_20_cluster_five_level_exposure", {})
+    d01_spread_ci = d01_spread.get("product_coverage_wilson95", [1, 0])
+    d01_five_level_ci = d01_five_level.get("product_coverage_wilson95", [1, 0])
+    d01_continuous_pass = (
+        d01_continuous_run.returncode == 0
+        and d01_continuous.get("schema") == "p4-d01-continuous-cluster-support/v1"
+        and d01_continuous.get("qualification") == "PASS"
+        and d01_continuous.get("trials_per_scenario", 0) >= 1000
+        and d01_continuous.get("product_source_sha256") == d01_source_hash
+        and d01_continuous.get("benchmark_script_sha256") == d01_continuous_script_hash
+        and d01_concentrated.get("product_abstained_trials") == d01_continuous.get("trials_per_scenario")
+        and d01_concentrated.get("statsmodels_reference_false_positive_rate", 0) >= 0.20
+        and d01_spread.get("product_inferred_trials") == d01_continuous.get("trials_per_scenario")
+        and len(d01_spread_ci) == 2 and d01_spread_ci[0] <= 0.95 <= d01_spread_ci[1]
+        and d01_spread.get("max_product_reference_interval_endpoint_error", float("inf")) < 1e-7
+        and d01_five_level.get("product_inferred_trials") == d01_continuous.get("trials_per_scenario")
+        and d01_five_level.get("max_product_reference_interval_endpoint_error", float("inf")) < 1e-7
+        and len(d01_five_level_ci) == 2
+        and 0.88 <= d01_five_level.get("product_coverage_among_inferred", 0) <= 0.99
+    )
+    d01_continuous_result = {
+        "status": "PASS" if d01_continuous_pass else "FAIL",
+        "evidence": "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
+        "source_hash_matches": d01_continuous.get("product_source_sha256") == d01_source_hash,
+        "trials_per_scenario": d01_continuous.get("trials_per_scenario"),
+        "concentrated_reference_false_positive_rate": d01_concentrated.get("statsmodels_reference_false_positive_rate"),
+        "concentrated_product_abstentions": d01_concentrated.get("product_abstained_trials"),
+        "spread_product_coverage": d01_spread.get("product_coverage_among_inferred"),
+        "20_cluster_five_level_coverage_counterevidence": d01_five_level.get("product_coverage_among_inferred"),
+        "20_cluster_five_level_coverage_wilson95": d01_five_level_ci,
+        "runtime_dependencies_added": False,
+        "scope": "synthetic numeric cluster-assignment challenge; the information-concentration threshold is abstention-only and does not establish coverage"
     }
 
     mcp, mcp_output = run([sys.executable, "-m", "fabintel", "mcp-test", "--config",
@@ -762,6 +805,7 @@ def main():
                               and p1_pin.get("engine_sha256") == current_p4_hashes["engine_sha256"]
                               and p1_pin.get("engine_version") == "1.2.0"
                               and disposable_bridge_snapshot_matches(p1_snapshot, p1_bridge, p1_bridge_fixture_sha256))
+    p1_browser_current_source_match = p1_browser.get("p4_source_commit") == evaluated_commit
     p1_disposable_host_pass = (
         p1_source_hashes_match
         and
@@ -772,11 +816,11 @@ def main():
         and p1_host_checks.get("p1_production_build", {}).get("status") == "PASS"
         and p1_host_checks.get("p1_host_route_tests", {}).get("status") == "PASS"
         and p1_host_checks.get("p4_panel_tests", {}).get("status") == "PASS"
-        and disposable_p1_browser_workflow_matches(p1_browser)
+        and disposable_p1_browser_workflow_matches(p1_browser, evaluated_commit)
     )
     p1_gate_reason = (
         "the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; its previous synthetic browser run is stale and provides no current-source host integration evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending"
-        if not p1_source_hashes_match else
+        if not p1_source_hashes_match or not p1_browser_current_source_match else
         "current P4 source passed only the recorded synthetic workflow and refusal inside an unversioned disposable P1 composition; authoritative P1 ownership, owner acceptance, formal accessibility, and target-host behavior remain pending")
     ui_result = {"status": "PASS_LOCAL_MODULE_ONLY" if ui_component_pass else "NOT_RUN_OR_FAIL",
                  "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
@@ -789,6 +833,7 @@ def main():
                      "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
                      "scope": p1_host_evidence.get("scope", "not verified"),
                      "current_p4_source_hashes_match": p1_source_hashes_match,
+                     "browser_evidence_matches_current_p4_commit": p1_browser_current_source_match,
                      "p1_owner_and_source_version": "PENDING",
                      "formal_accessibility": "PENDING"
                  }}
@@ -821,7 +866,7 @@ def main():
     qualification_pass = (
         test_pass and demo_result["status"] == "PASS" and schema_status == "PASS"
         and frozen_pass and critical_pass
-        and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass
+        and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass and d01_continuous_pass
         and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass
         and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass
         and d03_bounded_pass and d03_zero_pass and mcp_pass and mcp_sdk_pass
@@ -840,6 +885,7 @@ def main():
                "d04_oss_benchmark": benchmark_result,
                "d01_cluster_imbalance_benchmark": d01_imbalance_result,
                "d01_cluster_exposure_support_benchmark": d01_exposure_result,
+               "d01_continuous_cluster_support_benchmark": d01_continuous_result,
                "d02_replicate_shift_benchmark": d02_replicate_result,
                "d02_adaptive_selection_benchmark": d02_selection_result,
                "d02_actual_selector_interpolation_benchmark": d02_actual_selector_result,
@@ -873,6 +919,7 @@ def main():
         "d01_cluster_exposure_support_benchmark": d01_exposure_result,
         "d01_crossed_dependence_benchmark": d01_cross_result,
         "d01_conditioning_benchmark": d01_condition_result,
+        "d01_continuous_cluster_support_benchmark": d01_continuous_result,
         "d02_replicate_shift_benchmark": d02_replicate_result,
         "d02_adaptive_selection_benchmark": d02_selection_result,
         "d02_actual_selector_interpolation_benchmark": d02_actual_selector_result,
@@ -891,7 +938,7 @@ def main():
         "frozen_shared_contracts": {"status": "PASS" if frozen_pass else "FAIL", "fingerprints_match_starter": contract_hash},
         "gates": {
             "E01": {"status": "PASS" if demo_result["status"] == "PASS" else "FAIL", "evidence": ["release/full_workflow_demo_evidence.json", "release/TEST_LOG.txt"], "scope": "synthetic end-to-end capability flow"},
-            "E02": {"status": "PASS" if critical_pass and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass and d02_stratified_pass and d04_pass and d03_bounded_pass and d03_zero_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d02_actual_selector_benchmark.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d01_cluster_imbalance.py", "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json", "qualification/benchmark_d01_exposure_support.py", "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json", "qualification/benchmark_d01_crossed_dependence.py", "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json", "qualification/benchmark_d01_conditioning.py", "qualification/results/D01_CONDITIONING_BENCHMARK.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_adaptive_selection.py", "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json", "qualification/benchmark_d02_actual_selector.py", "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d02_stratum_transfer.py", "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json", "qualification/benchmark_d02_response_drift.py", "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json", "qualification/benchmark_d02_stratified_calibration.py", "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "qualification/benchmark_d03_zero_variance.py", "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary exposure, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks"},
+            "E02": {"status": "PASS" if critical_pass and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass and d01_continuous_pass and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass and d02_stratified_pass and d04_pass and d03_bounded_pass and d03_zero_pass and performance_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_d01_d02_independent.py", "tests/test_d02_actual_selector_benchmark.py", "tests/test_d03_relationships.py", "tests/test_d04_designs.py", "tests/test_d05_studies.py", "fixtures/p4_independent_oracles.json", "qualification/critical_cases.json", "qualification/benchmark_d01_cluster_imbalance.py", "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json", "qualification/benchmark_d01_exposure_support.py", "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json", "qualification/benchmark_d01_crossed_dependence.py", "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json", "qualification/benchmark_d01_conditioning.py", "qualification/results/D01_CONDITIONING_BENCHMARK.json", "qualification/benchmark_d01_continuous_cluster_support.py", "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json", "qualification/benchmark_d02_replicate_shift.py", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json", "qualification/benchmark_d02_adaptive_selection.py", "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json", "qualification/benchmark_d02_actual_selector.py", "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json", "qualification/benchmark_d02_simultaneous.py", "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json", "qualification/benchmark_d02_stratum_transfer.py", "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json", "qualification/benchmark_d02_response_drift.py", "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json", "qualification/benchmark_d02_stratified_calibration.py", "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json", "qualification/benchmark_d03_bounded_mean.py", "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json", "qualification/benchmark_d03_zero_variance.py", "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json", "release/D04_OSS_COMPARISON.json", "release/BENCHMARK_REPORT.json", "release/TEST_RESULTS.json"], "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary and concentrated continuous exposure, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks"},
             "E03": {"status": "PASS" if critical_pass else "FAIL", "evidence": ["tests/test_p4_scientific.py", "tests/test_offline_server.py"], "scope": "unsafe, invalid, leakage, permission, cancellation and host/origin cases"},
             "E04": {"status": "PASS" if frozen_pass and schema_status == "PASS" else "FAIL", "evidence": ["contracts/", "products/p4/investigation.v1.schema.json", "release/SCHEMA_VALIDATION.json"]},
             "E05": {"status": "PENDING_INTERNAL", "evidence": ["qualification/first_run.py", "qualification/internal-capability-report.v1.schema.json"], "reason": "real authorization, approved semantics, bounded reads and source audit are unavailable externally"},

@@ -153,6 +153,64 @@ class RobustRegressionQualification(unittest.TestCase):
         self.assertEqual(report["inference"]["cluster_level_factor_support"][0]["cluster_count_by_level"], [10, 20])
         self.assertEqual(report["inference"]["cluster_level_factor_support"][0]["status"], "SCREEN_PASSED")
 
+    def test_concentrated_continuous_cluster_exposure_withholds_uncertainty(self):
+        rows = []
+        for cluster in range(30):
+            exposure = 0.02 * cluster / 28 if cluster < 29 else 1.0
+            for replicate in range(8):
+                outcome = math.sin(cluster * 1.7) + 0.08 * math.cos(replicate * 0.9)
+                rows.append({"id": f"CONCENTRATED-{cluster}-{replicate}",
+                             "factors": {"exposure": exposure}, "metrics": {"y": outcome},
+                             "lot_id": f"LOT-{cluster:02d}"})
+        report, model = fit_linear_model(
+            rows, {"exposure": {"role": "measured", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 30})
+        support = report["inference"]["cluster_level_factor_support"][0]
+        self.assertEqual(support["design"], "MULTI_LEVEL_FACTOR_CONSTANT_WITHIN_CLUSTER")
+        self.assertLess(support["effective_information_cluster_count"], 10)
+        self.assertEqual(support["status"], "INSUFFICIENT_CLUSTER_LEVEL_SUPPORT")
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertIsNotNone(report["terms"]["exposure"]["estimate"])
+        self.assertIsNone(report["terms"]["exposure"]["ci95"])
+        self.assertEqual(model.predict({"exposure": 0.5})["status"], "UNCERTAINTY_UNAVAILABLE")
+
+    def test_well_spread_continuous_cluster_exposure_passes_concentration_screen(self):
+        rows = []
+        for cluster in range(50):
+            exposure = -1.0 + 2.0 * cluster / 49
+            for replicate in range(8):
+                outcome = math.sin(cluster * 1.7) + 0.08 * math.cos(replicate * 0.9)
+                rows.append({"id": f"SPREAD-{cluster}-{replicate}",
+                             "factors": {"exposure": exposure}, "metrics": {"y": outcome},
+                             "lot_id": f"LOT-{cluster:02d}"})
+        report, _ = fit_linear_model(
+            rows, {"exposure": {"role": "measured", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 30})
+        support = report["inference"]["cluster_level_factor_support"][0]
+        self.assertEqual(report["status"], "VALID")
+        self.assertGreaterEqual(support["effective_information_cluster_count"], 10)
+        self.assertEqual(support["status"], "SCREEN_PASSED")
+
+    def test_five_balanced_numeric_cluster_levels_at_declared_minimum_are_not_overblocked(self):
+        rows = []
+        for cluster in range(20):
+            exposure = float((cluster % 5) - 2)
+            for replicate in range(8):
+                outcome = math.sin(cluster * 1.7) + 0.08 * math.cos(replicate * 0.9)
+                rows.append({"id": f"FIVE-LEVEL-{cluster}-{replicate}",
+                             "factors": {"exposure": exposure}, "metrics": {"y": outcome},
+                             "lot_id": f"LOT-{cluster:02d}"})
+        report, _ = fit_linear_model(
+            rows, {"exposure": {"role": "measured", "unit": "u"}}, "y",
+            {"covariance": "cluster", "cluster_field": "lot_id",
+             "independent_unit_field": "lot_id", "minimum_clusters": 20})
+        support = report["inference"]["cluster_level_factor_support"][0]
+        self.assertEqual(report["status"], "VALID")
+        self.assertGreaterEqual(support["effective_information_cluster_count"], 10)
+        self.assertEqual(support["status"], "SCREEN_PASSED")
+
     def test_within_lot_binary_assignment_does_not_trigger_between_lot_screen(self):
         rows = []
         for cluster in range(30):

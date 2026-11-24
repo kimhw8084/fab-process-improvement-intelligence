@@ -104,6 +104,7 @@ class DisposableSnapshotEvidenceTests(unittest.TestCase):
         browser = {
             "status": "PASS_SYNTHETIC_WORKFLOW_AND_REFUSAL",
             "success_request": "COMPLETED",
+            "p4_source_commit": "CURRENT-SOURCE",
             "capabilities": ["D01", "D02", "D03", "D04", "D05"],
             "permission_refusal": {
                 "status": "REFUSED", "source_status": "ACCESS_REFUSED",
@@ -111,11 +112,12 @@ class DisposableSnapshotEvidenceTests(unittest.TestCase):
                 "analysis": "not performed",
             },
         }
-        self.assertTrue(disposable_p1_browser_workflow_matches(browser))
+        self.assertTrue(disposable_p1_browser_workflow_matches(browser, "CURRENT-SOURCE"))
+        self.assertFalse(disposable_p1_browser_workflow_matches(browser, "STALE-SOURCE"))
         changed = {**browser, "permission_refusal": {**browser["permission_refusal"], "fixture_values": "visible"}}
-        self.assertFalse(disposable_p1_browser_workflow_matches(changed))
-        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "permission_refusal": "REFUSED"}))
-        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "capabilities": ["D01"]}))
+        self.assertFalse(disposable_p1_browser_workflow_matches(changed, "CURRENT-SOURCE"))
+        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "permission_refusal": "REFUSED"}, "CURRENT-SOURCE"))
+        self.assertFalse(disposable_p1_browser_workflow_matches({**browser, "capabilities": ["D01"]}, "CURRENT-SOURCE"))
         self.assertFalse(disposable_snapshot_fingerprint_matches({"files": 1, "file_sha256": {"x": "bad"},
                                                                   "sha256": "a" * 64,
                                                                   "manifest_sha256": "a" * 64}))
