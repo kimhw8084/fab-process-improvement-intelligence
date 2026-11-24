@@ -15,7 +15,7 @@ from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
 from products.p4.design import (assign_blocks, propose_design, propose_multiobjective_next_best,
                                 propose_window_confirmation, DesignError)
 
-ENGINE_VERSION = "1.2.3"
+ENGINE_VERSION = "1.2.4"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10
@@ -443,6 +443,52 @@ def _mean_difference_interval(treated, control):
     return estimate, se, df, [estimate - tcrit * se, estimate + tcrit * se]
 
 
+def _randomization_cluster_means(study, records, ledger, metric, fields, attrition):
+    """Build equal-cluster outcome means only for a fully declared cluster-randomized design."""
+    field = study.get("randomization_cluster_field")
+    if not isinstance(field, str) or not field.strip() or field not in fields:
+        return None, "randomization_cluster_field must name one of shared_dependence_fields"
+    if any(attrition[group]["missing_outcome"] for group in attrition):
+        return None, "cluster-randomized inference requires a complete outcome for every assigned unit"
+    units = {}
+    for item in ledger:
+        groups = item.get("shared_groups")
+        cluster = groups.get(field) if isinstance(groups, dict) else None
+        if not isinstance(cluster, str) or not cluster.strip():
+            return None, "every assignment-ledger unit must declare its randomization cluster in shared_groups"
+        units[item["unit_id"]] = {"group": item["group"], "cluster": cluster}
+    observed_ids = {row.get("unit_id") for row in records}
+    if observed_ids != set(units):
+        return None, "cluster-randomized analysis requires complete assignment and outcome records"
+    clusters = {}
+    for item in units.values():
+        cluster = item["cluster"]
+        existing = clusters.setdefault(cluster, {"group": item["group"], "members": []})
+        if existing["group"] != item["group"]:
+            return None, "a declared randomization cluster contains both treatment and control assignments"
+    for row in records:
+        unit = units[row["unit_id"]]
+        if row.get(field) != unit["cluster"]:
+            return None, "observation cluster values do not match the assignment ledger"
+        clusters[unit["cluster"]]["members"].append(row)
+    for dependence_field in fields:
+        value_clusters = {}
+        for row in records:
+            value_clusters.setdefault(row[dependence_field], set()).add(units[row["unit_id"]]["cluster"])
+        if any(len(cluster_ids) > 1 for cluster_ids in value_clusters.values()):
+            return None, f"declared dependence field {dependence_field} spans multiple randomization clusters; cluster-level independence is unsupported"
+    grouped = {"treatment": [], "control": []}
+    for cluster in clusters.values():
+        members = cluster["members"]
+        outcomes = [float(row[metric]) for row in members if _finite_number(row.get(metric))]
+        if len(outcomes) != len(members) or not members:
+            return None, "every randomization cluster must have complete, finite outcomes"
+        grouped[cluster["group"]].append({"outcome_mean": mean(outcomes), "members": members})
+    if min(len(grouped["treatment"]), len(grouped["control"])) < 5:
+        return None, "at least five independent randomization clusters per arm are required for this qualified Welch approximation"
+    return grouped, None
+
+
 def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metric_defs):
     """Attach the engineering objective and decision context to every DOE plan."""
     if not isinstance(plan, dict) or plan.get("status") != "PROPOSED":
@@ -703,17 +749,23 @@ def _effectiveness(data, metric_defs=None):
                              "missing_outcome": len(assigned[group])-len(observed[group]),
                              "rate": (len(assigned[group])-len(observed[group]))/len(assigned[group]) if assigned[group] else None}
                     for group in assigned}
-        if dependence_diagnostic.get("status") == "SHARED_GROUPS_DETECTED":
-            complete_outcomes = not any(attrition[group]["missing_outcome"] for group in attrition)
-            descriptive_difference = (mean(observed["treatment"]) - mean(observed["control"])
-                                      if complete_outcomes and observed["treatment"] and observed["control"] else None)
-            return {"status": "INCONCLUSIVE", "design": design, "metric": metric,
-                    "descriptive_observed_difference": descriptive_difference,
-                    "estimate_scope": "unadjusted observed-arm contrast only; no inferential interval or causal effect is reported",
-                    "uncertainty_status": "WITHHELD_SHARED_GROUP_DEPENDENCE",
-                    "dependence_diagnostic": dependence_diagnostic, "attrition": attrition,
-                    "reason": "declared dependence groups span assigned units; identify the randomization unit and provide a qualified cluster-aware analysis with adequate independent groups",
-                    "causal_claim": False}
+        cluster_randomization = None
+        if (dependence_diagnostic.get("status") == "SHARED_GROUPS_DETECTED"
+                or study.get("randomization_cluster_field") is not None):
+            cluster_randomization, cluster_error = _randomization_cluster_means(
+                study, records, ledger, metric, declared_fields, attrition)
+            if cluster_error:
+                complete_outcomes = not any(attrition[group]["missing_outcome"] for group in attrition)
+                descriptive_difference = (mean(observed["treatment"]) - mean(observed["control"])
+                                          if complete_outcomes and observed["treatment"] and observed["control"] else None)
+                return {"status": "INCONCLUSIVE", "design": design, "metric": metric,
+                        "descriptive_observed_difference": descriptive_difference,
+                        "estimate_scope": "unadjusted observed-arm contrast only; no inferential interval or causal effect is reported",
+                        "uncertainty_status": "WITHHELD_SHARED_GROUP_DEPENDENCE",
+                        "dependence_diagnostic": dependence_diagnostic, "attrition": attrition,
+                        "reason": cluster_error if study.get("randomization_cluster_field") else
+                                  "declared dependence groups span assigned units; identify the randomization unit and provide a qualified cluster-aware analysis with adequate independent groups",
+                        "causal_claim": False}
         cointerventions = {group: {str(row.get("concurrent_intervention_id", "none")) for row in members}
                            for group, members in assigned.items()}
         if study.get("differential_concurrent_intervention") is True or cointerventions["treatment"] != cointerventions["control"]:
@@ -745,8 +797,12 @@ def _effectiveness(data, metric_defs=None):
                     "causal_claim": False,
                     "qualification": "worst-case bounds only; no point effect or causal certainty is claimed"}
         treated, control = observed["treatment"], observed["control"]
-        if len(treated) < 2 or len(control) < 2:
-            return {"status": "INCONCLUSIVE", "reason": "at least two independent units per randomized arm are required", "attrition": attrition, "causal_claim": False}
+        if cluster_randomization is not None:
+            treated = [item["outcome_mean"] for item in cluster_randomization["treatment"]]
+            control = [item["outcome_mean"] for item in cluster_randomization["control"]]
+        minimum_clusters = min(len(treated), len(control))
+        if minimum_clusters < 2:
+            return {"status": "INCONCLUSIVE", "reason": "at least two independent analysis units per randomized arm are required", "attrition": attrition, "causal_claim": False}
         estimate, se, df, interval = _mean_difference_interval(treated, control)
         baseline = {}
         baseline_fields = study.get("baseline_covariates", [])
@@ -756,20 +812,37 @@ def _effectiveness(data, metric_defs=None):
             if any(not _finite_number(row.get(field)) for row in records):
                 baseline[field] = {"status": "NOT_AVAILABLE"}
                 continue
-            values = {group: [float(row[field]) for row in assigned[group]] for group in assigned}
+            if cluster_randomization is None:
+                values = {group: [float(row[field]) for row in assigned[group]] for group in assigned}
+            else:
+                values = {group: [mean([float(row[field]) for row in item["members"]])
+                                  for item in cluster_randomization[group]] for group in assigned}
             pool_var = ((len(values["treatment"])-1)*variance(values["treatment"])
-                        +(len(values["control"])-1)*variance(values["control"]))/(len(records)-2)
+                        +(len(values["control"])-1)*variance(values["control"]))/(len(values["treatment"])+len(values["control"])-2)
             smd = (mean(values["treatment"])-mean(values["control"]))/sqrt(pool_var) if pool_var > 0 else None
             baseline[field] = {"standardized_mean_difference": smd,
                                "imbalance_flag_abs_smd_over_0_1": abs(smd) > 0.1 if smd is not None else None}
         return {"status": "ESTIMATED", "design": "randomized two-arm difference in means", "metric": metric,
-                "intervention_id": study["intervention_id"], "treatment_n": len(treated), "control_n": len(control),
+                "intervention_id": study["intervention_id"], "treatment_n": len(assigned["treatment"]), "control_n": len(assigned["control"]),
                 "estimate": estimate, "se": se, "welch_df": df, "ci95_welch_t_approximation": interval,
+                "inference_unit": "declared_randomization_cluster" if cluster_randomization is not None else "assigned_independent_unit",
+                "inference_method": ("Welch t interval over equally weighted declared randomization-cluster means"
+                                     if cluster_randomization is not None else
+                                     "Welch t interval over assigned independent-unit outcomes"),
+                "inference_unit_counts": {group: len(cluster_randomization[group]) for group in cluster_randomization}
+                    if cluster_randomization is not None else {"treatment": len(treated), "control": len(control)},
                 "attrition": attrition, "baseline_balance": baseline,
                 "dependence_diagnostic": dependence_diagnostic,
-                "causal_claim": True, "assumptions": ["valid documented random allocation", "independent units; P4 does not detect undeclared shared shocks", "no interference", "consistent outcome measurement"],
-                "diagnostics": {"small_sample_warning": min(len(treated), len(control)) < 10,
+                "causal_claim": True, "assumptions": (["valid documented random allocation to the declared clusters",
+                                                        "independent clusters; undeclared shared shocks are not detected",
+                                                        "equal weight per randomization cluster defines the estimand",
+                                                        "cluster-mean Welch approximation requires approximately normal independent clusters; five clusters per arm is not a universal guarantee",
+                                                        "no interference across clusters", "complete, consistently measured outcomes"]
+                                                       if cluster_randomization is not None else
+                                                       ["valid documented random allocation", "independent units; P4 does not detect undeclared shared shocks", "no interference", "consistent outcome measurement"]),
+                "diagnostics": {"small_sample_warning": minimum_clusters < 10,
                                 "assignment_unit_count": len(ledger_ids),
+                                "randomization_cluster_field": study.get("randomization_cluster_field") if cluster_randomization is not None else None,
                                 "dependence_status": dependence_diagnostic.get("status"),
                                 "concurrent_intervention_ids": {group: sorted(values) for group, values in cointerventions.items()}},
                 "sensitivity": {"type": "outcome_attrition", "missing_outcomes": 0,

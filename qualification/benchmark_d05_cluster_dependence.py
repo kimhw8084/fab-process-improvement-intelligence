@@ -107,6 +107,7 @@ def run(trials: int = 1000, seed: int = 20261124) -> dict:
         "source_commit": subprocess.run(["git", "rev-parse", "HEAD"], cwd=ROOT, check=True,
                                          capture_output=True, text=True).stdout.strip(),
         "engine_sha256": hashlib.sha256((ROOT / "products/p4/engine.py").read_bytes()).hexdigest(),
+        "regression_sha256": hashlib.sha256((ROOT / "products/p4/regression.py").read_bytes()).hexdigest(),
         "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
     }
     return {

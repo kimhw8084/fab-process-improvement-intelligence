@@ -504,6 +504,25 @@ describe("P4 headless suite module", () => {
     expect(within(table).getByRole("row", { name: /ci95_welch_t_approximation/ }).textContent).toContain("Not provided");
   });
 
+  it("shows the randomization-cluster estimand and effective inference counts", () => {
+    const challenged = structuredClone(evidence);
+    const dossier = challenged.artifacts?.[0] as Record<string, unknown>;
+    dossier.D05_effectiveness = {
+      status: "ESTIMATED", design: "randomized", estimate: 0.2, se: 0.3, welch_df: 8,
+      ci95_welch_t_approximation: [-0.49, 0.89], causal_claim: true,
+      inference_unit: "declared_randomization_cluster",
+      inference_method: "Welch t interval over equally weighted declared randomization-cluster means",
+      inference_unit_counts: { treatment: 5, control: 5 },
+      assumptions: ["equal weight per randomization cluster defines the estimand"],
+    };
+    render(<P4Panel sourcePreview={sourcePreview} evidence={challenged} />);
+    const d05 = screen.getByRole("region", { name: "D05 · Change effectiveness" });
+    expect(within(d05).getByText(/equal weight per declared assignment cluster/)).toBeTruthy();
+    const table = within(d05).getByRole("table", { name: "Uncertainty and sensitivity" });
+    expect(within(table).getByRole("row", { name: /inference_unit_counts/ }).textContent).toContain('"treatment":5');
+    expect(within(table).getByRole("row", { name: /inference_method/ }).textContent).toContain("cluster means");
+  });
+
   it("shows arm-specific cointervention frequencies and withholds the DiD gate on imbalance", () => {
     const challenged = JSON.parse(JSON.stringify(evidence)) as P4Evidence;
     const dossier = challenged.artifacts?.[0] as Record<string, unknown>;

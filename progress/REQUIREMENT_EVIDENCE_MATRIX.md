@@ -1,3 +1,11 @@
+# Latest requirement evidence — D05 declared cluster-randomized inference (2026-11-24)
+
+| Requirement | Executed evidence | Status / remaining limit |
+|---|---|---|
+| D05 randomized clustered studies | Explicitly declared cluster-randomization field; validated assignment-ledger/row agreement, one arm per cluster, complete outcomes, no declared shared-dependence field crossing clusters, and ≥5 independent clusters per arm. Welch interval uses equally weighted cluster means; UI displays inference unit/method/counts. Fractional-df t critical value now conservatively bounds the low-df table interval. | Approximate independent-cluster inference only. Requires valid randomization, exchangeable independent clusters, no interference, complete consistent outcomes, and approximate normality. Five clusters per arm is not a universal guarantee; unlisted dependence remains undetected. |
+| Independent challenge | Six held-out null scenarios (5/10/20 clusters per arm; normal and standardized t(4) cluster shocks), 1,000 trials each. SciPy exact t quantiles over independent equal-cluster means. P4 coverage 95.0–97.2%; every interval contains the oracle interval; all Wilson lower bounds >0.90. | Synthetic benchmark only; no FAB population, informative cluster size, arbitrary covariance, or production guarantee. |
+| Current implementation verification | D05 + schema/UI focused tests: 49 PASS. D05 benchmark: PASS. Current-source browser/P1 evidence is stale for engine 1.2.4. | Full release runner and artifact requalification next. E07 remains pending; no authoritative P1 owner/source acceptance or formal accessibility. |
+
 # Latest requirement evidence — D05 shared-cluster uncertainty challenge (2026-11-24)
 
 | Requirement | Executed evidence | Status / remaining limit |

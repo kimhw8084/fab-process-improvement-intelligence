@@ -58,7 +58,7 @@ def _label(value):
 
 
 def critical_t_975(df):
-    """Two-sided 95% Student-t critical value, with a Cornish-Fisher tail."""
+    """Two-sided 95% t critical value; fractional small-df and asymptotic paths are conservative."""
     if not isinstance(df, (int, float)) or df < 1:
         raise ValueError("degrees of freedom must be at least one")
     table = [12.7062047364, 4.30265272975, 3.18244630528, 2.7764451052,
@@ -69,14 +69,18 @@ def critical_t_975(df):
              2.07961384473, 2.0738730679, 2.06865761042, 2.06389856163,
              2.05953855275, 2.05552943864, 2.05183051648, 2.0484071418,
              2.04522964213, 2.0422724563]
-    if int(df) == df and 1 <= int(df) <= len(table):
-        return table[int(df) - 1]
+    # Welch-Satterthwaite degrees of freedom are commonly fractional. Using a
+    # high-df expansion there can undershoot the exact t critical value at low
+    # df. The table is monotone, so flooring within its range is conservative.
+    if 1 <= float(df) < len(table) + 1:
+        return table[min(len(table) - 1, max(0, floor(float(df)) - 1))]
     v = float(df)
     z = 1.959963984540054
-    z2 = z * z
-    return (z + (z**3 + z) / (4*v)
-            + (5*z**5 + 16*z**3 + 3*z) / (96*v**2)
-            + (3*z**7 + 19*z**5 + 17*z**3 - 15*z) / (384*v**3))
+    expansion = (z + (z**3 + z) / (4*v)
+                 + (5*z**5 + 16*z**3 + 3*z) / (96*v**2)
+                 + (3*z**7 + 19*z**5 + 17*z**3 - 15*z) / (384*v**3)
+                 + (79*z**9 + 776*z**7 + 1482*z**5 - 1920*z**3 - 945*z) / (92160*v**4))
+    return expansion + 1e-7
 
 
 def _dot(a, b):

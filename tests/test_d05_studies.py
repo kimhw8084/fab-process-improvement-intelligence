@@ -17,6 +17,26 @@ def randomized_study():
             "baseline_covariates": ["baseline_temp"], "observations": rows}
 
 
+def cluster_randomized_study(clusters_per_arm=5):
+    rows, ledger = [], []
+    for group, offset in (("treatment", 0.2), ("control", 0.0)):
+        for cluster_index in range(clusters_per_arm):
+            cluster = f"SYN-{group}-chamber-{cluster_index}"
+            chamber_effect = float(cluster_index - (clusters_per_arm - 1) / 2)
+            for lot_index in range(4):
+                unit_id = f"SYN-{group}-{cluster_index}-{lot_index}"
+                outcome = 100 + chamber_effect + offset + (lot_index - 1.5) * 0.05
+                rows.append({"unit_id": unit_id, "group": group, "quality": outcome,
+                             "chamber_id": cluster, "baseline_temp": 50 + chamber_effect})
+                ledger.append({"unit_id": unit_id, "group": group,
+                               "shared_groups": {"chamber_id": cluster}})
+    return {"authorized": True, "design": "randomized", "randomized": True,
+            "intervention_id": "SYN-CLUSTER-INTERVENTION", "authorization_id": "SYN-CLUSTER-AUTH",
+            "randomization_evidence": "SYN-CLUSTER-ALLOC", "metric": "quality",
+            "shared_dependence_fields": ["chamber_id"], "randomization_cluster_field": "chamber_id",
+            "assignment_ledger": ledger, "observations": rows}
+
+
 class EffectivenessQualification(unittest.TestCase):
     def test_randomized_estimate_reports_attrition_baseline_balance_and_small_sample_warning(self):
         result = _effectiveness({"effectiveness": randomized_study()})
@@ -41,6 +61,51 @@ class EffectivenessQualification(unittest.TestCase):
         self.assertAlmostEqual(result["descriptive_observed_difference"], 3.0)
         self.assertNotIn("ci95_welch_t_approximation", result)
         self.assertFalse(result["causal_claim"])
+
+    def test_explicit_cluster_randomization_uses_cluster_means_and_counts(self):
+        study = cluster_randomized_study()
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "ESTIMATED")
+        self.assertEqual(result["inference_unit"], "declared_randomization_cluster")
+        self.assertEqual(result["inference_unit_counts"], {"treatment": 5, "control": 5})
+        self.assertEqual((result["treatment_n"], result["control_n"]), (20, 20))
+        self.assertAlmostEqual(result["estimate"], 0.2, places=10)
+        self.assertEqual(result["dependence_diagnostic"]["status"], "SHARED_GROUPS_DETECTED")
+        self.assertIn("equal weight per randomization cluster defines the estimand", result["assumptions"])
+
+    def test_cluster_randomization_refuses_missing_ledger_mapping_mixed_arms_and_sparse_clusters(self):
+        study = cluster_randomized_study()
+        study["assignment_ledger"][0].pop("shared_groups")
+        missing_mapping = _effectiveness({"effectiveness": study})
+        self.assertEqual(missing_mapping["status"], "INCONCLUSIVE")
+        self.assertIn("every assignment-ledger unit", missing_mapping["reason"])
+
+        study = cluster_randomized_study()
+        study["assignment_ledger"][0]["shared_groups"]["chamber_id"] = "SYN-control-chamber-0"
+        mixed_assignment = _effectiveness({"effectiveness": study})
+        self.assertEqual(mixed_assignment["status"], "INCONCLUSIVE")
+        self.assertIn("both treatment and control", mixed_assignment["reason"])
+
+        study = cluster_randomized_study(clusters_per_arm=4)
+        sparse = _effectiveness({"effectiveness": study})
+        self.assertEqual(sparse["status"], "INCONCLUSIVE")
+        self.assertIn("at least five independent", sparse["reason"])
+
+    def test_cluster_randomization_refuses_observation_ledger_cluster_mismatch(self):
+        study = cluster_randomized_study()
+        study["observations"][0]["chamber_id"] = "SYN-MISMATCH"
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertIn("do not match the assignment ledger", result["reason"])
+
+    def test_cluster_randomization_refuses_declared_crossed_dependence(self):
+        study = cluster_randomized_study()
+        study["shared_dependence_fields"].append("tool_id")
+        for index, row in enumerate(study["observations"]):
+            row["tool_id"] = f"SYN-TOOL-{index % 2}"
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertIn("spans multiple randomization clusters", result["reason"])
 
     def test_randomized_attrition_requires_group_assignments_in_the_full_ledger(self):
         study = randomized_study()

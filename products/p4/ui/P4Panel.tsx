@@ -450,6 +450,7 @@ function D05Section({ result }: { result?: JsonObject }) {
   const diagnosticRows = entries(result.diagnostics).map(([name, value]) => [name, text(value)] as const);
   const concurrentIntervention = asObject(result.concurrent_intervention_diagnostic);
   const dependenceWithheld = result.uncertainty_status === "WITHHELD_SHARED_GROUP_DEPENDENCE";
+  const clusterInference = result.inference_unit === "declared_randomization_cluster";
   const displayedEstimate = dependenceWithheld
     ? result.descriptive_did_estimate ?? result.descriptive_observed_difference
     : result.estimate;
@@ -460,11 +461,15 @@ function D05Section({ result }: { result?: JsonObject }) {
       ? (result.conditional_assumptions_passed === true
         ? "Observational DiD remains a descriptive estimate. Numerical diagnostics pass under the declared assumptions, but conditional interpretation is pending independent qualification of the sensitivity-bound source; P4 makes no causal claim."
         : "Observational DiD remains descriptive; conditional interpretation is withheld because required diagnostics or sensitivity evidence are incomplete.")
-      : (result.causal_claim === true ? "A conditional randomized-study interpretation is reported with its stated assumptions." : "Causal interpretation is withheld; this estimate is not presented as causal.")}</p>
+      : (clusterInference
+        ? "Cluster-randomized estimate uses equal weight per declared assignment cluster. Review the cluster counts and normality/independence assumptions; the supplied randomization and source semantics are not authenticated here."
+        : result.causal_claim === true ? "A conditional randomized-study interpretation is reported with its stated assumptions." : "Causal interpretation is withheld; this estimate is not presented as causal.")}</p>
     {typeof result.reason === "string" && <p role="status">{text(result.reason)}</p>}
     {typeof concurrentIntervention.status === "string" && <p role="status">Concurrent intervention history: {text(concurrentIntervention.status)}. {text(concurrentIntervention.interpretation)}</p>}
     <KeyValueTable label="Uncertainty and sensitivity" value={{ standard_error: result.se, ci95_welch_t_approximation: result.ci95_welch_t_approximation,
       welch_degrees_of_freedom: result.welch_df, sensitivity: result.sensitivity, attrition: result.attrition,
+      inference_unit: result.inference_unit, inference_method: result.inference_method,
+      inference_unit_counts: result.inference_unit_counts,
       baseline_balance: result.baseline_balance, placebo_pretrend: result.placebo_pretrend,
       pretrend_stability_placebo: result.pretrend_stability_placebo,
       population_compatibility: result.population_compatibility,

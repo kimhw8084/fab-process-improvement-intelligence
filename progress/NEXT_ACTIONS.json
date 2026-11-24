@@ -1,10 +1,10 @@
 {
   "active_uncommitted_changes": [
-    "Release builder now treats release/UI_COMPONENT_QUALIFICATION.json as generated sidecar; 14 focused tests pass. Commit this repair and the progress checkpoint.",
-    "At c5ce50a the full runner executed 253 tests; E02 initially failed on a stale general benchmark report. That report was refreshed against c5ce50a (Statsmodels 0.15.0; maximum OLS coefficient delta 2.84e-14); the D05 cluster benchmark passed. Full runner must be rerun.",
-    "Exact archive build, two clean rebuilds, and fresh no-pip network-denied extraction remain to be executed after the repair commit. No publication or push."
+    "D05 now supports only explicitly declared cluster-randomized studies with complete assignment/outcome ledgers, at least five independent clusters per arm, equal-cluster estimand, conservative interval calculation, cross-cluster dependence refusal, and visible method/count/assumption evidence. Observational and DiD shared-dependence cases still refuse inference.",
+    "Independent 1,000-trial-per-case D05 benchmark uses an exact SciPy cluster-mean Welch oracle: 6 cluster-count/shock cases, P4 coverage 95.0-97.2%, every P4 interval contains the oracle interval, and every Wilson lower bound exceeds 0.90. Scope is synthetic and does not qualify arbitrary few-cluster, informative-size, or FAB cases.",
+    "Release runner executed 257 Python tests, zero skipped. E01/E03/E04/E06 and focused adversarial gates passed; E02 overall failed solely because release/BENCHMARK_REPORT.json fingerprints pre-change P4 source. Regenerate benchmark under the pinned environment after source commit, then rerun runner. P1/browser hashes are stale for 1.2.4; E07 remains pending."
   ],
-  "as_of_source_commit": "c5ce50a430f573b378fd3922409f658f45d59514",
+  "as_of_source_commit": "891bf2e2a42426f535f4e7f6e6ab9c120aeda9d5",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -15,10 +15,31 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "247 PASS, 0 skipped",
-    "qualification": "E01,E02,E03,E04,E06,E10 PASS at f40a0fd; E05,E07,E08,E09,E11,E12 pending; now stale after D05 source changes",
-    "source_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9",
-    "status": "CANDIDATE; prior artifact is stale for current working changes"
+    "python_tests": "257 PASS, zero skipped in latest runner; current source is uncommitted",
+    "qualification": "Latest run E01,E03,E04,E06 and targeted scientific challenges passed; E02 failed only on stale general performance fingerprint. E05,E07,E08,E09,E11,E12 remain pending.",
+    "source_commit": "891bf2e2a42426f535f4e7f6e6ab9c120aeda9d5",
+    "status": "CANDIDATE; general performance report is stale for current source"
+  },
+  "latest_checkpoint": {
+    "D05_cluster_randomized": {
+      "independent_trials": 1000,
+      "cases": 6,
+      "p4_coverage_by_case": "95.0%-97.2%",
+      "oracle": "SciPy exact t quantile over independently computed equal-cluster means",
+      "checks": "all P4 intervals contain oracle interval; Wilson lower bound > 0.90 in each case",
+      "method_limit": "approximate equal-cluster Welch inference; requires exchangeable independent clusters, complete outcomes, no cross-cluster declared dependence, valid documented cluster randomization; five-per-arm threshold is not a general guarantee",
+      "status": "IMPLEMENTED_AND_INDEPENDENTLY_BENCHMARKED_SYNTHETICALLY"
+    },
+    "d05_fractional_t_critical": {
+      "defect": "low-df Cornish-Fisher expansion could undershoot exact fractional-df t critical values",
+      "repair": "floor to the next lower integer table value for df < 31; higher-df four-term expansion plus conservative epsilon",
+      "status": "IMPLEMENTED_AND_TESTED"
+    },
+    "p1_ui": {
+      "current_source_browser": "STALE; last observed engine 1.2.1",
+      "authoritative_host_and_owner": "PENDING",
+      "status": "NO_E07_PASS_CLAIM"
+    }
   },
   "latest_checkpoint": {
     "D01_mcp_uncertainty": {

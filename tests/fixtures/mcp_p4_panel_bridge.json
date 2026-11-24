@@ -102,8 +102,8 @@
                 "formula_estimates": [
                   {
                     "ci95": [
-                      2.9949835728274197,
-                      3.004063127172544
+                      2.994983572560766,
+                      3.004063127439198
                     ],
                     "estimate": 2.999523349999982,
                     "formula": "caller_specification",
@@ -111,8 +111,8 @@
                   },
                   {
                     "ci95": [
-                      2.9949911792731454,
-                      3.004055520726804
+                      2.9949911790069383,
+                      3.004055520993011
                     ],
                     "estimate": 2.9995233499999747,
                     "formula": "linear_additive",
@@ -120,8 +120,8 @@
                   },
                   {
                     "ci95": [
-                      2.994986112563093,
-                      3.0040605874368573
+                      2.9949861122965884,
+                      3.004060587703362
                     ],
                     "estimate": 2.999523349999975,
                     "formula": "quadratic_additive",
@@ -129,8 +129,8 @@
                   },
                   {
                     "ci95": [
-                      2.9949861125630997,
-                      3.004060587436864
+                      2.994986112296595,
+                      3.0040605877033686
                     ],
                     "estimate": 2.999523349999982,
                     "formula": "without_declared_fixed_effects",
@@ -148,8 +148,8 @@
                 "formula_estimates": [
                   {
                     "ci95": [
-                      -0.30079503160232707,
-                      -0.2993560883976723
+                      -0.3007950316445868,
+                      -0.29935608835541255
                     ],
                     "estimate": -0.3000755599999997,
                     "formula": "caller_specification",
@@ -157,8 +157,8 @@
                   },
                   {
                     "ci95": [
-                      -0.300793826119883,
-                      -0.29935729388012416
+                      -0.3007938261620719,
+                      -0.29935729383793525
                     ],
                     "estimate": -0.30007556000000357,
                     "formula": "linear_additive",
@@ -166,8 +166,8 @@
                   },
                   {
                     "ci95": [
-                      -0.30079462910069693,
-                      -0.29935649089929667
+                      -0.3007946291429331,
+                      -0.2993564908570605
                     ],
                     "estimate": -0.3000755599999968,
                     "formula": "quadratic_additive",
@@ -175,8 +175,8 @@
                   },
                   {
                     "ci95": [
-                      -0.3007946291006998,
-                      -0.29935649089929955
+                      -0.300794629142936,
+                      -0.2993564908570634
                     ],
                     "estimate": -0.3000755599999997,
                     "formula": "without_declared_fixed_effects",
@@ -196,16 +196,16 @@
                 "factor_terms": {
                   "pressure": {
                     "ci95": [
-                      2.9949911792731454,
-                      3.004055520726804
+                      2.9949911790069383,
+                      3.004055520993011
                     ],
                     "estimate": 2.9995233499999747,
                     "standard_error": 0.0022841104956690906
                   },
                   "temperature": {
                     "ci95": [
-                      -0.300793826119883,
-                      -0.29935729388012416
+                      -0.3007938261620719,
+                      -0.29935729383793525
                     ],
                     "estimate": -0.30007556000000357,
                     "standard_error": 0.0003619897135357302
@@ -223,16 +223,16 @@
                 "factor_terms": {
                   "pressure": {
                     "ci95": [
-                      2.994986112563093,
-                      3.0040605874368573
+                      2.9949861122965884,
+                      3.004060587703362
                     ],
                     "estimate": 2.999523349999975,
                     "standard_error": 0.0022866640017718608
                   },
                   "temperature": {
                     "ci95": [
-                      -0.30079462910069693,
-                      -0.29935649089929667
+                      -0.3007946291429331,
+                      -0.2993564908570605
                     ],
                     "estimate": -0.3000755599999968,
                     "standard_error": 0.0003623943975229565
@@ -250,16 +250,16 @@
                 "factor_terms": {
                   "pressure": {
                     "ci95": [
-                      2.9949861125630997,
-                      3.004060587436864
+                      2.994986112296595,
+                      3.0040605877033686
                     ],
                     "estimate": 2.999523349999982,
                     "standard_error": 0.0022866640017718608
                   },
                   "temperature": {
                     "ci95": [
-                      -0.3007946291006998,
-                      -0.29935649089929955
+                      -0.300794629142936,
+                      -0.2993564908570634
                     ],
                     "estimate": -0.3000755599999997,
                     "standard_error": 0.00036239439752295725
@@ -350,56 +350,56 @@
           "terms": {
             "chamber[SYN-CH-B]": {
               "ci95": [
-                -0.3411777606682934,
-                -0.2700708689613378
+                -0.3411777627566037,
+                -0.2700708668730275
               ],
               "estimate": -0.3056243148148156,
               "standard_error": 0.017918124388032725
             },
             "intercept_at_factor_centers": {
               "ci95": [
-                84.63083751235445,
-                84.6760007394974
+                84.63083751102808,
+                84.67600074082377
               ],
               "estimate": 84.65341912592592,
               "standard_error": 0.011380617297225512
             },
             "pressure": {
               "ci95": [
-                2.9949835728274197,
-                3.004063127172544
+                2.994983572560766,
+                3.004063127439198
               ],
               "estimate": 2.999523349999982,
               "standard_error": 0.0022879439705268782
             },
             "pressure:temperature": {
               "ci95": [
-                -0.0007145765184227957,
-                0.0007993665184233761
+                -0.0007145765628851931,
+                0.0007993665628857735
               ],
               "estimate": 4.239500000029025e-05,
               "standard_error": 0.0003814963500640851
             },
             "pressure^2": {
               "ci95": [
-                0.11792095964423849,
-                0.12232594035576122
+                0.11792095951487035,
+                0.12232594048512936
               ],
               "estimate": 0.12012344999999985,
               "standard_error": 0.0011100048169905906
             },
             "temperature": {
               "ci95": [
-                -0.30079503160232707,
-                -0.2993560883976723
+                -0.3007950316445868,
+                -0.29935608835541255
               ],
               "estimate": -0.3000755599999997,
               "standard_error": 0.00036259724914674776
             },
             "temperature^2": {
               "ci95": [
-                -5.372413539167633e-05,
-                6.004413539177032e-05
+                -5.372413873289191e-05,
+                6.0044138732985904e-05
               ],
               "estimate": 3.160000000046999e-06,
               "standard_error": 2.8668304553520255e-05
@@ -27301,8 +27301,8 @@
                 "defect_rate": {
                   "familywise_ci95": null,
                   "marginal_ci95": [
-                    1.7960670245292687,
-                    1.8032111754707314
+                    1.796067024319455,
+                    1.8032111756805451
                   ],
                   "mean": 1.7996391,
                   "standard_error": 0.0018002444227707454,
@@ -27312,8 +27312,8 @@
                 "yield_index": {
                   "familywise_ci95": null,
                   "marginal_ci95": [
-                    85.99683738661416,
-                    86.06668761338584
+                    85.99683738456275,
+                    86.06668761543725
                   ],
                   "mean": 86.0317625,
                   "standard_error": 0.01760145918042887,
@@ -27453,8 +27453,8 @@
                 "defect_rate": {
                   "familywise_ci95": null,
                   "marginal_ci95": [
-                    2.166173488761311,
-                    2.1732785112386885
+                    2.1661734885526465,
+                    2.173278511447353
                   ],
                   "mean": 2.169726,
                   "standard_error": 0.0017903844968231411,
@@ -27464,8 +27464,8 @@
                 "yield_index": {
                   "familywise_ci95": null,
                   "marginal_ci95": [
-                    89.11607160712349,
-                    89.18601819287652
+                    89.11607160506925,
+                    89.18601819493075
                   ],
                   "mean": 89.1510449,
                   "standard_error": 0.01762574054293236,
@@ -27607,8 +27607,8 @@
                 "defect_rate": {
                   "familywise_ci95": null,
                   "marginal_ci95": [
-                    2.665979621274342,
-                    2.6731485787256584
+                    2.6659796210637996,
+                    2.6731485789362006
                   ],
                   "mean": 2.6695641,
                   "standard_error": 0.0018064953798653184,
@@ -27618,8 +27618,8 @@
                 "yield_index": {
                   "familywise_ci95": null,
                   "marginal_ci95": [
-                    87.61576451159671,
-                    87.6856774884033
+                    87.61576450954347,
+                    87.68567749045654
                   ],
                   "mean": 87.650721,
                   "standard_error": 0.0176172714723737,
@@ -28334,9 +28334,16 @@
               ]
             },
             "dependence_status": "NOT_DECLARED",
+            "randomization_cluster_field": null,
             "small_sample_warning": true
           },
           "estimate": 5.0,
+          "inference_method": "Welch t interval over assigned independent-unit outcomes",
+          "inference_unit": "assigned_independent_unit",
+          "inference_unit_counts": {
+            "control": 4,
+            "treatment": 4
+          },
           "intervention_id": "SYN-CHANGE-001",
           "metric": "quality_index",
           "qualification": "conditional randomized study estimate; small samples and baseline imbalance require review; not production qualification",
@@ -28556,7 +28563,7 @@
     ],
     "product_id": "p4",
     "provenance": {
-      "engine_version": "1.2.3",
+      "engine_version": "1.2.4",
       "input_sha256": "e0b26632f4b4bbb9bab3dc3192e8e7bea11b07158e35d8c631f449a3caa6f4b8",
       "mcp_acquisition": {
         "audit_id": "SYN-AUDIT-READ-1",
@@ -28732,9 +28739,9 @@
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
     "fabintel/mock_mcp_server.py": "b927a3c29e583ed1425a3cb3f763c464ee63d2aa60dc7228756ee33a91ce391a",
     "products/p4/design.py": "d596968e3465e649d0553636342f9983c0adc564ea2ab8185404769a98720488",
-    "products/p4/engine.py": "64e9a75ab1200b3d805164b45f2fd6276169b2c18680e3136d8672f521098011",
+    "products/p4/engine.py": "500a30d12e02eae08719fc277f3fc03809b9025df6d256d84513cebb048178e8",
     "products/p4/mcp_workflow.py": "a85a9a7ae946cb1eac27bb83eb28269dc34a628447b4bdec71c580a3203ff962",
-    "products/p4/regression.py": "ea0495dccfa3aa0ccab88030baf159edec312e3beeac8de8cf38f65ecbb0fded",
+    "products/p4/regression.py": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
     "products/p4/tradeoffs.py": "081e484444a4ff7a5ca578daf6f2f87cb35c1405be611fffdac4b080efefa274",
     "products/p4/window.py": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
     "qualification/build_mcp_panel_bridge_fixture.py": "870e73c1f8c08efc7ccfae32868bc02ec3a961e88c2a270b0b8318a969e6f99d",

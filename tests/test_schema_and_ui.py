@@ -17,6 +17,9 @@ class SourceContractTests(unittest.TestCase):
         dependence = study["shared_dependence_fields"]
         self.assertTrue(dependence["uniqueItems"])
         self.assertIn("do not prove independence", dependence["description"])
+        cluster = study["randomization_cluster_field"]
+        self.assertEqual(cluster["type"], "string")
+        self.assertIn("five independent clusters per arm", cluster["description"])
         assignment = study["assignment_ledger"]["items"]["properties"]
         self.assertEqual(assignment["shared_groups"]["type"], "object")
         self.assertEqual(assignment["shared_groups"]["additionalProperties"]["type"], "string")
