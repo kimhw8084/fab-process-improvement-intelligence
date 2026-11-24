@@ -174,6 +174,8 @@ class P4IndependentChallenges(unittest.TestCase):
         self.assertAlmostEqual(complete_slope, 9.0, places=12)
         self.assertIn("measurement uncertainty was not supplied or propagated",
                       dossier(complete)["D01_sensitivity"]["assumptions"])
+        self.assertIn("sampling-frame completeness and source rows omitted before acquisition were not independently verified",
+                      dossier(complete)["D01_sensitivity"]["assumptions"])
 
         selected = copy.deepcopy(request)
         for observation in selected["observations"]:

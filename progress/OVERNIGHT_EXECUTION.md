@@ -845,3 +845,17 @@ At start, the only dirty paths were regenerated `release/` package/evidence file
 - Archive at prior source `8b64bcad5039756d4df0d056d450943546d014ae` was reproducible across two clean detached worktrees (SHA-256 `57dce52a3c6de88bcb6ebbe67583d797039d9174a2581d34050860bbd2d557f0`) and passed fresh macOS ARM64 offline extraction with pip absent and OS network denial. It is now stale because the P1 evidence file was refreshed afterward.
 - The exact-source release runner passed 240 Python tests at 8b64bcad; the P1 gate correctly stayed pending because the previous report had stale P4 hashes. Updated evidence now matches the current overlay; owner integration/accessibility remains pending.
 - Exact next action: commit the updated P1 evidence and this ledger, rebuild the exact archive, repeat two detached builds and fresh offline extraction, then run `rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py` once against the final source/archive.
+
+
+## Checkpoint — final exact-source archive and gates (2026-11-24)
+
+- Final source commit: `4ab21c10556f98e9ce70edece26f6519218ac83a`. Archive: 219 source files, 9,297,763 bytes, SHA-256 `2340b3ba04452b5c78d59f30c49e30e1c1c45d5ff54eee5a7d987142fbc98d40`. Two detached clean builds, manifests and checksum sidecars matched exactly. Fresh extraction passed on macOS 26.6.2 ARM64 / Python 3.11.7 with no pip; OS sandbox denied the network socket probe; all 219 source files verified.
+- Final `qualification/run_release_checks.py` at that exact commit: 240 PASS, 0 skipped; schema, E01-E04, E06, E10 PASS; current P1 disposable source hashes, browser evidence, and host compatibility now PASS. Release state remains CANDIDATE. E05/E12 company authorization, E07 authoritative P1 owner/formal accessibility, E08 target OS, E09 legal/license/independent security review, and E11 engineer ROI baseline remain pending.
+- Exact next action: audit D01 missing-outcome handling under informative missingness using `rtk rg -n \"missing|excluded.*row|measurement.*uncertainty\" products/p4/engine.py products/p4/regression.py tests/test_p4_scientific.py tests/test_d01_d02_independent.py`; build an independent known-effect challenge and repair only if it reproduces a material disclosure or abstention defect.
+
+
+## Checkpoint — D01 source-completeness audit (2026-11-24)
+
+- Existing delivered-row behavior is fail-closed: missing or non-finite outcomes refuse rather than assume complete cases. The independent known-effect test demonstrates complete-case slope bias from 9 to 5 while P4 refuses the request. Focused scientific suite: 29 PASS.
+- The audit found a reporting gap for rows omitted before acquisition: the engine cannot verify a sampling denominator from delivered observations. Successful D01 reports now disclose this limit in their assumptions; `docs/PRODUCT_SPEC.md` and qualification evidence state the denominator dependency. No source completeness is inferred.
+- Changed locally: `products/p4/regression.py`, `tests/test_p4_scientific.py`, `docs/PRODUCT_SPEC.md`, `qualification/DECISION_RECORD.md`, `release/LICENSE_SECURITY_REVIEW.md`, and checkpoint files. The last archive at source `4ab21c1` is stale after these changes; rebuild after the next science work is stable.

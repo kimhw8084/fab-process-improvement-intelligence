@@ -272,3 +272,18 @@ Latest current-source checks: P1 disposable composition and live synthetic brows
 | Shared P1 host compatibility | Current P4 source overlay hash-matches the 35-file disposable P1 composition; P1 frontend 61, route tests 32, P4 panel 26, typecheck and production build passed. Real-browser synthetic workflow completed PARTIAL and MCP denial suppressed semantics/results. | P1 source is unversioned and disposable; no owner acceptance, formal accessibility or target-host qualification.
 | Exact offline archive | Source `8b64bcad5039756d4df0d056d450943546d014ae`; two detached rebuilds matched SHA-256 `57dce52a3c6de88bcb6ebbe67583d797039d9174a2581d34050860bbd2d557f0`; fresh macOS ARM64 extraction verified 219 source files with pip absent and network denied. | Archive is stale after the current P1 evidence refresh; rebuild and requalify exact final source.
 | Distribution/security/internal | Synthetic-only and public distribution remains unauthorized. | Company mapping/permissions, authoritative P1 acceptance, target OS, independent license/security review, engineering ROI, and company approvals remain pending.
+
+
+# Final exact-source release — 2026-11-24
+
+| Gate | Result | Scope and remaining limit |
+|---|---|---|
+| Scientific/regression | 240 Python tests PASS; independent D01-D05 benchmark gates PASS. | Synthetic challenges do not establish production behavior, ROI or causal certainty; D02 omitted interactions can produce false-feasible interpolation hypotheses.
+| Current P1 disposable host | Frontend 61, host routes 32, P4 panel 26; typecheck, build and browser synthetic success/refusal pass with current P4 hashes. | Host source unversioned/disposable; owner acceptance and formal accessibility pending.
+| Exact archive/offline | Commit `4ab21c10556f98e9ce70edece26f6519218ac83a`; SHA-256 `2340b3ba04452b5c78d59f30c49e30e1c1c45d5ff54eee5a7d987142fbc98d40`; two clean builds match; 219 files verify in fresh no-pip offline extraction; socket probe denied. | macOS ARM64 only; no target company OS/network qualification.
+| Company/security/distribution | E05/E12 internal, E09 legal/license/independent-security, E11 engineer baseline remain pending; no public distribution. | Actual source authorization, P1 ownership, target host, engineer ROI and corporate approvals are unverified.
+
+
+## D01 missingness and acquisition completeness — 2026-11-24
+
+Delivered rows with missing or non-finite outcomes are refused; the independent known-effect test reproduces complete-case slope bias (9 to 5) and verifies refusal with no claims. Successful D01 reports now state that source rows omitted before acquisition cannot be verified without an independently supplied sampling denominator. Focused scientific suite: 29 PASS. Source completeness remains unverified.

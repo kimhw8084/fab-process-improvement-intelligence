@@ -716,6 +716,7 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                               "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
                               "classical covariance additionally assumes homoskedastic errors",
                               "measurement uncertainty was not supplied or propagated",
+                              "sampling-frame completeness and source rows omitted before acquisition were not independently verified",
                               "fixed effects adjust only for the explicitly selected fields"],
               "interpretation": "observational association; coefficients do not estimate intervention response"}
     encoder.beta = beta

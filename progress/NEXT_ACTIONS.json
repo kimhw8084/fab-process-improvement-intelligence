@@ -2,7 +2,7 @@
   "active_uncommitted_changes": [
     "Generated release outputs and unrelated D01/D03/P1 qualification sidecars are dirty and are not current-source release evidence; do not stage blindly"
   ],
-  "as_of_source_commit": "8b64bcad5039756d4df0d056d450943546d014ae",
+  "as_of_source_commit": "4ab21c10556f98e9ce70edece26f6519218ac83a",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -105,6 +105,32 @@
     },
     "date": "2026-11-24",
     "engine_version": "1.2.2",
+    "final_release_qualification": {
+      "archive_bytes": 9297763,
+      "archive_sha256": "2340b3ba04452b5c78d59f30c49e30e1c1c45d5ff54eee5a7d987142fbc98d40",
+      "candidate_state": "CANDIDATE",
+      "gates": {
+        "E01": "PASS",
+        "E02": "PASS",
+        "E03": "PASS",
+        "E04": "PASS",
+        "E05": "PENDING_INTERNAL",
+        "E06": "PASS",
+        "E07": "PENDING_AUTHORITATIVE_HOST_AND_FORMAL_ACCESSIBILITY; disposable current-source composition PASS",
+        "E08": "PENDING_TARGET_OS",
+        "E09": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW",
+        "E10": "PASS",
+        "E11": "PENDING_ENGINEER_BASELINE",
+        "E12": "PENDING_INTERNAL"
+      },
+      "offline": "fresh extraction on macOS 26.6.2 ARM64; Python 3.11.7; no pip; network probe DENIED; 219 manifest files verified",
+      "python_tests": "240 PASS, 0 skipped",
+      "reproducibility": "two detached builds exactly matched",
+      "schema_validation": "PASS",
+      "source_commit": "4ab21c10556f98e9ce70edece26f6519218ac83a",
+      "source_files": 219,
+      "status": "PASS_CANDIDATE"
+    },
     "last_release_runner": {
       "E02": "PASS",
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
@@ -140,8 +166,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the current P1 disposable-host evidence and checkpoint ledger, rebuild the archive at that exact commit, prove two clean detached builds and a fresh sandboxed offline extraction, then run the exact-source release gates once.",
-  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
+  "next_action": "Commit the tested D01 source-completeness disclosure, refresh the scoped security scan and packaged review, rebuild and qualify the exact archive once, then resume D02 model-form disagreement benchmarking.",
+  "next_executable_action": "rtk git diff --check",
   "ordered_queue": [
     {
       "priority": 1,
@@ -150,8 +176,8 @@
     },
     {
       "priority": 2,
-      "status": "AUDIT_NO_DEFECT_IN_TIME_HOLDOUT",
-      "task": "D01: existing actual-row train-only time/group holdout reports later-group RMSE/MAE/bias and training-mean comparison; +10 held-out drift oracle is covered. No new defect reproduced in this pass; continue only if full qualification finds a source-bound issue."
+      "status": "IMPLEMENTED_REPORTING_LIMITATION_VERIFIED",
+      "task": "D01: delivered rows with missing outcomes already refuse rather than assume complete cases (focused test shows slope bias 9 to 5). Successful reports now disclose that upstream rows omitted before acquisition cannot be independently verified without a sampling denominator; focused scientific suite 29/29 PASS."
     },
     {
       "priority": 3,
@@ -185,13 +211,13 @@
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; rebuild/archive gates pending and internal/security/target-host requirements remain",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E10 PASS; E07/E08/E09/E11 and internal gates remain pending",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D02 hidden-interaction limitations disclosed and D01-D05 remain advisory",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING P1 owner/source acceptance and formal accessibility; disposable current-source compatibility passed"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 continue and D02 interpolation misses remain prominently limited",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING P1 owner/source acceptance and formal accessibility; disposable current-source compatibility PASS"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "8b64bcad5039756d4df0d056d450943546d014ae",
-  "worktree_state": "Generated release reports/ZIP and D01/D03/P1 benchmark sidecars are dirty; P1 host evidence is freshly updated and will be committed with checkpoint. Do not stage unrelated generated results."
+  "source_commit": "4ab21c10556f98e9ce70edece26f6519218ac83a",
+  "worktree_state": "Source commit 4ab21c1 remains the last packaged baseline; D01 source-completeness disclosure and review-doc corrections are changed locally, so its archive is stale. Focused D01 scientific suite 29/29 PASS. Generated qualification sidecars remain dirty; public distribution remains unapproved."
 }
