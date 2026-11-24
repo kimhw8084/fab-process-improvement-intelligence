@@ -28744,7 +28744,7 @@
     "products/p4/mcp_workflow.py": "a85a9a7ae946cb1eac27bb83eb28269dc34a628447b4bdec71c580a3203ff962",
     "products/p4/regression.py": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
     "products/p4/tradeoffs.py": "081e484444a4ff7a5ca578daf6f2f87cb35c1405be611fffdac4b080efefa274",
-    "products/p4/window.py": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
+    "products/p4/window.py": "375ae98016f06bab4f0c68b35792958d84bcca8e1a0f274abf9e51f611c7bc0c",
     "qualification/build_mcp_panel_bridge_fixture.py": "870e73c1f8c08efc7ccfae32868bc02ec3a961e88c2a270b0b8318a969e6f99d",
     "tests/test_mcp_transport.py": "5cbb293c11742ec13e0c8a75bfddea0af9e082fa4aaf3b52d328128b0b08e4e9"
   },
