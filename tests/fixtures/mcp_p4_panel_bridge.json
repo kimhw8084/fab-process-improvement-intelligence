@@ -28564,7 +28564,7 @@
     ],
     "product_id": "p4",
     "provenance": {
-      "engine_version": "1.2.5",
+      "engine_version": "1.2.6",
       "input_sha256": "e0b26632f4b4bbb9bab3dc3192e8e7bea11b07158e35d8c631f449a3caa6f4b8",
       "mcp_acquisition": {
         "audit_id": "SYN-AUDIT-READ-1",
@@ -28739,8 +28739,8 @@
     "contracts/evidence.v1.schema.json": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
     "fabintel/mock_mcp_server.py": "b927a3c29e583ed1425a3cb3f763c464ee63d2aa60dc7228756ee33a91ce391a",
-    "products/p4/design.py": "d596968e3465e649d0553636342f9983c0adc564ea2ab8185404769a98720488",
-    "products/p4/engine.py": "36ac86d8e75017a19a4cf65db7b556a002c246e73b40ec82902710c5461a6beb",
+    "products/p4/design.py": "90c8a01ef45685dcb08e1138a88199bc6245dcad637c98efffb187c060d36f1b",
+    "products/p4/engine.py": "419e7352e64e07d07df0e2311d46666fe032d8c79903e1885115ef39bef2c373",
     "products/p4/mcp_workflow.py": "a85a9a7ae946cb1eac27bb83eb28269dc34a628447b4bdec71c580a3203ff962",
     "products/p4/regression.py": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
     "products/p4/tradeoffs.py": "cca7a01b63d842c6821ae949d8586b83335b982bc3a56783a8b5f5785752010c",

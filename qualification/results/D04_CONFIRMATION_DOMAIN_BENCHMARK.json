@@ -1,0 +1,4569 @@
+{
+  "alpha_grid": [
+    0.01,
+    0.02,
+    0.03,
+    0.04,
+    0.05,
+    0.06,
+    0.07,
+    0.08,
+    0.09,
+    0.1
+  ],
+  "assumptions": [
+    "independent normally distributed paired differences",
+    "supplied SD is a valid conservative upper bound",
+    "the MDE and target population are prespecified and relevant"
+  ],
+  "benchmark_script_sha256": "f567c6c75dbf9d177639c72659f79cdfbc0cfe2cd4ed4798dd241e4d20b9b66d",
+  "case_count": 560,
+  "cases": [
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8000869673296539,
+      "power_margin": 8.696732965385312e-05,
+      "proposed_pairs": 7304,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8500209745999329,
+      "power_margin": 2.0974599932888083e-05,
+      "proposed_pairs": 8159,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9000387684721003,
+      "power_margin": 3.8768472100270124e-05,
+      "proposed_pairs": 9304,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8000548818656851,
+      "power_margin": 5.4881865685030284e-05,
+      "proposed_pairs": 6276,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8500337068864262,
+      "power_margin": 3.370688642623243e-05,
+      "proposed_pairs": 7071,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9000275218818801,
+      "power_margin": 2.7521881880043786e-05,
+      "proposed_pairs": 8139,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8001220959755351,
+      "power_margin": 0.00012209597553503038,
+      "proposed_pairs": 5673,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8500886317566304,
+      "power_margin": 8.863175663043066e-05,
+      "proposed_pairs": 6430,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9000203453691822,
+      "power_margin": 2.034536918216201e-05,
+      "proposed_pairs": 7449,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8001094591143143,
+      "power_margin": 0.0001094591143142587,
+      "proposed_pairs": 5243,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8500981378214226,
+      "power_margin": 9.813782142265026e-05,
+      "proposed_pairs": 5972,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.900052534770374,
+      "power_margin": 5.253477037392429e-05,
+      "proposed_pairs": 6956,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8001231678919983,
+      "power_margin": 0.00012316789199828815,
+      "proposed_pairs": 4909,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8500987280166658,
+      "power_margin": 9.872801666577224e-05,
+      "proposed_pairs": 5615,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9000407859223983,
+      "power_margin": 4.0785922398312024e-05,
+      "proposed_pairs": 6570,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8000857168642747,
+      "power_margin": 8.571686427460978e-05,
+      "proposed_pairs": 4635,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8500869451952785,
+      "power_margin": 8.694519527852052e-05,
+      "proposed_pairs": 5322,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9000430250001087,
+      "power_margin": 4.302500010866517e-05,
+      "proposed_pairs": 6253,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8001380146234105,
+      "power_margin": 0.000138014623410454,
+      "proposed_pairs": 4404,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8501124216064718,
+      "power_margin": 0.0001124216064718464,
+      "proposed_pairs": 5074,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9000646808937154,
+      "power_margin": 6.468089371536312e-05,
+      "proposed_pairs": 5984,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8001306552895259,
+      "power_margin": 0.00013065528952582728,
+      "proposed_pairs": 4203,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8500995424725252,
+      "power_margin": 9.954247252519366e-05,
+      "proposed_pairs": 4858,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9000437565304655,
+      "power_margin": 4.375653046551076e-05,
+      "proposed_pairs": 5749,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.800167888334583,
+      "power_margin": 0.00016788833458292185,
+      "proposed_pairs": 4026,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.85009004112166,
+      "power_margin": 9.004112166000056e-05,
+      "proposed_pairs": 4667,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9000331121225351,
+      "power_margin": 3.311212253509499e-05,
+      "proposed_pairs": 5541,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8001574415114105,
+      "power_margin": 0.00015744151141050544,
+      "proposed_pairs": 3867,
+      "standardized_mde": 0.04,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8501003740149305,
+      "power_margin": 0.00010037401493057097,
+      "proposed_pairs": 4496,
+      "standardized_mde": 0.04,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9000620069449713,
+      "power_margin": 6.200694497127124e-05,
+      "proposed_pairs": 5355,
+      "standardized_mde": 0.04,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8002246560793083,
+      "power_margin": 0.0002246560793082164,
+      "proposed_pairs": 3249,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8501294811693054,
+      "power_margin": 0.0001294811693054454,
+      "proposed_pairs": 3629,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9000424864095847,
+      "power_margin": 4.248640958470773e-05,
+      "proposed_pairs": 4137,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8002397427854616,
+      "power_margin": 0.0002397427854615719,
+      "proposed_pairs": 2792,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8501371819598127,
+      "power_margin": 0.00013718195981271553,
+      "proposed_pairs": 3145,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9000417766684562,
+      "power_margin": 4.177666845617267e-05,
+      "proposed_pairs": 3619,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8001819519174469,
+      "power_margin": 0.00018195191744685424,
+      "proposed_pairs": 2523,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8500773196250735,
+      "power_margin": 7.731962507351309e-05,
+      "proposed_pairs": 2859,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9001140672401562,
+      "power_margin": 0.0001140672401561682,
+      "proposed_pairs": 3313,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8002147782210117,
+      "power_margin": 0.00021477822101167998,
+      "proposed_pairs": 2332,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8501803146847844,
+      "power_margin": 0.0001803146847844106,
+      "proposed_pairs": 2656,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.900078307156978,
+      "power_margin": 7.830715697798585e-05,
+      "proposed_pairs": 3093,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8001509463129298,
+      "power_margin": 0.00015094631292977834,
+      "proposed_pairs": 2183,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8501514630138032,
+      "power_margin": 0.00015146301380319915,
+      "proposed_pairs": 2497,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.900131578991631,
+      "power_margin": 0.0001315789916309651,
+      "proposed_pairs": 2922,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8002737720774679,
+      "power_margin": 0.0002737720774678154,
+      "proposed_pairs": 2062,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.850185191819613,
+      "power_margin": 0.00018519181961307307,
+      "proposed_pairs": 2367,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9001334292004448,
+      "power_margin": 0.00013342920044479012,
+      "proposed_pairs": 2781,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.800281082706509,
+      "power_margin": 0.0002810827065089505,
+      "proposed_pairs": 1959,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8501089386401366,
+      "power_margin": 0.00010893864013661325,
+      "proposed_pairs": 2256,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9001189567250031,
+      "power_margin": 0.00011895672500306098,
+      "proposed_pairs": 2661,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8003535633529848,
+      "power_margin": 0.0003535633529847537,
+      "proposed_pairs": 1870,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8502555122898956,
+      "power_margin": 0.0002555122898956208,
+      "proposed_pairs": 2161,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9001516910796499,
+      "power_margin": 0.00015169107964985162,
+      "proposed_pairs": 2557,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8003400008542911,
+      "power_margin": 0.0003400008542910893,
+      "proposed_pairs": 1791,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8502402451496689,
+      "power_margin": 0.0002402451496689162,
+      "proposed_pairs": 2076,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.900089782311244,
+      "power_margin": 8.978231124401326e-05,
+      "proposed_pairs": 2464,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8002750845261843,
+      "power_margin": 0.00027508452618429935,
+      "proposed_pairs": 1720,
+      "standardized_mde": 0.06,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8502607212831529,
+      "power_margin": 0.0002607212831529093,
+      "proposed_pairs": 2000,
+      "standardized_mde": 0.06,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9000887510345416,
+      "power_margin": 8.875103454153432e-05,
+      "proposed_pairs": 2381,
+      "standardized_mde": 0.06,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8002208559119482,
+      "power_margin": 0.00022085591194820342,
+      "proposed_pairs": 1829,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8501780736625975,
+      "power_margin": 0.0001780736625974777,
+      "proposed_pairs": 2043,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9001131132994628,
+      "power_margin": 0.00011311329946273041,
+      "proposed_pairs": 2329,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8003288180028092,
+      "power_margin": 0.0003288180028091503,
+      "proposed_pairs": 1572,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8503040110286312,
+      "power_margin": 0.00030401102863120144,
+      "proposed_pairs": 1771,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9000616731412856,
+      "power_margin": 6.167314128557866e-05,
+      "proposed_pairs": 2037,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.800414121045058,
+      "power_margin": 0.0004141210450580024,
+      "proposed_pairs": 1421,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8502589861307064,
+      "power_margin": 0.00025898613070640675,
+      "proposed_pairs": 1610,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9001801257818867,
+      "power_margin": 0.00018012578188664197,
+      "proposed_pairs": 1865,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8003156644118615,
+      "power_margin": 0.00031566441186148264,
+      "proposed_pairs": 1313,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8501987570587549,
+      "power_margin": 0.0001987570587549392,
+      "proposed_pairs": 1495,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9001227225473295,
+      "power_margin": 0.00012272254732947907,
+      "proposed_pairs": 1741,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.800540884096921,
+      "power_margin": 0.0005408840969209905,
+      "proposed_pairs": 1230,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8502997437694374,
+      "power_margin": 0.00029974376943742165,
+      "proposed_pairs": 1406,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9002239213773143,
+      "power_margin": 0.00022392137731430672,
+      "proposed_pairs": 1645,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8003888573451982,
+      "power_margin": 0.00038885734519811255,
+      "proposed_pairs": 1161,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8503863366415204,
+      "power_margin": 0.000386336641520435,
+      "proposed_pairs": 1333,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9001179748551541,
+      "power_margin": 0.00011797485515407935,
+      "proposed_pairs": 1565,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8003968319801362,
+      "power_margin": 0.0003968319801361808,
+      "proposed_pairs": 1103,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8504439143610343,
+      "power_margin": 0.00044391436103430326,
+      "proposed_pairs": 1271,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9002038870995246,
+      "power_margin": 0.00020388709952456896,
+      "proposed_pairs": 1498,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.800510004065515,
+      "power_margin": 0.0005100040655149352,
+      "proposed_pairs": 1053,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8504601634800314,
+      "power_margin": 0.00046016348003141694,
+      "proposed_pairs": 1217,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9001546949434047,
+      "power_margin": 0.00015469494340469847,
+      "proposed_pairs": 1439,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.800316289749159,
+      "power_margin": 0.0003162897491589822,
+      "proposed_pairs": 1008,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8504093269483369,
+      "power_margin": 0.00040932694833695216,
+      "proposed_pairs": 1169,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9001595804338951,
+      "power_margin": 0.00015958043389507903,
+      "proposed_pairs": 1387,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8006012399726309,
+      "power_margin": 0.0006012399726308404,
+      "proposed_pairs": 969,
+      "standardized_mde": 0.08,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8503738219192,
+      "power_margin": 0.0003738219191999903,
+      "proposed_pairs": 1126,
+      "standardized_mde": 0.08,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.900298477375041,
+      "power_margin": 0.00029847737504096195,
+      "proposed_pairs": 1341,
+      "standardized_mde": 0.08,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8003778198061194,
+      "power_margin": 0.0003778198061193949,
+      "proposed_pairs": 815,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8502501389014604,
+      "power_margin": 0.0002501389014604172,
+      "proposed_pairs": 910,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9001275389041793,
+      "power_margin": 0.0001275389041792696,
+      "proposed_pairs": 1037,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8008543343304343,
+      "power_margin": 0.0008543343304342477,
+      "proposed_pairs": 701,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8504950327729757,
+      "power_margin": 0.0004950327729756898,
+      "proposed_pairs": 789,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9004674516290933,
+      "power_margin": 0.00046745162909322957,
+      "proposed_pairs": 908,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8005036419801567,
+      "power_margin": 0.0005036419801566216,
+      "proposed_pairs": 633,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8503290708930635,
+      "power_margin": 0.0003290708930635544,
+      "proposed_pairs": 717,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9004724511026095,
+      "power_margin": 0.00047245110260951684,
+      "proposed_pairs": 831,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8011972567798374,
+      "power_margin": 0.0011972567798373968,
+      "proposed_pairs": 586,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8504057113283465,
+      "power_margin": 0.00040571132834654744,
+      "proposed_pairs": 666,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9005187767340239,
+      "power_margin": 0.0005187767340238958,
+      "proposed_pairs": 776,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8007301473844174,
+      "power_margin": 0.0007301473844173456,
+      "proposed_pairs": 548,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8508813332969909,
+      "power_margin": 0.000881333296990916,
+      "proposed_pairs": 627,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9005423231395328,
+      "power_margin": 0.0005423231395327299,
+      "proposed_pairs": 733,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8011377779320488,
+      "power_margin": 0.0011377779320487225,
+      "proposed_pairs": 518,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.850713615867951,
+      "power_margin": 0.0007136158679510451,
+      "proposed_pairs": 594,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9003012963831456,
+      "power_margin": 0.0003012963831455773,
+      "proposed_pairs": 697,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8010505004930619,
+      "power_margin": 0.0010505004930618789,
+      "proposed_pairs": 492,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8505595508165692,
+      "power_margin": 0.0005595508165692209,
+      "proposed_pairs": 566,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9003294359705115,
+      "power_margin": 0.00032943597051149354,
+      "proposed_pairs": 667,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8013973523784245,
+      "power_margin": 0.0013973523784244213,
+      "proposed_pairs": 470,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8506146858150848,
+      "power_margin": 0.0006146858150848367,
+      "proposed_pairs": 542,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9004003205605191,
+      "power_margin": 0.00040032056051908516,
+      "proposed_pairs": 641,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8012654505499618,
+      "power_margin": 0.0012654505499617441,
+      "proposed_pairs": 450,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8508033874940861,
+      "power_margin": 0.0008033874940861496,
+      "proposed_pairs": 521,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.900479093773352,
+      "power_margin": 0.00047909377335197956,
+      "proposed_pairs": 618,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8010689477312539,
+      "power_margin": 0.0010689477312538775,
+      "proposed_pairs": 432,
+      "standardized_mde": 0.12,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8508737993700548,
+      "power_margin": 0.0008737993700548286,
+      "proposed_pairs": 502,
+      "standardized_mde": 0.12,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9004045043921677,
+      "power_margin": 0.00040450439216765943,
+      "proposed_pairs": 597,
+      "standardized_mde": 0.12,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8011486720640122,
+      "power_margin": 0.0011486720640121462,
+      "proposed_pairs": 296,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8506000675673385,
+      "power_margin": 0.0006000675673385469,
+      "proposed_pairs": 330,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9006277287716783,
+      "power_margin": 0.0006277287716782709,
+      "proposed_pairs": 376,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8024376595407361,
+      "power_margin": 0.002437659540736048,
+      "proposed_pairs": 255,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8508017899995327,
+      "power_margin": 0.0008017899995327316,
+      "proposed_pairs": 286,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9008370776965549,
+      "power_margin": 0.0008370776965548332,
+      "proposed_pairs": 329,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.801625577580153,
+      "power_margin": 0.0016255775801529149,
+      "proposed_pairs": 230,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8508601028546632,
+      "power_margin": 0.0008601028546632028,
+      "proposed_pairs": 260,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9008027784256653,
+      "power_margin": 0.0008027784256652293,
+      "proposed_pairs": 301,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8025078137386934,
+      "power_margin": 0.002507813738693354,
+      "proposed_pairs": 213,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8517305060877398,
+      "power_margin": 0.001730506087739836,
+      "proposed_pairs": 242,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9008156761515795,
+      "power_margin": 0.0008156761515795141,
+      "proposed_pairs": 281,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8016910240377381,
+      "power_margin": 0.0016910240377380203,
+      "proposed_pairs": 199,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8524895617103168,
+      "power_margin": 0.002489561710316779,
+      "proposed_pairs": 228,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9014909719209524,
+      "power_margin": 0.0014909719209523775,
+      "proposed_pairs": 266,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.801915068330817,
+      "power_margin": 0.0019150683308170047,
+      "proposed_pairs": 188,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.85233091888175,
+      "power_margin": 0.002330918881750077,
+      "proposed_pairs": 216,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9013385333632747,
+      "power_margin": 0.0013385333632747187,
+      "proposed_pairs": 253,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8027699844233901,
+      "power_margin": 0.0027699844233900484,
+      "proposed_pairs": 179,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8524776758172518,
+      "power_margin": 0.0024776758172517788,
+      "proposed_pairs": 206,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9012564311274188,
+      "power_margin": 0.0012564311274188,
+      "proposed_pairs": 242,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8031325923222516,
+      "power_margin": 0.003132592322251604,
+      "proposed_pairs": 171,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8520951724517937,
+      "power_margin": 0.002095172451793692,
+      "proposed_pairs": 197,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9018355929327216,
+      "power_margin": 0.0018355929327216192,
+      "proposed_pairs": 233,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8036065769475335,
+      "power_margin": 0.003606576947533413,
+      "proposed_pairs": 164,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8516726996448186,
+      "power_margin": 0.0016726996448186426,
+      "proposed_pairs": 189,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9011739106151099,
+      "power_margin": 0.0011739106151098522,
+      "proposed_pairs": 224,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8024237446596526,
+      "power_margin": 0.0024237446596525603,
+      "proposed_pairs": 157,
+      "standardized_mde": 0.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8515766356613776,
+      "power_margin": 0.0015766356613776678,
+      "proposed_pairs": 182,
+      "standardized_mde": 0.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9018382163590046,
+      "power_margin": 0.0018382163590046074,
+      "proposed_pairs": 217,
+      "standardized_mde": 0.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8065712704821284,
+      "power_margin": 0.006571270482128355,
+      "proposed_pairs": 100,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8544779410766035,
+      "power_margin": 0.004477941076603487,
+      "proposed_pairs": 111,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9032953179854221,
+      "power_margin": 0.0032953179854220416,
+      "proposed_pairs": 126,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8071769439030341,
+      "power_margin": 0.007176943903034028,
+      "proposed_pairs": 86,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8540309815217638,
+      "power_margin": 0.004030981521763843,
+      "proposed_pairs": 96,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9029766547376065,
+      "power_margin": 0.0029766547376064434,
+      "proposed_pairs": 110,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8088157504853308,
+      "power_margin": 0.008815750485330787,
+      "proposed_pairs": 78,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8530441286877251,
+      "power_margin": 0.0030441286877250784,
+      "proposed_pairs": 87,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9041792913693978,
+      "power_margin": 0.004179291369397764,
+      "proposed_pairs": 101,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8083318711494971,
+      "power_margin": 0.008331871149497072,
+      "proposed_pairs": 72,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.85417496472083,
+      "power_margin": 0.00417496472083001,
+      "proposed_pairs": 81,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.903360281085608,
+      "power_margin": 0.00336028108560793,
+      "proposed_pairs": 94,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8059297349955998,
+      "power_margin": 0.005929734995599789,
+      "proposed_pairs": 67,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.853593969079533,
+      "power_margin": 0.0035939690795330215,
+      "proposed_pairs": 76,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9041702744549218,
+      "power_margin": 0.004170274454921796,
+      "proposed_pairs": 89,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8104824218129341,
+      "power_margin": 0.010482421812934017,
+      "proposed_pairs": 64,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8535644026536733,
+      "power_margin": 0.0035644026536733042,
+      "proposed_pairs": 72,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9052179551685492,
+      "power_margin": 0.005217955168549171,
+      "proposed_pairs": 85,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8054473057309606,
+      "power_margin": 0.005447305730960528,
+      "proposed_pairs": 60,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8554506807875208,
+      "power_margin": 0.005450680787520867,
+      "proposed_pairs": 69,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9041507112008107,
+      "power_margin": 0.004150711200810675,
+      "proposed_pairs": 81,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8102422630746969,
+      "power_margin": 0.010242263074696889,
+      "proposed_pairs": 58,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8551999952039845,
+      "power_margin": 0.005199995203984509,
+      "proposed_pairs": 66,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9048131811451663,
+      "power_margin": 0.004813181145166268,
+      "proposed_pairs": 78,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.806626269535607,
+      "power_margin": 0.006626269535606966,
+      "proposed_pairs": 55,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8582443021248263,
+      "power_margin": 0.008244302124826297,
+      "proposed_pairs": 64,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9042351517275655,
+      "power_margin": 0.0042351517275655,
+      "proposed_pairs": 75,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8078121867911363,
+      "power_margin": 0.007812186791136266,
+      "proposed_pairs": 53,
+      "standardized_mde": 0.35,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8549106981276218,
+      "power_margin": 0.004910698127621793,
+      "proposed_pairs": 61,
+      "standardized_mde": 0.35,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9026017996724985,
+      "power_margin": 0.002601799672498517,
+      "proposed_pairs": 72,
+      "standardized_mde": 0.35,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8093891695593337,
+      "power_margin": 0.009389169559333665,
+      "proposed_pairs": 51,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8536349893754085,
+      "power_margin": 0.003634989375408515,
+      "proposed_pairs": 56,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9062453722820702,
+      "power_margin": 0.006245372282070227,
+      "proposed_pairs": 64,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.811939866447746,
+      "power_margin": 0.011939866447745917,
+      "proposed_pairs": 44,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8586160178544999,
+      "power_margin": 0.008616017854499947,
+      "proposed_pairs": 49,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9069809058687622,
+      "power_margin": 0.0069809058687622105,
+      "proposed_pairs": 56,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8148292956922024,
+      "power_margin": 0.014829295692202371,
+      "proposed_pairs": 40,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8628851536313116,
+      "power_margin": 0.012885153631311597,
+      "proposed_pairs": 45,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9058583432279659,
+      "power_margin": 0.0058583432279658565,
+      "proposed_pairs": 51,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8153097290418297,
+      "power_margin": 0.0153097290418297,
+      "proposed_pairs": 37,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8559987556057841,
+      "power_margin": 0.005998755605784112,
+      "proposed_pairs": 41,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9085325801488343,
+      "power_margin": 0.00853258014883429,
+      "proposed_pairs": 48,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8195357696014002,
+      "power_margin": 0.019535769601400133,
+      "proposed_pairs": 35,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8605337731379328,
+      "power_margin": 0.0105337731379328,
+      "proposed_pairs": 39,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9065953048941525,
+      "power_margin": 0.006595304894152498,
+      "proposed_pairs": 45,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8188987931900404,
+      "power_margin": 0.018898793190040397,
+      "proposed_pairs": 33,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8610341252566555,
+      "power_margin": 0.01103412525665548,
+      "proposed_pairs": 37,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9079190708912689,
+      "power_margin": 0.007919070891268865,
+      "proposed_pairs": 43,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8145715796830477,
+      "power_margin": 0.014571579683047675,
+      "proposed_pairs": 31,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8585495956898438,
+      "power_margin": 0.008549595689843814,
+      "proposed_pairs": 35,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9071038143667345,
+      "power_margin": 0.007103814366734462,
+      "proposed_pairs": 41,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8198087485034781,
+      "power_margin": 0.019808748503478024,
+      "proposed_pairs": 30,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8635070415612361,
+      "power_margin": 0.013507041561236166,
+      "proposed_pairs": 34,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9045684392236195,
+      "power_margin": 0.0045684392236194915,
+      "proposed_pairs": 39,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8230789071885547,
+      "power_margin": 0.023078907188554654,
+      "proposed_pairs": 29,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8668267775528741,
+      "power_margin": 0.016826777552874095,
+      "proposed_pairs": 33,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9076043928427996,
+      "power_margin": 0.007604392842799568,
+      "proposed_pairs": 38,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8247747120839369,
+      "power_margin": 0.02477471208393689,
+      "proposed_pairs": 28,
+      "standardized_mde": 0.5,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8589018770600603,
+      "power_margin": 0.008901877060060293,
+      "proposed_pairs": 31,
+      "standardized_mde": 0.5,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9096498841228269,
+      "power_margin": 0.009649884122826857,
+      "proposed_pairs": 37,
+      "standardized_mde": 0.5,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8332499939792192,
+      "power_margin": 0.03324999397921913,
+      "proposed_pairs": 23,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8734616482604692,
+      "power_margin": 0.02346164826046926,
+      "proposed_pairs": 25,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.90505179473941,
+      "power_margin": 0.005051794739409976,
+      "proposed_pairs": 27,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8393108098716816,
+      "power_margin": 0.03931080987168156,
+      "proposed_pairs": 20,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.8614033089908529,
+      "power_margin": 0.011403308990852956,
+      "proposed_pairs": 21,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9126281853026496,
+      "power_margin": 0.01262818530264953,
+      "proposed_pairs": 24,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8373836675672419,
+      "power_margin": 0.037383667567241874,
+      "proposed_pairs": 18,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.8811343908417292,
+      "power_margin": 0.031134390841729198,
+      "proposed_pairs": 20,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9141359228558882,
+      "power_margin": 0.014135922855888161,
+      "proposed_pairs": 22,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8466051340097595,
+      "power_margin": 0.04660513400975941,
+      "proposed_pairs": 17,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.8695969687011976,
+      "power_margin": 0.019596968701197648,
+      "proposed_pairs": 18,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9212985556068094,
+      "power_margin": 0.021298555606809377,
+      "proposed_pairs": 21,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.848421810263447,
+      "power_margin": 0.04842181026344694,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.8718405862171672,
+      "power_margin": 0.021840586217167224,
+      "proposed_pairs": 17,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9092070366754936,
+      "power_margin": 0.009207036675493607,
+      "proposed_pairs": 19,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8452613317752709,
+      "power_margin": 0.04526133177527081,
+      "proposed_pairs": 15,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.8697258109340148,
+      "power_margin": 0.01972581093401482,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9236313958659409,
+      "power_margin": 0.023631395865940874,
+      "proposed_pairs": 19,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8381251100640567,
+      "power_margin": 0.03812511006405661,
+      "proposed_pairs": 14,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.8864062466847789,
+      "power_margin": 0.036406246684778876,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9212138665788665,
+      "power_margin": 0.02121386657886648,
+      "proposed_pairs": 18,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8273676262537566,
+      "power_margin": 0.02736762625375655,
+      "proposed_pairs": 13,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.8795447001080097,
+      "power_margin": 0.02954470010800969,
+      "proposed_pairs": 15,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9169408444084161,
+      "power_margin": 0.016940844408416034,
+      "proposed_pairs": 17,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8438997892090745,
+      "power_margin": 0.04389978920907445,
+      "proposed_pairs": 13,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.8701243491230906,
+      "power_margin": 0.02012434912309058,
+      "proposed_pairs": 14,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9264790552953919,
+      "power_margin": 0.02647905529539185,
+      "proposed_pairs": 17,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8580070710292892,
+      "power_margin": 0.05800707102928915,
+      "proposed_pairs": 13,
+      "standardized_mde": 0.8,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.8824595674566751,
+      "power_margin": 0.03245956745667511,
+      "proposed_pairs": 14,
+      "standardized_mde": 0.8,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9201284836449035,
+      "power_margin": 0.020128483644903494,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.8,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8717612127326042,
+      "power_margin": 0.07176121273260416,
+      "proposed_pairs": 13,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.8717612127326042,
+      "power_margin": 0.02176121273260423,
+      "proposed_pairs": 13,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.933267512163164,
+      "power_margin": 0.033267512163163926,
+      "proposed_pairs": 15,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9029191239275466,
+      "power_margin": 0.10291912392754654,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9029191239275466,
+      "power_margin": 0.05291912392754661,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9320255266014896,
+      "power_margin": 0.03202552660148961,
+      "proposed_pairs": 13,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9357480149358909,
+      "power_margin": 0.13574801493589084,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9357480149358909,
+      "power_margin": 0.0857480149358909,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9357480149358909,
+      "power_margin": 0.03574801493589086,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9538088201056755,
+      "power_margin": 0.15380882010567543,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9538088201056755,
+      "power_margin": 0.10380882010567549,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9538088201056755,
+      "power_margin": 0.05380882010567545,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9650759458167093,
+      "power_margin": 0.16507594581670926,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9650759458167093,
+      "power_margin": 0.11507594581670932,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9650759458167093,
+      "power_margin": 0.06507594581670928,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.972668335897981,
+      "power_margin": 0.17266833589798092,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.972668335897981,
+      "power_margin": 0.12266833589798098,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.972668335897981,
+      "power_margin": 0.07266833589798094,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9780617479918833,
+      "power_margin": 0.17806174799188323,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9780617479918833,
+      "power_margin": 0.1280617479918833,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9780617479918833,
+      "power_margin": 0.07806174799188326,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9820441138075088,
+      "power_margin": 0.18204411380750873,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9820441138075088,
+      "power_margin": 0.1320441138075088,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9820441138075088,
+      "power_margin": 0.08204411380750876,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9850732071898446,
+      "power_margin": 0.18507320718984455,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9850732071898446,
+      "power_margin": 0.1350732071898446,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9850732071898446,
+      "power_margin": 0.08507320718984457,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9874322232548728,
+      "power_margin": 0.18743222325487274,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9874322232548728,
+      "power_margin": 0.1374322232548728,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9874322232548728,
+      "power_margin": 0.08743222325487277,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.2,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.999316990104676,
+      "power_margin": 0.19931699010467596,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.999316990104676,
+      "power_margin": 0.14931699010467603,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.999316990104676,
+      "power_margin": 0.09931699010467598,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9998696166027761,
+      "power_margin": 0.19986961660277602,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9998696166027761,
+      "power_margin": 0.1498696166027761,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9998696166027761,
+      "power_margin": 0.09986961660277605,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.999956864705006,
+      "power_margin": 0.19995686470500595,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.999956864705006,
+      "power_margin": 0.14995686470500602,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.999956864705006,
+      "power_margin": 0.09995686470500598,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9999816228195225,
+      "power_margin": 0.19998162281952248,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9999816228195225,
+      "power_margin": 0.14998162281952254,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9999816228195225,
+      "power_margin": 0.0999816228195225,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9999909102563234,
+      "power_margin": 0.19999091025632332,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9999909102563234,
+      "power_margin": 0.14999091025632338,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9999909102563234,
+      "power_margin": 0.09999091025632334,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9999950323252033,
+      "power_margin": 0.19999503232520321,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9999950323252033,
+      "power_margin": 0.14999503232520328,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9999950323252033,
+      "power_margin": 0.09999503232520324,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.999997082592019,
+      "power_margin": 0.19999708259201898,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.999997082592019,
+      "power_margin": 0.14999708259201905,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.999997082592019,
+      "power_margin": 0.099997082592019,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9999981905054414,
+      "power_margin": 0.19999819050544132,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9999981905054414,
+      "power_margin": 0.1499981905054414,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9999981905054414,
+      "power_margin": 0.09999819050544134,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9999988283353342,
+      "power_margin": 0.1999988283353341,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9999988283353342,
+      "power_margin": 0.14999882833533418,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9999988283353342,
+      "power_margin": 0.09999882833533413,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9999992144135352,
+      "power_margin": 0.1999992144135352,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9999992144135352,
+      "power_margin": 0.14999921441353525,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9999992144135352,
+      "power_margin": 0.09999921441353521,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9999999987577709,
+      "power_margin": 0.19999999875777086,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9999999987577709,
+      "power_margin": 0.14999999875777092,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 0.9999999987577709,
+      "power_margin": 0.09999999875777088,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9999999999685535,
+      "power_margin": 0.19999999996855344,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9999999999685535,
+      "power_margin": 0.1499999999685535,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 0.9999999999685535,
+      "power_margin": 0.09999999996855347,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9999999999971185,
+      "power_margin": 0.19999999999711848,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9999999999971185,
+      "power_margin": 0.14999999999711855,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 0.9999999999971185,
+      "power_margin": 0.0999999999971185,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9999999999995288,
+      "power_margin": 0.19999999999952878,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9999999999995288,
+      "power_margin": 0.14999999999952884,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 0.9999999999995288,
+      "power_margin": 0.0999999999995288,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9999999999998921,
+      "power_margin": 0.19999999999989204,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9999999999998921,
+      "power_margin": 0.1499999999998921,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 0.9999999999998921,
+      "power_margin": 0.09999999999989206,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9999999999999691,
+      "power_margin": 0.1999999999999691,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9999999999999691,
+      "power_margin": 0.14999999999996916,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 0.9999999999999691,
+      "power_margin": 0.09999999999996911,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9999999999999896,
+      "power_margin": 0.19999999999998952,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9999999999999896,
+      "power_margin": 0.14999999999998959,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 0.9999999999999896,
+      "power_margin": 0.09999999999998954,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9999999999999961,
+      "power_margin": 0.19999999999999607,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9999999999999961,
+      "power_margin": 0.14999999999999614,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 0.9999999999999961,
+      "power_margin": 0.09999999999999609,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9999999999999983,
+      "power_margin": 0.1999999999999983,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9999999999999983,
+      "power_margin": 0.14999999999999836,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 0.9999999999999983,
+      "power_margin": 0.09999999999999831,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9999999999999992,
+      "power_margin": 0.19999999999999918,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9999999999999992,
+      "power_margin": 0.14999999999999925,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 0.9999999999999992,
+      "power_margin": 0.0999999999999992,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.01,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.02,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.03,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.04,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.05,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.06,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.07,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.08,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.09,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19999999999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15000000000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.85
+    },
+    {
+      "alpha": 0.1,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.09999999999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 5.0,
+      "target_power": 0.9
+    },
+    {
+      "alpha": 0.070779,
+      "oracle_achieved_power": 0.9999996739381133,
+      "power_margin": 0.1996576739381133,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.138846,
+      "target_power": 0.800342
+    },
+    {
+      "alpha": 0.072238,
+      "oracle_achieved_power": 0.9312514025617438,
+      "power_margin": 0.11747140256174382,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.026731,
+      "target_power": 0.81378
+    },
+    {
+      "alpha": 0.054064,
+      "oracle_achieved_power": 0.8558620787888367,
+      "power_margin": 0.03959207878883664,
+      "proposed_pairs": 18,
+      "standardized_mde": 0.746039,
+      "target_power": 0.81627
+    },
+    {
+      "alpha": 0.079891,
+      "oracle_achieved_power": 0.8620418634706284,
+      "power_margin": 0.005186863470628356,
+      "proposed_pairs": 75,
+      "standardized_mde": 0.331488,
+      "target_power": 0.856855
+    },
+    {
+      "alpha": 0.075226,
+      "oracle_achieved_power": 0.8585659277108031,
+      "power_margin": 0.0002139277108030857,
+      "proposed_pairs": 2469,
+      "standardized_mde": 0.057435,
+      "target_power": 0.858352
+    },
+    {
+      "alpha": 0.094825,
+      "oracle_achieved_power": 0.9999999999999853,
+      "power_margin": 0.13616699999998538,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.896274,
+      "target_power": 0.863833
+    },
+    {
+      "alpha": 0.01244,
+      "oracle_achieved_power": 0.8796997697193075,
+      "power_margin": 0.0005737697193075597,
+      "proposed_pairs": 511,
+      "standardized_mde": 0.162979,
+      "target_power": 0.879126
+    },
+    {
+      "alpha": 0.058865,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.10240199999999999,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.607171,
+      "target_power": 0.897598
+    },
+    {
+      "alpha": 0.016531,
+      "oracle_achieved_power": 0.8692526464060354,
+      "power_margin": 0.016379646406035397,
+      "proposed_pairs": 29,
+      "standardized_mde": 0.689533,
+      "target_power": 0.852873
+    },
+    {
+      "alpha": 0.024736,
+      "oracle_achieved_power": 0.9999932982988128,
+      "power_margin": 0.14511429829881284,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.189817,
+      "target_power": 0.854879
+    },
+    {
+      "alpha": 0.081223,
+      "oracle_achieved_power": 0.861085589119836,
+      "power_margin": 0.0021235891198360113,
+      "proposed_pairs": 224,
+      "standardized_mde": 0.189657,
+      "target_power": 0.858962
+    },
+    {
+      "alpha": 0.042745,
+      "oracle_achieved_power": 0.8582377403916007,
+      "power_margin": 0.0006867403916007708,
+      "proposed_pairs": 471,
+      "standardized_mde": 0.14309,
+      "target_power": 0.857551
+    },
+    {
+      "alpha": 0.012727,
+      "oracle_achieved_power": 0.8117711363198933,
+      "power_margin": 0.007374136319893254,
+      "proposed_pairs": 58,
+      "standardized_mde": 0.45574,
+      "target_power": 0.804397
+    },
+    {
+      "alpha": 0.097235,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.14830299999999996,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.452167,
+      "target_power": 0.851697
+    },
+    {
+      "alpha": 0.046164,
+      "oracle_achieved_power": 0.8475518346067458,
+      "power_margin": 0.007229834606745755,
+      "proposed_pairs": 65,
+      "standardized_mde": 0.380518,
+      "target_power": 0.840322
+    },
+    {
+      "alpha": 0.069062,
+      "oracle_achieved_power": 0.848089367781506,
+      "power_margin": 0.02712636778150601,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.75424,
+      "target_power": 0.820963
+    },
+    {
+      "alpha": 0.081632,
+      "oracle_achieved_power": 0.9999999999739068,
+      "power_margin": 0.1819729999739068,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.609227,
+      "target_power": 0.818027
+    },
+    {
+      "alpha": 0.085978,
+      "oracle_achieved_power": 0.8645284657391785,
+      "power_margin": 0.00038346573917846793,
+      "proposed_pairs": 729,
+      "standardized_mde": 0.104472,
+      "target_power": 0.864145
+    },
+    {
+      "alpha": 0.088775,
+      "oracle_achieved_power": 0.8423378225936854,
+      "power_margin": 0.0006938225936854447,
+      "proposed_pairs": 714,
+      "standardized_mde": 0.101372,
+      "target_power": 0.841644
+    },
+    {
+      "alpha": 0.094085,
+      "oracle_achieved_power": 0.9999999999999993,
+      "power_margin": 0.16112399999999938,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.02209,
+      "target_power": 0.838876
+    },
+    {
+      "alpha": 0.012894,
+      "oracle_achieved_power": 0.8757825690198928,
+      "power_margin": 8.256901989278642e-05,
+      "proposed_pairs": 2909,
+      "standardized_mde": 0.06754,
+      "target_power": 0.8757
+    },
+    {
+      "alpha": 0.077907,
+      "oracle_achieved_power": 0.8915825586804978,
+      "power_margin": 0.004525558680497865,
+      "proposed_pairs": 105,
+      "standardized_mde": 0.294782,
+      "target_power": 0.887057
+    },
+    {
+      "alpha": 0.054213,
+      "oracle_achieved_power": 0.8557944551013593,
+      "power_margin": 9.045510135929913e-05,
+      "proposed_pairs": 4060,
+      "standardized_mde": 0.046885,
+      "target_power": 0.855704
+    },
+    {
+      "alpha": 0.070391,
+      "oracle_achieved_power": 0.9044872650448444,
+      "power_margin": 0.004628265044844482,
+      "proposed_pairs": 53,
+      "standardized_mde": 0.435058,
+      "target_power": 0.899859
+    },
+    {
+      "alpha": 0.07152,
+      "oracle_achieved_power": 0.8115472390587808,
+      "power_margin": 0.00805223905878083,
+      "proposed_pairs": 51,
+      "standardized_mde": 0.382337,
+      "target_power": 0.803495
+    },
+    {
+      "alpha": 0.044663,
+      "oracle_achieved_power": 0.9999999633725143,
+      "power_margin": 0.10506896337251426,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.386844,
+      "target_power": 0.894931
+    },
+    {
+      "alpha": 0.062479,
+      "oracle_achieved_power": 0.8428138114847906,
+      "power_margin": 0.04197881148479066,
+      "proposed_pairs": 13,
+      "standardized_mde": 0.859903,
+      "target_power": 0.800835
+    },
+    {
+      "alpha": 0.059296,
+      "oracle_achieved_power": 0.824350723482306,
+      "power_margin": 0.0004097234823059459,
+      "proposed_pairs": 1310,
+      "standardized_mde": 0.077913,
+      "target_power": 0.823941
+    },
+    {
+      "alpha": 0.059864,
+      "oracle_achieved_power": 0.9989626813197666,
+      "power_margin": 0.10335568131976658,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.570295,
+      "target_power": 0.895607
+    },
+    {
+      "alpha": 0.049581,
+      "oracle_achieved_power": 0.8068022426758017,
+      "power_margin": 0.0005592426758016522,
+      "proposed_pairs": 704,
+      "standardized_mde": 0.106796,
+      "target_power": 0.806243
+    },
+    {
+      "alpha": 0.035599,
+      "oracle_achieved_power": 0.8489151585580115,
+      "power_margin": 0.0015781585580114665,
+      "proposed_pairs": 240,
+      "standardized_mde": 0.203192,
+      "target_power": 0.847337
+    },
+    {
+      "alpha": 0.046545,
+      "oracle_achieved_power": 0.8736598033821842,
+      "power_margin": 0.00030080338218418934,
+      "proposed_pairs": 942,
+      "standardized_mde": 0.102228,
+      "target_power": 0.873359
+    },
+    {
+      "alpha": 0.080028,
+      "oracle_achieved_power": 0.8281447890359148,
+      "power_margin": 0.0008057890359147724,
+      "proposed_pairs": 561,
+      "standardized_mde": 0.114039,
+      "target_power": 0.827339
+    },
+    {
+      "alpha": 0.042945,
+      "oracle_achieved_power": 0.9016395161146329,
+      "power_margin": 0.0017785161146328665,
+      "proposed_pairs": 213,
+      "standardized_mde": 0.228259,
+      "target_power": 0.899861
+    },
+    {
+      "alpha": 0.010618,
+      "oracle_achieved_power": 0.851242343042236,
+      "power_margin": 0.0016033430422359718,
+      "proposed_pairs": 260,
+      "standardized_mde": 0.224481,
+      "target_power": 0.849639
+    },
+    {
+      "alpha": 0.069284,
+      "oracle_achieved_power": 0.8334414159078266,
+      "power_margin": 0.031580415907826564,
+      "proposed_pairs": 20,
+      "standardized_mde": 0.651482,
+      "target_power": 0.801861
+    },
+    {
+      "alpha": 0.066664,
+      "oracle_achieved_power": 0.999999999997965,
+      "power_margin": 0.130016999997965,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.784581,
+      "target_power": 0.869983
+    },
+    {
+      "alpha": 0.059793,
+      "oracle_achieved_power": 0.8154046660224294,
+      "power_margin": 0.0010366660224294666,
+      "proposed_pairs": 608,
+      "standardized_mde": 0.112921,
+      "target_power": 0.814368
+    },
+    {
+      "alpha": 0.061627,
+      "oracle_achieved_power": 0.90734154760849,
+      "power_margin": 0.03472154760849,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.849471,
+      "target_power": 0.87262
+    },
+    {
+      "alpha": 0.013872,
+      "oracle_achieved_power": 0.8804251257219238,
+      "power_margin": 0.01712912572192382,
+      "proposed_pairs": 22,
+      "standardized_mde": 0.837142,
+      "target_power": 0.863296
+    },
+    {
+      "alpha": 0.063489,
+      "oracle_achieved_power": 0.9012130507200742,
+      "power_margin": 0.0029510507200741776,
+      "proposed_pairs": 60,
+      "standardized_mde": 0.411983,
+      "target_power": 0.898262
+    },
+    {
+      "alpha": 0.089647,
+      "oracle_achieved_power": 0.8095871160527868,
+      "power_margin": 0.0007681160527868158,
+      "proposed_pairs": 538,
+      "standardized_mde": 0.111105,
+      "target_power": 0.808819
+    },
+    {
+      "alpha": 0.034631,
+      "oracle_achieved_power": 0.8769713047445862,
+      "power_margin": 0.004584304744586154,
+      "proposed_pairs": 43,
+      "standardized_mde": 0.512845,
+      "target_power": 0.872387
+    },
+    {
+      "alpha": 0.023421,
+      "oracle_achieved_power": 0.9679005722496641,
+      "power_margin": 0.08687857224966411,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.356282,
+      "target_power": 0.881022
+    },
+    {
+      "alpha": 0.011444,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.12888699999999997,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.325706,
+      "target_power": 0.871113
+    },
+    {
+      "alpha": 0.05052,
+      "oracle_achieved_power": 0.8702434803522232,
+      "power_margin": 0.002267480352223239,
+      "proposed_pairs": 95,
+      "standardized_mde": 0.319583,
+      "target_power": 0.867976
+    },
+    {
+      "alpha": 0.055476,
+      "oracle_achieved_power": 0.8471728969821697,
+      "power_margin": 0.020164896982169722,
+      "proposed_pairs": 33,
+      "standardized_mde": 0.526999,
+      "target_power": 0.827008
+    },
+    {
+      "alpha": 0.080747,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.14809300000000003,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.857977,
+      "target_power": 0.851907
+    },
+    {
+      "alpha": 0.081421,
+      "oracle_achieved_power": 0.8834978172616077,
+      "power_margin": 0.00030081726160768874,
+      "proposed_pairs": 997,
+      "standardized_mde": 0.093028,
+      "target_power": 0.883197
+    },
+    {
+      "alpha": 0.025562,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15585300000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.974988,
+      "target_power": 0.844147
+    },
+    {
+      "alpha": 0.083908,
+      "oracle_achieved_power": 0.9999999863178176,
+      "power_margin": 0.12626098631781757,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.281731,
+      "target_power": 0.873739
+    },
+    {
+      "alpha": 0.057635,
+      "oracle_achieved_power": 0.8836229902505536,
+      "power_margin": 0.001465990250553606,
+      "proposed_pairs": 200,
+      "standardized_mde": 0.219617,
+      "target_power": 0.882157
+    },
+    {
+      "alpha": 0.063272,
+      "oracle_achieved_power": 0.9999999999999991,
+      "power_margin": 0.10062899999999908,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.128919,
+      "target_power": 0.899371
+    },
+    {
+      "alpha": 0.059448,
+      "oracle_achieved_power": 0.8049217831340084,
+      "power_margin": 0.0014287831340084045,
+      "proposed_pairs": 305,
+      "standardized_mde": 0.157593,
+      "target_power": 0.803493
+    },
+    {
+      "alpha": 0.05363,
+      "oracle_achieved_power": 0.8427795394430247,
+      "power_margin": 0.008476539443024733,
+      "proposed_pairs": 64,
+      "standardized_mde": 0.372511,
+      "target_power": 0.834303
+    },
+    {
+      "alpha": 0.02142,
+      "oracle_achieved_power": 0.9843627523396679,
+      "power_margin": 0.09731375233966788,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.47544,
+      "target_power": 0.887049
+    },
+    {
+      "alpha": 0.055438,
+      "oracle_achieved_power": 0.9046110892523679,
+      "power_margin": 0.07458908925236785,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.019312,
+      "target_power": 0.830022
+    },
+    {
+      "alpha": 0.085223,
+      "oracle_achieved_power": 0.9887105713213632,
+      "power_margin": 0.11248157132136316,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.24478,
+      "target_power": 0.876229
+    },
+    {
+      "alpha": 0.094415,
+      "oracle_achieved_power": 0.9999999999999997,
+      "power_margin": 0.10150499999999962,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.048657,
+      "target_power": 0.898495
+    },
+    {
+      "alpha": 0.067337,
+      "oracle_achieved_power": 0.892129551449527,
+      "power_margin": 0.0004555514495270252,
+      "proposed_pairs": 881,
+      "standardized_mde": 0.10344,
+      "target_power": 0.891674
+    },
+    {
+      "alpha": 0.053819,
+      "oracle_achieved_power": 0.8285266362819226,
+      "power_margin": 9.863628192252616e-05,
+      "proposed_pairs": 3513,
+      "standardized_mde": 0.048547,
+      "target_power": 0.828428
+    },
+    {
+      "alpha": 0.041366,
+      "oracle_achieved_power": 0.9992210378009048,
+      "power_margin": 0.14376503780090477,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.676157,
+      "target_power": 0.855456
+    },
+    {
+      "alpha": 0.043231,
+      "oracle_achieved_power": 0.8686352634557043,
+      "power_margin": 0.001133263455704303,
+      "proposed_pairs": 411,
+      "standardized_mde": 0.155343,
+      "target_power": 0.867502
+    },
+    {
+      "alpha": 0.096384,
+      "oracle_achieved_power": 0.8184209183687495,
+      "power_margin": 0.00015491836874947928,
+      "proposed_pairs": 3743,
+      "standardized_mde": 0.042047,
+      "target_power": 0.818266
+    },
+    {
+      "alpha": 0.077544,
+      "oracle_achieved_power": 0.8270277019843932,
+      "power_margin": 0.00014170198439322768,
+      "proposed_pairs": 2110,
+      "standardized_mde": 0.058966,
+      "target_power": 0.826886
+    },
+    {
+      "alpha": 0.03554,
+      "oracle_achieved_power": 0.8339714643395929,
+      "power_margin": 0.003055464339592917,
+      "proposed_pairs": 158,
+      "standardized_mde": 0.246142,
+      "target_power": 0.830916
+    },
+    {
+      "alpha": 0.032585,
+      "oracle_achieved_power": 0.8650916437811941,
+      "power_margin": 0.012758643781194068,
+      "proposed_pairs": 37,
+      "standardized_mde": 0.55043,
+      "target_power": 0.852333
+    },
+    {
+      "alpha": 0.061838,
+      "oracle_achieved_power": 0.8621373204929612,
+      "power_margin": 0.021332320492961188,
+      "proposed_pairs": 15,
+      "standardized_mde": 0.815945,
+      "target_power": 0.840805
+    },
+    {
+      "alpha": 0.013468,
+      "oracle_achieved_power": 0.8770753855175409,
+      "power_margin": 0.01852838551754099,
+      "proposed_pairs": 25,
+      "standardized_mde": 0.776621,
+      "target_power": 0.858547
+    },
+    {
+      "alpha": 0.049971,
+      "oracle_achieved_power": 0.9999999216117421,
+      "power_margin": 0.12957192161174214,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.312689,
+      "target_power": 0.870428
+    },
+    {
+      "alpha": 0.031393,
+      "oracle_achieved_power": 0.8153642016689371,
+      "power_margin": 0.00015420166893709286,
+      "proposed_pairs": 2222,
+      "standardized_mde": 0.064735,
+      "target_power": 0.81521
+    },
+    {
+      "alpha": 0.074699,
+      "oracle_achieved_power": 0.9999999999997169,
+      "power_margin": 0.13096799999971687,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.840142,
+      "target_power": 0.869032
+    },
+    {
+      "alpha": 0.061971,
+      "oracle_achieved_power": 0.9010074581414068,
+      "power_margin": 0.04165745814140687,
+      "proposed_pairs": 13,
+      "standardized_mde": 0.946115,
+      "target_power": 0.85935
+    },
+    {
+      "alpha": 0.085081,
+      "oracle_achieved_power": 0.8278351365705383,
+      "power_margin": 0.00676113657053834,
+      "proposed_pairs": 73,
+      "standardized_mde": 0.31548,
+      "target_power": 0.821074
+    },
+    {
+      "alpha": 0.099254,
+      "oracle_achieved_power": 0.8441582109270152,
+      "power_margin": 0.002293210927015177,
+      "proposed_pairs": 145,
+      "standardized_mde": 0.221963,
+      "target_power": 0.841865
+    },
+    {
+      "alpha": 0.063747,
+      "oracle_achieved_power": 0.8164491755779003,
+      "power_margin": 0.00025917557790033907,
+      "proposed_pairs": 1862,
+      "standardized_mde": 0.063895,
+      "target_power": 0.81619
+    },
+    {
+      "alpha": 0.065766,
+      "oracle_achieved_power": 0.9999989253497498,
+      "power_margin": 0.14523992534974972,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.081063,
+      "target_power": 0.854759
+    },
+    {
+      "alpha": 0.075493,
+      "oracle_achieved_power": 0.8954100922492793,
+      "power_margin": 0.0015020922492792188,
+      "proposed_pairs": 153,
+      "standardized_mde": 0.246511,
+      "target_power": 0.893908
+    },
+    {
+      "alpha": 0.036615,
+      "oracle_achieved_power": 0.8187778947231531,
+      "power_margin": 0.0008278947231531442,
+      "proposed_pairs": 494,
+      "standardized_mde": 0.13531,
+      "target_power": 0.81795
+    },
+    {
+      "alpha": 0.03906,
+      "oracle_achieved_power": 0.815632072168805,
+      "power_margin": 0.0004910721688049513,
+      "proposed_pairs": 698,
+      "standardized_mde": 0.1123,
+      "target_power": 0.815141
+    },
+    {
+      "alpha": 0.086274,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15661499999999995,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.85067,
+      "target_power": 0.843385
+    },
+    {
+      "alpha": 0.034072,
+      "oracle_achieved_power": 0.8478425575382552,
+      "power_margin": 0.018187557538255184,
+      "proposed_pairs": 29,
+      "standardized_mde": 0.609058,
+      "target_power": 0.829655
+    },
+    {
+      "alpha": 0.034308,
+      "oracle_achieved_power": 0.8405401696753114,
+      "power_margin": 0.005284169675311423,
+      "proposed_pairs": 59,
+      "standardized_mde": 0.413329,
+      "target_power": 0.835256
+    },
+    {
+      "alpha": 0.073566,
+      "oracle_achieved_power": 0.8745981488840229,
+      "power_margin": 0.0005371488840228977,
+      "proposed_pairs": 822,
+      "standardized_mde": 0.102564,
+      "target_power": 0.874061
+    },
+    {
+      "alpha": 0.063299,
+      "oracle_achieved_power": 0.999999999995929,
+      "power_margin": 0.14015899999592907,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.767337,
+      "target_power": 0.859841
+    },
+    {
+      "alpha": 0.052145,
+      "oracle_achieved_power": 0.9999999991212832,
+      "power_margin": 0.17895299912128326,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.554761,
+      "target_power": 0.821047
+    },
+    {
+      "alpha": 0.062076,
+      "oracle_achieved_power": 0.99658698778532,
+      "power_margin": 0.16148098778531994,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.443124,
+      "target_power": 0.835106
+    },
+    {
+      "alpha": 0.01564,
+      "oracle_achieved_power": 0.8294916591566472,
+      "power_margin": 0.00232965915664729,
+      "proposed_pairs": 170,
+      "standardized_mde": 0.260677,
+      "target_power": 0.827162
+    },
+    {
+      "alpha": 0.079604,
+      "oracle_achieved_power": 0.8731230372554905,
+      "power_margin": 0.025064037255490446,
+      "proposed_pairs": 17,
+      "standardized_mde": 0.738391,
+      "target_power": 0.848059
+    },
+    {
+      "alpha": 0.043407,
+      "oracle_achieved_power": 0.87361775826716,
+      "power_margin": 0.00042575826716007015,
+      "proposed_pairs": 715,
+      "standardized_mde": 0.118475,
+      "target_power": 0.873192
+    },
+    {
+      "alpha": 0.083086,
+      "oracle_achieved_power": 0.9006945307304907,
+      "power_margin": 0.0008475307304907087,
+      "proposed_pairs": 253,
+      "standardized_mde": 0.190344,
+      "target_power": 0.899847
+    },
+    {
+      "alpha": 0.023139,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.11911099999999997,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.888338,
+      "target_power": 0.880889
+    },
+    {
+      "alpha": 0.018584,
+      "oracle_achieved_power": 0.8243962817782303,
+      "power_margin": 0.023975281778230273,
+      "proposed_pairs": 31,
+      "standardized_mde": 0.619114,
+      "target_power": 0.800421
+    },
+    {
+      "alpha": 0.024622,
+      "oracle_achieved_power": 0.8152444315387832,
+      "power_margin": 0.001724431538783211,
+      "proposed_pairs": 381,
+      "standardized_mde": 0.161644,
+      "target_power": 0.81352
+    },
+    {
+      "alpha": 0.039215,
+      "oracle_achieved_power": 0.8610289208818287,
+      "power_margin": 0.02101392088182874,
+      "proposed_pairs": 31,
+      "standardized_mde": 0.586265,
+      "target_power": 0.840015
+    },
+    {
+      "alpha": 0.04348,
+      "oracle_achieved_power": 0.8328999811441736,
+      "power_margin": 0.00044898114417357693,
+      "proposed_pairs": 583,
+      "standardized_mde": 0.123833,
+      "target_power": 0.832451
+    },
+    {
+      "alpha": 0.035322,
+      "oracle_achieved_power": 0.8845705967302593,
+      "power_margin": 0.007601596730259286,
+      "proposed_pairs": 68,
+      "standardized_mde": 0.407303,
+      "target_power": 0.876969
+    },
+    {
+      "alpha": 0.032414,
+      "oracle_achieved_power": 0.9999999999896796,
+      "power_margin": 0.1697089999896796,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.914785,
+      "target_power": 0.830291
+    },
+    {
+      "alpha": 0.050874,
+      "oracle_achieved_power": 0.8749720707405568,
+      "power_margin": 0.011450070740556817,
+      "proposed_pairs": 45,
+      "standardized_mde": 0.472881,
+      "target_power": 0.863522
+    },
+    {
+      "alpha": 0.098441,
+      "oracle_achieved_power": 0.8084144882053939,
+      "power_margin": 0.00043548820539385247,
+      "proposed_pairs": 830,
+      "standardized_mde": 0.087698,
+      "target_power": 0.807979
+    },
+    {
+      "alpha": 0.01081,
+      "oracle_achieved_power": 0.866919122563191,
+      "power_margin": 0.0005631225631910208,
+      "proposed_pairs": 292,
+      "standardized_mde": 0.215432,
+      "target_power": 0.866356
+    },
+    {
+      "alpha": 0.056147,
+      "oracle_achieved_power": 0.8328474338231497,
+      "power_margin": 0.0056514338231496986,
+      "proposed_pairs": 100,
+      "standardized_mde": 0.290221,
+      "target_power": 0.827196
+    },
+    {
+      "alpha": 0.060288,
+      "oracle_achieved_power": 0.9999435032725132,
+      "power_margin": 0.16200850327251326,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.819465,
+      "target_power": 0.837935
+    },
+    {
+      "alpha": 0.018619,
+      "oracle_achieved_power": 0.8977778012288424,
+      "power_margin": 0.005688801228842411,
+      "proposed_pairs": 60,
+      "standardized_mde": 0.478939,
+      "target_power": 0.892089
+    },
+    {
+      "alpha": 0.087354,
+      "oracle_achieved_power": 0.8044562923945381,
+      "power_margin": 0.00015729239453809996,
+      "proposed_pairs": 3731,
+      "standardized_mde": 0.042036,
+      "target_power": 0.804299
+    },
+    {
+      "alpha": 0.053642,
+      "oracle_achieved_power": 0.8678450868870201,
+      "power_margin": 0.004835086887020057,
+      "proposed_pairs": 107,
+      "standardized_mde": 0.297086,
+      "target_power": 0.86301
+    },
+    {
+      "alpha": 0.062847,
+      "oracle_achieved_power": 0.8375270237616538,
+      "power_margin": 0.0004900237616537462,
+      "proposed_pairs": 532,
+      "standardized_mde": 0.123531,
+      "target_power": 0.837037
+    },
+    {
+      "alpha": 0.098704,
+      "oracle_achieved_power": 0.8041942038774503,
+      "power_margin": 0.00026720387745038376,
+      "proposed_pairs": 2465,
+      "standardized_mde": 0.050525,
+      "target_power": 0.803927
+    },
+    {
+      "alpha": 0.095815,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.14608500000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.39678,
+      "target_power": 0.853915
+    },
+    {
+      "alpha": 0.012257,
+      "oracle_achieved_power": 0.8835979405202778,
+      "power_margin": 0.0001279405202778694,
+      "proposed_pairs": 1769,
+      "standardized_mde": 0.087997,
+      "target_power": 0.88347
+    },
+    {
+      "alpha": 0.065444,
+      "oracle_achieved_power": 0.8316001830236501,
+      "power_margin": 0.0008841830236501202,
+      "proposed_pairs": 610,
+      "standardized_mde": 0.113637,
+      "target_power": 0.830716
+    },
+    {
+      "alpha": 0.070853,
+      "oracle_achieved_power": 0.8319769681464234,
+      "power_margin": 0.005500968146423424,
+      "proposed_pairs": 55,
+      "standardized_mde": 0.379062,
+      "target_power": 0.826476
+    },
+    {
+      "alpha": 0.097159,
+      "oracle_achieved_power": 0.8964367649584402,
+      "power_margin": 8.976495844015275e-05,
+      "proposed_pairs": 2731,
+      "standardized_mde": 0.055895,
+      "target_power": 0.896347
+    },
+    {
+      "alpha": 0.050608,
+      "oracle_achieved_power": 0.8275627621844422,
+      "power_margin": 0.014724762184442297,
+      "proposed_pairs": 38,
+      "standardized_mde": 0.482939,
+      "target_power": 0.812838
+    },
+    {
+      "alpha": 0.038622,
+      "oracle_achieved_power": 0.8724016459939142,
+      "power_margin": 0.0008176459939142067,
+      "proposed_pairs": 327,
+      "standardized_mde": 0.177877,
+      "target_power": 0.871584
+    },
+    {
+      "alpha": 0.014066,
+      "oracle_achieved_power": 0.908772691805814,
+      "power_margin": 0.011164691805814031,
+      "proposed_pairs": 24,
+      "standardized_mde": 0.828899,
+      "target_power": 0.897608
+    },
+    {
+      "alpha": 0.055751,
+      "oracle_achieved_power": 0.8355527413167859,
+      "power_margin": 0.0006677413167859303,
+      "proposed_pairs": 819,
+      "standardized_mde": 0.101074,
+      "target_power": 0.834885
+    },
+    {
+      "alpha": 0.015435,
+      "oracle_achieved_power": 0.9999676582259583,
+      "power_margin": 0.1827246582259583,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.17971,
+      "target_power": 0.817243
+    },
+    {
+      "alpha": 0.070022,
+      "oracle_achieved_power": 0.8690109043912023,
+      "power_margin": 0.03700590439120233,
+      "proposed_pairs": 17,
+      "standardized_mde": 0.751043,
+      "target_power": 0.832005
+    },
+    {
+      "alpha": 0.041259,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.15787099999999998,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.815673,
+      "target_power": 0.842129
+    },
+    {
+      "alpha": 0.023436,
+      "oracle_achieved_power": 0.8697386740146305,
+      "power_margin": 0.0006136740146304165,
+      "proposed_pairs": 390,
+      "standardized_mde": 0.1723,
+      "target_power": 0.869125
+    },
+    {
+      "alpha": 0.059069,
+      "oracle_achieved_power": 0.958011077183921,
+      "power_margin": 0.11627907718392094,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.141345,
+      "target_power": 0.841732
+    },
+    {
+      "alpha": 0.012963,
+      "oracle_achieved_power": 0.9999906240967671,
+      "power_margin": 0.1926796240967671,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.322466,
+      "target_power": 0.807311
+    },
+    {
+      "alpha": 0.035608,
+      "oracle_achieved_power": 0.9999999999978033,
+      "power_margin": 0.13866899999780335,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.962365,
+      "target_power": 0.861331
+    },
+    {
+      "alpha": 0.0519,
+      "oracle_achieved_power": 0.8806277661888557,
+      "power_margin": 0.0005317661888557534,
+      "proposed_pairs": 370,
+      "standardized_mde": 0.162727,
+      "target_power": 0.880096
+    },
+    {
+      "alpha": 0.030748,
+      "oracle_achieved_power": 0.8178607211497569,
+      "power_margin": 0.010353721149756967,
+      "proposed_pairs": 69,
+      "standardized_mde": 0.375774,
+      "target_power": 0.807507
+    },
+    {
+      "alpha": 0.089293,
+      "oracle_achieved_power": 0.8442868435579398,
+      "power_margin": 0.01688784355793982,
+      "proposed_pairs": 32,
+      "standardized_mde": 0.490884,
+      "target_power": 0.827399
+    },
+    {
+      "alpha": 0.06485,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.12315200000000004,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.743883,
+      "target_power": 0.876848
+    },
+    {
+      "alpha": 0.026601,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.19712700000000005,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.707906,
+      "target_power": 0.802873
+    },
+    {
+      "alpha": 0.022722,
+      "oracle_achieved_power": 0.8801513141442096,
+      "power_margin": 0.0004233141442095967,
+      "proposed_pairs": 474,
+      "standardized_mde": 0.159076,
+      "target_power": 0.879728
+    },
+    {
+      "alpha": 0.095975,
+      "oracle_achieved_power": 0.904917608058304,
+      "power_margin": 0.007639608058303993,
+      "proposed_pairs": 36,
+      "standardized_mde": 0.505951,
+      "target_power": 0.897278
+    },
+    {
+      "alpha": 0.025573,
+      "oracle_achieved_power": 0.8929846091430302,
+      "power_margin": 0.020211609143030218,
+      "proposed_pairs": 14,
+      "standardized_mde": 1.03105,
+      "target_power": 0.872773
+    },
+    {
+      "alpha": 0.022454,
+      "oracle_achieved_power": 0.8577382833865745,
+      "power_margin": 0.04993828338657458,
+      "proposed_pairs": 13,
+      "standardized_mde": 1.047162,
+      "target_power": 0.8078
+    },
+    {
+      "alpha": 0.032197,
+      "oracle_achieved_power": 0.855205379874337,
+      "power_margin": 0.007809379874336941,
+      "proposed_pairs": 62,
+      "standardized_mde": 0.414371,
+      "target_power": 0.847396
+    },
+    {
+      "alpha": 0.01237,
+      "oracle_achieved_power": 0.8627212958284705,
+      "power_margin": 4.229582847048441e-05,
+      "proposed_pairs": 5832,
+      "standardized_mde": 0.047075,
+      "target_power": 0.862679
+    },
+    {
+      "alpha": 0.017041,
+      "oracle_achieved_power": 0.8396600818776643,
+      "power_margin": 0.0007160818776642541,
+      "proposed_pairs": 586,
+      "standardized_mde": 0.139921,
+      "target_power": 0.838944
+    },
+    {
+      "alpha": 0.028763,
+      "oracle_achieved_power": 0.8049049921874781,
+      "power_margin": 0.00023099218747812955,
+      "proposed_pairs": 1692,
+      "standardized_mde": 0.074103,
+      "target_power": 0.804674
+    },
+    {
+      "alpha": 0.074034,
+      "oracle_achieved_power": 0.8272493962926106,
+      "power_margin": 0.006413396292610618,
+      "proposed_pairs": 88,
+      "standardized_mde": 0.293697,
+      "target_power": 0.820836
+    },
+    {
+      "alpha": 0.072543,
+      "oracle_achieved_power": 0.8515684611314148,
+      "power_margin": 0.00192246113141481,
+      "proposed_pairs": 288,
+      "standardized_mde": 0.167754,
+      "target_power": 0.849646
+    },
+    {
+      "alpha": 0.066893,
+      "oracle_achieved_power": 0.8652162596042259,
+      "power_margin": 0.03885225960422589,
+      "proposed_pairs": 13,
+      "standardized_mde": 0.878002,
+      "target_power": 0.826364
+    },
+    {
+      "alpha": 0.06306,
+      "oracle_achieved_power": 0.9985940000003146,
+      "power_margin": 0.10913000000031459,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.529991,
+      "target_power": 0.889464
+    },
+    {
+      "alpha": 0.089606,
+      "oracle_achieved_power": 0.8337260653794566,
+      "power_margin": 0.021186065379456553,
+      "proposed_pairs": 22,
+      "standardized_mde": 0.589075,
+      "target_power": 0.81254
+    },
+    {
+      "alpha": 0.015124,
+      "oracle_achieved_power": 0.9020054610222263,
+      "power_margin": 0.009713461022226366,
+      "proposed_pairs": 22,
+      "standardized_mde": 0.855092,
+      "target_power": 0.892292
+    },
+    {
+      "alpha": 0.07015,
+      "oracle_achieved_power": 0.8224868421155453,
+      "power_margin": 0.004842842115545309,
+      "proposed_pairs": 83,
+      "standardized_mde": 0.303342,
+      "target_power": 0.817644
+    },
+    {
+      "alpha": 0.054871,
+      "oracle_achieved_power": 0.8019963725068867,
+      "power_margin": 0.000992372506886663,
+      "proposed_pairs": 606,
+      "standardized_mde": 0.112641,
+      "target_power": 0.801004
+    },
+    {
+      "alpha": 0.041785,
+      "oracle_achieved_power": 0.8469995130287052,
+      "power_margin": 0.0016405130287052705,
+      "proposed_pairs": 242,
+      "standardized_mde": 0.19751,
+      "target_power": 0.845359
+    },
+    {
+      "alpha": 0.092958,
+      "oracle_achieved_power": 0.9999999999999908,
+      "power_margin": 0.1356449999999908,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.921168,
+      "target_power": 0.864355
+    },
+    {
+      "alpha": 0.082413,
+      "oracle_achieved_power": 0.8495607541616851,
+      "power_margin": 0.00015475416168508893,
+      "proposed_pairs": 2033,
+      "standardized_mde": 0.061488,
+      "target_power": 0.849406
+    },
+    {
+      "alpha": 0.029325,
+      "oracle_achieved_power": 0.8293804836169633,
+      "power_margin": 0.00033548361696322804,
+      "proposed_pairs": 1384,
+      "standardized_mde": 0.084229,
+      "target_power": 0.829045
+    },
+    {
+      "alpha": 0.094795,
+      "oracle_achieved_power": 0.8828194654923494,
+      "power_margin": 0.006366465492349316,
+      "proposed_pairs": 36,
+      "standardized_mde": 0.486461,
+      "target_power": 0.876453
+    },
+    {
+      "alpha": 0.059818,
+      "oracle_achieved_power": 0.8509530495649185,
+      "power_margin": 0.0004850495649184605,
+      "proposed_pairs": 609,
+      "standardized_mde": 0.118605,
+      "target_power": 0.850468
+    },
+    {
+      "alpha": 0.018257,
+      "oracle_achieved_power": 0.9996792714371331,
+      "power_margin": 0.18375227143713313,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.938823,
+      "target_power": 0.815927
+    },
+    {
+      "alpha": 0.01867,
+      "oracle_achieved_power": 0.8990048144348364,
+      "power_margin": 0.002627814434836395,
+      "proposed_pairs": 80,
+      "standardized_mde": 0.412893,
+      "target_power": 0.896377
+    },
+    {
+      "alpha": 0.092586,
+      "oracle_achieved_power": 0.8970024095495193,
+      "power_margin": 0.00013440954951926543,
+      "proposed_pairs": 2922,
+      "standardized_mde": 0.054523,
+      "target_power": 0.896868
+    },
+    {
+      "alpha": 0.084318,
+      "oracle_achieved_power": 0.8447005271462419,
+      "power_margin": 0.0025765271462419026,
+      "proposed_pairs": 138,
+      "standardized_mde": 0.234533,
+      "target_power": 0.842124
+    },
+    {
+      "alpha": 0.09975,
+      "oracle_achieved_power": 0.8862317874021206,
+      "power_margin": 0.006728787402120573,
+      "proposed_pairs": 71,
+      "standardized_mde": 0.341893,
+      "target_power": 0.879503
+    },
+    {
+      "alpha": 0.060076,
+      "oracle_achieved_power": 0.8926597083394029,
+      "power_margin": 0.00017670833940286457,
+      "proposed_pairs": 2244,
+      "standardized_mde": 0.065911,
+      "target_power": 0.892483
+    },
+    {
+      "alpha": 0.062361,
+      "oracle_achieved_power": 0.8740632646210711,
+      "power_margin": 0.0011942646210710839,
+      "proposed_pairs": 400,
+      "standardized_mde": 0.150805,
+      "target_power": 0.872869
+    },
+    {
+      "alpha": 0.070788,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.16677299999999995,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.519338,
+      "target_power": 0.833227
+    },
+    {
+      "alpha": 0.025813,
+      "oracle_achieved_power": 0.8040496472476134,
+      "power_margin": 0.001625647247613382,
+      "proposed_pairs": 225,
+      "standardized_mde": 0.206828,
+      "target_power": 0.802424
+    },
+    {
+      "alpha": 0.071972,
+      "oracle_achieved_power": 0.857615315279111,
+      "power_margin": 0.00019531527911098578,
+      "proposed_pairs": 2181,
+      "standardized_mde": 0.061455,
+      "target_power": 0.85742
+    },
+    {
+      "alpha": 0.044256,
+      "oracle_achieved_power": 0.9999999999768392,
+      "power_margin": 0.15825299997683917,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.785507,
+      "target_power": 0.841747
+    },
+    {
+      "alpha": 0.098979,
+      "oracle_achieved_power": 0.8689977452317106,
+      "power_margin": 0.029322745231710634,
+      "proposed_pairs": 16,
+      "standardized_mde": 0.726789,
+      "target_power": 0.839675
+    },
+    {
+      "alpha": 0.075439,
+      "oracle_achieved_power": 0.9999999999992094,
+      "power_margin": 0.1370609999992094,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.792007,
+      "target_power": 0.862939
+    },
+    {
+      "alpha": 0.089639,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.187786,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.347659,
+      "target_power": 0.812214
+    },
+    {
+      "alpha": 0.073239,
+      "oracle_achieved_power": 0.9156147117291179,
+      "power_margin": 0.020225711729117912,
+      "proposed_pairs": 20,
+      "standardized_mde": 0.740381,
+      "target_power": 0.895389
+    },
+    {
+      "alpha": 0.066303,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.16145900000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.929487,
+      "target_power": 0.838541
+    },
+    {
+      "alpha": 0.065574,
+      "oracle_achieved_power": 0.9999999999275266,
+      "power_margin": 0.10603099992752663,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.619896,
+      "target_power": 0.893969
+    },
+    {
+      "alpha": 0.023473,
+      "oracle_achieved_power": 0.8440471155376158,
+      "power_margin": 0.008320115537615802,
+      "proposed_pairs": 43,
+      "standardized_mde": 0.515625,
+      "target_power": 0.835727
+    },
+    {
+      "alpha": 0.067282,
+      "oracle_achieved_power": 0.9371792506011618,
+      "power_margin": 0.055361250601161816,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.054581,
+      "target_power": 0.881818
+    },
+    {
+      "alpha": 0.046208,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.174728,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.510806,
+      "target_power": 0.825272
+    },
+    {
+      "alpha": 0.07084,
+      "oracle_achieved_power": 0.8863668509667655,
+      "power_margin": 0.00026085096676553565,
+      "proposed_pairs": 1066,
+      "standardized_mde": 0.092382,
+      "target_power": 0.886106
+    },
+    {
+      "alpha": 0.095178,
+      "oracle_achieved_power": 0.8433764288119737,
+      "power_margin": 0.013053428811973689,
+      "proposed_pairs": 46,
+      "standardized_mde": 0.400976,
+      "target_power": 0.830323
+    },
+    {
+      "alpha": 0.077838,
+      "oracle_achieved_power": 0.8758533746393947,
+      "power_margin": 0.0012143746393946664,
+      "proposed_pairs": 397,
+      "standardized_mde": 0.146732,
+      "target_power": 0.874639
+    },
+    {
+      "alpha": 0.014621,
+      "oracle_achieved_power": 0.8265801713201033,
+      "power_margin": 0.0017441713201032938,
+      "proposed_pairs": 153,
+      "standardized_mde": 0.276163,
+      "target_power": 0.824836
+    },
+    {
+      "alpha": 0.052256,
+      "oracle_achieved_power": 0.8472089473297906,
+      "power_margin": 0.00013594732979060886,
+      "proposed_pairs": 2790,
+      "standardized_mde": 0.056163,
+      "target_power": 0.847073
+    },
+    {
+      "alpha": 0.059451,
+      "oracle_achieved_power": 0.8122717565268456,
+      "power_margin": 0.002393756526845592,
+      "proposed_pairs": 252,
+      "standardized_mde": 0.175186,
+      "target_power": 0.809878
+    },
+    {
+      "alpha": 0.064591,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.10475800000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.354806,
+      "target_power": 0.895242
+    },
+    {
+      "alpha": 0.082251,
+      "oracle_achieved_power": 0.9836791535538836,
+      "power_margin": 0.08515715355388354,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.206647,
+      "target_power": 0.898522
+    },
+    {
+      "alpha": 0.072963,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.136231,
+      "proposed_pairs": 12,
+      "standardized_mde": 4.27072,
+      "target_power": 0.863769
+    },
+    {
+      "alpha": 0.036328,
+      "oracle_achieved_power": 0.8929660937982442,
+      "power_margin": 0.001702093798244264,
+      "proposed_pairs": 126,
+      "standardized_mde": 0.299805,
+      "target_power": 0.891264
+    },
+    {
+      "alpha": 0.035355,
+      "oracle_achieved_power": 0.87842249683183,
+      "power_margin": 0.009537496831830028,
+      "proposed_pairs": 24,
+      "standardized_mde": 0.702237,
+      "target_power": 0.868885
+    },
+    {
+      "alpha": 0.076693,
+      "oracle_achieved_power": 0.9999986488463145,
+      "power_margin": 0.1975636488463145,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.029184,
+      "target_power": 0.802435
+    },
+    {
+      "alpha": 0.097004,
+      "oracle_achieved_power": 0.8922466214692759,
+      "power_margin": 0.017151621469275957,
+      "proposed_pairs": 14,
+      "standardized_mde": 0.819503,
+      "target_power": 0.875095
+    },
+    {
+      "alpha": 0.090081,
+      "oracle_achieved_power": 0.9406855133937552,
+      "power_margin": 0.10477451339375521,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.008979,
+      "target_power": 0.835911
+    },
+    {
+      "alpha": 0.036623,
+      "oracle_achieved_power": 0.930383662565315,
+      "power_margin": 0.03564966256531499,
+      "proposed_pairs": 14,
+      "standardized_mde": 1.045189,
+      "target_power": 0.894734
+    },
+    {
+      "alpha": 0.017023,
+      "oracle_achieved_power": 0.8627652331031173,
+      "power_margin": 0.007253233103117207,
+      "proposed_pairs": 32,
+      "standardized_mde": 0.645035,
+      "target_power": 0.855512
+    },
+    {
+      "alpha": 0.034295,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.12871100000000002,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.547445,
+      "target_power": 0.871289
+    },
+    {
+      "alpha": 0.052469,
+      "oracle_achieved_power": 0.8476793806264433,
+      "power_margin": 0.0011813806264433513,
+      "proposed_pairs": 489,
+      "standardized_mde": 0.134377,
+      "target_power": 0.846498
+    },
+    {
+      "alpha": 0.082157,
+      "oracle_achieved_power": 0.9861011089805738,
+      "power_margin": 0.11300610898057384,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.226854,
+      "target_power": 0.873095
+    },
+    {
+      "alpha": 0.025916,
+      "oracle_achieved_power": 0.8629333693020523,
+      "power_margin": 0.004704369302052314,
+      "proposed_pairs": 111,
+      "standardized_mde": 0.318831,
+      "target_power": 0.858229
+    },
+    {
+      "alpha": 0.053545,
+      "oracle_achieved_power": 0.8577265011234527,
+      "power_margin": 0.00029150112345277535,
+      "proposed_pairs": 1525,
+      "standardized_mde": 0.076886,
+      "target_power": 0.857435
+    },
+    {
+      "alpha": 0.077329,
+      "oracle_achieved_power": 0.999999999998694,
+      "power_margin": 0.19425399999869408,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.762533,
+      "target_power": 0.805746
+    },
+    {
+      "alpha": 0.026814,
+      "oracle_achieved_power": 0.9999511137746774,
+      "power_margin": 0.12335811377467742,
+      "proposed_pairs": 12,
+      "standardized_mde": 2.015787,
+      "target_power": 0.876593
+    },
+    {
+      "alpha": 0.07987,
+      "oracle_achieved_power": 0.8865233798385875,
+      "power_margin": 0.0016593798385875491,
+      "proposed_pairs": 153,
+      "standardized_mde": 0.240493,
+      "target_power": 0.884864
+    },
+    {
+      "alpha": 0.018644,
+      "oracle_achieved_power": 0.8832865782510861,
+      "power_margin": 0.0013385782510861866,
+      "proposed_pairs": 132,
+      "standardized_mde": 0.311784,
+      "target_power": 0.881948
+    },
+    {
+      "alpha": 0.059347,
+      "oracle_achieved_power": 0.8526223388280106,
+      "power_margin": 0.0026913388280106476,
+      "proposed_pairs": 132,
+      "standardized_mde": 0.257066,
+      "target_power": 0.849931
+    },
+    {
+      "alpha": 0.074459,
+      "oracle_achieved_power": 0.8238130384729421,
+      "power_margin": 0.00014903847294212014,
+      "proposed_pairs": 4163,
+      "standardized_mde": 0.042068,
+      "target_power": 0.823664
+    },
+    {
+      "alpha": 0.067482,
+      "oracle_achieved_power": 0.9998490708522793,
+      "power_margin": 0.18503907085227922,
+      "proposed_pairs": 12,
+      "standardized_mde": 1.715192,
+      "target_power": 0.81481
+    },
+    {
+      "alpha": 0.093871,
+      "oracle_achieved_power": 1.0,
+      "power_margin": 0.186674,
+      "proposed_pairs": 12,
+      "standardized_mde": 3.568826,
+      "target_power": 0.813326
+    }
+  ],
+  "maximum_pair_count": 9304,
+  "minimum_oracle_achieved_power": 0.8000548818656851,
+  "minimum_oracle_power_margin": 2.034536918216201e-05,
+  "oracle": "SciPy central Student-t critical and noncentral-t two-sided power; qualification-only, not a runtime dependency",
+  "out_of_domain_refusal_cases": [
+    {
+      "alpha": 0.001,
+      "refused_without_runs": true,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.005,
+      "refused_without_runs": true,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.15,
+      "refused_without_runs": true,
+      "target_power": 0.8
+    },
+    {
+      "alpha": 0.05,
+      "refused_without_runs": true,
+      "target_power": 0.75
+    },
+    {
+      "alpha": 0.05,
+      "refused_without_runs": true,
+      "target_power": 0.95
+    }
+  ],
+  "product_source_sha256": "90c8a01ef45685dcb08e1138a88199bc6245dcad637c98efffb187c060d36f1b",
+  "randomized_interior_draws": 200,
+  "schema": "p4-d04-confirmation-domain-benchmark/v1",
+  "scope": "Finite deterministic normal-theory oracle grid only; no power or distribution guarantee for production or nonnormal/dependent paired differences.",
+  "standardized_mde_grid": [
+    0.04,
+    0.06,
+    0.08,
+    0.12,
+    0.2,
+    0.35,
+    0.5,
+    0.8,
+    1.2,
+    2.0,
+    3.0,
+    5.0
+  ],
+  "status": "PASS",
+  "supported_domain": {
+    "alpha": [
+      0.01,
+      0.1
+    ],
+    "target_power": [
+      0.8,
+      0.9
+    ]
+  },
+  "target_power_grid": [
+    0.8,
+    0.85,
+    0.9
+  ],
+  "underpowered_cases": 0
+}

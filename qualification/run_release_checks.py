@@ -478,6 +478,25 @@ def main():
         and d04_alias.get("four_factor_strategies", {}).get("latin_hypercube", {}).get("trials_with_signal_over_epsilon", 0) > 0
         and d04_alias.get("statistical_power_evaluated") is False
     )
+    d04_power_path = ROOT / "qualification" / "results" / "D04_CONFIRMATION_DOMAIN_BENCHMARK.json"
+    d04_power_run, _ = run([sys.executable, "-m", "qualification.benchmark_d04_confirmation_domain",
+                            "--output", "qualification/results/D04_CONFIRMATION_DOMAIN_BENCHMARK.json"])
+    d04_power = json.loads(d04_power_path.read_text(encoding="utf-8")) if d04_power_path.exists() else {}
+    d04_power_script_hash = hashlib.sha256(
+        (ROOT / "qualification" / "benchmark_d04_confirmation_domain.py").read_bytes()).hexdigest()
+    d04_power_pass = (
+        d04_power_run.returncode == 0
+        and d04_power.get("schema") == "p4-d04-confirmation-domain-benchmark/v1"
+        and d04_power.get("status") == "PASS"
+        and d04_power.get("case_count") == 560
+        and d04_power.get("randomized_interior_draws") == 200
+        and d04_power.get("underpowered_cases") == 0
+        and d04_power.get("product_source_sha256") == d04_time_hash
+        and d04_power.get("benchmark_script_sha256") == d04_power_script_hash
+        and all(item.get("refused_without_runs") is True
+                for item in d04_power.get("out_of_domain_refusal_cases", []))
+        and len(d04_power.get("out_of_domain_refusal_cases", [])) == 5
+    )
     d_opt = benchmark.get("d_optimal", {}).get("results", {})
     lhs = benchmark.get("latin_hypercube", {}).get("results", {})
     sequential = benchmark.get("sequential_next_best", {})
@@ -488,10 +507,12 @@ def main():
         and sequential.get("results_by_function", {}).get("multimodal", {}).get("p4", {}).get("accepted_fraction") == 0.0
         and d04_time_pass
         and d04_alias_pass
+        and d04_power_pass
     )
     benchmark_result = {"status": "PASS" if d04_pass else "FAIL",
                         "evidence": ["release/D04_OSS_COMPARISON.json", "qualification/results/D04_TIME_HOLDOUT_BENCHMARK.json",
-                                     "qualification/benchmark_d04_aliasing.py", "qualification/results/D04_ALIASING_BENCHMARK.json"],
+                                     "qualification/benchmark_d04_aliasing.py", "qualification/results/D04_ALIASING_BENCHMARK.json",
+                                     "qualification/benchmark_d04_confirmation_domain.py", "qualification/results/D04_CONFIRMATION_DOMAIN_BENCHMARK.json"],
                         "runtime_dependencies_added": False,
                         "d_optimal_efficiency_percent": d_opt.get("p4_greedy", {}).get("D_efficiency_percent"),
                         "p4_latin_hypercube_all_seeds_stratified": lhs.get("p4_basic", {}).get("stratified_seed_fraction"),
@@ -499,6 +520,12 @@ def main():
                         "temporal_holdout": {"status": "PASS" if d04_time_pass else "FAIL",
                                              "random_group_false_acceptance_fraction": d04_time.get("comparison", {}).get("random_group", {}).get("accepted_fraction"),
                                              "time_ordered_acceptance_count": d04_time.get("comparison", {}).get("time_ordered", {}).get("accepted_count")},
+                        "confirmation_power_domain": {"status": "PASS" if d04_power_pass else "FAIL",
+                                                       "tested_cases": d04_power.get("case_count"),
+                                                       "underpowered_cases": d04_power.get("underpowered_cases"),
+                                                       "minimum_power_margin": d04_power.get("minimum_oracle_power_margin"),
+                                                       "out_of_domain_refusals": sum(1 for item in d04_power.get("out_of_domain_refusal_cases", [])
+                                                                                      if item.get("refused_without_runs") is True)},
                         "off_grid_aliasing": {"status": "PASS" if d04_alias_pass else "FAIL",
                                               "trials": d04_alias.get("trials"),
                                               "blind_designs": {name: d04_alias_strategies.get(name, {}).get("trial_signal_fraction")

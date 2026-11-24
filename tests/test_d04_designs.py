@@ -626,6 +626,37 @@ class WindowConfirmationQualification(unittest.TestCase):
         self.assertEqual(refused["required_pair_count"], 35)
         self.assertEqual(refused["required_runs"], 70)
 
+    def test_confirmation_refuses_power_inputs_outside_independent_oracle_domain(self):
+        unsupported = (
+            {**self.spec, "alpha": 0.001},
+            {**self.spec, "alpha": 0.005},
+            {**self.spec, "alpha": 0.15},
+            {**self.spec, "target_power": 0.75},
+            {**self.spec, "target_power": 0.95},
+            {**self.spec, "target_power": 0.98},
+        )
+        for spec in unsupported:
+            with self.subTest(alpha=spec["alpha"], target_power=spec["target_power"]):
+                refused = propose_window_confirmation(self.window, self.controls, self.bounds,
+                                                      spec, [], self.metrics)
+                self.assertEqual(refused["status"], "REFUSED")
+                self.assertEqual(refused["run_count"], 0)
+                self.assertFalse(refused["executed"])
+                self.assertIn("independently benchmarked domain", refused["reason"])
+
+    def test_confirmation_power_domain_includes_qualified_boundaries(self):
+        for alpha, target_power in ((0.01, 0.8), (0.1, 0.9)):
+            with self.subTest(alpha=alpha, target_power=target_power):
+                proposal = propose_window_confirmation(
+                    self.window, self.controls, self.bounds,
+                    {**self.spec, "run_budget": 100_000, "alpha": alpha,
+                     "target_power": target_power}, [], self.metrics)
+                self.assertEqual(proposal["status"], "PROPOSED")
+                self.assertEqual(proposal["power"]["qualification_domain"], {
+                    "alpha": [0.01, 0.1], "target_power": [0.8, 0.9],
+                    "evidence": "finite synthetic normal-theory SciPy noncentral-t oracle grid; not a universal power guarantee"})
+                self.assertIn("not guaranteed", proposal["power"]["target_power_interpretation"])
+
     def test_confirmation_refuses_point_sd_estimates_and_requires_bound_metadata(self):
         point_estimate = {**self.spec, "paired_difference_sd_basis": "POINT_ESTIMATE",
                           "paired_difference_sd_confidence_level": None,

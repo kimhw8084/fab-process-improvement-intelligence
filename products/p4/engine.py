@@ -15,7 +15,7 @@ from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
 from products.p4.design import (assign_blocks, propose_design, propose_multiobjective_next_best,
                                 propose_window_confirmation, DesignError)
 
-ENGINE_VERSION = "1.2.5"
+ENGINE_VERSION = "1.2.6"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10

@@ -483,6 +483,8 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
             or not isinstance(target_power, (int, float)) or isinstance(target_power, bool)
             or not isfinite(target_power) or not 0.5 < target_power < 0.99):
         return refuse("positive paired-difference SD and MDE plus alpha and target power in valid ranges are required")
+    if not 0.01 <= alpha <= 0.1 or not 0.8 <= target_power <= 0.9:
+        return refuse("the paired-power approximation is limited to its independently benchmarked domain: alpha 0.01 to 0.10 and target power 0.80 to 0.90")
     for field in ("paired_difference_sd_source", "minimum_detectable_effect_source"):
         if not isinstance(spec.get(field), str) or not spec[field].strip():
             return refuse(f"{field} is required so the power inputs have reviewable provenance")
@@ -571,6 +573,9 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
                   "paired_difference_sd_degrees_of_freedom": paired_sd_df,
                   "paired_sd_scope": "caller-supplied conservative upper bound; P4 does not recompute or authenticate it",
                   "alpha": alpha, "target_power": target_power,
+                  "qualification_domain": {"alpha": [0.01, 0.1], "target_power": [0.8, 0.9],
+                                           "evidence": "finite synthetic normal-theory SciPy noncentral-t oracle grid; not a universal power guarantee"},
+                  "target_power_interpretation": "requested approximate target under the stated paired-normality, independence, SD-bound and MDE assumptions; achieved power is not guaranteed",
                   "normal_approximation_reference_pairs": normal_pairs,
                   "required_complete_pairs": required_pairs,
                   "approximation_limitations": ["assumes independent randomized blocks and a valid conservative paired-difference SD upper bound",
