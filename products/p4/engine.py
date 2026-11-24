@@ -14,7 +14,7 @@ from products.p4.window import explore_window, WindowError
 from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
 from products.p4.design import assign_blocks, propose_design, propose_window_confirmation
 
-ENGINE_VERSION = "1.2.0"
+ENGINE_VERSION = "1.2.1"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10
@@ -715,6 +715,9 @@ def _effectiveness(data, metric_defs=None):
             if entry["group"] != row["group"] or row["period"] in entry:
                 return {"status": "INCONCLUSIVE", "reason": "DiD assignments and period records must be unique", "causal_claim": False}
             entry[row["period"]] = float(row[metric]) if _finite_number(row.get(metric)) else None
+            intervention_id = row.get("concurrent_intervention_id")
+            entry[f"concurrent_intervention_{row['period']}"] = (
+                intervention_id.strip() if isinstance(intervention_id, str) and intervention_id.strip() else None)
             if population_fields:
                 entry.setdefault("population_context", {})[row["period"]] = {
                     field: row.get(field) for field in population_fields}
@@ -940,11 +943,68 @@ def _effectiveness(data, metric_defs=None):
                        {"reason": "supply a nonnegative differential_trend_bound with its source, method, and a unit exactly matching the declared outcome metric unit for quantitative sensitivity"})
         minimum_units_for_conditional_interpretation = 10
         adequate_sample = min(len(t), len(c)) >= minimum_units_for_conditional_interpretation
-        concurrent_intervention_ids = {group: {str(row.get("concurrent_intervention_id", "none"))
-                                               for row in records if row.get("group") == group}
+        concurrent_intervention_ids = {group: sorted({row["concurrent_intervention_id"].strip()
+                                               for row in records if row.get("group") == group
+                                               and isinstance(row.get("concurrent_intervention_id"), str)
+                                               and row["concurrent_intervention_id"].strip()})
                                        for group in ("treatment", "control")}
-        differential_concurrent_intervention = (study.get("differential_concurrent_intervention") is True
-                                                or concurrent_intervention_ids["treatment"] != concurrent_intervention_ids["control"])
+        observed_periods = [period for period in ("pre3", "pre2", "pre", "post")
+                            if any(row.get("period") == period for row in records)]
+        period_intervention_counts = {group: {period: {} for period in observed_periods}
+                                      for group in ("treatment", "control")}
+        transition_counts = {group: {} for group in ("treatment", "control")}
+        unreported_intervention_units = {group: {period: 0 for period in observed_periods}
+                                         for group in ("treatment", "control")}
+        for value in by_unit.values():
+            group = value["group"]
+            for period in observed_periods:
+                label = value.get(f"concurrent_intervention_{period}")
+                if label is None:
+                    label = "UNREPORTED"
+                    unreported_intervention_units[group][period] += 1
+                counts = period_intervention_counts[group][period]
+                counts[label] = counts.get(label, 0) + 1
+            for before, after in zip(observed_periods, observed_periods[1:]):
+                transition = (value.get(f"concurrent_intervention_{before}") or "UNREPORTED",
+                              value.get(f"concurrent_intervention_{after}") or "UNREPORTED")
+                transition_key = f"{before} -> {after}"
+                transition_counts[group].setdefault(transition_key, {})
+                counts = transition_counts[group][transition_key]
+                label = f"{transition[0]} -> {transition[1]}"
+                counts[label] = counts.get(label, 0) + 1
+
+        def proportions_differ(left, right):
+            left_total, right_total = sum(left.values()), sum(right.values())
+            if not left_total or not right_total:
+                return left_total != right_total
+            return any(left.get(category, 0)*right_total != right.get(category, 0)*left_total
+                       for category in set(left) | set(right))
+
+        mismatched_periods = [period for period in observed_periods
+                             if proportions_differ(period_intervention_counts["treatment"][period],
+                                                   period_intervention_counts["control"][period])]
+        transition_mismatches = [transition for transition in transition_counts["treatment"]
+                                 if proportions_differ(transition_counts["treatment"][transition],
+                                                       transition_counts["control"].get(transition, {}))]
+        transition_mismatch = bool(transition_mismatches)
+        incomplete_intervention_history = any(
+            count for group_counts in unreported_intervention_units.values()
+            for count in group_counts.values())
+        differential_concurrent_intervention = (
+            study.get("differential_concurrent_intervention") is True
+            or bool(mismatched_periods) or transition_mismatch or incomplete_intervention_history)
+        concurrent_intervention_diagnostic = {
+            "status": ("INCOMPLETE_DECLARED_INTERVENTION_HISTORY" if incomplete_intervention_history
+                       and not (mismatched_periods or transition_mismatch or study.get("differential_concurrent_intervention") is True)
+                       else "DIFFERENTIAL_OR_INCOMPLETE_DECLARED_MIX" if differential_concurrent_intervention
+                       else "MATCHED_DECLARED_PERIOD_AND_TRANSITION_PROPORTIONS"),
+            "periods_with_different_group_proportions": mismatched_periods,
+            "transitions_with_different_group_proportions": transition_mismatches,
+            "transition_proportions_differ": transition_mismatch,
+            "periods_with_unreported_intervention_ids": unreported_intervention_units,
+            "period_category_counts": period_intervention_counts,
+            "adjacent_period_transition_counts": transition_counts,
+            "interpretation": "declared intervention-label proportions are compared by arm across every observed period and adjacent transition; missing labels or differing declared distributions withhold the numerical assumption gate. Labels do not authenticate source semantics or rule out unmeasured confounding"}
         sensitivity_interval = sensitivity.get("ci95_under_bound")
         direction_supported = (sensitivity_interval is not None
                                and (sensitivity_interval[0] > 0 or sensitivity_interval[1] < 0))
@@ -977,6 +1037,7 @@ def _effectiveness(data, metric_defs=None):
                 "pretrend_stability_placebo": stability_placebo,
                 "population_compatibility": population_compatibility,
                 "negative_control_diagnostic": negative_control_diagnostic,
+                "concurrent_intervention_diagnostic": concurrent_intervention_diagnostic,
                 "sensitivity": sensitivity, "assumptions": ["parallel trends cannot be proven by pretrend data",
                     "no differential concurrent intervention", "independent units", "consistent outcome measurement",
                     *( ["three complete preperiods were supplied; adjacent-slope stability is only a falsification diagnostic"] if has_third_preperiod else []),

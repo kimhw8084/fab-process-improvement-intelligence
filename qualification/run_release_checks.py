@@ -818,7 +818,7 @@ def main():
     p1_source_hashes_match = (p1_current_source == current_p4_hashes
                               and p1_additional_hashes == current_p4_additional_hashes
                               and p1_pin.get("engine_sha256") == current_p4_hashes["engine_sha256"]
-                              and p1_pin.get("engine_version") == "1.2.0"
+                              and p1_pin.get("engine_version") == "1.2.1"
                               and p1_pin.get("source_commit") == p1_implementation_commit
                               and disposable_bridge_snapshot_matches(p1_snapshot, p1_bridge, p1_bridge_fixture_sha256))
     p1_browser_current_source_match = p1_browser.get("p4_source_commit") == p1_implementation_commit

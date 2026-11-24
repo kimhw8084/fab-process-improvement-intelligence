@@ -478,6 +478,29 @@ describe("P4 headless suite module", () => {
     expect(within(d05).getByText(/MATCHED_DECLARED_CATEGORICAL_COMPOSITION/)).toBeTruthy();
   });
 
+  it("shows arm-specific cointervention frequencies and withholds the DiD gate on imbalance", () => {
+    const challenged = JSON.parse(JSON.stringify(evidence)) as P4Evidence;
+    const dossier = challenged.artifacts?.[0] as Record<string, unknown>;
+    const d05 = dossier.D05_effectiveness as Record<string, unknown>;
+    d05.concurrent_intervention_diagnostic = {
+      status: "DIFFERENTIAL_OR_INCOMPLETE_DECLARED_MIX",
+      periods_with_different_group_proportions: ["post"],
+      transitions_with_different_group_proportions: ["pre -> post"],
+      period_category_counts: { treatment: { post: { none: 15, "SYN-COMED": 15 } }, control: { post: { none: 29, "SYN-COMED": 1 } } },
+      interpretation: "Different declared cointervention proportions withhold the numerical assumption gate.",
+    };
+    d05.conditional_assumptions_passed = false;
+
+    render(<P4Panel sourcePreview={sourcePreview} evidence={challenged} />);
+    const d05Region = screen.getByRole("region", { name: "D05 · Change effectiveness" });
+    const diagnosticRow = within(d05Region).getByRole("row", { name: /concurrent_intervention_diagnostic/ });
+    expect(within(diagnosticRow).getByRole("rowheader", { name: "concurrent_intervention_diagnostic" })).toBeTruthy();
+    expect(within(d05Region).getByText(/Concurrent intervention history: DIFFERENTIAL_OR_INCOMPLETE_DECLARED_MIX/)).toBeTruthy();
+    fireEvent.click(within(diagnosticRow).getByText("Show 5 fields"));
+    expect(within(diagnosticRow).getByText(/period_category_counts/)).toBeTruthy();
+    expect(within(diagnosticRow).getByText(/SYN-COMED/)).toBeTruthy();
+  });
+
   it("keeps native filter controls keyboard-focusable and in tab order", async () => {
     const user = userEvent.setup();
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);

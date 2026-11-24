@@ -98,6 +98,7 @@ class EffectivenessQualification(unittest.TestCase):
                     row_periods["pre2"] = pre2
                 for period, value in row_periods.items():
                     rows.append({"unit_id": f"SYN-{group}-{unit}", "group": group, "period": period, "quality": value,
+                                 "concurrent_intervention_id": "none",
                                  "product_id": "SYN-PRODUCT-A" if unit < 15 else "SYN-PRODUCT-B"})
         ledger = [{"unit_id": f"SYN-{group}-{unit}", "group": group}
                   for group in ("treatment", "control") for unit in range(30)]
@@ -348,6 +349,73 @@ class EffectivenessQualification(unittest.TestCase):
         result = _effectiveness({"effectiveness": study})
         self.assertTrue(result["diagnostics"]["differential_concurrent_intervention"])
         self.assertFalse(result["causal_claim"])
+
+    def test_did_detects_differential_concurrent_intervention_prevalence_with_same_label_set(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            row["concurrent_intervention_id"] = "none"
+            if row["period"] != "post":
+                continue
+            unit = int(row["unit_id"].rsplit("-", 1)[1])
+            if row["group"] == "treatment":
+                row["quality"] -= 2.0  # zero true process effect
+                if unit < 15:
+                    row["concurrent_intervention_id"] = "SYN-COMED"
+                    row["quality"] += 3.0
+            elif unit == 0:
+                row["concurrent_intervention_id"] = "SYN-COMED"
+                row["quality"] += 3.0
+
+        result = _effectiveness({"effectiveness": study})
+        self.assertAlmostEqual(result["estimate"], 1.4)  # entirely induced by 50% vs 3.3% co-intervention prevalence
+        self.assertEqual(result["diagnostics"]["concurrent_intervention_ids"]["treatment"],
+                         result["diagnostics"]["concurrent_intervention_ids"]["control"])
+        self.assertTrue(result["diagnostics"]["differential_concurrent_intervention"])
+        self.assertEqual(result["concurrent_intervention_diagnostic"]["status"], "DIFFERENTIAL_OR_INCOMPLETE_DECLARED_MIX")
+        self.assertIn("post", result["concurrent_intervention_diagnostic"]["periods_with_different_group_proportions"])
+        self.assertTrue(result["concurrent_intervention_diagnostic"]["transition_proportions_differ"])
+        self.assertFalse(result["conditional_assumptions_passed"])
+        self.assertFalse(result["causal_claim"])
+
+    def test_did_missing_concurrent_intervention_labels_are_not_treated_as_none(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            del row["concurrent_intervention_id"]
+
+        result = _effectiveness({"effectiveness": study})
+        self.assertFalse(result["conditional_assumptions_passed"])
+        self.assertEqual(result["concurrent_intervention_diagnostic"]["status"],
+                         "INCOMPLETE_DECLARED_INTERVENTION_HISTORY")
+        self.assertEqual(result["concurrent_intervention_diagnostic"]["periods_with_unreported_intervention_ids"]["treatment"],
+                         {"pre2": 30, "pre": 30, "post": 30})
+
+    def test_did_detects_arm_specific_intervention_transitions_when_period_margins_match(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            unit = int(row["unit_id"].rsplit("-", 1)[1])
+            initial = "SYN-DRUG-A" if unit < 15 else "SYN-DRUG-B"
+            row["concurrent_intervention_id"] = (
+                "SYN-DRUG-B" if row["group"] == "treatment" and row["period"] == "post" and unit < 15
+                else "SYN-DRUG-A" if row["group"] == "treatment" and row["period"] == "post"
+                else initial)
+
+        result = _effectiveness({"effectiveness": study})
+        diagnostic = result["concurrent_intervention_diagnostic"]
+        self.assertEqual(diagnostic["periods_with_different_group_proportions"], [])
+        self.assertIn("pre -> post", diagnostic["transitions_with_different_group_proportions"])
+        self.assertFalse(result["conditional_assumptions_passed"])
+
+    def test_did_checks_concurrent_intervention_mix_in_each_observed_preperiod(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            if row["period"] == "pre2":
+                row["concurrent_intervention_id"] = (
+                    "SYN-DRUG-A" if row["group"] == "treatment" or int(row["unit_id"].rsplit("-", 1)[1]) < 15
+                    else "SYN-DRUG-B")
+
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["concurrent_intervention_diagnostic"]["periods_with_different_group_proportions"], ["pre2"])
+        self.assertFalse(result["conditional_assumptions_passed"])
 
 
 if __name__ == "__main__":

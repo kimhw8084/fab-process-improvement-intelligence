@@ -406,6 +406,7 @@ function D04Section({ result }: { result?: JsonObject }) {
 function D05Section({ result }: { result?: JsonObject }) {
   if (!result) return <section id="p4-d05"><h3>D05 · Change effectiveness</h3><p>No D05 result was provided.</p></section>;
   const diagnosticRows = entries(result.diagnostics).map(([name, value]) => [name, text(value)] as const);
+  const concurrentIntervention = asObject(result.concurrent_intervention_diagnostic);
   return <section id="p4-d05" aria-labelledby="p4-d05-heading">
     <h3 id="p4-d05-heading">D05 · Change effectiveness</h3>
     <p>Status: <Status value={result.status} />. Study design: {text(result.design)}. Estimate: {text(result.estimate)}.</p>
@@ -414,12 +415,14 @@ function D05Section({ result }: { result?: JsonObject }) {
         ? "Observational DiD remains a descriptive estimate. Numerical diagnostics pass under the declared assumptions, but conditional interpretation is pending independent qualification of the sensitivity-bound source; P4 makes no causal claim."
         : "Observational DiD remains descriptive; conditional interpretation is withheld because required diagnostics or sensitivity evidence are incomplete.")
       : (result.causal_claim === true ? "A conditional randomized-study interpretation is reported with its stated assumptions." : "Causal interpretation is withheld; this estimate is not presented as causal.")}</p>
+    {typeof concurrentIntervention.status === "string" && <p role="status">Concurrent intervention history: {text(concurrentIntervention.status)}. {text(concurrentIntervention.interpretation)}</p>}
     <KeyValueTable label="Uncertainty and sensitivity" value={{ standard_error: result.se, ci95_welch_t_approximation: result.ci95_welch_t_approximation,
       welch_degrees_of_freedom: result.welch_df, sensitivity: result.sensitivity, attrition: result.attrition,
       baseline_balance: result.baseline_balance, placebo_pretrend: result.placebo_pretrend,
       pretrend_stability_placebo: result.pretrend_stability_placebo,
       population_compatibility: result.population_compatibility,
       negative_control_diagnostic: result.negative_control_diagnostic,
+      concurrent_intervention_diagnostic: result.concurrent_intervention_diagnostic,
       conditional_assumptions_passed: result.conditional_assumptions_passed,
       conditional_interpretation_scope: result.conditional_interpretation_scope,
       bound_source_qualification: result.bound_source_qualification,
