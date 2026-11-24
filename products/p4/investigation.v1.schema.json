@@ -93,6 +93,17 @@
                 "model_selection_reference": {"type": "string", "minLength": 1},
                 "threshold_selection_reference": {"type": "string", "minLength": 1},
                 "observations_per_setting": {"type": "integer", "minimum": 1, "maximum": 5000},
+                "strata": {
+                  "type": "object", "required": ["fields", "categories"],
+                  "properties": {
+                    "fields": {"type": "array", "minItems": 1, "maxItems": 5, "uniqueItems": true,
+                      "items": {"type": "string", "minLength": 1}},
+                    "categories": {"type": "array", "minItems": 2, "maxItems": 100,
+                      "items": {"type": "object", "minProperties": 1,
+                        "additionalProperties": {"type": ["string", "number"]}}}
+                  },
+                  "additionalProperties": false
+                },
                 "metric_family": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
                 "metric_bounds": {
                   "type": "object", "minProperties": 1,

@@ -21,6 +21,10 @@ class SourceContractTests(unittest.TestCase):
         self.assertIn("metric_bounds", precommit)
         self.assertIn("metric_bounds", calibration["properties"]["precommit"]["required"])
         self.assertNotIn("observations_per_setting", calibration["properties"]["precommit"]["required"])
+        strata = precommit["strata"]
+        self.assertEqual(strata["required"], ["fields", "categories"])
+        self.assertEqual(strata["properties"]["fields"]["maxItems"], 5)
+        self.assertEqual(strata["properties"]["categories"]["maxItems"], 100)
         fixture = json.loads((ROOT / "fixtures" / "full_workflow_demo.json").read_text(encoding="utf-8"))
         self.assertEqual(fixture["window_exploration"]["calibration"]["evaluation_value"], "EVALUATION")
 

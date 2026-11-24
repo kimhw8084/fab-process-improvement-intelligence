@@ -1,0 +1,40 @@
+{
+  "benchmark": "D02_POOLED_VS_PREDECLARED_STRATUM_CALIBRATION",
+  "calibration": {
+    "error_scales": {
+      "A": 1.0,
+      "B": 4.0
+    },
+    "mix": "50:50",
+    "strata": 2,
+    "units_per_stratum": 20
+  },
+  "future_population": {
+    "error_scale": 4.0,
+    "mix": "100% B",
+    "stratum": "B"
+  },
+  "independent_future_unit_coverage": {
+    "pooled": {
+      "fraction": 0.9076,
+      "hits": 2269,
+      "median_radius": 6.958918976270594,
+      "wilson95_monte_carlo_interval": [
+        0.8956144250972492,
+        0.9183348738171856
+      ]
+    },
+    "stratified_worst_group": {
+      "fraction": 0.9512,
+      "hits": 2378,
+      "median_radius": 8.445263253066633,
+      "wilson95_monte_carlo_interval": [
+        0.9420404220478024,
+        0.9589750923540451
+      ]
+    }
+  },
+  "interpretation": "Synthetic finite-sample challenge only. Calibration units are exchangeable within each fixed stratum; the future stratum is known and predeclared. This does not assess real source semantics, model misspecification, or production coverage.",
+  "seed": 817203,
+  "trials": 2500
+}

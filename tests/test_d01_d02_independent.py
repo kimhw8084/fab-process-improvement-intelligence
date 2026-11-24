@@ -7,7 +7,8 @@ import unittest
 
 from products.p4.regression import fit_linear_model
 from products.p4.engine import _model_specification_sensitivity
-from products.p4.window import explore_window, _finite_rank_quantile, _partition_composition_diagnostic
+from products.p4.window import (explore_window, _finite_rank_quantile, _partition_composition_diagnostic,
+                                _simultaneous_exact_setting_calibration)
 
 
 FACTOR = {"pressure": {"role": "controllable", "unit": "kPa", "bounds": [0, 2], "approved": True},
@@ -481,6 +482,155 @@ class SupportedWindowQualification(unittest.TestCase):
                                                                          for x in levels for y in levels]}}},
                 "forbidden_regions": forbidden or []}
         return rows, factors, data
+
+    def _stratified_plan(self):
+        return {"plan_reference": "SYN-STRATIFIED-PLAN-001",
+                "model_selection_reference": "SYN-STRATIFIED-MODEL-001",
+                "threshold_selection_reference": "SYN-STRATIFIED-THRESHOLDS-001",
+                "metric_family": ["quality"],
+                "metric_bounds": {"quality": {"min": 0.0, "max": 0.5}},
+                "exact_setting_panel": [{"pressure": 0.0}, {"pressure": 1.0}],
+                "strata": {"fields": ["tool_id"],
+                           "categories": [{"tool_id": "TOOL-A"}, {"tool_id": "TOOL-B"}]}}
+
+    def test_stratified_max_score_matches_independent_order_statistic_oracle(self):
+        class ZeroModel:
+            @staticmethod
+            def predict(factors, fixed_effects=None):
+                return {"estimate": 0.0}
+
+        rows = []
+        expected = {"TOOL-A": [], "TOOL-B": []}
+        for index in range(20):
+            for tool, offset in (("TOOL-A", 0.0), ("TOOL-B", 0.1)):
+                unit = f"{tool}-{index:02d}"
+                score = offset + (index + 1) / 100.0
+                expected[tool].append(score)
+                for pressure, outcome in ((0.0, score - 0.001), (1.0, score)):
+                    rows.append({"lot_id": unit, "tool_id": tool,
+                                 "factors": {"pressure": pressure},
+                                 "metrics": {"quality": outcome}})
+        result = _simultaneous_exact_setting_calibration(
+            rows, ["quality"], {"quality": ZeroModel()}, ["pressure"], {},
+            "lot_id", self._stratified_plan(), {"quality": {"min": 0.0, "max": 0.5}})
+        self.assertEqual(result["status"], "AVAILABLE")
+        # Independent oracle: groupwise maximum scores, 95% rank ceil((20+1)*.95)=20.
+        oracle = max(sorted(scores)[19] for scores in expected.values())
+        self.assertAlmostEqual(result["metric_quantiles"]["quality"]["absolute_error_radius"], oracle)
+        self.assertAlmostEqual(oracle, 0.30)
+        by_tool = {item["stratum"]["tool_id"]: item
+                   for item in result["stratum_metric_quantiles"]["quality"]}
+        self.assertEqual(by_tool["TOOL-A"]["order_statistic_rank"], 20)
+        self.assertAlmostEqual(by_tool["TOOL-A"]["absolute_error_radius"], 0.20)
+        self.assertEqual(by_tool["TOOL-B"]["calibration_units"], 20)
+        self.assertIn("within each predeclared stratum", result["assumption_conditional_statement"])
+
+    def test_stratified_band_abstains_for_underpowered_or_unplanned_strata(self):
+        rows, factors, data = self._dataset()
+        plan = self._stratified_plan()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["tool_id"] = "TOOL-A" if lot % 2 == 0 else "TOOL-B"
+        data["window_exploration"]["calibration"]["precommit"]["strata"] = plan["strata"]
+        underpowered = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(underpowered["status"], "INSUFFICIENT_STRATUM_CALIBRATION_UNITS")
+        self.assertEqual(set(underpowered["stratum_calibration_unit_counts"].values()), {10})
+        self.assertEqual(len(underpowered["stratum_calibration_unit_counts"]), 2)
+
+        # An undeclared category cannot borrow another tool's calibration radius.
+        rows[0]["tool_id"] = "TOOL-C"
+        unplanned = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(unplanned["status"], "INVALID_CALIBRATION_STRATA")
+        self.assertEqual(unplanned["calibration_unit_count"], 20)
+
+        rows[0]["tool_id"] = "TOOL-A"
+        lot_zero_peer = next(item for item in rows[1:] if item["lot_id"] == rows[0]["lot_id"])
+        lot_zero_peer["tool_id"] = "TOOL-B"
+        mixed_unit = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(mixed_unit["status"], "INVALID_CALIBRATION_STRATA")
+        self.assertIn("exactly one caller-predeclared stratum", mixed_unit["reason"])
+
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["tool_id"] = "TOOL-A" if lot % 2 == 0 else "TOOL-B"
+        data["window_exploration"]["calibration"]["precommit"]["strata"] = plan["strata"]
+        rows[0].pop("tool_id")
+        missing = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
+        self.assertEqual(missing["status"], "INVALID_CALIBRATION_STRATA")
+
+    def test_public_window_applies_stratified_worst_radius_to_complete_panel(self):
+        rows, factors, data = self._dataset()
+        for item in rows:
+            lot = int(item["lot_id"].split("-")[1])
+            item["analysis_partition"] = ("TRAIN" if lot < 20 else
+                                          "CALIBRATION" if lot < 60 else "EVALUATION")
+            item["tool_id"] = "TOOL-A" if lot % 2 == 0 else "TOOL-B"
+        extra = []
+        for lot in range(50, 100):
+            for pressure in range(3):
+                for power in range(3):
+                    noise = 0.006 * math.sin(lot * 0.73 + pressure * 1.4 + power * 0.9)
+                    value = (0.12 + (pressure - 1) ** 2 * 0.12 + (power - 1) ** 2 * 0.12
+                             + 0.025 * (-1 if lot % 2 else 1) + noise)
+                    extra.append(row(len(rows) + len(extra), pressure, power, value,
+                                     lot_id=f"LOT-{lot:02d}",
+                                     analysis_partition="CALIBRATION" if lot < 60 else "EVALUATION",
+                                     tool_id="TOOL-A" if lot % 2 == 0 else "TOOL-B"))
+        rows.extend(extra)
+        data["window_exploration"]["calibration"]["precommit"]["strata"] = self._stratified_plan()["strata"]
+        data["window_exploration"]["calibration"]["evaluation_value"] = "EVALUATION"
+        data["window_exploration"]["calibration"]["split_reference"] = "SYN-STRATIFIED-EVAL-001"
+        data["window_exploration"]["evaluation_strata"] = ["tool_id"]
+        data["window_exploration"]["min_independent_units"] = 20
+        data["model"]["minimum_clusters"] = 20
+        result = explore_window(rows, factors, METRIC, data)
+        screen = result["simultaneous_exact_setting_screen"]
+        self.assertEqual(screen["status"], "AVAILABLE")
+        self.assertEqual(screen["calibration_unit_count"], 40)
+        self.assertEqual(set(screen["stratum_calibration_unit_counts"].values()), {20})
+        center = next(cell for cell in result["grid"]
+                      if cell["factors"] == {"pressure": 1.0, "power": 1.0})
+        self.assertIsNotNone(center["predictions"]["quality"]["simultaneous_group_interval95"])
+        self.assertIn("worst-stratum", screen["method"])
+
+        # A known-category mix shift remains descriptive when each category was calibrated.
+        shifted_rows = [dict(item) for item in rows]
+        for item in shifted_rows:
+            if item["analysis_partition"] == "EVALUATION":
+                item["tool_id"] = "TOOL-A"
+        shifted = explore_window(shifted_rows, factors, METRIC, data)
+        shifted_screen = shifted["simultaneous_exact_setting_screen"]
+        self.assertEqual(shifted_screen["calibration_transfer_assessment"]["status"],
+                         "DESCRIPTIVE_COMPOSITION_DIFFERENCE_OBSERVED")
+        self.assertEqual(shifted["candidate_count"], shifted["screened_candidate_count"])
+
+        training_unknown_rows = [dict(item) for item in rows]
+        for item in training_unknown_rows:
+            if item["analysis_partition"] == "TRAIN" and item["lot_id"] == "LOT-00":
+                item["tool_id"] = "TOOL-C"
+        training_unknown = explore_window(training_unknown_rows, factors, METRIC, data)
+        self.assertEqual(training_unknown["simultaneous_exact_setting_screen"]["status"],
+                         "INVALID_CALIBRATION_STRATA")
+        self.assertEqual(training_unknown["simultaneous_exact_setting_screen"]["simultaneous_supported_candidate_count"], 0)
+
+        # A category not present in precommit is counterevidence and withholds the whole set.
+        unseen_rows = [dict(item) for item in rows]
+        for item in unseen_rows:
+            if item["analysis_partition"] == "EVALUATION":
+                item["tool_id"] = "TOOL-C"
+        unseen = explore_window(unseen_rows, factors, METRIC, data)
+        self.assertEqual(unseen["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]["status"],
+                         "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA")
+        self.assertEqual(unseen["candidate_count"], 0)
+
+        unassignable_rows = [dict(item) for item in rows]
+        next(item for item in unassignable_rows
+             if item["analysis_partition"] == "EVALUATION").pop("tool_id")
+        unassignable = explore_window(unassignable_rows, factors, METRIC, data)
+        self.assertEqual(unassignable["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]["status"],
+                         "COUNTEREVIDENCE_UNASSIGNABLE_EVALUATION_STRATA")
+        self.assertEqual(unassignable["candidate_count"], 0)
 
     def test_supported_surface_marks_observed_interpolated_and_conservative_candidates(self):
         rows, factors, data = self._dataset()

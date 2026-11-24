@@ -196,6 +196,108 @@ def _normalize_metric_bounds(metric_bounds, metrics):
     return {name: normalized[name] for name in sorted(normalized)}
 
 
+def _normalize_precommit_strata(value):
+    """Validate caller-predeclared finite calibration strata; never infer categories from outcomes."""
+    if value is None:
+        return None, None
+    if not isinstance(value, dict) or set(value) != {"fields", "categories"}:
+        return None, "strata must contain exactly fields and categories"
+    fields = value["fields"]
+    categories = value["categories"]
+    if (not isinstance(fields, list) or not 1 <= len(fields) <= 5
+            or any(not isinstance(field, str) or not field.strip() for field in fields)
+            or len(fields) != len(set(fields))):
+        return None, "strata fields must be one to five unique non-empty strings"
+    if not isinstance(categories, list) or not 2 <= len(categories) <= 100:
+        return None, "strata categories must predeclare two to one hundred categories"
+    normalized = []
+    keys = set()
+    for category in categories:
+        if not isinstance(category, dict) or set(category) != set(fields):
+            return None, "each stratum category must supply exactly every predeclared field"
+        clean = {}
+        for field in fields:
+            item = category[field]
+            if isinstance(item, str) and item.strip():
+                clean[field] = item
+            elif isinstance(item, (int, float)) and not isinstance(item, bool) and isfinite(item):
+                clean[field] = int(item) if isinstance(item, float) and item.is_integer() else float(item)
+            else:
+                return None, "stratum values must be non-empty strings or finite numbers"
+        key = _precommit_stratum_key(clean, fields)
+        if key in keys:
+            return None, "strata categories must be unique"
+        keys.add(key)
+        normalized.append(clean)
+    normalized.sort(key=lambda category: _precommit_stratum_key(category, fields))
+    return {"fields": fields, "categories": normalized}, None
+
+
+def _precommit_stratum_key(category, fields):
+    return json.dumps([_unit_key(category[field]) for field in fields], separators=(",", ":"))
+
+
+def _row_stratum_key(row, fields):
+    category = {}
+    for field in fields:
+        try:
+            value = _get_field(row, field)
+        except (KeyError, ValueError) as exc:
+            raise ValueError(f"missing or invalid predeclared stratum field {field}") from exc
+        if isinstance(value, str) and value.strip():
+            category[field] = value
+        elif isinstance(value, (int, float)) and not isinstance(value, bool) and isfinite(value):
+            category[field] = int(value) if isinstance(value, float) and value.is_integer() else float(value)
+        else:
+            raise ValueError(f"missing or invalid predeclared stratum field {field}")
+    return _precommit_stratum_key(category, fields)
+
+
+def _predeclared_strata_compatibility(rows, unit_field, strata):
+    """Check that every independent unit is assignable to one planned category."""
+    if not strata:
+        return {"status": "NOT_DECLARED", "unit_count": 0, "unassignable_units": 0,
+                "unplanned_category_units": 0, "mixed_category_units": 0}
+    if not rows:
+        return {"status": "NOT_PROVIDED", "unit_count": 0, "unassignable_units": 0,
+                "unplanned_category_units": 0, "mixed_category_units": 0}
+    fields = strata["fields"]
+    planned = {_precommit_stratum_key(category, fields) for category in strata["categories"]}
+    categories_by_unit = {}
+    invalid_units = set()
+    unplanned_units = set()
+    for index, row in enumerate(rows):
+        try:
+            unit = _unit_key(_get_field(row, unit_field))
+        except (KeyError, TypeError, ValueError):
+            unit = ("INVALID_ROW", str(row.get("id", f"ROW-{index}")))
+        try:
+            category = _row_stratum_key(row, fields)
+        except (KeyError, TypeError, ValueError):
+            invalid_units.add(unit)
+            continue
+        categories_by_unit.setdefault(unit, set()).add(category)
+        if category not in planned:
+            unplanned_units.add(unit)
+    mixed_units = {unit for unit, categories in categories_by_unit.items() if len(categories) != 1}
+    invalid_unit_count = len(invalid_units)
+    mixed_count = len(mixed_units)
+    unplanned_count = len(unplanned_units)
+    if invalid_unit_count or mixed_count:
+        status = "UNASSIGNABLE_OR_MIXED_UNITS"
+    elif unplanned_count:
+        status = "UNPLANNED_CATEGORIES_OBSERVED"
+    else:
+        status = "MATCHED_PREDECLARED_CATEGORIES"
+    return {"status": status,
+            "unit_count": len(set(categories_by_unit) | invalid_units),
+            "unassignable_units": invalid_unit_count,
+            "unplanned_category_units": unplanned_count,
+            "mixed_category_units": mixed_count,
+            "fields": fields,
+            "interpretation": "source-field membership check only; caller-defined labels and their engineering semantics are unauthenticated"}
+
+
 def _validate_window_precommit(plan, metrics, model_factors, active_metric_bounds):
     if not isinstance(plan, dict):
         return None, {"status": "PRECOMMIT_NOT_PROVIDED",
@@ -214,6 +316,9 @@ def _validate_window_precommit(plan, metrics, model_factors, active_metric_bound
     if expected_bounds is None or declared_bounds != expected_bounds:
         return None, {"status": "PRECOMMIT_THRESHOLD_MISMATCH",
                       "reason": "the precommitted metric bounds must exactly match the active metric limits"}
+    strata, strata_error = _normalize_precommit_strata(plan.get("strata"))
+    if strata_error:
+        return None, {"status": "PRECOMMIT_STRATA_INVALID", "reason": strata_error}
     observations_per_setting = plan.get("observations_per_setting", 1)
     if (not isinstance(observations_per_setting, int) or isinstance(observations_per_setting, bool)
             or not 1 <= observations_per_setting <= 5000):
@@ -244,9 +349,12 @@ def _validate_window_precommit(plan, metrics, model_factors, active_metric_bound
         "observations_per_setting": observations_per_setting,
         "exact_setting_panel": [dict(zip(model_factors, setting)) for setting in ordered],
     }
+    if strata is not None:
+        normalized_plan["strata"] = strata
     digest = sha256(json.dumps(normalized_plan, sort_keys=True, separators=(",", ":")).encode("utf-8")).hexdigest()
     return {"keys": set(ordered), "settings": normalized_plan["exact_setting_panel"],
             "observations_per_setting": observations_per_setting,
+            "strata": strata,
             "evidence": {**normalized_plan, "status": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
                          "plan_sha256": digest}}, None
 
@@ -271,9 +379,17 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
     group_errors = {}
     group_settings = {}
     group_setting_counts = {}
+    group_strata = {}
+    declared_strata = checked_plan["strata"]
+    declared_stratum_keys = ({_precommit_stratum_key(category, declared_strata["fields"]): category
+                              for category in declared_strata["categories"]}
+                             if declared_strata else None)
     for row in calibration_rows:
         try:
             unit = _unit_key(_get_field(row, group_field))
+            if declared_strata:
+                stratum_key = _row_stratum_key(row, declared_strata["fields"])
+                group_strata.setdefault(unit, set()).add(stratum_key)
             factors = row["factors"]
             setting = tuple(factors[name] for name in model_factors)
             if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value)
@@ -294,6 +410,10 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
                     raise ValueError(f"missing or invalid calibration outcome for {metric}")
                 group_errors[unit][metric].append(abs(float(value) - estimate))
         except (KeyError, TypeError, ValueError) as exc:
+            if declared_strata and "predeclared stratum field" in str(exc):
+                return {"status": "INVALID_CALIBRATION_STRATA", "reason": str(exc),
+                        "calibration_unit_count": len(group_errors), "common_exact_settings": [],
+                        "metric_quantiles": {}, "precommit": checked_plan["evidence"]}
             return {"status": "INCOMPLETE_CALIBRATION_PANEL", "reason": str(exc),
                     "calibration_unit_count": len(group_errors), "common_exact_settings": [],
                     "metric_quantiles": {}}
@@ -323,39 +443,100 @@ def _simultaneous_exact_setting_calibration(calibration_rows, metrics, models, m
                 "metric_quantiles": {}, "precommit": checked_plan["evidence"]}
     count = len(group_errors)
     per_metric_alpha = alpha / len(metrics)
-    rank = ceil((count + 1) * (1.0 - per_metric_alpha))
     quantiles = {}
-    if rank > count:
-        return {"status": "INSUFFICIENT_CALIBRATION_UNITS",
-                "reason": "the finite-sample order-statistic rank exceeds the number of independent calibration units",
-                "calibration_unit_count": count, "metric_count": len(metrics),
-                "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
-                "order_statistic_rank": rank, "common_exact_settings": [],
-                "metric_quantiles": {}}
-    for metric in metrics:
-        scores = [max(values[metric]) for values in group_errors.values()]
-        quantiles[metric] = {"absolute_error_radius": sorted(scores)[rank - 1],
-                             "order_statistic_rank": rank,
-                             "calibration_units": count,
-                             "per_metric_marginal_level": 1.0 - per_metric_alpha}
+    stratum_quantiles = {}
+    if declared_strata:
+        expected_keys = set(declared_stratum_keys)
+        if (any(len(group_strata.get(unit, set())) != 1 for unit in group_errors)
+                or any(next(iter(group_strata[unit])) not in expected_keys for unit in group_errors)):
+            return {"status": "INVALID_CALIBRATION_STRATA",
+                    "reason": "each calibration unit must belong to exactly one caller-predeclared stratum",
+                    "calibration_unit_count": count, "common_exact_settings": [],
+                    "metric_quantiles": {}, "precommit": checked_plan["evidence"]}
+        scores_by_stratum = {key: {metric: [] for metric in metrics} for key in expected_keys}
+        for unit, values in group_errors.items():
+            category_key = next(iter(group_strata[unit]))
+            for metric in metrics:
+                scores_by_stratum[category_key][metric].append(max(values[metric]))
+        ranks = {key: ceil((len(scores[metrics[0]]) + 1) * (1.0 - per_metric_alpha))
+                 for key, scores in scores_by_stratum.items()}
+        if any(not scores_by_stratum[key][metrics[0]] or ranks[key] > len(scores_by_stratum[key][metrics[0]])
+               for key in expected_keys):
+            return {"status": "INSUFFICIENT_STRATUM_CALIBRATION_UNITS",
+                    "reason": "every predeclared stratum needs enough independent units for the finite-sample metric-family rank",
+                    "calibration_unit_count": count, "metric_count": len(metrics),
+                    "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
+                    "stratum_calibration_unit_counts": {
+                        json.dumps(declared_stratum_keys[key], sort_keys=True): len(scores_by_stratum[key][metrics[0]])
+                        for key in expected_keys},
+                    "order_statistic_ranks": ranks, "common_exact_settings": [],
+                    "metric_quantiles": {}, "precommit": checked_plan["evidence"]}
+        for metric in metrics:
+            records = []
+            for key in sorted(expected_keys):
+                scores = sorted(scores_by_stratum[key][metric])
+                rank = ranks[key]
+                records.append({"stratum": declared_stratum_keys[key],
+                                "calibration_units": len(scores), "order_statistic_rank": rank,
+                                "absolute_error_radius": scores[rank - 1]})
+            stratum_quantiles[metric] = records
+            quantiles[metric] = {"absolute_error_radius": max(item["absolute_error_radius"] for item in records),
+                                 "calibration_units": count,
+                                 "per_metric_marginal_level": 1.0 - per_metric_alpha,
+                                 "stratum_quantiles": records}
+        rank = max(ranks.values())
+    else:
+        rank = ceil((count + 1) * (1.0 - per_metric_alpha))
+        if rank > count:
+            return {"status": "INSUFFICIENT_CALIBRATION_UNITS",
+                    "reason": "the finite-sample order-statistic rank exceeds the number of independent calibration units",
+                    "calibration_unit_count": count, "metric_count": len(metrics),
+                    "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
+                    "order_statistic_rank": rank, "common_exact_settings": [],
+                    "metric_quantiles": {}}
+        for metric in metrics:
+            scores = [max(values[metric]) for values in group_errors.values()]
+            quantiles[metric] = {"absolute_error_radius": sorted(scores)[rank - 1],
+                                 "order_statistic_rank": rank,
+                                 "calibration_units": count,
+                                 "per_metric_marginal_level": 1.0 - per_metric_alpha}
     ordered_settings = checked_plan["settings"]
-    return {"status": "AVAILABLE", "method": "independent-unit split-conformal maximum score over complete exact-setting panels with Bonferroni metric allocation",
+    method = ("stratum-specific independent-unit split-conformal maximum scores with conservative worst-stratum radii over complete exact-setting panels and Bonferroni metric allocation"
+              if declared_strata else
+              "independent-unit split-conformal maximum score over complete exact-setting panels with Bonferroni metric allocation")
+    assumption = (
+        "Under within-stratum exchangeability of independent calibration and future units, identical complete setting panels, "
+        "a model, declared strata, metric family, exact-setting panel, observations per setting, and thresholds fixed before calibration outcomes were inspected, "
+        "the worst-stratum split-conformal radii target at least 95% marginal simultaneous predictive coverage for one future independent unit "
+        "within each predeclared stratum, across this finite exact-setting panel and all declared constrained metrics. These assumptions, stratum semantics, "
+        "and source split provenance are not verified here; this is not coverage for undeclared strata, interpolated regions, or a production population."
+        if declared_strata else
+        "Under exchangeability of independent calibration and future units, identical complete setting panels, "
+        "a model, metric family, exact-setting panel, observations per setting, and thresholds fixed before calibration outcomes were inspected, the "
+        "split-conformal maximum-score construction targets at least 95% marginal simultaneous predictive "
+        "coverage for this finite exact-setting panel with the declared observation count at each setting. These assumptions and source split provenance are not "
+        "verified here; this is not conditional, interpolated-region, or production-population coverage.")
+    return {"status": "AVAILABLE", "method": method,
             "calibration_unit_count": count, "metric_count": len(metrics),
             "familywise_alpha": alpha, "per_metric_alpha": per_metric_alpha,
             "order_statistic_rank": rank,
             "metric_quantiles": quantiles,
+            **({"stratum_metric_quantiles": stratum_quantiles,
+                "strata": declared_strata,
+                "stratum_calibration_unit_counts": {
+                    json.dumps(declared_stratum_keys[key], sort_keys=True): len(scores_by_stratum[key][metrics[0]])
+                    for key in sorted(declared_stratum_keys)}} if declared_strata else {}),
             "observations_per_setting": expected_observations,
             "common_exact_settings": ordered_settings,
             "precommit": checked_plan["evidence"],
-            "scope": "one future independent unit across the complete common exact-setting panel and all declared constrained metrics",
-            "assumption_conditional_statement": (
-                "Under exchangeability of independent calibration and future units, identical complete setting panels, "
-                "a model, metric family, exact-setting panel, observations per setting, and thresholds fixed before calibration outcomes were inspected, the "
-                "split-conformal maximum-score construction targets at least 95% marginal simultaneous predictive "
-                "coverage for this finite exact-setting panel with the declared observation count at each setting. These assumptions and source split provenance are not "
-                "verified here; this is not conditional, interpolated-region, or production-population coverage."),
+            "scope": ("one future independent unit within any predeclared stratum, across the complete common exact-setting panel and all declared constrained metrics"
+                      if declared_strata else
+                      "one future independent unit across the complete common exact-setting panel and all declared constrained metrics"),
+            "assumption_conditional_statement": assumption,
             "limitations": ["exact calibration-observed settings and precommitted observation counts only; no interpolation or extrapolation",
-                           "does not establish conditional coverage or target-population exchangeability",
+                           ("does not establish coverage conditional on settings, factors within a stratum, or other covariates; target-population exchangeability remains unverified"
+                            if declared_strata else
+                            "does not establish conditional coverage or target-population exchangeability"),
                            "caller-supplied split and precommit references are unauthenticated; the exact plan bytes are hash-recorded"]}
 
 
@@ -548,7 +729,8 @@ def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
 
 def _calibration_transfer_assessment(calibration_status, evaluation_panel, composition,
                                      evaluation_provided, calibration_partition_name=None,
-                                     evaluation_partition_name=None, band_evaluation=None):
+                                     evaluation_partition_name=None, band_evaluation=None,
+                                     predeclared_evaluation_strata=None):
     """Describe held-out counterevidence to transferring exact-panel calibration.
 
     This is post-screening evidence. It cannot change model fitting, calibration
@@ -571,6 +753,7 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
         "unassignable_strata_units": unassignable_strata_units,
         "calibration_to_evaluation_total_variation": None,
         "heldout_band_evaluation": band_evaluation or {"status": "NOT_ASSESSED"},
+        "predeclared_strata_compatibility": predeclared_evaluation_strata or {"status": "NOT_DECLARED"},
     }
     if not evaluation_provided:
         result["interpretation"] = (
@@ -581,6 +764,12 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
         result["interpretation"] = (
             "the precommitted finite-panel band is unavailable, so transfer cannot be assessed")
         return result
+
+    strata_status = (predeclared_evaluation_strata or {}).get("status")
+    if strata_status == "UNPLANNED_CATEGORIES_OBSERVED":
+        result["observed_counterevidence"].append("UNSEEN_PRECOMMITTED_EVALUATION_STRATA")
+    elif strata_status == "UNASSIGNABLE_OR_MIXED_UNITS":
+        result["observed_counterevidence"].append("UNASSIGNABLE_PRECOMMITTED_EVALUATION_STRATA")
 
     if evaluation_panel.get("status") == "OBSERVED_PANEL_STRUCTURE_MISMATCH":
         result["observed_counterevidence"].append("OBSERVED_PANEL_STRUCTURE_MISMATCH")
@@ -616,8 +805,10 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
     evidence = result["observed_counterevidence"]
     if "OBSERVED_CALIBRATION_BAND_MISSES" in evidence:
         result["status"] = "COUNTEREVIDENCE_CALIBRATION_BAND_MISSES"
-    elif "UNSEEN_EVALUATION_STRATA" in evidence:
+    elif "UNSEEN_EVALUATION_STRATA" in evidence or "UNSEEN_PRECOMMITTED_EVALUATION_STRATA" in evidence:
         result["status"] = "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA"
+    elif "UNASSIGNABLE_PRECOMMITTED_EVALUATION_STRATA" in evidence:
+        result["status"] = "COUNTEREVIDENCE_UNASSIGNABLE_EVALUATION_STRATA"
     elif "OBSERVED_PANEL_STRUCTURE_MISMATCH" in evidence:
         result["status"] = "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH"
     elif "DESCRIPTIVE_COMPOSITION_DIFFERENCE" in evidence:
@@ -1109,6 +1300,22 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         calibration_config.get("precommit"),
         {name: {"min": definition.get("min"), "max": definition.get("max")}
          for name, definition in constrained.items()})
+    declared_strata, _strata_error = _normalize_precommit_strata(
+        calibration_config.get("precommit", {}).get("strata")
+        if isinstance(calibration_config.get("precommit"), dict) else None)
+    calibration_population_strata = _predeclared_strata_compatibility(
+        matching_rows + calibration_rows, unit_field, declared_strata)
+    evaluation_predeclared_strata = _predeclared_strata_compatibility(
+        evaluation_rows, unit_field, declared_strata)
+    if (declared_strata and simultaneous_calibration.get("status") == "AVAILABLE"
+            and calibration_population_strata.get("status") != "MATCHED_PREDECLARED_CATEGORIES"):
+        simultaneous_calibration = {
+            **simultaneous_calibration,
+            "status": "INVALID_CALIBRATION_STRATA",
+            "reason": "training and calibration units must all belong to one predeclared stratum before a stratified band can be used",
+            "calibration_population_strata_compatibility": calibration_population_strata,
+            "common_exact_settings": [], "metric_quantiles": {},
+        }
     simultaneous_setting_keys = {
         tuple(setting[name] for name in model_factors)
         for setting in simultaneous_calibration.get("common_exact_settings", [])
@@ -1345,6 +1552,7 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         calibration_report["calibration_value"], calibration_report.get("evaluation_value"))
     composition_diagnostic = evaluation["partition_composition_diagnostic"]
     simultaneous_summary = dict(simultaneous_calibration)
+    simultaneous_summary["calibration_population_strata_compatibility"] = calibration_population_strata
     if simultaneous_calibration.get("status") == "AVAILABLE":
         simultaneous_summary["independent_evaluation_panel_compatibility"] = _evaluation_panel_compatibility(
             evaluation_rows, unit_field, model_factors,
@@ -1364,7 +1572,8 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         composition_diagnostic,
         calibration_report.get("evaluation_value") is not None,
         calibration_report.get("calibration_value"),
-        calibration_report.get("evaluation_value"), heldout_band_evaluation)
+        calibration_report.get("evaluation_value"), heldout_band_evaluation,
+        evaluation_predeclared_strata)
     simultaneous_summary["calibration_transfer_assessment"] = transfer_assessment
     # Evaluation outcomes never change the fitted model, calibration radius,
     # or select a favorable candidate subset. Exact infeasibility and explicit
@@ -1400,8 +1609,10 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         for name in ("observed", "interpolated", "extrapolated", "unsupported", "forbidden")
     }
     simultaneous_summary["status_scope"] = (
-        "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY"
-        if simultaneous_calibration.get("status") == "AVAILABLE" else "NOT_AVAILABLE")
+        ("ASSUMPTION_CONDITIONAL_PREDECLARED_STRATA_AND_EXACT_SETTING_PANEL"
+         if simultaneous_calibration.get("status") == "AVAILABLE" and declared_strata else
+         "ASSUMPTION_CONDITIONAL_EXACT_SETTING_PANEL_ONLY"
+         if simultaneous_calibration.get("status") == "AVAILABLE" else "NOT_AVAILABLE"))
     return {"status": "VALID" if candidates else "INCONCLUSIVE",
             "reason": ("independent evaluation observed infeasible outcomes at one or more screened settings; the entire candidate set is withheld"
                        if observed_failed_cells else
