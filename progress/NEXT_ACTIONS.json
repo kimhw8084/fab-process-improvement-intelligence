@@ -1,8 +1,8 @@
 {
   "active_uncommitted_changes": [
-    "Generated release outputs and unrelated D01/D03/P1 qualification sidecars are dirty from earlier runs and are not certified against source 96d7b3d; do not stage blindly"
+    "Generated release outputs and unrelated D01/D03/P1 qualification sidecars remain dirty and are not current-source release evidence; do not stage blindly"
   ],
-  "as_of_source_commit": "96d7b3d5820a113ecb216d48092afaa5249ee2d1",
+  "as_of_source_commit": "22ecc2d6cfbc9e4f7722e4531f654d97212fa607",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -56,18 +56,21 @@
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
       "status": "STALE_AFTER_071EADE_PRODUCT_SOURCE"
     },
-    "source_commit": "96d7b3d5820a113ecb216d48092afaa5249ee2d1",
+    "source_commit": "22ecc2d6cfbc9e4f7722e4531f654d97212fa607",
     "tests": {
       "diff_check": "PASS",
       "focused_D01_D02": "67 PASS",
       "focused_design": "24 PASS",
       "focused_MCP": "19 PASS",
-      "full_python": "234 PASS at 599aca0; not rerun after 071eade",
+      "full_python": "240 PASS after refreshing the stale source-fingerprint fixture",
       "py_compile": "PASS",
       "focused_D04": "27 PASS",
       "schema_and_UI_contract": "12 PASS",
       "benchmark": "100-trial benchmark executed twice; result hash identical",
-      "py_compile_and_diff_check": "PASS"
+      "py_compile_and_diff_check": "PASS",
+      "focused_D05": "26 PASS",
+      "D05_benchmark": "1000 trials; PASS; source and script hashes verified",
+      "mcp_bridge_fixture": "2 PASS; two deterministic rebuilds"
     },
     "D04_chronological_holdout": {
       "status": "IMPLEMENTED_AND_VERIFIED",
@@ -78,6 +81,27 @@
       "time_ordered_accepted": "0/100; all refused at the engineer-specified 0.2 RMSE limit",
       "determinism": "Two benchmark executions produced identical result files",
       "scope": "Synthetic known quadratic response with late +0.5 shift; caller split reference unauthenticated; descriptive only"
+    },
+    "D05_confounded_effect_sensitivity": {
+      "status": "BENCHMARK_REPAIRED_AND_PASSING",
+      "benchmark_source_commit": "68a054d50d9a64db163881311be5ffa35e64d02a",
+      "benchmark_script_sha256": "bbcc7456d7620ea9d181fe2fe10dcbbf0f8617d095cb45439bd3a009fe9fd767",
+      "engine_sha256": "568bfa4e85b9c297f9e7f99ea8f700983e04cc7dfe1cbae2b3527dada9277a60",
+      "result_sha256": "8ed269fcf3a7c915b8513bf164ba1845368a32a256d8aa606d70595a06554bf8",
+      "trials": 1000,
+      "raw_interval_coverage": "5/1000",
+      "oracle_adequate_bound_coverage": "973/1000; Wilson lower 0.961",
+      "quarter_strength_underbound_coverage": "40/1000",
+      "underbound_numeric_gate_wrong_direction": "626/1000",
+      "interpretation_eligible": 0,
+      "observational_causal_claims": 0,
+      "scope": "Synthetic; sensitivity-bound adequacy is not authenticated; numeric diagnostics do not establish causality"
+    },
+    "bridge_fixture": {
+      "status": "REBUILT_TWICE_IDENTICALLY",
+      "sha256": "ca32cf65bfbd99b15263491863eaf2be36b1f49e82b978b82c0a8573e1833c11",
+      "focused_tests": "2 PASS",
+      "note": "Current P1 snapshot hashes are stale for the refreshed fixture; owner acceptance remains pending"
     }
   },
   "never_do": [
@@ -86,8 +110,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Audit D05 hidden-confounder benchmark assumptions and product refusal behavior; reproduce the independent challenge, then test one-sided/pretrend sensitivity failure modes and fix only an oracle-backed defect.",
-  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark_d05_confounding.py",
+  "next_action": "Audit D01 model selection and uncertainty on genuinely held-out time/group populations; identify a reproducible oracle defect before changing the factor-response method.",
+  "next_executable_action": "rtk rg -n \"validation_time|holdout|grouped_cv|independent_evaluation\" products/p4/engine.py tests/test_p4_scientific.py qualification/benchmark_d01_conditioning.py qualification/benchmark_d01_continuous_cluster_support.py",
   "ordered_queue": [
     {
       "priority": 1,
@@ -96,8 +120,8 @@
     },
     {
       "priority": 2,
-      "status": "IN_PROGRESS",
-      "task": "D01: clustered/categorical sensitivities and model uncertainty refusal are covered, including MCP pass-through; continue held-out stability and model-selection challenges."
+      "status": "NEXT",
+      "task": "D01: validate factor-response model and uncertainty behavior under time/group drift and model selection using held-out oracle challenges; retain descriptive and abstention limits."
     },
     {
       "priority": 3,
@@ -111,8 +135,8 @@
     },
     {
       "priority": 5,
-      "status": "NEXT",
-      "task": "D05: audit hidden-confounder challenge, study assumptions, refusal behavior, and sensitivity-bound adequacy against the independent oracle."
+      "status": "IMPLEMENTED_AND_VERIFIED_LIMITED",
+      "task": "D05: confounder benchmark repaired with complete explicit co-intervention history; numeric sensitivity gates passed in 626/1,000 underbound trials with wrong effect direction, but interpretation eligibility and causal claims remained zero."
     },
     {
       "priority": 6,
@@ -138,5 +162,5 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D04 source committed at 96d7b3d; focused D04 27 PASS, schema/UI source contracts 12 PASS, deterministic 100-trial benchmark reproduced twice, py_compile/diff-check PASS. Generated release and unrelated qualification sidecars remain dirty and are not current-source qualification."
+  "worktree_state": "D05 benchmark/release gate code committed at 68a054d; source-bound result and deterministic current bridge fixture committed at 22ecc2d. Full Python suite 240 PASS. Release archive/reports and disposable P1 evidence are stale for current source/fixture; no release claim."
 }
