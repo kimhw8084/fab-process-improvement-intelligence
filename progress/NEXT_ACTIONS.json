@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "51011bddb07875ebf3cfb071469cfe223cd49402",
+  "as_of_source_commit": "52a9689f9985bfa1c59b5a520ce86d343b7f5b11",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -17,17 +17,22 @@
   ],
   "next_executable_action": {
     "priority": 1,
-    "task": "Commit the verified D02 actual-selector challenge, D02 claim/scope correction, D04 evidence enrichment, MCP bridge provenance, UI assertions, and progress checkpoint locally; then run exact-source full qualification and repair any failures.",
-    "acceptance": "A local commit contains only the listed implementation, tests, benchmark, fixture, qualification evidence, documentation and ledgers; the subsequent full release runner validates the exact committed tree before archive rebuilding.",
-    "first_command": "rtk git add products/p4/engine.py products/p4/window.py products/p4/ui/P4Panel.tsx products/p4/ui/P4Panel.test.tsx tests/test_d01_d02_independent.py tests/test_p4_scientific.py tests/test_d02_actual_selector_benchmark.py tests/test_mcp_panel_bridge_fixture.py tests/fixtures/mcp_p4_panel_bridge.json qualification/benchmark_d02_actual_selector.py qualification/build_mcp_panel_bridge_fixture.py qualification/run_release_checks.py qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json release/UI_COMPONENT_QUALIFICATION.json docs/SCIENCE_AND_METHODS.md docs/PRODUCT_SPEC.md progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md",
-    "commit_command": "rtk git commit -m 'Qualify D02 interpolation screen limitations'",
-    "follow_up_command": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
+    "task": "Compile and commit the release-runner aggregate-gate correction, then rebuild the exact committed source archive and regenerate performance and limited security evidence before rerunning the complete source-bound qualification. Refresh disposable P1 source pins and workflow evidence against the exact current P4 files.",
+    "acceptance": "The aggregate qualification result must agree with E02; performance and security evidence must bind to the current source commit; P1 hash pins must match the present engine, window, panel, tests, fixture, and additional P4 source list; the full runner must record every gate honestly.",
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python -m py_compile qualification/run_release_checks.py",
+    "commit_after": "rtk git add qualification/run_release_checks.py progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Align aggregate qualification with E02'",
+    "follow_up_commands": [
+      "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
+      "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py",
+      "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py",
+      "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py"
+    ],
     "inspect": [
-      "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
       "qualification/run_release_checks.py",
       "qualification/build_transfer_bundle.py",
-      "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py"
+      "qualification/benchmark.py",
+      "qualification/refresh_security_evidence.py"
     ]
   },
   "ordered_queue": [
@@ -74,10 +79,10 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Committed base 51011bddb07875ebf3cfb071469cfe223cd49402. Uncommitted source changes now include per-cell D02 evaluation/review evidence, stricter model-screen-only scope and claim text, candidate counts by observed/interpolated region, D04 objective/bounds/review enrichment, the actual-selector 250-trial hidden-harmonic benchmark and E02 runner integration, wider MCP bridge fingerprints, updated UI/tests/docs/progress, regenerated bridge fixture, and the current local module qualification record. Executed: full Python suite 209 PASS/0 skipped; focused D02/MCP tests 6 PASS; P4 UI 24 PASS, strict TypeScript PASS, contract snapshot match PASS; evidence schema 7 PASS; Python bytecode compilation PASS; 250-trial benchmark 247/250 synthetic trials with an interpolated latent-mean violation (98.8%, Wilson95 96.53-99.59%), exact center baseline 0/250 by construction. Release ZIP and other release sidecars are stale. No push.",
+  "worktree_state": "Source implementation, tests, benchmark, fixture, UI evidence and docs committed at 52a9689f9985bfa1c59b5a520ce86d343b7f5b11. Generated release/benchmark sidecars are modified and stale pending the exact-source runner; two P1 browser evidence sidecars remain untracked under excluded qualification/results. No product source is dirty and nothing has been pushed. Full release runner at 52a9689 executed 209 tests/0 skips and completed schema/scientific sub-benchmarks, but returned exit 1 because release/BENCHMARK_REPORT.json still names source 51011bdd and source fingerprint mismatches 52a9689. E02 scientific checks passed, but report was correctly CANDIDATE. Found and fixed runner aggregation omission so top-level state includes D02 adaptive-selection and actual-selector booleans. Disposable P1 current-source hashes are stale and need refresh.",
   "latest_checkpoint": {
     "date": "2026-11-23",
-    "committed_base": "51011bddb07875ebf3cfb071469cfe223cd49402",
+    "committed_base": "52a9689f9985bfa1c59b5a520ce86d343b7f5b11",
     "changed_product_files": [
       "products/p4/engine.py",
       "products/p4/window.py",
@@ -134,6 +139,14 @@
       "real manufacturing data and engineer ROI",
       "internal legal/security/production approval",
       "authoritative P1 owner acceptance"
-    ]
+    ],
+    "release_runner_at_52a9689": {
+      "status": "FAIL_E02_STALE_PERFORMANCE_SOURCE",
+      "tests": 209,
+      "skipped": 0,
+      "schema_instances_passed": 7,
+      "new_d02_selector_benchmark": "PASS_DIAGNOSTIC_EXECUTED",
+      "aggregate_gate_correction": "IMPLEMENTED_UNCOMMITTED"
+    }
   }
 }

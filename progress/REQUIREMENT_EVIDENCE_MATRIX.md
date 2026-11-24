@@ -1,4 +1,4 @@
-# Latest verification — D02 actual selector challenge, current worktree over 51011bdd (2026-11-23)
+# Latest verification — D02 actual selector challenge, source 52a9689 (2026-11-23)
 
 | Requirement | Evidence in current worktree | Status / next action |
 |---|---|---|
@@ -6,7 +6,7 @@
 | D02/D04 engineer evidence | Per-cell D02 evaluation status and required review action; D04 includes objective, units/direction/limits, factor bounds, information-value status, pre-run uncertainty, reviewer requirements and next-iteration evidence. Missing engineering objective refuses. | Implemented with limits. DOE remains non-executing; caller bounds/power sources require review. |
 | MCP-to-panel provenance | Rebuilt official-SDK synthetic success/refusal fixture twice byte-identically, SHA-256 `5750b9bafb02c214935d9c0c04b8a2f3999a6322c918dadf095b8d1eec46f580`; fingerprints now include all core P4 science modules. | Synthetic only; actual site permissions and semantic mapping pending. |
 | UI and regression | P4 panel 24 PASS, strict typecheck PASS, P1 contract snapshot PASS; Python regression 209 PASS/0 skipped; focused D02/MCP tests 6 PASS. | Current UI module and headless evidence verified. Disposable P1 host/browser remains non-authoritative; formal accessibility pending. |
-| Release | Committed base 51011bdd; changes uncommitted; exact ZIP and release sidecars stale. | Commit the source/evidence checkpoint, then run full source-bound qualification, reproducible archive and fresh offline extraction. No publication. |
+| Release | Full runner executed at `52a9689f9985bfa1c59b5a520ce86d343b7f5b11`: 209 tests PASS/0 skipped, schema 7 PASS, D01-D05 sub-benchmarks and E01/E03/E04/E06 PASS; E02 correctly failed because the performance report and source fingerprint were still from 51011bdd. Inspection also found top-level aggregate state omitted the D02 adaptive-selection and actual-selector checks even though E02 included them; the runner edit now includes both. | Commit runner correction; rebuild exact source and regenerate performance/security evidence, refresh P1 source pins, rerun full source-bound qualification, then reproduce/offline qualify the archive. No publication. |
 
 # Historical verification — current worktree over source 51011bdd
 

@@ -786,7 +786,8 @@ def main():
         test_pass and demo_result["status"] == "PASS" and schema_status == "PASS"
         and frozen_pass and critical_pass
         and d01_imbalance_pass and d01_exposure_pass and d01_cross_pass and d01_condition_pass
-        and d02_replicate_pass and d02_selection_pass and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass
+        and d02_replicate_pass and d02_selection_pass and d02_actual_selector_pass
+        and d02_simultaneous_pass and d02_transfer_pass and d02_drift_pass
         and d03_bounded_pass and d03_zero_pass and mcp_pass and mcp_sdk_pass
         and dependency_audit_pass and d04_pass and performance_pass
         and ui_component_pass and security_pass
@@ -805,6 +806,7 @@ def main():
                "d01_cluster_exposure_support_benchmark": d01_exposure_result,
                "d02_replicate_shift_benchmark": d02_replicate_result,
                "d02_adaptive_selection_benchmark": d02_selection_result,
+               "d02_actual_selector_interpolation_benchmark": d02_actual_selector_result,
                "d02_simultaneous_coverage_benchmark": d02_simultaneous_result,
                "d03_bounded_mean_benchmark": d03_benchmark_result,
                "d03_zero_variance_benchmark": d03_zero_result,
