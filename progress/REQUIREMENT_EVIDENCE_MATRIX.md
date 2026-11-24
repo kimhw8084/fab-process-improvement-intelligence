@@ -2,6 +2,15 @@
 
 | Requirement | Current evidence | Status / next action |
 |---|---|---|
+| D01 omitted-covariate sensitivity | Commit `3c8fabc0461283de3fb80c3c59a35191157a37a9`; optional bounded one-at-a-time adjustment fields use existing categorical fixed effects. Independent confounded fixture: pooled slope >7, adjusted known slope 2 within 0.01. Duplicate/unbounded requests refuse; no automatic formula selection or causal claim. | Implemented with explicit same-sample, unadjusted-across-formulas limitations. Full Python suite 230 PASS. Continue sensitivity/selection audit. |
+| D02 selected interpolations | Independent actual-selector challenge: 247/250 synthetic trials had a latent false-feasible interpolated candidate; 23.96% of interpolated candidate cells violated the known latent mean limit. The UI and engine label model screens advisory and require exact-setting confirmation. | Limitation is explicit, not a population risk estimate. Next identify a useful independent exact-setting experiment/selection refinement; abstain where unsupported. |
+| MCP / P1 / offline release | MCP bridge fixture regenerated twice identically at SHA-256 `f370eb6d581468fe36acc21ba1dd6182940d85cb200acd4c07cc8280ed646ac3`. Prior source-bound release at `00bb6a6` has a ZIP SHA-256 in the recorded release evidence, but D01 source changed afterward. | Fixture and analytical path tested. Archive and reports stale after D01; P1 host/browser evidence predates this backend change. Requalify after scientific changes settle. |
+| Internal and suite qualification | Samsung permissions/semantic mappings, authoritative P1 source/owner acceptance, approved OS/network, company security/legal/production approval, and measured ROI remain unavailable. | Pending internal/external evidence; do not publish or claim transfer readiness. |
+
+# Latest requirement evidence — 2026-11-24
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
 | D02 interpolation/selection | Independent actual-selector challenge: 247/250 trials had at least one false-feasible latent mean; 23.96% of interpolated candidate cells violated the oracle limit. Engine warnings already deny conditional/simultaneous coverage and require exact confirmation; UI now explicitly labels model hypotheses and pointwise current-model screening. | Synthetic-only counterexample; next investigate uncertainty-reducing exact-setting experiments and selection/holdout design. |
 | D02 engineer experience | Headless P4 panel aligned title, feasibility filter, row result, and prominent selection/model-form caveat with actual evidence scope. | P4 tests 25 PASS/typecheck PASS; current P1 host workflow and permission refusal browser-observed. |
 | Shared P1 compatibility | Disposable composition fingerprint `0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26`; 32 route tests, 60 frontend tests, 25 P4 tests; typecheck/build PASS. | Synthetic unversioned host only; P1 owner/version, formal accessibility, and target-host qualification pending. |

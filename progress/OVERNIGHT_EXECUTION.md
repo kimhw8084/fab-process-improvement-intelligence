@@ -1,3 +1,12 @@
+# Latest engineering checkpoint — D01 caller-nominated adjustment sensitivity (2026-11-24)
+
+- Source commit `3c8fabc0461283de3fb80c3c59a35191157a37a9` adds an optional, one-at-a-time D01 sensitivity comparison for up to 16 unique caller-nominated row fields. It reuses the existing fixed-effect regression implementation; fields already in the base formula are reported rather than refit. Invalid requests refuse the analysis. It neither infers confounders nor selects a formula or causal claim; intervals remain unadjusted across formulas.
+- Independent challenge: 80 generated rows with product mix correlated to the factor and a known within-product slope of 2. The unadjusted slope exceeded 7; the product-adjusted fixed-effect slope recovered 2 within 0.01. Added API, schema-bound, duplicate/limit, base-field, and MCP-to-dossier fixture coverage.
+- MCP bridge fixture was regenerated twice with identical SHA-256 `f370eb6d581468fe36acc21ba1dd6182940d85cb200acd4c07cc8280ed646ac3`. Full Python suite: 230 PASS, 0 failures/skips; `git diff --check` PASS.
+- The exact-source ZIP and release reports still describe parent source `00bb6a6`; they are stale after D01. P1 host evidence predates this backend addition. Keep release state CANDIDATE. No publication.
+- Company-only items remain pending: authorized Samsung source semantics/permissions, authoritative P1 owner/source and acceptance, approved target OS/network, security/legal/production approval, and real engineering ROI.
+- Exact next action: inspect D02 candidate review and exact-setting confirmation selection with `rtk sed -n '320,505p' products/p4/design.py && rtk sed -n '1510,1688p' products/p4/window.py`; use the already recorded nonlinear interpolation counterexample to identify one independent, actionable D02 evaluation or experiment-selection gap, then implement and test only if the oracle warrants it. Defer archive rebuild until the scientific implementation checkpoint stabilizes.
+
 # Latest qualification checkpoint — D02 advisory evidence and UI scope (2026-11-24)
 
 - P4 implementation `18fe64d97721cc2a9a59170b4ba32510ccb90091`; engine remains 1.2.2. D02 UI now calls interpolated cells model hypotheses, labels pointwise screen results against the current model, and states local intervals do not establish coverage over selected cells.

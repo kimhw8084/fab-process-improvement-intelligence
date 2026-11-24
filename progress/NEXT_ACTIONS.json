@@ -1,10 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "refreshed current-source P1 evidence/browser record",
-    "latest D02 scientific/UI progress ledgers",
-    "generated release reports are stale after D02 UI source change"
+    "progress ledgers record D01 adjustment-sensitivity implementation and evidence",
+    "release and benchmark sidecars remain generated for parent source 00bb6a681564c7dcf2c8ac17536fd479761bcaca; stale after D01 change"
   ],
-  "as_of_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
+  "as_of_source_commit": "3c8fabc0461283de3fb80c3c59a35191157a37a9",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,41 +14,28 @@
   ],
   "latest_checkpoint": {
     "date": "2026-11-24",
-    "source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
+    "source_commit": "3c8fabc0461283de3fb80c3c59a35191157a37a9",
     "engine_version": "1.2.2",
-    "D02_actual_selector_challenge": {
-      "trials": 250,
-      "trials_with_any_latent_infeasible_candidate": 247,
-      "rate": 0.988,
-      "interpolated_cell_false_feasible_fraction": 0.23963506178542557,
-      "scope": "independent synthetic harmonic generator; not production risk"
-    },
-    "D02_UI": {
+    "D01_adjustment_sensitivity": {
       "status": "IMPLEMENTED",
-      "component_tests": "25 PASS",
-      "typecheck": "PASS",
-      "browser": "current synthetic P1 success/refusal observed"
+      "maximum_declared_fields": 16,
+      "scope": "one-at-a-time same-sample descriptive fixed-effect adjustment; no automatic selection or causal inference",
+      "independent_challenge": "80 rows with product/factor confounding; pooled slope >7, adjusted known slope 2 within 0.01",
+      "invalid_duplicate_or_oversized_request": "REFUSED"
     },
-    "P1_disposable_host": {
-      "composition_files": 35,
-      "composition_sha256": "0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26",
-      "routes": "32 PASS",
-      "frontend": "60 PASS",
-      "typecheck": "PASS",
-      "build": "PASS; 832336-byte JS"
+    "MCP_bridge_fixture": {
+      "status": "REBUILT_TWICE_IDENTICALLY",
+      "sha256": "f370eb6d581468fe36acc21ba1dd6182940d85cb200acd4c07cc8280ed646ac3"
+    },
+    "tests": {
+      "python_suite": "230 PASS, 0 failures, 0 skipped",
+      "diff_check": "PASS"
     },
     "release_archive": {
-      "last_qualified_commit": "5f0bba4ac6e34a79996b68924f8cba6689373573",
-      "status": "STALE_AFTER_UI_CHANGE"
+      "last_qualified_commit": "00bb6a681564c7dcf2c8ac17536fd479761bcaca",
+      "status": "STALE_AFTER_D01_CHANGE"
     },
-    "external_dependencies": [
-      "authoritative P1 owner/source and formal accessibility",
-      "company permissions and semantic mappings",
-      "approved target OS/network",
-      "security/legal/production approval",
-      "real engineering ROI"
-    ],
-    "next_action": "Commit refreshed evidence and ledgers; rerun source-bound gates; rebuild/reproduce/network-denied-qualify archive; continue D02 experiment-selection and transfer challenge."
+    "next_action": "Continue D02 candidate review and exact-setting confirmation audit; defer release regeneration until the science backlog stabilizes."
   },
   "never_do": [
     "publish or push",
@@ -57,57 +43,57 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit current D02 evidence and ledgers, regenerate exact-source offline release evidence, then continue D02.",
-  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Refresh D02 advisory qualification evidence\"",
+  "next_action": "Audit D02 candidate review and confirmation selection; identify an independent experiment-selection gap and implement only if its oracle demonstrates value.",
+  "next_executable_action": "rtk sed -n '320,505p' products/p4/design.py && rtk sed -n '1510,1688p' products/p4/window.py",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Commit current D02/P1 evidence, rerun current-source gates and exact archive qualification."
+      "task": "D02: inspect actual candidate classification and exact-setting confirmation; independently test selection/coverage limits and experiment information value."
     },
     {
       "priority": 2,
-      "status": "PENDING",
-      "task": "D02: benchmark next-best exact-setting confirmation designs and cross-lot/tool/time calibration transfer; retain honest abstention."
+      "status": "IN_PROGRESS",
+      "task": "D01: caller-nominated adjustment sensitivity is implemented; continue held-out, selection and stability challenges."
     },
     {
       "priority": 3,
       "status": "PENDING",
-      "task": "D01: held-out confounding, correlated groups, measurement uncertainty and nonlinear/interaction diagnostics."
+      "task": "D03: continue uncertainty/missing-objective reversal and compatible-population qualification."
     },
     {
       "priority": 4,
       "status": "PENDING",
-      "task": "D03: uncertainty/missing-objective reversal and compatible-population tradeoff qualification."
+      "task": "D04: continue independent constrained/sequential DOE and replication/blocking challenges."
     },
     {
       "priority": 5,
       "status": "PENDING",
-      "task": "D04: independently benchmark constrained/sequential DOE and replication/blocking."
+      "task": "D05: continue placebo, pretrend, negative-control and underbound-confounding challenges."
     },
     {
       "priority": 6,
-      "status": "PENDING",
-      "task": "D05: placebo, pretrend, negative-control and unmeasured-confounding challenges."
+      "status": "PENDING_EXTERNAL",
+      "task": "Verify authoritative P1 host/version/owner integration and formal accessibility when source is available."
     },
     {
       "priority": 7,
-      "status": "PENDING_EXTERNAL",
-      "task": "Verify authoritative P1 host/version/owner integration and formal accessibility when source becomes available."
+      "status": "PENDING_INTERNAL",
+      "task": "Company authorization, semantic mappings, target policies, legal/security/production approval and ROI."
     },
     {
       "priority": 8,
-      "status": "PENDING_INTERNAL",
-      "task": "Company authorization, semantic mappings, target policies, legal/security/production approval and ROI."
+      "status": "PENDING_FINAL_QUALIFICATION",
+      "task": "After science stabilizes, refresh source-bound P1, security, dependency, benchmark, reproducibility, archive, offline and rollback evidence."
     }
   ],
   "outcomes": {
     "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D02/D01/D03/D04/D05 scientific backlog continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 compatibility verified, authoritative owner/source and formal accessibility pending",
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current archive stale and release-critical internal/target gates remain",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 compatibility evidence does not establish authoritative owner acceptance or formal accessibility",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; archive stale after D01 and release gates remain",
     "INTERNAL_QUALIFICATION_PENDING": true
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D02 advisory language committed at 18fe64d; current P1 workflow and refusal observed. Current release archive is stale; refresh evidence, then continue scientific backlog."
+  "worktree_state": "D01 adjustment-sensitivity source commit is 3c8fabc0461283de3fb80c3c59a35191157a37a9; 230 Python tests pass. Progress checkpoint pending commit. Parent-source release outputs are preserved but stale."
 }
