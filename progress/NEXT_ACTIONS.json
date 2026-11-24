@@ -1,10 +1,10 @@
 {
   "active_uncommitted_changes": [
-    "refreshed current-source disposable P1 qualification/browser evidence",
-    "latest execution and requirement ledgers",
-    "generated source-bound benchmark and release sidecars"
+    "refreshed current-source P1 evidence/browser record",
+    "latest D02 scientific/UI progress ledgers",
+    "generated release reports are stale after D02 UI source change"
   ],
-  "as_of_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+  "as_of_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -15,34 +15,32 @@
   ],
   "latest_checkpoint": {
     "date": "2026-11-24",
-    "source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+    "source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
     "engine_version": "1.2.2",
-    "release_runner": {
-      "status": "EXECUTED",
-      "python_tests": "225 PASS, 0 skipped",
-      "gates": "E01-E04 and E06 PASS; E10 pending exact archive"
+    "D02_actual_selector_challenge": {
+      "trials": 250,
+      "trials_with_any_latent_infeasible_candidate": 247,
+      "rate": 0.988,
+      "interpolated_cell_false_feasible_fraction": 0.23963506178542557,
+      "scope": "independent synthetic harmonic generator; not production risk"
     },
-    "D05_known_confounder_benchmark": {
-      "trials": 1000,
-      "underbound_sensitivity_coverage": 0.04,
-      "adequate_oracle_bound_coverage": 0.973,
-      "observational_causal_claims": 0,
-      "status": "EXECUTED_SYNTHETIC_ONLY"
-    },
-    "performance_benchmark": {
-      "integrated_900_row_p50_ms": 285.03,
-      "p95_ms": 290.24,
-      "statsmodels_ols_max_coefficient_difference": 2.84e-14,
-      "status": "EXECUTED"
+    "D02_UI": {
+      "status": "IMPLEMENTED",
+      "component_tests": "25 PASS",
+      "typecheck": "PASS",
+      "browser": "current synthetic P1 success/refusal observed"
     },
     "P1_disposable_host": {
       "composition_files": 35,
-      "routes": 32,
-      "frontend_tests": 60,
-      "p4_panel_tests": 25,
+      "composition_sha256": "0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26",
+      "routes": "32 PASS",
+      "frontend": "60 PASS",
       "typecheck": "PASS",
-      "build": "PASS",
-      "browser_success_and_refusal": "OBSERVED_SYNTHETIC_ONLY"
+      "build": "PASS; 832336-byte JS"
+    },
+    "release_archive": {
+      "last_qualified_commit": "5f0bba4ac6e34a79996b68924f8cba6689373573",
+      "status": "STALE_AFTER_UI_CHANGE"
     },
     "external_dependencies": [
       "authoritative P1 owner/source and formal accessibility",
@@ -51,7 +49,7 @@
       "security/legal/production approval",
       "real engineering ROI"
     ],
-    "next_action": "Commit refreshed evidence and ledgers; rerun source-bound release checks; build, reproduce and offline-qualify exact archive; then continue D02 selection/multiplicity adversarial work."
+    "next_action": "Commit refreshed evidence and ledgers; rerun source-bound gates; rebuild/reproduce/network-denied-qualify archive; continue D02 experiment-selection and transfer challenge."
   },
   "never_do": [
     "publish or push",
@@ -59,18 +57,18 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit current-source evidence and ledgers, requalify source, rebuild/reproduce/offline-qualify archive; then continue D02.",
-  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Refresh current P1 qualification evidence\"",
+  "next_action": "Commit current D02 evidence and ledgers, regenerate exact-source offline release evidence, then continue D02.",
+  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Refresh D02 advisory qualification evidence\"",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Commit evidence checkpoint, rerun source-bound gates, build and verify exact offline archive."
+      "task": "Commit current D02/P1 evidence, rerun current-source gates and exact archive qualification."
     },
     {
       "priority": 2,
       "status": "PENDING",
-      "task": "D02: adversarially test adaptive cell selection, multiplicity, calibration leakage and cross-lot/tool/time shifts; repair or abstain."
+      "task": "D02: benchmark next-best exact-setting confirmation designs and cross-lot/tool/time calibration transfer; retain honest abstention."
     },
     {
       "priority": 3,
@@ -104,12 +102,12 @@
     }
   ],
   "outcomes": {
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 adversarial backlog continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 synthetic workflow verified, authoritative host/owner/formal accessibility pending",
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E10 archive qualification pending and release-critical internal/target gates remain",
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D02/D01/D03/D04/D05 scientific backlog continues",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 compatibility verified, authoritative owner/source and formal accessibility pending",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current archive stale and release-critical internal/target gates remain",
     "INTERNAL_QUALIFICATION_PENDING": true
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "P4 implementation commit a3bf9df; current-source evidence refreshed locally; release archive rebuild pending."
+  "worktree_state": "D02 advisory language committed at 18fe64d; current P1 workflow and refusal observed. Current release archive is stale; refresh evidence, then continue scientific backlog."
 }

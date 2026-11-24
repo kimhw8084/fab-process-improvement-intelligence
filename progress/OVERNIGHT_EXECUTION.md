@@ -1,3 +1,12 @@
+# Latest qualification checkpoint — D02 advisory evidence and UI scope (2026-11-24)
+
+- P4 implementation `18fe64d97721cc2a9a59170b4ba32510ccb90091`; engine remains 1.2.2. D02 UI now calls interpolated cells model hypotheses, labels pointwise screen results against the current model, and states local intervals do not establish coverage over selected cells.
+- Independent direct-selector benchmark on the unchanged window engine: 250 held-out harmonic challenges; 247/250 trials selected at least one latent-infeasible candidate (98.8%); 23.96% of interpolated candidate cells violated the known latent mean limit. This synthetic counterexample is not manufacturing risk. D02 already requires exact-setting confirmation; the UI now makes the model-form and selection limitation prominent.
+- Verified after UI change: P4 module 25 PASS and strict typecheck PASS; disposable P1 frontend 60 PASS, route suite 32 PASS, P1 typecheck/build PASS (832,336-byte JS); browser MCP success/refusal observed. Success acquired 900 synthetic rows and rendered D01–D05; refusal returned ACCESS_REFUSED/NOT_ACCESSED, with no positive findings.
+- Current disposable P1 composition is 35 files, fingerprint `0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26`. It remains unversioned and owner acceptance/formal accessibility are pending.
+- The previously qualified ZIP is stale after the UI source change. Exact P4 authorization/mappings, company requirements, target OS/network, security/legal/production approvals, and engineer ROI remain pending; no public push.
+- Exact next action: commit the refreshed P1 evidence and ledgers, rerun source-bound release gates, rebuild/reproduce/network-denied-qualify the exact archive, then resume D02 experiment-selection and cross-population challenges.
+
 # Latest qualification checkpoint — D05 timing guard and current P1 workflow (2026-11-24)
 
 - P4 implementation commit `a3bf9dfad3b42bab95f140cbe0adcfb551021a8e`, engine 1.2.2. DiD refuses timezone-naive, missing, out-of-window, or contradictory timestamps before estimation; clock provenance remains unauthenticated.

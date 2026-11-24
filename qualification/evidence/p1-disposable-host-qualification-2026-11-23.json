@@ -18,8 +18,8 @@
     },
     "current_p4_source": {
       "engine_sha256": "16fda302a9e9a0f43e24852d0836d9e8df05c07c241433eb64372ecdb3645003",
-      "panel_sha256": "4be9381f057903fca1e96d8ef8a5f85fa008901a8e7dc2cc570b671100984c98",
-      "panel_test_sha256": "927eeb1adc5c55cc8a75e35128b8f51fbf6c678cb50033ec25a470b9749af755"
+      "panel_sha256": "f8dbf763c9b80ad45e400ff14731aba8403e706eda73bb6b8e30e96051c71353",
+      "panel_test_sha256": "90522748cd9c4149e627b7aa4fd07402a4bf6226b586e39c0319402655a95483"
     },
     "mcp_panel_bridge_fixture": {
       "deterministic_two_build_check": "PASS; two independent generator invocations matched the exact output SHA-256.",
@@ -34,19 +34,21 @@
     },
     "mcp_qualification_snapshot": {
       "contracts/adapter-operations.v1.json": "546ffe9a3a04d1d039c112908b684e72de258408c18ca5d51e60787a02e2210c",
+      "engine_version": "1.2.2",
       "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
       "fabintel/mock_mcp_server.py": "07a5db181a422affdaa39bd03bea09bb824bc73666dbe3fcfbd6460973bb3508",
       "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
       "requirements/synthetic-mcp-mapping.v1.json": "1558fe7de7e1a8a60f1009c5fa80d641712d2d98e566f7ba905f033c3ebb203f",
+      "source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
       "tests/test_mcp_transport.py": "39fc395a14b42bf6e3e270288b4eadf3859d9661cfb6b949ac385d91734a9a87"
     },
     "p1_composition_path": "/tmp/p4-p1-host-current",
     "p4_registry_pin": {
       "engine_sha256": "16fda302a9e9a0f43e24852d0836d9e8df05c07c241433eb64372ecdb3645003",
       "engine_version": "1.2.2",
-      "source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e"
+      "source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091"
     },
-    "p4_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+    "p4_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
     "snapshot_fingerprint": {
       "file_sha256": {
         "contracts/SHARED_ARCHITECTURE.md": "bd88276779573435164831bcf5d2036cc3d09a3d641635b0df8f95186ec18382",
@@ -65,7 +67,7 @@
         "fabintel/server.py": "9182f8fb32bfa7d39b8b76f258ceece68a76857a3efe107c5f24b65a75df0a61",
         "fabintel/synthetic_mcp_investigation.py": "0cc7f43beb51476e8c2377677655f965b5ce027765b260a0ed9eeb66ccbd097c",
         "fixtures/p4/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
-        "integration/product-source-registry.v1.json": "dbef4acb2c63b0ffdaf46755eef0d21a355ecea24ece28b41ba79f71270b82c2",
+        "integration/product-source-registry.v1.json": "b0cf4ad2e9d642f973d5787ab7e0ed4c6c3b0938c1cb4ca75ea88109e6938137",
         "integration/suite-ui-e2e.v1.json": "635945736bf772aa23d02417234e6be085d020d94f2587b9e5bf7b0d227df703",
         "package-lock.json": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
         "package.json": "82415b23fd078424ef3c010e213052d575b012dd6f2a9ff0f932bad71e700f07",
@@ -77,7 +79,7 @@
         "products/p1/ui/suite.css": "d1d80dd866d85d02003b1a48bdd1a3cbd8e4bd16432eae1e39ab0ec0f1e44c81",
         "products/p1/ui/suiteSpatialMap.test.ts": "63b59654a33c32b1956d6d3ec90d9339d67d17e40de3c47055f45169cb7a19b9",
         "products/p1/ui/suiteSpatialMap.ts": "495c1bce7415de23fa3ba291798d001d9c5a5248340371ab2bdeeea6c6891df1",
-        "products/p4/ui/P4Panel.tsx": "4be9381f057903fca1e96d8ef8a5f85fa008901a8e7dc2cc570b671100984c98",
+        "products/p4/ui/P4Panel.tsx": "f8dbf763c9b80ad45e400ff14731aba8403e706eda73bb6b8e30e96051c71353",
         "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
         "requirements/synthetic-mcp-mapping.v1.json": "3045e016ed122cd60be1f1145b07aa2807b89d12704bb03c9b1ac90b36b133bd",
         "tests/fixtures/mcp_p4_panel_bridge.json": "1f7cc11b34757cbd8f27f0f4defb7fcec7c3d3f29198852a312a414f4b13b836",
@@ -86,12 +88,11 @@
         "vite.config.ts": "a924c15fa3c19200b181d0a7a5d36b8f03c6e2953555b916eb6dc92a5ff9e384"
       },
       "files": 35,
-      "manifest_sha256": "d40db0c1dec3c3e7b0dc3fb63a3deab1009892e4ed5f1b79a75f6a4823777640",
-      "scope": "Disposable P1 composition files including current P4 overlay and exact compatibility pins; not an authoritative P1 revision.",
-      "sha256": "d40db0c1dec3c3e7b0dc3fb63a3deab1009892e4ed5f1b79a75f6a4823777640"
+      "manifest_sha256": "0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26",
+      "sha256": "0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26"
     },
     "source_snapshot_commit": "UNVERSIONED_DISPOSABLE_P1_COMPOSITION",
-    "source_tree_state": "Locally committed P4 source a3bf9dfad3b42bab95f140cbe0adcfb551021a8e overlaid into disposable unversioned P1 snapshot."
+    "source_tree_state": "P1 source is unversioned; P4 18fe64d97721cc2a9a59170b4ba32510ccb90091 was overlaid locally for synthetic qualification."
   },
   "executed_checks": {
     "browser": {
@@ -153,7 +154,7 @@
       },
       "p4_engine_version": "1.2.2",
       "p4_method_version": "p4-robust-surface-2",
-      "p4_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+      "p4_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
       "permission_refusal": {
         "analysis": "not performed",
         "fixture_values": "suppressed",
@@ -185,8 +186,8 @@
       "visualization_runtime": "Apache ECharts 6.1.0 through P1 shared renderer"
     },
     "current_p4_requalification": {
-      "browser_current_p4_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
-      "browser_latest_source_status": "CURRENT_SOURCE_SYNTHETIC_MCP_WORKFLOW_AND_REFUSAL_OBSERVED",
+      "browser_current_p4_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
+      "browser_latest_source_status": "CURRENT_SOURCE_SYNTHETIC_MCP_SUCCESS_AND_PERMISSION_REFUSAL_OBSERVED",
       "browser_reobserved_after_d01_continuous_support_guard": false,
       "browser_reobserved_after_d01_sparse_exposure_guard": true,
       "browser_reobserved_after_d02_predeclared_strata_calibration": true,
@@ -214,7 +215,7 @@
       "p4_panel_test_sha256": "3a4f229ded410937a9349b537648962e0a9ff8c5470a73d57b4a4ab388231a02",
       "p4_panel_tests": "PASS; 25 current component tests; strict TypeScript and local P1 contract snapshot match",
       "p4_schema_sha256": "3cffc0753402842ddef1dbe5f798d9582c1ac96c4d54ef4889e2fa2a8a356c54",
-      "p4_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+      "p4_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
       "p4_source_commit_status": "CURRENT_EXACT_COMMITTED_SOURCE",
       "p4_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20"
     },
@@ -244,14 +245,14 @@
     },
     "p1_host_route_tests": {
       "command": "rtk /tmp/p4-qualification-env/bin/python -m unittest discover -s tests -p test_suite_host.py -q",
-      "p4_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+      "p4_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
       "scope": "Synthetic route tests in the unversioned disposable P1 composition.",
       "status": "PASS",
       "tests": 32
     },
     "p1_production_build": {
-      "bundle_bytes_uncompressed": 831902,
-      "bundle_sha256": "f355c1664f0dddc27d0239b6072a4744a157c1824553819b7a6922088ad6f785",
+      "bundle_bytes_uncompressed": 832336,
+      "bundle_sha256": "f03edf7be6030d3481d0b43b0084e4944ed82993d9c98b1bb481a581d245bf12",
       "command": "rtk npm run build",
       "status": "PASS",
       "warning": "Shared Apache ECharts chunk exceeds Vite\u2019s 500 kB advisory threshold."
@@ -269,14 +270,15 @@
         "Synthetic only; actual company authorization, mappings and semantics remain PENDING_INTERNAL.",
         "P1 source has no versioned Git revision or owner acceptance."
       ],
+      "p4_source_commit": "18fe64d97721cc2a9a59170b4ba32510ccb90091",
       "sdk": "Official Python MCP SDK 2.3.0 with synthetic stdio and loopback Streamable HTTP peers",
       "source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e"
     },
     "p4_panel_tests": {
       "command": "rtk /tmp/p4-qualification-env/bin/python qualification/ui_component_check.py --suite-root /tmp/p4-p1-host-current",
       "contract_snapshot_match": true,
-      "panel_sha256": "4be9381f057903fca1e96d8ef8a5f85fa008901a8e7dc2cc570b671100984c98",
-      "panel_test_sha256": "927eeb1adc5c55cc8a75e35128b8f51fbf6c678cb50033ec25a470b9749af755",
+      "panel_sha256": "f8dbf763c9b80ad45e400ff14731aba8403e706eda73bb6b8e30e96051c71353",
+      "panel_test_sha256": "90522748cd9c4149e627b7aa4fd07402a4bf6226b586e39c0319402655a95483",
       "python_bridge_fixture_tests": 2,
       "status": "PASS",
       "tests": 25,
@@ -308,5 +310,5 @@
   "qualification_date": "2026-11-24",
   "schema": "p4-p1-disposable-host-qualification/v1",
   "scope": "Current-source synthetic P4 compatibility in an unversioned disposable P1 composition; not owner, company authorization, target-platform, or formal accessibility qualification.",
-  "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
+  "status": "CURRENT_SOURCE_SYNTHETIC_WORKFLOW_REFUSAL_AND_D02_ADVISORY_UI_VERIFIED"
 }

@@ -2,6 +2,16 @@
 
 | Requirement | Current evidence | Status / next action |
 |---|---|---|
+| D02 interpolation/selection | Independent actual-selector challenge: 247/250 trials had at least one false-feasible latent mean; 23.96% of interpolated candidate cells violated the oracle limit. Engine warnings already deny conditional/simultaneous coverage and require exact confirmation; UI now explicitly labels model hypotheses and pointwise current-model screening. | Synthetic-only counterexample; next investigate uncertainty-reducing exact-setting experiments and selection/holdout design. |
+| D02 engineer experience | Headless P4 panel aligned title, feasibility filter, row result, and prominent selection/model-form caveat with actual evidence scope. | P4 tests 25 PASS/typecheck PASS; current P1 host workflow and permission refusal browser-observed. |
+| Shared P1 compatibility | Disposable composition fingerprint `0baba3ec3650bfebab70bc22edd3dc12fb681bfc3485c7e8510aa577f6a60d26`; 32 route tests, 60 frontend tests, 25 P4 tests; typecheck/build PASS. | Synthetic unversioned host only; P1 owner/version, formal accessibility, and target-host qualification pending. |
+| Exact offline release | Last qualified source/archive was commit `5f0bba4`; UI source has changed at `18fe64d`. | Archive/reproducibility/offline evidence stale; commit refreshed evidence and rerun release gates. |
+| Internal gates | No company source permission/mapping, target policy, production engineering ROI, legal/security/production approval asserted. | Pending internal; no public distribution. |
+
+# Latest requirement evidence — 2026-11-24
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
 | D01–D05 implementation | Engine 1.2.2; full suite 225 PASS. D05 now validates intervention timestamp ordering/cutoff and refuses inconsistent panels. D02 remains advisory with explicit noncoverage limits. | Implemented baseline; scientific backlog remains. Next: D02 selection/multiplicity and held-out shift challenges. |
 | D05 sensitivity | Independent 1,000-trial known-confounder challenge: underbound trend CI coverage 4.0%; oracle-adequate bound 97.3%; 0 observational causal claims; 0 underbound cases passed gates. | Synthetic known-generator evidence only; assumptions cannot be externally authenticated. |
 | Performance / OSS reuse | Current benchmark: 900-row integrated workflow p50 285 ms / p95 290 ms; statsmodels OLS coefficients differ by at most `2.9e-14`; no runtime dependency added. | Measurement is synthetic/macOS ARM64; no engineer ROI claim. |
