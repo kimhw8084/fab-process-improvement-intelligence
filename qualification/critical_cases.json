@@ -205,5 +205,14 @@
     "implemented_in_bootstrap": false,
     "implemented_and_tested": true,
     "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_constant_observed_metrics_do_not_create_zero_width_population_intervals"
+  },
+  {
+    "id": "P4-24",
+    "input_challenge": "30 balanced-size lots carry a binary cluster-level factor with only 3 exposed lots under heteroskedastic lot means",
+    "required_result": "retain the identified point estimate and withhold cluster intervals when either exposure level has fewer than 10 independent lots",
+    "oracle": "independent 3000-trial null challenge: ordinary CR1 coverage 90.37% (Wilson95 89.26-91.37%); Welch lot-mean reference 96.23%; P4 abstains on the sparse arm and matches Statsmodels at 10 versus 20 lots",
+    "implemented_in_bootstrap": false,
+    "implemented_and_tested": true,
+    "test": "tests/test_p4_scientific.py::P4IndependentChallenges.test_cluster_level_binary_exposure_withholds_sparse_arm_uncertainty_in_dossier"
   }
 ]

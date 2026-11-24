@@ -9,10 +9,10 @@
   },
   "component_tests": {
     "diagnostic": null,
-    "expected_test_count": 22,
+    "expected_test_count": 23,
     "return_code": 0,
     "test_file": "products/p4/ui/P4Panel.test.tsx",
-    "tests_passed": 22
+    "tests_passed": 23
   },
   "contract_sha256": {
     "suite-chart.v1.schema.json": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
@@ -21,7 +21,7 @@
   "contract_snapshot_match": true,
   "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
   "p4_source_sha256": {
-    "products/p4/ui/P4Panel.test.tsx": "5acfc32ad88650eb9169c744f023abb1ee8a2667dd7d1c393c21362884b094aa",
+    "products/p4/ui/P4Panel.test.tsx": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5",
     "products/p4/ui/P4Panel.tsx": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
     "tests/fixtures/mcp_p4_panel_bridge.json": "5e1484694f86ed86910e59ad09315e4e39f0e6de0f31ec6bd98362f04fadb57d"
   },

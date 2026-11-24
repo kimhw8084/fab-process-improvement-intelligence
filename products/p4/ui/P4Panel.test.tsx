@@ -268,6 +268,29 @@ describe("P4 headless suite module", () => {
     expect(within(d01Region).getByText(/95% interval Not provided/)).toBeTruthy();
   });
 
+  it("shows sparse binary cluster-level exposure support and its abstention", () => {
+    const sparseExposureEvidence = structuredClone(evidence);
+    const artifact = sparseExposureEvidence.artifacts?.[0] as Record<string, unknown>;
+    const d01 = artifact.D01_sensitivity as Record<string, unknown>;
+    d01.status = "INCONCLUSIVE";
+    d01.reason = "binary cluster-level factor has fewer than 10 independent clusters in one level; model uncertainty is withheld";
+    d01.terms = { exposed: { estimate: 0.2, ci95: null, standard_error: null } };
+    d01.inference = {
+      covariance: "cluster", independent_cluster_count: 30,
+      cluster_level_factor_support: [{ factor: "exposed", design: "BINARY_FACTOR_CONSTANT_WITHIN_CLUSTER",
+        cluster_count_by_level: [3, 27], minimum_clusters_per_level: 10,
+        status: "INSUFFICIENT_CLUSTER_LEVEL_SUPPORT",
+        interpretation: "descriptive abstention screen; passing does not guarantee coverage" }],
+    };
+    d01.diagnostic_warnings = ["cluster-robust intervals withheld: binary cluster-level factor(s) exposed have fewer than 10 independent clusters in one level"];
+    render(<P4Panel sourcePreview={sourcePreview} evidence={sparseExposureEvidence} />);
+    const d01Region = screen.getByRole("region", { name: "D01 · Factor sensitivity" });
+    expect(within(d01Region).getAllByText(/INSUFFICIENT_CLUSTER_LEVEL_SUPPORT/).length).toBeGreaterThan(0);
+    expect(within(d01Region).getAllByText(/\"cluster_count_by_level\":\[3,27\]/).length).toBeGreaterThan(0);
+    expect(within(d01Region).getByText(/fewer than 10 independent clusters in one level/)).toBeTruthy();
+    expect(within(d01Region).getByText(/95% interval Not provided/)).toBeTruthy();
+  });
+
   it("shows crossed chamber and product dependence as an uncertainty refusal", () => {
     const crossedEvidence = structuredClone(evidence);
     const artifact = crossedEvidence.artifacts?.[0] as Record<string, unknown>;

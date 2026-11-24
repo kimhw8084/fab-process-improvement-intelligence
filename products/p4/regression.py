@@ -479,6 +479,8 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     cluster_count = None
     effective_cluster_count = None
     cluster_size_diagnostic = None
+    cluster_level_factor_support = []
+    insufficient_cluster_level_factors = []
     sst = sum((value-y_mean)**2 for value in y)
     residual_norm = sqrt(sum(value*value for value in residuals))
     response_norm = sqrt(sst)
@@ -517,10 +519,46 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
         # sample. The effective count is used only to withhold unstable
         # inference; it never upgrades or validates a model.
         inferential_df = min(cluster_count - 1, floor(effective_cluster_count + 1e-9) - 1)
+        # For a binary factor assigned at the cluster level, nominal cluster
+        # count and row-count balance can conceal very little support in one
+        # exposure arm. Under cluster-level heteroskedasticity, the usual CR1
+        # sandwich with G-1 reference degrees of freedom can then undercover.
+        # This is a conservative refusal screen, not a small-sample correction.
+        factor_cluster_levels = {name: {} for name in factor_names}
+        for cluster_key, values in zip(
+                [_key(_get_field(row, options.get("cluster_field"))) for row in rows],
+                zip(*(factor_values[name] for name in factor_names))):
+            for name, value in zip(factor_names, values):
+                factor_cluster_levels[name].setdefault(cluster_key, set()).add(_key(value))
+        for name in factor_names:
+            cluster_levels = factor_cluster_levels[name]
+            if cluster_levels and all(len(levels) == 1 for levels in cluster_levels.values()):
+                counts = {}
+                for levels in cluster_levels.values():
+                    level = next(iter(levels))
+                    counts[level] = counts.get(level, 0) + 1
+                if len(counts) == 2:
+                    counts_by_level = sorted(counts.values())
+                    diagnostic = {
+                        "factor": name,
+                        "design": "BINARY_FACTOR_CONSTANT_WITHIN_CLUSTER",
+                        "cluster_count_by_level": counts_by_level,
+                        "minimum_clusters_per_level": 10,
+                        "status": "INSUFFICIENT_CLUSTER_LEVEL_SUPPORT"
+                        if counts_by_level[0] < 10 else "SCREEN_PASSED",
+                        "interpretation": "descriptive abstention screen for binary cluster-level factors; passing does not validate covariance or guarantee coverage",
+                    }
+                    cluster_level_factor_support.append(diagnostic)
+                    if counts_by_level[0] < 10:
+                        insufficient_cluster_level_factors.append(name)
     if crossed_shared_dependence:
         pass
     elif degenerate_residuals:
         warnings.append("residual variation is numerically degenerate; inferential intervals withheld")
+    elif insufficient_cluster_level_factors:
+        warnings.append(
+            "cluster-robust intervals withheld: binary cluster-level factor(s) "
+            f"{', '.join(insufficient_cluster_level_factors)} have fewer than 10 independent clusters in one level")
     elif covariance_type == "classical":
         covariance = [[residual_variance*bread[i][j] for j in range(p)] for i in range(p)]
     elif covariance_type == "HC3":
@@ -535,7 +573,9 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
         covariance = _sandwich(bread, meat)
     else:
         grouped = grouped_clusters
-        if cluster_count < minimum_clusters:
+        if insufficient_cluster_level_factors:
+            pass
+        elif cluster_count < minimum_clusters:
             warnings.append(f"cluster-robust intervals withheld: {cluster_count} clusters is below minimum_clusters={minimum_clusters}")
         elif effective_cluster_count + 1e-9 < minimum_clusters:
             warnings.append(
@@ -584,8 +624,11 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
     shared_dependence_reason = (
         "declared shared-dependence groups cross independent units; the configured covariance does not account for this dependence, so uncertainty is withheld"
         if crossed_shared_dependence else None)
+    cluster_factor_support_reason = (
+        "binary cluster-level factor has fewer than 10 independent clusters in one level; model uncertainty is withheld"
+        if insufficient_cluster_level_factors else None)
     report = {"status": "VALID" if covariance is not None else "INCONCLUSIVE",
-              "reason": None if covariance is not None else (shared_dependence_reason or "point estimates are identified but robust uncertainty is unavailable"),
+              "reason": None if covariance is not None else (shared_dependence_reason or cluster_factor_support_reason or "point estimates are identified but robust uncertainty is unavailable"),
               "n": n, "residual_df": df, "metric": metric, "term_count": p,
               "terms": term_results, "point_estimates": point_terms,
               "r_squared": r2, "residual_sd": sqrt(max(0.0, residual_variance)),
@@ -597,6 +640,7 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
                             "independent_cluster_count": cluster_count, "inference_df": inferential_df if covariance is not None else None,
                             "row_share_effective_cluster_count": effective_cluster_count,
                             "cluster_size_diagnostic": cluster_size_diagnostic,
+                            "cluster_level_factor_support": cluster_level_factor_support,
                             "confidence_level": 0.95, "minimum_clusters": minimum_clusters if covariance_type == "cluster" else None,
                             "declared_independent_unit_field": independent_unit_field,
                             "declared_independent_unit_count": independent_unit_count,
@@ -624,6 +668,7 @@ def fit_linear_model(rows, factor_defs, metric, options=None, cancel=None):
               "assumptions": ["observational conditional mean is represented by the selected linear/quadratic terms",
                               "HC3 handles heteroskedasticity but assumes independent observations",
                               "cluster covariance allows within-cluster dependence and relies on independent clusters",
+                              "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
                               "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
                               "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
                               "classical covariance additionally assumes homoskedastic errors",

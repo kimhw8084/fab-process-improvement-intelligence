@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7",
+  "as_of_source_commit": "a6f93eafc417eea768e90e3d382d634b86a43aa2",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,18 +16,17 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "Commit the refreshed 22-test UI qualification and progress evidence; build the exact archive; reproduce it in two clean worktrees; qualify fresh no-pip extraction under OS network denial; rerun the complete source-bound gate and require E10 to match the evaluated commit and exact ZIP.",
-    "first_command": "rtk git add release/UI_COMPONENT_QUALIFICATION.json progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Refresh P4 panel qualification evidence'",
+    "acceptance": "Commit the tested D01 sparse cluster-level exposure support screen, independent benchmark, E02 integration, UI test/report, and checkpoint. Refresh P1 current-source evidence after the resulting source commit, rerun the source-bound benchmark/full release gates, then rebuild/reproduce/offline-qualify the exact archive and verify E10.",
+    "first_command": "rtk git add docs/PRODUCT_SPEC.md docs/SCIENCE_AND_METHODS.md products/p4/regression.py products/p4/ui/P4Panel.test.tsx qualification/critical_cases.json qualification/benchmark_d01_exposure_support.py qualification/run_release_checks.py qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json tests/test_d01_d02_independent.py tests/test_p4_scientific.py release/UI_COMPONENT_QUALIFICATION.json progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Withhold D01 uncertainty on sparse cluster exposure'",
     "inspect": [
-      "release/UI_COMPONENT_QUALIFICATION.json",
-      "qualification/build_transfer_bundle.py",
-      "qualification/check_reproducibility.py",
-      "qualification/offline_qualify.py",
+      "products/p4/regression.py",
+      "qualification/benchmark_d01_exposure_support.py",
       "qualification/run_release_checks.py",
+      "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
       "release/GATE_REPORT.json"
     ],
     "priority": 1,
-    "task": "The full runner now passes E02 at da50bb0 but correctly marks E10 pending because the archive embeds older source 196153b. Commit the refreshed P4 UI report and checkpoint, build/reproduce the exact archive, qualify fresh offline extraction under network denial, rerun the gate and verify E10. Then resume independent D01\u2013D05 scientific challenges."
+    "task": "Commit the tested D01 sparse-arm refusal and benchmark. Refresh current-source P1 evidence and full source-bound qualification, then rebuild/reproduce and verify the offline archive. Resume independent D01\u2013D05 adversarial work after exact release evidence is current."
   },
   "ordered_queue": [
     {
@@ -37,8 +36,8 @@
     },
     {
       "priority": 2,
-      "status": "IMPLEMENTED_WITH_LIMITS; CLUSTER_SIZE_CROSSED_DEPENDENCE_AND_COLLINEARITY_WARNINGS_QUALIFIED",
-      "task": "D01 retains clustered robust regression, fixed effects/interactions/quadratics, influence and identifiability checks, formula sensitivity and unauthenticated-split limitations. The 1,200-trial imbalance challenge showed balanced 30-lot coverage 93.9167% (Wilson95 [0.9242,0.9513]); with one lot at 50.85% of rows, Statsmodels count-only coverage was 67.4167% while P4 withheld all intervals at effective count 3.747. A new independent 1,200-trial 30\u00d730 chamber/product null challenge measured 33.5% one-way lot-cluster false positives (Wilson95 [0.3089,0.3622]) versus 4.67% for Statsmodels two-way reference ([0.0361,0.0601]); P4 reported crossed-group diagnostics and abstained in 8/8 fits. Statsmodels remains qualification-only: two-way coverage is limited to exactly two declared dimensions and its large dependency closure is not added to the stdlib runtime. Undeclared dependence remains undetected. New QR conditioning heuristic warns on weakly separated, full-rank factors without withholding wide marginal intervals. Independent 250-trial fixed-design challenge: median condition proxy 16.9 in the well-conditioned design versus 102,613 when near-collinear; severe factor sign errors 44.8%/48.4%, with median interval widths about 70x the baseline. Heuristic thresholds are descriptive only."
+      "status": "IMPLEMENTED_WITH_LIMITS; BINARY_CLUSTER_LEVEL_EXPOSURE_SUPPORT_SCREEN_AND_HELDOUT_BENCHMARK",
+      "task": "D01 retains clustered robust regression, nonlinear terms, fixed effects, identifiability/influence checks, formula sensitivity, and explicit observational limits. A held-out randomized heteroskedastic null challenge found CR1/t(G-1) coverage 90.37% with 3 exposed and 27 control lots; a Welch lot-mean benchmark reference covered 96.23% for that equal-size design. P4 now retains point estimates but withholds model/prediction uncertainty when a binary factor is constant within clusters and has fewer than 10 lots at either level. At 10/20 lots, P4 coverage was 94.70% (Wilson95 93.84\u201395.45%) across 3,000 trials and Statsmodels interval endpoints matched within 1.1e-11. The ten-per-level threshold is a heuristic, not a guarantee; randomized Welch is benchmark-only. Full current-source runner and P1 evidence refresh pending."
     },
     {
       "priority": 3,
@@ -67,11 +66,11 @@
     },
     {
       "priority": 8,
-      "status": "E02_PASS_AT_da50bb0; E10_PENDING_FINAL_ARCHIVE; CANDIDATE",
-      "task": "Current runner at da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7 passed 203 Python tests, schema, E02 and disposable P1 source/hash checks. Old archive metadata remains at 196153b. Refresh/commit the 22-test P4 UI qualification report, rebuild the exact bundle, reproduce twice, perform fresh offline extraction under network denial and rerun the full gate."
+      "status": "PREVIOUS_E02_E10_PASS_AT_a6f93ea; STALE_AFTER_D01_SOURCE_CHANGE; CANDIDATE",
+      "task": "At a6f93eafc417eea768e90e3d382d634b86a43aa2 the 215-file ZIP SHA-256 efe002973d11501e7aa9c5199952945ef105ddc63e25e5a8bf55a9c632b690fb reproduced from two detached worktrees; 215 files were verified in fresh no-pip macOS network-denied extraction; E02/E10 passed. The current D01 source/tests/runner/UI report are changed, so refresh P1 hashes and performance, rerun full gates, then rebuild and requalify before treating E10 as current."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Product source 644eab904beac1c75382a6e378212819ebcb31e0 adds the D02 whole-set counterevidence veto; qualification checkpoint da50bb01dcf14eb5f7b8062b8030cccf09cfc1f7 records refreshed P1 evidence. Full runner passes 203 tests and E02; source-current performance report is regenerated. E10 remains pending because archive metadata is 196153b. Commit the refreshed UI qualification/progress, rebuild/reproduce and offline-qualify the exact package, rerun gates. Product remains CANDIDATE; no public push."
+  "worktree_state": "D01 sparse binary cluster-level exposure support screen and independent 3,000-trial benchmark are implemented and tested in an uncommitted diff from a6f93eafc417eea768e90e3d382d634b86a43aa2. Full suite 207 PASS, schema 7 PASS, P4 module 23/typecheck PASS, P1 frontend 50/typecheck/build and route 11 PASS. Current P1 evidence pins old regression/panel-test hashes; prior exact archive E02/E10 passed only at a6f93ea and is now stale. Commit this work, refresh exact P1 evidence/performance, rerun release, reproduce and offline qualify the new archive. No public push."
 }

@@ -53,6 +53,22 @@ class P4IndependentChallenges(unittest.TestCase):
                             or "relationship field is missing: lot_id" in item
                             for item in withheld["limitations"]))
 
+    def test_cluster_level_binary_exposure_withholds_sparse_arm_uncertainty_in_dossier(self):
+        request = copy.deepcopy(self.full)
+        request["model"]["factor_fields"] = ["pressure"]
+        request["model"]["interactions"] = False
+        request["model"]["quadratic"] = False
+        for observation in request["observations"]:
+            lot_number = int(observation["lot_id"].rsplit("-", 1)[1])
+            observation["factors"]["pressure"] = 1.0 if lot_number <= 3 else 0.5
+        result = analyze(request)
+        report = dossier(result)["D01_sensitivity"]
+        self.assertEqual(report["status"], "INCONCLUSIVE")
+        self.assertEqual(report["inference"]["cluster_level_factor_support"][0]["cluster_count_by_level"], [3, 97])
+        self.assertIsNotNone(report["terms"]["pressure"]["estimate"])
+        self.assertIsNone(report["terms"]["pressure"]["ci95"])
+        self.assertFalse(any(claim["method"] == "robust_linear_model" for claim in result["claims"]))
+
     def test_split_cluster_refusal_does_not_become_a_rank_claim(self):
         request = copy.deepcopy(self.full)
         request["model"]["covariance"] = "cluster"

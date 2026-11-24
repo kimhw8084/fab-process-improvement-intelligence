@@ -1,0 +1,104 @@
+{
+  "benchmark_script_sha256": "d4e88e9b4ff7c26a73c74a467f9ddff53eb84acc5cb0209d32d2992ab1d642f9",
+  "data_generating_process": {
+    "cluster_size": "equal across all independent lots",
+    "estimand": "zero difference in mean response between randomized binary exposure arms",
+    "exposure_assignment": "fixed number of exposed lots selected uniformly without replacement per trial",
+    "exposure_counts": [
+      3,
+      10
+    ],
+    "independent_units": 30,
+    "lot_mean_sd": "independent lognormal scale exp(N(0, 0.85^2))",
+    "replicates_per_lot": 6,
+    "within_lot_noise_sd": 0.08
+  },
+  "limitations": [
+    "fixed-seed randomized synthetic challenge with equal lot sizes; no FAB error rate or coverage guarantee",
+    "the Welch reference applies only to this randomized two-arm cluster-mean challenge",
+    "the ten-lots-per-level rule is a conservative abstention heuristic; passing does not validate inference",
+    "observational assignment mechanisms may have additional confounding not represented here"
+  ],
+  "product_source_sha256": "527e54b6202bd2a0c82a866f9c9c53813136ec033c988df1293941ca2a286c99",
+  "qualification": "PASS",
+  "references": {
+    "ordinary_cluster": {
+      "library": "statsmodels",
+      "method": "CR1 one-way cluster covariance with t(G-1) inference",
+      "version": "0.15.0"
+    },
+    "welch": {
+      "library": "scipy",
+      "method": "Welch two-sample t interval on independent lot means",
+      "version": "1.11.4"
+    }
+  },
+  "runtime_dependencies_added": false,
+  "scenarios": {
+    "10": {
+      "control_lots": 20,
+      "exposed_lots": 10,
+      "maximum_p4_vs_statsmodels_interval_endpoint_difference": 1.0150102980333031e-11,
+      "ordinary_one_way_cluster_reference": {
+        "coverage": 0.947,
+        "coverage_wilson95": [
+          0.938396326556235,
+          0.9544603826833236
+        ],
+        "mean_interval_width": 2.89474018580041
+      },
+      "p4": {
+        "abstained_trials": 0,
+        "coverage_among_inferred": 0.947,
+        "coverage_wilson95": [
+          0.938396326556235,
+          0.9544603826833236
+        ],
+        "inferred_trials": 3000,
+        "mean_interval_width": 2.8947401857965804
+      },
+      "trials": 3000,
+      "welch_independent_lot_mean_reference": {
+        "coverage": 0.9573333333333334,
+        "coverage_wilson95": [
+          0.9494973904625033,
+          0.9639995559033987
+        ],
+        "mean_interval_width": 3.0682471236527937
+      }
+    },
+    "3": {
+      "control_lots": 27,
+      "exposed_lots": 3,
+      "maximum_p4_vs_statsmodels_interval_endpoint_difference": 0.0,
+      "ordinary_one_way_cluster_reference": {
+        "coverage": 0.9036666666666666,
+        "coverage_wilson95": [
+          0.8925866132721656,
+          0.9137142628569213
+        ],
+        "mean_interval_width": 3.457815150743058
+      },
+      "p4": {
+        "abstained_trials": 3000,
+        "coverage_among_inferred": null,
+        "coverage_wilson95": null,
+        "inferred_trials": 0,
+        "mean_interval_width": null
+      },
+      "trials": 3000,
+      "welch_independent_lot_mean_reference": {
+        "coverage": 0.9623333333333334,
+        "coverage_wilson95": [
+          0.9549079624448719,
+          0.9685761954337769
+        ],
+        "mean_interval_width": 6.680565144260066
+      }
+    }
+  },
+  "schema": "p4-d01-cluster-exposure-support-benchmark/v1",
+  "scope": "independent method challenge for binary factors constant within declared clusters; no general small-sample or production claim",
+  "seed": 917234,
+  "trials_per_scenario": 3000
+}
