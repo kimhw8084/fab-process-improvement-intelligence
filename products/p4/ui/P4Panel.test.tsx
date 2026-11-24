@@ -189,9 +189,15 @@ describe("P4 headless suite module", () => {
     supported.screened_candidate_count = 1;
     supported.candidate_screening_status = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE";
     supported.candidate_counterevidence = {
-      status: "WITHHELD_COMPLETE_SET_INFEASIBILITY", complete_independent_units: 20,
-      observed_any_infeasible_units: 20, observed_any_infeasible_fraction: 1,
+      status: "WITHHELD_BY_CALIBRATION_TRANSFER_COUNTEREVIDENCE",
+      transfer_status: "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA",
+      observed_transfer_counterevidence: ["UNSEEN_EVALUATION_STRATA"],
     };
+    supported.simultaneous_exact_setting_screen = { calibration_transfer_assessment: {
+      status: "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA",
+      observed_counterevidence: ["UNSEEN_EVALUATION_STRATA"],
+      unseen_evaluation_units: 10,
+    } };
     supported.grid = [{ factors: { pressure: 0.5, power: 0.5 }, region_class: "interpolated",
       conservative_feasible: true, screened_candidate: true, supported_candidate: false,
       candidate_screening_status: "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE",
@@ -206,7 +212,8 @@ describe("P4 headless suite module", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={withheldEvidence} />);
 
     const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
-    expect(within(d02).getByText(/No process-window candidates are recommended/)).toBeTruthy();
+    expect(within(d02).getByText(/No process-window candidates are available for advisory review/)).toBeTruthy();
+    expect(within(d02).getAllByText(/COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA/).length).toBeGreaterThan(0);
     expect(within(d02).getByRole("columnheader", { name: "Recommendation status" })).toBeTruthy();
     expect(within(d02).getByText("Withheld by independent counterevidence")).toBeTruthy();
   });

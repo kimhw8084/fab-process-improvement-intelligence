@@ -551,8 +551,9 @@ def _calibration_transfer_assessment(calibration_status, evaluation_panel, compo
                                      evaluation_partition_name=None, band_evaluation=None):
     """Describe held-out counterevidence to transferring exact-panel calibration.
 
-    This is deliberately post-selection. It cannot certify future exchangeability
-    or change any model, calibration radius, candidate, or candidate count.
+    This is post-screening evidence. It cannot change model fitting, calibration
+    radii, or select a favorable subset; identified transfer counterevidence can
+    only withdraw the complete candidate set.
     """
     partition_summaries = composition.get("partitions", {})
     relevant_partitions = (calibration_partition_name, evaluation_partition_name)
@@ -1343,7 +1344,6 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         partitions, unit_field, evaluation_strata,
         calibration_report["calibration_value"], calibration_report.get("evaluation_value"))
     composition_diagnostic = evaluation["partition_composition_diagnostic"]
-    simultaneous_candidates = [cell for cell in grid if cell["simultaneous_supported_candidate"]]
     simultaneous_summary = dict(simultaneous_calibration)
     if simultaneous_calibration.get("status") == "AVAILABLE":
         simultaneous_summary["independent_evaluation_panel_compatibility"] = _evaluation_panel_compatibility(
@@ -1367,12 +1367,27 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         calibration_report.get("evaluation_value"), heldout_band_evaluation)
     simultaneous_summary["calibration_transfer_assessment"] = transfer_assessment
     # Evaluation outcomes never change the fitted model, calibration radius,
-    # or pre-veto screening decisions. An exact observed failure can withhold
-    # the full recommendation set; the original screen remains auditable.
+    # or select a favorable candidate subset. Exact infeasibility and explicit
+    # transfer counterevidence can only withdraw the complete set; the original
+    # screen remains auditable.
+    transfer_counterevidence = transfer_assessment["status"].startswith("COUNTEREVIDENCE")
+    if transfer_counterevidence:
+        candidate_counterevidence["status"] = "WITHHELD_BY_CALIBRATION_TRANSFER_COUNTEREVIDENCE"
+        candidate_counterevidence["transfer_status"] = transfer_assessment["status"]
+        candidate_counterevidence["observed_transfer_counterevidence"] = list(
+            transfer_assessment["observed_counterevidence"])
+        for cell in grid:
+            cell["simultaneous_supported_candidate"] = False
+            if cell["screened_candidate"]:
+                cell["supported_candidate"] = False
+                cell["candidate_screening_status"] = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
+        candidates = []
+        candidate_screening_status = "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
     for cell in grid:
         cell["evaluation_transfer_status"] = transfer_assessment["status"]
     for cell in candidates:
         cell["evaluation_transfer_status"] = transfer_assessment["status"]
+    simultaneous_candidates = [cell for cell in grid if cell["simultaneous_supported_candidate"]]
     simultaneous_summary["simultaneous_supported_candidate_count"] = len(simultaneous_candidates)
     simultaneous_summary["pointwise_supported_candidate_count"] = len(candidates)
     simultaneous_summary["pointwise_screened_candidate_count"] = len(screened_candidates)
@@ -1389,7 +1404,9 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
         if simultaneous_calibration.get("status") == "AVAILABLE" else "NOT_AVAILABLE")
     return {"status": "VALID" if candidates else "INCONCLUSIVE",
             "reason": ("independent evaluation observed infeasible outcomes at one or more screened settings; the entire candidate set is withheld"
-                       if observed_failed_cells else None),
+                       if observed_failed_cells else
+                       "independent evaluation found calibration-transfer counterevidence; the entire candidate set is withheld"
+                       if transfer_counterevidence else None),
             "method": "supported_grid_response_surface_with_local_grouped_holdout_calibration",
             "explored_factors": selected, "approved_factor_bounds": bounds,
             "fixed_settings": fixed_settings, "fixed_effects": fixed_effects,
@@ -1438,7 +1455,8 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
             "candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
             "candidate_review_rule": (
                 "interpolated cells remain model-based hypotheses and require exact-setting confirmation on independent lots; "
-                "observed evaluation outcomes are descriptive only and a counterexample withholds the complete screened set"),
+                "observed evaluation outcomes are descriptive only; exact infeasibility, a calibration-band miss, unseen declared "
+                "evaluation strata, or a precommitted-panel mismatch withholds the complete screened set"),
             "simultaneous_candidate_count": len(simultaneous_candidates),
             "joint_validation_status": "NOT_ESTABLISHED",
             "selection_warning": (
@@ -1448,9 +1466,10 @@ def explore_window(rows, factor_defs, metric_defs, data, cancel=None):
                 "available only when an explicit precommit record declares the model, threshold, metric "
                 "family, and exact-setting panel and every calibration unit matches that panel. The "
                 "record's references and timing remain unauthenticated. Any observed infeasible "
-                "outcome at an exact screened setting in the independent evaluation partition "
-                "withholds the entire candidate set; the evaluation is never used to retain a "
-                "favorable subset. Validate "
+                "outcome at an exact screened setting, a calibration-band miss, unseen declared "
+                "evaluation strata, or a precommitted-panel mismatch in the independent evaluation "
+                "partition withholds the entire candidate set; evaluation is never used to retain a "
+                "favorable subset. A known mix difference alone remains a descriptive warning. Validate "
                 "a preselected exact setting on independent engineering units before any process decision."),
             "grid": grid,
             "uncertainty_rule": (

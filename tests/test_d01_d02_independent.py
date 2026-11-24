@@ -664,7 +664,7 @@ class SupportedWindowQualification(unittest.TestCase):
         invalid_count = explore_window(rows, factors, METRIC, data)["simultaneous_exact_setting_screen"]
         self.assertEqual(invalid_count["status"], "PRECOMMIT_REPLICATE_COUNT_INVALID")
 
-    def test_evaluation_observation_count_shift_is_reported_without_selection_leakage(self):
+    def test_evaluation_observation_count_shift_withholds_the_candidate_set(self):
         rows, factors, data = self._dataset()
         for item in rows:
             lot = int(item["lot_id"].split("-")[1])
@@ -694,12 +694,17 @@ class SupportedWindowQualification(unittest.TestCase):
         shifted_structure = shifted["simultaneous_exact_setting_screen"]["independent_evaluation_panel_compatibility"]
         self.assertEqual(shifted_structure["status"], "OBSERVED_PANEL_STRUCTURE_MISMATCH")
         self.assertEqual(shifted_structure["mismatched_units"], 10)
-        self.assertEqual([cell["factors"] for cell in shifted["candidate_cells"]], expected_candidates)
-        self.assertEqual(shifted["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+        self.assertEqual(shifted["screened_candidate_count"], len(expected_candidates))
+        self.assertEqual(shifted["candidate_count"], 0)
+        self.assertEqual(shifted["candidate_cells"], [])
+        self.assertEqual(shifted["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
+        self.assertEqual(shifted["simultaneous_candidate_count"], 0)
+        self.assertEqual(shifted["candidate_counterevidence"]["status"],
+                         "WITHHELD_BY_CALIBRATION_TRANSFER_COUNTEREVIDENCE")
         self.assertEqual(shifted["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]["status"],
                          "COUNTEREVIDENCE_PANEL_STRUCTURE_MISMATCH")
 
-    def test_calibration_transfer_separates_known_mix_shift_and_unseen_strata_without_selection_leakage(self):
+    def test_calibration_transfer_withholds_unseen_strata_and_describes_known_mix_shift(self):
         rows, factors, data = self._dataset()
         for item in rows:
             lot = int(item["lot_id"].split("-")[1])
@@ -730,6 +735,7 @@ class SupportedWindowQualification(unittest.TestCase):
         known_transfer = known_shift["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
         self.assertEqual(known_transfer["status"], "DESCRIPTIVE_COMPOSITION_DIFFERENCE_OBSERVED")
         self.assertAlmostEqual(known_transfer["calibration_to_evaluation_total_variation"], 0.5)
+        self.assertEqual(known_shift["candidate_count"], matched["candidate_count"])
 
         unseen_rows = [dict(item) for item in rows]
         for item in unseen_rows:
@@ -739,11 +745,17 @@ class SupportedWindowQualification(unittest.TestCase):
         unseen_transfer = unseen["simultaneous_exact_setting_screen"]["calibration_transfer_assessment"]
         self.assertEqual(unseen_transfer["status"], "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA")
         self.assertEqual(unseen_transfer["unseen_evaluation_units"], 10)
-        self.assertEqual([cell["factors"] for cell in unseen["candidate_cells"]],
-                         [cell["factors"] for cell in matched["candidate_cells"]])
-        self.assertEqual(unseen["simultaneous_candidate_count"], matched["simultaneous_candidate_count"])
+        self.assertEqual(unseen["screened_candidate_count"], matched["screened_candidate_count"])
+        self.assertEqual(unseen["candidate_count"], 0)
+        self.assertEqual(unseen["candidate_cells"], [])
+        self.assertEqual(unseen["candidate_screening_status"], "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE")
+        self.assertEqual(unseen["simultaneous_candidate_count"], 0)
+        self.assertEqual(unseen["candidate_counterevidence"]["status"],
+                         "WITHHELD_BY_CALIBRATION_TRANSFER_COUNTEREVIDENCE")
+        self.assertEqual(unseen["candidate_counterevidence"]["transfer_status"],
+                         "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA")
 
-    def test_transfer_refuses_to_call_assignable_subset_a_match_when_some_evaluation_lots_have_mixed_strata(self):
+    def test_transfer_mixed_strata_withhold_candidates_instead_of_calling_subset_a_match(self):
         rows, factors, data = self._dataset()
         for item in rows:
             lot = int(item["lot_id"].split("-")[1])

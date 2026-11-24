@@ -236,6 +236,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
       screened_candidate_counts_by_region: supported.screened_candidate_counts_by_region,
       candidate_count_semantics: supported.candidate_count_semantics,
       candidate_counterevidence: supported.candidate_counterevidence,
+      simultaneous_supported_candidate_count: simultaneousScreen.simultaneous_supported_candidate_count,
       data_roles: supported.data_roles, uncertainty_scope: supported.uncertainty_scope,
       region_counts: supported.region_counts, uncertainty_rule: supported.uncertainty_rule,
       grouped_holdout_calibration: supported.calibration,
@@ -244,7 +245,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     {typeof supported?.selection_warning === "string" &&
       <p role="note">{supported.selection_warning}</p>}
     {supported?.candidate_screening_status === "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE" &&
-      <p role="status">No process-window candidates are recommended because the independent evaluation observed infeasible outcomes at one or more screened settings. The entire screened set is withheld; no favorable subset was selected from evaluation outcomes. The pre-veto screen remains visible below for audit, and this is observed counterevidence rather than a future-performance estimate.</p>}
+      <p role="status">No process-window candidates are available for advisory review because independent evaluation found counterevidence. The entire screened set is withheld; no favorable subset was selected from evaluation outcomes. The pre-veto screen remains visible below for audit. This is observed counterevidence, not a future-performance estimate.</p>}
     <KeyValueTable label="Independent candidate evaluation" value={supported?.independent_candidate_evaluation} />
     {Object.keys(partitionSummaries).length > 0 && <table>
       <caption>Independent-unit population strata by partition; descriptive, not an exchangeability test</caption>
