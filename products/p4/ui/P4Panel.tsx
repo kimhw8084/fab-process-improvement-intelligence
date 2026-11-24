@@ -223,11 +223,11 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
   const factorNames = Object.keys(firstFactors);
   const metrics = Object.keys(asObject(cells[0]?.predictions));
   return <section id="p4-d02" aria-labelledby="p4-d02-heading">
-    <h3 id="p4-d02-heading">D02 · Evidence-supported process window</h3>
-    <p>Observed, interpolated, extrapolated, and unsupported areas retain separate labels. A modeled feasible cell is not a production recipe or approval.</p>
+    <h3 id="p4-d02-heading">D02 · Process-window evidence and hypotheses</h3>
+    <p>Observed, interpolated, extrapolated, and unsupported areas retain separate labels. A model-screened cell is an advisory hypothesis, not validated feasibility, a production recipe, or approval.</p>
     <KeyValueTable label="Observed settings and scope" value={observed} />
     <KeyValueTable label="Robust observed settings" value={robust} />
-    <KeyValueTable label="Supported exploration and uncertainty rule" value={supported ? {
+    <KeyValueTable label="Model-screened exploration and uncertainty limits" value={supported ? {
       status: supported.status, qualification: supported.qualification, method: supported.method,
       candidate_scope: supported.candidate_scope, joint_validation_status: supported.joint_validation_status,
       candidate_screening_status: supported.candidate_screening_status,
@@ -244,6 +244,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     } : undefined} />
     {typeof supported?.selection_warning === "string" &&
       <p role="note">{supported.selection_warning}</p>}
+    <p role="note">Pointwise local intervals are empirical diagnostics; they do not establish coverage over selected cells. Interpolated responses can miss patterns invisible at measured settings. Confirm each proposed exact setting on independent lots before any process decision.</p>
     {supported?.candidate_screening_status === "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE" &&
       <p role="status">No process-window candidates are available for advisory review because independent evaluation found counterevidence. The entire screened set is withheld; no favorable subset was selected from evaluation outcomes. The pre-veto screen remains visible below for audit. This is observed counterevidence, not a future-performance estimate.</p>}
     <KeyValueTable label="Independent candidate evaluation" value={supported?.independent_candidate_evaluation} />
@@ -296,10 +297,10 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
           <option value="unsupported">Unsupported</option>
         </select>
       </label>
-      <label>Conservative feasibility
+      <label>Pointwise model screen
         <select value={feasibleFilter} onChange={(event) => setFeasibleFilter(event.currentTarget.value)}>
-          <option value="all">All</option><option value="yes">Feasible under stated bounds</option>
-          <option value="no">Not feasible</option><option value="unknown">Not estimated</option>
+          <option value="all">All</option><option value="yes">Passes supplied limits</option>
+          <option value="no">Does not pass supplied limits</option><option value="unknown">Not estimated</option>
         </select>
       </label>
       <label>Search factor settings
@@ -314,7 +315,7 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
           {metrics.map((metric) => <th scope="col" key={metric}>{metric}: estimate and calibrated interval</th>)}</tr></thead>
         <tbody>{filtered.map((cell, index) => <tr key={index}>
           {factorNames.map((factor) => <td key={factor}>{text(asObject(cell.factors)[factor])}</td>)}
-          <td>{text(cell.region_class)}</td><td>{cell.conservative_feasible === true ? "Yes under stated limits" : cell.conservative_feasible === false ? "No" : "Unknown"}</td>
+          <td>{text(cell.region_class)}</td><td>{cell.conservative_feasible === true ? "Passes limits under current model" : cell.conservative_feasible === false ? "Does not pass limits under current model" : "Unknown under current model"}</td>
           <td>{cell.candidate_screening_status === "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"
             ? "Withheld by independent counterevidence"
             : cell.supported_candidate === true ? "Available for advisory review"

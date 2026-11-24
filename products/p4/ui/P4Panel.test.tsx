@@ -118,7 +118,7 @@ describe("P4 headless suite module", () => {
     };
     const renderChart = vi.fn((model: SuiteChartModel) => <div data-testid={`shared-${model.chart_id}`} />);
     render(<P4Panel sourcePreview={bridge.source_preview} evidence={bridge.analysis_evidence} renderChart={renderChart} />);
-    for (const section of ["D01 · Factor sensitivity", "D02 · Evidence-supported process window",
+    for (const section of ["D01 · Factor sensitivity", "D02 · Process-window evidence and hypotheses",
       "D03 · Cross-step and multiobjective tradeoffs", "D04 · Next experiment proposal", "D05 · Change effectiveness"]) {
       expect(screen.getByRole("region", { name: section })).toBeTruthy();
     }
@@ -130,7 +130,8 @@ describe("P4 headless suite module", () => {
     expect(renderChart).toHaveBeenCalledWith(expect.objectContaining({ chart_id: "p4-supported-pareto", kind: "scatter" }));
     expect(screen.getByText(/SYN-AUDIT-READ-1/)).toBeTruthy();
 
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
+    expect(within(d02).getByText(/advisory hypothesis, not validated feasibility/)).toBeTruthy();
     const cells = within(d02).getByRole("table", { name: /Advisory screening cells/ });
     expect(within(cells).getByRole("columnheader", { name: "Exact-setting independent evaluation" })).toBeTruthy();
     expect(within(cells).getAllByText(/MODEL_INTERPOLATION_ADVISORY_REQUIRES_EXACT_CONFIRMATION/).length).toBeGreaterThan(0);
@@ -171,7 +172,7 @@ describe("P4 headless suite module", () => {
     observedWindow.candidate_observation_ids = Array.from({ length: 300 }, (_, index) => `SYN-OBS-${index}`);
 
     render(<P4Panel sourcePreview={sourcePreview} evidence={detailedEvidence} />);
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     const observed = within(d02).getByRole("table", { name: "Observed settings and scope" });
     const ids = within(observed).getByRole("row", { name: /candidate_observation_ids/ });
     const expand = within(ids).getByText("Show 300 items");
@@ -213,7 +214,7 @@ describe("P4 headless suite module", () => {
 
     render(<P4Panel sourcePreview={sourcePreview} evidence={withheldEvidence} />);
 
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     expect(within(d02).getByText(/No process-window candidates are available for advisory review/)).toBeTruthy();
     expect(within(d02).getAllByText(/COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA/).length).toBeGreaterThan(0);
     expect(within(d02).getByRole("columnheader", { name: "Recommendation status" })).toBeTruthy();
@@ -231,13 +232,15 @@ describe("P4 headless suite module", () => {
         observed_infeasible_units: null } }];
 
     render(<P4Panel sourcePreview={sourcePreview} evidence={interpolationEvidence} />);
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     const cells = within(d02).getByRole("table", { name: /Advisory screening cells/ });
     expect(within(cells).getByRole("columnheader", { name: "Exact-setting independent evaluation" })).toBeTruthy();
     expect(within(cells).getByRole("columnheader", { name: "Required engineer review" })).toBeTruthy();
     expect(within(cells).getByText(/NO_EXACT_SETTING_EVALUATION_DATA; 0 independent lots/)).toBeTruthy();
     expect(within(cells).getByText(/PROPOSE_EXACT_SETTING_CONFIRMATION_ON_INDEPENDENT_LOTS/)).toBeTruthy();
     expect(within(d02).getByText(/Interpolated cells are model-based hypotheses/)).toBeTruthy();
+    expect(within(d02).getByText(/Pointwise local intervals are empirical diagnostics/)).toBeTruthy();
+    expect(within(d02).getByRole("columnheader", { name: "Pointwise screening result" })).toBeTruthy();
   });
 
   it("shows source scope, claims, limitations, and provenance", () => {
@@ -372,7 +375,7 @@ describe("P4 headless suite module", () => {
 
   it("filters the D02 table while preserving observed, interpolated, and unsupported labels", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     const region = within(d02).getByLabelText("Evidence region");
     fireEvent.change(region, { target: { value: "interpolated" } });
     expect(within(d02).getByRole("status").textContent).toContain("Showing 1 of 3");
@@ -428,7 +431,7 @@ describe("P4 headless suite module", () => {
       interpretation: "Observed evaluation outcomes provide counterevidence; no future-population coverage is estimated.",
     };
     render(<P4Panel sourcePreview={sourcePreview} evidence={shiftedEvidence} />);
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     expect(within(d02).getAllByText(/COUNTEREVIDENCE_CALIBRATION_BAND_MISSES/).length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/complete_panel_units/).length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/missed_any_interval_fraction/).length).toBeGreaterThan(0);
@@ -438,7 +441,7 @@ describe("P4 headless suite module", () => {
 
   it("shows why held-out process rows were excluded from exact-setting evaluation", () => {
     render(<P4Panel sourcePreview={sourcePreview} evidence={evidence} />);
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     const evaluation = within(d02).getByRole("table", {
       name: "Untouched evaluation by selected setting and matching fixed-control population; descriptive only",
     });
@@ -462,7 +465,7 @@ describe("P4 headless suite module", () => {
     };
 
     render(<P4Panel sourcePreview={sourcePreview} evidence={challenged} />);
-    const d02 = screen.getByRole("region", { name: "D02 · Evidence-supported process window" });
+    const d02 = screen.getByRole("region", { name: "D02 · Process-window evidence and hypotheses" });
     const transfer = within(d02).getByRole("table", {
       name: "Calibration transfer assessment; descriptive, not validation",
     });
@@ -509,7 +512,7 @@ describe("P4 headless suite module", () => {
     const region = screen.getByLabelText("Evidence region") as HTMLSelectElement;
     region.focus();
     expect(document.activeElement).toBe(region);
-    const feasibility = screen.getByLabelText("Conservative feasibility");
+    const feasibility = screen.getByLabelText("Pointwise model screen");
     await user.tab();
     expect(document.activeElement).toBe(feasibility);
   });
