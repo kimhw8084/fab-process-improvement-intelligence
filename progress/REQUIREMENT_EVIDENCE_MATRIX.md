@@ -1,3 +1,14 @@
+# Latest requirement evidence — 2026-11-24
+
+| Requirement | Current evidence | Status / next action |
+|---|---|---|
+| D01–D05 implementation | Engine 1.2.2; full suite 225 PASS. D05 now validates intervention timestamp ordering/cutoff and refuses inconsistent panels. D02 remains advisory with explicit noncoverage limits. | Implemented baseline; scientific backlog remains. Next: D02 selection/multiplicity and held-out shift challenges. |
+| D05 sensitivity | Independent 1,000-trial known-confounder challenge: underbound trend CI coverage 4.0%; oracle-adequate bound 97.3%; 0 observational causal claims; 0 underbound cases passed gates. | Synthetic known-generator evidence only; assumptions cannot be externally authenticated. |
+| Performance / OSS reuse | Current benchmark: 900-row integrated workflow p50 285 ms / p95 290 ms; statsmodels OLS coefficients differ by at most `2.9e-14`; no runtime dependency added. | Measurement is synthetic/macOS ARM64; no engineer ROI claim. |
+| P1 shared UI | Disposable 35-file P1 composition; routes 32, frontend 60, P4 module 25; typecheck/build pass. Browser observed success and refusal on current P4 source. | Disposable synthetic compatibility only; authoritative P1 owner/source and formal accessibility pending. |
+| Release E01–E06 | Source-bound release runner: 225 PASS, 0 skipped; E01–E04/E06 PASS. | E10 pending exact archive, detached reproducibility and no-pip network-denied extraction. |
+| Internal release gates | No company permissions, source mappings, target policy, real production data, ROI, or approvals asserted. | E05/E08/E09/E11/E12 remain pending internal/target/security/legal evidence. No public distribution. |
+
 # Latest qualification checkpoint — D05 source and current P1 synthetic MCP workflow (2026-11-24)
 
 - Product source: `893369ab444489a90ccedd30bbeda4b6129c120a` (engine 1.2.1). D05 now validates cointervention distributions at every observed arm-by-period and adjacent transition; missing unit-period labels remain `UNREPORTED`, so the assumption gate withholds numerical interpretation instead of reading missing history as no cointervention. Focused D05 suite: 24 PASS; full Python suite: 223 PASS; P4 panel: 25 PASS and strict typecheck PASS.

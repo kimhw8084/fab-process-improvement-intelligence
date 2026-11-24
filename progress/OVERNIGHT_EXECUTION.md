@@ -1,3 +1,13 @@
+# Latest qualification checkpoint — D05 timing guard and current P1 workflow (2026-11-24)
+
+- P4 implementation commit `a3bf9dfad3b42bab95f140cbe0adcfb551021a8e`, engine 1.2.2. DiD refuses timezone-naive, missing, out-of-window, or contradictory timestamps before estimation; clock provenance remains unauthenticated.
+- Executed release runner at this source: 225 PASS, 0 skipped; E01–E04 and E06 PASS; E10 awaits exact archive rebuild. D02 demo reports 76 advisory cells and explicitly no conditional/simultaneous coverage guarantee.
+- Executed D05 1,000-trial hidden-trend benchmark: no observational DiD causal claims; sensitivity CI coverage 4.0% under a deliberately underbound trend and 97.3% under the oracle-adequate bound. Caller labels do not establish bound adequacy.
+- Executed performance/OSS reference benchmark: statsmodels OLS coefficients agree within `2.9e-14`; integrated 900-row workflow p50 285 ms, p95 290 ms, 3.3 MB peak Python allocation. Benchmark only; statsmodels is not a runtime dependency.
+- Disposable P1 current-source evidence: 35-file snapshot, 32 route tests, 60 frontend tests, 25 P4 panel tests; strict typechecks and build pass. Browser verified 900-row synthetic MCP workflow and permission refusal. Unversioned P1 ownership, formal accessibility, production/target-host behavior remain unqualified.
+- Company-only dependencies: authorized source semantics/permissions, authoritative requirements, target OS/network policies, legal/security/production approvals, and engineer ROI. No public push.
+- Exact next action: commit the refreshed P1 evidence and ledgers, rerun source-bound release checks, then build/reproduce/network-denied-qualify the archive and confirm E10. Resume D02 calibration-selection and multiplicity adversarial work immediately after release evidence is current.
+
 # Latest qualification checkpoint — D05 source and current P1 synthetic MCP workflow (2026-11-24)
 
 - Product source: `893369ab444489a90ccedd30bbeda4b6129c120a` (engine 1.2.1). D05 now validates cointervention distributions at every observed arm-by-period and adjacent transition; missing unit-period labels remain `UNREPORTED`, so the assumption gate withholds numerical interpretation instead of reading missing history as no cointervention. Focused D05 suite: 24 PASS; full Python suite: 223 PASS; P4 panel: 25 PASS and strict typecheck PASS.

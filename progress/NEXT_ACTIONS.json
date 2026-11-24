@@ -1,9 +1,10 @@
 {
   "active_uncommitted_changes": [
-    "refreshed disposable P1 browser/host evidence",
-    "progress checkpoint ledgers"
+    "refreshed current-source disposable P1 qualification/browser evidence",
+    "latest execution and requirement ledgers",
+    "generated source-bound benchmark and release sidecars"
   ],
-  "as_of_source_commit": "893369ab444489a90ccedd30bbeda4b6129c120a",
+  "as_of_source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -13,34 +14,44 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "latest_checkpoint": {
-    "D05_cointervention_diagnostic": {
-      "behavior": "Missing unit-period labels are UNREPORTED; all observed periods/transitions are compared; no causal inference without supported declared history.",
-      "focused_tests": "24 PASS",
-      "full_python_tests": "223 PASS",
-      "status": "IMPLEMENTED_AND_TESTED"
+    "date": "2026-11-24",
+    "source_commit": "a3bf9dfad3b42bab95f140cbe0adcfb551021a8e",
+    "engine_version": "1.2.2",
+    "release_runner": {
+      "status": "EXECUTED",
+      "python_tests": "225 PASS, 0 skipped",
+      "gates": "E01-E04 and E06 PASS; E10 pending exact archive"
+    },
+    "D05_known_confounder_benchmark": {
+      "trials": 1000,
+      "underbound_sensitivity_coverage": 0.04,
+      "adequate_oracle_bound_coverage": 0.973,
+      "observational_causal_claims": 0,
+      "status": "EXECUTED_SYNTHETIC_ONLY"
+    },
+    "performance_benchmark": {
+      "integrated_900_row_p50_ms": 285.03,
+      "p95_ms": 290.24,
+      "statsmodels_ols_max_coefficient_difference": 2.84e-14,
+      "status": "EXECUTED"
     },
     "P1_disposable_host": {
-      "browser": "Current P4 1.2.1 source, synthetic MCP 900-row completion and permission refusal observed",
-      "build": "PASS; 831741-byte JS output",
       "composition_files": 35,
-      "composition_sha256": "600dfeed82eb7d429c3db6629b76977a58a8f862ecbbfda7b75cda70eab3497a",
-      "frontend_tests": 60,
-      "panel_tests": 25,
       "routes": 32,
-      "typecheck": "PASS"
+      "frontend_tests": 60,
+      "p4_panel_tests": 25,
+      "typecheck": "PASS",
+      "build": "PASS",
+      "browser_success_and_refusal": "OBSERVED_SYNTHETIC_ONLY"
     },
-    "company_only_gates": [
-      "actual source permissions and semantic mappings",
-      "authoritative company requirements",
+    "external_dependencies": [
+      "authoritative P1 owner/source and formal accessibility",
+      "company permissions and semantic mappings",
       "approved target OS/network",
-      "legal/security/production approval",
+      "security/legal/production approval",
       "real engineering ROI"
     ],
-    "date": "2026-11-24",
-    "next_action": "Run the source-bound release runner and offline artifact qualification, repair any external gate defect, then continue scientific adversarial work.",
-    "product_state": "CANDIDATE",
-    "release_runner": "PENDING_AFTER_EVIDENCE_REFRESH",
-    "source_commit": "893369ab444489a90ccedd30bbeda4b6129c120a"
+    "next_action": "Commit refreshed evidence and ledgers; rerun source-bound release checks; build, reproduce and offline-qualify exact archive; then continue D02 selection/multiplicity adversarial work."
   },
   "never_do": [
     "publish or push",
@@ -48,37 +59,57 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Run release checks against current source and evidence; verify reproducible offline artifact; continue the D05/D01\u2013D04 adversarial queue.",
-  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
+  "next_action": "Commit current-source evidence and ledgers, requalify source, rebuild/reproduce/offline-qualify archive; then continue D02.",
+  "next_executable_action": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/OVERNIGHT_EXECUTION.md progress/NEXT_ACTIONS.json progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Refresh current P1 qualification evidence\"",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Run source-bound release checks and exact offline archive reproducibility; repair failures without widening claims."
+      "task": "Commit evidence checkpoint, rerun source-bound gates, build and verify exact offline archive."
     },
     {
       "priority": 2,
       "status": "PENDING",
-      "task": "Continue independent D05 assumption challenges, followed by the highest-value D01-D04 gap."
+      "task": "D02: adversarially test adaptive cell selection, multiplicity, calibration leakage and cross-lot/tool/time shifts; repair or abstain."
     },
     {
       "priority": 3,
       "status": "PENDING",
-      "task": "Revisit P1 integration only when an authoritative owner source is available; current disposable compatibility is synthetic."
+      "task": "D01: held-out confounding, correlated groups, measurement uncertainty and nonlinear/interaction diagnostics."
     },
     {
       "priority": 4,
+      "status": "PENDING",
+      "task": "D03: uncertainty/missing-objective reversal and compatible-population tradeoff qualification."
+    },
+    {
+      "priority": 5,
+      "status": "PENDING",
+      "task": "D04: independently benchmark constrained/sequential DOE and replication/blocking."
+    },
+    {
+      "priority": 6,
+      "status": "PENDING",
+      "task": "D05: placebo, pretrend, negative-control and unmeasured-confounding challenges."
+    },
+    {
+      "priority": 7,
+      "status": "PENDING_EXTERNAL",
+      "task": "Verify authoritative P1 host/version/owner integration and formal accessibility when source becomes available."
+    },
+    {
+      "priority": 8,
       "status": "PENDING_INTERNAL",
-      "task": "Company source authority, target policy, legal/security/production approval, and engineer ROI."
+      "task": "Company authorization, semantic mappings, target policies, legal/security/production approval and ROI."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; internal and target gates remain pending",
-    "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; scientific backlog continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; current disposable synthetic workflow passes, authoritative host and formal accessibility are pending"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 adversarial backlog continues",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; disposable P1 synthetic workflow verified, authoritative host/owner/formal accessibility pending",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E10 archive qualification pending and release-critical internal/target gates remain",
+    "INTERNAL_QUALIFICATION_PENDING": true
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D05 implementation committed at 893369a; current-source disposable P1 and progress evidence refreshed locally; exact release runner and offline artifact not yet rerun. No public push."
+  "worktree_state": "P4 implementation commit a3bf9df; current-source evidence refreshed locally; release archive rebuild pending."
 }
