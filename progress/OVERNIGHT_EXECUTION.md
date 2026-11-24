@@ -368,3 +368,11 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 | D02 hidden model forms | Paired exact 3x3 observations hash identically under safe quadratic and harmful hidden-harmonic truth; P4 selector output is identical. Of 41 selected cells, safe false-feasible count 0 and hidden-response interpolated false-feasible count 12. The result is bound into E02. | No data-only disagreement feature added; it cannot identify unobserved mechanisms from identical observations. Advisory labels and exact-setting confirmation retained. |
 | E02 | Full exact-source runner at `1058b63ecf0288ef2c3189ce1841c4b05e3d6c21`: 240 PASS/0 skipped; paired challenge and 250-trial actual selector pass; schema/P1 compatibility pass. | PASS for source 1058b63. |
 | E10 | Archive remains from prior source `8efb393`; D02 qualification code changed. | Refresh archive, reproducibility and no-pip network-denied extraction; then bind E10 to final source. |
+
+# Current checkpoint — release evidence repair (2026-11-24)
+
+- Source baseline: `49f3f0c918b54479fa62c20792a23fe44e6e6879`; no product-code change in this checkpoint.
+- Rebuilt the MCP-to-panel fixture twice; both runs produced SHA-256 `d933dd4ebb44c70fe34dbbb57bd21c9a0c427c2783c8f4755476179284f04a09`. Focused bridge and release-evidence tests: 13 PASS.
+- Refreshed disposable P1 evidence against the 35-file current composition: manifest SHA-256 `65623fb29d566d08c289f9dc38dc769ff3bfd881d80f0d62b344daa58b1667f6`; current-source synthetic browser success/refusal, P1 route 32, frontend 61, P4 panel 26, typecheck and production build evidence are recorded. Still not P1 owner acceptance, formal accessibility, company authorization or target-host qualification.
+- The previous exact-source runner at `49f3...` failed one Python test because fixture and P1 evidence fingerprints were stale; generated release sidecars therefore remain non-final.
+- Next: commit this evidence/fixture/progress checkpoint, rebuild the archive, reproduce in two clean worktrees, verify fresh no-pip network-denied extraction, then run the full release gate runner.

@@ -360,3 +360,11 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 | D02 hidden model forms | Paired exact 3x3 observations hash identically under safe quadratic and harmful hidden-harmonic truth; P4 selector output is identical. Of 41 selected cells, safe false-feasible count 0 and hidden-response interpolated false-feasible count 12. The result is bound into E02. | No data-only disagreement feature added; it cannot identify unobserved mechanisms from identical observations. Advisory labels and exact-setting confirmation retained. |
 | E02 | Full exact-source runner at `1058b63ecf0288ef2c3189ce1841c4b05e3d6c21`: 240 PASS/0 skipped; paired challenge and 250-trial actual selector pass; schema/P1 compatibility pass. | PASS for source 1058b63. |
 | E10 | Archive remains from prior source `8efb393`; D02 qualification code changed. | Refresh archive, reproducibility and no-pip network-denied extraction; then bind E10 to final source. |
+
+## Release evidence repair — 2026-11-24
+
+| Requirement | Executed evidence | Status / next action |
+|---|---|---|
+| MCP→P4→panel source binding | Fixture rebuilt twice identically at SHA-256 `d933dd4ebb44c70fe34dbbb57bd21c9a0c427c2783c8f4755476179284f04a09`; bridge and release evidence focused tests 13 PASS. | Refusal fixture has empty claims/sources/artifacts; synthetic only. |
+| P1 disposable compatibility | 35-file snapshot manifest `65623fb29d566d08c289f9dc38dc769ff3bfd881d80f0d62b344daa58b1667f6`; current-source browser success/refusal and 61 frontend, 32 route, 26 P4 panel tests recorded; typecheck/build PASS. | Compatibility evidence only; P1 source is unversioned, owner acceptance and formal accessibility pending. |
+| Exact-source release | Prior runner at `49f3f0c` failed one test on stale bridge fingerprint; fixture and disposable evidence were repaired, focused tests now 13 PASS. | Rebuild archive/reproducibility/offline qualification and rerun full gate runner after commit. |
