@@ -28292,7 +28292,7 @@
         "D05_effectiveness": {
           "assumptions": [
             "valid documented random allocation",
-            "independent units",
+            "independent units; P4 does not detect undeclared shared shocks",
             "no interference",
             "consistent outcome measurement"
           ],
@@ -28317,6 +28317,11 @@
             6.412725214582191
           ],
           "control_n": 4,
+          "dependence_diagnostic": {
+            "fields": [],
+            "interpretation": "P4 assumes independent unit_id values; unlisted shared shocks are not detected",
+            "status": "NOT_DECLARED"
+          },
           "design": "randomized two-arm difference in means",
           "diagnostics": {
             "assignment_unit_count": 8,
@@ -28328,6 +28333,7 @@
                 "none"
               ]
             },
+            "dependence_status": "NOT_DECLARED",
             "small_sample_warning": true
           },
           "estimate": 5.0,
@@ -28550,7 +28556,7 @@
     ],
     "product_id": "p4",
     "provenance": {
-      "engine_version": "1.2.2",
+      "engine_version": "1.2.3",
       "input_sha256": "e0b26632f4b4bbb9bab3dc3192e8e7bea11b07158e35d8c631f449a3caa6f4b8",
       "mcp_acquisition": {
         "audit_id": "SYN-AUDIT-READ-1",
@@ -28726,7 +28732,7 @@
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
     "fabintel/mock_mcp_server.py": "b927a3c29e583ed1425a3cb3f763c464ee63d2aa60dc7228756ee33a91ce391a",
     "products/p4/design.py": "d596968e3465e649d0553636342f9983c0adc564ea2ab8185404769a98720488",
-    "products/p4/engine.py": "63605b0bc398f6087462b9f4ef5bc6cd5a005823e7e9123e2d7862353d2a692b",
+    "products/p4/engine.py": "64e9a75ab1200b3d805164b45f2fd6276169b2c18680e3136d8672f521098011",
     "products/p4/mcp_workflow.py": "a85a9a7ae946cb1eac27bb83eb28269dc34a628447b4bdec71c580a3203ff962",
     "products/p4/regression.py": "ea0495dccfa3aa0ccab88030baf159edec312e3beeac8de8cf38f65ecbb0fded",
     "products/p4/tradeoffs.py": "081e484444a4ff7a5ca578daf6f2f87cb35c1405be611fffdac4b080efefa274",

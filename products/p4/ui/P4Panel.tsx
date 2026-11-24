@@ -449,9 +449,13 @@ function D05Section({ result }: { result?: JsonObject }) {
   if (!result) return <section id="p4-d05"><h3>D05 · Change effectiveness</h3><p>No D05 result was provided.</p></section>;
   const diagnosticRows = entries(result.diagnostics).map(([name, value]) => [name, text(value)] as const);
   const concurrentIntervention = asObject(result.concurrent_intervention_diagnostic);
+  const dependenceWithheld = result.uncertainty_status === "WITHHELD_SHARED_GROUP_DEPENDENCE";
+  const displayedEstimate = dependenceWithheld
+    ? result.descriptive_did_estimate ?? result.descriptive_observed_difference
+    : result.estimate;
   return <section id="p4-d05" aria-labelledby="p4-d05-heading">
     <h3 id="p4-d05-heading">D05 · Change effectiveness</h3>
-    <p>Status: <Status value={result.status} />. Study design: {text(result.design)}. Estimate: {text(result.estimate)}.</p>
+    <p>Status: <Status value={result.status} />. Study design: {text(result.design)}. {dependenceWithheld ? "Descriptive contrast" : "Estimate"}: {text(displayedEstimate)}.</p>
     <p>{result.design === "difference_in_differences"
       ? (result.conditional_assumptions_passed === true
         ? "Observational DiD remains a descriptive estimate. Numerical diagnostics pass under the declared assumptions, but conditional interpretation is pending independent qualification of the sensitivity-bound source; P4 makes no causal claim."
@@ -464,6 +468,9 @@ function D05Section({ result }: { result?: JsonObject }) {
       baseline_balance: result.baseline_balance, placebo_pretrend: result.placebo_pretrend,
       pretrend_stability_placebo: result.pretrend_stability_placebo,
       population_compatibility: result.population_compatibility,
+      dependence_diagnostic: result.dependence_diagnostic,
+      uncertainty_status: result.uncertainty_status,
+      estimate_scope: result.estimate_scope,
       intervention_timing_diagnostic: result.intervention_timing_diagnostic || result.timing_diagnostic,
       negative_control_diagnostic: result.negative_control_diagnostic,
       concurrent_intervention_diagnostic: result.concurrent_intervention_diagnostic,

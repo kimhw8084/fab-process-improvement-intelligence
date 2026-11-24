@@ -11,6 +11,16 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 class SourceContractTests(unittest.TestCase):
+    def test_d05_schema_carries_declared_dependence_and_randomized_attrition_groups(self):
+        schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        study = schema["properties"]["effectiveness"]["properties"]
+        dependence = study["shared_dependence_fields"]
+        self.assertTrue(dependence["uniqueItems"])
+        self.assertIn("do not prove independence", dependence["description"])
+        assignment = study["assignment_ledger"]["items"]["properties"]
+        self.assertEqual(assignment["shared_groups"]["type"], "object")
+        self.assertEqual(assignment["shared_groups"]["additionalProperties"]["type"], "string")
+
     def test_d02_schema_allows_optional_independent_evaluation_partition(self):
         schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
         calibration = schema["properties"]["window_exploration"]["properties"]["calibration"]

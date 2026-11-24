@@ -26,6 +26,87 @@ class EffectivenessQualification(unittest.TestCase):
         self.assertIn("standardized_mean_difference", result["baseline_balance"]["baseline_temp"])
         self.assertTrue(result["diagnostics"]["small_sample_warning"])
         self.assertTrue(result["causal_claim"])
+        self.assertEqual(result["dependence_diagnostic"]["status"], "NOT_DECLARED")
+        self.assertIn("unlisted shared shocks are not detected",
+                      result["dependence_diagnostic"]["interpretation"])
+
+    def test_randomized_shared_group_across_units_withholds_independent_unit_inference(self):
+        study = randomized_study()
+        for row in study["observations"]:
+            row["chamber_id"] = f"SYN-CHAMBER-{row['group']}"
+        study["shared_dependence_fields"] = ["chamber_id"]
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertEqual(result["uncertainty_status"], "WITHHELD_SHARED_GROUP_DEPENDENCE")
+        self.assertAlmostEqual(result["descriptive_observed_difference"], 3.0)
+        self.assertNotIn("ci95_welch_t_approximation", result)
+        self.assertFalse(result["causal_claim"])
+
+    def test_randomized_attrition_requires_group_assignments_in_the_full_ledger(self):
+        study = randomized_study()
+        study["observations"].pop()
+        study["outcome_bounds"] = [0, 20]
+        study["shared_dependence_fields"] = ["chamber_id"]
+        for row in study["observations"]:
+            row["chamber_id"] = f"SYN-CHAMBER-{row['group']}"
+        missing_ledger_groups = _effectiveness({"effectiveness": study})
+        self.assertEqual(missing_ledger_groups["status"], "INCONCLUSIVE")
+        self.assertEqual(missing_ledger_groups["dependence_diagnostic"]["status"],
+                         "INCOMPLETE_ASSIGNMENT_DEPENDENCE_LEDGER")
+        self.assertNotIn("effect_identification_bounds", missing_ledger_groups)
+
+        for item in study["assignment_ledger"]:
+            item["shared_groups"] = {"chamber_id": f"SYN-CHAMBER-{item['group']}"}
+        declared_shared = _effectiveness({"effectiveness": study})
+        self.assertEqual(declared_shared["uncertainty_status"], "WITHHELD_SHARED_GROUP_DEPENDENCE")
+        self.assertNotIn("effect_identification_bounds", declared_shared)
+        self.assertFalse(declared_shared["causal_claim"])
+
+    def test_did_shared_chambers_withhold_anticonservative_unit_welch_interval(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            unit = int(row["unit_id"].rsplit("-", 1)[1])
+            row["chamber_id"] = f"SYN-CHAMBER-{row['group']}-{unit // 6}"
+        study["shared_dependence_fields"] = ["chamber_id"]
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "INCONCLUSIVE")
+        self.assertEqual(result["uncertainty_status"], "WITHHELD_SHARED_GROUP_DEPENDENCE")
+        self.assertEqual(result["dependence_diagnostic"]["status"], "SHARED_GROUPS_DETECTED")
+        self.assertEqual(result["dependence_diagnostic"]["shared_groups_by_field"]["chamber_id"]["max_independent_units_per_group"], 6)
+        self.assertAlmostEqual(result["descriptive_did_estimate"], 2.0)
+        self.assertNotIn("ci95_welch_t_approximation", result)
+        self.assertFalse(result["causal_claim"])
+
+    def test_shared_dependence_fields_must_be_stable_complete_and_unique(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            row["chamber_id"] = f"SYN-{row['unit_id']}"
+        study["shared_dependence_fields"] = ["chamber_id", "chamber_id"]
+        duplicate = _effectiveness({"effectiveness": study})
+        self.assertEqual(duplicate["status"], "INCONCLUSIVE")
+        self.assertEqual(duplicate["dependence_diagnostic"]["status"], "INVALID_DECLARATION")
+
+        study["shared_dependence_fields"] = ["chamber_id"]
+        next(row for row in study["observations"] if row["period"] == "post")["chamber_id"] = "SYN-OTHER-CHAMBER"
+        changing = _effectiveness({"effectiveness": study})
+        self.assertEqual(changing["status"], "INCONCLUSIVE")
+        self.assertEqual(changing["dependence_diagnostic"]["status"], "TIME_VARYING_UNIT_GROUP")
+
+        study = self.did_study()
+        study["shared_dependence_fields"] = ["chamber_id"]
+        complete = _effectiveness({"effectiveness": study})
+        self.assertEqual(complete["dependence_diagnostic"]["status"], "INCOMPLETE_DECLARATION")
+
+    def test_explicit_unshared_units_do_not_claim_that_independence_is_proven(self):
+        study = self.did_study()
+        for row in study["observations"]:
+            row["chamber_id"] = f"SYN-UNIQUE-{row['unit_id']}"
+        study["shared_dependence_fields"] = ["chamber_id"]
+        result = _effectiveness({"effectiveness": study})
+        self.assertEqual(result["status"], "ESTIMATED")
+        self.assertEqual(result["dependence_diagnostic"]["status"], "NO_SHARED_GROUPS_OBSERVED")
+        self.assertIn("does not establish independence", result["dependence_diagnostic"]["interpretation"])
+        self.assertFalse(result["causal_claim"])
 
     def test_missing_randomized_outcomes_require_bounds_and_return_worst_case_range(self):
         study = randomized_study()

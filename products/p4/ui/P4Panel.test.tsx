@@ -483,6 +483,27 @@ describe("P4 headless suite module", () => {
     expect(within(d05).getByText(/MATCHED_DECLARED_CATEGORICAL_COMPOSITION/)).toBeTruthy();
   });
 
+  it("labels cluster-dependent D05 contrast as descriptive and exposes why uncertainty was withheld", () => {
+    const challenged = structuredClone(evidence);
+    const dossier = challenged.artifacts?.[0] as Record<string, unknown>;
+    dossier.D05_effectiveness = {
+      status: "INCONCLUSIVE", design: "difference_in_differences", estimate: null,
+      descriptive_did_estimate: 0.42, uncertainty_status: "WITHHELD_SHARED_GROUP_DEPENDENCE",
+      estimate_scope: "unadjusted difference in unit-level changes only",
+      dependence_diagnostic: { status: "SHARED_GROUPS_DETECTED", fields: ["chamber_id"],
+        shared_groups_by_field: { chamber_id: { shared_group_count: 5, max_independent_units_per_group: 6 } } },
+      reason: "Declared chamber groups span units; cluster-aware inference is required.", causal_claim: false,
+    };
+    render(<P4Panel sourcePreview={sourcePreview} evidence={challenged} />);
+    const d05 = screen.getByRole("region", { name: "D05 · Change effectiveness" });
+    expect(within(d05).getByText(/Descriptive contrast: 0.42/)).toBeTruthy();
+    expect(within(d05).getByText(/cluster-aware inference is required/)).toBeTruthy();
+    const table = within(d05).getByRole("table", { name: "Uncertainty and sensitivity" });
+    const dependence = within(table).getByRole("row", { name: /dependence_diagnostic/ });
+    expect(within(dependence).getByText(/SHARED_GROUPS_DETECTED/)).toBeTruthy();
+    expect(within(table).getByRole("row", { name: /ci95_welch_t_approximation/ }).textContent).toContain("Not provided");
+  });
+
   it("shows arm-specific cointervention frequencies and withholds the DiD gate on imbalance", () => {
     const challenged = JSON.parse(JSON.stringify(evidence)) as P4Evidence;
     const dossier = challenged.artifacts?.[0] as Record<string, unknown>;

@@ -1,11 +1,11 @@
 {
   "active_uncommitted_changes": [
-    "D04 objective-specific next-best slate is committed at 90fb184a4d90e002a80a509ff4a658c8830fef10.",
-    "Current evidence commit 0559e30830523a17138ed193accfe46c14b12c38 passed E01/E02/E03/E04/E06; 247 Python tests passed with zero skips.",
-    "At 0559e30, ZIP SHA-256 6768e6e91449a5ebd31a4974a6dbed43f02ce2e7c3f4d00a80a5a690f585e8d3 rebuilt identically in two clean worktrees; fresh sandboxed no-pip extraction passed and socket probe was denied.",
-    "Release/qualification sidecars are generated evidence and dirty; progress files are the intentional current checkpoint change. No public push or release."
+    "D05 shared-dependence detection/refusal added to randomized and DiD analysis; P1-owned panel labels the retained contrast as descriptive and displays the dependence diagnostic.",
+    "Independent qualification/benchmark_d05_cluster_dependence.py and E02 runner binding added; 1,000-trial oracle result is 52.6% naive unit Welch coverage, 95.9% chamber-mean reference coverage, and 1,000/1,000 declared-dependence refusals.",
+    "D05 unit tests 31 PASS; schema contract test 1 PASS; P4 panel 28 PASS; bridge tests 2 PASS; bridge fixture rebuilt twice at SHA-256 23c943462e1a23707fe7f5849f74cb9b4fc6e37c02dc872fda60cee8930641ac; full exact-source release runner not yet run.",
+    "Previous f40a0fd archive is stale after the current D05 source changes. No public push or release."
   ],
-  "as_of_source_commit": "90fb184a4d90e002a80a509ff4a658c8830fef10",
+  "as_of_source_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -17,10 +17,9 @@
   ],
   "last_release_runner": {
     "python_tests": "247 PASS, 0 skipped",
-    "qualification": "E01,E02,E03,E04,E06 PASS; E05,E07,E08,E09,E11,E12 pending; E10 requires final current-checkpoint rebinding",
-    "source_commit": "0559e30830523a17138ed193accfe46c14b12c38",
-    "statsmodels_reference": "0.15.0 pinned qualification environment; max OLS coefficient difference 2.84e-14",
-    "status": "CANDIDATE"
+    "qualification": "E01,E02,E03,E04,E06,E10 PASS at f40a0fd; E05,E07,E08,E09,E11,E12 pending; now stale after D05 source changes",
+    "source_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9",
+    "status": "CANDIDATE; prior artifact is stale for current working changes"
   },
   "latest_checkpoint": {
     "D01_mcp_uncertainty": {
@@ -338,6 +337,31 @@
       "py_compile": "PASS",
       "py_compile_and_diff_check": "PASS",
       "schema_and_UI_contract": "12 PASS"
+    },
+    "D05_shared_cluster_dependence": {
+      "status": "IMPLEMENTED_FOCUSED_QUALIFIED; FULL_SOURCE_GATE_PENDING",
+      "contract": "shared_dependence_fields on randomized and DiD study; repeated shared grouping across independent units returns INCONCLUSIVE, descriptive contrast only, no Welch interval or causal claim; randomized attrition requires full assignment-ledger shared_groups",
+      "scope_limit": "caller must map/declare grouping fields; omitted/latent dependence is undetected; no cluster-aware estimator is claimed",
+      "independent_trials": 1000,
+      "naive_unit_welch_coverage": 0.526,
+      "naive_unit_welch_wilson95": [
+        0.49501179061158157,
+        0.5567892179471697
+      ],
+      "scipy_chamber_mean_reference_coverage": 0.959,
+      "reference_wilson95": [
+        0.9448520067923587,
+        0.9696350289179017
+      ],
+      "declared_dependence_refusals": 1000,
+      "declared_intervals_emitted": 0,
+      "causal_claims": 0,
+      "focused_d05_tests": "31 PASS",
+      "panel_tests": "28 PASS; strict TypeScript and P1 snapshot PASS",
+      "bridge_fixture_sha256": "23c943462e1a23707fe7f5849f74cb9b4fc6e37c02dc872fda60cee8930641ac",
+      "bridge_tests": "2 PASS",
+      "schema_contract_test": "1 PASS",
+      "benchmark_engine_sha256": "64e9a75ab1200b3d805164b45f2fd6276169b2c18680e3136d8672f521098011"
     }
   },
   "never_do": [
@@ -346,34 +370,39 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Run source-bound release checks at 90fb184, repair only current-source failures, rebuild and independently reproduce the exact offline archive, and qualify fresh no-pip extraction; keep E05/E07/E08/E09/E11/E12 pending.",
-  "next_executable_action": "After committing this progress checkpoint: rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py; then sequentially run check_reproducibility.py, sandboxed offline_qualify.py, and run_release_checks.py.",
+  "next_action": "Commit the D05 shared-cluster refusal and qualification changes, then run exact-source release gates, rebuild the bundle, verify clean-worktree reproducibility, and sandbox a fresh no-pip extraction.",
+  "next_executable_action": "Commit the D05 implementation, benchmark, fixture, UI, tests and progress checkpoint; then run rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py and rebuild/reproduce/offline-qualify the exact archive.",
   "ordered_queue": [
     {
       "priority": 1,
       "status": "NEXT",
-      "task": "Rebind exact-source release evidence at the post-checkpoint commit, then continue independent D01/D03/D05 scientific challenge review."
+      "task": "Commit and source-qualify D05 shared-cluster refusal; refresh exact archive, clean-worktree rebuilds and fresh network-denied extraction."
     },
     {
       "priority": 2,
+      "status": "NEXT_AFTER_RELEASE",
+      "task": "Continue the next independent D01/D03/D05 challenge that can change a claim or refusal; preserve descriptive and noncausal limitations."
+    },
+    {
+      "priority": 3,
       "status": "PENDING_EXTERNAL",
       "task": "Verify current P1 owner/source revision, authoritative shared host registration and rendered/formal accessibility."
     },
     {
-      "priority": 3,
+      "priority": 4,
       "status": "PENDING_INTERNAL",
       "task": "Obtain actual MCP permissions and semantics, approved target policy, authorized data, independent company security/legal/production review and engineer ROI baseline."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; exact archive evidence must bind to the post-checkpoint evidence commit and owner/legal/security/target gates remain open",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; previous E10 archive binds f40a0fd and is stale for current D05 changes; rerun source-bound gates and exact offline artifact checks",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 remain bounded by stated synthetic and design assumptions; continue scientific review",
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D05 has a new limited-scope cluster-dependence refusal; other synthetic assumptions and real fab evidence remain open",
     "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 source/owner and formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "90fb184a4d90e002a80a509ff4a658c8830fef10",
-  "worktree_state": "Product code is committed (D04 slate at 90fb184). 0559e30 release checks: E01/E02/E03/E04/E06 pass; sequential archive reproducibility and fresh network-denied extraction pass for 0559e30. Progress checkpoint is being committed; generated release and qualification sidecars are not product-source changes. Rebuild and rerun gates at the resulting checkpoint commit.",
-  "evidence_commit": "0559e30830523a17138ed193accfe46c14b12c38"
+  "source_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9",
+  "worktree_state": "Current base commit f40a0fd passed E01-E04/E06/E10 with 247 tests and exact local archive. D05 shared-cluster safeguards, randomized attrition ledger validation, independent benchmark, schema, UI and tests are pending local commit; current tests/fixture pass, but prior archive/release evidence is stale. No publication.",
+  "evidence_commit": "f40a0fd9b09f4ae6e8c9636de6101c106fc627f9"
 }

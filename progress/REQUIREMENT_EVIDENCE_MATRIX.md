@@ -1,3 +1,12 @@
+# Latest requirement evidence — D05 shared-cluster uncertainty challenge (2026-11-24)
+
+| Requirement | Executed evidence | Status / remaining limit |
+|---|---|---|
+| D05 clustered dependence | Fixed null benchmark: five independent chamber shocks per arm, six lots per chamber, 1,000 trials. Naive lot-level Welch interval coverage 52.6% (Wilson95 49.5–55.7%); independent SciPy chamber-mean Welch reference coverage 95.9% (Wilson95 94.5–97.0%). With declared `shared_dependence_fields`, P4 withheld 1,000/1,000 intervals, retained 1,000 descriptive contrasts and emitted zero causal claims. | Synthetic nested-cluster case only. P4 does not detect unlisted grouping and does not implement cluster-aware inference. Requires explicit source mapping and engineer-declared fields. |
+| D05 implementation/UI | `shared_dependence_fields` validated for uniqueness, completeness and within-unit stability in randomized and DiD paths. Shared groups return INCONCLUSIVE and no unit-level CI. Randomized attrition requires complete declared group IDs in the assignment ledger. P1-owned panel identifies the contrast as descriptive and exposes dependence diagnostics. D05 unit tests 31 PASS; D05 schema contract 1 PASS; P4 panel tests 28 PASS, strict TypeScript and P1 schema snapshot PASS. | Current-source full Python and release runner are pending after commit. Disposable component tests do not establish authoritative P1 integration. |
+| MCP evidence | Official-SDK synthetic MCP-to-panel fixture regenerated twice identically at SHA-256 `23c943462e1a23707fe7f5849f74cb9b4fc6e37c02dc872fda60cee8930641ac`; 2 bridge tests PASS. | Synthetic only; no company permissions or source semantics. |
+| Current release | Last exact archive at `f40a0fd` passed E10 but predates D05 shared-cluster changes. | E02/E10 must be rerun at the new source commit; no `EXTERNAL_TRANSFER_READY`. E05/E07/E08/E09/E11/E12 remain pending. |
+
 # Latest requirement evidence — D04 slate and exact local offline artifact (2026-11-24)
 
 | Requirement | Executed evidence | Status / remaining limit |

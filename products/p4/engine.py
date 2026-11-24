@@ -15,7 +15,7 @@ from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
 from products.p4.design import (assign_blocks, propose_design, propose_multiobjective_next_best,
                                 propose_window_confirmation, DesignError)
 
-ENGINE_VERSION = "1.2.2"
+ENGINE_VERSION = "1.2.3"
 MAX_ROWS = 5_000
 MAX_PARETO_ROWS = 2_000
 MAX_FACTORS = 10
@@ -50,6 +50,49 @@ def feasible_observed(rows, lo, hi, minimum):
 
 def _finite_number(value):
     return isinstance(value, (int, float)) and not isinstance(value, bool) and isfinite(value)
+
+
+def _declared_dependence_diagnostic(study, records):
+    """Detect caller-declared shared groups that invalidate unit-independent t intervals."""
+    fields = study.get("shared_dependence_fields", [])
+    if not isinstance(fields, list) or any(not isinstance(field, str) or not field.strip() for field in fields):
+        return {"status": "INVALID_DECLARATION", "fields": [],
+                "reason": "shared_dependence_fields must be a list of nonempty row-field names"}
+    if len(set(fields)) != len(fields):
+        return {"status": "INVALID_DECLARATION", "fields": fields,
+                "reason": "shared_dependence_fields must be unique"}
+    if not fields:
+        return {"status": "NOT_DECLARED", "fields": [],
+                "interpretation": "P4 assumes independent unit_id values; unlisted shared shocks are not detected"}
+    values_by_unit = {}
+    units_by_field_value = {field: {} for field in fields}
+    for row in records:
+        unit = row.get("unit_id")
+        if not isinstance(unit, str) or not unit.strip():
+            return {"status": "INVALID_DECLARATION", "fields": fields,
+                    "reason": "dependence fields require nonempty string unit_id values"}
+        values_by_unit.setdefault(unit, {})
+        for field in fields:
+            value = row.get(field)
+            if not isinstance(value, str) or not value.strip():
+                return {"status": "INCOMPLETE_DECLARATION", "fields": fields,
+                        "reason": f"declared dependence field {field} must be present as a nonempty string on every study row"}
+            previous = values_by_unit[unit].get(field)
+            if previous is not None and previous != value:
+                return {"status": "TIME_VARYING_UNIT_GROUP", "fields": fields,
+                        "reason": f"declared dependence field {field} changes within independent unit {unit}"}
+            values_by_unit[unit][field] = value
+            units_by_field_value[field].setdefault(value, set()).add(unit)
+    shared = {field: {"shared_group_count": sum(len(units) > 1 for units in groups.values()),
+                      "max_independent_units_per_group": max((len(units) for units in groups.values()), default=0)}
+              for field, groups in units_by_field_value.items()
+              if any(len(units) > 1 for units in groups.values())}
+    if shared:
+        return {"status": "SHARED_GROUPS_DETECTED", "fields": fields,
+                "shared_groups_by_field": shared,
+                "interpretation": "declared groups repeat across independent units; unit-level Welch uncertainty is withheld"}
+    return {"status": "NO_SHARED_GROUPS_OBSERVED", "fields": fields,
+            "interpretation": "no repeats were found in declared fields; this does not establish independence"}
 
 
 def _validate_declared_independent_unit(rows, data):
@@ -595,6 +638,12 @@ def _effectiveness(data, metric_defs=None):
     if any(not isinstance(row, dict) for row in records):
         return {"status": "INCONCLUSIVE", "reason": "study observations must be objects", "causal_claim": False}
     design = study.get("design")
+    dependence_diagnostic = (_declared_dependence_diagnostic(study, records)
+                             if design in ("randomized", "difference_in_differences") else None)
+    if dependence_diagnostic and dependence_diagnostic.get("status") in (
+            "INVALID_DECLARATION", "INCOMPLETE_DECLARATION", "TIME_VARYING_UNIT_GROUP"):
+        return {"status": "INCONCLUSIVE", "reason": dependence_diagnostic["reason"],
+                "dependence_diagnostic": dependence_diagnostic, "causal_claim": False}
     metric_definition = metric_defs.get(metric, {}) if isinstance(metric_defs, dict) else {}
     contract_unit = (metric_definition.get("unit") if isinstance(metric_definition, dict)
                      else None)
@@ -623,6 +672,27 @@ def _effectiveness(data, metric_defs=None):
         ledger_groups = {item["unit_id"]: item["group"] for item in ledger}
         if any(row["unit_id"] not in ledger_groups or ledger_groups[row["unit_id"]] != row["group"] for row in records):
             return {"status": "INCONCLUSIVE", "reason": "study observations do not match the randomized assignment ledger", "causal_claim": False}
+        declared_fields = study.get("shared_dependence_fields", [])
+        if declared_fields and set(observed_ids) != set(ledger_ids):
+            ledger_dependence_rows = []
+            for item in ledger:
+                groups = item.get("shared_groups")
+                if (not isinstance(groups, dict)
+                        or any(not isinstance(groups.get(field), str) or not groups[field].strip()
+                               for field in declared_fields)):
+                    return {"status": "INCONCLUSIVE",
+                            "reason": "randomized assignment_ledger must provide shared_groups for every declared dependence field when outcome attrition is present",
+                            "dependence_diagnostic": {"status": "INCOMPLETE_ASSIGNMENT_DEPENDENCE_LEDGER",
+                                                      "fields": declared_fields},
+                            "causal_claim": False}
+                ledger_dependence_rows.append({"unit_id": item["unit_id"],
+                                               **{field: groups[field] for field in declared_fields}})
+            dependence_diagnostic = _declared_dependence_diagnostic(
+                study, records + ledger_dependence_rows)
+            if dependence_diagnostic.get("status") in (
+                    "INVALID_DECLARATION", "INCOMPLETE_DECLARATION", "TIME_VARYING_UNIT_GROUP"):
+                return {"status": "INCONCLUSIVE", "reason": dependence_diagnostic["reason"],
+                        "dependence_diagnostic": dependence_diagnostic, "causal_claim": False}
         observed_by_id = {row["unit_id"]: row for row in records}
         complete_records = [observed_by_id.get(item["unit_id"], {"unit_id": item["unit_id"], "group": item["group"]})
                            for item in ledger]
@@ -633,6 +703,17 @@ def _effectiveness(data, metric_defs=None):
                              "missing_outcome": len(assigned[group])-len(observed[group]),
                              "rate": (len(assigned[group])-len(observed[group]))/len(assigned[group]) if assigned[group] else None}
                     for group in assigned}
+        if dependence_diagnostic.get("status") == "SHARED_GROUPS_DETECTED":
+            complete_outcomes = not any(attrition[group]["missing_outcome"] for group in attrition)
+            descriptive_difference = (mean(observed["treatment"]) - mean(observed["control"])
+                                      if complete_outcomes and observed["treatment"] and observed["control"] else None)
+            return {"status": "INCONCLUSIVE", "design": design, "metric": metric,
+                    "descriptive_observed_difference": descriptive_difference,
+                    "estimate_scope": "unadjusted observed-arm contrast only; no inferential interval or causal effect is reported",
+                    "uncertainty_status": "WITHHELD_SHARED_GROUP_DEPENDENCE",
+                    "dependence_diagnostic": dependence_diagnostic, "attrition": attrition,
+                    "reason": "declared dependence groups span assigned units; identify the randomization unit and provide a qualified cluster-aware analysis with adequate independent groups",
+                    "causal_claim": False}
         cointerventions = {group: {str(row.get("concurrent_intervention_id", "none")) for row in members}
                            for group, members in assigned.items()}
         if study.get("differential_concurrent_intervention") is True or cointerventions["treatment"] != cointerventions["control"]:
@@ -685,9 +766,12 @@ def _effectiveness(data, metric_defs=None):
                 "intervention_id": study["intervention_id"], "treatment_n": len(treated), "control_n": len(control),
                 "estimate": estimate, "se": se, "welch_df": df, "ci95_welch_t_approximation": interval,
                 "attrition": attrition, "baseline_balance": baseline,
-                "causal_claim": True, "assumptions": ["valid documented random allocation", "independent units", "no interference", "consistent outcome measurement"],
+                "dependence_diagnostic": dependence_diagnostic,
+                "causal_claim": True, "assumptions": ["valid documented random allocation", "independent units; P4 does not detect undeclared shared shocks", "no interference", "consistent outcome measurement"],
                 "diagnostics": {"small_sample_warning": min(len(treated), len(control)) < 10,
-                                "assignment_unit_count": len(ledger_ids), "concurrent_intervention_ids": {group: sorted(values) for group, values in cointerventions.items()}},
+                                "assignment_unit_count": len(ledger_ids),
+                                "dependence_status": dependence_diagnostic.get("status"),
+                                "concurrent_intervention_ids": {group: sorted(values) for group, values in cointerventions.items()}},
                 "sensitivity": {"type": "outcome_attrition", "missing_outcomes": 0,
                                 "qualification": "report outcome_bounds to compute worst-case attrition bounds if missingness is present"},
                 "qualification": "conditional randomized study estimate; small samples and baseline imbalance require review; not production qualification"}
@@ -821,6 +905,15 @@ def _effectiveness(data, metric_defs=None):
         if any(attrition[group]["complete_pre_post"] != attrition[group]["assigned"] for group in attrition):
             return {"status": "INCONCLUSIVE", "reason": "incomplete DiD outcome panels are not imputed; causal and point estimates withheld",
                     "attrition": attrition, "causal_claim": False}
+        if dependence_diagnostic.get("status") == "SHARED_GROUPS_DETECTED":
+            return {"status": "INCONCLUSIVE", "design": design, "metric": metric, "metric_unit": metric_unit,
+                    "descriptive_did_estimate": mean(t) - mean(c),
+                    "estimate_scope": "unadjusted difference in unit-level changes only; no inferential interval or causal effect is reported",
+                    "uncertainty_status": "WITHHELD_SHARED_GROUP_DEPENDENCE",
+                    "dependence_diagnostic": dependence_diagnostic, "attrition": attrition,
+                    "reason": "declared dependence groups span independent units; provide a qualified cluster-aware DiD design and adequate independent-group diagnostics",
+                    "secondary_diagnostics_status": "NOT_EVALUATED_AFTER_DEPENDENCE_REFUSAL",
+                    "causal_claim": False}
         estimate, se, df, interval = _mean_difference_interval(t, c)
         population_compatibility = {"status": "NOT_PROVIDED",
                                     "reason": "declare population_fields to audit product/tool mix stability and treatment-control composition"}
@@ -1115,9 +1208,10 @@ def _effectiveness(data, metric_defs=None):
                 "pretrend_stability_placebo": stability_placebo,
                 "population_compatibility": population_compatibility,
                 "negative_control_diagnostic": negative_control_diagnostic,
+                "dependence_diagnostic": dependence_diagnostic,
                 "concurrent_intervention_diagnostic": concurrent_intervention_diagnostic,
                 "sensitivity": sensitivity, "assumptions": ["parallel trends cannot be proven by pretrend data",
-                    "no differential concurrent intervention", "independent units", "consistent outcome measurement",
+                    "no differential concurrent intervention", "independent units; P4 does not detect undeclared shared shocks", "consistent outcome measurement",
                     *( ["three complete preperiods were supplied; adjacent-slope stability is only a falsification diagnostic"] if has_third_preperiod else []),
                     *(["negative-control metric is truly unaffected by treatment and measured comparably"] if negative_control_metric else [])],
                 "diagnostics": {"small_sample_warning": min(len(t), len(c)) < 10,
