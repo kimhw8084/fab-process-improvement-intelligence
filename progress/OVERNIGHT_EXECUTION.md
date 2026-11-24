@@ -9,7 +9,7 @@
 - Pending: refreshed exact-source archive, full Python and scientific release gates, current benchmark and limited security reports, two detached reproducible builds, fresh no-pip extraction under OS network denial. After those, continue the existing D02 transfer/generalization adversarial evaluation queue.
 - Pending internal: actual company permissions/mappings, approved target host, authoritative source semantics, P1 ownership/acceptance, formal accessibility, legal/security authorization and engineering ROI. Distribution remains prohibited.
 
-Exact next action: commit only the refreshed qualification evidence and ledgers, then run `rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py`, `qualification/benchmark.py`, `qualification/refresh_security_evidence.py --pip-audit /tmp/p4-qualification-env/bin/pip-audit --bandit /tmp/p4-qualification-env/bin/bandit`, and `qualification/run_release_checks.py`; inspect and repair any failure before detached rebuild and offline qualification.
+Exact next action at `df35995`: run `rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py`, `qualification/benchmark.py`, `qualification/refresh_security_evidence.py --pip-audit /tmp/p4-qualification-env/bin/pip-audit --bandit /tmp/p4-qualification-env/bin/bandit`, and `qualification/run_release_checks.py`; inspect and repair any failure before detached rebuild and offline qualification.
 
 # Latest checkpoint — D02 calibration-transfer counterevidence veto (2026-11-23)
 

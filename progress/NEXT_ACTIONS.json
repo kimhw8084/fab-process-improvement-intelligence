@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "1e18f265b82aef58b2271c394a0fe5724144edde",
+  "as_of_source_commit": "df35995e369bca608774663305e703234774875b",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -11,7 +11,7 @@
   ],
   "latest_checkpoint": {
     "date": "2026-11-23",
-    "committed_base": "1e18f265b82aef58b2271c394a0fe5724144edde",
+    "committed_base": "df35995e369bca608774663305e703234774875b",
     "implementation_commit": "1e18f265b82aef58b2271c394a0fe5724144edde",
     "changed_product_files": [],
     "changed_qualification_files": [
@@ -70,7 +70,7 @@
       "No public distribution, remote push, target-host, owner, formal accessibility or ROI approval."
     ],
     "next_action": "Commit the refreshed P1 host evidence and progress ledgers; then rebuild and fully qualify the exact source, inspect failures, reproduce detached builds and verify fresh no-pip offline extraction under network denial.",
-    "release_runner_after_this_source": "PENDING; must execute after evidence checkpoint commit."
+    "release_runner_after_this_source": "PENDING; exact archive/benchmark/security/full runner not yet executed at this evidence checkpoint."
   },
   "never_do": [
     "publish or push",
@@ -80,12 +80,11 @@
   ],
   "next_executable_action": {
     "priority": 0,
-    "task": "Commit current P1 MCP-to-P4 qualification evidence and requalify exact archive/source at the new checkpoint commit; then continue the D02 calibration-transfer adversarial queue.",
-    "source_commit": "1e18f265b82aef58b2271c394a0fe5724144edde",
+    "task": "Qualify the exact source checkpoint commit df35995; then continue D02 transfer/generalization adversarial evaluation.",
+    "source_commit": "df35995e369bca608774663305e703234774875b",
     "acceptance": "Current-source full Python/scientific gates, UI evidence, benchmark/security records, archive source manifest, two detached clean builds and fresh no-pip macOS network-denied extraction are verified. Stay local and do not claim external or internal readiness while approval gates are pending.",
-    "first_command": "rtk git status --short",
+    "first_command": "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
     "follow_up_commands": [
-      "rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py",
       "rtk /tmp/p4-qualification-env/bin/python qualification/refresh_security_evidence.py --pip-audit /tmp/p4-qualification-env/bin/pip-audit --bandit /tmp/p4-qualification-env/bin/bandit",
       "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
@@ -137,5 +136,6 @@
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Refreshed qualification evidence/ledgers are uncommitted; generated release sidecars are also modified and must not be staged indiscriminately. Product code and regenerated bridge fixture are committed at 1e18f26."
+  "worktree_state": "Qualification and progress evidence checkpoint committed; only generated benchmark/release sidecars are modified or untracked. Do not stage release sidecars until individually reviewed.",
+  "next_action": "Refresh benchmark and limited security evidence, build the exact archive at the evidence checkpoint source, run the full release gates, repair failures, then verify detached reproducibility and fresh network-denied no-pip extraction."
 }
