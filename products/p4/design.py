@@ -409,12 +409,29 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
 
     if not isinstance(process_window, dict) or process_window.get("status") != "VALID":
         return refuse("a valid D02 supported-region result is required")
+    candidate_cells = process_window.get("candidate_cells")
+    if not isinstance(candidate_cells, list) or not candidate_cells:
+        return refuse("the D02 result has no inspectable candidate evidence")
+    screening_status = process_window.get("candidate_screening_status")
+    counterevidence = process_window.get("candidate_counterevidence")
+    if ((screening_status is not None and not isinstance(screening_status, str))
+            or (counterevidence is not None and not isinstance(counterevidence, dict))):
+        return refuse("D02 candidate review metadata is malformed")
+    counterevidence_status = counterevidence.get("status") if isinstance(counterevidence, dict) else None
+    if ((isinstance(screening_status, str) and screening_status.startswith("WITHHELD"))
+            or (isinstance(counterevidence_status, str) and counterevidence_status.startswith("WITHHELD"))):
+        return refuse("D02 candidate screening or counterevidence status is withheld")
+    reported_candidate_count = process_window.get("candidate_count")
+    if (reported_candidate_count is not None
+            and (not isinstance(reported_candidate_count, int) or isinstance(reported_candidate_count, bool)
+                 or reported_candidate_count != len(candidate_cells))):
+        return refuse("D02 candidate count conflicts with the supplied candidate evidence")
     candidate_factors = spec.get("candidate_factors")
     comparison_factors = spec.get("comparison_factors")
     if (not isinstance(candidate_factors, dict) or not isinstance(comparison_factors, dict)
             or set(comparison_factors) != set(controls)):
         return refuse("exact candidate factors from D02 and a complete engineer-supplied reference setting are required")
-    d02_candidate = next((cell for cell in process_window.get("candidate_cells", [])
+    d02_candidate = next((cell for cell in candidate_cells
                           if isinstance(cell, dict) and cell.get("factors") == candidate_factors), None)
     if d02_candidate is None:
         return refuse("the requested setting is not a currently supported D02 candidate")

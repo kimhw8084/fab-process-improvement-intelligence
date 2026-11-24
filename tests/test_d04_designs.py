@@ -522,6 +522,20 @@ class WindowConfirmationQualification(unittest.TestCase):
         self.assertEqual(refused["status"], "REFUSED")
         self.assertIn("forbidden region", refused["reason"])
 
+    def test_confirmation_refuses_inconsistent_withheld_d02_envelopes(self):
+        contradictory_results = (
+            {**self.window, "candidate_screening_status": "WITHHELD_BY_INDEPENDENT_COUNTEREVIDENCE"},
+            {**self.window, "candidate_counterevidence": {"status": "WITHHELD_COMPLETE_SET_INFEASIBILITY"}},
+            {**self.window, "candidate_count": 0},
+        )
+        for contradictory in contradictory_results:
+            with self.subTest(contradictory=contradictory):
+                refused = propose_window_confirmation(
+                    contradictory, self.controls, self.bounds, self.spec, [], self.metrics)
+                self.assertEqual(refused["status"], "REFUSED")
+                self.assertEqual(refused["run_count"], 0)
+                self.assertFalse(refused["executed"])
+
     def test_confirmation_refuses_unprovenanced_power_inputs_and_underbudget_plans(self):
         missing_source = {**self.spec, "paired_difference_sd_source": ""}
         self.assertEqual(propose_window_confirmation(self.window, self.controls, self.bounds,
