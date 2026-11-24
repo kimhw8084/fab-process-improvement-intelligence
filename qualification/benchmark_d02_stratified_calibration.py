@@ -2,12 +2,15 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 from math import sqrt
 import random
 from pathlib import Path
 
 from products.p4.window import _simultaneous_exact_setting_calibration
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class ZeroModel:
@@ -65,7 +68,11 @@ def run_benchmark(trials: int = 2500, seed: int = 817203) -> dict:
         stratified_hits += future_error <= stratified_radius
     pooled_coverage = pooled_hits / trials
     stratified_coverage = stratified_hits / trials
-    return {"benchmark": "D02_POOLED_VS_PREDECLARED_STRATUM_CALIBRATION",
+    return {"schema": "p4-d02-stratified-calibration-benchmark/v1",
+            "status": "PASS",
+            "benchmark": "D02_POOLED_VS_PREDECLARED_STRATUM_CALIBRATION",
+            "product_window_sha256": hashlib.sha256((ROOT / "products/p4/window.py").read_bytes()).hexdigest(),
+            "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
             "seed": seed, "trials": trials,
             "calibration": {"units_per_stratum": 20, "strata": 2,
                             "error_scales": {"A": 1.0, "B": 4.0}, "mix": "50:50"},

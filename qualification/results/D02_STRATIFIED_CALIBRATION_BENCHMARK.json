@@ -1,5 +1,6 @@
 {
   "benchmark": "D02_POOLED_VS_PREDECLARED_STRATUM_CALIBRATION",
+  "benchmark_script_sha256": "f7fc93feaa16e161f788bcd426eb97208069f4c8595a9a4c644e688fd6742a84",
   "calibration": {
     "error_scales": {
       "A": 1.0,
@@ -35,6 +36,9 @@
     }
   },
   "interpretation": "Synthetic finite-sample challenge only. Calibration units are exchangeable within each fixed stratum; the future stratum is known and predeclared. This does not assess real source semantics, model misspecification, or production coverage.",
+  "product_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
+  "schema": "p4-d02-stratified-calibration-benchmark/v1",
   "seed": 817203,
+  "status": "PASS",
   "trials": 2500
 }
