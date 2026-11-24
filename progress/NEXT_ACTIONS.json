@@ -1,10 +1,11 @@
 {
   "active_uncommitted_changes": [
-    "D05 explicitly declared cluster-randomized studies use complete assignment/outcome ledgers, at least five independent clusters per arm, equal-cluster estimand, conservative interval calculation, and cross-cluster dependence refusal. Engine 1.2.5 adds per-arm cluster-size summaries and states that lot-weighted effect is not estimated; DiD/shared-dependence cases still refuse inference.",
-    "Expanded fixed D05 benchmark: 12 cases (5/10/20 clusters per arm × normal, standardized t(4), and standardized lognormal shocks sigma 0.8/1.5), 1,000 trials each, separate SciPy Welch oracle. P4 coverage 95.0-98.8%, max P4-oracle coverage delta 0.006, all intervals contain oracle intervals, Wilson lower bounds >0.90. New runner check requires all 12 predeclared cells.",
-    "Current product verification: D05 + schema/UI tests 50 PASS; P4 component tests 29 PASS, strict TypeScript and P1 contract snapshot PASS; bridge fixture twice-identical SHA-256 ca0a633e3a622ac9ed31cec1c388451002e1b425957c497772d70e1ea29b1f2a. Exact 1.2.5 product commit 99442d2 had 258 PASS/0 skipped and E01-E04/E06/E10 PASS (ZIP 3f494838...); expanded benchmark/runner source is now uncommitted so source-bound release evidence must be regenerated."
+    "D02 adds descriptive held-out interval miss rates by caller-predeclared stratum; model fit, calibration, candidate selection and abstention rules are unchanged.",
+    "Added independent hidden nonlinear stratum-drift benchmark and exact result, plus UI table, test, release-gate integration and P1 compatibility proposal.",
+    "Executed 259 Python tests PASS/0 skipped; D01/D02 68 PASS; P1 current-source disposable host 32 PASS; frontend 64 PASS; TypeScript, P4 component 29, schema and fixture reproducibility checks PASS.",
+    "Older generated release/qualification sidecars from the b29 runner remain dirty and are intentionally not staged; they will be refreshed after the new source commit."
   ],
-  "as_of_source_commit": "99442d2c0527e30e3007d3ec4995ccc7389ad5a3",
+  "as_of_source_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -15,10 +16,10 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "258 PASS, zero skipped at 99442d2 (engine 1.2.5)",
-    "qualification": "E01-E04,E06,E10 PASS at 99442d2; expanded 12-case D05 qualification and source-bound runner change require new commit and rerun. E05,E07,E08,E09,E11,E12 remain pending.",
-    "source_commit": "99442d2c0527e30e3007d3ec4995ccc7389ad5a3",
-    "status": "CANDIDATE; expanded scientific benchmark is uncommitted"
+    "python_tests": "258 PASS, zero skipped",
+    "qualification": "E01,E02,E03,E04,E06,E10 PASS at b29abf8; E05,E07,E08,E09,E11,E12 pending.",
+    "source_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3",
+    "status": "CANDIDATE; no external transfer or internal qualification claim"
   },
   "latest_checkpoint": {
     "D05_cluster_randomized": {
@@ -40,9 +41,44 @@
       "current_source_browser": "STALE; last observed engine 1.2.1",
       "authoritative_host_and_owner": "PENDING",
       "status": "NO_E07_PASS_CLAIM"
+    },
+    "exact_release": {
+      "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+      "sha256": "768273a9f2613e00797b4f06d95f3eecca98ff8d0be6630e9ef3562ee579cafb",
+      "bytes": 9327718,
+      "source_files": 223,
+      "source_manifest_sha256": "f553bf1950c67360f8ee934d1c79a2232d88e0073b8211082546b5b24a1d3958",
+      "two_clean_builds": "PASS; exact SHA and source manifest matched",
+      "fresh_no_pip_network_denied_extraction": "PASS; macOS ARM64/Python 3.11.7 only",
+      "e10": "PASS",
+      "transfer_state": "CANDIDATE; no distribution authorization"
+    },
+    "p1_current_host_overlay": {
+      "workspace_authoritative": false,
+      "proposed_change": "Align the two synthetic P4 relationship metric labels in P1 peer; refresh registry peer hash.",
+      "proposed_synthetic_peer_sha256": "214efd103181659e872680386219f25a2021f96afe768a55ae93ede59115588e",
+      "host_tests": "32 PASS in disposable overlay; includes audited P4 acquisition and P1/P4 cancellation",
+      "ui_tests": "64 frontend PASS; strict TypeScript PASS; P4 component 29 PASS (previous current-source verification)",
+      "limitation": "P1 unversioned; no P1 edits or owner acceptance; synthetic mapping only",
+      "proposal": "progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md"
+    },
+    "D02_subgroup_resolved_holdout": {
+      "implementation": "Descriptive per-predeclared-stratum exact-panel held-out miss rates, denominators, Wilson intervals; mixed/unplanned assignments are disclosed separately.",
+      "selection_and_calibration_effect": "None; no conditional coverage claim; no candidate subset is selected from evaluation outcomes.",
+      "benchmark": "5,000 A and 100 B future independent units; B-only hidden quadratic drift with matching declared composition and panel.",
+      "miss_fraction": {
+        "A": 0.0052,
+        "B": 1.0,
+        "pooled": 0.024705882352941175
+      },
+      "independent_oracle": "Direct grouping/max residual; exact P4 subgroup miss counts and denominators matched.",
+      "tests": "259 Python PASS/0 skipped; D01/D02 68 PASS; P1 host 32 PASS; frontend 64 PASS; P4 component 29 PASS; strict TS/schema PASS.",
+      "bridge_fixture_sha256": "3bc6575cd6793cb21ef03351b6cf778efc4e4f35c5e5021a69e0b006a6e938b8",
+      "source_commit": "PENDING_LOCAL_COMMIT",
+      "status": "IMPLEMENTED_AND_FOCUSED_QUALIFIED; full source-bound release runner pending"
     }
   },
-  "latest_checkpoint": {
+  "prior_checkpoint_history": {
     "D01_mcp_uncertainty": {
       "fixture_sha256": "06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4",
       "focused_mcp_tests": "19 PASS",
@@ -390,13 +426,13 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the release-builder sidecar exclusion and progress/test repair, then refresh exact-source benchmark, run full release gates, rebuild/reproduce/offline-qualify the archive, and advance to the next independent scientific gap.",
-  "next_executable_action": "rtk git add qualification/build_transfer_bundle.py tests/test_schema_and_ui.py progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md progress/NEXT_ACTIONS.json && rtk git commit -m \"Exclude mutable UI qualification evidence from source bundle\"; then run rtk /tmp/p4-qualification-env/bin/python qualification/benchmark.py and rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py.",
+  "next_action": "Commit the D02 subgroup diagnostic and proposal, then run the exact-source release runner. If E01-E04/E06 gates pass, rebuild the offline candidate, reproduce it twice from clean source and repeat fresh no-pip/network-denied extraction.",
+  "next_executable_action": "rtk git add products/p4/window.py products/p4/ui/P4Panel.tsx products/p4/ui/P4Panel.test.tsx tests/test_d01_d02_independent.py qualification/benchmark_d02_subgroup_misses.py qualification/results/D02_SUBGROUP_MISSES_BENCHMARK.json qualification/run_release_checks.py progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m \"Report D02 held-out misses by stratum\"",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IN_PROGRESS",
-      "task": "Commit archive sidecar repair; rerun exact-source release gates; rebuild, reproduce twice, and fresh offline-qualify D05 archive."
+      "status": "NEXT",
+      "task": "D02: create an independent held-out calibration and selection challenge with nonlinear drift within declared strata; verify abstention and avoid unsupported coverage claims."
     },
     {
       "priority": 2,
@@ -415,14 +451,14 @@
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; current D05 artifact not yet rebuilt and source-bound E01-E04/E06/E10 requalification pending",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E05/E07/E08/E09/E11/E12 remain pending even though E01-E04/E06/E10 pass",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D05 has a new limited-scope cluster-dependence refusal; other synthetic assumptions and real fab evidence remain open",
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 remain bounded by synthetic evidence and stated method assumptions; actual fab capability/ROI not established",
     "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 source/owner and formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "c5ce50a430f573b378fd3922409f658f45d59514",
-  "worktree_state": "D05 shared-cluster refusal is committed at c5ce50a. Release-builder sidecar exclusion and regression assertions are implemented but uncommitted. Focused schema/UI tests: 14 PASS. Exact-source release runner and archive gates remain pending.",
-  "evidence_commit": "c5ce50a430f573b378fd3922409f658f45d59514"
+  "source_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3",
+  "worktree_state": "D02 source, independent benchmark, UI, tests, release gate and progress evidence modified and focused-tested; local commit next. Prior b29 generated release/qualification sidecars remain dirty and will be refreshed after commit.",
+  "evidence_commit": "b29abf88f6f4d0ebd6a2fe6902f67ced3879f7d3"
 }

@@ -207,6 +207,9 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
   const unseenEvaluationStrata = composition.unseen_evaluation_strata;
   const simultaneousScreen = asObject(supported?.simultaneous_exact_setting_screen);
   const transferAssessment = asObject(simultaneousScreen.calibration_transfer_assessment);
+  const heldoutBand = asObject(transferAssessment.heldout_band_evaluation);
+  const stratumBreakdown = asObject(heldoutBand.by_predeclared_stratum);
+  const stratumBreakdownRows = asList(stratumBreakdown.categories).map(asObject);
   const cells = supportedGrid.length ? supportedGrid : asList(supported?.candidate_cells).map(asObject);
   const [regionFilter, setRegionFilter] = useState("all");
   const [feasibleFilter, setFeasibleFilter] = useState("all");
@@ -272,6 +275,25 @@ function D02Section({ observed, robust, supported }: { observed?: JsonObject; ro
     <p role="note">The finite-panel candidate flag describes only the declared calibration panel. Evaluation transfer checks are post-selection diagnostics and cannot validate future coverage.</p>
     <p role="note">Interpolated cells are model-based hypotheses and require exact-setting confirmation on independent lots before any process decision.</p>
     <KeyValueTable label="Calibration transfer assessment; descriptive, not validation" value={transferAssessment} />
+    {stratumBreakdownRows.length > 0 && <>
+      <table>
+        <caption>Held-out calibration-band misses by predeclared stratum; descriptive only</caption>
+        <thead><tr><th scope="col">Stratum</th><th scope="col">Evaluation units</th>
+          <th scope="col">Complete panels</th><th scope="col">Units with misses</th>
+          <th scope="col">Miss fraction</th><th scope="col">Descriptive Wilson interval</th></tr></thead>
+        <tbody>{stratumBreakdownRows.map((item, index) => <tr key={`${text(item.category)}-${index}`}>
+          <th scope="row">{text(item.category)}</th><td>{text(item.evaluation_units)}</td>
+          <td>{text(item.complete_panel_units)}</td><td>{text(item.missed_any_interval_units)}</td>
+          <td>{text(item.missed_any_interval_fraction)}</td><td>{text(item.wilson95_descriptive_interval)}</td>
+        </tr>)}</tbody>
+      </table>
+      <KeyValueTable label="Stratum assignment quality and interpretation" value={{
+        status: stratumBreakdown.status, fields: stratumBreakdown.fields,
+        unassignable_or_mixed_independent_units: stratumBreakdown.unassignable_or_mixed_independent_units,
+        unplanned_category_independent_units: stratumBreakdown.unplanned_category_independent_units,
+        interpretation: stratumBreakdown.interpretation, coverage_guarantee: stratumBreakdown.coverage_guarantee,
+      }} />
+    </>}
     <KeyValueTable label="Complete-set selected-candidate failure audit" value={evaluation.candidate_selection_audit} />
     {evaluationCandidates.length > 0 && <table>
       <caption>Untouched evaluation by selected setting and matching fixed-control population; descriptive only</caption>

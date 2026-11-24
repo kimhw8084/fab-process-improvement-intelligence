@@ -425,6 +425,15 @@ describe("P4 headless suite module", () => {
         complete_panel_units: 10, mismatched_panel_units: 0,
         missed_any_interval_units: 8, missed_any_interval_fraction: 0.8,
         transfer_signal: "OBSERVED_CALIBRATION_BAND_MISSES",
+        by_predeclared_stratum: {
+          status: "DESCRIPTIVE_ONLY", fields: ["tool_id"],
+          unassignable_or_mixed_independent_units: 0, unplanned_category_independent_units: 0,
+          categories: [{ category: { tool_id: "SYN-TOOL-B" }, evaluation_units: 5,
+            complete_panel_units: 5, missed_any_interval_units: 5,
+            missed_any_interval_fraction: 1, wilson95_descriptive_interval: [0.57, 1] }],
+          interpretation: "Descriptive subgroup misses only; no conditional coverage claim.",
+          coverage_guarantee: "none; descriptive held-out counterevidence only",
+        },
         interpretation: "Observed held-out interval misses are transfer counterevidence; zero observed misses do not validate coverage.",
         candidate_selection_influence: false, coverage_guarantee: "none; descriptive held-out counterevidence only",
       },
@@ -437,6 +446,9 @@ describe("P4 headless suite module", () => {
     expect(within(d02).getAllByText(/missed_any_interval_fraction/).length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/zero observed misses do not validate coverage/).length).toBeGreaterThan(0);
     expect(within(d02).getAllByText(/candidate_selection_influence/).length).toBeGreaterThan(0);
+    const strata = within(d02).getByRole("table", { name: "Held-out calibration-band misses by predeclared stratum; descriptive only" });
+    expect(within(strata).getByText(/SYN-TOOL-B/)).toBeTruthy();
+    expect(within(strata).getByText("1")).toBeTruthy();
   });
 
   it("shows why held-out process rows were excluded from exact-setting evaluation", () => {

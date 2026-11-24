@@ -1,0 +1,85 @@
+{
+  "benchmark": "D02_HELDOUT_NONLINEAR_STRATUM_LOCAL_DRIFT",
+  "benchmark_script_sha256": "f1787479fa0c3404c42ae2bae42cafde2956f2823c01ce370dfcec87fa98d230",
+  "calibration_radius": 3.1339629330990992,
+  "calibration_units_per_stratum": 39,
+  "evaluation_units": {
+    "A": 5000,
+    "B": 100
+  },
+  "generator": "frozen zero model; iid normal calibration errors; same complete three-setting panel and 50:1 evaluation mix; held-out B-only quadratic mean drift 1.5*pressure^2",
+  "heldout_miss_fractions": {
+    "A": 0.0052,
+    "B": 1.0,
+    "pooled": 0.024705882352941175
+  },
+  "independent_oracle": "direct unit grouping and maximum absolute exact-panel residual; equality checked against every P4 stratum count",
+  "independent_oracle_counts": {
+    "A": {
+      "misses": 26,
+      "units": 5000
+    },
+    "B": {
+      "misses": 100,
+      "units": 100
+    }
+  },
+  "limitations": [
+    "fixed synthetic generator; not an estimate of fab-population performance",
+    "stratum labels and exchangeability are caller-supplied and unauthenticated",
+    "held-out misses are descriptive counterevidence, not conditional coverage validation",
+    "the evaluation partition does not alter calibration or select candidate subsets"
+  ],
+  "p4_diagnostic": {
+    "categories": [
+      {
+        "category": {
+          "tool_id": "A"
+        },
+        "complete_panel_units": 5000,
+        "evaluation_units": 5000,
+        "metric_missed_units": {
+          "quality": 26
+        },
+        "mismatched_panel_units": 0,
+        "missed_any_interval_fraction": 0.0052,
+        "missed_any_interval_units": 26,
+        "unscored_units": 0,
+        "wilson95_descriptive_interval": [
+          0.003551168641804525,
+          0.0076085492030240065
+        ]
+      },
+      {
+        "category": {
+          "tool_id": "B"
+        },
+        "complete_panel_units": 100,
+        "evaluation_units": 100,
+        "metric_missed_units": {
+          "quality": 100
+        },
+        "mismatched_panel_units": 0,
+        "missed_any_interval_fraction": 1.0,
+        "missed_any_interval_units": 100,
+        "unscored_units": 0,
+        "wilson95_descriptive_interval": [
+          0.9630065017930143,
+          1.0
+        ]
+      }
+    ],
+    "coverage_guarantee": "none; descriptive held-out counterevidence only",
+    "fields": [
+      "tool_id"
+    ],
+    "interpretation": "Misses and denominators are descriptive post-selection evidence by caller-declared category; they do not establish conditional coverage or validate stratum semantics.",
+    "status": "DESCRIPTIVE_ONLY",
+    "unassignable_or_mixed_independent_units": 0,
+    "unplanned_category_independent_units": 0
+  },
+  "product_source_sha256": "375ae98016f06bab4f0c68b35792958d84bcca8e1a0f274abf9e51f611c7bc0c",
+  "schema": "p4-d02-subgroup-misses-benchmark/v1",
+  "seed": 20261124,
+  "status": "PASS"
+}

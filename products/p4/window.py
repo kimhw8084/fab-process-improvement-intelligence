@@ -650,12 +650,24 @@ def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
                 "unscored_units": 0, "missed_any_interval_units": None,
                 "missed_any_interval_fraction": None, "wilson95_descriptive_interval": None}
 
+    strata = calibration.get("strata")
+    strata_fields = strata.get("fields", []) if isinstance(strata, dict) else []
+    strata_categories = strata.get("categories", []) if isinstance(strata, dict) else []
+    stratum_labels = {_precommit_stratum_key(category, strata_fields): category
+                      for category in strata_categories} if strata_fields else {}
+    strata_by_unit = {}
     grouped = {}
     invalid_units = set()
     for row in rows:
         _check_cancel(cancel)
         try:
             unit = _unit_key(_get_field(row, unit_field))
+            if strata_fields:
+                try:
+                    stratum_key = _row_stratum_key(row, strata_fields)
+                except (KeyError, TypeError, ValueError):
+                    stratum_key = None
+                strata_by_unit.setdefault(unit, set()).add(stratum_key)
             raw_setting = tuple(row["factors"][name] for name in model_factors)
             if any(not isinstance(value, (int, float)) or isinstance(value, bool) or not isfinite(value)
                    for value in raw_setting):
@@ -672,11 +684,32 @@ def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
     unscored_units = len(invalid_units)
     union_misses = 0
     metric_misses = {metric: 0 for metric in models}
-    for setting_rows in grouped.values():
+    stratum_counts = {key: {"evaluation_units": 0, "complete_panel_units": 0,
+                            "mismatched_panel_units": 0, "unscored_units": 0,
+                            "missed_any_interval_units": 0,
+                            "metric_missed_units": {metric: 0 for metric in models}}
+                      for key in stratum_labels}
+    unassignable_stratum_units = 0
+    unplanned_stratum_units = 0
+    for unit, setting_rows in grouped.items():
         _check_cancel(cancel)
+        stratum_key = None
+        if strata_fields:
+            unit_strata = strata_by_unit.get(unit, {None})
+            if len(unit_strata) != 1 or None in unit_strata:
+                unassignable_stratum_units += 1
+            else:
+                stratum_key = next(iter(unit_strata))
+                if stratum_key not in stratum_counts:
+                    unplanned_stratum_units += 1
+                    stratum_key = None
+                else:
+                    stratum_counts[stratum_key]["evaluation_units"] += 1
         if (set(setting_rows) != panel_keys
                 or any(len(setting_rows.get(setting, [])) != expected_observations for setting in panel_keys)):
             mismatched_units += 1
+            if stratum_key is not None:
+                stratum_counts[stratum_key]["mismatched_panel_units"] += 1
             continue
         unit_scored = True
         unit_missed_metrics = set()
@@ -699,12 +732,20 @@ def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
                         unit_missed_metrics.add(metric)
         if not unit_scored:
             unscored_units += 1
+            if stratum_key is not None:
+                stratum_counts[stratum_key]["unscored_units"] += 1
             continue
         complete_units += 1
+        if stratum_key is not None:
+            stratum_counts[stratum_key]["complete_panel_units"] += 1
         if unit_missed_metrics:
             union_misses += 1
+            if stratum_key is not None:
+                stratum_counts[stratum_key]["missed_any_interval_units"] += 1
             for metric in unit_missed_metrics:
                 metric_misses[metric] += 1
+                if stratum_key is not None:
+                    stratum_counts[stratum_key]["metric_missed_units"][metric] += 1
 
     if complete_units:
         status = "DESCRIPTIVE_HELDOUT_BAND_EVALUATION"
@@ -712,6 +753,26 @@ def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
     else:
         status = "INSUFFICIENT_COMPLETE_EVALUATION_UNITS"
         signal = "NOT_ASSESSED"
+    by_predeclared_stratum = {
+        "status": "DESCRIPTIVE_ONLY" if strata_fields else "NOT_DECLARED",
+        "fields": strata_fields,
+        "unassignable_or_mixed_independent_units": unassignable_stratum_units,
+        "unplanned_category_independent_units": unplanned_stratum_units,
+        "categories": [
+            {"category": stratum_labels[key], **counts,
+             "missed_any_interval_fraction": (
+                 counts["missed_any_interval_units"] / counts["complete_panel_units"]
+                 if counts["complete_panel_units"] else None),
+             "wilson95_descriptive_interval": _wilson_interval(
+                 counts["missed_any_interval_units"], counts["complete_panel_units"])
+             if counts["complete_panel_units"] else None}
+            for key, counts in sorted(stratum_counts.items())],
+        "interpretation": (
+            "Misses and denominators are descriptive post-selection evidence by caller-declared category; "
+            "they do not establish conditional coverage or validate stratum semantics."
+            if strata_fields else "No predeclared calibration strata were supplied."),
+        "coverage_guarantee": "none; descriptive held-out counterevidence only",
+    }
     return {"status": status, "transfer_signal": signal,
             "evaluation_units": len(grouped) + len(invalid_units),
             "complete_panel_units": complete_units,
@@ -721,6 +782,7 @@ def _evaluate_calibration_band_transfer(rows, unit_field, models, model_factors,
             "missed_any_interval_fraction": union_misses/complete_units if complete_units else None,
             "wilson95_descriptive_interval": _wilson_interval(union_misses, complete_units),
             "metric_missed_units": {metric: count for metric, count in metric_misses.items()},
+            "by_predeclared_stratum": by_predeclared_stratum,
             "method": "post-selection exact-setting panel comparison using each independent evaluation unit's maximum deviation across settings, replicates, and metrics",
             "interpretation": "observed held-out interval misses are transfer counterevidence; zero observed misses do not validate exchangeability, conditional coverage, or future-population coverage",
             "candidate_selection_influence": False,

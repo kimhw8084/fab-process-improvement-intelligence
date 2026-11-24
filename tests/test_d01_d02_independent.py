@@ -10,7 +10,8 @@ from products.p4.regression import ModelError, fit_linear_model
 from products.p4.engine import _model_specification_sensitivity
 from products.p4.design import propose_window_confirmation
 from products.p4.window import (explore_window, _finite_rank_quantile, _partition_composition_diagnostic,
-                                _simultaneous_exact_setting_calibration)
+                                _simultaneous_exact_setting_calibration,
+                                _evaluate_calibration_band_transfer)
 
 
 FACTOR = {"pressure": {"role": "controllable", "unit": "kPa", "bounds": [0, 2], "approved": True},
@@ -1022,6 +1023,50 @@ class SupportedWindowQualification(unittest.TestCase):
                          "WITHHELD_BY_CALIBRATION_TRANSFER_COUNTEREVIDENCE")
         self.assertEqual(unseen["candidate_counterevidence"]["transfer_status"],
                          "COUNTEREVIDENCE_UNSEEN_EVALUATION_STRATA")
+
+    def test_exact_panel_transfer_reports_subgroup_misses_hidden_by_pooled_rate(self):
+        class ZeroModel:
+            @staticmethod
+            def predict(_factors, _fixed_effects=None):
+                return {"estimate": 0.0}
+
+        rows = []
+        for i in range(90):
+            for pressure in (0.0, 1.0):
+                rows.append({"lot_id": f"A-{i}", "tool_id": "A", "factors": {"pressure": pressure},
+                             "metrics": {"quality": 0.0}})
+        for i in range(2):
+            for pressure in (0.0, 1.0):
+                rows.append({"lot_id": f"B-{i}", "tool_id": "B", "factors": {"pressure": pressure},
+                             "metrics": {"quality": 2.0 if pressure == 1.0 else 0.0}})
+        rows.extend([
+            {"lot_id": "MIXED-1", "tool_id": "A", "factors": {"pressure": 0.0}, "metrics": {"quality": 0.0}},
+            {"lot_id": "MIXED-1", "tool_id": "B", "factors": {"pressure": 1.0}, "metrics": {"quality": 0.0}},
+            *[{"lot_id": "UNPLANNED-1", "tool_id": "C", "factors": {"pressure": pressure},
+               "metrics": {"quality": 0.0}} for pressure in (0.0, 1.0)],
+        ])
+        calibration = {
+            "status": "AVAILABLE",
+            "common_exact_settings": [{"pressure": 0.0}, {"pressure": 1.0}],
+            "observations_per_setting": 1,
+            "metric_quantiles": {"quality": {"absolute_error_radius": 1.0}},
+            "strata": {"fields": ["tool_id"], "categories": [{"tool_id": "A"}, {"tool_id": "B"}]},
+        }
+        result = _evaluate_calibration_band_transfer(
+            rows, "lot_id", {"quality": ZeroModel()}, ["pressure"], {}, calibration)
+
+        self.assertEqual(result["missed_any_interval_units"], 2)
+        self.assertLess(result["missed_any_interval_fraction"], 0.03)
+        breakdown = result["by_predeclared_stratum"]
+        by_category = {entry["category"]["tool_id"]: entry for entry in breakdown["categories"]}
+        self.assertEqual(by_category["A"]["complete_panel_units"], 90)
+        self.assertEqual(by_category["A"]["missed_any_interval_units"], 0)
+        self.assertEqual(by_category["B"]["complete_panel_units"], 2)
+        self.assertEqual(by_category["B"]["missed_any_interval_units"], 2)
+        self.assertEqual(by_category["B"]["missed_any_interval_fraction"], 1.0)
+        self.assertEqual(breakdown["unassignable_or_mixed_independent_units"], 1)
+        self.assertEqual(breakdown["unplanned_category_independent_units"], 1)
+        self.assertEqual(breakdown["coverage_guarantee"], "none; descriptive held-out counterevidence only")
 
     def test_transfer_mixed_strata_withhold_candidates_instead_of_calling_subset_a_match(self):
         rows, factors, data = self._dataset()
