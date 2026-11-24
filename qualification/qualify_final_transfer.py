@@ -259,11 +259,12 @@ def main():
             output = tests.stdout + tests.stderr
             match = re.search(r"Ran (\d+) tests? in ([0-9.]+)s", output)
             skipped = re.search(r"\(skipped=(\d+)\)", output)
+            skipped_cases = re.findall(r"(?m)^.*\.\.\. skipped .*$", output)
             if tests.returncode or not match:
                 raise RuntimeError(f"full suite failed on exact extracted source: {output[-1500:]}")
             report["full_python_suite"] = {"status": "PASS", "tests_run": int(match.group(1)),
                 "skipped": int(skipped.group(1)) if skipped else 0,
-                "skipped_scope": "optional MCP SDK protocol cases; separately qualified from bundled wheelhouse",
+                "skipped_cases": skipped_cases,
                 "output_sha256": _sha(output.encode())}
             sdk = _run([sys.executable, "qualification/mcp_sdk_qualify.py"], cwd=extracted, timeout=300)
             report["mcp_sdk"] = json.loads(sdk.stdout)

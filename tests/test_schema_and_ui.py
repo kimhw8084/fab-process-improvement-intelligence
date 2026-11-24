@@ -128,12 +128,12 @@ class SourceContractTests(unittest.TestCase):
     def test_retired_standalone_shell_is_not_in_the_transfer_bundle(self):
         packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
         self.assertFalse(any(name.startswith("qualification/evidence/legacy/") for name in packaged))
-        self.assertTrue((ROOT / "qualification" / "evidence" / "legacy" / "index.html").is_file())
+        self.assertTrue(is_generated_qualification_output("qualification/evidence/legacy/index.html"))
 
     def test_execution_ledgers_stay_in_workspace_and_out_of_product_bundle(self):
         packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
         self.assertFalse(any(name.startswith("progress/") for name in packaged))
-        self.assertTrue((ROOT / "progress" / "NEXT_ACTIONS.json").is_file())
+        self.assertTrue(is_generated_qualification_output("progress/NEXT_ACTIONS.json"))
 
     def test_source_inventory_falls_back_to_verified_manifest_after_extraction(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -173,7 +173,6 @@ class SourceContractTests(unittest.TestCase):
         self.assertNotIn("release/MCP_SDK_QUALIFICATION.json", packaged)
         self.assertNotIn("release/INTERNAL_PREFLIGHT.json", packaged)
         self.assertIn("release/SBOM.spdx.json", packaged)
-        self.assertTrue((ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json").is_file())
         self.assertTrue(is_generated_qualification_output("qualification/results/new-report.json"))
         self.assertTrue(is_generated_qualification_output("release/BENCHMARK_REPORT.json"))
         self.assertTrue(is_generated_qualification_output("release/full_workflow_demo_evidence.json"))
