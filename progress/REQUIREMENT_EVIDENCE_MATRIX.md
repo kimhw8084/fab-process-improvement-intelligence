@@ -1,3 +1,14 @@
+# Latest verification — P1 host MCP-to-P4 flow at implementation source 1e18f26 (2026-11-23)
+
+| Requirement | Latest executed evidence | Status and next action |
+|---|---|---|
+| P1 shared-host workflow | Live disposable P1 route completed a synthetic MCP read (2 synthetic sources, 900 normalized rows) and rendered the P4 PARTIAL result, D01–D05, evidence provenance, shared Apache ECharts tradeoff chart and accessible Pareto table. MCP refusal returned ACCESS_REFUSED / NOT_ACCESSED and withheld positive evidence. P1 host routes: 32 PASS; frontend: 59 PASS across 7 files; typecheck and production build PASS. | Current source compatibility is verified in an unversioned disposable host, not an authoritative P1 release. Owner acceptance, source identity, formal accessibility and company qualification remain pending. |
+| P4 component and evidence | P4 panel: 24 PASS; strict TypeScript PASS; local P1 contract snapshot MATCH. Current 35-file P1/P4 source composition fingerprint `291441b67a5cb28e6ef96a7328c48ad6684f43ec02bac81b0e4c6a6dbcf507b7`; engine/window/panel/test/bridge hashes refreshed. | Snapshot integrity and synthetic contract behavior PASS. Preserve exact hash pins and rebuild source archive. |
+| MCP-to-P4 / refusal | Official MCP SDK 2.3.0 mock-backed live P1 workflow completed the configured bounded read, audit, normalization and P4 analysis; live refusal withheld data/findings. Focused release-helper, bridge and transport suites: 29 PASS. | Synthetic protocol/semantic mapping only. Actual company authorization and approved source semantics are PENDING_INTERNAL. |
+| D02 transfer counterevidence | Source `1e18f26` withholds the complete candidate set on calibration-band misses, unseen declared evaluation strata or precommitted exact-panel mismatch; updated bridge fixture generated twice identically. | Product guard and focused regressions previously passed. Current full release runner still pending after stale-fixture failure was repaired. Conditional and simultaneous population coverage remain unestablished. |
+| Exact-source release | The previous runner at `5702c6e` detected a stale bridge-source hash; bridge is refreshed at `1e18f265b82aef58b2271c394a0fe5724144edde` and focused bridge tests pass. | No current full release PASS claimed. Commit current evidence, rebuild exact archive, run full gates, security refresh, detached reproducibility and network-denied offline qualification. |
+| Distribution / internal acceptance | No push or publication; synthetic-only evidence. | Public distribution is prohibited pending ownership, license, exposure, vulnerability and authorization reviews. Samsung mappings/permissions, target host, engineer acceptance and ROI remain pending. |
+
 # Latest D02 calibration-transfer qualification — source 3a85374 (2026-11-23)
 
 | Requirement | Latest executed evidence | Status and next action |
