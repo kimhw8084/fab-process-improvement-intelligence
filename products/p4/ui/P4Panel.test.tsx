@@ -609,6 +609,41 @@ describe("P4 headless suite module", () => {
     expect(within(validation).getByText("2026-01-31T00:00:00+00:00")).toBeTruthy();
   });
 
+  it("renders objective-specific next-best options as alternatives rather than a batch", () => {
+    const slate = structuredClone(evidence);
+    const dossier = slate.artifacts?.[0] as Record<string, unknown>;
+    dossier.D04_experiment_proposal = {
+      status: "PROPOSED", design: "objective-specific sequential experiment alternatives",
+      strategy: "next_best_multiobjective", run_count: 0, runs: [], executed: false,
+      factors: ["pressure"], selection_policy: "one separately screened setting per declared objective; no combined score",
+      objective_statement: "Offer separate outcome-specific alternatives.",
+      qualification: "Values have objective-specific units and are not jointly probabilistic.",
+      run_options: [
+        { option_id: "OBJECTIVE-1", objective_metric: "yield", objective_direction: "maximize", objective_unit: "index",
+          settings: { pressure: 1.5 }, expected_improvement: 0.3,
+          prediction: { estimate: 88.1, mean_standard_error: 0.2, predictive_interval95: [87.7, 88.5] },
+          constraint_predictions: { safety: { status: "MODEL_INTERVAL_WITHIN_SUPPLIED_BOUNDS", predictive_interval95: [0.1, 0.2] } },
+          support: { nearest_normalized_distance: 0.1, nearby_observation_count: 80 },
+          grouped_surface_validation: { evaluation_group_count: 20, independent_evaluation: { rmse: 0.4 } } },
+        { option_id: "OBJECTIVE-2", objective_metric: "defect", objective_direction: "minimize", objective_unit: "rate",
+          settings: { pressure: 2.5 }, expected_improvement: 0.02,
+          prediction: { estimate: 1.8, mean_standard_error: 0.03, predictive_interval95: [1.74, 1.86] },
+          support: { nearest_normalized_distance: 0.12, nearby_observation_count: 75 },
+          grouped_surface_validation: { evaluation_group_count: 20, independent_evaluation: { rmse: 0.08 } } },
+      ],
+    };
+    render(<P4Panel sourcePreview={sourcePreview} evidence={slate} />);
+    const d04 = screen.getByRole("region", { name: "D04 · Next experiment proposal" });
+    expect(within(d04).getByText(/Objective-specific alternatives: 2; each is one proposed run/)).toBeTruthy();
+    const table = within(d04).getByRole("table", { name: /Objective-specific single-run alternatives/ });
+    expect(within(table).getByRole("columnheader", { name: "Expected improvement in objective units" })).toBeTruthy();
+    expect(within(table).getByRole("row", { name: /yield.*maximize; index.*1.5.*0.3/ })).toBeTruthy();
+    expect(within(table).getByRole("row", { name: /defect.*minimize; rate.*2.5.*0.02/ })).toBeTruthy();
+    expect(within(table).getByText(/safety.*MODEL_INTERVAL_WITHIN_SUPPLIED_BOUNDS/)).toBeTruthy();
+    expect(within(d04).queryByRole("table", { name: "Proposed run order for engineer review" })).toBeNull();
+    expect(within(d04).getByText(/no combined score/)).toBeTruthy();
+  });
+
   it("shows pending external bound qualification and never labels observational DiD causal", () => {
     const conditionalEvidence = structuredClone(evidence);
     const artifact = conditionalEvidence.artifacts?.[0] as Record<string, unknown>;

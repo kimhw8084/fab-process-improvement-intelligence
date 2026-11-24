@@ -382,13 +382,16 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
 
 function D04Section({ result }: { result?: JsonObject }) {
   const runs = asList(result?.runs).map(asObject);
+  const runOptions = asList(result?.run_options).map(asObject);
   const factors = asList(result?.factors).map((item) => typeof item === "string" ? { name: item } : asObject(item));
   const groupedValidation = asObject(result?.grouped_surface_validation);
   const validationSplit = asObject(groupedValidation.validation_split);
   const independentEvaluation = asObject(groupedValidation.independent_evaluation);
   return <section id="p4-d04" aria-labelledby="p4-d04-heading">
     <h3 id="p4-d04-heading">D04 · Next experiment proposal</h3>
-    <p>Status: <Status value={result?.status} />. Proposed runs: {text(result?.run_count)}. Executed: {text(result?.executed)}.</p>
+    <p>Status: <Status value={result?.status} />. {runOptions.length > 0
+      ? <>Objective-specific alternatives: {runOptions.length}; each is one proposed run. Select at most one after review.</>
+      : <>Proposed runs: {text(result?.run_count)}.</>} Executed: {text(result?.executed)}.</p>
     <p>{text(result?.qualification || result?.reason)} No equipment command is issued by this module.</p>
     <KeyValueTable label="Design and authorization requirements" value={{ design: result?.design, objective: result?.objective,
       factor_definitions: result?.factor_definitions, information_value: result?.information_value,
@@ -397,7 +400,8 @@ function D04Section({ result }: { result?: JsonObject }) {
       constraint_evaluation: result?.constraint_evaluation, objective_statement: result?.objective_statement,
       candidate_evidence: result?.candidate_evidence,
       reference_factors: result?.reference_factors, required_engineer_review: result?.required_engineer_review,
-      evidence_required_before_next_iteration: result?.evidence_required_before_next_iteration }} />
+      evidence_required_before_next_iteration: result?.evidence_required_before_next_iteration,
+      selection_policy: result?.selection_policy, common_validation_scope: result?.common_validation_scope }} />
     {Object.keys(groupedValidation).length > 0 && <KeyValueTable label="Sequential model and holdout validation" value={{
       method: groupedValidation.method, split_type: validationSplit.type,
       split_reference_status: validationSplit.split_reference_status,
@@ -409,12 +413,35 @@ function D04Section({ result }: { result?: JsonObject }) {
       evaluation_rmse: independentEvaluation.rmse,
       engineer_specified_maximum_rmse: groupedValidation.engineer_specified_maximum_rmse,
     }} />}
-    <table>
+    {runOptions.length > 0 ? <table>
+      <caption>Objective-specific single-run alternatives for engineer review; alternatives are not a batch</caption>
+      <thead><tr><th scope="col">Objective</th><th scope="col">Direction and unit</th>{factors.map((factor) => <th scope="col" key={text(factor.name)}>{text(factor.name)}</th>)}
+        <th scope="col">Expected improvement in objective units</th><th scope="col">Predicted estimate and mean SE</th><th scope="col">Marginal prediction interval</th><th scope="col">Hard constraint interval screen</th><th scope="col">Untouched grouped holdout RMSE</th><th scope="col">Support screen</th></tr></thead>
+      <tbody>{runOptions.map((option, index) => {
+        const settings = asObject(option.settings);
+        const prediction = asObject(option.prediction);
+        const validation = asObject(option.grouped_surface_validation);
+        const evaluation = asObject(validation.independent_evaluation);
+        const support = asObject(option.support);
+        const constraintPredictions = asObject(option.constraint_predictions);
+        return <tr key={`${text(option.option_id)}-${index}`}>
+          <th scope="row">{text(option.objective_metric)}</th>
+          <td>{text(option.objective_direction)}; {text(option.objective_unit)}</td>
+          {factors.map((factor) => <td key={text(factor.name)}>{text(settings[text(factor.name)])}</td>)}
+          <td>{text(option.expected_improvement)}</td>
+          <td>{text(prediction.estimate)}; mean SE {text(prediction.mean_standard_error)}</td>
+          <td>{text(prediction.predictive_interval95)}</td>
+          <td>{Object.keys(constraintPredictions).length > 0 ? text(constraintPredictions) : "No hard constraints requested"}</td>
+          <td>{text(evaluation.rmse)}; {text(validation.evaluation_group_count)} independent units</td>
+          <td>Nearest normalized distance {text(support.nearest_normalized_distance)}; nearby observations {text(support.nearby_observation_count)}</td>
+        </tr>;
+      })}</tbody>
+    </table> : <table>
       <caption>Proposed run order for engineer review</caption>
       <thead><tr><th scope="col">Run order</th><th scope="col">Block</th><th scope="col">Arm</th><th scope="col">Order within block</th><th scope="col">Replicate</th>{factors.map((factor) => <th scope="col" key={text(factor.name)}>{text(factor.name)}</th>)}</tr></thead>
       <tbody>{runs.map((run, index) => <tr key={`${text(run.run_order)}-${index}`}><th scope="row">{text(run.run_order)}</th><td>{text(run.block)}</td><td>{text(run.arm)}</td><td>{text(run.order_within_block)}</td><td>{text(run.replicate)}</td>
         {factors.map((factor) => <td key={text(factor.name)}>{text(run[text(factor.name)])}</td>)}</tr>)}</tbody>
-    </table>
+    </table>}
   </section>;
 }
 

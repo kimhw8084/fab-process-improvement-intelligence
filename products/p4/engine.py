@@ -12,7 +12,8 @@ from fabintel.contracts import claim, envelope, validate_envelope
 from products.p4.regression import fit_linear_model, critical_t_975, ModelError, RegressionCancelled
 from products.p4.window import explore_window, WindowError
 from products.p4.tradeoffs import cross_step_tradeoffs, observed_tradeoffs
-from products.p4.design import assign_blocks, propose_design, propose_window_confirmation
+from products.p4.design import (assign_blocks, propose_design, propose_multiobjective_next_best,
+                                propose_window_confirmation, DesignError)
 
 ENGINE_VERSION = "1.2.2"
 MAX_ROWS = 5_000
@@ -410,7 +411,11 @@ def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metr
                 "run_count": 0, "runs": [], "executed": False, "actuation": "none"}
 
     metric_names = []
-    if strategy in ("next_best", "confirm_window_candidate"):
+    if strategy == "next_best_multiobjective":
+        for item in data.get("objectives", []):
+            if isinstance(item, dict) and item.get("metric") in metric_defs:
+                metric_names.append(item["metric"])
+    elif strategy in ("next_best", "confirm_window_candidate"):
         target = spec.get("target_metric")
         if isinstance(target, str) and target in metric_defs:
             metric_names.append(target)
@@ -448,7 +453,14 @@ def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metr
     factor_definitions = [{"name": name, "unit": fdefs[name].get("unit", "unspecified"),
                            "approved_bounds": list(bounds[name]), "role": fdefs[name].get("role", "controllable")}
                           for name in plan.get("factors", []) if name in fdefs and name in bounds]
-    if "expected_improvement" in plan:
+    if isinstance(plan.get("run_options"), list):
+        information = {"status": "OBJECTIVE_SPECIFIC_MODEL_ADVISORY",
+                       "alternatives": [{"metric": item["objective_metric"],
+                                         "unit": item["objective_unit"],
+                                         "expected_improvement": item["expected_improvement"]}
+                                        for item in plan["run_options"]],
+                       "qualification": "objective-specific expected improvements have different units; no joint probability or combined value is estimated"}
+    elif "expected_improvement" in plan:
         information = {"status": "MODEL_BASED_ADVISORY", "method": plan.get("acquisition"),
                        "value": plan.get("expected_improvement"),
                        "qualification": "depends on the supplied response model, grouped validation, support screen, and stated assumptions; not a guarantee"}
@@ -460,7 +472,17 @@ def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metr
         information = {"status": "NOT_ESTIMATED", "value": None,
                        "reason": "the supplied design specification does not support a power or response-information estimate"}
 
-    if isinstance(plan.get("prediction"), dict):
+    if isinstance(plan.get("run_options"), list):
+        uncertainty = {"status": "SEPARATE_OBJECTIVE_MODELS",
+                       "alternatives": [{"metric": item["objective_metric"],
+                                         "prediction": item["prediction"],
+                                         "constraint_evaluation": item.get("constraint_evaluation", {}),
+                                         "constraint_predictions": item.get("constraint_predictions", {}),
+                                         "grouped_validation": item["grouped_surface_validation"],
+                                         "support": item["support"]}
+                                        for item in plan["run_options"]],
+                       "qualification": "each alternative has its own grouped holdout and support screen; competing metric responses at each setting are not predicted here"}
+    elif isinstance(plan.get("prediction"), dict):
         uncertainty = {"status": plan["prediction"].get("status", "MODEL_ESTIMATE"),
                       "prediction": plan["prediction"],
                       "grouped_validation": plan.get("grouped_surface_validation"),
@@ -473,6 +495,8 @@ def _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, metr
     review.extend(["confirm the engineering objective, metric direction and constraints",
                    "verify each factor unit and approved bound against the authorized process window",
                    "review design assumptions, randomization, blocking, run budget and operational feasibility"])
+    if isinstance(plan.get("run_options"), list):
+        review.append("review competing objective outcomes at each proposed setting and select at most one alternative; this slate does not predict those competing outcomes")
     evidence = list(plan.get("evidence_required_before_next_iteration", []))
     evidence.extend(["record assigned and executed run order, block, replicate, deviations and failed runs",
                      "retain measurements at the declared observation grain with metric units and measurement method",
@@ -506,6 +530,16 @@ def _experiment_design(fdefs, data, rows=None, mdefs=None, process_window=None, 
     if strategy == "confirm_window_candidate":
         plan = propose_window_confirmation(process_window, controls, bounds, spec,
                                            data.get("forbidden_regions", []), mdefs or {}, cancel)
+        return _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, mdefs or {})
+    if strategy == "next_best_multiobjective":
+        try:
+            plan = propose_multiobjective_next_best(
+                controls, bounds, spec, data.get("forbidden_regions", []), rows or [],
+                data.get("objectives"), mdefs or {}, data.get("model", {}), cancel)
+        except DesignError as exc:
+            plan = {"status": "REFUSED", "design": "objective-specific sequential experiment alternatives",
+                    "strategy": strategy, "reason": str(exc), "run_count": 0, "runs": [],
+                    "run_options": [], "alternative_count": 0, "executed": False, "actuation": "none"}
         return _qualify_experiment_proposal(plan, strategy, spec, data, fdefs, bounds, mdefs or {})
     if strategy != "full_factorial":
         plan = propose_design(strategy, controls, bounds, spec, data.get("forbidden_regions", []),
@@ -1541,7 +1575,10 @@ def analyze(data: dict[str, Any], *, cancel=None):
     elif tradeoffs.get("status") in ("LIMITED_SCOPE", "REFUSED") and (len(mdefs) > 1 or data.get("multi_step") is True):
         partial = True
     if doe.get("status") == "PROPOSED":
-        claims.append(claim(f"A non-executing {doe['design']} proposal contains {doe['run_count']} runs.",
+        statement = (f"A non-executing {doe['design']} slate contains {doe['alternative_count']} objective-specific one-run alternatives; no combined preference was inferred."
+                     if isinstance(doe.get("run_options"), list) else
+                     f"A non-executing {doe['design']} proposal contains {doe['run_count']} runs.")
+        claims.append(claim(statement,
                             category="DESCRIPTIVE", method=doe.get("claim_method", "seeded_factorial_design"), source_ids=source_ids,
                             certainty="CONDITIONAL"))
     elif doe.get("status") == "REFUSED":

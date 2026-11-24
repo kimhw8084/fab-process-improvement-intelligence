@@ -325,6 +325,34 @@ class P4IndependentChallenges(unittest.TestCase):
         request["experiment_design"]["run_budget"] = 2
         self.assertEqual(dossier(analyze(request))["D04_experiment_proposal"]["status"], "REFUSED")
 
+    def test_multiobjective_next_best_runs_as_shared_dossier_alternatives(self):
+        request = copy.deepcopy(self.full)
+        request["experiment_design"] = {
+            "strategy": "next_best_multiobjective", "run_budget": 1, "blocks": 1,
+            "seed": 13, "validation_seed": 17, "candidate_levels": 7,
+            "independent_unit_field": "lot_id", "min_independent_units": 30,
+            "validation_min_training_groups": 30, "validation_fraction": 0.2,
+            "maximum_grouped_validation_rmse": 1.0,
+            "fixed_effects": {"chamber": "SYN-CH-A"},
+            "objective_statement": "Offer separate one-run alternatives for the two supplied outcomes.",
+        }
+        result = analyze(request)
+        proposal = dossier(result)["D04_experiment_proposal"]
+        self.assertEqual(proposal["status"], "PROPOSED", proposal.get("reason"))
+        self.assertEqual(proposal["run_count"], 0)
+        self.assertEqual(proposal["alternative_count"], 2)
+        self.assertEqual([item["objective_metric"] for item in proposal["run_options"]],
+                         ["yield_index", "defect_rate"])
+        self.assertEqual(proposal["objective"]["selection_policy"],
+                         "separate objectives; no scalar weighting or tradeoff preference is inferred")
+        self.assertEqual(proposal["information_value"]["status"], "OBJECTIVE_SPECIFIC_MODEL_ADVISORY")
+        self.assertEqual(proposal["pre_execution_uncertainty"]["status"], "SEPARATE_OBJECTIVE_MODELS")
+        self.assertTrue(any("select at most one alternative" in item
+                            for item in proposal["required_engineer_review"]))
+        self.assertFalse(proposal["executed"])
+        self.assertEqual(proposal["actuation"], "none")
+        self.assertTrue(any("alternatives" in item["statement"] for item in result["claims"]))
+
     def test_doe_refuses_when_no_engineering_objective_is_supplied(self):
         request = copy.deepcopy(self.full)
         request["objective"] = "   "

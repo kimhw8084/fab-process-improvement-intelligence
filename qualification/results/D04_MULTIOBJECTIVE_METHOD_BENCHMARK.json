@@ -1,0 +1,3035 @@
+{
+  "benchmark_script_sha256": "a8598558a37c59929feaaada1401b836a28f15c9e6b80d922a7e3a3a5ca4a95f",
+  "environment": {
+    "gpytorch": "1.15.2",
+    "linear_operator": "0.6.1",
+    "numpy": "2.4.6",
+    "python": "3.11.7",
+    "scipy": "1.17.1",
+    "torch": "2.15.0"
+  },
+  "initial_design": {
+    "independent_lots_per_setting": 12,
+    "levels": [
+      0.0,
+      0.25,
+      1.0
+    ]
+  },
+  "limitations": [
+    "two synthetic objective surfaces do not represent fab outcomes or operational cost",
+    "the hidden_alias surface is exactly unidentifiable on the initial 3x3 design; no method can infer its unobserved term from those rows",
+    "BoTorch receives the generator's known replicate noise variance, which is extra information unavailable to P4",
+    "the P4 slate contains one option per objective and does not estimate competing outcomes at each setting; oracle-best slate hypervolume is an unattainable evaluation upper bound, not the product's decision rule",
+    "one-step latent hypervolume gain is not a posterior guarantee, production safety claim, or engineer ROI",
+    "BoTorch is benchmark-only; no runtime dependency or product selection change is implied"
+  ],
+  "methods": {
+    "botorch_qlognehvi": {
+      "acquisition": "qLogNoisyExpectedHypervolumeImprovement; 128 Sobol MC samples; finite 21x21 candidate grid",
+      "known_noise_variance_supplied": true,
+      "package": "botorch",
+      "version": "0.18.1"
+    },
+    "maximin": {
+      "method": "deterministic maximin distance to the initial design on the same candidate grid"
+    },
+    "p4_objective_specific_slate": {
+      "method": "one independently grouped-validated single-objective expected-improvement option per objective; no joint covariance or scalar preference",
+      "runtime_dependency_added": false
+    },
+    "p4_target_constraint": {
+      "method": "current P4 grouped-holdout quadratic one-step EI with quality target and defect bound"
+    }
+  },
+  "objective": "single proposed run's exact latent two-objective hypervolume gain against the initial finite design; maximize quality and yield index; fixed reference point [0.2,0.2]",
+  "p4_objective_specific_slate": {
+    "hidden_alias": {
+      "accepted_trials": 30,
+      "alternatives_per_trial": 2,
+      "by_objective": {
+        "defect": {
+          "candidate_settings": [
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ]
+          ],
+          "mean_latent_hypervolume_gain": 0.03331432406498477,
+          "option_count": 30
+        },
+        "quality": {
+          "candidate_settings": [
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ]
+          ],
+          "mean_latent_hypervolume_gain": 0.028140649578398333,
+          "option_count": 30
+        }
+      },
+      "mean_oracle_best_option_hv_upper_bound": 0.036409201705752285,
+      "median_selection_seconds": 0.11044181184843183,
+      "p95_selection_seconds": 0.1170084998011589,
+      "trial_options": [
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03917815463173407,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.013148279276095196,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261124,
+          "selection_seconds": 0.10702587477862835
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03546592319512015,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.030299793105807615,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261125,
+          "selection_seconds": 0.10863225068897009
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.051108443925776514,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.024905475401599816,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261126,
+          "selection_seconds": 0.10927900020033121
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04030093269339148,
+              "latent_hypervolume_gain": 0.031113912720000025,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02552611187905763,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261127,
+          "selection_seconds": 0.10747912526130676
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04267882774442543,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.022723175571664103,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261128,
+          "selection_seconds": 0.10894037503749132
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.028849599754489988,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.023316849076422997,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261129,
+          "selection_seconds": 0.10951399989426136
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04465709326887624,
+              "latent_hypervolume_gain": 0.031113912720000025,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.026588051959379005,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261130,
+          "selection_seconds": 0.1066671246662736
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.043354473578673954,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.0220255336457764,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261131,
+          "selection_seconds": 0.110296749509871
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.02736165356953892,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.028832769821571968,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261132,
+          "selection_seconds": 0.11191466636955738
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03761250140723564,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.023192728620037944,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261133,
+          "selection_seconds": 0.11045770719647408
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.050818863297092315,
+              "latent_hypervolume_gain": 0.031113912720000025,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02589502267541139,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261134,
+          "selection_seconds": 0.11255870945751667
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.027411380654262914,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02431849791798184,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261135,
+          "selection_seconds": 0.1109992079436779
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.027764374539034607,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.020930246638337476,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261136,
+          "selection_seconds": 0.10982383228838444
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04653725261045394,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.026011224566299094,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261137,
+          "selection_seconds": 0.10967400018125772
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.026937775769818005,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.026734382957915706,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261138,
+          "selection_seconds": 0.11046854127198458
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03195781723548192,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.01830782988627179,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261139,
+          "selection_seconds": 0.10866683442145586
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.034810582446125865,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.018144032914375368,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261140,
+          "selection_seconds": 0.11143120843917131
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.02899449600026598,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.016219482673456246,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261141,
+          "selection_seconds": 0.1170084998011589
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.030818846128258554,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.01661457701649051,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261142,
+          "selection_seconds": 0.11762312520295382
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.020860606261446885,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.011055180726886653,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261143,
+          "selection_seconds": 0.11671866662800312
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.031111060291398266,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02472091689825003,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261144,
+          "selection_seconds": 0.11534787528216839
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04524707209881165,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.016215938237038475,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261145,
+          "selection_seconds": 0.11063358280807734
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.038195070584353716,
+              "latent_hypervolume_gain": 0.031113912720000025,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02837057763538277,
+              "latent_hypervolume_gain": 0.03408948659100569,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261146,
+          "selection_seconds": 0.110790790989995
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.038702633812996094,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.014540465223735404,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261147,
+          "selection_seconds": 0.11042591650038958
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.045993641421601686,
+              "latent_hypervolume_gain": 0.031113912720000025,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.033737826821119886,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261148,
+          "selection_seconds": 0.111563959158957
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.047643022039015666,
+              "latent_hypervolume_gain": 0.031113912720000025,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.018100739491316197,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261149,
+          "selection_seconds": 0.10965387430042028
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.029893131494526447,
+              "latent_hypervolume_gain": 0.017445990477590156,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.019383243793728043,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261150,
+          "selection_seconds": 0.10962741635739803
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03862260293784906,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.014287189903667622,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261151,
+          "selection_seconds": 0.10920458380132914
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.02096781968865775,
+              "latent_hypervolume_gain": 0.025759290776881882,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.020133087541097022,
+              "latent_hypervolume_gain": 0.017063851122687157,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261152,
+          "selection_seconds": 0.11104937549680471
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.05213304613857592,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.020158072152825373,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261153,
+          "selection_seconds": 0.11319866683334112
+        }
+      ]
+    },
+    "smooth_tradeoff": {
+      "accepted_trials": 30,
+      "alternatives_per_trial": 2,
+      "by_objective": {
+        "defect": {
+          "candidate_settings": [
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.8,
+              0.2
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ],
+            [
+              0.85,
+              0.25
+            ],
+            [
+              0.85,
+              0.2
+            ],
+            [
+              0.8,
+              0.25
+            ]
+          ],
+          "mean_latent_hypervolume_gain": 0.037020078424000014,
+          "option_count": 30
+        },
+        "quality": {
+          "candidate_settings": [
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.15,
+              0.75
+            ],
+            [
+              0.15,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.8
+            ],
+            [
+              0.2,
+              0.75
+            ]
+          ],
+          "mean_latent_hypervolume_gain": 0.031887151871999996,
+          "option_count": 30
+        }
+      },
+      "mean_oracle_best_option_hv_upper_bound": 0.038540688984,
+      "median_selection_seconds": 0.10843452112749219,
+      "p95_selection_seconds": 0.11168745812028646,
+      "trial_options": [
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03917815463173407,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.013148279276095196,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261124,
+          "selection_seconds": 0.1057963753119111
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03546592319512015,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.030299793105807615,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261125,
+          "selection_seconds": 0.10849154181778431
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.051108443925776514,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.024905475401599816,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261126,
+          "selection_seconds": 0.10848770849406719
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04030093269339148,
+              "latent_hypervolume_gain": 0.03111391271999997,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02552611187905763,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261127,
+          "selection_seconds": 0.10741945914924145
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04267882774442543,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.022723175571664103,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261128,
+          "selection_seconds": 0.10882816649973392
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.028849599754489988,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.023316849076422997,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261129,
+          "selection_seconds": 0.10818087495863438
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04465709326887624,
+              "latent_hypervolume_gain": 0.03111391271999997,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.026588051959379005,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261130,
+          "selection_seconds": 0.10819187480956316
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.043354473578673954,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.0220255336457764,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261131,
+          "selection_seconds": 0.10765808448195457
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.02736165356953892,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.028832769821571968,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261132,
+          "selection_seconds": 0.10669699963182211
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03761250140723564,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.023192728620037944,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261133,
+          "selection_seconds": 0.10801341664046049
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.050818863297092315,
+              "latent_hypervolume_gain": 0.03111391271999997,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02589502267541139,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261134,
+          "selection_seconds": 0.10788575001060963
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.027411380654262914,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02431849791798184,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261135,
+          "selection_seconds": 0.1085717910900712
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.027764374539034607,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.020930246638337476,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261136,
+          "selection_seconds": 0.10765133332461119
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04653725261045394,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.026011224566299094,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261137,
+          "selection_seconds": 0.10758304037153721
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.026937775769818005,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.026734382957915706,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261138,
+          "selection_seconds": 0.11078841518610716
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03195781723548192,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.01830782988627179,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261139,
+          "selection_seconds": 0.10990641731768847
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.034810582446125865,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.018144032914375368,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261140,
+          "selection_seconds": 0.11071270797401667
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.02899449600026598,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.016219482673456246,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261141,
+          "selection_seconds": 0.1113732922822237
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.030818846128258554,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.01661457701649051,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261142,
+          "selection_seconds": 0.11258704215288162
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.020860606261446885,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.011055180726886653,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261143,
+          "selection_seconds": 0.11168745812028646
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.031111060291398266,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02472091689825003,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261144,
+          "selection_seconds": 0.10734274983406067
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.04524707209881165,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.016215938237038475,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261145,
+          "selection_seconds": 0.10806870739907026
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.038195070584353716,
+              "latent_hypervolume_gain": 0.03111391271999997,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.02837057763538277,
+              "latent_hypervolume_gain": 0.03740990759999996,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261146,
+          "selection_seconds": 0.10838133376091719
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.038702633812996094,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.014540465223735404,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261147,
+          "selection_seconds": 0.10930108278989792
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.045993641421601686,
+              "latent_hypervolume_gain": 0.03111391271999997,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.033737826821119886,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261148,
+          "selection_seconds": 0.10778625030070543
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.047643022039015666,
+              "latent_hypervolume_gain": 0.03111391271999997,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.018100739491316197,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261149,
+          "selection_seconds": 0.10753258317708969
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.029893131494526447,
+              "latent_hypervolume_gain": 0.02390240255999998,
+              "objective_metric": "quality",
+              "setting": [
+                0.15,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.019383243793728043,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261150,
+          "selection_seconds": 0.10849745851010084
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.03862260293784906,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.014287189903667622,
+              "latent_hypervolume_gain": 0.035878047120000034,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261151,
+          "selection_seconds": 0.10861191712319851
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.02096781968865775,
+              "latent_hypervolume_gain": 0.03247930920000003,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.8
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.020133087541097022,
+              "latent_hypervolume_gain": 0.027640008960000073,
+              "objective_metric": "defect",
+              "setting": [
+                0.85,
+                0.2
+              ]
+            }
+          ],
+          "seed": 20261152,
+          "selection_seconds": 0.11093712504953146
+        },
+        {
+          "options": [
+            {
+              "direction": "maximize",
+              "expected_improvement": 0.05213304613857592,
+              "latent_hypervolume_gain": 0.03968873855999999,
+              "objective_metric": "quality",
+              "setting": [
+                0.2,
+                0.75
+              ]
+            },
+            {
+              "direction": "minimize",
+              "expected_improvement": 0.020158072152825373,
+              "latent_hypervolume_gain": 0.045645864960000004,
+              "objective_metric": "defect",
+              "setting": [
+                0.8,
+                0.25
+              ]
+            }
+          ],
+          "seed": 20261153,
+          "selection_seconds": 0.10877829231321812
+        }
+      ]
+    }
+  },
+  "p4_refusals": {
+    "hidden_alias": {},
+    "smooth_tradeoff": {}
+  },
+  "paired_comparisons": {
+    "hidden_alias_slate_oracle_upper_bound_vs_botorch_qlognehvi": {
+      "oracle_best_slate_option_higher_gain_count": 0,
+      "oracle_best_slate_option_higher_gain_fraction": 0.0,
+      "oracle_best_slate_option_higher_gain_wilson95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "paired_seed_count": 30
+    },
+    "hidden_alias_slate_oracle_upper_bound_vs_maximin": {
+      "oracle_best_slate_option_higher_gain_count": 0,
+      "oracle_best_slate_option_higher_gain_fraction": 0.0,
+      "oracle_best_slate_option_higher_gain_wilson95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "paired_seed_count": 30
+    },
+    "hidden_alias_slate_oracle_upper_bound_vs_p4_target_constraint": {
+      "oracle_best_slate_option_higher_gain_count": 16,
+      "oracle_best_slate_option_higher_gain_fraction": 0.5333333333333333,
+      "oracle_best_slate_option_higher_gain_wilson95": [
+        0.36142299619873297,
+        0.6976761109230025
+      ],
+      "paired_seed_count": 30
+    },
+    "hidden_alias_vs_maximin": {
+      "botorch_higher_gain_count": 1,
+      "botorch_higher_gain_fraction": 0.03333333333333333,
+      "botorch_higher_gain_wilson95": [
+        0.005908590381612455,
+        0.16670390991409173
+      ],
+      "paired_seed_count": 30
+    },
+    "hidden_alias_vs_p4_target_constraint": {
+      "botorch_higher_gain_count": 30,
+      "botorch_higher_gain_fraction": 1.0,
+      "botorch_higher_gain_wilson95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ],
+      "paired_seed_count": 30
+    },
+    "smooth_tradeoff_slate_oracle_upper_bound_vs_botorch_qlognehvi": {
+      "oracle_best_slate_option_higher_gain_count": 0,
+      "oracle_best_slate_option_higher_gain_fraction": 0.0,
+      "oracle_best_slate_option_higher_gain_wilson95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "paired_seed_count": 30
+    },
+    "smooth_tradeoff_slate_oracle_upper_bound_vs_maximin": {
+      "oracle_best_slate_option_higher_gain_count": 0,
+      "oracle_best_slate_option_higher_gain_fraction": 0.0,
+      "oracle_best_slate_option_higher_gain_wilson95": [
+        0.0,
+        0.11351339317396876
+      ],
+      "paired_seed_count": 30
+    },
+    "smooth_tradeoff_slate_oracle_upper_bound_vs_p4_target_constraint": {
+      "oracle_best_slate_option_higher_gain_count": 17,
+      "oracle_best_slate_option_higher_gain_fraction": 0.5666666666666667,
+      "oracle_best_slate_option_higher_gain_wilson95": [
+        0.3919730700081361,
+        0.7262251442353347
+      ],
+      "paired_seed_count": 30
+    },
+    "smooth_tradeoff_vs_maximin": {
+      "botorch_higher_gain_count": 30,
+      "botorch_higher_gain_fraction": 1.0,
+      "botorch_higher_gain_wilson95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ],
+      "paired_seed_count": 30
+    },
+    "smooth_tradeoff_vs_p4_target_constraint": {
+      "botorch_higher_gain_count": 30,
+      "botorch_higher_gain_fraction": 1.0,
+      "botorch_higher_gain_wilson95": [
+        0.8864866068260312,
+        0.9999999999999999
+      ],
+      "paired_seed_count": 30
+    }
+  },
+  "product_source_sha256": {
+    "products/p4/design.py": "d596968e3465e649d0553636342f9983c0adc564ea2ab8185404769a98720488",
+    "products/p4/regression.py": "ea0495dccfa3aa0ccab88030baf159edec312e3beeac8de8cf38f65ecbb0fded"
+  },
+  "qualification": "EVALUATION_ONLY",
+  "results": {
+    "hidden_alias": {
+      "botorch_qlognehvi": {
+        "acceptance_fraction": 1.0,
+        "accepted_trials": 30,
+        "candidate_settings": [
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.55,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.55,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.6,
+            0.35
+          ],
+          [
+            0.5,
+            0.5
+          ]
+        ],
+        "mean_latent_hypervolume_gain": 0.08085300728962982,
+        "median_latent_hypervolume_gain": 0.08128992000000002,
+        "median_selection_seconds": 0.10612479085102677,
+        "p95_latent_hypervolume_gain": 0.08128992000000002,
+        "p95_selection_seconds": 0.1787675004452467
+      },
+      "maximin": {
+        "acceptance_fraction": 1.0,
+        "accepted_trials": 30,
+        "candidate_settings": [
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ]
+        ],
+        "mean_latent_hypervolume_gain": 0.08273348337352648,
+        "median_latent_hypervolume_gain": 0.08273348337352648,
+        "median_selection_seconds": 0.00039125001057982445,
+        "p95_latent_hypervolume_gain": 0.08273348337352648,
+        "p95_selection_seconds": 0.0004425002261996269
+      },
+      "p4_target_constraint": {
+        "acceptance_fraction": 1.0,
+        "accepted_trials": 30,
+        "candidate_settings": [
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.8
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.15,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ]
+        ],
+        "mean_latent_hypervolume_gain": 0.03138345933269603,
+        "median_latent_hypervolume_gain": 0.031113912720000025,
+        "median_selection_seconds": 0.06718479236587882,
+        "p95_latent_hypervolume_gain": 0.03968873855999999,
+        "p95_selection_seconds": 0.07086300011724234
+      }
+    },
+    "smooth_tradeoff": {
+      "botorch_qlognehvi": {
+        "acceptance_fraction": 1.0,
+        "accepted_trials": 30,
+        "candidate_settings": [
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.55,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.55,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.45
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.5,
+            0.5
+          ],
+          [
+            0.6,
+            0.35
+          ],
+          [
+            0.5,
+            0.5
+          ]
+        ],
+        "mean_latent_hypervolume_gain": 0.08052473277333334,
+        "median_latent_hypervolume_gain": 0.08128992000000002,
+        "median_selection_seconds": 0.10066483309492469,
+        "p95_latent_hypervolume_gain": 0.08128992000000002,
+        "p95_selection_seconds": 0.12829408328980207
+      },
+      "maximin": {
+        "acceptance_fraction": 1.0,
+        "accepted_trials": 30,
+        "candidate_settings": [
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ],
+          [
+            0.6,
+            0.6
+          ]
+        ],
+        "mean_latent_hypervolume_gain": 0.06741607039999997,
+        "median_latent_hypervolume_gain": 0.06741607039999997,
+        "median_selection_seconds": 0.00036760373041033745,
+        "p95_latent_hypervolume_gain": 0.06741607039999997,
+        "p95_selection_seconds": 0.00039029214531183243
+      },
+      "p4_target_constraint": {
+        "acceptance_fraction": 1.0,
+        "accepted_trials": 30,
+        "candidate_settings": [
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.8
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.15,
+            0.75
+          ],
+          [
+            0.15,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ],
+          [
+            0.2,
+            0.8
+          ],
+          [
+            0.2,
+            0.75
+          ]
+        ],
+        "mean_latent_hypervolume_gain": 0.03427789356,
+        "median_latent_hypervolume_gain": 0.03247930920000003,
+        "median_selection_seconds": 0.06605422915890813,
+        "p95_latent_hypervolume_gain": 0.03968873855999999,
+        "p95_selection_seconds": 0.0675731673836708
+      }
+    }
+  },
+  "schema": "p4-d04-multiobjective-method-benchmark/v1",
+  "seed": 20261124,
+  "source_sha256": "a8598558a37c59929feaaada1401b836a28f15c9e6b80d922a7e3a3a5ca4a95f",
+  "surface_families": [
+    "smooth_tradeoff",
+    "hidden_alias"
+  ],
+  "trials_per_surface": 30
+}

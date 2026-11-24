@@ -46,6 +46,12 @@ class SourceContractTests(unittest.TestCase):
         self.assertEqual(contract["properties"]["training_end"]["format"], "date-time")
         self.assertEqual(contract["properties"]["evaluation_start"]["format"], "date-time")
 
+    def test_schema_registers_objective_specific_next_best_strategy(self):
+        schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        strategies = schema["properties"]["experiment_design"]["properties"]["strategy"]["enum"]
+        self.assertIn("next_best_multiobjective", strategies)
+        self.assertEqual(schema["properties"]["objectives"]["items"]["required"], ["metric", "direction"])
+
     def test_d03_t_envelope_requires_exact_precommitted_setting_and_objective_family(self):
         schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
         contract = schema["properties"]["familywise_t_precommit"]

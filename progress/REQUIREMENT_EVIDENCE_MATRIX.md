@@ -1,3 +1,12 @@
+# Latest requirement evidence — D04 objective-specific next-run slate (2026-11-24)
+
+| Requirement | Current executed evidence | Status / next action |
+|---|---|---|
+| D04 multiobjective next-best | `next_best_multiobjective` returns one objective-specific single-run EI option per declared objective (2–4), using the same independent-unit holdout, local support and explicit optional hard-constraint screening. Shared P1 panel renders a semantic alternatives table with estimates, intervals, holdout RMSE and support. If one objective fails, the slate is withheld. | Implemented as transparent review support; no joint covariance/probability, combined score or competing-outcome predictions. Engineer selects at most one. |
+| OSS method comparison | Fixed independent 30-seed surfaces compared BoTorch 0.18.1 qLogNEHVI, P4 target+constraint EI, P4 slate and maximin. Mean exact latent HV smooth: 0.080525 / 0.034278 / 0.038541 slate oracle upper bound / 0.067416 maximin. Hidden alias: 0.080853 / 0.031383 / 0.036409 upper bound / 0.082733 maximin. BoTorch won vs maximin 30/30 smooth and 1/30 hidden alias; it received generator-known noise variance. | No general optimizer superiority shown; slate is retained only for objective-transparent engineer choice. BoTorch not included at runtime (988 MB evaluation environment; Torch 631 MB; pure-Python fallback). |
+| D04 verification | Full Python suite 247 PASS, 0 skipped; P4 component 27 PASS, strict TypeScript and P1 schema snapshot PASS. Bridge fixture rebuilt twice identically: `ba244b3eab1d467b3cde3b37729d0d12c2feaa158d554f9ea0ef6c6f29c70ee6`. | Current-source focused evidence passes; release gates, archive, reproducibility and offline extraction must be refreshed for the upcoming source commit. |
+| Release/internal scope | Prior exact archive and release report bind to source 94100f9, before this change. | No `EXTERNAL_TRANSFER_READY`; E05/E07/E08/E09/E11/E12 remain pending; no push or publication. |
+
 # Latest requirement evidence — D02 confirmation consistency guard (2026-11-24)
 
 | Requirement | Current evidence | Status / next action |
@@ -384,3 +393,12 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 | D02 candidate window | Actual-selector challenge: 250 hidden-harmonic trials; at least one selected interpolated latent-mean violation in 98.8%. Paired safe/harmful mechanisms have identical observed rows and candidate outputs. Predeclared exact-setting-panel challenge: 966/1,000 joint successes under its generator. | Interpolations remain advisory hypotheses; exact-panel evidence is assumption-conditional and does not cover interpolation or a manufacturing population. No data-only model-disagreement feature is justified. |
 | D04 validation | 100-trial temporal-shift challenge: random grouped holdout accepted 74/100; chronological holdout accepted 0/100 because later-period RMSE exceeded the engineer limit. | Caller supplies timestamp semantics and split; references are unauthenticated. Later-period validation is descriptive, not a future guarantee. |
 | Current-source release | Runner at `6182d921`: 242 PASS/0 skipped; E01/E02/E03/E04/E06 PASS after refreshing `qualification/benchmark.py`; statsmodels maximum OLS coefficient difference `2.84e-14`; P1 disposable source hashes/browser match. | E10 awaits final exact archive/rebuild/offline verification. E05/E07/E08/E09/E11/E12 remain pending; product state CANDIDATE. |
+
+## Exact candidate archive — 2026-11-24
+
+| Requirement | Executed evidence | Status / limit |
+|---|---|---|
+| Source-current release | Final runner at `94100f96e5b42ffec8068e3fe3919a3edaf68e54`: 242 Python tests PASS, 0 skipped; E01/E02/E03/E04/E06/E10 PASS. | Product status remains CANDIDATE; E05/E07/E08/E09/E11/E12 are not passed. |
+| Reproducibility | ZIP SHA-256 `011f6982d044df863ea1a2d3b030e898fdb45342c905ce56505fb34728a40310`; manifest SHA-256 `496c49fb03ac237ea172cc8256ce8585b5b81458a8552dfc3638b09a8580d1c6`; 220 files; two detached clean builds byte-identical; checksum sidecar and workspace ZIP match. | Bound to source/evidence commit `94100f9`; any packaged-source change requires rebuilding. |
+| Offline execution | Fresh ZIP extraction; 220 manifest entries verified; venv created without pip; doctor/demo/full D01-D05 synthetic workflow passed; socket probe DENIED. | macOS 26.6.2 ARM64, Python 3.11.7 only; company target OS/network policy unknown. |
+| D04 multiobjective next experiment | Current selector requires one `target_metric`; other outcomes are optional constraints. D03 can report observed Pareto tradeoffs, but D04 does not rank proposed experiments across competing objectives. | Open product-specific gap. Next: benchmark a mature offline-capable multiobjective method against an independent known-response oracle; implement only if it beats a transparent D03/D04 baseline without unsupported assumptions. |

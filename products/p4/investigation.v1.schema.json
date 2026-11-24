@@ -48,7 +48,7 @@
     "experiment_design": {
       "type": "object",
       "properties": {
-        "strategy": {"enum": ["full_factorial", "fractional_factorial", "central_composite", "latin_hypercube", "d_optimal", "next_best", "confirm_window_candidate"]},
+        "strategy": {"enum": ["full_factorial", "fractional_factorial", "central_composite", "latin_hypercube", "d_optimal", "next_best", "next_best_multiobjective", "confirm_window_candidate"]},
         "run_budget": {"type": "integer", "minimum": 1}, "replicates": {"type": "integer", "minimum": 1},
         "blocks": {"type": "integer", "minimum": 1}, "seed": {"type": "integer"},
         "center_replicates": {"type": "integer", "minimum": 2, "maximum": 100},

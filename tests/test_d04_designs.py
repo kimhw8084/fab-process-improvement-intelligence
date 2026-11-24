@@ -5,7 +5,8 @@ import unittest
 from datetime import datetime, timedelta, timezone
 
 from qualification.benchmark_d04_aliasing import run_benchmark as run_aliasing_benchmark
-from products.p4.design import assign_blocks, propose_design, propose_window_confirmation
+from products.p4.design import (assign_blocks, propose_design, propose_multiobjective_next_best,
+                                propose_window_confirmation)
 
 
 class DesignQualification(unittest.TestCase):
@@ -268,6 +269,84 @@ class DesignQualification(unittest.TestCase):
         self.assertLessEqual(validation["independent_evaluation"]["rmse"], 0.2)
         self.assertEqual(result["model_selection"]["data_used_for_candidate_selection"],
                          "development independent units only")
+
+    def test_multiobjective_next_best_returns_separate_supported_options_without_scalar_choice(self):
+        controls = ["a", "b"]
+        rows = self._constrained_sequential_rows()
+        for row in rows:
+            lot = int(row["lot_id"].rsplit("-", 1)[1])
+            row["metrics"]["safety"] = 0.1+0.01*row["factors"]["a"]+0.005*math.sin(lot)
+        spec = {"run_budget": 1, "blocks": 1, "seed": 12, "validation_seed": 12,
+                "candidate_levels": 9, "independent_unit_field": "lot_id",
+                "min_independent_units": 30, "maximum_grouped_validation_rmse": 0.2,
+                "constraint_metrics": ["safety"],
+                "maximum_grouped_validation_rmse_by_metric": {"safety": 0.2}}
+        model = {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                 "quadratic": True, "interactions": True}
+        plan = propose_multiobjective_next_best(
+            controls, {name: [0, 2] for name in controls}, spec, [], rows,
+            [{"metric": "quality", "direction": "maximize"},
+             {"metric": "defect", "direction": "minimize"}],
+            {"quality": {"unit": "score", "direction": "maximize"},
+             "defect": {"unit": "rate", "direction": "minimize"},
+             "safety": {"unit": "rate", "max": 0.5}}, model)
+        self.assertEqual(plan["status"], "PROPOSED")
+        self.assertEqual(plan["run_count"], 0)
+        self.assertEqual(plan["runs"], [])
+        self.assertEqual(plan["alternative_count"], 2)
+        self.assertEqual([item["objective_metric"] for item in plan["run_options"]],
+                         ["quality", "defect"])
+        self.assertEqual({item["grouped_surface_validation"]["validation_split"]["validation_seed"]
+                          for item in plan["run_options"]}, {12})
+        self.assertTrue(all(item["prediction"]["status"] == "ESTIMATED"
+                            and item["grouped_surface_validation"]["independent_evaluation"]["status"] == "COMPLETED_DIAGNOSTIC"
+                            for item in plan["run_options"]))
+        self.assertTrue(all(item["constraint_predictions"]["safety"]["status"] == "MODEL_INTERVAL_WITHIN_SUPPLIED_BOUNDS"
+                            for item in plan["run_options"]))
+        self.assertIn("no combined score", plan["selection_policy"])
+        self.assertFalse(plan["executed"])
+        self.assertEqual(plan["actuation"], "none")
+
+    def test_multiobjective_next_best_withholds_incomplete_objective_slate(self):
+        controls = ["a", "b"]
+        rows = self._constrained_sequential_rows()
+        for row in rows:
+            row["metrics"]["flat"] = 7.0
+        spec = {"run_budget": 1, "blocks": 1, "seed": 12, "validation_seed": 12,
+                "candidate_levels": 9, "independent_unit_field": "lot_id",
+                "min_independent_units": 30, "maximum_grouped_validation_rmse": 0.2}
+        model = {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                 "quadratic": True, "interactions": True}
+        with self.assertRaisesRegex(ValueError, "no unobserved candidate|estimable"):
+            propose_multiobjective_next_best(
+                controls, {name: [0, 2] for name in controls}, spec, [], rows,
+                [{"metric": "quality", "direction": "maximize"},
+                 {"metric": "flat", "direction": "maximize"}],
+                {"quality": {"unit": "score"}, "flat": {"unit": "score"}}, model)
+
+    def test_multiobjective_next_best_requires_single_run_budget_and_unique_metrics(self):
+        controls = ["a", "b"]
+        rows = self._constrained_sequential_rows()
+        definitions = {"quality": {"unit": "score"}, "defect": {"unit": "rate"}}
+        objectives = [{"metric": "quality", "direction": "maximize"},
+                      {"metric": "defect", "direction": "minimize"}]
+        with self.assertRaisesRegex(ValueError, "run_budget and blocks must both be 1"):
+            propose_multiobjective_next_best(controls, {name: [0, 2] for name in controls},
+                                             {"run_budget": 2, "blocks": 1}, [], rows,
+                                             objectives, definitions, {})
+        with self.assertRaisesRegex(ValueError, "must be unique"):
+            propose_multiobjective_next_best(controls, {name: [0, 2] for name in controls},
+                                             {"run_budget": 1, "blocks": 1}, [], rows,
+                                             [objectives[0], objectives[0]], definitions, {})
+        with self.assertRaisesRegex(ValueError, "replicates must be 1"):
+            propose_multiobjective_next_best(controls, {name: [0, 2] for name in controls},
+                                             {"run_budget": 1, "blocks": 1, "replicates": 2}, [], rows,
+                                             objectives, definitions, {})
+        with self.assertRaisesRegex(ValueError, "conflicts with the defined direction"):
+            propose_multiobjective_next_best(controls, {name: [0, 2] for name in controls},
+                                             {"run_budget": 1, "blocks": 1}, [], rows,
+                                             [{"metric": "quality", "direction": "minimize"}, objectives[1]],
+                                             {**definitions, "quality": {"direction": "maximize"}}, {})
 
     def test_next_best_keeps_numeric_and_string_unit_ids_separate(self):
         rows = self._sequential_rows()

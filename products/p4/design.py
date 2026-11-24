@@ -601,6 +601,101 @@ def propose_window_confirmation(process_window, controls, bounds, spec, forbidde
     }
 
 
+def propose_multiobjective_next_best(controls, bounds, spec, forbidden_regions, rows,
+                                     objective_specs, metric_defs, model_options=None, cancel=None):
+    """Return one independently screened, single-objective next-run option per objective.
+
+    This is a review slate, not a joint expected-hypervolume optimizer. Each
+    objective reuses the qualified single-target path and its own grouped
+    holdout. No objective weights, cross-objective covariance, or joint
+    improvement probability are inferred.
+    """
+    if not isinstance(objective_specs, list) or not 2 <= len(objective_specs) <= 4:
+        raise DesignError("multiobjective next-best requires 2 to 4 declared objectives")
+    run_budget, block_count = spec.get("run_budget"), spec.get("blocks", 1)
+    if (not isinstance(run_budget, int) or isinstance(run_budget, bool) or run_budget != 1
+            or not isinstance(block_count, int) or isinstance(block_count, bool) or block_count != 1):
+        raise DesignError("multiobjective next-best returns one-run alternatives; run_budget and blocks must both be 1")
+    replicates = spec.get("replicates", 1)
+    if not isinstance(replicates, int) or isinstance(replicates, bool) or replicates != 1:
+        raise DesignError("each objective alternative is one proposed run; replicates must be 1")
+    names = []
+    for objective in objective_specs:
+        if not isinstance(objective, dict):
+            raise DesignError("each multiobjective alternative needs a metric and direction")
+        name, direction = objective.get("metric"), objective.get("direction")
+        if not isinstance(name, str) or name not in metric_defs or direction not in ("maximize", "minimize"):
+            raise DesignError("each multiobjective alternative must name a defined metric and maximize/minimize direction")
+        if metric_defs[name].get("direction", direction) != direction:
+            raise DesignError(f"objective direction conflicts with the defined direction for {name}")
+        if name in names:
+            raise DesignError("multiobjective alternative metrics must be unique")
+        names.append(name)
+    constraints = spec.get("constraint_metrics", [])
+    if (not isinstance(constraints, list)
+            or any(not isinstance(name, str) or not name for name in constraints)
+            or len(set(constraints)) != len(constraints)):
+        raise DesignError("constraint_metrics must be a unique list of metric names")
+    if any(name in names for name in constraints):
+        raise DesignError("competing objectives cannot also be hard constraints in the same next-best slate")
+
+    options = []
+    validation_scope = None
+    for objective in objective_specs:
+        if cancel and cancel():
+            raise InterruptedError("multiobjective next-best cancelled")
+        name = objective["metric"]
+        candidate_spec = dict(spec, target_metric=name, run_budget=1, blocks=1)
+        candidate = propose_design("next_best", controls, bounds, candidate_spec,
+                                   forbidden_regions, rows=rows, metric_defs=metric_defs,
+                                   model_options=model_options, cancel=cancel)
+        selected = candidate["runs"][0]
+        grouped = candidate["grouped_surface_validation"]
+        constraint_evaluation = candidate.get("constraint_evaluation", {})
+        scope = (grouped.get("validation_split"),
+                 grouped.get("development_group_count"), grouped.get("evaluation_group_count"),
+                 grouped.get("development_row_count"), grouped.get("evaluation_row_count"))
+        if validation_scope is None:
+            validation_scope = scope
+        elif scope != validation_scope:
+            raise DesignError("all objective alternatives must use the same independent-unit development/evaluation population")
+        options.append({
+            "option_id": f"OBJECTIVE-{len(options) + 1}",
+            "objective_metric": name,
+            "objective_direction": objective["direction"],
+            "objective_unit": metric_defs[name].get("unit"),
+            "settings": {factor: selected[factor] for factor in controls},
+            "expected_improvement": candidate["expected_improvement"],
+            "prediction": candidate["prediction"],
+            "support": candidate["support"],
+            "constraint_predictions": constraint_evaluation.get("selected_candidate", {}),
+            "constraint_evaluation": constraint_evaluation,
+            "grouped_surface_validation": grouped,
+            "model_diagnostics": candidate["model_diagnostics"],
+            "qualification": "single-objective advisory expected improvement; does not estimate joint objective uncertainty or predict competing objectives at this setting",
+        })
+    return {
+        "status": "PROPOSED",
+        "design": "objective-specific sequential experiment alternatives",
+        "strategy": "next_best_multiobjective",
+        "factors": controls,
+        "run_count": 0,
+        "runs": [],
+        "run_options": options,
+        "alternative_count": len(options),
+        "selection_policy": "one separately screened setting per declared objective; no combined score, hypervolume claim, or engineer preference inferred",
+        "common_validation_scope": {"split": validation_scope[0],
+                                     "development_independent_units": validation_scope[1],
+                                     "evaluation_independent_units": validation_scope[2],
+                                     "development_rows": validation_scope[3],
+                                     "evaluation_rows": validation_scope[4]},
+        "authorization_fields": ["engineer_approval_id", "process_owner_approval_id", "safety_review_id"],
+        "executed": False,
+        "actuation": "none",
+        "qualification": "alternatives reuse the single-objective grouped-validation and support gates; expected-improvement values have objective-specific units and are not comparable or jointly probabilistic; assess competing outcomes and select at most one setting for review",
+    }
+
+
 def propose_design(strategy, controls, bounds, spec, forbidden_regions, rows=None, metric_defs=None, model_options=None, cancel=None):
     seed = spec.get("seed", 20261122)
     budget, blocks = spec.get("run_budget"), spec.get("blocks", 1)
