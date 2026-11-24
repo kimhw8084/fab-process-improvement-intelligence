@@ -5,7 +5,7 @@
       "products/p4/design.py": "0c4e73cd0f84a77f35b395c3cd2eb1b41fd1e14bf1b66f7c2b0561cbd5b597ca",
       "products/p4/investigation.v1.schema.json": "5b312a38735c53a84bc6ba87ef3827c89614df06eac1110b8a9bdef25eb55451",
       "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
-      "products/p4/regression.py": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
+      "products/p4/regression.py": "527e54b6202bd2a0c82a866f9c9c53813136ec033c988df1293941ca2a286c99",
       "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
       "products/p4/ui_contribution.json": "6a8034dd22303389d0384a6dd59b01bc818991f62509d48fd4132e667c16a700",
       "products/p4/window.py": "77d48577c5f65c77a393fe087573e0073b00d52659a43741d57a9b86809586dc",
@@ -14,7 +14,7 @@
     "current_p4_source": {
       "engine_sha256": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
       "panel_sha256": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
-      "panel_test_sha256": "5acfc32ad88650eb9169c744f023abb1ee8a2667dd7d1c393c21362884b094aa"
+      "panel_test_sha256": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5"
     },
     "mcp_panel_bridge_fixture": {
       "deterministic_two_build_check": "PASS; two outputs were byte-identical",
@@ -99,7 +99,8 @@
         "recommendation_status_column_visible": true,
         "request_lifecycle": "COMPLETED",
         "route": "/fab-intelligence/p4#p4-d02",
-        "scope": "synthetic workflow in disposable local P1 composition; not owner acceptance or company qualification",
+        "scope": "Synthetic workflow in disposable local P1 composition; browser content observation at P4 source 644eab9. Panel implementation remained unchanged in D01 update; sparse-arm backend state was not triggered in browser.",
+        "source_revision_observed": "644eab904beac1c75382a6e378212819ebcb31e0",
         "whole_set_counterevidence_rule_visible": true,
         "withheld_state_qualification": "Current-source P4 component test and independent D02 evaluation tests verify withheld presentation/behavior; default browser fixture has no observed failing exact candidate."
       },
@@ -211,19 +212,19 @@
       }
     },
     "current_p4_requalification": {
-      "browser_reobserved_after_candidate_set_veto_ui": true,
-      "browser_reobserved_after_d02_threshold_binding_fix": true,
-      "d02_window_sha256": "77d48577c5f65c77a393fe087573e0073b00d52659a43741d57a9b86809586dc",
-      "disposable_p1_route_tests": "PASS; 11 tests rerun against exact current D02 window/schema pins",
-      "limitations": "Disposable, unversioned P1 source composition only; P1 owner approval, formal accessibility/screen-reader review, target-host validation and company qualification remain pending.",
-      "p1_frontend_tests": "PASS; 49 tests rerun, including 22 P4 panel tests",
-      "p1_production_build": "PASS; rerun; 801928-byte uncompressed JavaScript bundle; SHA-256 17619f6055b27ac38e4d45a94b2394e102b4ebd872fbf1c31ca537175bc7fe66; existing >500 KB advisory",
-      "p1_typecheck": "PASS; rerun",
-      "p4_full_python_unittest": "PASS; 203 tests, 0 skipped; exact source commit 644eab904beac1c75382a6e378212819ebcb31e0",
+      "browser_reobserved_after_d01_sparse_exposure_guard": false,
+      "d01_sparse_exposure_behavior": "INCONCLUSIVE with point estimate retained and coefficient/prediction uncertainty withheld below 10 independent lots per binary cluster-level factor level",
+      "d01_sparse_exposure_benchmark": "PASS; 3,000 trials; 3/27 sparse-arm CR1 coverage 90.37%, Welch reference 96.23%, P4 abstains in 3,000/3,000; 10/20 P4 coverage 94.70%; Statsmodels endpoint delta <=1.1e-11",
+      "limitations": "D01 sparse-arm behavior is covered by current model/dossier tests and P4 component test, but the P1 browser fixture does not trigger it. Browser observation remains the earlier synthetic D02/PARTIAL workflow at source 644eab9; P1 owner acceptance, formal accessibility and target-host qualification remain pending.",
+      "p1_frontend_tests": "PASS; 50 tests rerun including 23 P4 panel tests",
+      "p1_host_route_tests": "PASS; 11 tests rerun in disposable P1 composition against current P4 panel/window/schema overlay; server remains synthetic local fixture",
+      "p1_production_build": "PASS; 801928-byte uncompressed JavaScript bundle; SHA-256 17619f6055b27ac38e4d45a94b2394e102b4ebd872fbf1c31ca537175bc7fe66",
+      "p1_typecheck": "PASS; current P1 TypeScript typecheck rerun",
+      "p4_full_python_unittest": "PASS; 207 tests, 0 skipped; exact source commit 6eeb324cddf080ddc1bf5a4c878edc12815aae0b",
       "p4_panel_sha256": "e77252b5dbe666359a0fc7f767145648bf2404c4881cdd636b86f373e0138e0e",
-      "p4_panel_test_sha256": "5acfc32ad88650eb9169c744f023abb1ee8a2667dd7d1c393c21362884b094aa",
-      "p4_panel_tests": "PASS; 22 component tests with strict TypeScript check and P1 contract snapshot match",
-      "p4_source_commit": "644eab904beac1c75382a6e378212819ebcb31e0"
+      "p4_panel_test_sha256": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5",
+      "p4_panel_tests": "PASS; 23 component tests with strict TypeScript check and P1 contract snapshot match",
+      "p4_source_commit": "6eeb324cddf080ddc1bf5a4c878edc12815aae0b"
     },
     "d01_crossed_dependence": {
       "browser_reobserved": false,
@@ -244,11 +245,11 @@
     "p1_frontend_tests": {
       "command": "npm test -- --run",
       "status": "PASS",
-      "tests": 49
+      "tests": 50
     },
     "p1_host_route_tests": {
       "command": "python -m unittest discover -s tests -p test_suite_host.py -v",
-      "current_p4_source": "Current P4 source overlay at 644eab904beac1c75382a6e378212819ebcb31e0; 11 route tests rerun in disposable P1 composition",
+      "current_p4_source": "Current P4 panel/window/schema overlay at 6eeb324cddf080ddc1bf5a4c878edc12815aae0b; 11 route tests rerun in disposable P1 composition; synthetic route fixture does not exercise the D01 sparse-arm backend behavior",
       "p4_source_pins": "PASS",
       "status": "PASS",
       "tests": 11
@@ -284,9 +285,10 @@
     },
     "p4_panel_tests": {
       "command": "npm test -- --run products/p4/ui/P4Panel.test.tsx",
+      "component_test_sha256": "d92796e2c1528495ca45ad7474ea2ffaac59969f9eaf7975947af20f0cd3eee5",
       "contract_snapshot_match": true,
       "status": "PASS",
-      "tests": 22,
+      "tests": 23,
       "typecheck": "PASS"
     }
   },
@@ -295,7 +297,9 @@
     "Disposable registry and route-test pin updates are local fixture changes, not upstream P1 changes.",
     "Only 3 of 76 selected D02 candidates have exact-setting evaluation data in the default synthetic fixture; complete-set coverage is withheld and no conditional coverage is claimed.",
     "The browser workflow is a synthetic default fixture; it confirms the shared route, lifecycle, D01-D05 sections, current recommendation-status column and counterevidence explanation, but it does not trigger the holdout veto.",
-    "P1 owner confirmation, formal accessibility and screen-reader review, target-host qualification, company permissions, source mappings and actual endpoint behavior remain pending."
+    "P1 owner confirmation, formal accessibility and screen-reader review, target-host qualification, company permissions, source mappings and actual endpoint behavior remain pending.",
+    "D01 sparse cluster-level binary exposure refusal is verified by current regression/dossier tests and a current P4 component test; the P1 browser fixture does not trigger this state.",
+    "The browser content observation is the earlier synthetic D02/PARTIAL workflow at P4 source 644eab9; no browser re-observation is claimed for the D01 sparse-exposure backend change."
   ],
   "p1_source": {
     "git_metadata_present": false,

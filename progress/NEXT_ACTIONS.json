@@ -1,6 +1,6 @@
 {
   "active_uncommitted_changes": true,
-  "as_of_source_commit": "a6f93eafc417eea768e90e3d382d634b86a43aa2",
+  "as_of_source_commit": "6eeb324cddf080ddc1bf5a4c878edc12815aae0b",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,17 +16,19 @@
     "create a competing product UI shell"
   ],
   "next_executable_action": {
-    "acceptance": "Commit the tested D01 sparse cluster-level exposure support screen, independent benchmark, E02 integration, UI test/report, and checkpoint. Refresh P1 current-source evidence after the resulting source commit, rerun the source-bound benchmark/full release gates, then rebuild/reproduce/offline-qualify the exact archive and verify E10.",
-    "first_command": "rtk git add docs/PRODUCT_SPEC.md docs/SCIENCE_AND_METHODS.md products/p4/regression.py products/p4/ui/P4Panel.test.tsx qualification/critical_cases.json qualification/benchmark_d01_exposure_support.py qualification/run_release_checks.py qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json tests/test_d01_d02_independent.py tests/test_p4_scientific.py release/UI_COMPONENT_QUALIFICATION.json progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Withhold D01 uncertainty on sparse cluster exposure'",
+    "acceptance": "Commit refreshed P1 current-source evidence and the checkpoint. Regenerate performance/source evidence at exact commit 6eeb324, run the full release gates including the new D01 challenge, repair failures, then rebuild/reproduce the ZIP, qualify fresh no-pip extraction under network denial, and rerun E10.",
+    "first_command": "rtk git add qualification/evidence/p1-disposable-host-qualification-2026-11-23.json progress/NEXT_ACTIONS.json progress/OVERNIGHT_EXECUTION.md progress/REQUIREMENT_EVIDENCE_MATRIX.md && rtk git commit -m 'Pin P1 evidence to D01 sparse-arm qualification'",
     "inspect": [
-      "products/p4/regression.py",
-      "qualification/benchmark_d01_exposure_support.py",
-      "qualification/run_release_checks.py",
       "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "release/GATE_REPORT.json"
+      "qualification/benchmark.py",
+      "qualification/refresh_security_evidence.py",
+      "qualification/run_release_checks.py",
+      "qualification/build_transfer_bundle.py",
+      "qualification/check_reproducibility.py",
+      "qualification/offline_qualify.py"
     ],
     "priority": 1,
-    "task": "Commit the tested D01 sparse-arm refusal and benchmark. Refresh current-source P1 evidence and full source-bound qualification, then rebuild/reproduce and verify the offline archive. Resume independent D01\u2013D05 adversarial work after exact release evidence is current."
+    "task": "D01 sparse-arm refusal is committed at 6eeb324 and independently qualified; P1 source pins are refreshed but uncommitted. Commit them, regenerate exact-source performance and limited security evidence, run full source-bound gates, then rebuild/reproduce/offline qualify the archive and confirm E10. Resume adversarial D01\u2013D05 work after the release checkpoint."
   },
   "ordered_queue": [
     {
@@ -66,11 +68,11 @@
     },
     {
       "priority": 8,
-      "status": "PREVIOUS_E02_E10_PASS_AT_a6f93ea; STALE_AFTER_D01_SOURCE_CHANGE; CANDIDATE",
-      "task": "At a6f93eafc417eea768e90e3d382d634b86a43aa2 the 215-file ZIP SHA-256 efe002973d11501e7aa9c5199952945ef105ddc63e25e5a8bf55a9c632b690fb reproduced from two detached worktrees; 215 files were verified in fresh no-pip macOS network-denied extraction; E02/E10 passed. The current D01 source/tests/runner/UI report are changed, so refresh P1 hashes and performance, rerun full gates, then rebuild and requalify before treating E10 as current."
+      "status": "PREVIOUS_E02_E10_PASS_AT_a6f93ea; STALE_AFTER_6eeb324_D01_CHANGE; CANDIDATE",
+      "task": "The current D01 sparse-arm source commit is 6eeb324; previous 215-file ZIP efe002973d11501e7aa9c5199952945ef105ddc63e25e5a8bf55a9c632b690fb and E02/E10 pass were for a6f93ea and are stale. P1 current-source pins are refreshed to the 6eeb324 code but not committed. Commit evidence, regenerate performance/source scan, run the full gate, then rebuild/reproduce and perform fresh no-pip network-denied extraction."
     }
   ],
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D01 sparse binary cluster-level exposure support screen and independent 3,000-trial benchmark are implemented and tested in an uncommitted diff from a6f93eafc417eea768e90e3d382d634b86a43aa2. Full suite 207 PASS, schema 7 PASS, P4 module 23/typecheck PASS, P1 frontend 50/typecheck/build and route 11 PASS. Current P1 evidence pins old regression/panel-test hashes; prior exact archive E02/E10 passed only at a6f93ea and is now stale. Commit this work, refresh exact P1 evidence/performance, rerun release, reproduce and offline qualify the new archive. No public push."
+  "worktree_state": "Product source 6eeb324cddf080ddc1bf5a4c878edc12815aae0b includes the D01 sparse cluster-level binary exposure abstention, independent 3,000-trial benchmark, E02 gate, critical case and 23-test UI evidence. Full suite 207 PASS, schema 7 PASS, P1 module 23/typecheck PASS, P1 frontend 50/typecheck/build and route 11 PASS. Disposable P1 source pins have been refreshed but evidence/progress are uncommitted. Prior exact archive E02/E10 at a6f93ea is stale. Commit evidence, rerun performance/security/full gates, rebuild and requalify exact archive. Product remains CANDIDATE; no push."
 }
