@@ -1,10 +1,10 @@
 {
   "active_uncommitted_changes": [
-    "D04 objective-specific next-best slate is implemented in product source, tests, schema, and shared P1 panel; source commit pending.",
+    "D04 objective-specific next-best slate, benchmark method/result, tests, schema and shared P1 panel are committed at 90fb184a4d90e002a80a509ff4a658c8830fef10.",
     "MCP-to-panel fixture rebuilt twice identically at SHA-256 ba244b3eab1d467b3cde3b37729d0d12c2feaa158d554f9ea0ef6c6f29c70ee6.",
     "Release archive and source-bound qualification outputs identify 94100f9 and are stale after the D04 source change."
   ],
-  "as_of_source_commit": "94100f96e5b42ffec8068e3fe3919a3edaf68e54",
+  "as_of_source_commit": "90fb184a4d90e002a80a509ff4a658c8830fef10",
   "date": "2026-11-24",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
@@ -313,8 +313,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit the D04 implementation and checkpoint ledgers, then run source-bound release gates, regenerate exact offline archive, reproduce twice, and qualify fresh no-pip extraction; keep E05/E07/E08/E09/E11/E12 pending.",
-  "next_executable_action": "rtk proxy git diff --check",
+  "next_action": "Run source-bound release checks at 90fb184, repair only current-source failures, rebuild and independently reproduce the exact offline archive, and qualify fresh no-pip extraction; keep E05/E07/E08/E09/E11/E12 pending.",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
   "ordered_queue": [
     {
       "priority": 1,
@@ -345,6 +345,6 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "94100f96e5b42ffec8068e3fe3919a3edaf68e54",
-  "worktree_state": "D04 product source and regression evidence are modified on top of 94100f9; archive and current release gates are stale and must be rebuilt after committing this checkpoint. Generated qualification/results and progress ledgers are excluded from transfer contents."
+  "source_commit": "90fb184a4d90e002a80a509ff4a658c8830fef10",
+  "worktree_state": "D04 implementation commit 90fb184 is complete. Product source is committed; release/ and qualification/results sidecars have regenerated but the archive and release gates are stale relative to 90fb184. Generated results/progress ledgers are excluded from transfer contents."
 }
