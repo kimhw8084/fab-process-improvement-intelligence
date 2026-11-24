@@ -547,6 +547,7 @@ def main():
     d02_actual_selector = (json.loads(d02_actual_selector_path.read_text(encoding="utf-8"))
                            if d02_actual_selector_path.exists() else {})
     d02_actual_family = d02_actual_selector.get("actual_p4_candidate_family", {})
+    d02_model_form_identifiability = d02_actual_selector.get("paired_model_form_identifiability", {})
     d02_actual_script_hash = hashlib.sha256(
         (ROOT / "qualification" / "benchmark_d02_actual_selector.py").read_bytes()).hexdigest()
     d02_actual_selector_pass = (
@@ -561,6 +562,12 @@ def main():
         and d02_actual_selector.get("interpolated_review_action_consistent_trials") == 250
         and d02_actual_selector.get("predeclared_baseline", {}).get("false_feasible_trials") == 0
         and d02_actual_family.get("selected_trials", 0) > 0
+        and d02_model_form_identifiability.get("status") == "PASS_NONIDENTIFIABILITY_DEMONSTRATED"
+        and d02_model_form_identifiability.get("observations_exactly_equal") is True
+        and d02_model_form_identifiability.get("selector_outputs_exactly_equal") is True
+        and d02_model_form_identifiability.get("safe_surface_false_feasible_candidates") == 0
+        and d02_model_form_identifiability.get("hidden_surface_false_feasible_candidates", 0) > 0
+        and d02_model_form_identifiability.get("hidden_surface_false_feasible_interpolations", 0) > 0
     )
     d02_actual_selector_result = {
         "status": "PASS_DIAGNOSTIC_EXECUTED" if d02_actual_selector_pass else "FAIL",
@@ -570,6 +577,7 @@ def main():
         "trials": d02_actual_selector.get("trials"),
         "p4_candidate_family_false_feasible_trial_rate": d02_actual_family.get("any_false_feasible_trial_rate"),
         "p4_interpolation_false_feasible_trial_rate": d02_actual_family.get("interpolation_false_feasible_trial_rate"),
+        "paired_model_form_identifiability": d02_model_form_identifiability,
         "p4_candidate_cell_false_feasible_fraction": d02_actual_family.get("candidate_cell_false_feasible_fraction"),
         "predeclared_center_false_feasible_trial_rate": d02_actual_selector.get("predeclared_baseline", {}).get("false_feasible_trial_rate"),
         "interpolated_review_action_consistent_trials": d02_actual_selector.get("interpolated_review_action_consistent_trials"),

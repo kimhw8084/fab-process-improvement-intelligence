@@ -16,6 +16,13 @@ class ActualD02SelectorBenchmarkTests(unittest.TestCase):
         self.assertGreater(result["actual_p4_candidate_family"]["mean_interpolated_candidate_cells"], 0)
         self.assertEqual(result["actual_p4_candidate_family"]["any_false_feasible_trial_rate"], 1.0)
         self.assertEqual(result["predeclared_baseline"]["false_feasible_trial_rate"], 0.0)
+        paired = result["paired_model_form_identifiability"]
+        self.assertEqual(paired["status"], "PASS_NONIDENTIFIABILITY_DEMONSTRATED")
+        self.assertTrue(paired["observations_exactly_equal"])
+        self.assertTrue(paired["selector_outputs_exactly_equal"])
+        self.assertEqual(paired["safe_surface_false_feasible_candidates"], 0)
+        self.assertGreater(paired["hidden_surface_false_feasible_candidates"], 0)
+        self.assertGreater(paired["hidden_surface_false_feasible_interpolations"], 0)
         window_path = Path(__file__).resolve().parents[1] / "products" / "p4" / "window.py"
         self.assertEqual(result["product_window_sha256"], sha256(window_path.read_bytes()).hexdigest())
 

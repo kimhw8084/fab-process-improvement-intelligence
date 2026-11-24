@@ -60,23 +60,28 @@ def _wilson(successes: int, trials: int) -> list[float] | None:
 
 def _latent_quality(pressure: float, power: float, amplitude: float, frequency_p: int, frequency_w: int) -> float:
     smooth_baseline = 0.10 + 0.04 * ((pressure - 1.0) ** 2 + (power - 1.0) ** 2)
-    omitted_interaction = (amplitude * math.sin(frequency_p * math.pi * pressure)
+    # Encode the mathematical zero exactly at measured integer settings. This
+    # lets the paired oracle prove observational equivalence, not floating-point
+    # near-equivalence, while retaining a nonzero between-setting interaction.
+    omitted_interaction = (0.0 if pressure in LEVELS or power in LEVELS else
+                           amplitude * math.sin(frequency_p * math.pi * pressure)
                            * math.sin(frequency_w * math.pi * power))
     return smooth_baseline + omitted_interaction
 
 
-def _one_trial(trial_seed: int) -> dict:
+def _trial_rows(trial_seed: int, *, suppress_hidden_term: bool = False):
     rng = random.Random(trial_seed)
     amplitude = rng.uniform(0.03, 0.11) * rng.choice((-1.0, 1.0))
     frequency_p = rng.choice((1, 3, 5))
     frequency_w = rng.choice((1, 3, 5))
+    observed_amplitude = 0.0 if suppress_hidden_term else amplitude
     rows = []
     for lot in range(50):
         partition = "TRAIN" if lot < 30 else "CALIBRATION"
         lot_effect = rng.gauss(0.0, 0.008)
         for pressure in LEVELS:
             for power in LEVELS:
-                mean = _latent_quality(pressure, power, amplitude, frequency_p, frequency_w)
+                mean = _latent_quality(pressure, power, observed_amplitude, frequency_p, frequency_w)
                 rows.append({
                     "id": f"D02-ACTUAL-{trial_seed}-{lot}-{pressure}-{power}",
                     "factors": {"pressure": pressure, "power": power},
@@ -84,6 +89,61 @@ def _one_trial(trial_seed: int) -> dict:
                     "lot_id": f"D02-ACTUAL-{trial_seed}-LOT-{lot:02d}",
                     "partition": partition,
                 })
+    return rows, amplitude, frequency_p, frequency_w
+
+
+def _paired_model_form_identifiability(trial_seed: int = 8000) -> dict:
+    """Show the limits of any model-form diagnostic using only measured rows.
+
+    The safe quadratic and harmful hidden-interaction mechanisms produce the
+    same exact observations on the supplied 3x3 settings. P4 receives those
+    same observations in both worlds, so its candidate screen cannot distinguish
+    the between-setting truth without an approved prior or new experiments.
+    """
+    safe_rows, amplitude, frequency_p, frequency_w = _trial_rows(
+        trial_seed, suppress_hidden_term=True)
+    hidden_rows, _, _, _ = _trial_rows(trial_seed)
+    encode = lambda value: json.dumps(value, sort_keys=True, separators=(",", ":"))
+    input_equal = safe_rows == hidden_rows
+    safe_result = explore_window(safe_rows, FACTOR_DEFS, METRIC_DEFS, ANALYSIS_TEMPLATE)
+    hidden_result = explore_window(hidden_rows, FACTOR_DEFS, METRIC_DEFS, ANALYSIS_TEMPLATE)
+    safe_hash = hashlib.sha256(encode(safe_result).encode()).hexdigest()
+    hidden_hash = hashlib.sha256(encode(hidden_result).encode()).hexdigest()
+    selected = safe_result.get("candidate_cells", [])
+
+    def infeasible(cell, hidden):
+        point = cell["factors"]
+        value = _latent_quality(point["pressure"], point["power"],
+                                amplitude if hidden else 0.0, frequency_p, frequency_w)
+        return value > LIMIT
+
+    safe_false = sum(infeasible(cell, False) for cell in selected)
+    hidden_false = sum(infeasible(cell, True) for cell in selected)
+    hidden_interpolated_false = sum(
+        cell.get("region_class") == "interpolated" and infeasible(cell, True)
+        for cell in selected)
+    passed = (input_equal and safe_hash == hidden_hash and bool(selected)
+              and safe_false == 0 and hidden_false > 0 and hidden_interpolated_false > 0)
+    canonical_input = encode(safe_rows).encode()
+    return {
+        "status": "PASS_NONIDENTIFIABILITY_DEMONSTRATED" if passed else "FAIL",
+        "seed": trial_seed,
+        "latent_mechanisms": ["smooth quadratic baseline", "same baseline plus zero-on-measured-grid harmonic"],
+        "observations_exactly_equal": input_equal,
+        "observation_sha256": hashlib.sha256(canonical_input).hexdigest(),
+        "selector_outputs_exactly_equal": safe_hash == hidden_hash,
+        "selector_output_sha256": safe_hash,
+        "selected_candidate_count": len(selected),
+        "safe_surface_false_feasible_candidates": safe_false,
+        "hidden_surface_false_feasible_candidates": hidden_false,
+        "hidden_surface_false_feasible_interpolations": hidden_interpolated_false,
+        "decision": "Do not add a data-only model-disagreement score as evidence against this hidden mechanism; new exact-setting experiments or an approved mechanistic prior are needed.",
+        "scope": "paired synthetic identifiability counterexample; not a manufacturing rate, coverage estimate, or recipe-safety claim",
+    }
+
+
+def _one_trial(trial_seed: int) -> dict:
+    rows, amplitude, frequency_p, frequency_w = _trial_rows(trial_seed)
 
     # No evaluation partition is supplied: it cannot affect fitting, calibration,
     # or selection. The latent function below is the separate independent oracle.
@@ -165,6 +225,7 @@ def run_benchmark(trials: int = 250, seed: int = 20261123) -> dict:
                                  "false_feasible_trials": center_false,
                                  "false_feasible_trial_rate": center_false / trials,
                                  "wilson95": _wilson(center_false, trials)},
+        "paired_model_form_identifiability": _paired_model_form_identifiability(),
         "actual_p4_candidate_family": {
             "selected_trials": any_selected,
             "trials_with_any_latent_mean_above_limit": any_false,
@@ -183,6 +244,7 @@ def run_benchmark(trials: int = 250, seed: int = 20261123) -> dict:
         "benchmark_script_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         "limitations": [
             "deliberately omitted high-frequency interactions are outside the quadratic response model",
+            "paired safe/harmful mechanisms produce identical measured rows and identical selector outputs; data-only model disagreement cannot identify this hidden interaction",
             "all results are synthetic and generator-specific; no manufacturing failure-rate or coverage claim",
             "the exact center baseline is guaranteed feasible by this challenge construction and is not a general product comparison",
             "an independent exact-setting confirmation is required before any process decision; the product is advisory and read-only",
