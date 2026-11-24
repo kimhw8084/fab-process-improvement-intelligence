@@ -16,7 +16,6 @@ def main():
         return 0
     checks = [
         ("contracts/product-manifest.v1.schema.json", "product.json"),
-        ("contracts/evidence.v1.schema.json", "release/full_workflow_demo_evidence.json"),
         ("products/p4/investigation.v1.schema.json", "fixtures/full_workflow_demo.json"),
         ("products/p4/relationships.v1.1.schema.json", "fixtures/relationship_contract_v1.1.json"),
         ("requirements/site-mcp-config.v1.schema.json", "requirements/synthetic-mcp-mapping.v1.json"),

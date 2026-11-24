@@ -249,8 +249,10 @@ def main():
                 core["startup_rollback"] = _offline_rollback_check(extracted, temp, index)
                 report["core_platform_runs"].append(core)
             schema = _run([sys.executable, "qualification/schema_check.py"], cwd=extracted, timeout=120)
+            if schema.returncode:
+                raise RuntimeError(f"extracted JSON schema validation failed: {schema.stderr[-800:]}")
             report["schema_validation"] = json.loads(schema.stdout)
-            if schema.returncode or report["schema_validation"].get("status") != "PASS":
+            if report["schema_validation"].get("status") != "PASS":
                 raise RuntimeError(f"extracted JSON schema validation failed: {schema.stderr[-800:]}")
             tests = _run([sys.executable, "-m", "unittest", "discover", "-s", "tests", "-v"],
                          cwd=extracted, timeout=300)
