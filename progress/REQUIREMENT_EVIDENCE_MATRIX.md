@@ -306,3 +306,23 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 | Live workflow | Observed current synthetic analysis and refusal in P1 shared shell. Refusal withheld values, did not access semantics or execute analysis. | Synthetic browser evidence; no company data or authority. |
 | Exact release | Prior run at `7a474e2` executed 240 tests and failed only stale fixture fingerprint; fixture and P1 pins refreshed. | Rerun once after checkpoint commit; no current release PASS claimed. |
 | Next | Commit refreshed fixture/evidence/progress, then run release checks and archive/offline gates. Resume D02 model-form challenge after release repair. | Company approval, target OS, formal accessibility/security/legal and ROI remain pending. |
+
+
+# Current checkpoint — exact offline archive and gate binding (2026-11-24)
+
+| Requirement | Executed evidence | Status |
+|---|---|---|
+| E01–E04, E06 | Exact-source release runner at `8efb39371f52c6a8230a405e62085a27b3367599`; 240 Python tests, zero skipped; schema, benchmark bindings, dependency closure and contracts pass. | PASS for this exact source commit. |
+| E07 | Current-source browser workflow/refusal and disposable 35-file P1 composition; 61 frontend, 32 host routes, 26 P4 panel tests; strict typecheck and production build pass. | Disposable compatibility only; authoritative P1 version/owner acceptance/formal accessibility pending. |
+| E10 | ZIP `992e2c78876b90bb94a3b7f062ae1218682995eaff7defa7125aaccab7fd3b1c`; 219 files; two detached builds match; fresh no-pip network-denied extraction and socket probe pass. | PASS for source `8efb393`; rebuilding is required after any packaged source change. |
+| E05/E08/E09/E11/E12 | No company authorization/semantics, approved target OS, independent legal/security clearance or engineer ROI study. | PENDING; no external transfer/public release. |
+| D02 next | Independently benchmark model-form disagreement under held-out nonlinear surfaces; preserve existing abstention and noncoverage language. | NEXT engineering task. |
+
+
+# Current checkpoint — D02 model-form identifiability (2026-11-24)
+
+| Requirement | Executed evidence | Status |
+|---|---|---|
+| D02 hidden model forms | Paired exact 3x3 observations hash identically under safe quadratic and harmful hidden-harmonic truth; P4 selector output is identical. Of 41 selected cells, safe false-feasible count 0 and hidden-response interpolated false-feasible count 12. The result is bound into E02. | No data-only disagreement feature added; it cannot identify unobserved mechanisms from identical observations. Advisory labels and exact-setting confirmation retained. |
+| E02 | Full exact-source runner at `1058b63ecf0288ef2c3189ce1841c4b05e3d6c21`: 240 PASS/0 skipped; paired challenge and 250-trial actual selector pass; schema/P1 compatibility pass. | PASS for source 1058b63. |
+| E10 | Archive remains from prior source `8efb393`; D02 qualification code changed. | Refresh archive, reproducibility and no-pip network-denied extraction; then bind E10 to final source. |
