@@ -1,8 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "D04 objective-specific next-best slate, benchmark method/result, tests, schema and shared P1 panel are committed at 90fb184a4d90e002a80a509ff4a658c8830fef10.",
-    "MCP-to-panel fixture rebuilt twice identically at SHA-256 ba244b3eab1d467b3cde3b37729d0d12c2feaa158d554f9ea0ef6c6f29c70ee6.",
-    "Release archive and source-bound qualification outputs identify 94100f9 and are stale after the D04 source change."
+    "D04 objective-specific next-best slate is committed at 90fb184a4d90e002a80a509ff4a658c8830fef10.",
+    "Current evidence commit 0559e30830523a17138ed193accfe46c14b12c38 passed E01/E02/E03/E04/E06; 247 Python tests passed with zero skips.",
+    "At 0559e30, ZIP SHA-256 6768e6e91449a5ebd31a4974a6dbed43f02ce2e7c3f4d00a80a5a690f585e8d3 rebuilt identically in two clean worktrees; fresh sandboxed no-pip extraction passed and socket probe was denied.",
+    "Release/qualification sidecars are generated evidence and dirty; progress files are the intentional current checkpoint change. No public push or release."
   ],
   "as_of_source_commit": "90fb184a4d90e002a80a509ff4a658c8830fef10",
   "date": "2026-11-24",
@@ -15,10 +16,11 @@
     "P1 owner/source revision and authoritative suite capability contract"
   ],
   "last_release_runner": {
-    "python_tests": "242 PASS, 0 skipped",
-    "qualification": "E01,E02,E03,E04,E06,E10 PASS; E05,E07,E08,E09,E11,E12 pending",
-    "source_commit": "94100f96e5b42ffec8068e3fe3919a3edaf68e54",
-    "status": "CANDIDATE at source 94100f9; stale after uncommitted D04 change"
+    "python_tests": "247 PASS, 0 skipped",
+    "qualification": "E01,E02,E03,E04,E06 PASS; E05,E07,E08,E09,E11,E12 pending; E10 requires final current-checkpoint rebinding",
+    "source_commit": "0559e30830523a17138ed193accfe46c14b12c38",
+    "statsmodels_reference": "0.15.0 pinned qualification environment; max OLS coefficient difference 2.84e-14",
+    "status": "CANDIDATE"
   },
   "latest_checkpoint": {
     "D01_mcp_uncertainty": {
@@ -58,9 +60,22 @@
       "capability": "one independently grouped-validated one-run expected-improvement option per declared objective (2-4); whole slate withheld if any objective fails; options share the same independent-unit holdout; optional hard-constraint intervals are carried to the panel",
       "not_claimed": "joint hypervolume optimizer, joint improvement probability, cross-objective covariance, predicted competing outcomes at each setting, or engineer-selected winner",
       "independent_benchmark": "30 seeds per smooth-tradeoff and hidden-alias surface; exact latent hypervolume oracle; BoTorch qLogNEHVI, P4 single-target EI, objective-specific slate, and maximin compared",
-      "mean_hv_smooth": {"botorch_qlognehvi": 0.080525, "maximin": 0.067416, "p4_target_constraint": 0.034278, "p4_slate_oracle_upper_bound": 0.038541},
-      "mean_hv_hidden_alias": {"botorch_qlognehvi": 0.080853, "maximin": 0.082733, "p4_target_constraint": 0.031383, "p4_slate_oracle_upper_bound": 0.036409},
-      "botorch_win_fraction_vs_maximin": {"smooth_tradeoff": "30/30; Wilson95 [0.886,1.000]", "hidden_alias": "1/30; Wilson95 [0.006,0.167]"},
+      "mean_hv_smooth": {
+        "botorch_qlognehvi": 0.080525,
+        "maximin": 0.067416,
+        "p4_target_constraint": 0.034278,
+        "p4_slate_oracle_upper_bound": 0.038541
+      },
+      "mean_hv_hidden_alias": {
+        "botorch_qlognehvi": 0.080853,
+        "maximin": 0.082733,
+        "p4_target_constraint": 0.031383,
+        "p4_slate_oracle_upper_bound": 0.036409
+      },
+      "botorch_win_fraction_vs_maximin": {
+        "smooth_tradeoff": "30/30; Wilson95 [0.886,1.000]",
+        "hidden_alias": "1/30; Wilson95 [0.006,0.167]"
+      },
       "dependency_decision": "BoTorch benchmark-only: 988 MB isolated environment, 631 MB Torch, pure-Python qLogEHVI fallback; no product dependency added",
       "benchmark_script_sha256": "a8598558a37c59929feaaada1401b836a28f15c9e6b80d922a7e3a3a5ca4a95f",
       "benchmark_result": "qualification/results/D04_MULTIOBJECTIVE_METHOD_BENCHMARK.json",
@@ -282,13 +297,31 @@
       "typecheck": "PASS"
     },
     "release_evidence_repair": {
-      "bridge_fixture_sha256": "d933dd4ebb44c70fe34dbbb57bd21c9a0c427c2783c8f4755476179284f04a09",
-      "deterministic_two_builds": "PASS",
-      "focused_tests": "13 PASS",
-      "p1_checks": "frontend 61, host routes 32, P4 panel 26, typecheck and build PASS",
-      "p1_disposable_browser": "synthetic success/refusal observed; 900 rows; D01-D05; refusal withheld semantics/values and skipped analysis",
-      "p1_snapshot_sha256": "65623fb29d566d08c289f9dc38dc769ff3bfd881d80f0d62b344daa58b1667f6",
-      "status": "EVIDENCE_REPAIRED; FULL_RUNNER_PENDING"
+      "benchmark_environment": "Pinned /tmp/p4-qualification-env; Statsmodels 0.15.0. System Python 0.14.0 caused a legitimate version-gate failure and was not used for final evidence.",
+      "release_runner_source": "0559e30830523a17138ed193accfe46c14b12c38",
+      "tests": "247 PASS, 0 skipped",
+      "passing_gates": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06"
+      ],
+      "pending_gates": [
+        "E05 company authorization/semantics",
+        "E07 authoritative P1 owner and formal accessibility",
+        "E08 approved target OS",
+        "E09 independent legal/security review",
+        "E10 final checkpoint binding",
+        "E11 engineer baseline/ROI",
+        "E12 internal qualification"
+      ],
+      "archive_sha256": "6768e6e91449a5ebd31a4974a6dbed43f02ce2e7c3f4d00a80a5a690f585e8d3",
+      "manifest_sha256": "49febe1b9d161530816817d3662bf9c89a156d0fde79b412fbf8f820b89a11a0",
+      "source_files": 222,
+      "two_clean_worktree_rebuilds": "PASS; sequential, identical zip/manifest/checksum",
+      "fresh_offline_extract": "PASS; no pip; doctor/demo/D01-D05 synthetic workflow passed; sandbox socket probe DENIED",
+      "host_scope": "macOS 26.6.2 ARM64 / Python 3.11.7 only"
     },
     "source_commit": "1058b63ecf0288ef2c3189ce1841c4b05e3d6c21",
     "tests": {
@@ -314,37 +347,33 @@
     "create a competing product UI shell"
   ],
   "next_action": "Run source-bound release checks at 90fb184, repair only current-source failures, rebuild and independently reproduce the exact offline archive, and qualify fresh no-pip extraction; keep E05/E07/E08/E09/E11/E12 pending.",
-  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
+  "next_executable_action": "After committing this progress checkpoint: rtk /tmp/p4-qualification-env/bin/python qualification/build_transfer_bundle.py; then sequentially run check_reproducibility.py, sandboxed offline_qualify.py, and run_release_checks.py.",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IMPLEMENTED_LIMITED_SCOPE",
-      "task": "D04 multiobjective next-best now returns an objective-specific evidence slate. It is not a joint optimizer and did not outperform maximin in the benchmark; retain only as transparent engineer choice support."
+      "status": "NEXT",
+      "task": "Rebind exact-source release evidence at the post-checkpoint commit, then continue independent D01/D03/D05 scientific challenge review."
     },
     {
       "priority": 2,
-      "status": "NEXT",
-      "task": "After current-source release qualification, continue the highest-impact D01/D03/D05 scientific review with an independent challenge that can change a product claim or refusal."
+      "status": "PENDING_EXTERNAL",
+      "task": "Verify current P1 owner/source revision, authoritative shared host registration and rendered/formal accessibility."
     },
     {
       "priority": 3,
-      "status": "PENDING_EXTERNAL",
-      "task": "Authoritative P1 owner/source revision, shared contract acceptance and formal accessibility qualification."
-    },
-    {
-      "priority": 4,
       "status": "PENDING_INTERNAL",
-      "task": "Company MCP permissions/semantics, target policy, legal/security/production approvals, actual data and engineer ROI."
+      "task": "Obtain actual MCP permissions and semantics, approved target policy, authorized data, independent company security/legal/production review and engineer ROI baseline."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; previous E10/archive evidence is stale after D04 source change; rerun source-bound gates and exact offline artifact verification",
+    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; exact archive evidence must bind to the post-checkpoint evidence commit and owner/legal/security/target gates remain open",
     "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D04 has a limited-scope objective-specific slate; broader joint multiobjective optimization and other scientific qualification gaps remain",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 owner/source and formal accessibility"
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 remain bounded by stated synthetic and design assumptions; continue scientific review",
+    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative P1 source/owner and formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
   "source_commit": "90fb184a4d90e002a80a509ff4a658c8830fef10",
-  "worktree_state": "D04 implementation commit 90fb184 is complete. Product source is committed; release/ and qualification/results sidecars have regenerated but the archive and release gates are stale relative to 90fb184. Generated results/progress ledgers are excluded from transfer contents."
+  "worktree_state": "Product code is committed (D04 slate at 90fb184). 0559e30 release checks: E01/E02/E03/E04/E06 pass; sequential archive reproducibility and fresh network-denied extraction pass for 0559e30. Progress checkpoint is being committed; generated release and qualification sidecars are not product-source changes. Rebuild and rerun gates at the resulting checkpoint commit.",
+  "evidence_commit": "0559e30830523a17138ed193accfe46c14b12c38"
 }

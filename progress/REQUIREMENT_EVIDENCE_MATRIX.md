@@ -1,3 +1,12 @@
+# Latest requirement evidence — D04 slate and exact local offline artifact (2026-11-24)
+
+| Requirement | Executed evidence | Status / remaining limit |
+|---|---|---|
+| D04 multiobjective next-best | Product commit `90fb184a4d90e002a80a509ff4a658c8830fef10`: one separately held-out and validated one-run option per declared objective (2–4); whole slate withheld if any objective fails. Python suite 247 PASS/0 skipped; P4 component tests 27 PASS; strict TypeScript and P1 schema snapshot PASS. Independent 30-seed smooth-tradeoff and hidden-alias benchmark compares BoTorch qLogNEHVI, target EI, transparent slate and maximin; slate is not qualified as a superior optimizer. | Limited-scope engineer choice support; no joint covariance, joint improvement probability, combined weighting, or automatic winner. BoTorch remains benchmark-only. |
+| E02 scientific suite | Release runner on `0559e30830523a17138ed193accfe46c14b12c38`: 247 PASS/0 skipped, E02 PASS; Statsmodels OLS coefficient delta `2.84e-14`. The first rerun used system Statsmodels 0.14.0 and correctly failed the 0.15.0 qualification-version check; regenerated using `/tmp/p4-qualification-env` (0.15.0). | PASS for runner source `0559e30`; rerun after the progress-only checkpoint commit for final evidence binding. |
+| E10 exact artifact | ZIP `6768e6e91449a5ebd31a4974a6dbed43f02ce2e7c3f4d00a80a5a690f585e8d3`; manifest SHA-256 `49febe1b9d161530816817d3662bf9c89a156d0fde79b412fbf8f820b89a11a0`; 222 source files. Two sequential clean detached worktree rebuilds identical; fresh extraction/no-pip run passed doctor, demo and synthetic D01–D05 workflow, with OS-sandbox network probe DENIED. | PASS for source `0559e30` on macOS 26.6.2 ARM64/Python 3.11.7; regenerate and rebind after the current progress commit. Does not qualify an unknown company target. |
+| Suite/internal release | Local P4 module tests pass; current source is not verified inside authoritative P1 host. Samsung source mappings/permissions, P1 owner acceptance/formal accessibility, company target OS, independent legal/security review, engineer ROI baseline and internal approvals are not available. | E05/E07/E08/E09/E11/E12 pending; no public distribution and no `EXTERNAL_TRANSFER_READY` claim. |
+
 # Latest requirement evidence — D04 objective-specific next-run slate (2026-11-24)
 
 | Requirement | Current executed evidence | Status / next action |
