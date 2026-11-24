@@ -85,7 +85,7 @@
       0.015133299495444574
     ]
   },
-  "product_window_sha256": "32294b5008500658107e325deca6a97fbc6900a6e5f3b07cff91b85e403dd323",
+  "product_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
   "required_candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
   "schema": "p4-d02-actual-selector-interpolation-benchmark/v1",
   "seed": 20261123,

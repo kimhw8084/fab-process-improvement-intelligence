@@ -1,3 +1,13 @@
+# Latest verification — D03 correction and reproducible offline release (2026-11-24)
+
+| Requirement | Current executed evidence | Status / next action |
+|---|---|---|
+| D03 capability | At source `1c1b75f`, underpowered observed settings that may dominate the front are listed and cause `LIMITED_SCOPE`; familywise comparison is withheld. The P1-compatible module renders the omitted setting and required/eligible counts. D03 focused 22 PASS; P4 component 24 PASS. | Implemented, scoped to observed summaries; no causal or engineer-optimal claim. |
+| Independent suite composition | Current disposable P1 overlay SHA-256 `8372f71a290fae95f4807b5a95f45c2bfa20ad51aef3a46ec07286e1dc642e51`, 35 files. Routes 32 PASS, frontend 59 PASS, typecheck/build PASS. | Synthetic, unversioned host; browser run is stale for P4 `1c1b75f`, so E07 remains pending. |
+| Scientific qualification | Release runner at source `6c7455b`: 218 PASS/0 failures/0 skipped; E01–E04 and E06 PASS. D01–D05 checks retain their limited synthetic claims. | E02 PASS for current held-out adversarial catalog; proceed to D04 and D05 challenges. |
+| Exact offline archive | ZIP source commit `6c7455bc0e539a0555ec850e7fa697abebd88908`; 218 files, 9,280,785 bytes; SHA-256 `899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f`. Two detached rebuilds match; fresh extraction in a no-pip venv under OS network denial passed; E10 PASS. | CANDIDATE offline artifact for macOS ARM64/Python 3.11.7 only; no public distribution approval. |
+| Security and internal gates | 0 known advisories in 48 dependency instances; limited source scan: 8 low, 0 high/medium. | E05/E12 internal, E07 host/accessibility, E08 target OS, E09 independent legal/security/license review, and E11 engineer ROI remain pending. Do not claim transfer readiness. |
+
 # Latest verification — D03 incomplete observed-front handling (2026-11-24)
 
 | Requirement | Current executed evidence | Status / next action |

@@ -11,7 +11,7 @@
   ],
   "method": "independent absolute-normal residual simulation with split-conformal rank ceil((n+1)*0.95)",
   "order_statistic_rank": 20,
-  "product_window_sha256": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df",
+  "product_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
   "results": {
     "adaptively_selected_one_setting": {
       "coverage": 0.7866,

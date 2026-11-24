@@ -1,0 +1,70 @@
+{
+  "benchmark_script_sha256": "f9fe46e19ff15c104c2c446191980aff62ab967e44a23bb4752bc9caf62f83da",
+  "data_generating_process": {
+    "concentration_case": "29 distinct cluster values in [0,0.02], one at 1.0",
+    "estimand": "zero linear association under the null",
+    "factor": "continuous numeric exposure fixed within each cluster",
+    "limitations": "Synthetic unconditional null challenge; does not establish conditional coverage or validate a production threshold.",
+    "lower_cluster_count_case": "20 clusters balanced across five exposure levels; product minimum_clusters set to 20",
+    "outcome": "independent cluster intercept N(0,1) plus row noise N(0,0.5)",
+    "supported_case": "50 equally spaced cluster exposures from -1 to 1"
+  },
+  "decision": "Withhold clustered uncertainty for multi-level numeric factors constant within clusters when between-cluster information is highly concentrated; retain the estimate and label the threshold heuristic. The balanced 20-cluster case matches the reference but its 93.58% coverage is counterevidence to nominal 95% behavior at this cluster count. These synthetic challenges test the refusal boundary and reference parity, not a coverage promise.",
+  "method": {
+    "interpretation": "conservative abstention heuristic only, not an inferential effective sample size, df correction, or coverage guarantee",
+    "screen": "inverse Herfindahl of n_cluster*(x_cluster-x_row_weighted_mean)^2 shares",
+    "threshold": 10
+  },
+  "metrics": {
+    "balanced_20_cluster_five_level_exposure": {
+      "max_product_reference_interval_endpoint_error": 4.807265696626928e-13,
+      "nominal_clusters": 20,
+      "product_abstained_trials": 0,
+      "product_coverage_among_inferred": 0.9358333333333333,
+      "product_coverage_wilson95": [
+        0.9205303087066316,
+        0.9483548691013176
+      ],
+      "product_inferred_trials": 1200,
+      "rows_per_cluster": 8,
+      "statsmodels_reference_coverage": 0.9358333333333333,
+      "statsmodels_reference_false_positive_rate": 0.0641666666666667
+    },
+    "concentrated_30_cluster_exposure": {
+      "max_product_reference_interval_endpoint_error": 0.0,
+      "nominal_clusters": 30,
+      "product_abstained_trials": 1200,
+      "product_coverage_among_inferred": null,
+      "product_coverage_wilson95": null,
+      "product_inferred_trials": 0,
+      "rows_per_cluster": 8,
+      "statsmodels_reference_coverage": 0.3,
+      "statsmodels_reference_false_positive_rate": 0.7
+    },
+    "spread_50_cluster_exposure": {
+      "max_product_reference_interval_endpoint_error": 9.774720288735494e-08,
+      "nominal_clusters": 50,
+      "product_abstained_trials": 0,
+      "product_coverage_among_inferred": 0.9483333333333334,
+      "product_coverage_wilson95": [
+        0.9343171194320534,
+        0.9594882833608276
+      ],
+      "product_inferred_trials": 1200,
+      "rows_per_cluster": 8,
+      "statsmodels_reference_coverage": 0.9483333333333334,
+      "statsmodels_reference_false_positive_rate": 0.05166666666666664
+    }
+  },
+  "product_source_sha256": "519a8d73738ae7ec123a26713d5b3ffc2db57d914fc46f59bc60bec244cb5d9f",
+  "qualification": "PASS",
+  "reference": {
+    "name": "statsmodels clustered OLS CR1",
+    "version": "0.15.0"
+  },
+  "schema": "p4-d01-continuous-cluster-support/v1",
+  "seed": 294071,
+  "source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
+  "synthetic_only": true,
+  "trials_per_scenario": 1200
+}

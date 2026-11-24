@@ -1,3 +1,12 @@
+# Latest qualification checkpoint — D03 source and exact offline archive (2026-11-24)
+
+- Source commit qualified: `6c7455bc0e539a0555ec850e7fa697abebd88908`; release runner: E01–E04, E06, and E10 PASS; full suite 218 PASS/0 failures/0 skips. D03 is intentionally `LIMITED_SCOPE` in the integrated demo.
+- Candidate ZIP: 218 source files, 9,280,785 bytes, SHA-256 `899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f`. Two clean detached builds matched the workspace ZIP and manifest. Fresh no-pip extraction passed under macOS ARM64 network denial; `doctor`, demo, D01–D05 workflow, and network probe completed.
+- Current dependency audit: 0 advisories / 48 dependency instances. Limited source scan: 0 high/medium and 8 low findings. This is not independent security, legal, license-interpretation, or target-host clearance.
+- D03 correction and P1-compatible semantic table are source-committed at `1c1b75f`; progress and source-bound disposable P1 evidence checkpoint is commit `6c7455b`. Disposable P1 routes 32 PASS, frontend 59 PASS, P4 module 24 PASS, typechecks/build pass; browser observation is still stale from `36967b4` and E07 remains pending.
+- Gate states: E05/E12 `PENDING_INTERNAL`; E07 `PENDING_HOST_AND_FORMAL_ACCESSIBILITY`; E08 `PENDING_TARGET_OS`; E09 `PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW`; E11 `PENDING_ENGINEER_BASELINE`. State remains `CANDIDATE`; no public push or distribution.
+- Exact next work: proceed to D04 independent DOE challenge and repair any demonstrated design-quality defect, then continue D05. Keep the D03 archive and checksum evidence pinned; any source change requires a new source-bound archive qualification.
+
 # Latest checkpoint — D03 incomplete-front refusal and engineer evidence (2026-11-24)
 
 - Source commit: `1c1b75fb1cb6cfb48621bbb878634eccb9db93e8`. D03 now lists observed settings omitted below the independent-unit minimum, marks the observed Pareto front incomplete, sets `LIMITED_SCOPE`, and withholds familywise comparison when any observed setting is unassessed. The headless P1-compatible panel shows these settings in an accessible native table.

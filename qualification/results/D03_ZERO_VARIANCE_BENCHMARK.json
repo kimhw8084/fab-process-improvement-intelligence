@@ -8,7 +8,7 @@
     "product_zero_width_false_preference_pair_fraction": 0.0,
     "zero_variance_defect_interval_withholding_fraction": 1.0
   },
-  "product_tradeoffs_sha256": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
+  "product_tradeoffs_sha256": "e062b546e4d59dda95f4785596808888456102dc1d4b1daa94fb0bd16a10dea0",
   "qualification": "PASS",
   "schema": "p4-d03-zero-variance-benchmark/v1",
   "scope": "fixed-seed independent synthetic stress; does not establish manufacturing incidence or model transfer",

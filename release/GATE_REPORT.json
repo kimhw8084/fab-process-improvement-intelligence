@@ -4,6 +4,18 @@
     "os": "macOS-26.6.2-arm64-arm-64bit",
     "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]"
   },
+  "d01_cluster_exposure_support_benchmark": {
+    "evidence": "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json",
+    "rare_arm_one_way_cluster_coverage": 0.9036666666666666,
+    "rare_arm_p4_abstentions": 3000,
+    "rare_arm_welch_coverage": 0.9623333333333334,
+    "runtime_dependencies_added": false,
+    "scope": "randomized equal-size synthetic lot challenge; ten-per-level is a conservative abstention screen, not an inference guarantee",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "ten_per_level_p4_coverage": 0.947,
+    "trials_per_scenario": 3000
+  },
   "d01_cluster_imbalance_benchmark": {
     "balanced_product_coverage": 0.9391666666666667,
     "dominant_cluster_product_abstentions": 1200,
@@ -30,6 +42,22 @@
     "trials_per_design": 250,
     "well_conditioned_median_proxy": 16.905842933964248
   },
+  "d01_continuous_cluster_support_benchmark": {
+    "20_cluster_five_level_coverage_counterevidence": 0.9358333333333333,
+    "20_cluster_five_level_coverage_wilson95": [
+      0.9205303087066316,
+      0.9483548691013176
+    ],
+    "concentrated_product_abstentions": 1200,
+    "concentrated_reference_false_positive_rate": 0.7,
+    "evidence": "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "synthetic numeric cluster-assignment challenge; the information-concentration threshold is abstention-only and does not establish coverage",
+    "source_hash_matches": true,
+    "spread_product_coverage": 0.9483333333333334,
+    "status": "PASS",
+    "trials_per_scenario": 1200
+  },
   "d01_crossed_dependence_benchmark": {
     "benchmark_script_hash_matches": true,
     "evidence": "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json",
@@ -45,6 +73,19 @@
       0.03611089196253996,
       0.060115615250606366
     ]
+  },
+  "d02_actual_selector_interpolation_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
+    "interpolated_review_action_consistent_trials": 250,
+    "p4_candidate_cell_false_feasible_fraction": 0.2329105399034684,
+    "p4_candidate_family_false_feasible_trial_rate": 0.988,
+    "p4_interpolation_false_feasible_trial_rate": 0.988,
+    "predeclared_center_false_feasible_trial_rate": 0.0,
+    "scope": "direct actual-selector synthetic model-form challenge; diagnostic execution is not a production risk or coverage qualification",
+    "source_hash_matches": true,
+    "status": "PASS_DIAGNOSTIC_EXECUTED",
+    "trials": 250
   },
   "d02_adaptive_selection_benchmark": {
     "adaptive_minimum_radius_coverage": 0.7866,
@@ -103,6 +144,17 @@
     "status": "PASS",
     "trials": 1000
   },
+  "d02_stratified_calibration_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json",
+    "pooled_high_group_coverage": 0.9076,
+    "runtime_dependencies_added": false,
+    "scope": "seeded synthetic transfer challenge with fixed, predeclared groups; validates this implementation against the stated generator only",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "stratified_high_group_coverage": 0.9512,
+    "trials": 2500
+  },
   "d02_stratum_transfer_benchmark": {
     "coverage_by_population": {
       "same_known_mix": 0.94825,
@@ -144,6 +196,18 @@
       "60": 500
     }
   },
+  "d03_zero_variance_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json",
+    "legacy_zero_width_false_preference_pairs": 760,
+    "product_reported_zero_width_false_preference_pairs": 0,
+    "product_source_hash_matches": true,
+    "runtime_dependencies_added": false,
+    "scope": "independent synthetic rare-event stress; demonstrates an interval failure mode on the specified generator only",
+    "status": "PASS",
+    "trials": 1000,
+    "zero_variance_defect_interval_withholding_fraction": 1.0
+  },
   "d04_oss_benchmark": {
     "d_optimal_efficiency_percent": 99.99999999999997,
     "evidence": "release/D04_OSS_COMPARISON.json",
@@ -158,7 +222,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
+  "evaluated_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -181,6 +245,7 @@
       "evidence": [
         "tests/test_p4_scientific.py",
         "tests/test_d01_d02_independent.py",
+        "tests/test_d02_actual_selector_benchmark.py",
         "tests/test_d03_relationships.py",
         "tests/test_d04_designs.py",
         "tests/test_d05_studies.py",
@@ -188,25 +253,37 @@
         "qualification/critical_cases.json",
         "qualification/benchmark_d01_cluster_imbalance.py",
         "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json",
+        "qualification/benchmark_d01_exposure_support.py",
+        "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json",
         "qualification/benchmark_d01_crossed_dependence.py",
         "qualification/results/D01_CROSSED_DEPENDENCE_BENCHMARK.json",
         "qualification/benchmark_d01_conditioning.py",
         "qualification/results/D01_CONDITIONING_BENCHMARK.json",
+        "qualification/benchmark_d01_continuous_cluster_support.py",
+        "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
         "qualification/benchmark_d02_replicate_shift.py",
         "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
+        "qualification/benchmark_d02_adaptive_selection.py",
+        "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json",
+        "qualification/benchmark_d02_actual_selector.py",
+        "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
         "qualification/benchmark_d02_simultaneous.py",
         "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
         "qualification/benchmark_d02_stratum_transfer.py",
         "qualification/results/D02_STRATUM_TRANSFER_BENCHMARK.json",
         "qualification/benchmark_d02_response_drift.py",
         "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json",
+        "qualification/benchmark_d02_stratified_calibration.py",
+        "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json",
         "qualification/benchmark_d03_bounded_mean.py",
         "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json",
+        "qualification/benchmark_d03_zero_variance.py",
+        "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json",
         "release/D04_OSS_COMPARISON.json",
         "release/BENCHMARK_REPORT.json",
         "release/TEST_RESULTS.json"
       ],
-      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, D03 skewed bounded-familywise interval challenge, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks",
+      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary and concentrated continuous exposure, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks",
       "status": "PASS"
     },
     "E03": {
@@ -251,8 +328,8 @@
         "products/p4/ui/P4Panel.test.tsx",
         "products/p4/ui/P4Panel.tsx"
       ],
-      "reason": "current P4 source passed a synthetic workflow and permission-refusal run inside a disposable composition of the available P1 shell, including the shared Pareto chart; authoritative P1 source/version/registry ownership, owner acceptance, formal WCAG and screen-reader review, full contrast review, and target-host behavior remain pending",
-      "status": "PENDING_AUTHORITATIVE_HOST_AND_FORMAL_ACCESSIBILITY"
+      "reason": "the recorded disposable P1 composition does not hash-match current P4 sources or the bridge fixture; its previous synthetic browser run is stale and provides no current-source host integration evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending",
+      "status": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY"
     },
     "E08": {
       "evidence": [
@@ -305,7 +382,7 @@
     "D02_empirical_calibration": {
       "calibration_units": 20,
       "candidate_count": 76,
-      "candidate_scope": "ADVISORY_POINTWISE_SCREENING_ONLY",
+      "candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
       "coverage_guarantee": "none; this local score rank establishes neither conditional nor simultaneous coverage",
       "grid_cells": 225,
       "qualification": "PASS",
@@ -350,7 +427,7 @@
   },
   "known_critical_defects": [],
   "product": "p4",
-  "product_source_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
+  "product_source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
   "release_blockers": [
     "no actual authorized MCP connector",
     "disposable P1 composition compatibility was demonstrated; authoritative P1 source/version/registration ownership and owner acceptance remain pending",
@@ -369,11 +446,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "af36c5ab58be77657b5454cf34ec645b55a89382",
+    "package_source_snapshot": "6c7455bc0e539a0555ec850e7fa697abebd88908",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "ff142523d040a3a6a110970fcf9b9eaf9f46e42e207b8d3a1cf1b48d542dda1e",
-    "source_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
+    "product_source_manifest_sha256": "2fc5f1fd4a59f1a5f87ad9aa095e8d8eb2997bc41db9534e39e6333ac4bee03b",
+    "source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -410,29 +487,30 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 18,
+    "component_tests": 24,
     "disposable_host_evidence": {
+      "browser_evidence_matches_current_p4_commit": false,
       "current_p4_source_hashes_match": true,
       "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
       "formal_accessibility": "PENDING",
       "p1_owner_and_source_version": "PENDING",
-      "scope": "Synthetic local browser workflow over an unversioned accessible P1 source snapshot composed in disposable /tmp copy with current P4 source and evaluation fixture; not upstream or company qualification",
-      "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
+      "scope": "Current synthetic P1 host route and P4 module checks plus a historical browser workflow; P1 source is unversioned, and the browser observation is stale for the latest P4 source.",
+      "status": "NOT_RUN_OR_FAIL"
     },
     "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
-    "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY",
-    "source_declared_tests": 18,
+    "host_integration": "NOT_RUN_OR_FAIL",
+    "source_declared_tests": 24,
     "status": "PASS_LOCAL_MODULE_ONLY",
     "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 13.148,
+    "duration_seconds": 13.817,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 200,
+    "tests_run": 218,
     "tests_skipped": 0
   }
 }

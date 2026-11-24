@@ -198,11 +198,41 @@
         "oracle": "exact-list provenance check rejects Python substring-membership false positives and empty paired evidence",
         "required_result": "withhold the cross-step Pareto comparison and downstream claim; malformed objective and source contracts also fail closed",
         "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_row_lineage_requires_exact_source_id_array_membership"
+      },
+      {
+        "id": "P4-23",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "rare-event cross-step objective has identical observed values at one or more settings despite known nonzero and increasing population risks",
+        "oracle": "independent fixed-seed Bernoulli challenge with known per-setting defect probabilities",
+        "required_result": "withhold zero-width marginal intervals and uncertainty-separated dominance; report the scope limitation explicitly",
+        "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_constant_observed_metrics_do_not_create_zero_width_population_intervals"
+      },
+      {
+        "id": "P4-24",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "30 balanced-size lots carry a binary cluster-level factor with only 3 exposed lots under heteroskedastic lot means",
+        "oracle": "independent 3000-trial null challenge: ordinary CR1 coverage 90.37% (Wilson95 89.26-91.37%); Welch lot-mean reference 96.23%; P4 abstains on the sparse arm and matches Statsmodels at 10 versus 20 lots",
+        "required_result": "retain the identified point estimate and withhold cluster intervals when either exposure level has fewer than 10 independent lots",
+        "test": "tests/test_p4_scientific.py::P4IndependentChallenges.test_cluster_level_binary_exposure_withholds_sparse_arm_uncertainty_in_dossier"
       }
     ],
     "missing_case_evidence": [],
     "missing_test_names": [],
     "status": "PASS"
+  },
+  "d01_cluster_exposure_support_benchmark": {
+    "evidence": "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json",
+    "rare_arm_one_way_cluster_coverage": 0.9036666666666666,
+    "rare_arm_p4_abstentions": 3000,
+    "rare_arm_welch_coverage": 0.9623333333333334,
+    "runtime_dependencies_added": false,
+    "scope": "randomized equal-size synthetic lot challenge; ten-per-level is a conservative abstention screen, not an inference guarantee",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "ten_per_level_p4_coverage": 0.947,
+    "trials_per_scenario": 3000
   },
   "d01_cluster_imbalance_benchmark": {
     "balanced_product_coverage": 0.9391666666666667,
@@ -214,6 +244,35 @@
     "source_hash_matches": true,
     "status": "PASS",
     "trials_per_scenario": 1200
+  },
+  "d01_continuous_cluster_support_benchmark": {
+    "20_cluster_five_level_coverage_counterevidence": 0.9358333333333333,
+    "20_cluster_five_level_coverage_wilson95": [
+      0.9205303087066316,
+      0.9483548691013176
+    ],
+    "concentrated_product_abstentions": 1200,
+    "concentrated_reference_false_positive_rate": 0.7,
+    "evidence": "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "synthetic numeric cluster-assignment challenge; the information-concentration threshold is abstention-only and does not establish coverage",
+    "source_hash_matches": true,
+    "spread_product_coverage": 0.9483333333333334,
+    "status": "PASS",
+    "trials_per_scenario": 1200
+  },
+  "d02_actual_selector_interpolation_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
+    "interpolated_review_action_consistent_trials": 250,
+    "p4_candidate_cell_false_feasible_fraction": 0.2329105399034684,
+    "p4_candidate_family_false_feasible_trial_rate": 0.988,
+    "p4_interpolation_false_feasible_trial_rate": 0.988,
+    "predeclared_center_false_feasible_trial_rate": 0.0,
+    "scope": "direct actual-selector synthetic model-form challenge; diagnostic execution is not a production risk or coverage qualification",
+    "source_hash_matches": true,
+    "status": "PASS_DIAGNOSTIC_EXECUTED",
+    "trials": 250
   },
   "d02_adaptive_selection_benchmark": {
     "adaptive_minimum_radius_coverage": 0.7866,
@@ -283,6 +342,18 @@
       "60": 500
     }
   },
+  "d03_zero_variance_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json",
+    "legacy_zero_width_false_preference_pairs": 760,
+    "product_reported_zero_width_false_preference_pairs": 0,
+    "product_source_hash_matches": true,
+    "runtime_dependencies_added": false,
+    "scope": "independent synthetic rare-event stress; demonstrates an interval failure mode on the specified generator only",
+    "status": "PASS",
+    "trials": 1000,
+    "zero_variance_defect_interval_withholding_fraction": 1.0
+  },
   "d04_oss_benchmark": {
     "d_optimal_efficiency_percent": 99.99999999999997,
     "evidence": "release/D04_OSS_COMPARISON.json",
@@ -310,7 +381,7 @@
     "D02_empirical_calibration": {
       "calibration_units": 20,
       "candidate_count": 76,
-      "candidate_scope": "ADVISORY_POINTWISE_SCREENING_ONLY",
+      "candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
       "coverage_guarantee": "none; this local score rank establishes neither conditional nor simultaneous coverage",
       "grid_cells": 225,
       "qualification": "PASS",
@@ -355,11 +426,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "af36c5ab58be77657b5454cf34ec645b55a89382",
+    "package_source_snapshot": "6c7455bc0e539a0555ec850e7fa697abebd88908",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "ff142523d040a3a6a110970fcf9b9eaf9f46e42e207b8d3a1cf1b48d542dda1e",
-    "source_commit": "af36c5ab58be77657b5454cf34ec645b55a89382",
+    "product_source_manifest_sha256": "2fc5f1fd4a59f1a5f87ad9aa095e8d8eb2997bc41db9534e39e6333ac4bee03b",
+    "source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -392,29 +463,30 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 18,
+    "component_tests": 24,
     "disposable_host_evidence": {
+      "browser_evidence_matches_current_p4_commit": false,
       "current_p4_source_hashes_match": true,
       "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
       "formal_accessibility": "PENDING",
       "p1_owner_and_source_version": "PENDING",
-      "scope": "Synthetic local browser workflow over an unversioned accessible P1 source snapshot composed in disposable /tmp copy with current P4 source and evaluation fixture; not upstream or company qualification",
-      "status": "PASS_DISPOSABLE_COMPOSITION_ONLY"
+      "scope": "Current synthetic P1 host route and P4 module checks plus a historical browser workflow; P1 source is unversioned, and the browser observation is stale for the latest P4 source.",
+      "status": "NOT_RUN_OR_FAIL"
     },
     "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
-    "host_integration": "PASS_DISPOSABLE_COMPOSITION_ONLY",
-    "source_declared_tests": 18,
+    "host_integration": "NOT_RUN_OR_FAIL",
+    "source_declared_tests": 24,
     "status": "PASS_LOCAL_MODULE_ONLY",
     "typecheck": "PASS"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 13.148,
+    "duration_seconds": 13.817,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 200,
+    "tests_run": 218,
     "tests_skipped": 0
   }
 }

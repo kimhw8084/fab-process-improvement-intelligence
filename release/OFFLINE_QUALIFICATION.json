@@ -1,7 +1,7 @@
 {
   "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
   "archive_checksum_verified": true,
-  "archive_sha256": "4b34b4887d4c7596a8724a4736e81b477ca13988bb77e86c29d3f2c3cf8e48c1",
+  "archive_sha256": "899a0788e3b7b928cc8a34ca0ca0656b6a3bd533bf6272c63109532503d5cd6f",
   "capability_statuses": {
     "D01": "VALID",
     "D02": "VALID",
@@ -29,7 +29,7 @@
     "status": "DENIED"
   },
   "result": "PASS",
-  "source_files_verified": 214,
+  "source_files_verified": 218,
   "state": "PASS",
   "workflow_qualification_status": "PASS",
   "workflow_status": "PARTIAL"

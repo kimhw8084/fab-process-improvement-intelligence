@@ -20,8 +20,8 @@
     },
     "maximum_absolute_coefficient_difference": 2.842170943040401e-14,
     "metrics": {
-      "p50_ms": 0.07770862430334091,
-      "p95_ms": 0.1420825719833374,
+      "p50_ms": 0.08379202336072922,
+      "p95_ms": 0.11658482253551483,
       "peak_python_alloc_bytes_one_run": 96688,
       "repeats": 25
     },
@@ -30,7 +30,7 @@
     "version": "0.15.0"
   },
   "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (900-row integrated fixture and independent scaling tasks)",
-  "product_source_manifest_sha256": "8a69ae1fdab5ca0b15761c34112e95f69ed6c1d0284a5f18bbef91d5ec16b38a",
+  "product_source_manifest_sha256": "2fc5f1fd4a59f1a5f87ad9aa095e8d8eb2997bc41db9534e39e6333ac4bee03b",
   "product_source_sha256": {
     "fabintel/__init__.py": "1701050bc6b2245204dd74ba9829f6216b6d6689bf5ae78305ab0bbd1b0cf288",
     "fabintel/__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
@@ -39,17 +39,17 @@
     "fabintel/contracts.py": "9862bf8601878e5883c23cbbdf7b96d9bf9508e29a4d8faa984afdb0dcf94719",
     "fabintel/mcp_client.py": "0731a0f1f912d9e8e48b56b0cb4c6f24a59f4abb64db4ad77c2923f7958be282",
     "fabintel/mock_mcp.py": "e72fe85913b9f87d138f5fe0b480b6eaff1d289b099a9600c4f823eed2d46f2e",
-    "fabintel/mock_mcp_server.py": "8b801e87df7dd5466606f167b00efff1dbed4740926b144c79de7224db83675f",
+    "fabintel/mock_mcp_server.py": "07a5db181a422affdaa39bd03bea09bb824bc73666dbe3fcfbd6460973bb3508",
     "fabintel/project.py": "5cf402b86d6ebf03b0e1faa1bbe8491159a18ce0947059941e342fccd3a8c00e",
     "fabintel/qualification.py": "bb39e8f382f932980336b5ea789ec680f60fbbcb70dc4dc6ad7adb7a9aaaf574",
     "fabintel/server.py": "21b206fcf34770d576d67b560ae894dce87e674ff4889c8f0308f1953ea41148",
     "products/p4/__init__.py": "4451db1476259ee70e30fbfc26e713d13235887665d44bf15366afa160cc1a43",
     "products/p4/design.py": "0c4e73cd0f84a77f35b395c3cd2eb1b41fd1e14bf1b66f7c2b0561cbd5b597ca",
-    "products/p4/engine.py": "b009ac1f58e90436e44ca693fb283b01bc267d40312c32c4faa08e708d33e9b3",
-    "products/p4/mcp_workflow.py": "80420259d7a7fb8b941f0397cdde53e729a4bed6c0ac4725eb8b09a1e9665e46",
-    "products/p4/regression.py": "da90319a6021b153c72483ee03afe0cae7673759ea5b84556089959b898af345",
-    "products/p4/tradeoffs.py": "e990940f83c181480adaab69f6c9b4ae67bb12db98f04568dca74f9b0734b9db",
-    "products/p4/window.py": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df"
+    "products/p4/engine.py": "db8e9fe22453adf3894f167f1f16796d245f49ee89de12f5dfea4848a98d4766",
+    "products/p4/mcp_workflow.py": "4fd952e8786ee76ed113ef901caa7c62087141257c8d54c9c54bfb24dc6e68f4",
+    "products/p4/regression.py": "519a8d73738ae7ec123a26713d5b3ffc2db57d914fc46f59bc60bec244cb5d9f",
+    "products/p4/tradeoffs.py": "e062b546e4d59dda95f4785596808888456102dc1d4b1daa94fb0bd16a10dea0",
+    "products/p4/window.py": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20"
   },
   "reproducibility": "25 repetitions per task; deterministic input fixtures; perf_counter and tracemalloc",
   "result_checks": {
@@ -86,36 +86,36 @@
       "observations": 5000
     }
   },
-  "source_commit": "59bade4b6a2b814544dce8bf7a9bf36e08009af4",
+  "source_commit": "6c7455bc0e539a0555ec850e7fa697abebd88908",
   "tasks": {
     "integrated_full_workflow_demo_900_rows": {
-      "p50_ms": 255.16345910727978,
-      "p95_ms": 263.34829069674015,
-      "peak_python_alloc_bytes_one_run": 3225838,
+      "p50_ms": 284.91145838052034,
+      "p95_ms": 294.18179113417864,
+      "peak_python_alloc_bytes_one_run": 3308528,
       "repeats": 25
     },
     "single_metric_sensitivity_1000_rows": {
-      "p50_ms": 10.470290668308735,
-      "p95_ms": 11.650958098471165,
-      "peak_python_alloc_bytes_one_run": 1314972,
+      "p50_ms": 10.34470833837986,
+      "p95_ms": 11.473082937300205,
+      "peak_python_alloc_bytes_one_run": 1315156,
       "repeats": 25
     },
     "single_metric_sensitivity_18_rows": {
-      "p50_ms": 0.32995734363794327,
-      "p95_ms": 0.3620833158493042,
-      "peak_python_alloc_bytes_one_run": 27530,
+      "p50_ms": 0.31683314591646194,
+      "p95_ms": 0.3487085923552513,
+      "peak_python_alloc_bytes_one_run": 27602,
       "repeats": 25
     },
     "single_metric_sensitivity_5000_rows": {
-      "p50_ms": 51.203458569943905,
-      "p95_ms": 52.92587447911501,
-      "peak_python_alloc_bytes_one_run": 6122470,
+      "p50_ms": 51.38166714459658,
+      "p95_ms": 53.136750124394894,
+      "peak_python_alloc_bytes_one_run": 6123094,
       "repeats": 25
     },
     "synthetic_schema_catalog_13000_tables": {
-      "p50_ms": 8.511332795023918,
-      "p95_ms": 11.448042467236519,
-      "peak_python_alloc_bytes_one_run": 6521827,
+      "p50_ms": 8.38333461433649,
+      "p95_ms": 11.999832466244698,
+      "peak_python_alloc_bytes_one_run": 6522027,
       "repeats": 25
     }
   },

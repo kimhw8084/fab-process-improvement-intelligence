@@ -5,6 +5,8 @@
         "observational conditional mean is represented by the selected linear/quadratic terms",
         "HC3 handles heteroskedasticity but assumes independent observations",
         "cluster covariance allows within-cluster dependence and relies on independent clusters",
+        "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
+        "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
         "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
         "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
         "classical covariance additionally assumes homoskedastic errors",
@@ -51,6 +53,7 @@
       },
       "fixed_effects": {},
       "inference": {
+        "cluster_level_factor_support": [],
         "cluster_nesting": null,
         "cluster_size_diagnostic": {
           "dominant_cluster_row_share": 0.025,
@@ -169,6 +172,8 @@
         "observational conditional mean is represented by the selected linear/quadratic terms",
         "HC3 handles heteroskedasticity but assumes independent observations",
         "cluster covariance allows within-cluster dependence and relies on independent clusters",
+        "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
+        "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
         "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
         "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
         "classical covariance additionally assumes homoskedastic errors",
@@ -219,6 +224,7 @@
       },
       "fixed_effects": {},
       "inference": {
+        "cluster_level_factor_support": [],
         "cluster_nesting": null,
         "cluster_size_diagnostic": {
           "dominant_cluster_row_share": 0.025,
@@ -333,13 +339,15 @@
       }
     }
   },
-  "benchmark_script_sha256": "58a475233ac5a8555f8f5905c3a84c0a5417fe76af33233d818222e3e2248a75",
+  "benchmark_script_sha256": "4a7be5a5449c7067ace3dfb056b37b86ff58d241d4f465970a87c16abe09773b",
   "calibration_units_per_trial": 39,
   "candidate_thresholds": {
     "defect": {
-      "max": 0.24
+      "max": 0.24,
+      "min": null
     },
     "quality": {
+      "max": null,
       "min": 0.15
     }
   },
@@ -391,7 +399,7 @@
       0.0038267584855551234
     ]
   },
-  "product_window_sha256": "757d517acbc804159c57949d1f19efaea9b92121d9a1f4a189da1ee6474817df",
+  "product_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
   "schema": "p4-d02-simultaneous-calibration-benchmark/v1",
   "seed": 20261123,
   "training_units": 40,
