@@ -1,0 +1,9 @@
+# P4 internal engineering acceptance and ROI protocol
+
+Before using manufacturing data, the source owner must authorize the exact read-only endpoints, tools, source IDs, semantic version, time range, row limit, and audit/cancel behavior. A semantic owner separately reviews all field roles, units, joins, grain, populations, timestamps, bounds, and constraints. The engineer reviews advisory status, uncertainty, refusal behavior, and evidence export. P4 never changes recipes or equipment.
+
+Pre-register 3–8 representative engineering tasks and a held-out task set. For each task, record the current approved method and its completion time, data-preparation time, review effort, valid result rate, and correction/rework. Run comparable P4 tasks with the same evidence and acceptance rubric. Report per-task differences, sample sizes, confidence intervals when justified, abstentions, false accepted findings, review burden, and failures. Do not tune P4 on held-out tasks. Start with one engineering team; do not generalize to another population without replication.
+
+Compute net annual hours only from measured eligible users and task volumes: `eligible users × annual tasks/user × (accepted manual minutes − accepted P4 minutes)/60 − support, maintenance, and rework hours`. Report finance-recognized cash ROI separately from engineering-capacity hours and only with finance-approved cost assumptions. Set acceptance thresholds from the measured baseline before the holdout; no yield or ROI target is assumed here.
+
+Rollback on unauthorized access, semantic mismatch, unsupported result claims, audit/cancellation failure, unsafe recommendation, or data-integrity issue. Disable the MCP config and return to local-only operation; preserve the rejected report and reviewed config with secrets removed.

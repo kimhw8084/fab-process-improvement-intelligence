@@ -48,6 +48,13 @@ def main():
     web.add_argument("--allow-synthetic-mcp-test", action="store_true", help="explicitly allow an enabled SYNTHETIC_TEST_ONLY profile")
     mcp_test = commands.add_parser("mcp-test", help="exercise configured MCP transports only against an explicit synthetic test config")
     mcp_test.add_argument("--config", default=str(BASE / "requirements" / "synthetic-mcp-mapping.v1.json"))
+    mcp_discover = commands.add_parser("mcp-discover", help="inspect MCP tool metadata only; requires explicit internal discovery approval")
+    mcp_discover.add_argument("--config", required=True, help="minimal transport-only discovery config; no semantic mapping is required")
+    mcp_discover.add_argument("--output", default="", help="write local capability inventory and unapproved proposals")
+    mcp_discover.add_argument("--site-approval-reference", default="", help="exact reference for the approved metadata-only discovery")
+    mcp_discover.add_argument("--authorized-discovery", action="store_true", help="confirms site-owner approval for initialize and tools/list only")
+    mcp_discover.add_argument("--synthetic-test", action="store_true", help="explicitly allow a SYNTHETIC_TEST_ONLY config")
+    mcp_discover.add_argument("--draft-config-output", default="", help="write a separate partial discovery draft; never a runnable site config")
     site_test = commands.add_parser("site-mcp-qualify", help="run site-owned MCP checks after explicit company authorization")
     site_test.add_argument("--config", required=True)
     site_test.add_argument("--site-approval-reference", required=True)
@@ -130,6 +137,45 @@ def main():
             adapter.client.close()
         if not all(obj["operations"].values()):
             obj["status"] = "SYNTHETIC_TRANSPORT_FAIL"
+    elif args.command == "mcp-discover":
+        from fabintel.discovery import discover_capabilities, load_discovery_config
+        try:
+            config = load_discovery_config(args.config)
+            obj = discover_capabilities(config, site_approval_reference=args.site_approval_reference,
+                                        authorized_discovery=args.authorized_discovery,
+                                        synthetic_test=args.synthetic_test)
+        except Exception as exc:
+            obj = {"status": "DISCOVERY_REFUSED_OR_FAILED", "failure_type": type(exc).__name__,
+                   "reason": str(exc), "manufacturing_tool_calls": 0,
+                   "authority": "No source mappings or approvals were created."}
+        if (args.draft_config_output and obj.get("status") == "CAPABILITIES_DISCOVERED_REVIEW_REQUIRED"):
+            draft_path = Path(args.draft_config_output)
+            if draft_path.resolve() == Path(args.config).resolve() or draft_path.exists():
+                obj["draft_config"] = {"status": "NOT_WRITTEN_PATH_EXISTS_OR_IS_SOURCE", "path": str(draft_path)}
+            else:
+                proposed_operations = {item["logical_operation"]: item["mapping_proposal"]
+                                       for item in obj.get("logical_operation_proposals", [])
+                                       if item.get("status") == "REVIEW_REQUIRED_EXACT_SCHEMA_PROPOSAL"
+                                       and isinstance(item.get("mapping_proposal"), dict)}
+                draft = {"config_version": "1.0.0", "environment": config["environment"],
+                         "qualification_status": "PENDING_INTERNAL",
+                         "site_approval_reference": config.get("site_approval_reference", ""),
+                         "approved_source_ids": [], "approved_semantic_versions": [],
+                         "transport": config["transport"], "operations": proposed_operations}
+                if (draft["transport"].get("type") == "stdio" and draft["transport"].get("cwd")
+                        and not Path(draft["transport"]["cwd"]).is_absolute() and config.get("_config_dir")):
+                    draft["transport"]["cwd"] = str((Path(config["_config_dir"]) / draft["transport"]["cwd"]).resolve())
+                _write_json(draft_path, draft)
+                from fabintel.site_config import validate_site_config
+                draft_validation = validate_site_config(draft)
+                obj["draft_config"] = {"status": "PARTIAL_UNAPPROVED_DRAFT_WRITTEN", "path": str(draft_path),
+                    "workflow_ready": draft_validation["p4_workflow_ready"],
+                    "validation": draft_validation,
+                    "reason": "No source IDs, semantic versions, operation mappings, process context, units, or engineer-approved bounds are inferred."}
+        if args.output:
+            _write_json(args.output, obj)
+            print(f"WROTE local MCP capability review: {args.output}", file=sys.stderr)
+            return 0 if obj.get("status") == "CAPABILITIES_DISCOVERED_REVIEW_REQUIRED" else 1
     elif args.command == "site-mcp-qualify":
         from fabintel.mcp_client import load_site_config
         from qualification.site_mcp_qualification import qualify
@@ -213,6 +259,8 @@ def main():
     print(json.dumps(obj, indent=2, sort_keys=True, allow_nan=False))
     if args.command == "mcp-test":
         return 0 if obj.get("status") == "SYNTHETIC_TRANSPORT_PASS" else 1
+    if args.command == "mcp-discover":
+        return 0 if obj.get("status") == "CAPABILITIES_DISCOVERED_REVIEW_REQUIRED" else 1
     if args.command == "site-mcp-qualify":
         return 0 if obj.get("status") == "SITE_TESTS_COMPLETED_PENDING_SIGNOFF" else 1
     if args.command == "mcp-config-validate":

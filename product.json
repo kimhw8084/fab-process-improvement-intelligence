@@ -4,6 +4,7 @@
   "title": "FAB Process Improvement Intelligence",
   "entrypoints": {
     "cli": "python -m fabintel",
+    "mcp_discovery": "python -m fabintel mcp-discover --config <discovery-config>",
     "standalone_ui": "python -m fabintel serve; http://127.0.0.1:8765/",
     "analysis": "products.p4.engine:analyze"
   },
@@ -12,7 +13,8 @@
     "D03 observed multiobjective Pareto tradeoffs",
     "D02 constrained observed and replicated feasible settings",
     "D04 seeded non-executing factorial experiment proposal",
-    "D05 randomized and difference-in-differences study estimates with design gates"
+    "D05 randomized and difference-in-differences study estimates with design gates",
+    "Authorized metadata-only MCP capability discovery with non-authorizing exact-schema proposals"
   ],
   "dependencies": [
     "Python >=3.10 standard-library scientific core and CLI",

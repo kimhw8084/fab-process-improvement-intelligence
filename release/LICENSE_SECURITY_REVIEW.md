@@ -1,32 +1,28 @@
-# P4 license and security review
+# P4 license and security evidence
 
-Review date: 2026-11-24. Scope: source and offline package in this folder, not the user's company infrastructure.
+Review date: 2026-11-24. Scope: this offline P4 candidate and its declared optional dependencies. This is engineering evidence, not formal clearance.
 
-## License inventory
+## Product and dependency scope
 
-- Scientific core and CLI: Python standard library only.
-- UI: a headless React 19.2 peer module owned by P1; P4 adds no chart or table runtime. The shared host's actual dependency lock and final UI host are not available here.
-- Product SBOM: `release/SBOM.spdx.json`. It marks P4's declared/concluded license `NOASSERTION` because the supplied project has no root `LICENSE` file. It includes the pinned Golden MIT method snapshot and the optional MCP SDK dependency inventory.
-- The optional MCP SDK bundle contains 28 SHA-256-pinned macOS ARM64 / CPython 3.11 wheels. Each wheel has an embedded license file; three packages have no SPDX expression in their wheel metadata. `license-inventory.json`, wheel hashes, and the copied CycloneDX SBOM are packaged. This is evidence for owner/legal review, not approval. No Windows/Linux wheelhouse is included.
-- Optional benchmark and independent-reference packages are pinned in `qualification/benchmark-requirements.txt`; they are not copied into the core product runtime. The bundled MCP SDK has a separate hash-locked wheelhouse for macOS ARM64 / CPython 3.11. The qualification audit checks both the resolved benchmark/reference tree and every locked MCP SDK dependency (48 package instances across the two optional trees; shared exact versions may be counted in both scopes). The prior scikit-learn 1.2.2 pin affected by CVE-2024-5206 is updated to 1.5.2. The scan at `2026-11-24T11:05:02Z` covers 48 optional package instances and found no known advisories in its recorded data; full results and scope limitations are in `release/DEPENDENCY_AUDIT.json`.
-- **Distribution rights are not cleared.** The initial launchkit did not declare a license or ownership notice. Do not interpret this ZIP as a grant to redistribute. Owner/legal review is a release blocker.
+- P4 runs independently of P1, P2, and P3. Its scientific core, CLI, local HTTP UI, browser assets, onboarding skill, and core tests use Python/browser standard capabilities; no third-party package is required for offline core analysis or UI operation.
+- The UI is P4's bundled local HTML/CSS/JavaScript/SVG workflow. It loads no CDN, remote font, telemetry, or external AI service. Authorized internal MCP discovery/read is an opt-in connection to an owner-approved internal endpoint; it is not part of local-only mode.
+- `release/SBOM.spdx.json` covers P4, the pinned Golden development-method snapshot, the optional MCP SDK dependency tree, and qualification-only packages. `release/QUALIFICATION_DEPENDENCY_LICENSE_INVENTORY.json` records exact resolved metadata and license-file hashes for the qualification/reference packages. Those packages are not core runtime dependencies.
+- The optional official MCP Python SDK 2.3.0 has a complete 28-wheel SHA-256-locked closure only for macOS ARM64/CPython 3.11. Its wheel/license artifacts are inventoried under `vendor/mcp-sdk/2.3.0/macos-arm64-cp311/`. Three wheel metadata entries have no SPDX expression. No other-platform SDK wheelhouse is supplied.
+- The 20 qualification-only packages and 28 optional SDK wheels were scanned by the recorded `pip-audit` run. Findings, timestamp, versions, and limits are in `release/DEPENDENCY_AUDIT.json`. This is advisory evidence for the scanned versions, not a guarantee about the OS, interpreter, future advisories, or licensing.
+- The P4 source has no first-party license or supplied ownership/assignment record; its SPDX license is `NOASSERTION`. The Golden snapshot's MIT license applies to that upstream snapshot only. `release/TRANSFER_RIGHTS_ASSESSMENT.md` records the unresolved rights decision.
 
-## Security review performed
+## Security evidence
 
-- The scientific core and headless panel perform no outbound connections, SQL, recipe write, model call, or actuation. An optional official MCP SDK adapter supports stdio and Streamable HTTP when invoked with explicit site-owned configuration. `mcp-test` uses only the bundled synthetic mock; no company endpoint, credentials, mapping, or data were used here.
-- Bandit 1.9.4 scanned product runtime and P4 Python sources (`fabintel/`, `products/p4/`) at source commit `294289fa29b884626fcdda7a188d67fae18e1218`: 0 high, 0 medium, and 8 low-severity B311 findings. They flag seeded pseudorandomness used only for reproducible synthetic fixtures and DOE proposals, not security tokens or secrets. Each is recorded with a disposition in `release/SOURCE_SECURITY_SCAN.json`. The scan is limited and is not an independent source review. Bandit ran in an isolated tool environment and is not a product or benchmark dependency.
-- The optional HTTP adapter enforces exact host allowlists, rejects redirects and non-loopback cleartext HTTP, sets the SDK SSE event bound, checks decoded result size, and reads bearer credentials only from a named environment variable. The SDK stdio transport starts an explicit argument-vector subprocess without a shell, using the SDK's safe environment inheritance plus explicit child-name-to-local-variable mappings. Protocol tests use P4's synthetic server over stdio and Streamable HTTP; independent security review and company egress/authentication review remain pending.
-- The remaining loopback HTTP API is a synthetic integration fixture for bounded engine jobs and cancellation. It serves no HTML and is not a deployable product backend.
-- Runtime bounds: 5,000 observations, 10 factors, 2,000 eligible Pareto rows, two active analysis jobs, 16 retained job records, 10,000 DOE runs.
-- CLI/UI errors avoid returning Python tracebacks or request bodies. Browser rendering uses text nodes for evidence and does not interpret retrieved input as HTML or code.
-- Cancellation and server shutdown are implemented and challenged. Server shutdown requests cancellation for active jobs; the service is foreground-only and has no daemon service manager.
-- Hashes detect accidental changes but are not signed. No signing key or trusted distribution chain is supplied.
+- `release/SOURCE_SECURITY_SCAN.json` records Bandit findings for `fabintel/` and `products/p4/`; the scan excludes test and release tooling. Seeded random-number findings are limited to deterministic synthetic fixtures and proposals. Read the recorded dispositions and source commit before relying on it.
+- The MCP SDK transport is official and configured, not a custom protocol implementation. Host allowlists, bounded results, no redirects, explicit stdio argument vectors, environment-variable credentials, and test-only synthetic discovery are covered by local tests. Discovery calls only `initialize` and `tools/list`; proposals are never approvals. No actual company endpoint, permission, credential, semantic mapping, or manufacturing data was accessed.
+- The exact extracted candidate runner performs a caller-enforced egress denial probe and checks local browser requests. Such checks qualify only the named host and environment. Hashes are unsigned and detect accidental changes only.
+- Local error handling, row/analysis bounds, cancellation, foreground shutdown, refusal behavior, and no recipe/equipment write path are covered by source tests and the exact-archive qualification report.
 
-## Checks not run / remaining gates
+## Remaining decisions
 
-- The shipped core runtime has no third-party Python dependencies. A fresh pip-audit scan covers the optional qualification tree and the complete hash-locked MCP SDK tree; Bandit scans product Python sources. Neither check replaces independent manual threat modeling, penetration testing, interpreter/OS scanning, or legal review.
-- No root license, copyright ownership evidence, legal approval, or company transfer approval is supplied.
-- No actual authorized MCP/user permission check, internal threat review, target-host authentication test, or company security-owner signoff is possible here. The synthetic mock does not qualify company semantics or permissions.
-- The current disposable composition of the available P1 shell with current P4 passed 61 frontend tests, 32 route tests, 26 P4 component tests, strict typecheck, production build, and a live synthetic analysis plus denied-permission browser flow. It rendered D01–D05 for a bounded 900-row synthetic acquisition; the denial suppressed values and left source semantics unaccessed. The P1 source snapshot is unversioned and the composition is disposable, not an upstream change. P1 owner confirmation, formal WCAG/screen-reader testing, contrast review, and target-host behavior remain pending.
+- **Not cleared:** ownership, employer assignment, third-party legal interpretation, trademark use, and transfer or redistribution rights. A company legal/IP owner must authorize transfer.
+- **Not cleared:** independent security review, target-host security/egress policy, OpenCode build/model approval, and production approval.
+- **Not qualified:** Windows, Linux, macOS Intel, and any macOS/Python combination not listed in the final archive report. The bundled MCP SDK remains macOS ARM64/CPython 3.11 only.
+- **Not established:** company semantic correctness, real-data manufacturing performance, engineer acceptance, ROI, or production readiness.
 
-**Gate result: CANDIDATE. E09 remains pending; no security or legal clearance is claimed. Public distribution is not approved.**
+**Disposition: local engineering candidate only. Do not infer authorization from a clean scan, a synthetic mock, or the candidate archive.**

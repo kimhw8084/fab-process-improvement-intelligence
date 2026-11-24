@@ -26,7 +26,7 @@ def run(command, *, cwd, env=None):
 def main():
     report = {
         "status": "NOT_RUN",
-        "scope": "optional MCP SDK offline wheel installation and P4 synthetic stdio/Streamable HTTP protocol tests",
+        "scope": "optional MCP SDK offline wheel installation and P4 synthetic stdio/Streamable HTTP transport, mapping, and metadata-discovery tests",
         "target": {"os": platform.system(), "architecture": platform.machine(),
                    "python": f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"},
         "asset": "vendor/mcp-sdk/2.3.0/macos-arm64-cp311",
@@ -69,7 +69,7 @@ def main():
             if version.returncode or version.stdout.strip() != "2.3.0":
                 raise RuntimeError("installed MCP SDK version did not match the pinned candidate")
             tests = run([str(python), "-m", "unittest", "discover", "-s", "tests",
-                         "-p", "test_mcp_transport.py", "-v"], cwd=ROOT, env=env)
+                         "-p", "test_mcp_*.py", "-v"], cwd=ROOT, env=env)
             output = tests.stdout + tests.stderr
             match = re.search(r"Ran (\d+) tests? in ([0-9.]+)s", output)
             report["protocol_test_return_code"] = tests.returncode

@@ -1,0 +1,13 @@
+{
+  "config_version": "1.0.0",
+  "environment": "INTERNAL_APPROVED_ONLY",
+  "qualification_status": "PENDING_INTERNAL",
+  "site_approval_reference": "",
+  "transport": {
+    "type": "streamable_http",
+    "endpoint": "https://site-approval-required.invalid/mcp",
+    "allowed_hosts": ["site-approval-required.invalid"],
+    "bearer_token_env": "SITE_APPROVED_MCP_BEARER_TOKEN",
+    "timeout_seconds": 10
+  }
+}

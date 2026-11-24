@@ -1,21 +1,12 @@
-# No-network install/runtime qualification
+# Offline qualification method
 
-## Exact artifact and scope
+`qualification/qualify_final_transfer.py` takes the final ZIP and adjacent SHA-256 sidecar, verifies the exact archive, safely extracts it into a new temporary directory, validates the embedded source manifest and release manifest, then runs a no-pip core workflow. It also performs local pinned MCP SDK installation, synthetic transport tests, local Chromium workflow checks, and start/stop/restart checks. The caller's OS must enforce egress denial; the P4 application does not supply a sandbox.
 
-The authoritative source commit, ZIP SHA-256, source-manifest digest, install result, analysis result, and socket-denial probe for the latest local candidate are recorded in `OFFLINE_QUALIFICATION.json` and `BUILD_REPRODUCIBILITY.json`. Those values must match the adjacent archive and checksum sidecar; this note does not qualify a different ZIP. The local run uses only synthetic data and contacts no company endpoint.
-
-## Procedure
-
-`qualification/offline_qualify.py` extracts the supplied ZIP into a fresh temporary directory, verifies the SHA-256 sidecar and packaged source manifest, creates a virtual environment with `with_pip=False`, then runs `doctor`, `demo`, full D01–D05 analysis, and a socket-denial probe. The caller's OS must enforce the network block; P4 does not provide a sandbox.
-
-The qualified local-host invocation is:
+Run under the approved host's OS network-deny policy:
 
 ```bash
-sandbox-exec -p '(version 1)(allow default)(deny network*)' python qualification/offline_qualify.py release/FAB_INTELLIGENCE_P4_CANDIDATE.zip
+python qualification/qualify_final_transfer.py release/final/P4_INTERNAL_TRANSFER_CANDIDATE.zip \
+  --python <approved-python> --report release/final/ARCHIVE_QUALIFICATION.json
 ```
 
-## Boundaries
-
-The product core uses the Python standard library only. The optional MCP SDK is a separate hashed wheelhouse, qualified only for its recorded macOS ARM64 / CPython 3.11 target against a synthetic loopback mock. This does not qualify live MCP endpoints or OS egress policy. The company-approved target OS/architecture, host, and network policy remain pending internal confirmation.
-
-The suite UI is a headless P1-compatible React module tested with P1's local toolchain; this CLI qualification does not test or approve an integrated browser host.
+The archived core is Python standard-library-only and has no P1/P2/P3 runtime dependency. The optional official MCP SDK closure is qualified only for macOS ARM64 CPython 3.11 against local synthetic peers. Browser assets come from the approved local browser installation. Company target OS, OpenCode build/model, OS egress rules, and real MCP source permissions remain pending internal verification.

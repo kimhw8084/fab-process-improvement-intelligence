@@ -1,8 +1,13 @@
 """Source checks for P4's shared-workspace contribution."""
 import json
+import hashlib
+import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 
+from qualification import build_transfer_bundle
 from qualification.build_transfer_bundle import (is_generated_qualification_output, require_clean_worktree,
                                                  source_files)
 
@@ -130,6 +135,32 @@ class SourceContractTests(unittest.TestCase):
         self.assertFalse(any(name.startswith("progress/") for name in packaged))
         self.assertTrue((ROOT / "progress" / "NEXT_ACTIONS.json").is_file())
 
+    def test_source_inventory_falls_back_to_verified_manifest_after_extraction(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            source = root / "docs" / "accepted.md"
+            source.parent.mkdir()
+            source.write_text("verified extracted source\n", encoding="utf-8")
+            digest = hashlib.sha256(source.read_bytes()).hexdigest()
+            release = root / "release"
+            release.mkdir()
+            (release / "SOURCE_MANIFEST.sha256").write_text(f"{digest}  docs/accepted.md\n", encoding="utf-8")
+            with patch.object(build_transfer_bundle, "ROOT", root), patch.object(
+                    build_transfer_bundle.subprocess, "run", return_value=SimpleNamespace(returncode=128)):
+                self.assertEqual(build_transfer_bundle.source_files(), [source])
+                source.write_text("changed after extraction\n", encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "source manifest mismatch"):
+                    build_transfer_bundle.source_files()
+
+    def test_spdx_optional_and_test_dependencies_point_to_the_p4_package(self):
+        sbom = json.loads((ROOT / "release" / "SBOM.spdx.json").read_text(encoding="utf-8"))
+        dependencies = [row for row in sbom["relationships"]
+                        if row["relationshipType"] in ("OPTIONAL_DEPENDENCY_OF", "TEST_DEPENDENCY_OF")]
+        self.assertTrue(dependencies)
+        self.assertTrue(all(row["spdxElementId"] != "SPDXRef-P4-Candidate"
+                            and row["relatedSpdxElement"] == "SPDXRef-P4-Candidate"
+                            for row in dependencies))
+
     def test_generated_qualification_results_remain_sidecars_outside_product_bundle(self):
         packaged = {path.relative_to(ROOT).as_posix() for path in source_files()}
         self.assertFalse(any(name.startswith("qualification/results/") for name in packaged))
@@ -139,6 +170,8 @@ class SourceContractTests(unittest.TestCase):
         self.assertNotIn("release/SOURCE_SECURITY_SCAN.json", packaged)
         self.assertNotIn("release/UI_COMPONENT_QUALIFICATION.json", packaged)
         self.assertNotIn("release/P4_STANDALONE_UI_BROWSER.json", packaged)
+        self.assertNotIn("release/MCP_SDK_QUALIFICATION.json", packaged)
+        self.assertNotIn("release/INTERNAL_PREFLIGHT.json", packaged)
         self.assertIn("release/SBOM.spdx.json", packaged)
         self.assertTrue((ROOT / "qualification" / "results" / "D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json").is_file())
         self.assertTrue(is_generated_qualification_output("qualification/results/new-report.json"))
@@ -148,6 +181,9 @@ class SourceContractTests(unittest.TestCase):
         self.assertTrue(is_generated_qualification_output("release/SOURCE_SECURITY_SCAN.json"))
         self.assertTrue(is_generated_qualification_output("release/UI_COMPONENT_QUALIFICATION.json"))
         self.assertTrue(is_generated_qualification_output("release/P4_STANDALONE_UI_BROWSER.json"))
+        self.assertTrue(is_generated_qualification_output("release/MCP_SDK_QUALIFICATION.json"))
+        self.assertTrue(is_generated_qualification_output("release/final/P4_INTERNAL_TRANSFER_CANDIDATE.zip"))
+        self.assertTrue(is_generated_qualification_output("release/BASELINE_885447f/FAB_INTELLIGENCE_P4_CANDIDATE.zip"))
         self.assertTrue(is_generated_qualification_output("progress/NEXT_ACTIONS.json"))
         self.assertTrue(is_generated_qualification_output("qualification/evidence/legacy/old-run.json"))
         self.assertFalse(is_generated_qualification_output("products/p4/window.py"))

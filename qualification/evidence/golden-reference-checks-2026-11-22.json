@@ -43,8 +43,8 @@
         "title": "Version-controlled project worktree"
       },
       {
-        "duration_ms": 85.56,
-        "evidence": "AST-parsed 51 Python source files.",
+        "duration_ms": 131.96,
+        "evidence": "AST-parsed 96 Python source files.",
         "mandatory": true,
         "rule_id": "PY-001",
         "stage": "fast",

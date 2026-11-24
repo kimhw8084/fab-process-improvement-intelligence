@@ -1,45 +1,33 @@
-# Authorized company-side qualification and OpenCode onboarding
+# P4 authorized internal first run
 
-**Do not connect to an actual company system until the appropriate site owner has approved the exact read-only test.** `python -m fabintel preflight` is local and reports PENDING. `python -m fabintel mcp-test` contacts only the bundled synthetic server and is the externally testable protocol check.
+## One-instruction start
 
-Use this sequence from the unpacked P4 folder. The same commands can be run from an OpenCode terminal; OpenCode may help edit a site-owned draft, but deterministic tools produce diagnostics and never approve mappings.
+Extract the approved package, open the folder in the approved internal OpenCode build using the company-approved local/internal model, and send:
 
-1. Obtain source-owner approval for the exact read-only discovery, semantic query, row limit, and source allowlist. Verify the archive checksum, independent review, license/security reports, and approved target OS before transfer.
-2. Install offline on that confirmed OS. Keep credentials in approved environment variables; never put secret values in JSON, prompts, logs, or source.
-3. The site owner fills a copy of `requirements/company-config.template.json` using real MCP discovery output and the approved semantic catalog. Do not copy synthetic mappings as real mappings. The frozen logical operation contract is `contracts/adapter-operations.v1.json`. D01–D05 also require explicit normalization, units, context, population grain, source versions, and approved time bounds. Only one source or an approved two-source relationship is supported.
-4. Run the zero-connection structural check:
+> `@p4-internal-onboarding Start P4 onboarding from this extracted folder. Complete all local checks and prepare a PENDING_INTERNAL draft. Ask only for missing essential inputs: the exact source-owner approval for metadata discovery or bounded read-only qualification, and the engineer's objective, approved factor bounds, metric definitions, and process context.`
 
-   ```bash
-   python -m fabintel mcp-config-validate --config <site-config> --output config-review.json
-   ```
+OpenCode loads `.opencode/skills/p4-internal-onboarding/SKILL.md` from the project folder. The skill is also mirrored under `.agents/skills/` for Codex-compatible discovery. For CLI startup, set `OPENCODE_DISABLE_AUTOUPDATE=1` and `OPENCODE_DISABLE_MODELS_FETCH=1`; these reduce automatic requests but do not replace the company's OS-enforced egress policy. Do not load the skill from an unverified source folder.
 
-   `STRUCTURALLY_VALID_REVIEW_REQUIRED` means local shape/consistency passed; it does not authenticate authorization or semantics. Repair every reported error before connecting.
-5. After the site owner authorizes discovery/semantic inspection, create an unapproved deterministic review:
+## Deterministic fallback commands
 
-   ```bash
-   python -m fabintel mcp-onboard --config <site-config> \
-     --site-approval-reference <approved-ref> --authorized-site-test \
-     --draft-config-output <separate-review-copy> \
-     --output onboarding-review.json
-   ```
+Run from the extracted folder on the approved target OS:
 
-   The separate draft remains `PENDING_INTERNAL`; it is never signed or qualified. For synthetic-only qualification, use `--synthetic-test` instead of the internal authorization flags. Exact identifier/unit suggestions remain proposals. An authorized semantic owner must independently inspect the catalog, mappings, grain, units, relationship, permission, and experiment context; the LLM and this command cannot sign the review.
-6. After written site review, populate the site's approved qualification inputs and obtain a nonempty site approval reference. Re-run structural validation, then run the bounded test:
+```bash
+python qualification/first_run.py --output qualification/first-run.json
+python -m fabintel doctor
+python -m fabintel preflight
+```
 
-   ```bash
-   python -m fabintel site-mcp-qualify --config <site-config> \
-     --site-approval-reference <approved-ref> --authorized-site-test \
-     --output site-qualification.json
-   ```
+For metadata discovery, copy `requirements/mcp-discovery.template.json`, configure only the owner-supplied transport/host/credential-variable reference and approval ID, then obtain explicit approval for `initialize` and `tools/list`:
 
-   `SITE_TESTS_COMPLETED_PENDING_SIGNOFF` is not company approval. The source owner must inspect the audit record and sign the local qualification outside P4. Only after that owner-controlled step may `qualification_status` be set to `QUALIFIED_INTERNAL`.
-7. Start the standalone application with the reviewed config:
+```bash
+python -m fabintel mcp-discover --config <discovery-config> \
+  --site-approval-reference <approved-reference> --authorized-discovery \
+  --draft-config-output <separate-partial-draft.json> --output <local-capabilities.json>
+```
 
-   ```bash
-   python -m fabintel serve --mcp-config <site-config>
-   ```
+Discovery does not invoke manufacturing tools. Its exact-name and complete-schema matches remain proposals. Local schema validation must still reject the partial draft until an administrator-authorized semantic catalog, reviewed operation mappings, engineer objective/context/units/bounds, grain, population and time semantics are present.
 
-   Open the loopback URL printed by the command and use **Run configured read-only investigation**. Check the acquisition audit, D01–D05 results, uncertainty, refusals, and exported evidence before engineering use. P4 has no recipe-write or equipment-control operation.
-8. For diagnostics, rerun `mcp-config-validate`, `mcp-onboard`, and the authorized qualification step after any mapping or server change. Keep reports local and redact company identifiers before external escalation. On failure, stop the server with Ctrl-C, retain the diagnostic output for the site owner, restore the backed-up reviewed config, or remove `--mcp-config` to return to local-only operation. Never weaken source, unit, relationship, time-window, or read-only checks to clear an error.
+After independent semantic-owner review, run `mcp-config-validate`, then `mcp-onboard` to generate a separate unapproved normalization review. Only after explicit bounded-read approval run `site-mcp-qualify`. A report ending `PENDING_SIGNOFF` is not internal qualification; the owner alone records the signed decision. Start the UI with `python -m fabintel serve --mcp-config <owner-signed-config>`. Rollback by stopping the foreground process, restoring the reviewed config, and restarting without `--mcp-config`.
 
-Company-specific endpoints, source permissions, semantic mappings, target OS, deployment host, authenticators, accepted source definitions and ROI baselines **remain pending internal verification**. Site operators must discover and explicitly configure them; this package invents none. Company authorization and production approval are not established by synthetic tests or local reports.
+Company endpoints, grants, semantic meanings, source relationships, target OS, OpenCode policy, actual data, engineer acceptance, ROI, and legal/security signoff remain company-controlled. No synthetic evidence changes those statuses.

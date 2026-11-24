@@ -21,8 +21,8 @@ packages = [root_package]
 relationships = []
 annotations = [
     {"annotationType": "OTHER", "annotator": "Tool: FabIntel P4 local SBOM generator 1.0.0",
-     "annotationDate": "2026-11-22T00:00:00Z",
-     "comment": "Scientific core and CLI use Python standard library. The P1-owned UI uses the P1 React/toolchain as peer dependencies; no React, ECharts, Plotly, Cytoscape, or AG Grid runtime is bundled by P4."},
+     "annotationDate": "2026-11-24T00:00:00Z",
+     "comment": "Scientific core, CLI, and P4 standalone HTML/CSS/JavaScript/SVG workbench use Python/browser standard capabilities; P4 has no P1/P2/P3 runtime dependency and bundles no React, ECharts, Plotly, Cytoscape, or AG Grid runtime."},
 ]
 
 golden = {
@@ -59,8 +59,27 @@ for item in inventory["packages"]:
                     f"Wheel and embedded license-file hashes are in vendor/mcp-sdk/2.3.0/macos-arm64-cp311/license-inventory.json. "
                     f"Declared license expression from wheel metadata: {expression}. Company/legal license approval is pending."),
     })
-    relationships.append({"spdxElementId": "SPDXRef-P4-Candidate", "relationshipType": "OPTIONAL_DEPENDENCY_OF",
-                          "relatedSpdxElement": identifier})
+    relationships.append({"spdxElementId": identifier, "relationshipType": "OPTIONAL_DEPENDENCY_OF",
+                          "relatedSpdxElement": "SPDXRef-P4-Candidate"})
+
+qualification_inventory = json.loads((ROOT / "release" / "QUALIFICATION_DEPENDENCY_LICENSE_INVENTORY.json").read_text(encoding="utf-8"))
+for item in qualification_inventory["packages"]:
+    identifier = "SPDXRef-QUAL-" + re.sub(r"[^A-Za-z0-9.-]", "-", f"{item['name']}-{item['version']}")
+    declared = item.get("spdx_expression") or "NOASSERTION"
+    raw_metadata = {"license": item.get("raw_license_metadata"), "classifiers": item.get("license_classifiers")}
+    packages.append({
+        "name": item["name"], "SPDXID": identifier, "versionInfo": item["version"],
+        "downloadLocation": "NOASSERTION", "filesAnalyzed": False,
+        "licenseConcluded": "NOASSERTION", "licenseDeclared": declared,
+        "copyrightText": "NOASSERTION", "primaryPackagePurpose": "LIBRARY",
+        "externalRefs": [{"referenceCategory": "PACKAGE-MANAGER", "referenceType": "purl",
+                           "referenceLocator": item["purl"]}],
+        "comment": ("Qualification/reference-only dependency; not bundled and not a P4 runtime dependency. "
+                    f"Raw metadata: {json.dumps(raw_metadata, sort_keys=True)}. License file hashes are in "
+                    "release/QUALIFICATION_DEPENDENCY_LICENSE_INVENTORY.json; legal interpretation remains pending."),
+    })
+    relationships.append({"spdxElementId": identifier, "relationshipType": "TEST_DEPENDENCY_OF",
+                          "relatedSpdxElement": "SPDXRef-P4-Candidate"})
 
 sbom = {
     "spdxVersion": "SPDX-2.3",
@@ -68,7 +87,7 @@ sbom = {
     "SPDXID": "SPDXRef-DOCUMENT",
     "name": "fab-intelligence-p4-candidate",
     "documentNamespace": "https://fabintel.invalid/spdx/p4-candidate-1.0.0",
-    "creationInfo": {"creators": ["Tool: FabIntel P4 local SBOM generator 1.0.0"], "created": "2026-11-22T00:00:00Z"},
+    "creationInfo": {"creators": ["Tool: FabIntel P4 local SBOM generator 1.0.0"], "created": "2026-11-24T00:00:00Z"},
     "packages": packages,
     "relationships": relationships,
     "annotations": annotations,

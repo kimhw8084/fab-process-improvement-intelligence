@@ -70,8 +70,14 @@ def qualify():
 
     source_hashes = {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
                      for name in STANDALONE_SOURCE_PATHS}
-    source_commit = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"], check=True,
-                                   text=True, capture_output=True).stdout.strip()
+    revision = subprocess.run(["git", "-C", str(ROOT), "rev-parse", "HEAD"],
+                              text=True, capture_output=True)
+    if revision.returncode == 0:
+        source_commit = revision.stdout.strip()
+    else:
+        source_commit = json.loads((ROOT / "release" / "SOURCE_BUILD.json").read_text(encoding="utf-8")).get("source_commit")
+        if not isinstance(source_commit, str) or not source_commit:
+            raise RuntimeError("browser qualification needs a Git revision or a valid packaged SOURCE_BUILD.json")
     servers = [LocalServer(0), LocalServer(0, mcp_config=_synthetic_mcp_config(),
                                           allow_synthetic_mcp_test=True)]
     threads = [threading.Thread(target=server.serve_forever, daemon=True) for server in servers]

@@ -21,6 +21,7 @@ def main():
         ("products/p4/relationships.v1.1.schema.json", "fixtures/relationship_contract_v1.1.json"),
         ("requirements/site-mcp-config.v1.schema.json", "requirements/synthetic-mcp-mapping.v1.json"),
         ("requirements/site-mcp-config.v1.schema.json", "requirements/company-config.template.json"),
+        ("requirements/mcp-discovery-config.v1.schema.json", "requirements/mcp-discovery.template.json"),
     ]
     results = []
     for schema_rel, instance_rel in checks:

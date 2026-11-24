@@ -23,7 +23,9 @@ EXCLUDED = {ARCHIVE, CHECKSUM, RELEASE / "RELEASE_REPORT.md", RELEASE / "OFFLINE
             RELEASE / "SCHEMA_VALIDATION.json", RELEASE / "BENCHMARK_REPORT.json",
             RELEASE / "full_workflow_demo_evidence.json", RELEASE / "DEPENDENCY_AUDIT.json",
             RELEASE / "SOURCE_SECURITY_SCAN.json", RELEASE / "UI_COMPONENT_QUALIFICATION.json",
-            RELEASE / "P4_STANDALONE_UI_BROWSER.json"}
+            RELEASE / "P4_STANDALONE_UI_BROWSER.json", RELEASE / "MCP_SDK_QUALIFICATION.json",
+            RELEASE / "INTERNAL_PREFLIGHT.json", RELEASE / "PUBLISHED_ARTIFACT_RECONCILIATION.json",
+            RELEASE / "PUBLISHED_ARTIFACT_RECONCILIATION.md"}
 SKIP_DIRS = {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", "node_modules"}
 # Workspace-only execution ledgers are kept beside the source but are not product transfer contents.
 EXCLUDED_SOURCE_PREFIXES = ("qualification/evidence/legacy/", "qualification/results/", "progress/")
@@ -34,7 +36,8 @@ GENERATED_OUTPUT_FILES = {path.relative_to(ROOT).as_posix() for path in EXCLUDED
 
 def is_generated_qualification_output(relative_path):
     """Return whether a mutable build or qualification output is outside product source."""
-    return relative_path in GENERATED_OUTPUT_FILES or relative_path.startswith(EXCLUDED_SOURCE_PREFIXES)
+    return (relative_path in GENERATED_OUTPUT_FILES or relative_path.startswith(EXCLUDED_SOURCE_PREFIXES)
+            or relative_path.startswith(("release/final/", "release/BASELINE_885447f/", "progress/candidate_history/")))
 
 
 def git(*args):
@@ -59,8 +62,26 @@ def require_clean_worktree():
 
 
 def source_files():
-    raw = subprocess.run(["git", "-C", str(ROOT), "ls-files", "-z"], check=True,
-                         capture_output=True).stdout
+    tracked = subprocess.run(["git", "-C", str(ROOT), "ls-files", "-z"],
+                             capture_output=True)
+    if tracked.returncode:
+        manifest_path = ROOT / "release" / "SOURCE_MANIFEST.sha256"
+        if not manifest_path.is_file():
+            raise ValueError("Git metadata is unavailable and no source manifest is present")
+        files = []
+        for line in manifest_path.read_text(encoding="utf-8").splitlines():
+            if not line.strip():
+                continue
+            expected, relative = line.split("  ", 1)
+            name = Path(relative)
+            path = ROOT / name
+            if name.is_absolute() or ".." in name.parts or "\\" in relative or path.is_symlink() or not path.is_file():
+                raise ValueError(f"source manifest path is invalid or missing: {relative}")
+            if hashlib.sha256(path.read_bytes()).hexdigest() != expected:
+                raise ValueError(f"source manifest mismatch in extracted bundle: {relative}")
+            files.append(path)
+        return sorted(files, key=lambda path: path.relative_to(ROOT).as_posix())
+    raw = tracked.stdout
     files = []
     for item in raw.split(b"\0"):
         if not item:
