@@ -54,6 +54,17 @@
         "center_replicates": {"type": "integer", "minimum": 2, "maximum": 100},
         "candidate_levels": {"type": "integer", "minimum": 2, "maximum": 41},
         "target_metric": {"type": "string"}, "independent_unit_field": {"type": "string"},
+        "validation_time_split": {
+          "type": "object",
+          "required": ["timestamp_field", "training_end", "evaluation_start", "split_reference"],
+          "properties": {
+            "timestamp_field": {"type": "string", "minLength": 1},
+            "training_end": {"type": "string", "format": "date-time"},
+            "evaluation_start": {"type": "string", "format": "date-time"},
+            "split_reference": {"type": "string", "minLength": 1}
+          },
+          "additionalProperties": false
+        },
         "constraint_metrics": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
         "min_independent_units": {"type": "integer", "minimum": 3}, "fixed_effects": {"type": "object"},
         "maximum_grouped_validation_rmse": {"type": "number", "exclusiveMinimum": 0},

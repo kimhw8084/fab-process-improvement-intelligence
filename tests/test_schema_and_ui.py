@@ -37,6 +37,15 @@ class SourceContractTests(unittest.TestCase):
         self.assertTrue(contract["properties"]["candidate_setting_ids"]["uniqueItems"])
         self.assertEqual(contract["properties"]["metric_bounds"]["additionalProperties"]["maxItems"], 2)
 
+    def test_d04_time_holdout_schema_requires_explicit_boundaries_and_reference(self):
+        schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
+        contract = schema["properties"]["experiment_design"]["properties"]["validation_time_split"]
+        self.assertEqual(set(contract["required"]), {
+            "timestamp_field", "training_end", "evaluation_start", "split_reference"})
+        self.assertFalse(contract["additionalProperties"])
+        self.assertEqual(contract["properties"]["training_end"]["format"], "date-time")
+        self.assertEqual(contract["properties"]["evaluation_start"]["format"], "date-time")
+
     def test_d03_t_envelope_requires_exact_precommitted_setting_and_objective_family(self):
         schema = json.loads((ROOT / "products" / "p4" / "investigation.v1.schema.json").read_text(encoding="utf-8"))
         contract = schema["properties"]["familywise_t_precommit"]

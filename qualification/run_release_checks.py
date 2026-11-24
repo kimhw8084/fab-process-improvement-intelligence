@@ -407,6 +407,16 @@ def main():
 
     benchmark_path = ROOT / "release" / "D04_OSS_COMPARISON.json"
     benchmark = json.loads(benchmark_path.read_text(encoding="utf-8")) if benchmark_path.exists() else {}
+    d04_time_run, _ = run([sys.executable, "qualification/benchmark_d04_time_holdout.py"])
+    d04_time_path = ROOT / "qualification" / "results" / "D04_TIME_HOLDOUT_BENCHMARK.json"
+    d04_time = json.loads(d04_time_path.read_text(encoding="utf-8")) if d04_time_path.exists() else {}
+    d04_time_hash = hashlib.sha256((ROOT / "products" / "p4" / "design.py").read_bytes()).hexdigest()
+    d04_time_pass = (d04_time_run.returncode == 0
+                     and d04_time.get("schema") == "p4-d04-time-holdout-benchmark/v1"
+                     and d04_time.get("product_source_sha256") == d04_time_hash
+                     and d04_time.get("qualification") == "PASS"
+                     and d04_time.get("comparison", {}).get("random_group", {}).get("accepted_count", 0) > 0
+                     and d04_time.get("comparison", {}).get("time_ordered", {}).get("accepted_count") == 0)
     d_opt = benchmark.get("d_optimal", {}).get("results", {})
     lhs = benchmark.get("latin_hypercube", {}).get("results", {})
     sequential = benchmark.get("sequential_next_best", {})
@@ -415,13 +425,17 @@ def main():
         and d_opt.get("p4_greedy", {}).get("D_efficiency_percent", 0) >= 99.99
         and lhs.get("p4_basic", {}).get("stratified_seed_fraction") == 1.0
         and sequential.get("results_by_function", {}).get("multimodal", {}).get("p4", {}).get("accepted_fraction") == 0.0
+        and d04_time_pass
     )
     benchmark_result = {"status": "PASS" if d04_pass else "FAIL",
-                        "evidence": "release/D04_OSS_COMPARISON.json",
+                        "evidence": ["release/D04_OSS_COMPARISON.json", "qualification/results/D04_TIME_HOLDOUT_BENCHMARK.json"],
                         "runtime_dependencies_added": False,
                         "d_optimal_efficiency_percent": d_opt.get("p4_greedy", {}).get("D_efficiency_percent"),
                         "p4_latin_hypercube_all_seeds_stratified": lhs.get("p4_basic", {}).get("stratified_seed_fraction"),
-                        "multimodal_next_best_acceptance_fraction": sequential.get("results_by_function", {}).get("multimodal", {}).get("p4", {}).get("accepted_fraction")}
+                        "multimodal_next_best_acceptance_fraction": sequential.get("results_by_function", {}).get("multimodal", {}).get("p4", {}).get("accepted_fraction"),
+                        "temporal_holdout": {"status": "PASS" if d04_time_pass else "FAIL",
+                                             "random_group_false_acceptance_fraction": d04_time.get("comparison", {}).get("random_group", {}).get("accepted_fraction"),
+                                             "time_ordered_acceptance_count": d04_time.get("comparison", {}).get("time_ordered", {}).get("accepted_count")}}
     d02_replicate_path = ROOT / "qualification" / "results" / "D02_REPLICATION_SHIFT_BENCHMARK.json"
     d02_replicate_run, _ = run([sys.executable, "-m", "qualification.benchmark_d02_replicate_shift",
                                 "--output", "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json"])

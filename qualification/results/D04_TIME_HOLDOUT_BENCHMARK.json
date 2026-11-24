@@ -1,0 +1,42 @@
+{
+  "acceptance_threshold_rmse": 0.2,
+  "benchmark_script_sha256": "b09cd20743f57239fee20de5ac154617834da2d7027846e241e2ade796a2c7dc",
+  "comparison": {
+    "random_group": {
+      "accepted_count": 74,
+      "accepted_fraction": 0.74,
+      "accepted_fraction_wilson95": [
+        0.6462901055081282,
+        0.8159530153525186
+      ],
+      "maximum_reported_rmse_when_refused_by_limit": 0.319743,
+      "mean_reported_rmse_when_accepted": 0.15637839268412337,
+      "mean_reported_rmse_when_refused_by_limit": 0.2696558076923077,
+      "refusal_reason_counts": {
+        "ENGINEER_RMSE_LIMIT_EXCEEDED": 26
+      }
+    },
+    "time_ordered": {
+      "accepted_count": 0,
+      "accepted_fraction": 0.0,
+      "accepted_fraction_wilson95": [
+        0.0,
+        0.03699349820698568
+      ],
+      "maximum_reported_rmse_when_refused_by_limit": 0.511502,
+      "mean_reported_rmse_when_accepted": null,
+      "mean_reported_rmse_when_refused_by_limit": 0.4998615399999998,
+      "refusal_reason_counts": {
+        "ENGINEER_RMSE_LIMIT_EXCEEDED": 100
+      }
+    }
+  },
+  "generator": "known quadratic surface with independent lot noise and a +0.5 late-period shift on the final 6 of 36 lots",
+  "interpretation": "Random group holdouts can mix future-shifted lots into development and evaluation; chronological holdout tests transfer to the supplied later period only. Split boundaries and reference are caller supplied and unauthenticated.",
+  "product_source_sha256": "e66e785fe0a4a3d87037d5cc9111b43a95d4984b46bcc31dd3a11c770919020f",
+  "qualification": "PASS",
+  "schema": "p4-d04-time-holdout-benchmark/v1",
+  "scope": "synthetic software qualification; no manufacturing performance or future guarantee",
+  "seed": 20261124,
+  "trials": 100
+}

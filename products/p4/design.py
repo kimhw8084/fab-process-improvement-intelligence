@@ -1,6 +1,7 @@
 """Small, bounded DOE builders; suggestions are never executed."""
 from __future__ import annotations
 
+from datetime import datetime
 from itertools import combinations, product
 from math import ceil, erf, exp, isfinite, pi, sqrt
 from random import Random
@@ -128,29 +129,88 @@ def assign_blocks(runs, controls, block_count, seed, cancel=None):
 
 
 def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, unit_field, cancel=None):
-    """Select a surface within development groups and evaluate it on untouched groups."""
+    """Select a surface on development groups and evaluate untouched groups."""
     spec = spec or {}
     model_options = model_options or {}
     groups = sorted({_independent_unit_key(row, unit_field) for row in rows})
     minimum_training_groups = spec.get("validation_min_training_groups", spec.get("min_independent_units", 10))
     validation_fraction = spec.get("validation_fraction", 0.2)
     seed = spec.get("validation_seed", 20261122)
+    time_split = spec.get("validation_time_split")
     if (not isinstance(minimum_training_groups, int) or isinstance(minimum_training_groups, bool)
             or minimum_training_groups < 10):
         raise DesignError("validation_min_training_groups must be at least 10")
-    if (not isinstance(validation_fraction, (int, float)) or isinstance(validation_fraction, bool)
-            or not isfinite(validation_fraction) or not 0.1 <= validation_fraction <= 0.4):
+    if (time_split is None and (not isinstance(validation_fraction, (int, float)) or isinstance(validation_fraction, bool)
+            or not isfinite(validation_fraction) or not 0.1 <= validation_fraction <= 0.4)):
         raise DesignError("validation_fraction must be in [0.1, 0.4]")
     if not isinstance(seed, int) or isinstance(seed, bool):
         raise DesignError("validation_seed must be an integer")
-    holdout_count = min(round(len(groups)*validation_fraction), len(groups)-minimum_training_groups)
-    holdout_count = max(3, holdout_count)
-    if len(groups) < minimum_training_groups+3 or holdout_count > len(groups)-minimum_training_groups:
-        raise DesignError("next_best requires enough independent groups for separate model development and evaluation")
-    shuffled_groups = groups[:]
-    Random(seed).shuffle(shuffled_groups)
-    evaluation_groups = set(shuffled_groups[:holdout_count])
-    development_groups = set(groups)-evaluation_groups
+    if time_split is None:
+        holdout_count = min(round(len(groups)*validation_fraction), len(groups)-minimum_training_groups)
+        holdout_count = max(3, holdout_count)
+        if len(groups) < minimum_training_groups+3 or holdout_count > len(groups)-minimum_training_groups:
+            raise DesignError("next_best requires enough independent groups for separate model development and evaluation")
+        shuffled_groups = groups[:]
+        Random(seed).shuffle(shuffled_groups)
+        evaluation_groups = set(shuffled_groups[:holdout_count])
+        development_groups = set(groups)-evaluation_groups
+        validation_split = {"type": "SEEDED_RANDOM_INDEPENDENT_UNIT_HOLDOUT",
+                            "split_reference_status": "NOT_PROVIDED",
+                            "validation_seed": seed}
+    else:
+        required = {"timestamp_field", "training_end", "evaluation_start", "split_reference"}
+        if (not isinstance(time_split, dict) or set(time_split) != required
+                or any(not isinstance(time_split.get(name), str) or not time_split[name].strip()
+                       for name in required)):
+            raise DesignError("validation_time_split requires exactly timestamp_field, training_end, evaluation_start, and split_reference")
+        try:
+            training_end = datetime.fromisoformat(time_split["training_end"].replace("Z", "+00:00"))
+            evaluation_start = datetime.fromisoformat(time_split["evaluation_start"].replace("Z", "+00:00"))
+            if (training_end.tzinfo is None or training_end.utcoffset() is None
+                    or evaluation_start.tzinfo is None or evaluation_start.utcoffset() is None):
+                raise ValueError("timezone required")
+        except ValueError as exc:
+            raise DesignError("validation_time_split boundaries must be timezone-aware ISO-8601") from exc
+        if training_end >= evaluation_start:
+            raise DesignError("validation_time_split requires training_end before evaluation_start")
+        unit_partitions = {}
+        for row in rows:
+            if cancel and cancel():
+                raise InterruptedError("temporal holdout assignment cancelled")
+            unit = _independent_unit_key(row, unit_field)
+            try:
+                raw_time = _get_field(row, time_split["timestamp_field"])
+                if not isinstance(raw_time, str):
+                    raise ValueError("timestamp must be a string")
+                timestamp = datetime.fromisoformat(raw_time.replace("Z", "+00:00"))
+                if timestamp.tzinfo is None or timestamp.utcoffset() is None:
+                    raise ValueError("timezone required")
+            except (ModelError, ValueError) as exc:
+                raise DesignError(f"validation_time_split has a missing or invalid row timestamp: {exc}") from exc
+            if timestamp <= training_end:
+                partition = "development"
+            elif timestamp >= evaluation_start:
+                partition = "evaluation"
+            else:
+                raise DesignError("every row must fall before training_end or at/after evaluation_start; buffer-gap rows are not silently dropped")
+            unit_partitions.setdefault(unit, set()).add(partition)
+        if any(len(partitions) != 1 for partitions in unit_partitions.values()):
+            raise DesignError("an independent unit crosses the time-ordered development/evaluation boundary")
+        development_groups = {unit for unit, partitions in unit_partitions.items()
+                              if partitions == {"development"}}
+        evaluation_groups = {unit for unit, partitions in unit_partitions.items()
+                             if partitions == {"evaluation"}}
+        if len(development_groups) < minimum_training_groups or len(evaluation_groups) < 3:
+            raise DesignError("time-ordered next_best holdout needs the minimum development groups and at least 3 later evaluation groups")
+        validation_split = {"type": "PREDECLARED_TIME_ORDERED_INDEPENDENT_UNIT_HOLDOUT",
+                            "timestamp_field": time_split["timestamp_field"],
+                            "training_end": training_end.isoformat(),
+                            "evaluation_start": evaluation_start.isoformat(),
+                            "split_reference": time_split["split_reference"],
+                            "split_reference_status": "CALLER_SUPPLIED_NOT_AUTHENTICATED",
+                            "development_cv_seed": seed+1,
+                            "independent_units_cross_boundary": False,
+                            "buffer_gap_rows_dropped": False}
     development_rows = [row for row in rows if _independent_unit_key(row, unit_field) in development_groups]
     evaluation_rows = [row for row in rows if _independent_unit_key(row, unit_field) in evaluation_groups]
 
@@ -218,18 +278,25 @@ def _grouped_surface_validation(rows, factor_defs, metric, spec, model_options, 
         squared_errors.setdefault(unit, []).append(error*error)
         errors.append(error)
     holdout_rmse = sqrt(mean(sum(values)/len(values) for values in squared_errors.values()))
-    report = {"method": "grouped model-selection CV on development units plus untouched independent-unit evaluation holdout",
+    report = {"method": ("grouped model-selection CV on development units plus untouched chronological independent-unit holdout"
+                         if time_split is not None else
+                         "grouped model-selection CV on development units plus untouched independent-unit evaluation holdout"),
               "independent_group_count": len(groups), "development_group_count": len(development_groups),
               "evaluation_group_count": len(evaluation_groups), "development_row_count": len(development_rows),
               "evaluation_row_count": len(evaluation_rows), "validation_fraction": len(evaluation_groups)/len(groups),
-              "validation_seed": seed, "model_selection": {"method": f"{fold_count}-fold grouped CV on development units",
+              "validation_split": validation_split,
+              "validation_seed": seed if time_split is None else None,
+              "development_cv_seed": seed+1,
+              "model_selection": {"method": f"{fold_count}-fold grouped CV on development units",
                                     "linear_rmse": linear_cv_rmse, "quadratic_rmse": quadratic_cv_rmse,
                                     "selected_model": selected_model},
               "independent_evaluation": {"status": "COMPLETED_DIAGNOSTIC", "rmse": holdout_rmse,
                                           "mae": mean(abs(value) for value in errors), "bias": mean(errors),
                                           "independent_groups": len(squared_errors)},
               "selected_model": selected_model,
-              "qualification": "formula selection uses development groups only; untouched group holdout performance is descriptive and not a future guarantee"}
+              "qualification": ("formula selection uses development groups only; caller-supplied time boundary/reference is unauthenticated; chronological holdout performance is descriptive, not a future guarantee"
+                                if time_split is not None else
+                                "formula selection uses development groups only; untouched group holdout performance is descriptive and not a future guarantee")}
     return report, development_rows, selected_options, fit, model
 
 
@@ -735,7 +802,10 @@ def propose_design(strategy, controls, bounds, spec, forbidden_regions, rows=Non
         grouped_validation["engineer_specified_maximum_rmse"] = float(maximum_validation_rmse)
         evaluation_rmse = grouped_validation["independent_evaluation"]["rmse"]
         if evaluation_rmse > maximum_validation_rmse:
-            raise DesignError("next_best refuses because untouched grouped evaluation error exceeds maximum_grouped_validation_rmse")
+            split_type = grouped_validation["validation_split"]["type"]
+            raise DesignError(f"next_best refuses because untouched grouped evaluation error {evaluation_rmse:.6g} "
+                              f"exceeds maximum_grouped_validation_rmse {maximum_validation_rmse:.6g} "
+                              f"on {split_type}")
         constraint_models, constraint_fits, constraint_validations = {}, {}, {}
         for constraint_metric in constraint_metrics:
             validation, constraint_development_rows, _constraint_options, constraint_fit, constraint_model = _grouped_surface_validation(

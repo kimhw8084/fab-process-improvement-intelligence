@@ -588,6 +588,27 @@ describe("P4 headless suite module", () => {
     expect(screen.getByText("NOT_WITHIN_PRESPECIFIED_EQUIVALENCE_BOUND")).toBeTruthy();
   });
 
+  it("shows the time-ordered independent-unit holdout and its caller-supplied scope", () => {
+    const timed = structuredClone(evidence);
+    const dossier = timed.artifacts?.[0] as Record<string, unknown>;
+    const proposal = dossier.D04_experiment_proposal as Record<string, unknown>;
+    proposal.grouped_surface_validation = {
+      method: "grouped model-selection CV plus untouched chronological independent-unit holdout",
+      validation_split: { type: "PREDECLARED_TIME_ORDERED_INDEPENDENT_UNIT_HOLDOUT",
+        split_reference_status: "CALLER_SUPPLIED_NOT_AUTHENTICATED", timestamp_field: "event_ts",
+        training_end: "2026-01-30T00:00:00+00:00", evaluation_start: "2026-01-31T00:00:00+00:00" },
+      development_group_count: 30, evaluation_group_count: 6, selected_model: "quadratic",
+      independent_evaluation: { rmse: 0.08 }, engineer_specified_maximum_rmse: 0.2,
+    };
+    render(<P4Panel sourcePreview={sourcePreview} evidence={timed} />);
+    const d04 = screen.getByRole("region", { name: "D04 · Next experiment proposal" });
+    const validation = within(d04).getByRole("table", { name: "Sequential model and holdout validation" });
+    expect(within(validation).getByText("PREDECLARED_TIME_ORDERED_INDEPENDENT_UNIT_HOLDOUT")).toBeTruthy();
+    expect(within(validation).getByText("CALLER_SUPPLIED_NOT_AUTHENTICATED")).toBeTruthy();
+    expect(within(validation).getByText("0.08")).toBeTruthy();
+    expect(within(validation).getByText("2026-01-31T00:00:00+00:00")).toBeTruthy();
+  });
+
   it("shows pending external bound qualification and never labels observational DiD causal", () => {
     const conditionalEvidence = structuredClone(evidence);
     const artifact = conditionalEvidence.artifacts?.[0] as Record<string, unknown>;

@@ -2,6 +2,7 @@
 import math
 import random
 import unittest
+from datetime import datetime, timedelta, timezone
 
 from products.p4.design import assign_blocks, propose_design, propose_window_confirmation
 
@@ -126,6 +127,79 @@ class DesignQualification(unittest.TestCase):
                     metric = 10 - (x-1)**2 - 1.5*(y-1)**2 + shift + rng.uniform(-0.02, 0.02)
                     rows.append({"factors": {"a": x, "b": y}, "metrics": {"quality": metric}, "lot_id": f"L{lot}"})
         return rows
+
+    def _timed_sequential_rows(self, late_shift=0.0):
+        rows = self._sequential_rows()
+        for row in rows:
+            lot = int(row["lot_id"][1:])
+            timestamp = datetime(2026, 1, 1, tzinfo=timezone.utc)+timedelta(days=lot)
+            row["event_ts"] = timestamp.isoformat().replace("+00:00", "Z")
+            if lot >= 30:
+                row["metrics"]["quality"] += late_shift
+        return rows
+
+    @staticmethod
+    def _time_split_spec():
+        return {"run_budget": 1, "seed": 12, "validation_seed": 12, "blocks": 1,
+                "target_metric": "quality", "candidate_levels": 9,
+                "independent_unit_field": "lot_id", "min_independent_units": 30,
+                "validation_time_split": {
+                    "timestamp_field": "event_ts", "training_end": "2026-01-30T00:00:00Z",
+                    "evaluation_start": "2026-01-31T00:00:00Z", "split_reference": "SYN-D04-TIME-SPLIT"},
+                "maximum_grouped_validation_rmse": 0.2}
+
+    def test_next_best_supports_predeclared_time_ordered_independent_unit_holdout(self):
+        result = propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]},
+                                self._time_split_spec(), [], self._timed_sequential_rows(),
+                                {"quality": {"direction": "maximize"}},
+                                {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                                 "quadratic": True, "interactions": True})
+        validation = result["grouped_surface_validation"]
+        self.assertEqual(result["status"], "PROPOSED")
+        self.assertEqual(validation["development_group_count"], 30)
+        self.assertEqual(validation["evaluation_group_count"], 6)
+        self.assertEqual(validation["validation_split"]["type"],
+                         "PREDECLARED_TIME_ORDERED_INDEPENDENT_UNIT_HOLDOUT")
+        self.assertEqual(validation["validation_split"]["split_reference_status"],
+                         "CALLER_SUPPLIED_NOT_AUTHENTICATED")
+        self.assertIsNone(validation["validation_seed"])
+        self.assertEqual(validation["development_cv_seed"], 13)
+        self.assertIn("chronological", validation["method"])
+        self.assertFalse(result["executed"])
+
+    def test_next_best_temporal_shift_fails_engineer_rmse_gate(self):
+        rows = self._timed_sequential_rows(late_shift=0.5)
+        random_spec = self._time_split_spec()
+        random_spec.pop("validation_time_split")
+        random_result = propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]},
+                                       random_spec, [], rows,
+                                       {"quality": {"direction": "maximize"}},
+                                       {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                                        "quadratic": True, "interactions": True})
+        self.assertLessEqual(random_result["grouped_surface_validation"]["independent_evaluation"]["rmse"], 0.2)
+        with self.assertRaisesRegex(ValueError, "untouched grouped evaluation error .* exceeds maximum_grouped_validation_rmse") as caught:
+            propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]},
+                           self._time_split_spec(), [], rows,
+                           {"quality": {"direction": "maximize"}},
+                           {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                            "quadratic": True, "interactions": True})
+        self.assertIn("PREDECLARED_TIME_ORDERED_INDEPENDENT_UNIT_HOLDOUT", str(caught.exception))
+        self.assertIn("0.2", str(caught.exception))
+
+    def test_next_best_refuses_time_split_group_leakage_and_gap_rows(self):
+        for mutate, message in (
+                (lambda rows: rows[0].update(event_ts="2026-01-31T00:00:00Z"),
+                 "independent unit crosses the time-ordered"),
+                (lambda rows: rows[0].update(event_ts="2026-01-30T12:00:00Z"),
+                 "buffer-gap rows are not silently dropped")):
+            rows = self._timed_sequential_rows()
+            mutate(rows)
+            with self.subTest(message=message), self.assertRaisesRegex(ValueError, message):
+                propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]},
+                               self._time_split_spec(), [], rows,
+                               {"quality": {"direction": "maximize"}},
+                               {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
+                                "quadratic": True, "interactions": True})
 
     def _constrained_sequential_rows(self):
         rng = random.Random(413)
@@ -320,7 +394,7 @@ class DesignQualification(unittest.TestCase):
                 "maximum_grouped_validation_rmse": 0.2}
         model = {"covariance": "cluster", "cluster_field": "lot_id", "minimum_clusters": 30,
                  "quadratic": True, "interactions": True}
-        with self.assertRaisesRegex(ValueError, "untouched grouped evaluation error exceeds"):
+        with self.assertRaisesRegex(ValueError, "untouched grouped evaluation error .* exceeds"):
             propose_design("next_best", ["a", "b"], {"a": [0, 2], "b": [0, 2]}, spec, [], rows,
                            {"quality": {"direction": "maximize"}}, model)
 

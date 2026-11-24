@@ -383,6 +383,9 @@ function D03Section({ result, renderChart }: { result?: JsonObject; renderChart?
 function D04Section({ result }: { result?: JsonObject }) {
   const runs = asList(result?.runs).map(asObject);
   const factors = asList(result?.factors).map((item) => typeof item === "string" ? { name: item } : asObject(item));
+  const groupedValidation = asObject(result?.grouped_surface_validation);
+  const validationSplit = asObject(groupedValidation.validation_split);
+  const independentEvaluation = asObject(groupedValidation.independent_evaluation);
   return <section id="p4-d04" aria-labelledby="p4-d04-heading">
     <h3 id="p4-d04-heading">D04 · Next experiment proposal</h3>
     <p>Status: <Status value={result?.status} />. Proposed runs: {text(result?.run_count)}. Executed: {text(result?.executed)}.</p>
@@ -395,6 +398,17 @@ function D04Section({ result }: { result?: JsonObject }) {
       candidate_evidence: result?.candidate_evidence,
       reference_factors: result?.reference_factors, required_engineer_review: result?.required_engineer_review,
       evidence_required_before_next_iteration: result?.evidence_required_before_next_iteration }} />
+    {Object.keys(groupedValidation).length > 0 && <KeyValueTable label="Sequential model and holdout validation" value={{
+      method: groupedValidation.method, split_type: validationSplit.type,
+      split_reference_status: validationSplit.split_reference_status,
+      timestamp_field: validationSplit.timestamp_field,
+      training_end: validationSplit.training_end, evaluation_start: validationSplit.evaluation_start,
+      development_independent_units: groupedValidation.development_group_count,
+      evaluation_independent_units: groupedValidation.evaluation_group_count,
+      selected_model: groupedValidation.selected_model,
+      evaluation_rmse: independentEvaluation.rmse,
+      engineer_specified_maximum_rmse: groupedValidation.engineer_specified_maximum_rmse,
+    }} />}
     <table>
       <caption>Proposed run order for engineer review</caption>
       <thead><tr><th scope="col">Run order</th><th scope="col">Block</th><th scope="col">Arm</th><th scope="col">Order within block</th><th scope="col">Replicate</th>{factors.map((factor) => <th scope="col" key={text(factor.name)}>{text(factor.name)}</th>)}</tr></thead>
