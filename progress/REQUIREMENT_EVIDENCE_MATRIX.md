@@ -244,6 +244,14 @@ Status distinguishes implemented synthetic evidence from company qualification. 
 | Distribution | No push/publication | Pending authorization; prohibited by active instruction | Keep local until rights, licenses, company-information exposure and vulnerability/security review permit distribution |
 | Company qualification/ROI | `docs/INTERNAL_COMPANY_FIRST_RUN.md`, `qualification/first_run.py`, gate report | PENDING_INTERNAL | Authorized internal semantic mapping, host confirmation, real-data pilot, engineer review and measured value |
 
+# Latest checkpoint — 2026-11-24
+
+| Requirement | Evidence | Status / next action |
+|---|---|---|
+| D01 measurement uncertainty across MCP | Commit `071eadecb64c4755af79cf8e12ed914dfb0e09e5`: explicitly mapped metric uncertainty is validated against the semantic catalog's numeric type and exact outcome unit, checked finite/nonnegative per row, preserved through normalization, and causes fail-closed refusal before evidence artifacts because the model does not propagate it. Focused MCP protocol suite 19 PASS; invalid values and unit mismatch refused. Bridge fixture rebuilt twice identically, SHA-256 `06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4`. | No errors-in-variables correction claimed. Only explicitly mapped semantics are visible; site mappings remain pending. Next: D02 selector/calibration leakage audit. |
+| D03 tradeoff uncertainty audit | Existing exact objective-family checks refuse missing objectives; zero observed variance does not create zero-width intervals; unadjusted mean front is labeled separately from the assumption-conditional familywise envelope. Source/test audit found no reproduced recommendation reversal. | No speculative code change. Synthetic constraints and source declarations remain unauthenticated; continue if an independent oracle demonstrates a defect. |
+| Release / suite | Source `071eade`; focused MCP 19 PASS; `py_compile` and diff check PASS. Previous full Python 234 PASS predates this adapter fix. | Refresh current-source P1 and full qualification after the scientific backlog stabilizes; do not use stale archive or release reports. No publication. |
+
 ## Baseline release gates
 
 Latest current-source checks: P1 disposable composition and live synthetic browser success/refusal were requalified against product source `36967b43add029149acaf078778735a67ebd703e`; release tests and reproducibility/offline checks passed at that source, but the P1 evidence update is not yet part of the source commit and E10 must be rerun after it is committed. E05/E12 remain PENDING_INTERNAL; E07 owner/formal-accessibility, E08 target OS, E09 independent rights/security review, E11 ROI remain pending. No transfer-ready claim or publication.

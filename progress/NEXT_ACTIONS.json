@@ -1,9 +1,9 @@
 {
   "active_uncommitted_changes": [
-    "progress checkpoint for source 599aca0 awaiting commit; no product changes remain uncommitted",
+    "progress checkpoint for source 071eade is being recorded",
     "release reports, P1 source/browser evidence, performance fingerprint and archive are stale after product-source updates"
   ],
-  "as_of_source_commit": "599aca0812e8a08d2332ac529e9f228ee138bc03",
+  "as_of_source_commit": "071eadecb64c4755af79cf8e12ed914dfb0e09e5",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -16,8 +16,21 @@
     "D01_measurement_error": {
       "method": "no errors-in-variables correction claimed",
       "status": "FAIL_CLOSED_AND_DISCLOSED",
-      "supplied_row_uncertainty": "fit raises ModelError before coefficient/inference output",
+      "supplied_row_uncertainty": "MCP mapping now preserves explicit per-metric uncertainty; fit raises ModelError before coefficient/inference output",
       "unsupplied_uncertainty": "assumption states not supplied or propagated"
+    },
+    "D01_mcp_uncertainty": {
+      "status": "IMPLEMENTED_AND_FOCUSED_TESTED",
+      "focused_mcp_tests": "19 PASS",
+      "invalid_nonnegative_and_unit_cases": "REFUSED",
+      "fixture_sha256": "06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4",
+      "full_suite_after_change": "NOT_RUN"
+    },
+    "D03_tradeoff_audit": {
+      "status": "NO_REPRODUCED_ORACLE_DEFECT",
+      "missing_objective_family": "REFUSED_OR_LIMITED_SCOPE",
+      "zero_variance_interval": "NOT_ESTIMABLE",
+      "mean_front_scope": "EXPLICITLY_DISTINGUISHED_FROM_FAMILYWISE_EVIDENCE"
     },
     "D02_confirmation_veto": {
       "status": "INDEPENDENT_INTEGRATION_PASS",
@@ -29,7 +42,7 @@
       "power_approximation": "normal tail; warns heavy tails/influence/dependent blocks can invalidate"
     },
     "MCP_bridge_fixture": {
-      "sha256": "03334e03a6cfbd22cc81316016768ad6ffa150d75fd03af69c8beeee8d2e42e0",
+      "sha256": "06331330b71673ab7cc1c757d6fb8050def5d679a71ece7ae9e8ed1c54d5aee4",
       "status": "REBUILT_TWICE_IDENTICALLY"
     },
     "archive": {
@@ -42,14 +55,15 @@
     "last_release_runner": {
       "E02": "PASS",
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
-      "status": "STALE_AFTER_599ACA0_PRODUCT_SOURCE"
+      "status": "STALE_AFTER_071EADE_PRODUCT_SOURCE"
     },
-    "source_commit": "599aca0812e8a08d2332ac529e9f228ee138bc03",
+    "source_commit": "071eadecb64c4755af79cf8e12ed914dfb0e09e5",
     "tests": {
       "diff_check": "PASS",
       "focused_D01_D02": "67 PASS",
       "focused_design": "24 PASS",
-      "full_python": "234 PASS, 0 failures, 0 skipped",
+      "focused_MCP": "19 PASS",
+      "full_python": "234 PASS at 599aca0; not rerun after 071eade",
       "py_compile": "PASS"
     }
   },
@@ -59,23 +73,23 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Audit D03 missing-objective and interval-reversal behavior; implement and independently test only a real false-preference or uncertainty-handling gap.",
-  "next_executable_action": "rtk rg -n \"familywise_interval|missing|uncertainty|direction|population_compatibility\" tests/test_d03_relationships.py products/p4/tradeoffs.py qualification/benchmark_d03_familywise.py",
+  "next_action": "Audit D02 calibration/selection boundaries and the actual selector for leakage or selection-induced false-feasible results; repair only a reproduced defect.",
+  "next_executable_action": "rtk rg -n \"calibration|evaluation|candidate|selection|holdout|coverage\" products/p4/window.py qualification/benchmark_d02_stratified_calibration.py qualification/benchmark_d02_adaptive_selection.py qualification/benchmark_d02_actual_selector.py",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "IN_PROGRESS",
-      "task": "D02: held-out complete-set veto now blocks exact confirmation; further selector/shift/experiment-value work remains."
+      "status": "NEXT",
+      "task": "D02: audit calibration/selection boundaries and actual selector for leakage or selection-induced false-feasible results; independent evaluation and complete-set veto already exist."
     },
     {
       "priority": 2,
       "status": "IN_PROGRESS",
-      "task": "D01: clustered/categorical sensitivities and explicit measurement-error refusal are covered; continue held-out stability and model-selection challenges."
+      "task": "D01: clustered/categorical sensitivities and model uncertainty refusal are covered, including MCP pass-through; continue held-out stability and model-selection challenges."
     },
     {
       "priority": 3,
-      "status": "NEXT",
-      "task": "D03: audit missing objectives, interval uncertainty reversals and compatible-population comparisons; add independent challenge if actionable."
+      "status": "AUDIT_NO_DEFECT",
+      "task": "D03: missing-objective and uncertainty-reversal source/test audit found no oracle-backed defect; retain existing refusal and scope labels."
     },
     {
       "priority": 4,
@@ -107,9 +121,9 @@
     "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; runner/P1/archive evidence stale for current source",
     "INTERNAL_QUALIFICATION_PENDING": true,
     "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 work continues",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING; current-source P1 evidence predates 599aca0; no owner acceptance/formal accessibility"
+    "SUITE_INTEGRATION_COMPLETE": "PENDING; current-source P1 evidence predates 071eade; no owner acceptance/formal accessibility"
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "Product source commit 599aca0 is current and fully tested (234 Python tests PASS); checkpoint is being committed. P1 and release outputs remain source-stale by design until science stabilizes."
+  "worktree_state": "Product source commit 071eade is current; focused MCP suite 19 PASS, prior full suite 234 PASS at 599aca0. P1 and release outputs remain source-stale by design until science stabilizes."
 }
