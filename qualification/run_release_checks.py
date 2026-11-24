@@ -547,6 +547,7 @@ def main():
         and d05_randomized.get("source_provenance", {}).get("benchmark_script_sha256") == d05_randomized_script_hash
         and d05_randomized.get("qualification_status") == "PASS"
         and set(d05_randomized_checks) == {
+            "all_predeclared_distribution_cluster_count_cells_present",
             "every_prequalified_case_emitted_an_interval",
             "all_p4_wilson_lower_bounds_above_0_90",
             "all_p4_coverage_within_0_02_of_scipy_oracle",
