@@ -8,10 +8,13 @@ import json
 import random
 from pathlib import Path
 import subprocess
-
-from products.p4.engine import _effectiveness
+import sys
 
 ROOT = Path(__file__).resolve().parent.parent
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from products.p4.engine import _effectiveness
 
 
 def wilson(successes: int, trials: int) -> list[float]:
@@ -29,6 +32,7 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
     rng = random.Random(seed)
     naive_covers = oracle_bound_covers = underbound_covers = 0
     underbound_eligible = underbound_assumptions_passed = assumptions_passed_wrong_direction = emitted_causal_claims = 0
+    explicit_history = 0
     underbound_sensitivity = []
     for trial in range(trials):
         # The hidden post-period shock is deliberately larger than the true
@@ -53,7 +57,8 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
                 for period, value in (("pre2", base), ("pre", base + 0.1),
                                       ("post", base + 0.1 + common + noise)):
                     rows.append({"unit_id": unit_id, "group": group, "period": period,
-                                 "quality": value, "timestamp": period_times[period], "product_id": product})
+                                 "quality": value, "timestamp": period_times[period], "product_id": product,
+                                 "concurrent_intervention_id": "none"})
         study = {
             "authorized": True,
             "authorization_id": f"SYN-AUTH-{trial}",
@@ -76,6 +81,8 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
         }
         result = _effectiveness({"effectiveness": study})
         assert result["status"] == "ESTIMATED", result
+        assert result["concurrent_intervention_diagnostic"]["status"] == "MATCHED_DECLARED_PERIOD_AND_TRANSITION_PROPORTIONS", result
+        explicit_history += 1
         point = result["estimate"]
         raw_ci = result["ci95_welch_t_approximation"]
         expanded = result["sensitivity"]["ci95_under_bound"]
@@ -90,6 +97,14 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
         assumptions_passed_wrong_direction += bool(gates_passed and wrong_direction)
         emitted_causal_claims += bool(result["causal_claim"])
         underbound_sensitivity.append(abs(point - true_effect))
+    checks = {
+        "complete_declared_intervention_history": explicit_history == trials,
+        "oracle_bound_wilson_lower_at_least_95_percent": wilson(oracle_bound_covers, trials)[0] >= 0.95,
+        "underbound_interval_coverage_below_10_percent": underbound_covers / trials < 0.10,
+        "underbound_passes_numerical_gate_with_wrong_direction": assumptions_passed_wrong_direction > 0,
+        "underbound_never_interpretation_eligible": underbound_eligible == 0,
+        "no_observational_causal_claims": emitted_causal_claims == 0,
+    }
     return {
         "schema": "p4-d05-known-confounder-benchmark/v1",
         "source_provenance": {
@@ -115,23 +130,26 @@ def run(trials: int = 1000, seed: int = 20261123) -> dict:
         "underbound_cases_marked_interpretation_eligible": underbound_eligible,
         "underbound_cases_passing_numerical_assumption_gates": underbound_assumptions_passed,
         "underbound_cases_passing_numerical_gates_with_wrong_true_effect_direction": assumptions_passed_wrong_direction,
+        "qualification_checks": checks,
+        "qualification_status": "PASS" if all(checks.values()) else "FAIL",
         "observational_did_causal_claims_emitted": emitted_causal_claims,
         "mean_absolute_naive_effect_bias": sum(underbound_sensitivity) / trials,
         "qualification": "Synthetic known-generator challenge only. The source-bound interval covers the true effect only when its assumed differential-trend bound is adequate; caller-supplied source/method labels cannot establish adequacy. P4 returns no observational DiD causal claim.",
     }
 
 
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--trials", type=int, default=1000)
     parser.add_argument("--seed", type=int, default=20261123)
-    parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--output", type=Path, default=ROOT/"qualification/results/D05_CONFOUNDING_BENCHMARK.json")
     args = parser.parse_args()
     result = run(args.trials, args.seed)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2, sort_keys=True) + "\n")
     print(json.dumps(result, indent=2, sort_keys=True))
+    return 0 if result["qualification_status"] == "PASS" else 1
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
