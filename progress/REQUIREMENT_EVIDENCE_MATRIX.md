@@ -252,6 +252,14 @@ Status distinguishes implemented synthetic evidence from company qualification. 
 | D03 tradeoff uncertainty audit | Existing exact objective-family checks refuse missing objectives; zero observed variance does not create zero-width intervals; unadjusted mean front is labeled separately from the assumption-conditional familywise envelope. Source/test audit found no reproduced recommendation reversal. | No speculative code change. Synthetic constraints and source declarations remain unauthenticated; continue if an independent oracle demonstrates a defect. |
 | Release / suite | Source `071eade`; focused MCP 19 PASS; `py_compile` and diff check PASS. Previous full Python 234 PASS predates this adapter fix. | Refresh current-source P1 and full qualification after the scientific backlog stabilizes; do not use stale archive or release reports. No publication. |
 
+# D02 actual-selector review — 2026-11-24
+
+| Requirement | Evidence | Status / next action |
+|---|---|---|
+| D02 adaptive candidate risk | Source-bound 250-trial hidden high-frequency-interaction challenge matches current `window.py` SHA-256 `a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20`; 98.8% of trials contain at least one selected false-feasible cell and 23.96% of interpolated candidate cells violate the known latent mean limit. | Synthetic model-misspecification stress only. D02 and UI explicitly label interpolations as hypotheses, deny selected-cell coverage, warn about unseen patterns and require exact-setting independent confirmation. No production feasibility claim; no code change justified by this diagnostic. |
+| D02→D04 interaction | `propose_window_confirmation` is a non-executing, exact-setting experiment proposal; D02 withdraws the complete set on observed independent counterevidence. | Continue stricter candidate provenance as D04 work proceeds; actual experimental safety limits remain engineer-supplied and unauthenticated. |
+| Shared P1 component | Current P4 panel component hash matches the disposable P1 snapshot; refreshed bridge fixture component suite 25 PASS. | Not current P1 owner acceptance or formal accessibility/browser qualification. |
+
 ## Baseline release gates
 
 Latest current-source checks: P1 disposable composition and live synthetic browser success/refusal were requalified against product source `36967b43add029149acaf078778735a67ebd703e`; release tests and reproducibility/offline checks passed at that source, but the P1 evidence update is not yet part of the source commit and E10 must be rerun after it is committed. E05/E12 remain PENDING_INTERNAL; E07 owner/formal-accessibility, E08 target OS, E09 independent rights/security review, E11 ROI remain pending. No transfer-ready claim or publication.

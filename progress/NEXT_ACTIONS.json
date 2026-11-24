@@ -73,13 +73,13 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Audit D02 calibration/selection boundaries and the actual selector for leakage or selection-induced false-feasible results; repair only a reproduced defect.",
-  "next_executable_action": "rtk rg -n \"calibration|evaluation|candidate|selection|holdout|coverage\" products/p4/window.py qualification/benchmark_d02_stratified_calibration.py qualification/benchmark_d02_adaptive_selection.py qualification/benchmark_d02_actual_selector.py",
+  "next_action": "Evaluate D04 next-best selection under time drift using an untouched predeclared time-ordered independent-unit holdout; preserve the RMSE refusal gate.",
+  "next_executable_action": "rtk rg -n \"grouped_surface_validation|validation_fraction|validation_seed|evaluation_rmse\" products/p4/design.py tests/test_d04_designs.py qualification/benchmark_d04_oss.py",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "NEXT",
-      "task": "D02: audit calibration/selection boundaries and actual selector for leakage or selection-induced false-feasible results; independent evaluation and complete-set veto already exist."
+      "status": "AUDITED_LIMITED_SCOPE",
+      "task": "D02: current-source hidden-interaction stress is explicitly communicated as advisory-only; interpolation can be falsely feasible under omitted response patterns and requires exact independent confirmation."
     },
     {
       "priority": 2,
@@ -93,8 +93,8 @@
     },
     {
       "priority": 4,
-      "status": "IN_PROGRESS",
-      "task": "D04: paired confirmation power now exposes normality and normal-tail assumptions; continue independent strategy qualification."
+      "status": "NEXT",
+      "task": "D04: paired power assumptions are explicit; add/qualify a time-ordered independent-unit holdout for next-best under drift while preserving the engineer RMSE refusal threshold."
     },
     {
       "priority": 5,
