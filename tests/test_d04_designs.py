@@ -15,11 +15,14 @@ class DesignQualification(unittest.TestCase):
 
     def test_off_grid_aliasing_challenge_distinguishes_existing_design_geometries(self):
         result = run_aliasing_benchmark(trials=1, seed=20261124)
-        self.assertEqual(result["schema"], "p4-d04-design-aliasing-benchmark/v1")
+        self.assertEqual(result["schema"], "p4-d04-design-aliasing-benchmark/v2")
         self.assertEqual(result["status"], "PASS_GEOMETRY_CHALLENGE")
         for name in ("full_factorial", "central_composite", "d_optimal"):
             self.assertEqual(result["strategies"][name]["trials_with_signal_over_epsilon"], 0)
         self.assertEqual(result["strategies"]["latin_hypercube"]["trials_with_signal_over_epsilon"], 1)
+        for name in ("fractional_factorial", "full_factorial", "central_composite", "d_optimal"):
+            self.assertEqual(result["four_factor_strategies"][name]["trials_with_signal_over_epsilon"], 0)
+        self.assertEqual(result["four_factor_strategies"]["latin_hypercube"]["trials_with_signal_over_epsilon"], 1)
         self.assertFalse(result["statistical_power_evaluated"])
 
     def test_fractional_factorial_has_resolution_four_and_reproducible_alias_description(self):
