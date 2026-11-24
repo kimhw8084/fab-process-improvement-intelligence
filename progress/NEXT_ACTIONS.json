@@ -1,8 +1,8 @@
 {
   "active_uncommitted_changes": [
-    "Generated release outputs and unrelated D01/D03/P1 qualification sidecars remain dirty and are not current-source release evidence; do not stage blindly"
+    "Generated release outputs and unrelated D01/D03/P1 qualification sidecars are dirty and are not current-source release evidence; do not stage blindly"
   ],
-  "as_of_source_commit": "22ecc2d6cfbc9e4f7722e4531f654d97212fa607",
+  "as_of_source_commit": "6a190a81756376f08443bd6e170dbf067fbcae6c",
   "internal_dependencies": [
     "Samsung source permissions and approved semantic mappings",
     "authoritative company requirement corpus",
@@ -56,13 +56,13 @@
       "source_commit": "66a568551003d1fcc3bbabfbc2a37126668ca979",
       "status": "STALE_AFTER_071EADE_PRODUCT_SOURCE"
     },
-    "source_commit": "22ecc2d6cfbc9e4f7722e4531f654d97212fa607",
+    "source_commit": "6a190a81756376f08443bd6e170dbf067fbcae6c",
     "tests": {
       "diff_check": "PASS",
       "focused_D01_D02": "67 PASS",
       "focused_design": "24 PASS",
       "focused_MCP": "19 PASS",
-      "full_python": "240 PASS after refreshing the stale source-fingerprint fixture",
+      "full_python": "240 PASS at 68a054d code with current D04/D05 and refreshed bridge fixture",
       "py_compile": "PASS",
       "focused_D04": "27 PASS",
       "schema_and_UI_contract": "12 PASS",
@@ -102,6 +102,13 @@
       "sha256": "ca32cf65bfbd99b15263491863eaf2be36b1f49e82b978b82c0a8573e1833c11",
       "focused_tests": "2 PASS",
       "note": "Current P1 snapshot hashes are stale for the refreshed fixture; owner acceptance remains pending"
+    },
+    "D01_time_holdout_audit": {
+      "status": "EXISTING_PATH_AND_ORACLE_VERIFIED; NO_CHANGE_JUSTIFIED",
+      "implementation": "Fits requested model on actual training rows and scores disjoint later independent groups; reports bias, MAE, RMSE, training-mean baseline, exact row/group counts",
+      "fixture": "80 training lots, 20 later test lots, 180 held-out rows",
+      "adversarial_case": "A +10 outcome shift on all held-out groups increases held-out RMSE by more than 8",
+      "limitations": "Caller split reference unauthenticated; descriptive supplied holdout only; does not establish future performance or causality"
     }
   },
   "never_do": [
@@ -110,8 +117,8 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Audit D01 model selection and uncertainty on genuinely held-out time/group populations; identify a reproducible oracle defect before changing the factor-response method.",
-  "next_executable_action": "rtk rg -n \"validation_time|holdout|grouped_cv|independent_evaluation\" products/p4/engine.py tests/test_p4_scientific.py qualification/benchmark_d01_conditioning.py qualification/benchmark_d01_continuous_cluster_support.py",
+  "next_action": "Run the complete current-source release qualification now that D04 and D05 changes are committed; repair only reproducible gate failures, then requalify the actual P1 host snapshot if available.",
+  "next_executable_action": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py",
   "ordered_queue": [
     {
       "priority": 1,
@@ -120,8 +127,8 @@
     },
     {
       "priority": 2,
-      "status": "NEXT",
-      "task": "D01: validate factor-response model and uncertainty behavior under time/group drift and model selection using held-out oracle challenges; retain descriptive and abstention limits."
+      "status": "AUDIT_NO_DEFECT_IN_TIME_HOLDOUT",
+      "task": "D01: existing actual-row train-only time/group holdout reports later-group RMSE/MAE/bias and training-mean comparison; +10 held-out drift oracle is covered. No new defect reproduced in this pass; continue only if full qualification finds a source-bound issue."
     },
     {
       "priority": 3,
@@ -150,8 +157,8 @@
     },
     {
       "priority": 8,
-      "status": "PENDING_FINAL_QUALIFICATION",
-      "task": "After science stabilizes, rerun performance, P1/browser, release runner, exact archive reproducibility and offline extraction."
+      "status": "NEXT",
+      "task": "Regenerate full current-source release evidence after science updates; run independent release gates, verify D04/D05 benchmark bindings, P1 compatibility, archive reproducibility and offline extraction."
     }
   ],
   "outcomes": {
@@ -162,5 +169,5 @@
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "worktree_state": "D05 benchmark/release gate code committed at 68a054d; source-bound result and deterministic current bridge fixture committed at 22ecc2d. Full Python suite 240 PASS. Release archive/reports and disposable P1 evidence are stale for current source/fixture; no release claim."
+  "worktree_state": "Latest checkpoint commit 6a190a8; full Python suite 240 PASS. D01 train-only temporal/group holdout path and +10 drift oracle are already implemented and passed. Generated release artifacts remain stale and dirty; P1 snapshot does not match current fixture/source; no readiness claim."
 }
