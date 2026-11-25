@@ -1,0 +1,200 @@
+{
+  "errors": [],
+  "generated_at": "2026-11-24T23:51:45Z",
+  "metrics": {
+    "CONFIDENCE.HIGH": 8,
+    "CONFIDENCE.LOW": 0,
+    "CONFIDENCE.MEDIUM": 0,
+    "CONFIDENCE.UNDEFINED": 0,
+    "SEVERITY.HIGH": 0,
+    "SEVERITY.LOW": 8,
+    "SEVERITY.MEDIUM": 0,
+    "SEVERITY.UNDEFINED": 0,
+    "loc": 8302,
+    "nosec": 0,
+    "skipped_tests": 0
+  },
+  "results": [
+    {
+      "code": "6         raise ValueError('n must be 1..100000')\n7     rng=random.Random(seed)\n8     areas=('MET','PHOTO','ETCH','DEP','DIFF','IMPL','CMP','WAT','SORT')\n",
+      "col_offset": 8,
+      "end_col_offset": 27,
+      "filename": "fabintel/catalog.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 7,
+      "line_range": [
+        7
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "33         raise DesignError(\"blocks must be positive and no greater than the run count\")\n34     rng = Random(seed)\n35     capacities = [len(runs)//block_count + (1 if i < len(runs) % block_count else 0)\n",
+      "col_offset": 10,
+      "end_col_offset": 22,
+      "filename": "products/p4/design.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 34,
+      "line_range": [
+        34
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "153         shuffled_groups = groups[:]\n154         Random(seed).shuffle(shuffled_groups)\n155         evaluation_groups = set(shuffled_groups[:holdout_count])\n",
+      "col_offset": 8,
+      "end_col_offset": 20,
+      "filename": "products/p4/design.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 154,
+      "line_range": [
+        154
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "225     dev_groups = list(development_groups)\n226     Random(seed+1).shuffle(dev_groups)\n227     fold_count = min(5, max(2, len(dev_groups)//5))\n",
+      "col_offset": 4,
+      "end_col_offset": 18,
+      "filename": "products/p4/design.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 226,
+      "line_range": [
+        226
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "373 def _proposal(strategy, runs, controls, seed, blocks, reason, additional=None, cancel=None):\n374     rng = Random(seed)\n375     rng.shuffle(runs)\n",
+      "col_offset": 10,
+      "end_col_offset": 22,
+      "filename": "products/p4/design.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 374,
+      "line_range": [
+        374
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "529 \n530     rng = Random(seed)\n531     runs = []\n",
+      "col_offset": 10,
+      "end_col_offset": 22,
+      "filename": "products/p4/design.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 530,
+      "line_range": [
+        530
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "806             raise DesignError(\"Latin hypercube output is bounded to 10000 runs\")\n807         rng = Random(seed)\n808         samples = {name: [(i+rng.random())/budget for i in range(budget)] for name in controls}\n",
+      "col_offset": 14,
+      "end_col_offset": 26,
+      "filename": "products/p4/design.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 807,
+      "line_range": [
+        807
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    },
+    {
+      "code": "677         return {\"status\": \"REFUSED\", \"reason\": \"seed must be an integer\", \"executed\": False}\n678     Random(seed).shuffle(runs)\n679     block_count = spec.get(\"blocks\", 1)\n",
+      "col_offset": 4,
+      "end_col_offset": 16,
+      "filename": "products/p4/engine.py",
+      "issue_confidence": "HIGH",
+      "issue_cwe": {
+        "id": 330,
+        "link": "https://cwe.mitre.org/data/definitions/330.html"
+      },
+      "issue_severity": "LOW",
+      "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
+      "line_number": 678,
+      "line_range": [
+        678
+      ],
+      "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
+      "test_id": "B311",
+      "test_name": "blacklist"
+    }
+  ],
+  "review": {
+    "command": "bandit -r fabintel products/p4 -f json --exit-zero",
+    "finding_count": 8,
+    "finding_dispositions_cover_all_reported_findings": true,
+    "high_or_medium_findings": 0,
+    "independent_human_source_review": "PENDING",
+    "license_and_ownership_review": "PENDING",
+    "limitations": "Static analysis does not replace manual threat modeling, OS/runtime review, penetration testing, or license and ownership review.",
+    "limited_scan_result": "PASS_LIMITED_SCOPE",
+    "low_finding_dispositions": [
+      {
+        "disposition": "Seeded pseudorandomness is used only for reproducible synthetic fixtures and DOE proposals, not secrets or security tokens.",
+        "test_id": "B311"
+      }
+    ],
+    "product_source_commit": "c60c6d93651b6977e8bca65a259625508332f78d",
+    "scanner_scope": "P4 runtime and product Python sources; excludes tests, fixtures, benchmark, and release tooling.",
+    "tool": "Bandit",
+    "tool_version": "1.9.4"
+  },
+  "scanner_return_code": 0
+}

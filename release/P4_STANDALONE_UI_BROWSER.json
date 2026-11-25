@@ -1,0 +1,59 @@
+{
+  "accessibility_scope": {
+    "keyboard_workflow": "checked",
+    "native_headings_status_and_table_alternative": "checked",
+    "screen_reader_and_formal_wcag_audit": "not performed"
+  },
+  "browser": "158.0.8127.88",
+  "checks": {
+    "accessible_table_alternative_present": true,
+    "advisory_text_visible": true,
+    "all_d01_d05_headings": true,
+    "capability_evidence_lazy_until_requested": true,
+    "capability_evidence_opens_on_request": true,
+    "capability_results_text_length": 908,
+    "configured_mcp_acquisition_completed": true,
+    "configured_mcp_all_capabilities_present": true,
+    "configured_mcp_audit_receipt_present": true,
+    "configured_mcp_evidence_exported": true,
+    "configured_mcp_status_pending_internal": true,
+    "d01_d05_headings": {
+      "D01 \u00b7 Factor sensitivity": true,
+      "D02 \u00b7 Supported process region": true,
+      "D03 \u00b7 Objective tradeoffs": true,
+      "D04 \u00b7 Next experiment": true,
+      "D05 \u00b7 Intervention evaluation": true
+    },
+    "evidence_export_downloaded": true,
+    "full_evidence_opens_on_request": true,
+    "keyboard_analysis_activation": true,
+    "keyboard_demo_activation": true,
+    "keyboard_skip_link": true,
+    "mcp_disabled_without_config": true,
+    "table_alternative_count": 2
+  },
+  "external_requests": [],
+  "failed_responses": [],
+  "page_errors": [],
+  "qualified_at_utc": "2026-11-24T21:28:37.580481+00:00",
+  "schema": "p4-standalone-ui-browser/v1",
+  "scope": "P4 standalone local application only; no P1 or other product host",
+  "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+  "source_sha256": {
+    "fabintel/mcp_client.py": "4de3ab1aa5a9ba99f8181e185cc609556c0b916818b5225f851df8e3db39c9c8",
+    "fabintel/mock_mcp_server.py": "842cf65264be67068e641b97f69800761f12af56a47c56b7f9ae54c325485111",
+    "fabintel/server.py": "3f88642fb537e84396faaa7c1ae1d69238db514ec57da019261c367f45df9d93",
+    "fabintel/site_config.py": "103aae640e0ad6e038ad7bfb821bfb093d5881ef472fd4f6c52a23e8becd9311",
+    "fixtures/full_workflow_demo.json": "7305d42f9095e300363e542afa162b295066dc1d2f607b01a5cf756a2e782b17",
+    "products/p4/engine.py": "13f2df176781c7b4fe09a1050f9de842f9228a141ac6451b087cf0d57f3c4582",
+    "products/p4/mcp_workflow.py": "9f66f58b6cd907c5046e2d836caa99e27eadb47c319a7f3a4b022bfa55194efc",
+    "products/p4/ui/standalone/app.js": "616cbbe0dd514bd1158d4bbc0fb00f87a76f3fbd67069a3204f2ae71ba982ad9",
+    "products/p4/ui/standalone/index.html": "778b3888eb57da42cd500d884306dfcabb3b3da8a75392b7b658203a3ad71459",
+    "products/p4/ui/standalone/mcp.css": "f39f87875970b904ace55a51d7470b4858100ab7de4dfe24f7fe23b3e2891d46",
+    "products/p4/ui/standalone/styles.css": "c65eca15528bbdd357a9201f18cc42cab09b7cdbfbc963ca74bcfdc14503fd4d",
+    "qualification/standalone_ui_browser.py": "819731c87fa2cbc25035c0a215c12ddd30ef648be73f4f9c06938b7f55620bba",
+    "qualification/ui_evidence.py": "84496fb1946c67a9aa006ede59f2ee504f87193f975cef02d9a2f77718605fec",
+    "requirements/synthetic-mcp-mapping.v1.json": "1558fe7de7e1a8a60f1009c5fa80d641712d2d98e566f7ba905f033c3ebb203f"
+  },
+  "status": "PASS_STANDALONE_INTERACTION_LIMITED_SCOPE"
+}

@@ -1,0 +1,127 @@
+{
+  "benchmark_script_sha256": "22046becf9dae008349fbb70afba8bb8f5e7feb956963cd76941bd97890a6506",
+  "decision": "In the two-factor challenge, two-level factorial, 3-level-grid D-optimal, and face-centered central-composite geometries are blind. In the four-factor challenge, the resolution-IV half-fraction is also blind to the constructed higher-order response. Latin-hypercube samples expose signal off-grid in the recorded trials; this geometry-only result does not establish inferential power or production safety.",
+  "factor_bounds": {
+    "power": [
+      0.0,
+      2.0
+    ],
+    "pressure": [
+      0.0,
+      2.0
+    ]
+  },
+  "four_factor_controls": [
+    "pressure",
+    "power",
+    "temperature",
+    "flow"
+  ],
+  "four_factor_hidden_surface": "amplitude times the product of sin(k_i*pi*x_i) over four factors, with independent frequencies from {1,3,5}; the response is zero at every tested integer-level design point",
+  "four_factor_strategies": {
+    "central_composite": {
+      "mean_trial_max_abs_hidden_response": 2.2007687221413765e-62,
+      "median_trial_max_abs_hidden_response": 7.798261262810696e-63,
+      "p95_trial_max_abs_hidden_response": 1.0968120166498092e-61,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 26,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "d_optimal": {
+      "mean_trial_max_abs_hidden_response": 2.2007687221413765e-62,
+      "median_trial_max_abs_hidden_response": 7.798261262810696e-63,
+      "p95_trial_max_abs_hidden_response": 1.0968120166498092e-61,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 12,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "fractional_factorial": {
+      "mean_trial_max_abs_hidden_response": 2.2007687221413765e-62,
+      "median_trial_max_abs_hidden_response": 7.798261262810696e-63,
+      "p95_trial_max_abs_hidden_response": 1.0968120166498092e-61,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 8,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "full_factorial": {
+      "mean_trial_max_abs_hidden_response": 2.2007687221413765e-62,
+      "median_trial_max_abs_hidden_response": 7.798261262810696e-63,
+      "p95_trial_max_abs_hidden_response": 1.0968120166498092e-61,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 16,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "latin_hypercube": {
+      "mean_trial_max_abs_hidden_response": 0.040409523233091445,
+      "median_trial_max_abs_hidden_response": 0.03937885557605915,
+      "p95_trial_max_abs_hidden_response": 0.06958286370770979,
+      "run_signal_fraction": 0.9991666666666666,
+      "runs_per_trial": 12,
+      "trial_signal_fraction": 1.0,
+      "trials_with_signal_over_epsilon": 200
+    }
+  },
+  "hidden_surface": "amplitude times sin(k*pi*pressure)*sin(j*pi*power), frequencies independently chosen from {1,3,5}; exactly zero whenever either factor is at an integer setting",
+  "limitations": [
+    "the known harmonic band is synthetic and finite; other hidden functions can evade any finite design",
+    "measurement noise, lot/chamber blocking effects, multiplicity, effect estimation, cost, and operational feasibility are not modeled",
+    "the result distinguishes design geometry only; it does not recommend executing a design or alter the runtime strategy selector"
+  ],
+  "observed_design": {
+    "interpretation": "existing measured settings",
+    "levels_per_factor": [
+      0.0,
+      1.0,
+      2.0
+    ]
+  },
+  "product_design_sha256": "90c8a01ef45685dcb08e1138a88199bc6245dcad637c98efffb187c060d36f1b",
+  "schema": "p4-d04-design-aliasing-benchmark/v2",
+  "seed": 20261124,
+  "signal_epsilon": 1e-06,
+  "statistical_power_evaluated": false,
+  "status": "PASS_GEOMETRY_CHALLENGE",
+  "strategies": {
+    "central_composite": {
+      "mean_trial_max_abs_hidden_response": 0.0,
+      "median_trial_max_abs_hidden_response": 0.0,
+      "p95_trial_max_abs_hidden_response": 0.0,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 10,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "d_optimal": {
+      "mean_trial_max_abs_hidden_response": 0.0,
+      "median_trial_max_abs_hidden_response": 0.0,
+      "p95_trial_max_abs_hidden_response": 0.0,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 8,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "full_factorial": {
+      "mean_trial_max_abs_hidden_response": 0.0,
+      "median_trial_max_abs_hidden_response": 0.0,
+      "p95_trial_max_abs_hidden_response": 0.0,
+      "run_signal_fraction": 0.0,
+      "runs_per_trial": 8,
+      "trial_signal_fraction": 0.0,
+      "trials_with_signal_over_epsilon": 0
+    },
+    "latin_hypercube": {
+      "mean_trial_max_abs_hidden_response": 0.06243140133376088,
+      "median_trial_max_abs_hidden_response": 0.06384051730856967,
+      "p95_trial_max_abs_hidden_response": 0.10034918871774362,
+      "run_signal_fraction": 0.9995,
+      "runs_per_trial": 10,
+      "trial_signal_fraction": 1.0,
+      "trials_with_signal_over_epsilon": 200
+    }
+  },
+  "trials": 200
+}

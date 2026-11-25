@@ -33,7 +33,7 @@
   },
   "generator": "known quadratic surface with independent lot noise and a +0.5 late-period shift on the final 6 of 36 lots",
   "interpretation": "Random group holdouts can mix future-shifted lots into development and evaluation; chronological holdout tests transfer to the supplied later period only. Split boundaries and reference are caller supplied and unauthenticated.",
-  "product_source_sha256": "e66e785fe0a4a3d87037d5cc9111b43a95d4984b46bcc31dd3a11c770919020f",
+  "product_source_sha256": "90c8a01ef45685dcb08e1138a88199bc6245dcad637c98efffb187c060d36f1b",
   "qualification": "PASS",
   "schema": "p4-d04-time-holdout-benchmark/v1",
   "scope": "synthetic software qualification; no manufacturing performance or future guarantee",

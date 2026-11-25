@@ -43,9 +43,10 @@
     ]
   },
   "source_provenance": {
-    "benchmark_script_sha256": "bbcc7456d7620ea9d181fe2fe10dcbbf0f8617d095cb45439bd3a009fe9fd767",
-    "engine_sha256": "568bfa4e85b9c297f9e7f99ea8f700983e04cc7dfe1cbae2b3527dada9277a60",
-    "source_commit": "68a054d50d9a64db163881311be5ffa35e64d02a"
+    "benchmark_script_sha256": "5826e0776ce0857cea8c23d52c430ede302d21766d8b67929cfd4e3fea899d42",
+    "engine_sha256": "13f2df176781c7b4fe09a1050f9de842f9228a141ac6451b087cf0d57f3c4582",
+    "regression_sha256": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
+    "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4"
   },
   "trials": 1000,
   "true_effect_values": [

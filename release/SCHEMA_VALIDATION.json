@@ -9,30 +9,37 @@
     },
     {
       "errors": [],
-      "instance": "release/full_workflow_demo_evidence.json",
-      "schema": "contracts/evidence.v1.schema.json",
-      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "instance": "fixtures/full_workflow_demo.json",
+      "schema": "products/p4/investigation.v1.schema.json",
+      "schema_sha256": "c4dd793f9d00448617589d753d74656dbb944e2694f6fa757af301aa5070dc7b",
       "status": "PASS"
     },
     {
       "errors": [],
-      "instance": "fixtures/full_workflow_demo.json",
-      "schema": "products/p4/investigation.v1.schema.json",
-      "schema_sha256": "3cffc0753402842ddef1dbe5f798d9582c1ac96c4d54ef4889e2fa2a8a356c54",
+      "instance": "fixtures/relationship_contract_v1.1.json",
+      "schema": "products/p4/relationships.v1.1.schema.json",
+      "schema_sha256": "79b88d4df5f3d9c4d30c8702086a7a7752338500f337785a62d12316c8eee190",
       "status": "PASS"
     },
     {
       "errors": [],
       "instance": "requirements/synthetic-mcp-mapping.v1.json",
       "schema": "requirements/site-mcp-config.v1.schema.json",
-      "schema_sha256": "6dd8181f4fc907269b8ad9f7dbbe6ce58687a71782ba11edc7a9ffb7451ecd9c",
+      "schema_sha256": "83b945312750d12d38baeac374239a53b8d530a902ccbb4a6e8a4623cd5a0b65",
       "status": "PASS"
     },
     {
       "errors": [],
       "instance": "requirements/company-config.template.json",
       "schema": "requirements/site-mcp-config.v1.schema.json",
-      "schema_sha256": "6dd8181f4fc907269b8ad9f7dbbe6ce58687a71782ba11edc7a9ffb7451ecd9c",
+      "schema_sha256": "83b945312750d12d38baeac374239a53b8d530a902ccbb4a6e8a4623cd5a0b65",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "requirements/mcp-discovery.template.json",
+      "schema": "requirements/mcp-discovery-config.v1.schema.json",
+      "schema_sha256": "71c29d0322c1294936a6513910c942ade18002478bb5417c8e95b4ea5c76a977",
       "status": "PASS"
     },
     {
@@ -53,5 +60,5 @@
   "role": "qualification-only; not a runtime dependency",
   "status": "PASS",
   "validator": "python-jsonschema",
-  "validator_version": "4.26.0"
+  "validator_version": "4.19.2"
 }

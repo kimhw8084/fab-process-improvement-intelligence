@@ -11,10 +11,10 @@
   ],
   "lock_sha256": "91bb6e70d813a23f630db5b3956e2755558dbd5c1b25ca6a17dcc5382fd84de7",
   "network_used": false,
-  "protocol_test_output_sha256": "88113d0df2a2da6d7cb7f690dd170c86af90106f287eccb65149fd82838aa3f4",
+  "protocol_test_output_sha256": "a6ff4a8c726d5290ac1fa3bb60e7bfb50216c6fb7d83118d7180e8a171db5b47",
   "protocol_test_return_code": 0,
-  "protocol_tests_run": 7,
-  "scope": "optional MCP SDK offline wheel installation and P4 synthetic stdio/Streamable HTTP protocol tests",
+  "protocol_tests_run": 29,
+  "scope": "optional MCP SDK offline wheel installation and P4 synthetic stdio/Streamable HTTP transport, mapping, and metadata-discovery tests",
   "status": "PASS_LOCAL_SYNTHETIC_MOCK_ONLY",
   "target": {
     "architecture": "arm64",

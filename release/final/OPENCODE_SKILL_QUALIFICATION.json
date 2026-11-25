@@ -1,0 +1,20 @@
+{
+  "archive_sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80",
+  "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+  "status": "PASS_EXACT_EXTRACTION_LOCAL_DISCOVERY_LIMITED_SCOPE",
+  "open_code_version": "1.3.9",
+  "skill": "p4-internal-onboarding",
+  "skill_directory": ".opencode/skills/p4-internal-onboarding/SKILL.md",
+  "extracted_archive": true,
+  "command": "sandbox-exec -n no-internet rtk opencode debug skill",
+  "environment": {
+    "OPENCODE_DISABLE_AUTOUPDATE": "1",
+    "OPENCODE_DISABLE_MODELS_FETCH": "1"
+  },
+  "network_policy": "macOS named no-internet profile",
+  "output_sha256": "38994a2b25e8b69c092058bd557ae0bc2fbba2381811aed2bd17b6a20ac573a1",
+  "limits": [
+    "Confirms project-skill discovery by public OpenCode 1.3.9 from this exact extraction only.",
+    "Does not qualify the company OpenCode build, local model, company policies, or autonomous internal execution."
+  ]
+}

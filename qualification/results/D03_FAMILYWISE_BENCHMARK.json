@@ -1,4 +1,17 @@
 {
+  "adaptive_setting_selection_challenge": {
+    "declared_full_family_refusal_fraction": 1.0,
+    "legacy_selected_setting_t_interval_coverage": 0.914,
+    "legacy_selected_setting_t_interval_coverage_wilson95": [
+      0.8861601885014425,
+      0.9355268575963924
+    ],
+    "scope": "synthetic selection-bias diagnostic; exact precommit matching cannot authenticate when the caller created or changed the cited plan",
+    "selected_only_familywise_interval_release_fraction": 0.0,
+    "selector": "retain only the setting with the largest observed quality mean among four equal-mean settings",
+    "trials": 500
+  },
+  "benchmark_script_sha256": "459ea544d81efdebe2f3be295f6cd4ab43f2933ffb46b5c61cd548d2ddcced8f",
   "bootstrap_resamples": 999,
   "generator": "four equal-mean settings; correlated settings and objectives; normal and scaled multivariate t(5) unit effects",
   "limitations": [
@@ -9,6 +22,7 @@
   "mature_alternative": "scipy.stats.bootstrap vectorized mean resampling with paired unit rows; a max-standardized family statistic is computed only in qualification code",
   "objective_family_size": 8,
   "product_decision_rule": "retain the offline dependency-free Bonferroni envelope because the narrower bootstrap method did not meet family-wise coverage in either challenge",
+  "product_tradeoffs_sha256": "cca7a01b63d842c6821ae949d8586b83335b982bc3a56783a8b5f5785752010c",
   "resampling_unit": "whole independent lot row vector, preserving cross-setting and cross-metric dependence",
   "scenarios": {
     "correlated_heavy_t5": {

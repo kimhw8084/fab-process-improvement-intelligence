@@ -1,0 +1,19 @@
+{
+  "builds": [
+    {
+      "bytes": 9583737,
+      "manifest_sha256": "cc3692974cb4e1ab7a62eae7004e8cbdaef53dea4ea2ee0ce5d62ac3642ed6d4",
+      "sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80"
+    },
+    {
+      "bytes": 9583737,
+      "manifest_sha256": "cc3692974cb4e1ab7a62eae7004e8cbdaef53dea4ea2ee0ce5d62ac3642ed6d4",
+      "sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80"
+    }
+  ],
+  "method": "Two independent detached worktrees at the exact source commit; compare archive, manifest, and workspace bytes.",
+  "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+  "status": "PASS",
+  "workspace_archive_sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80",
+  "workspace_matches_clean_builds": true
+}

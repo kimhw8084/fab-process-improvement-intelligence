@@ -7,11 +7,12 @@
           "HC3 handles heteroskedasticity but assumes independent observations",
           "cluster covariance allows within-cluster dependence and relies on independent clusters",
           "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
-          "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
+          "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 20-count threshold is a heuristic and does not guarantee coverage",
           "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
           "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
           "classical covariance additionally assumes homoskedastic errors",
           "measurement uncertainty was not supplied or propagated",
+          "sampling-frame completeness and source rows omitted before acquisition were not independently verified",
           "fixed effects adjust only for the explicitly selected fields"
         ],
         "diagnostic_warnings": [],
@@ -62,6 +63,11 @@
           }
         },
         "formula_sensitivity": {
+          "adjustment_sensitivity": {
+            "already_in_base_formula": [],
+            "requested_fields": [],
+            "scope": "same-sample descriptive adjustment using caller-supplied measured row fields; does not identify confounders, establish causal effects, auto-adjust, or select a formula"
+          },
           "base_formula": {
             "factor_centers": {
               "pressure": 2.0,
@@ -95,8 +101,8 @@
               "formula_estimates": [
                 {
                   "ci95": [
-                    2.9949835728274197,
-                    3.004063127172544
+                    2.994983572560766,
+                    3.004063127439198
                   ],
                   "estimate": 2.999523349999982,
                   "formula": "caller_specification",
@@ -104,8 +110,8 @@
                 },
                 {
                   "ci95": [
-                    2.9949911792731454,
-                    3.004055520726804
+                    2.9949911790069383,
+                    3.004055520993011
                   ],
                   "estimate": 2.9995233499999747,
                   "formula": "linear_additive",
@@ -113,8 +119,8 @@
                 },
                 {
                   "ci95": [
-                    2.994986112563093,
-                    3.0040605874368573
+                    2.9949861122965884,
+                    3.004060587703362
                   ],
                   "estimate": 2.999523349999975,
                   "formula": "quadratic_additive",
@@ -122,8 +128,8 @@
                 },
                 {
                   "ci95": [
-                    2.9949861125630997,
-                    3.004060587436864
+                    2.994986112296595,
+                    3.0040605877033686
                   ],
                   "estimate": 2.999523349999982,
                   "formula": "without_declared_fixed_effects",
@@ -141,8 +147,8 @@
               "formula_estimates": [
                 {
                   "ci95": [
-                    -0.30079503160232707,
-                    -0.2993560883976723
+                    -0.3007950316445868,
+                    -0.29935608835541255
                   ],
                   "estimate": -0.3000755599999997,
                   "formula": "caller_specification",
@@ -150,8 +156,8 @@
                 },
                 {
                   "ci95": [
-                    -0.300793826119883,
-                    -0.29935729388012416
+                    -0.3007938261620719,
+                    -0.29935729383793525
                   ],
                   "estimate": -0.30007556000000357,
                   "formula": "linear_additive",
@@ -159,8 +165,8 @@
                 },
                 {
                   "ci95": [
-                    -0.30079462910069693,
-                    -0.29935649089929667
+                    -0.3007946291429331,
+                    -0.2993564908570605
                   ],
                   "estimate": -0.3000755599999968,
                   "formula": "quadratic_additive",
@@ -168,8 +174,8 @@
                 },
                 {
                   "ci95": [
-                    -0.3007946291006998,
-                    -0.29935649089929955
+                    -0.300794629142936,
+                    -0.2993564908570634
                   ],
                   "estimate": -0.3000755599999997,
                   "formula": "without_declared_fixed_effects",
@@ -181,7 +187,7 @@
             }
           },
           "interpretation": "formula sensitivity is descriptive on the same observations; point-sign changes flag model dependence, and displayed intervals are unadjusted across formulas",
-          "method": "caller-specified formula plus fixed linear, quadratic, interaction, and declared-fixed-effect ablations",
+          "method": "caller-specified formula plus fixed linear, quadratic, interaction, declared-fixed-effect ablations, and one-at-a-time caller-nominated adjustments",
           "model_selection": "none; the caller formula is retained and no variant is chosen by these diagnostics",
           "status": "COMPLETED_DIAGNOSTIC",
           "variants": [
@@ -189,16 +195,16 @@
               "factor_terms": {
                 "pressure": {
                   "ci95": [
-                    2.9949911792731454,
-                    3.004055520726804
+                    2.9949911790069383,
+                    3.004055520993011
                   ],
                   "estimate": 2.9995233499999747,
                   "standard_error": 0.0022841104956690906
                 },
                 "temperature": {
                   "ci95": [
-                    -0.300793826119883,
-                    -0.29935729388012416
+                    -0.3007938261620719,
+                    -0.29935729383793525
                   ],
                   "estimate": -0.30007556000000357,
                   "standard_error": 0.0003619897135357302
@@ -216,16 +222,16 @@
               "factor_terms": {
                 "pressure": {
                   "ci95": [
-                    2.994986112563093,
-                    3.0040605874368573
+                    2.9949861122965884,
+                    3.004060587703362
                   ],
                   "estimate": 2.999523349999975,
                   "standard_error": 0.0022866640017718608
                 },
                 "temperature": {
                   "ci95": [
-                    -0.30079462910069693,
-                    -0.29935649089929667
+                    -0.3007946291429331,
+                    -0.2993564908570605
                   ],
                   "estimate": -0.3000755599999968,
                   "standard_error": 0.0003623943975229565
@@ -243,16 +249,16 @@
               "factor_terms": {
                 "pressure": {
                   "ci95": [
-                    2.9949861125630997,
-                    3.004060587436864
+                    2.994986112296595,
+                    3.0040605877033686
                   ],
                   "estimate": 2.999523349999982,
                   "standard_error": 0.0022866640017718608
                 },
                 "temperature": {
                   "ci95": [
-                    -0.3007946291006998,
-                    -0.29935649089929955
+                    -0.300794629142936,
+                    -0.2993564908570634
                   ],
                   "estimate": -0.3000755599999997,
                   "standard_error": 0.00036239439752295725
@@ -343,56 +349,56 @@
         "terms": {
           "chamber[SYN-CH-B]": {
             "ci95": [
-              -0.3411777606682934,
-              -0.2700708689613378
+              -0.3411777627566037,
+              -0.2700708668730275
             ],
             "estimate": -0.3056243148148156,
             "standard_error": 0.017918124388032725
           },
           "intercept_at_factor_centers": {
             "ci95": [
-              84.63083751235445,
-              84.6760007394974
+              84.63083751102808,
+              84.67600074082377
             ],
             "estimate": 84.65341912592592,
             "standard_error": 0.011380617297225512
           },
           "pressure": {
             "ci95": [
-              2.9949835728274197,
-              3.004063127172544
+              2.994983572560766,
+              3.004063127439198
             ],
             "estimate": 2.999523349999982,
             "standard_error": 0.0022879439705268782
           },
           "pressure:temperature": {
             "ci95": [
-              -0.0007145765184227957,
-              0.0007993665184233761
+              -0.0007145765628851931,
+              0.0007993665628857735
             ],
             "estimate": 4.239500000029025e-05,
             "standard_error": 0.0003814963500640851
           },
           "pressure^2": {
             "ci95": [
-              0.11792095964423849,
-              0.12232594035576122
+              0.11792095951487035,
+              0.12232594048512936
             ],
             "estimate": 0.12012344999999985,
             "standard_error": 0.0011100048169905906
           },
           "temperature": {
             "ci95": [
-              -0.30079503160232707,
-              -0.2993560883976723
+              -0.3007950316445868,
+              -0.29935608835541255
             ],
             "estimate": -0.3000755599999997,
             "standard_error": 0.00036259724914674776
           },
           "temperature^2": {
             "ci95": [
-              -5.372413539167633e-05,
-              6.004413539177032e-05
+              -5.372413873289191e-05,
+              6.0044138732985904e-05
             ],
             "estimate": 3.160000000046999e-06,
             "standard_error": 2.8668304553520255e-05
@@ -26719,11 +26725,12 @@
               "HC3 handles heteroskedasticity but assumes independent observations",
               "cluster covariance allows within-cluster dependence and relies on independent clusters",
               "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
-              "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
+              "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 20-count threshold is a heuristic and does not guarantee coverage",
               "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
               "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
               "classical covariance additionally assumes homoskedastic errors",
               "measurement uncertainty was not supplied or propagated",
+              "sampling-frame completeness and source rows omitted before acquisition were not independently verified",
               "fixed effects adjust only for the explicitly selected fields"
             ],
             "diagnostic_warnings": [],
@@ -26895,11 +26902,12 @@
               "HC3 handles heteroskedasticity but assumes independent observations",
               "cluster covariance allows within-cluster dependence and relies on independent clusters",
               "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
-              "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
+              "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 20-count threshold is a heuristic and does not guarantee coverage",
               "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
               "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
               "classical covariance additionally assumes homoskedastic errors",
               "measurement uncertainty was not supplied or propagated",
+              "sampling-frame completeness and source rows omitted before acquisition were not independently verified",
               "fixed effects adjust only for the explicitly selected fields"
             ],
             "diagnostic_warnings": [],
@@ -27292,8 +27300,8 @@
               "defect_rate": {
                 "familywise_ci95": null,
                 "marginal_ci95": [
-                  1.7960670245292687,
-                  1.8032111754707314
+                  1.796067024319455,
+                  1.8032111756805451
                 ],
                 "mean": 1.7996391,
                 "standard_error": 0.0018002444227707454,
@@ -27303,8 +27311,8 @@
               "yield_index": {
                 "familywise_ci95": null,
                 "marginal_ci95": [
-                  85.99683738661416,
-                  86.06668761338584
+                  85.99683738456275,
+                  86.06668761543725
                 ],
                 "mean": 86.0317625,
                 "standard_error": 0.01760145918042887,
@@ -27444,8 +27452,8 @@
               "defect_rate": {
                 "familywise_ci95": null,
                 "marginal_ci95": [
-                  2.166173488761311,
-                  2.1732785112386885
+                  2.1661734885526465,
+                  2.173278511447353
                 ],
                 "mean": 2.169726,
                 "standard_error": 0.0017903844968231411,
@@ -27455,8 +27463,8 @@
               "yield_index": {
                 "familywise_ci95": null,
                 "marginal_ci95": [
-                  89.11607160712349,
-                  89.18601819287652
+                  89.11607160506925,
+                  89.18601819493075
                 ],
                 "mean": 89.1510449,
                 "standard_error": 0.01762574054293236,
@@ -27598,8 +27606,8 @@
               "defect_rate": {
                 "familywise_ci95": null,
                 "marginal_ci95": [
-                  2.665979621274342,
-                  2.6731485787256584
+                  2.6659796210637996,
+                  2.6731485789362006
                 ],
                 "mean": 2.6695641,
                 "standard_error": 0.0018064953798653184,
@@ -27609,8 +27617,8 @@
               "yield_index": {
                 "familywise_ci95": null,
                 "marginal_ci95": [
-                  87.61576451159671,
-                  87.6856774884033
+                  87.61576450954347,
+                  87.68567749045654
                 ],
                 "mean": 87.650721,
                 "standard_error": 0.0176172714723737,
@@ -28283,7 +28291,7 @@
       "D05_effectiveness": {
         "assumptions": [
           "valid documented random allocation",
-          "independent units",
+          "independent units; P4 does not detect undeclared shared shocks",
           "no interference",
           "consistent outcome measurement"
         ],
@@ -28307,7 +28315,13 @@
           3.587274785417809,
           6.412725214582191
         ],
+        "cluster_size_summary": null,
         "control_n": 4,
+        "dependence_diagnostic": {
+          "fields": [],
+          "interpretation": "P4 assumes independent unit_id values; unlisted shared shocks are not detected",
+          "status": "NOT_DECLARED"
+        },
         "design": "randomized two-arm difference in means",
         "diagnostics": {
           "assignment_unit_count": 8,
@@ -28319,9 +28333,17 @@
               "none"
             ]
           },
+          "dependence_status": "NOT_DECLARED",
+          "randomization_cluster_field": null,
           "small_sample_warning": true
         },
         "estimate": 5.0,
+        "inference_method": "Welch t interval over assigned independent-unit outcomes",
+        "inference_unit": "assigned_independent_unit",
+        "inference_unit_counts": {
+          "control": 4,
+          "treatment": 4
+        },
         "intervention_id": "SYN-CHANGE-001",
         "metric": "quality_index",
         "qualification": "conditional randomized study estimate; small samples and baseline imbalance require review; not production qualification",
@@ -28351,9 +28373,9 @@
         "approval IDs"
       ],
       "source_inspection": {
-        "approved_company_semantics": false,
         "mode": "SYNTHETIC_DEMO",
         "permissions": "synthetic only",
+        "semantic_approval_status": "SYNTHETIC_ONLY",
         "sources": []
       },
       "type": "p4_decision_dossier",
@@ -28509,7 +28531,7 @@
   ],
   "product_id": "p4",
   "provenance": {
-    "engine_version": "1.2.0",
+    "engine_version": "1.2.6",
     "input_sha256": "68deece4b38f994e0b7018cff54b1c27e8f31a601eb0a8b98a38c2e61b35d050",
     "method_version": "p4-robust-surface-2",
     "semantic_catalog_version": "SYNTHETIC-1"

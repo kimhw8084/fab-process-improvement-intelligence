@@ -501,3 +501,65 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 - The full pinned runner evaluated `ac67074b6c9156d8b2169380dc2c2d1edef8ab6a`: 265 Python tests PASS, 0 skipped; E01/E02/E03/E04/E06 PASS; schema and D01-D05 synthetic workflow PASS. Local P4 module: 30 tests and strict TypeScript PASS. Disposable P1 fingerprint is stale; E07 is not qualified.
 - Gates still pending: E05 company source authorization/semantics, E07 authoritative P1 and formal accessibility, E08 approved target OS, E09 rights and independent security review, E10 exact final archive, E11 engineer baseline/ROI, E12 internal qualification. State remains CANDIDATE; no distribution.
 - Exact next action: commit the regenerated bridge fixture and checkpoint ledger locally; rerun the pinned release runner at the new HEAD; then rebuild the local ZIP, reproduce it in two clean detached worktrees, and fresh-extract/run with no pip and network denial. After E10, continue the highest-value independent D02/D04/D05 qualification gap.
+
+
+## Exact candidate archive qualification — 2026-11-24
+
+- Exact evidence/source commit `e5f74fa3839b7a2993fb70a0daec2a1afb029485`; full pinned runner: 265 Python tests PASS/0 skipped; E01/E02/E03/E04/E06/E10 PASS. State remains CANDIDATE.
+- Local archive `release/FAB_INTELLIGENCE_P4_CANDIDATE.zip`: SHA-256 `b9158cfd01c493a993c32abdadb5d39bff79f67008203588d649d57e9aa5ba17`, 9,344,054 bytes; 228 source files; manifest SHA-256 `a5c8b061c0348d41455c963913264eaa5d30c0227094238724e590c647b446a6`. Two clean detached rebuilds matched byte-for-byte. Fresh extraction verified all files, ran doctor/demo/D01-D05 without pip, and macOS sandbox denied network access. Host: macOS 26.6.2 ARM64 / CPython 3.11.7 only.
+- D03 bridge fixture rebuilds were byte-identical (`aaa48c1d…`); MCP workflow remains synthetic only. P1 snapshot/owner and formal accessibility are stale/pending. No public push or distribution.
+- Pending gates: E05 company permissions/semantics, E07 authoritative P1/formal accessibility, E08 approved target OS, E09 rights and independent security review, E11 engineer ROI baseline, E12 internal qualification.
+- Next executable work: inspect D02 candidate-to-confirmation flow and independently test whether suggested exact-setting experiments reduce the hidden response-surface uncertainty; retain refusal if no data-supported ranking exists. Rebind release/archive after any product source change.
+
+
+## D04 confirmation-power scope repair — 2026-11-24
+
+- Independent SciPy noncentral-t challenges exposed a real failure beyond the earlier 54-case grid: 8/165 proposals were underpowered at alpha 0.001; a separate 350-case sweep found 9 underpowered cases at stringent alpha and/or requested power above 0.90 (minimum achieved power 0.9447 against 0.95).
+- The D02 candidate-confirmation planner now refuses alpha outside [0.01, 0.10] or target power outside [0.80, 0.90], labels the displayed target approximate, and exposes its finite qualification domain. No new runtime dependency was added; SciPy remains an independent qualification-only oracle.
+- New E02-gated benchmark checks 360 fixed combinations plus 200 seeded interior draws across standardized MDE 0.04–5.0. At current code the exact central/noncentral-t oracle found 0/560 underpowered proposals; minimum achieved-power margin 0.0000203. Five out-of-domain cases refused with zero runs. This finite normal-theory challenge does not validate caller SD/MDE/population assumptions or nonnormal/dependent differences.
+- P4 engine version raised to 1.2.6. Focused D04 + bridge tests: 36 PASS; full Python suite: 267 PASS/0 skipped; bridge fixture rebuilt twice identically at SHA-256 `995babfb7ae772e360316cf509d9747d99a66c8d17214b863fa288b35f6e6a8d`. Exact-source release runner/archive rebind pending. No public distribution.
+- Next: commit the D04 scope repair and benchmark; refresh the main source-fingerprinted performance report; run the exact-source release runner; then rebuild/reproduce/offline-qualify the archive.
+
+
+## D04 repaired release and exact offline archive — 2026-11-24
+
+- Exact source `62c91c2dbb550dffb8f3b4b811e6f9c634bd5f29`: 267 Python tests PASS/0 skipped; E01/E02/E03/E04/E06/E10 PASS. E02 includes the 560-case D04 central/noncentral-t gate (0 underpowered; five unsupported inputs refused). State remains CANDIDATE.
+- Archive SHA-256 `ff530921608011cd74ef20b8abc5ceb9956d6d75f96b6a228cc6d8e63e5b8789`, 9,347,897 bytes, 229 source files; manifest SHA-256 `3a38b6a06d1ee7a2b32255e3ef2184a9b03691b69e44170f5f10751941cccc33`. Two clean detached rebuilds match. Fresh extraction verified every source file and ran doctor/demo/full D01-D05 with no pip; macOS sandbox denied network. Qualified host only: macOS 26.6.2 ARM64 / CPython 3.11.7.
+- Remaining gates: E05 company authorization/semantics; E07 authoritative P1 owner/formal accessibility; E08 approved target OS; E09 legal/license and independent security review; E11 engineer baseline/ROI; E12 internal qualification. No public push or distribution.
+- Next executable task: create an isolated disposable overlay of the accessible P1 workspace with current P4 files, run the P1 host/API/UI workflow and its refusal case without modifying the actual P1 folder, and record only compatibility evidence. If shared mapping mismatch remains, retain the P1 owner proposal and proceed to the next independent D02 challenge.
+
+
+# Current-source suite integration preflight — 2026-11-24
+
+| Requirement | Executed evidence | Status / limit |
+|---|---|---|
+| P1 host compatibility | Disposable current-source composition: 32 P1 host tests PASS; synthetic MCP acquisition returned 900 observations; success and permission-refusal browser paths verified. 65 frontend tests, strict TypeScript, and production build PASS. Actual P1 source remains untouched and unversioned. | Compatibility evidence only; no P1 owner/source acceptance or company authorization. |
+| Evidence/refusal workflow | Success rendered `PARTIAL` with limitations and provenance; permission denial rendered `REFUSED`, `NOT_ACCESSED`, and no positive findings. | Synthetic inputs, permissions and mappings only. |
+| Keyboard focus preflight | Current P1 CSS source screen fails on body (1.804:1) and white card/navigation (1.9397:1). Proposed dual white/navy ring passes the ten selected-pair source screen in a separate copy. | No rendered focus/WCAG/AT validation; P1 owner must review the shell change. E07 remains pending. |
+| Exact-source baseline | Commit `62c91c2dbb550dffb8f3b4b811e6f9c634bd5f29`; 267 tests PASS/0 skipped; E01/E02/E03/E04/E06/E10 PASS. ZIP SHA-256 `ff530921608011cd74ef20b8abc5ceb9956d6d75f96b6a228cc6d8e63e5b8789`; source manifest SHA-256 `3a38b6a06d1ee7a2b32255e3ef2184a9b03691b69e44170f5f10751941cccc33`. | Candidate only; E05/E07/E08/E09/E11/E12 pending. No distribution. |
+| Next | Independently challenge D03 uncertainty/missing-objective behavior against an oracle; implement only on a reproduced defect, then rerun focused and exact-source qualification. | Product goal remains active. |
+
+## P4-only acceptance checkpoint — 2026-11-24
+
+| Requirement | Current evidence | Status / limit |
+|---|---|---|
+| D03 uncertainty and missing objectives | Correlated familywise oracle plus full-engine missing-objective and conflicting-bound refusal tests. | PASS; no unsupported Pareto claim. |
+| Standalone engineer workflow | Real Chromium local analysis and synthetic MCP acquisition through audited 900-row D01–D05 result and export; no external requests. | PASS_LIMITED_SCOPE; formal screen-reader/WCAG review pending. |
+| Automated onboarding | Baseline and renamed synthetic MCP catalogs; misleading descriptors, incompatible units, invalid factor/outcome reuse and missing context refuse or require owner review. | PASS_SYNTHETIC; never self-approves mappings. |
+| Offline candidate | Commit `885447f`; 275 tests; two detached builds; fresh no-pip extraction under network denial. | ZIP `ba7ef4fe…`; E10 PASS; E05/E08/E09/E11/E12 pending. |
+| Product boundary | P1-only tests and evidence preserved under excluded legacy path; no P1-host dependency in current P4 gates. | P4 standalone; no public distribution. |
+
+
+## Final P4-only release evidence — 2026-11-24
+
+| Requirement | Exact evidence | Final disposition |
+|---|---|---|
+| Final artifact identity | Commit `0dc3105652ac2a7928d7424a96be4cbf4fea2840`; 249 source files; manifest SHA-256 `3555d4ac7c50a42c3b34b6048dd94f542ca5a91af5c2c32b9eeba701cfbaf4f5`; candidate SHA-256 `23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80`. | PASS; immutable baseline `ba7ef4fe…` preserved separately. |
+| E01–E04 / E06 | Exact-extraction D01–D05 workflow; 285 Python tests (23 optional MCP tests skipped in base run and separately covered by 29 SDK tests); eight schema checks; no-AI core. | PASS in synthetic/local scope. |
+| E05 / internal semantic authority | Metadata discovery and exact-schema proposals only; no company sources/permissions/semantics accessed; approval remains human-owned. | PENDING_INTERNAL. |
+| E07 / usability | Chromium 158.0 standalone workflow, keyboard operation, headings, table alternative, evidence display/export, no external requests. | PASS_LIMITED_SCOPE; WCAG/screen-reader review pending. |
+| E08 / offline portability | macOS ARM64 Python 3.11.7–3.14.5 core, no-internet denial, startup and rollback; SDK/browser on 3.11.7 only. | PASS_LIMITED_PLATFORM; other OS/Python support as detailed in `docs/PLATFORM_QUALIFICATION_MATRIX.md`. |
+| E09 / dependency-rights-security | 50-entry SPDX; 48 dependency instances/0 advisories; 8 low and 0 medium/high Bandit findings. | Evidence ready; formal legal/IP and independent security review pending. |
+| E10 / release integrity | Two clean exact-source rebuilds identical; fresh archive qualification, stop/restart, and synthetic-config rollback pass. | PASS for named archive only. |
+| E11/E12 / ROI and internal qualification | Measurable acceptance/ROI method supplied; no manufacturing data, actual engineer baseline, permissions, or company approvals. | PENDING_INTERNAL. |
+| Final gate | Transfer approval and production qualification. | NOT_AUTHORIZED / NOT_ESTABLISHED. |

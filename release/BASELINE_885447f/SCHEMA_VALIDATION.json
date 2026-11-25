@@ -1,0 +1,64 @@
+{
+  "checks": [
+    {
+      "errors": [],
+      "instance": "product.json",
+      "schema": "contracts/product-manifest.v1.schema.json",
+      "schema_sha256": "6c9758be247756afb0c80316b361412687c643e947418e2b598ccc148ba7d4d3",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "release/full_workflow_demo_evidence.json",
+      "schema": "contracts/evidence.v1.schema.json",
+      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "fixtures/full_workflow_demo.json",
+      "schema": "products/p4/investigation.v1.schema.json",
+      "schema_sha256": "c4dd793f9d00448617589d753d74656dbb944e2694f6fa757af301aa5070dc7b",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "fixtures/relationship_contract_v1.1.json",
+      "schema": "products/p4/relationships.v1.1.schema.json",
+      "schema_sha256": "79b88d4df5f3d9c4d30c8702086a7a7752338500f337785a62d12316c8eee190",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "requirements/synthetic-mcp-mapping.v1.json",
+      "schema": "requirements/site-mcp-config.v1.schema.json",
+      "schema_sha256": "83b945312750d12d38baeac374239a53b8d530a902ccbb4a6e8a4623cd5a0b65",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "requirements/company-config.template.json",
+      "schema": "requirements/site-mcp-config.v1.schema.json",
+      "schema_sha256": "83b945312750d12d38baeac374239a53b8d530a902ccbb4a6e8a4623cd5a0b65",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "tests/fixtures/mcp_p4_panel_bridge.json#analysis_evidence",
+      "schema": "contracts/evidence.v1.schema.json",
+      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "status": "PASS"
+    },
+    {
+      "errors": [],
+      "instance": "tests/fixtures/mcp_p4_panel_bridge.json#refusal_evidence",
+      "schema": "contracts/evidence.v1.schema.json",
+      "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+      "status": "PASS"
+    }
+  ],
+  "role": "qualification-only; not a runtime dependency",
+  "status": "PASS",
+  "validator": "python-jsonschema",
+  "validator_version": "4.26.0"
+}

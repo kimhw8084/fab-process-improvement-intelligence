@@ -1,0 +1,125 @@
+{
+  "benchmark_version": "3.0.0",
+  "catalog_rows": 13000,
+  "engineering_user_baseline": "NOT_AVAILABLE; no eligible engineer study or human task-time baseline supplied",
+  "environment": {
+    "architecture": "arm64",
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "processor": "arm",
+    "python": "3.11.7 (main, Dec 15 2023, 12:09:56) [Clang 14.0.6 ]",
+    "release": "25.6.0",
+    "system": "Darwin"
+  },
+  "network": "not used",
+  "oss_reference": {
+    "absolute_differences": {
+      "intercept": 2.842170943040401e-14,
+      "pressure": 5.773159728050814e-15,
+      "pressure:temperature": 2.098934090769e-15,
+      "temperature": 4.440892098500626e-16
+    },
+    "maximum_absolute_coefficient_difference": 2.842170943040401e-14,
+    "metrics": {
+      "p50_ms": 0.07391534745693207,
+      "p95_ms": 0.11687539517879486,
+      "peak_python_alloc_bytes_one_run": 96688,
+      "repeats": 25
+    },
+    "name": "statsmodels OLS",
+    "role": "benchmark-only; not imported by product runtime",
+    "version": "0.15.0"
+  },
+  "precommitted_protocol": "qualification/BENCHMARK_PLAN.md (900-row integrated fixture and independent scaling tasks)",
+  "product_source_manifest_sha256": "67626edf697dc156f665dd78d67aa2361323da2a16ac15fc66bba668ae7f8c96",
+  "product_source_sha256": {
+    "fabintel/__init__.py": "1701050bc6b2245204dd74ba9829f6216b6d6689bf5ae78305ab0bbd1b0cf288",
+    "fabintel/__main__.py": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+    "fabintel/catalog.py": "5d1ec6b292e755cf38a77789ef308310ed42ff5ed9adc2a121c85a8150bd44b0",
+    "fabintel/cli.py": "fa5faef004a5ba417b4d7571f9d6765d0ef765a2e2eba1f8ee725799a6c9e39d",
+    "fabintel/contracts.py": "2ce21f37e972e05721ccbeb35ec7df0d156ebc2c8b253cbeda9f84727080b701",
+    "fabintel/mcp_client.py": "4de3ab1aa5a9ba99f8181e185cc609556c0b916818b5225f851df8e3db39c9c8",
+    "fabintel/mock_mcp.py": "e72fe85913b9f87d138f5fe0b480b6eaff1d289b099a9600c4f823eed2d46f2e",
+    "fabintel/mock_mcp_server.py": "842cf65264be67068e641b97f69800761f12af56a47c56b7f9ae54c325485111",
+    "fabintel/onboarding.py": "184a4c51893b75bb3a333a4cc06e31f07cb710f3bea0581b3a5c7036631b465f",
+    "fabintel/project.py": "5cf402b86d6ebf03b0e1faa1bbe8491159a18ce0947059941e342fccd3a8c00e",
+    "fabintel/qualification.py": "bb39e8f382f932980336b5ea789ec680f60fbbcb70dc4dc6ad7adb7a9aaaf574",
+    "fabintel/server.py": "3f88642fb537e84396faaa7c1ae1d69238db514ec57da019261c367f45df9d93",
+    "fabintel/site_config.py": "103aae640e0ad6e038ad7bfb821bfb093d5881ef472fd4f6c52a23e8becd9311",
+    "products/p4/__init__.py": "4451db1476259ee70e30fbfc26e713d13235887665d44bf15366afa160cc1a43",
+    "products/p4/design.py": "90c8a01ef45685dcb08e1138a88199bc6245dcad637c98efffb187c060d36f1b",
+    "products/p4/engine.py": "13f2df176781c7b4fe09a1050f9de842f9228a141ac6451b087cf0d57f3c4582",
+    "products/p4/mcp_workflow.py": "9f66f58b6cd907c5046e2d836caa99e27eadb47c319a7f3a4b022bfa55194efc",
+    "products/p4/regression.py": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
+    "products/p4/tradeoffs.py": "cca7a01b63d842c6821ae949d8586b83335b982bc3a56783a8b5f5785752010c",
+    "products/p4/window.py": "375ae98016f06bab4f0c68b35792958d84bcca8e1a0f274abf9e51f611c7bc0c"
+  },
+  "reproducibility": "25 repetitions per task; deterministic input fixtures; perf_counter and tracemalloc",
+  "result_checks": {
+    "integrated_full_workflow_demo_900_rows": {
+      "capability_statuses": {
+        "D01": "VALID",
+        "D02": "VALID",
+        "D03": "LIMITED_SCOPE",
+        "D04": "PROPOSED",
+        "D05": "ESTIMATED"
+      },
+      "independent_lots": 100,
+      "note": "reported PARTIAL/LIMITED_SCOPE states are retained when the full workflow runs correctly",
+      "observations": 900,
+      "qualification_status": "PASS",
+      "status": "PARTIAL"
+    },
+    "single_metric_sensitivity_1000_rows": {
+      "D01_status": "VALID",
+      "dossier_status": "PARTIAL",
+      "note": "other unrequested D02-D05 sections may make the dossier PARTIAL",
+      "observations": 1000
+    },
+    "single_metric_sensitivity_18_rows": {
+      "D01_status": "VALID",
+      "dossier_status": "PARTIAL",
+      "note": "other unrequested D02-D05 sections may make the dossier PARTIAL",
+      "observations": 18
+    },
+    "single_metric_sensitivity_5000_rows": {
+      "D01_status": "VALID",
+      "dossier_status": "PARTIAL",
+      "note": "other unrequested D02-D05 sections may make the dossier PARTIAL",
+      "observations": 5000
+    }
+  },
+  "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+  "tasks": {
+    "integrated_full_workflow_demo_900_rows": {
+      "p50_ms": 284.4972498714924,
+      "p95_ms": 298.99062495678663,
+      "peak_python_alloc_bytes_one_run": 3310080,
+      "repeats": 25
+    },
+    "single_metric_sensitivity_1000_rows": {
+      "p50_ms": 10.487167164683342,
+      "p95_ms": 11.761375702917576,
+      "peak_python_alloc_bytes_one_run": 1315828,
+      "repeats": 25
+    },
+    "single_metric_sensitivity_18_rows": {
+      "p50_ms": 0.3354167565703392,
+      "p95_ms": 0.36695972084999084,
+      "peak_python_alloc_bytes_one_run": 28090,
+      "repeats": 25
+    },
+    "single_metric_sensitivity_5000_rows": {
+      "p50_ms": 51.49066634476185,
+      "p95_ms": 53.91945783048868,
+      "peak_python_alloc_bytes_one_run": 6123822,
+      "repeats": 25
+    },
+    "synthetic_schema_catalog_13000_tables": {
+      "p50_ms": 8.524958975613117,
+      "p95_ms": 12.039124965667725,
+      "peak_python_alloc_bytes_one_run": 6522027,
+      "repeats": 25
+    }
+  },
+  "thresholds": "No latency or ROI thresholds invented; p50/p95 reported for later internal pre-registration."
+}

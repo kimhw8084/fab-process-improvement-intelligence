@@ -1,0 +1,73 @@
+{
+  "cluster_mean_reference_coverage": {
+    "count": 959,
+    "rate": 0.959,
+    "wilson95": [
+      0.9448520067923587,
+      0.9696350289179017
+    ]
+  },
+  "declared_dependence_behavior": {
+    "causal_claims": 0,
+    "descriptive_estimates": 1000,
+    "intervals_emitted": 0,
+    "withheld_refusals": 1000
+  },
+  "generator": {
+    "cluster_assignment": "nested within arm; independent normal shocks",
+    "cluster_shock_sd": 1.5,
+    "clusters_per_arm": 5,
+    "true_did_effect": 0.0,
+    "units_per_cluster": 6
+  },
+  "naive_unit_welch_coverage": {
+    "count": 526,
+    "examples": [
+      {
+        "ci95": [
+          -0.2692153796041723,
+          1.0614517288259648
+        ],
+        "estimate": 0.39611817461089627
+      },
+      {
+        "ci95": [
+          -1.0114877447585011,
+          0.6180053581660284
+        ],
+        "estimate": -0.19674119329623638
+      },
+      {
+        "ci95": [
+          -2.4565114599524556,
+          -0.5724293973315377
+        ],
+        "estimate": -1.5144704286419965
+      }
+    ],
+    "rate": 0.526,
+    "wilson95": [
+      0.49501179061158157,
+      0.5567892179471697
+    ]
+  },
+  "qualification_checks": {
+    "declared_dependence_emitted_no_causal_claim": true,
+    "declared_dependence_retained_only_descriptive_did_contrast": true,
+    "declared_shared_chamber_structure_withheld_every_interval": true,
+    "independent_chamber_mean_reference_wilson_lower_above_0_90": true,
+    "naive_unit_interval_coverage_below_0_75": true
+  },
+  "qualification_status": "PASS",
+  "reference": "SciPy Welch t interval over independently generated chamber mean changes",
+  "schema": "p4-d05-cluster-dependence-benchmark/v1",
+  "scope": "Fixed synthetic nested-cluster null challenge only. The caller must declare valid grouping semantics; absent declarations, unobserved or unlisted dependence is not detected. This finite challenge is not a fab coverage estimate.",
+  "seed": 20261124,
+  "source_provenance": {
+    "benchmark_script_sha256": "20188a5675ebc0b080def046be96a9c4786d208464aef7dd3e5a86e0ba9a2a1c",
+    "engine_sha256": "13f2df176781c7b4fe09a1050f9de842f9228a141ac6451b087cf0d57f3c4582",
+    "regression_sha256": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
+    "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4"
+  },
+  "trials": 1000
+}

@@ -1,0 +1,162 @@
+{
+  "host_stylesheet": "/tmp/p4-p1-host-qualification/products/p1/ui/suite.css",
+  "host_stylesheet_sha256": "d1d80dd866d85d02003b1a48bdd1a3cbd8e4bd16432eae1e39ab0ec0f1e44c81",
+  "method": "WCAG relative-luminance contrast ratio on selected declarations in a caller-supplied shared P1 stylesheet",
+  "p4_module_present_in_supplied_snapshot": true,
+  "p4_module_sha256": "029adae0afc7e8aac9abc4002c53358f683eafe25bec0c2763a1a28e04296882",
+  "pairs": [
+    {
+      "background": "#f4f7fa",
+      "background_property": "background",
+      "background_selector": "body",
+      "foreground": "#142b3d",
+      "foreground_property": "color",
+      "foreground_selector": ":root",
+      "kind": "text",
+      "name": "suite body text",
+      "ratio": 13.5382,
+      "screening_minimum": 4.5,
+      "status": "PASS_SCREEN"
+    },
+    {
+      "background": "#ffffff",
+      "background_property": "background",
+      "background_selector": ".module-card",
+      "foreground": "#5b7081",
+      "foreground_property": "color",
+      "foreground_selector": ".muted",
+      "kind": "text",
+      "name": "muted module text",
+      "ratio": 5.1477,
+      "screening_minimum": 4.5,
+      "status": "PASS_SCREEN"
+    },
+    {
+      "background": "#176a9b",
+      "background_property": "background",
+      "background_selector": ".button--primary",
+      "foreground": "#ffffff",
+      "foreground_property": "color",
+      "foreground_selector": ".button--primary",
+      "kind": "text",
+      "name": "primary button text",
+      "ratio": 5.8801,
+      "screening_minimum": 4.5,
+      "status": "PASS_SCREEN"
+    },
+    {
+      "background": "#176a9b",
+      "background_property": "background",
+      "background_selector": ".suite-nav a[aria-current=\"page\"]",
+      "foreground": "#ffffff",
+      "foreground_property": "color",
+      "foreground_selector": ".suite-nav a[aria-current=\"page\"]",
+      "kind": "text",
+      "name": "active navigation text",
+      "ratio": 5.8801,
+      "screening_minimum": 4.5,
+      "status": "PASS_SCREEN"
+    },
+    {
+      "background": "#12334b",
+      "background_property": "background",
+      "background_selector": ".suite-header",
+      "foreground": "#c2d5e2",
+      "foreground_property": "color",
+      "foreground_selector": ".suite-brand small",
+      "kind": "text",
+      "name": "header subtitle",
+      "ratio": 8.689,
+      "screening_minimum": 4.5,
+      "status": "PASS_SCREEN"
+    },
+    {
+      "background": "#ffffff",
+      "background_property": "background",
+      "background_selector": ".suite-nav",
+      "foreground": "#24475e",
+      "foreground_property": "color",
+      "foreground_selector": ".suite-nav a",
+      "kind": "text",
+      "name": "regular navigation link",
+      "ratio": 9.8225,
+      "screening_minimum": 4.5,
+      "status": "PASS_SCREEN"
+    },
+    {
+      "background": "#f4f7fa",
+      "background_property": "background",
+      "background_selector": "body",
+      "foreground": "#eeaf39",
+      "foreground_property": "outline and box-shadow",
+      "foreground_selector": ".button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible",
+      "indicator_colors": [
+        "#eeaf39"
+      ],
+      "kind": "non_text_indicator",
+      "name": "keyboard focus indicator against body background",
+      "passing_indicator_colors": [],
+      "ratio": 1.804,
+      "screening_minimum": 3.0,
+      "status": "FAIL_SCREEN"
+    },
+    {
+      "background": "#ffffff",
+      "background_property": "background",
+      "background_selector": ".module-card",
+      "foreground": "#eeaf39",
+      "foreground_property": "outline and box-shadow",
+      "foreground_selector": ".button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible",
+      "indicator_colors": [
+        "#eeaf39"
+      ],
+      "kind": "non_text_indicator",
+      "name": "keyboard focus indicator against module card background",
+      "passing_indicator_colors": [],
+      "ratio": 1.9397,
+      "screening_minimum": 3.0,
+      "status": "FAIL_SCREEN"
+    },
+    {
+      "background": "#ffffff",
+      "background_property": "background",
+      "background_selector": ".suite-nav",
+      "foreground": "#eeaf39",
+      "foreground_property": "outline and box-shadow",
+      "foreground_selector": ".button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible",
+      "indicator_colors": [
+        "#eeaf39"
+      ],
+      "kind": "non_text_indicator",
+      "name": "keyboard focus indicator against navigation background",
+      "passing_indicator_colors": [],
+      "ratio": 1.9397,
+      "screening_minimum": 3.0,
+      "status": "FAIL_SCREEN"
+    },
+    {
+      "background": "#12334b",
+      "background_property": "background",
+      "background_selector": ".suite-header",
+      "foreground": "#eeaf39",
+      "foreground_property": "outline and box-shadow",
+      "foreground_selector": ".button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible",
+      "indicator_colors": [
+        "#eeaf39"
+      ],
+      "kind": "non_text_indicator",
+      "name": "keyboard focus indicator against header background",
+      "passing_indicator_colors": [
+        "#eeaf39"
+      ],
+      "ratio": 6.763,
+      "screening_minimum": 3.0,
+      "status": "PASS_SCREEN"
+    }
+  ],
+  "pairs_checked": 10,
+  "schema": "p4-shared-suite-contrast-screen/v1",
+  "scope": "A source-level screen of selected CSS declarations only. For focus it checks declared outline and box-shadow color candidates against selected host surfaces; this is not a rendered indicator test. It does not compute the browser cascade, focus geometry/area, zoom/reflow, assistive-technology behavior, all color pairs, or WCAG conformance. P1 host ownership and formal accessibility qualification remain separate.",
+  "status": "FAIL_SCREEN",
+  "thresholds_are_screening_values_not_a_conformance_claim": true
+}

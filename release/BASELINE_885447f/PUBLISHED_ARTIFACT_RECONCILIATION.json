@@ -1,0 +1,18 @@
+{
+  "artifact_path": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+  "artifact_size_bytes": 126900,
+  "github_release_assets": [],
+  "github_repo": "kimhw8084/fab-intelligence-p4",
+  "github_repo_private": true,
+  "published_commit": "d16ec28fef00541cbd11b79a5b29b4bf9bf2672e",
+  "published_git_blob_sha1": "53665dd79a11075efc66805926214a7aafe1123c",
+  "local_git_blob_sha1_matches_published": true,
+  "sha256": "97d36ffe6e23b5af5e4b724e84a097f28682a911d834cdbbc545a07660aeda64",
+  "committed_sidecar_matches": true,
+  "committed_two_build_report_matches": true,
+  "alternate_reported_sha256_prefix": "104d66e8",
+  "alternate_reported_sha256_full_value": null,
+  "alternate_digest_status": "UNVERIFIED_NOT_PRESENT_IN_PUBLISHED_COMMIT_EVIDENCE",
+  "verified_digest_status": "PASS_FOR_EXACT_PUBLISHED_BYTES",
+  "qualification_scope": "prior candidate only; no new publication or company/legal approval"
+}

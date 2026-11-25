@@ -6,11 +6,12 @@
         "HC3 handles heteroskedasticity but assumes independent observations",
         "cluster covariance allows within-cluster dependence and relies on independent clusters",
         "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
-        "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
+        "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 20-count threshold is a heuristic and does not guarantee coverage",
         "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
         "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
         "classical covariance additionally assumes homoskedastic errors",
         "measurement uncertainty was not supplied or propagated",
+        "sampling-frame completeness and source rows omitted before acquisition were not independently verified",
         "fixed effects adjust only for the explicitly selected fields"
       ],
       "diagnostic_warnings": [],
@@ -119,48 +120,48 @@
       "terms": {
         "intercept_at_factor_centers": {
           "ci95": [
-            0.10680397272275059,
-            0.12238101509040185
+            0.10680396969201474,
+            0.1223810181211377
           ],
           "estimate": 0.11459249390657622,
           "standard_error": 0.003850575381694994
         },
         "power": {
           "ci95": [
-            -0.0029187212512797,
-            0.00017933162306203645
+            -0.002918721854050092,
+            0.000179332225832428
           ],
           "estimate": -0.0013696948141088319,
           "standard_error": 0.0007658248496456025
         },
         "power^2": {
           "ci95": [
-            0.04960743302819702,
-            0.05357002331234206
+            0.04960743225721854,
+            0.053570024083320546
           ],
           "estimate": 0.05158872817026954,
           "standard_error": 0.0009795346405142603
         },
         "pressure": {
           "ci95": [
-            -0.002201160651700516,
-            0.00028818116638120546
+            -0.002201161136037486,
+            0.0002881816507181757
           ],
           "estimate": -0.0009564897426596552,
           "standard_error": 0.0006153541920920282
         },
         "pressure:power": {
           "ci95": [
-            -0.011981322339184612,
-            -0.008471312112819198
+            -0.011981323022107184,
+            -0.008471311429896626
           ],
           "estimate": -0.010226317226001905,
           "standard_error": 0.0008676588692605736
         },
         "pressure^2": {
           "ci95": [
-            0.03390832715401569,
-            0.03803119141320045
+            0.033908326351853625,
+            0.03803119221536252
           ],
           "estimate": 0.03596975928360807,
           "standard_error": 0.001019153652137157
@@ -173,11 +174,12 @@
         "HC3 handles heteroskedasticity but assumes independent observations",
         "cluster covariance allows within-cluster dependence and relies on independent clusters",
         "binary modeled factors constant within clusters are screened for cluster support in each level; sparse levels withhold uncertainty",
-        "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 10-count threshold is a heuristic and does not guarantee coverage",
+        "multi-level numeric factors constant within clusters are screened for concentration of between-cluster design information; the 20-count threshold is a heuristic and does not guarantee coverage",
         "declared shared-dependence fields are screened for cross-unit membership; detected crossed dependence is not corrected by one-way covariance and withholds uncertainty",
         "undeclared shared or latent dependence is not detected by the shared-dependence membership screen",
         "classical covariance additionally assumes homoskedastic errors",
         "measurement uncertainty was not supplied or propagated",
+        "sampling-frame completeness and source rows omitted before acquisition were not independently verified",
         "fixed effects adjust only for the explicitly selected fields"
       ],
       "diagnostic_warnings": [
@@ -290,48 +292,48 @@
       "terms": {
         "intercept_at_factor_centers": {
           "ci95": [
-            0.28422577305385993,
-            0.2990231135585642
+            0.2842257701748262,
+            0.29902311643759794
           ],
           "estimate": 0.29162444330621207,
           "standard_error": 0.0036578365595447593
         },
         "power": {
           "ci95": [
-            -0.0008721299851408401,
-            0.0015752504733908355
+            -0.000872130461313629,
+            0.0015752509495636244
           ],
           "estimate": 0.00035156024412499767,
           "standard_error": 0.0006049815312073534
         },
         "power^2": {
           "ci95": [
-            -0.046910956815578914,
-            -0.04279913397696315
+            -0.04691095761559272,
+            -0.04279913317694935
           ],
           "estimate": -0.04485504539627103,
           "standard_error": 0.0010164242622299796
         },
         "pressure": {
           "ci95": [
-            0.01673470750521994,
-            0.01935550309554122
+            0.016734706995306763,
+            0.019355503605454398
           ],
           "estimate": 0.01804510530038058,
           "standard_error": 0.0006478489781540956
         },
         "pressure:power": {
           "ci95": [
-            0.009269676227548459,
-            0.012945059779721392
+            0.009269675512450146,
+            0.012945060494819704
           ],
           "estimate": 0.011107368003634925,
           "standard_error": 0.0009085384176442807
         },
         "pressure^2": {
           "ci95": [
-            -0.0638761603995806,
-            -0.05939521317349587
+            -0.06387616127141282,
+            -0.059395212301663655
           ],
           "estimate": -0.06163568678653824,
           "standard_error": 0.0011076701640914894
@@ -399,7 +401,7 @@
       0.0038267584855551234
     ]
   },
-  "product_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
+  "product_window_sha256": "375ae98016f06bab4f0c68b35792958d84bcca8e1a0f274abf9e51f611c7bc0c",
   "schema": "p4-d02-simultaneous-calibration-benchmark/v1",
   "seed": 20261123,
   "training_units": 40,

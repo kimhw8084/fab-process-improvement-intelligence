@@ -1,0 +1,340 @@
+{
+  "advisory_source": "pip-audit default PyPI vulnerability service",
+  "audit_environment": {
+    "architecture": "arm64",
+    "os": "macOS-26.6.2-arm64-arm-64bit",
+    "python": "3.11.7",
+    "scanner_environment": "isolated qualification environment"
+  },
+  "audit_timestamp_utc": "2026-11-24T11:05:02Z",
+  "dependency_instance_count": 48,
+  "limitations": [
+    "Does not scan the interpreter, OS/native system packages, source code, or legal rights.",
+    "A clean advisory lookup does not approve licenses, ownership, company transfer, or distribution."
+  ],
+  "result": "PASS",
+  "scanned_dependencies": [
+    {
+      "name": "numpy",
+      "scope": "qualification",
+      "version": "1.26.4",
+      "vulnerabilities": []
+    },
+    {
+      "name": "scipy",
+      "scope": "qualification",
+      "version": "1.11.4",
+      "vulnerabilities": []
+    },
+    {
+      "name": "scikit-learn",
+      "scope": "qualification",
+      "version": "1.5.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pydoe3",
+      "scope": "qualification",
+      "version": "1.6.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "scikit-optimize",
+      "scope": "qualification",
+      "version": "0.10.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "statsmodels",
+      "scope": "qualification",
+      "version": "0.15.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "formulaic",
+      "scope": "qualification",
+      "version": "1.2.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "interface-meta",
+      "scope": "qualification",
+      "version": "2.0.1",
+      "vulnerabilities": []
+    },
+    {
+      "name": "joblib",
+      "scope": "qualification",
+      "version": "1.6.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "cloudpickle",
+      "scope": "qualification",
+      "version": "3.1.3",
+      "vulnerabilities": []
+    },
+    {
+      "name": "narwhals",
+      "scope": "qualification",
+      "version": "2.29.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pandas",
+      "scope": "qualification",
+      "version": "3.0.6",
+      "vulnerabilities": []
+    },
+    {
+      "name": "patsy",
+      "scope": "qualification",
+      "version": "1.0.3",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pyaml",
+      "scope": "qualification",
+      "version": "26.7.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "python-dateutil",
+      "scope": "qualification",
+      "version": "4.0.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "threadpoolctl",
+      "scope": "qualification",
+      "version": "3.8.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "typing-extensions",
+      "scope": "qualification",
+      "version": "4.16.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "wrapt",
+      "scope": "qualification",
+      "version": "2.5.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pyyaml",
+      "scope": "qualification",
+      "version": "6.0.4",
+      "vulnerabilities": []
+    },
+    {
+      "name": "tzdata",
+      "scope": "qualification",
+      "version": "2026.6",
+      "vulnerabilities": []
+    },
+    {
+      "name": "annotated-types",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.8.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "anyio",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "4.16.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "attrs",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "26.1.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "cffi",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.1.1",
+      "vulnerabilities": []
+    },
+    {
+      "name": "click",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "8.5.1",
+      "vulnerabilities": []
+    },
+    {
+      "name": "cryptography",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "50.0.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "h11",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.16.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "httpcore2",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.16.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "httpx2",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.16.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "idna",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "3.20",
+      "vulnerabilities": []
+    },
+    {
+      "name": "jsonschema",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "4.26.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "jsonschema-specifications",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2025.9.1",
+      "vulnerabilities": []
+    },
+    {
+      "name": "mcp",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.3.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "mcp-types",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.3.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "opentelemetry-api",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "1.45.2",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pycparser",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "3.12",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pydantic",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.14.4",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pydantic-core",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.50.5",
+      "vulnerabilities": []
+    },
+    {
+      "name": "pyjwt",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2.15.1",
+      "vulnerabilities": []
+    },
+    {
+      "name": "python-multipart",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.0.34",
+      "vulnerabilities": []
+    },
+    {
+      "name": "referencing",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.37.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "rpds-py",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "2026.9.1",
+      "vulnerabilities": []
+    },
+    {
+      "name": "sse-starlette",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "3.7.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "starlette",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "1.10.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "truststore",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.10.5",
+      "vulnerabilities": []
+    },
+    {
+      "name": "typing-extensions",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "4.16.0",
+      "vulnerabilities": []
+    },
+    {
+      "name": "typing-inspection",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.4.5",
+      "vulnerabilities": []
+    },
+    {
+      "name": "uvicorn",
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "version": "0.54.0",
+      "vulnerabilities": []
+    }
+  ],
+  "scanner": "pip-audit 2.10.1",
+  "scope": "All pinned optional benchmark/reference dependencies and the complete hash-locked optional MCP SDK tree; neither is a core product dependency.",
+  "scope_results": [
+    {
+      "command": [
+        "/tmp/p4-qualification-env/bin/pip-audit",
+        "-r",
+        "qualification/benchmark-requirements.txt",
+        "-f",
+        "json"
+      ],
+      "dependency_instances": 20,
+      "return_code": 0,
+      "scope": "qualification",
+      "vulnerabilities_found": 0
+    },
+    {
+      "command": [
+        "/tmp/p4-qualification-env/bin/pip-audit",
+        "-r",
+        "vendor/mcp-sdk/2.3.0/macos-arm64-cp311/requirements.lock",
+        "--no-deps",
+        "--require-hashes",
+        "-f",
+        "json"
+      ],
+      "dependency_instances": 28,
+      "return_code": 0,
+      "scope": "optional_mcp_sdk_macos_arm64_cp311",
+      "vulnerabilities_found": 0
+    }
+  ],
+  "unique_name_version_count": 47,
+  "vulnerabilities_found": 0
+}

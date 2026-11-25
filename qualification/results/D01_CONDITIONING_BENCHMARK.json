@@ -1,7 +1,7 @@
 {
   "benchmark_script_sha256": "10da280415954b8daf1843a1c874138e91a8172019799c62f199c610156725a1",
   "challenge_contrast": {
-    "minimum_near_collinear_to_baseline_interval_width_ratio": 70.23272197852576,
+    "minimum_near_collinear_to_baseline_interval_width_ratio": 70.23272197852575,
     "minimum_near_collinear_wrong_sign_fraction": 0.448,
     "near_collinear_median_proxy": 102612.63789675332,
     "well_conditioned_median_proxy": 16.905842933964248
@@ -15,7 +15,7 @@
       "per_factor": {
         "x": {
           "marginal_ci95_coverage": 0.98,
-          "median_ci95_width": 61.11676588344477,
+          "median_ci95_width": 61.11676923122464,
           "true_coefficient": 2.0,
           "wrong_sign_fraction": 0.448,
           "wrong_sign_wilson95": [
@@ -25,7 +25,7 @@
         },
         "z": {
           "marginal_ci95_coverage": 0.98,
-          "median_ci95_width": 61.09045913275175,
+          "median_ci95_width": 61.09046247909062,
           "true_coefficient": -1.0,
           "wrong_sign_fraction": 0.484,
           "wrong_sign_wilson95": [
@@ -46,7 +46,7 @@
       "per_factor": {
         "x": {
           "marginal_ci95_coverage": 0.952,
-          "median_ci95_width": 19.59735231750691,
+          "median_ci95_width": 19.597353390986843,
           "true_coefficient": 2.0,
           "wrong_sign_fraction": 0.352,
           "wrong_sign_wilson95": [
@@ -56,7 +56,7 @@
         },
         "z": {
           "marginal_ci95_coverage": 0.956,
-          "median_ci95_width": 19.5926113136359,
+          "median_ci95_width": 19.592612386856132,
           "true_coefficient": -1.0,
           "wrong_sign_fraction": 0.424,
           "wrong_sign_wilson95": [
@@ -77,7 +77,7 @@
       "per_factor": {
         "x": {
           "marginal_ci95_coverage": 0.952,
-          "median_ci95_width": 8.418125251323959,
+          "median_ci95_width": 8.418125712441785,
           "true_coefficient": 2.0,
           "wrong_sign_fraction": 0.184,
           "wrong_sign_wilson95": [
@@ -87,7 +87,7 @@
         },
         "z": {
           "marginal_ci95_coverage": 0.952,
-          "median_ci95_width": 8.396145415147586,
+          "median_ci95_width": 8.396145875061428,
           "true_coefficient": -1.0,
           "wrong_sign_fraction": 0.352,
           "wrong_sign_wilson95": [
@@ -108,7 +108,7 @@
       "per_factor": {
         "x": {
           "marginal_ci95_coverage": 0.96,
-          "median_ci95_width": 4.06500034551501,
+          "median_ci95_width": 4.065000568182654,
           "true_coefficient": 2.0,
           "wrong_sign_fraction": 0.02,
           "wrong_sign_wilson95": [
@@ -118,7 +118,7 @@
         },
         "z": {
           "marginal_ci95_coverage": 0.96,
-          "median_ci95_width": 4.052292433399517,
+          "median_ci95_width": 4.052292655371063,
           "true_coefficient": -1.0,
           "wrong_sign_fraction": 0.16,
           "wrong_sign_wilson95": [
@@ -139,7 +139,7 @@
       "per_factor": {
         "x": {
           "marginal_ci95_coverage": 0.952,
-          "median_ci95_width": 0.8702035769328681,
+          "median_ci95_width": 0.8702036245998213,
           "true_coefficient": 2.0,
           "wrong_sign_fraction": 0.0,
           "wrong_sign_wilson95": [
@@ -149,7 +149,7 @@
         },
         "z": {
           "marginal_ci95_coverage": 0.956,
-          "median_ci95_width": 0.8440774399151638,
+          "median_ci95_width": 0.8440774861510112,
           "true_coefficient": -1.0,
           "wrong_sign_fraction": 0.0,
           "wrong_sign_wilson95": [
@@ -179,7 +179,7 @@
   "method": "fixed-design independent Gaussian-noise Monte Carlo with known separate coefficients",
   "noise_sd": 0.5,
   "observations_per_trial": 120,
-  "product_source_sha256": "519a8d73738ae7ec123a26713d5b3ffc2db57d914fc46f59bc60bec244cb5d9f",
+  "product_source_sha256": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
   "schema": "p4-d01-conditioning-benchmark/v1",
   "seed": 20261123,
   "trials_per_design": 250,

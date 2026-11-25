@@ -9,21 +9,21 @@
   ],
   "method": "rebuild in two separate clean detached worktrees at the exact source commit; compare both builds, source manifests, sidecars, workspace ZIP and checksum",
   "sha256_by_clean_build": [
-    "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9",
-    "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9"
+    "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec",
+    "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec"
   ],
   "sidecar_hash_by_clean_build": [
-    "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9  FAB_INTELLIGENCE_P4_CANDIDATE.zip",
-    "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9  FAB_INTELLIGENCE_P4_CANDIDATE.zip"
+    "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec  FAB_INTELLIGENCE_P4_CANDIDATE.zip",
+    "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec  FAB_INTELLIGENCE_P4_CANDIDATE.zip"
   ],
   "sidecar_matches_workspace_archive": true,
-  "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+  "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
   "source_manifest_hash_by_clean_build": [
-    "1b63b3f1c1f46ff66472106e1461104bca67f2ad8616f602806f7a59891ab852",
-    "1b63b3f1c1f46ff66472106e1461104bca67f2ad8616f602806f7a59891ab852"
+    "05297a68ced626b4826bb2c5ce4f9d74b52ffdebd1cc7cbd9bc4449565876bd4",
+    "05297a68ced626b4826bb2c5ce4f9d74b52ffdebd1cc7cbd9bc4449565876bd4"
   ],
   "source_manifest_matches_clean_commit": true,
   "status": "PASS",
   "workspace_archive_matches_clean_build": true,
-  "workspace_archive_sha256": "62db694b511dc8b93179f8292ef290241ff68d2e02299b3e8019c3a2d1d1fad9"
+  "workspace_archive_sha256": "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec"
 }

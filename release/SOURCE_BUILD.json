@@ -6,7 +6,7 @@
     "golden_commit": "dc2ece864b2d744e47dfe8c7d9ad78aadbed369e",
     "implementation": "Golden scripts/secret_patterns.py"
   },
-  "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
-  "source_file_count": 218,
-  "source_manifest_sha256": "1b63b3f1c1f46ff66472106e1461104bca67f2ad8616f602806f7a59891ab852"
+  "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+  "source_file_count": 236,
+  "source_manifest_sha256": "05297a68ced626b4826bb2c5ce4f9d74b52ffdebd1cc7cbd9bc4449565876bd4"
 }

@@ -128,7 +128,7 @@
     }
   },
   "parity_max_abs_difference_first_25_per_scenario": 2.3314683517128287e-15,
-  "product_source_sha256": "519a8d73738ae7ec123a26713d5b3ffc2db57d914fc46f59bc60bec244cb5d9f",
+  "product_source_sha256": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
   "qualification": "PASS",
   "reference": {
     "name": "statsmodels clustered OLS",
@@ -137,7 +137,7 @@
   },
   "schema": "p4-d01-cluster-imbalance-benchmark/v1",
   "seed": 781041,
-  "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+  "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
   "synthetic_only": true,
   "trials_per_scenario": 1200
 }

@@ -1,0 +1,56 @@
+{
+  "archive_bytes": 9583737,
+  "archive_path": "release/final/P4_INTERNAL_TRANSFER_CANDIDATE.zip",
+  "archive_sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80",
+  "artifact_bound_evidence": {
+    "ARCHIVE_QUALIFICATION.json": {
+      "path": "ARCHIVE_QUALIFICATION.json",
+      "sha256": "926fda66cf94558d6f1fb78b71165bf003630f93cc6ff99f93d9a8b0d66b62b8"
+    },
+    "BUILD_REPRODUCIBILITY.json": {
+      "path": "BUILD_REPRODUCIBILITY.json",
+      "sha256": "4e8c375b638db58131aeb291888be17dcbc1226016ec2bdbcaf43f6a04199aba"
+    },
+    "DEPENDENCY_AUDIT.json": {
+      "path": "DEPENDENCY_AUDIT.json",
+      "sha256": "59c411ca788f71658b62176d168beb334761eaa68b309331da4761ed030e9ae7"
+    },
+    "E01_E10_FINAL_AUDIT.md": {
+      "path": "E01_E10_FINAL_AUDIT.md",
+      "sha256": "24bd0476ff2e02c8269a2b09962aebd304279e645c06652aed02819e484be541"
+    },
+    "OPENCODE_SKILL_QUALIFICATION.json": {
+      "path": "OPENCODE_SKILL_QUALIFICATION.json",
+      "sha256": "e7aa4baee43680a4cf26b5da26f7540885146190ed5ef084df8d9cd6b3b87824"
+    },
+    "QUALIFICATION_DEPENDENCY_LICENSE_INVENTORY.json": {
+      "path": "embedded:release/QUALIFICATION_DEPENDENCY_LICENSE_INVENTORY.json",
+      "sha256": "96cee01580c6d2559b1c4a81bb7f06aa81c885df08faf39fdb57b5c88c56ba67"
+    },
+    "SBOM.spdx.json": {
+      "path": "embedded:release/SBOM.spdx.json",
+      "sha256": "3ac3d6ee72658ed848e50f87eb2d4971bfe7a16ee51ce0c4f0c1f85b57f30a51"
+    },
+    "SOURCE_SECURITY_SCAN.json": {
+      "path": "SOURCE_SECURITY_SCAN.json",
+      "sha256": "e74617d14b2fe904314f72611deb216f687b3b19784f1ef9e85c8aea44ae37f3"
+    }
+  },
+  "authorization_state": {
+    "formal_transfer": "PENDING_OWNER_AND_LEGAL_REVIEW",
+    "internal_qualification": "PENDING_INTERNAL",
+    "production": "NOT_ESTABLISHED"
+  },
+  "formal_transfer_authorization": "PENDING_OWNER_AND_LEGAL_REVIEW",
+  "member_count": 252,
+  "member_manifest_sha256": "3555d4ac7c50a42c3b34b6048dd94f542ca5a91af5c2c32b9eeba701cfbaf4f5",
+  "preserved_baseline_sha256": "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec",
+  "product_id": "p4",
+  "qualification_report": "release/FINAL_QUALIFICATION_REPORT.md",
+  "qualification_report_sha256": "b85a79655a5ad51a8133e881b36981cb3cd6798c2f1407c8457f8e93ed120558",
+  "release_state": "CANDIDATE",
+  "schema": "p4-final-transfer/v1",
+  "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+  "source_file_count": 249,
+  "source_manifest_sha256": "3555d4ac7c50a42c3b34b6048dd94f542ca5a91af5c2c32b9eeba701cfbaf4f5"
+}

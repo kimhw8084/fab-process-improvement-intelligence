@@ -19,7 +19,7 @@
     "trials_with_any_latent_mean_above_limit": 247,
     "trials_with_interpolated_latent_mean_above_limit": 247
   },
-  "benchmark_script_sha256": "de7a69f1ba1216b43837afb0a701a4e9372e841f5cf0d590c9521a3410284469",
+  "benchmark_script_sha256": "c2c625d7554a247cdd31feedb68f02840ae4325163dbcf5c75400fd48d4915dc",
   "calibration_lots_per_trial": 20,
   "evaluation_partition_supplied_to_product": false,
   "generator": "random signed odd-harmonic interaction; zero at all 3x3 observed settings, variable between settings; independent Gaussian lot and observation noise",
@@ -28,6 +28,7 @@
   "interpolated_review_action_consistent_trials": 250,
   "limitations": [
     "deliberately omitted high-frequency interactions are outside the quadratic response model",
+    "paired safe/harmful mechanisms produce identical measured rows and identical selector outputs; data-only model disagreement cannot identify this hidden interaction",
     "all results are synthetic and generator-specific; no manufacturing failure-rate or coverage claim",
     "the exact center baseline is guaranteed feasible by this challenge construction and is not a general product comparison",
     "an independent exact-setting confirmation is required before any process decision; the product is advisory and read-only"
@@ -71,6 +72,24 @@
       2.0
     ]
   ],
+  "paired_model_form_identifiability": {
+    "decision": "Do not add a data-only model-disagreement score as evidence against this hidden mechanism; new exact-setting experiments or an approved mechanistic prior are needed.",
+    "hidden_surface_false_feasible_candidates": 12,
+    "hidden_surface_false_feasible_interpolations": 12,
+    "latent_mechanisms": [
+      "smooth quadratic baseline",
+      "same baseline plus zero-on-measured-grid harmonic"
+    ],
+    "observation_sha256": "a71f3d60acd46835d0ecf3debeabeb172aa102f9344ad4cfa39a489738964a20",
+    "observations_exactly_equal": true,
+    "safe_surface_false_feasible_candidates": 0,
+    "scope": "paired synthetic identifiability counterexample; not a manufacturing rate, coverage estimate, or recipe-safety claim",
+    "seed": 8000,
+    "selected_candidate_count": 41,
+    "selector_output_sha256": "0d95d96b2485dd4e1eb760b89fa41ff13fa92a78829d5ad4a41cdf18e1282b84",
+    "selector_outputs_exactly_equal": true,
+    "status": "PASS_NONIDENTIFIABILITY_DEMONSTRATED"
+  },
   "predeclared_baseline": {
     "false_feasible_trial_rate": 0.0,
     "false_feasible_trials": 0,
@@ -85,7 +104,7 @@
       0.015133299495444574
     ]
   },
-  "product_window_sha256": "a81d886880656632977c8624eacade62a330633e0cfef0e0ae55e02f89a9bd20",
+  "product_window_sha256": "375ae98016f06bab4f0c68b35792958d84bcca8e1a0f274abf9e51f611c7bc0c",
   "required_candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
   "schema": "p4-d02-actual-selector-interpolation-benchmark/v1",
   "seed": 20261123,

@@ -503,3 +503,60 @@ Delivered rows with missing or non-finite outcomes are refused; the independent 
 - The full pinned runner evaluated `ac67074b6c9156d8b2169380dc2c2d1edef8ab6a`: 265 Python tests PASS, 0 skipped; E01/E02/E03/E04/E06 PASS; schema and D01-D05 synthetic workflow PASS. Local P4 module: 30 tests and strict TypeScript PASS. Disposable P1 fingerprint is stale; E07 is not qualified.
 - Gates still pending: E05 company source authorization/semantics, E07 authoritative P1 and formal accessibility, E08 approved target OS, E09 rights and independent security review, E10 exact final archive, E11 engineer baseline/ROI, E12 internal qualification. State remains CANDIDATE; no distribution.
 - Exact next action: commit the regenerated bridge fixture and checkpoint ledger locally; rerun the pinned release runner at the new HEAD; then rebuild the local ZIP, reproduce it in two clean detached worktrees, and fresh-extract/run with no pip and network denial. After E10, continue the highest-value independent D02/D04/D05 qualification gap.
+
+
+## Exact candidate archive qualification — 2026-11-24
+
+- Exact evidence/source commit `e5f74fa3839b7a2993fb70a0daec2a1afb029485`; full pinned runner: 265 Python tests PASS/0 skipped; E01/E02/E03/E04/E06/E10 PASS. State remains CANDIDATE.
+- Local archive `release/FAB_INTELLIGENCE_P4_CANDIDATE.zip`: SHA-256 `b9158cfd01c493a993c32abdadb5d39bff79f67008203588d649d57e9aa5ba17`, 9,344,054 bytes; 228 source files; manifest SHA-256 `a5c8b061c0348d41455c963913264eaa5d30c0227094238724e590c647b446a6`. Two clean detached rebuilds matched byte-for-byte. Fresh extraction verified all files, ran doctor/demo/D01-D05 without pip, and macOS sandbox denied network access. Host: macOS 26.6.2 ARM64 / CPython 3.11.7 only.
+- D03 bridge fixture rebuilds were byte-identical (`aaa48c1d…`); MCP workflow remains synthetic only. P1 snapshot/owner and formal accessibility are stale/pending. No public push or distribution.
+- Pending gates: E05 company permissions/semantics, E07 authoritative P1/formal accessibility, E08 approved target OS, E09 rights and independent security review, E11 engineer ROI baseline, E12 internal qualification.
+- Next executable work: inspect D02 candidate-to-confirmation flow and independently test whether suggested exact-setting experiments reduce the hidden response-surface uncertainty; retain refusal if no data-supported ranking exists. Rebind release/archive after any product source change.
+
+
+## D04 confirmation-power scope repair — 2026-11-24
+
+- Independent SciPy noncentral-t challenges exposed a real failure beyond the earlier 54-case grid: 8/165 proposals were underpowered at alpha 0.001; a separate 350-case sweep found 9 underpowered cases at stringent alpha and/or requested power above 0.90 (minimum achieved power 0.9447 against 0.95).
+- The D02 candidate-confirmation planner now refuses alpha outside [0.01, 0.10] or target power outside [0.80, 0.90], labels the displayed target approximate, and exposes its finite qualification domain. No new runtime dependency was added; SciPy remains an independent qualification-only oracle.
+- New E02-gated benchmark checks 360 fixed combinations plus 200 seeded interior draws across standardized MDE 0.04–5.0. At current code the exact central/noncentral-t oracle found 0/560 underpowered proposals; minimum achieved-power margin 0.0000203. Five out-of-domain cases refused with zero runs. This finite normal-theory challenge does not validate caller SD/MDE/population assumptions or nonnormal/dependent differences.
+- P4 engine version raised to 1.2.6. Focused D04 + bridge tests: 36 PASS; full Python suite: 267 PASS/0 skipped; bridge fixture rebuilt twice identically at SHA-256 `995babfb7ae772e360316cf509d9747d99a66c8d17214b863fa288b35f6e6a8d`. Exact-source release runner/archive rebind pending. No public distribution.
+- Next: commit the D04 scope repair and benchmark; refresh the main source-fingerprinted performance report; run the exact-source release runner; then rebuild/reproduce/offline-qualify the archive.
+
+
+## D04 repaired release and exact offline archive — 2026-11-24
+
+- Exact source `62c91c2dbb550dffb8f3b4b811e6f9c634bd5f29`: 267 Python tests PASS/0 skipped; E01/E02/E03/E04/E06/E10 PASS. E02 includes the 560-case D04 central/noncentral-t gate (0 underpowered; five unsupported inputs refused). State remains CANDIDATE.
+- Archive SHA-256 `ff530921608011cd74ef20b8abc5ceb9956d6d75f96b6a228cc6d8e63e5b8789`, 9,347,897 bytes, 229 source files; manifest SHA-256 `3a38b6a06d1ee7a2b32255e3ef2184a9b03691b69e44170f5f10751941cccc33`. Two clean detached rebuilds match. Fresh extraction verified every source file and ran doctor/demo/full D01-D05 with no pip; macOS sandbox denied network. Qualified host only: macOS 26.6.2 ARM64 / CPython 3.11.7.
+- Remaining gates: E05 company authorization/semantics; E07 authoritative P1 owner/formal accessibility; E08 approved target OS; E09 legal/license and independent security review; E11 engineer baseline/ROI; E12 internal qualification. No public push or distribution.
+- Next executable task: create an isolated disposable overlay of the accessible P1 workspace with current P4 files, run the P1 host/API/UI workflow and its refusal case without modifying the actual P1 folder, and record only compatibility evidence. If shared mapping mismatch remains, retain the P1 owner proposal and proceed to the next independent D02 challenge.
+
+
+## Current-source P1 workflow verification — 2026-11-24
+
+- Source remains `62c91c2dbb550dffb8f3b4b811e6f9c634bd5f29`; no P4 product files changed in this checkpoint. The exact-source runner reports 267 Python tests PASS / 0 skipped and E01/E02/E03/E04/E06/E10 PASS. The local ZIP currently hashes to `ff530921608011cd74ef20b8abc5ceb9956d6d75f96b6a228cc6d8e63e5b8789`; manifest hash is `3a38b6a06d1ee7a2b32255e3ef2184a9b03691b69e44170f5f10751941cccc33`.
+- In a disposable overlay of the unversioned P1 snapshot, 32 host tests and 65 frontend tests passed; TypeScript typecheck and production build passed. The build reported an 840.18 kB JavaScript chunk (270.15 kB gzip), so current P1 shell bundle splitting remains a P1-owned optimization opportunity. The overlay includes only the proposed synthetic metric-label compatibility change; the actual P1 folder was untouched.
+- Browser verification on the live overlay completed the synthetic MCP path for 900 observations and rendered the evidence-bearing `PARTIAL` P4 analysis. The explicit MCP permission-refusal path returned `REFUSED` / `NOT_ACCESSED` and withheld positive findings.
+- Accessibility preflight found the current P1 focus ring at 1.804:1 on the body and 1.9397:1 on white card/navigation surfaces. A dual white/navy focus ring passed the ten-pair source screen in a separate disposable copy. This is a targeted source-level screen only; it does not establish rendered contrast, WCAG, screen-reader, P1-owner, or target-host acceptance. The exact additive CSS proposal is recorded in `progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md`.
+- P1 remains unversioned and non-authoritative. E07 stays pending; company authorization, real semantics, target OS, legal/security review and ROI remain pending. No push or publication.
+- Next exact engineering task: continue the independent D03/D05 scientific challenge queue. Start with D03 uncertainty/missing-objective behavior in `products/p4/tradeoffs.py`; use an independent oracle, fix only a reproduced defect, then run focused and source-bound qualification.
+
+## P4-only final candidate — 2026-11-24
+
+- Source `885447fdea4da45b26a8b35ddf1841b0341153f4`: 275 Python tests PASS/0 skipped; E01–E04, E06, E10 PASS; E07 standalone-browser PASS_LIMITED_SCOPE.
+- D03 missing-objective and contradictory-bound refusals pass; correlated familywise benchmark retained. Chromium verified standalone analysis plus synthetic MCP read/audit, D01–D05 and export; alternate-schema onboarding passes.
+- Candidate SHA-256 `ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec`; 236 files; manifest `05297a68ced626b4826bb2c5ce4f9d74b52ffdebd1cc7cbd9bc4449565876bd4`. Two clean rebuilds and fresh no-pip network-denied extraction PASS.
+- P1-only tests/evidence are archived under excluded `qualification/evidence/legacy/`; historical `ff5309…` and published `97d36…` ZIPs are preserved under `progress/candidate_history/`.
+- No public distribution. Company authorization/semantics, target OS, legal/security review, formal WCAG, engineer acceptance and ROI remain pending.
+
+
+## Exact final transfer candidate — 2026-11-24
+
+- Source commit: `0dc3105652ac2a7928d7424a96be4cbf4fea2840`. Product changes since the preserved D01–D05 baseline add deterministic, non-authorizing MCP metadata proposals, the one-instruction OpenCode onboarding skill, standalone fresh-extraction qualification, corrected SPDX relationships, and exact-archive packaging fixes. No P1/P2/P3 runtime dependency was added.
+- Preserved qualified baseline: `release/BASELINE_885447f/FAB_INTELLIGENCE_P4_CANDIDATE.zip`; rehashed SHA-256 `ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec`. The final artifact does not overwrite it.
+- Final candidate: `release/final/P4_INTERNAL_TRANSFER_CANDIDATE.zip`, 9,583,737 bytes, 249 source files, SHA-256 `23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80`; source-manifest SHA-256 `3555d4ac7c50a42c3b34b6048dd94f542ca5a91af5c2c32b9eeba701cfbaf4f5`.
+- Exact extraction ran the no-pip D01–D05 workflow on macOS ARM64/Python 3.11.7, 3.12.9, 3.13.13, 3.14.5; each no-internet probe was denied and each configured synthetic server rolled back to local-only. Exact Python suite: 285 run, 23 optional SDK tests skipped there and covered in the separate 29-test offline MCP qualification. Eight schema checks passed. Chromium 158.0 exercised demo + 900-row synthetic MCP acquisition, D01–D05, evidence inspection/export, keyboard flow, and zero external requests. OpenCode 1.3.9 discovered the skill from exact extraction under no-internet.
+- Reproducibility: two clean detached builds at the exact source commit produced identical archives and manifests; exact status `PASS_EXACT_ARCHIVE_LIMITED_PLATFORM`.
+- Supply chain: pip-audit 2.10.1 found zero advisories in 48 pinned dependency instances. Bandit found eight low-severity seeded-fixture/proposal findings and zero medium/high. SPDX contains 50 package entries; first-party rights and three missing SDK SPDX expressions need legal review. No independent security or legal clearance is claimed.
+- Historical hash reconciliation: preserved `885447f` baseline is verified as `ba7ef4…67ec`; `97d36ffe…` refers to an earlier `d16ec28` artifact and `104d66e8…` remains an unattributed prefix. Final candidate is `23cba1…ca80`.
+- E01–E04/E06 pass in recorded synthetic scope; E07 limited; E08 limited to listed local Mac/Python scopes; E09 evidence-only; E10 exact artifact passes. E05, company target approval, formal accessibility, legal/IP and independent security approval, engineer ROI, acceptance, and production qualification remain pending.
+- Next action after formal transfer approval: extract this archive, open its folder in company-approved internal OpenCode/model, and send the exact `@p4-internal-onboarding` instruction from `docs/INTERNAL_COMPANY_FIRST_RUN.md`. No public push or distribution occurred.

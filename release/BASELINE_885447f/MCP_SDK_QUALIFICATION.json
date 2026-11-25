@@ -1,0 +1,30 @@
+{
+  "asset": "vendor/mcp-sdk/2.3.0/macos-arm64-cp311",
+  "company_compatibility": "PENDING_INTERNAL",
+  "install_output_sha256": "5d6728d8d83fc81c6cb894a4007501ea11286e4755cbf3bbdfe0297c5d721f5e",
+  "install_return_code": 0,
+  "installed_mcp_version": "2.3.0",
+  "limitations": [
+    "synthetic server only",
+    "no company endpoint, semantics, permissions, or credentials",
+    "this local-loopback transport test does not qualify an OS egress policy"
+  ],
+  "lock_sha256": "91bb6e70d813a23f630db5b3956e2755558dbd5c1b25ca6a17dcc5382fd84de7",
+  "network_used": false,
+  "protocol_test_output_sha256": "88113d0df2a2da6d7cb7f690dd170c86af90106f287eccb65149fd82838aa3f4",
+  "protocol_test_return_code": 0,
+  "protocol_tests_run": 7,
+  "scope": "optional MCP SDK offline wheel installation and P4 synthetic stdio/Streamable HTTP protocol tests",
+  "status": "PASS_LOCAL_SYNTHETIC_MOCK_ONLY",
+  "target": {
+    "architecture": "arm64",
+    "os": "Darwin",
+    "python": "3.11.7"
+  },
+  "transport_qualification": [
+    "stdio",
+    "Streamable HTTP"
+  ],
+  "wheel_bytes": 8737221,
+  "wheel_count": 28
+}

@@ -1,0 +1,311 @@
+{
+  "archive": "P4_INTERNAL_TRANSFER_CANDIDATE.zip",
+  "archive_sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80",
+  "browser": {
+    "browser": "158.0.8127.88",
+    "checks": {
+      "accessible_table_alternative_present": true,
+      "advisory_text_visible": true,
+      "all_d01_d05_headings": true,
+      "capability_evidence_lazy_until_requested": true,
+      "capability_evidence_opens_on_request": true,
+      "capability_results_text_length": 908,
+      "configured_mcp_acquisition_completed": true,
+      "configured_mcp_all_capabilities_present": true,
+      "configured_mcp_audit_receipt_present": true,
+      "configured_mcp_evidence_exported": true,
+      "configured_mcp_status_pending_internal": true,
+      "d01_d05_headings": {
+        "D01 \u00b7 Factor sensitivity": true,
+        "D02 \u00b7 Supported process region": true,
+        "D03 \u00b7 Objective tradeoffs": true,
+        "D04 \u00b7 Next experiment": true,
+        "D05 \u00b7 Intervention evaluation": true
+      },
+      "evidence_export_downloaded": true,
+      "full_evidence_opens_on_request": true,
+      "keyboard_analysis_activation": true,
+      "keyboard_demo_activation": true,
+      "keyboard_skip_link": true,
+      "mcp_disabled_without_config": true,
+      "table_alternative_count": 2
+    },
+    "external_requests": [],
+    "formal_accessibility": "PENDING_SCREEN_READER_WCAG_REVIEW",
+    "status": "PASS_STANDALONE_INTERACTION_LIMITED_SCOPE"
+  },
+  "core_platform_runs": [
+    {
+      "capability_statuses": {
+        "D01": "VALID",
+        "D02": "VALID",
+        "D03": "LIMITED_SCOPE",
+        "D04": "PROPOSED",
+        "D05": "ESTIMATED"
+      },
+      "network_probe": {
+        "errno": 1,
+        "network_access": false,
+        "status": "DENIED"
+      },
+      "python": "/opt/anaconda3/bin/python3.11",
+      "source_files_verified": 249,
+      "startup_rollback": {
+        "actions": [
+          "start with explicit synthetic test config",
+          "verify configured state without invoking tools",
+          "stop foreground process",
+          "rollback to no MCP config",
+          "verify local-only state",
+          "restart and stop cleanly"
+        ],
+        "status": "PASS"
+      },
+      "status": "PASS_CORE_OFFLINE",
+      "version": "3.11.7"
+    },
+    {
+      "capability_statuses": {
+        "D01": "VALID",
+        "D02": "VALID",
+        "D03": "LIMITED_SCOPE",
+        "D04": "PROPOSED",
+        "D05": "ESTIMATED"
+      },
+      "network_probe": {
+        "errno": 1,
+        "network_access": false,
+        "status": "DENIED"
+      },
+      "python": "/opt/homebrew/Cellar/python@3.12/3.12.9/Frameworks/Python.framework/Versions/3.12/bin/python3.12",
+      "source_files_verified": 249,
+      "startup_rollback": {
+        "actions": [
+          "start with explicit synthetic test config",
+          "verify configured state without invoking tools",
+          "stop foreground process",
+          "rollback to no MCP config",
+          "verify local-only state",
+          "restart and stop cleanly"
+        ],
+        "status": "PASS"
+      },
+      "status": "PASS_CORE_OFFLINE",
+      "version": "3.12.9"
+    },
+    {
+      "capability_statuses": {
+        "D01": "VALID",
+        "D02": "VALID",
+        "D03": "LIMITED_SCOPE",
+        "D04": "PROPOSED",
+        "D05": "ESTIMATED"
+      },
+      "network_probe": {
+        "errno": 1,
+        "network_access": false,
+        "status": "DENIED"
+      },
+      "python": "/Users/haewonkim/.local/share/uv/python/cpython-3.13.13-macos-aarch64-none/bin/python3.13",
+      "source_files_verified": 249,
+      "startup_rollback": {
+        "actions": [
+          "start with explicit synthetic test config",
+          "verify configured state without invoking tools",
+          "stop foreground process",
+          "rollback to no MCP config",
+          "verify local-only state",
+          "restart and stop cleanly"
+        ],
+        "status": "PASS"
+      },
+      "status": "PASS_CORE_OFFLINE",
+      "version": "3.13.13"
+    },
+    {
+      "capability_statuses": {
+        "D01": "VALID",
+        "D02": "VALID",
+        "D03": "LIMITED_SCOPE",
+        "D04": "PROPOSED",
+        "D05": "ESTIMATED"
+      },
+      "network_probe": {
+        "errno": 1,
+        "network_access": false,
+        "status": "DENIED"
+      },
+      "python": "/opt/homebrew/Cellar/python@3.14/3.14.5/Frameworks/Python.framework/Versions/3.14/bin/python3.14",
+      "source_files_verified": 249,
+      "startup_rollback": {
+        "actions": [
+          "start with explicit synthetic test config",
+          "verify configured state without invoking tools",
+          "stop foreground process",
+          "rollback to no MCP config",
+          "verify local-only state",
+          "restart and stop cleanly"
+        ],
+        "status": "PASS"
+      },
+      "status": "PASS_CORE_OFFLINE",
+      "version": "3.14.5"
+    }
+  ],
+  "fresh_extract": true,
+  "full_python_suite": {
+    "output_sha256": "3b417368f779bc2849e9cdd3c0082aa0b361c6f66d247069f3805b93c51d35d7",
+    "skipped": 23,
+    "skipped_cases": [
+      "test_cli_emits_a_partial_unapproved_draft_and_deterministic_diagnostics (test_mcp_discovery.McpDiscoveryProtocolTests.test_cli_emits_a_partial_unapproved_draft_and_deterministic_diagnostics) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol discovery.'",
+      "test_synthetic_stdio_discovers_metadata_without_calling_tools (test_mcp_discovery.McpDiscoveryProtocolTests.test_synthetic_stdio_discovers_metadata_without_calling_tools) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol discovery.'",
+      "test_endpoint_allowlist_and_cleartext_network_policy (test_mcp_transport.McpHttpQualification.test_endpoint_allowlist_and_cleartext_network_policy) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_streamable_http_sse_handshake_and_mapping (test_mcp_transport.McpHttpQualification.test_streamable_http_sse_handshake_and_mapping) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_company_pending_config_is_rejected_before_any_transport_is_started (test_mcp_transport.McpStdioQualification.test_company_pending_config_is_rejected_before_any_transport_is_started) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_initialize_pagination_and_all_contract_mappings (test_mcp_transport.McpStdioQualification.test_initialize_pagination_and_all_contract_mappings) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_missing_discovered_mapping_and_missing_result_mapping_fail_closed (test_mcp_transport.McpStdioQualification.test_missing_discovered_mapping_and_missing_result_mapping_fail_closed) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_sdk_stdio_configuration_forwards_only_explicit_environment_mappings (test_mcp_transport.McpStdioQualification.test_sdk_stdio_configuration_forwards_only_explicit_environment_mappings) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_unapproved_semantics_source_and_oversized_or_write_read_are_blocked (test_mcp_transport.McpStdioQualification.test_unapproved_semantics_source_and_oversized_or_write_read_are_blocked) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_alternate_schema_onboarding_then_cross_step_d01_d05_workflow (test_mcp_transport.McpToP4WorkflowQualification.test_alternate_schema_onboarding_then_cross_step_d01_d05_workflow) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_audit_operation_id_must_match_the_bounded_read (test_mcp_transport.McpToP4WorkflowQualification.test_audit_operation_id_must_match_the_bounded_read) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_audit_scope_and_duplicate_source_receipts_must_match_the_request (test_mcp_transport.McpToP4WorkflowQualification.test_audit_scope_and_duplicate_source_receipts_must_match_the_request) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_bounded_read_request_and_cancellation_stop_before_analysis (test_mcp_transport.McpToP4WorkflowQualification.test_bounded_read_request_and_cancellation_stop_before_analysis) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_cancel_after_read_audits_receipt_and_withholds_analysis (test_mcp_transport.McpToP4WorkflowQualification.test_cancel_after_read_audits_receipt_and_withholds_analysis) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_internal_configuration_mock_qualification_stays_pending_signoff (test_mcp_transport.McpToP4WorkflowQualification.test_internal_configuration_mock_qualification_stays_pending_signoff) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_mapped_measurement_uncertainty_rejects_invalid_values_and_semantic_units (test_mcp_transport.McpToP4WorkflowQualification.test_mapped_measurement_uncertainty_rejects_invalid_values_and_semantic_units) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_mapped_measurement_uncertainty_survives_normalization_and_blocks_unpropagated_inference (test_mcp_transport.McpToP4WorkflowQualification.test_mapped_measurement_uncertainty_survives_normalization_and_blocks_unpropagated_inference) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_p4_evidence_extensions_fail_closed_without_mutating_logical_contract_v1 (test_mcp_transport.McpToP4WorkflowQualification.test_p4_evidence_extensions_fail_closed_without_mutating_logical_contract_v1) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_permission_relationship_time_grain_limit_and_audit_failures_are_refused (test_mcp_transport.McpToP4WorkflowQualification.test_permission_relationship_time_grain_limit_and_audit_failures_are_refused) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_real_sdk_read_relationship_normalization_and_d01_d05_evidence_flow (test_mcp_transport.McpToP4WorkflowQualification.test_real_sdk_read_relationship_normalization_and_d01_d05_evidence_flow) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_relationship_metric_labels_must_match_the_explicit_p4_mapping_before_read (test_mcp_transport.McpToP4WorkflowQualification.test_relationship_metric_labels_must_match_the_explicit_p4_mapping_before_read) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_semantic_and_source_version_drift_refuse_after_auditing_the_read (test_mcp_transport.McpToP4WorkflowQualification.test_semantic_and_source_version_drift_refuse_after_auditing_the_read) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'",
+      "test_standalone_workbench_runs_configured_mcp_acquisition_through_d01_d05 (test_mcp_transport.McpToP4WorkflowQualification.test_standalone_workbench_runs_configured_mcp_acquisition_through_d01_d05) ... skipped 'Install the pinned offline MCP SDK candidate to run protocol integration cases.'"
+    ],
+    "status": "PASS",
+    "tests_run": 285
+  },
+  "limitations": [
+    "company target OS/OpenCode, permissions, semantics, data, security/legal approval, engineer acceptance, and production qualification remain pending"
+  ],
+  "mcp_sdk": {
+    "asset": "vendor/mcp-sdk/2.3.0/macos-arm64-cp311",
+    "company_compatibility": "PENDING_INTERNAL",
+    "install_output_sha256": "7e83f59808e7e54e65acd2a0a0fb5c7be82f700db2fb849e9f0934ed4a6b7cca",
+    "install_return_code": 0,
+    "installed_mcp_version": "2.3.0",
+    "limitations": [
+      "synthetic server only",
+      "no company endpoint, semantics, permissions, or credentials",
+      "this local-loopback transport test does not qualify an OS egress policy"
+    ],
+    "lock_sha256": "91bb6e70d813a23f630db5b3956e2755558dbd5c1b25ca6a17dcc5382fd84de7",
+    "network_used": false,
+    "protocol_test_output_sha256": "088e47db40466559f15f02dc4a2b333aaa5c34274b9237ed54a39e6829a1175b",
+    "protocol_test_return_code": 0,
+    "protocol_tests_run": 29,
+    "scope": "optional MCP SDK offline wheel installation and P4 synthetic stdio/Streamable HTTP transport, mapping, and metadata-discovery tests",
+    "status": "PASS_LOCAL_SYNTHETIC_MOCK_ONLY",
+    "target": {
+      "architecture": "arm64",
+      "os": "Darwin",
+      "python": "3.11.7"
+    },
+    "transport_qualification": [
+      "stdio",
+      "Streamable HTTP"
+    ],
+    "wheel_bytes": 8737221,
+    "wheel_count": 28
+  },
+  "network_used_for_package_install": false,
+  "qualifies": [
+    "fresh extraction and source manifest",
+    "no-pip core install/runtime",
+    "D01-D05 synthetic workflow",
+    "offline pinned MCP SDK transport",
+    "real Chromium UI workflow",
+    "foreground stop and local-only restart on every supplied Python target",
+    "external egress denied by the named OS no-internet profile"
+  ],
+  "release_manifest": {
+    "archive_sha256": "See adjacent release/final/P4_INTERNAL_TRANSFER_CANDIDATE.sha256; intentionally not self-referential.",
+    "formal_transfer_authorization": "PENDING_OWNER_AND_LEGAL_REVIEW",
+    "preserved_baseline_sha256": "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec",
+    "product_id": "p4",
+    "qualification_report": "release/FINAL_QUALIFICATION_REPORT.md",
+    "qualification_report_sha256": "b85a79655a5ad51a8133e881b36981cb3cd6798c2f1407c8457f8e93ed120558",
+    "release_state": "CANDIDATE",
+    "schema": "p4-final-transfer/v1",
+    "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+    "source_file_count": 249,
+    "source_manifest_sha256": "3555d4ac7c50a42c3b34b6048dd94f542ca5a91af5c2c32b9eeba701cfbaf4f5"
+  },
+  "rollback": {},
+  "schema_validation": {
+    "checks": [
+      {
+        "errors": [],
+        "instance": "product.json",
+        "schema": "contracts/product-manifest.v1.schema.json",
+        "schema_sha256": "6c9758be247756afb0c80316b361412687c643e947418e2b598ccc148ba7d4d3",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "fixtures/full_workflow_demo.json",
+        "schema": "products/p4/investigation.v1.schema.json",
+        "schema_sha256": "c4dd793f9d00448617589d753d74656dbb944e2694f6fa757af301aa5070dc7b",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "fixtures/relationship_contract_v1.1.json",
+        "schema": "products/p4/relationships.v1.1.schema.json",
+        "schema_sha256": "79b88d4df5f3d9c4d30c8702086a7a7752338500f337785a62d12316c8eee190",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "requirements/synthetic-mcp-mapping.v1.json",
+        "schema": "requirements/site-mcp-config.v1.schema.json",
+        "schema_sha256": "83b945312750d12d38baeac374239a53b8d530a902ccbb4a6e8a4623cd5a0b65",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "requirements/company-config.template.json",
+        "schema": "requirements/site-mcp-config.v1.schema.json",
+        "schema_sha256": "83b945312750d12d38baeac374239a53b8d530a902ccbb4a6e8a4623cd5a0b65",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "requirements/mcp-discovery.template.json",
+        "schema": "requirements/mcp-discovery-config.v1.schema.json",
+        "schema_sha256": "71c29d0322c1294936a6513910c942ade18002478bb5417c8e95b4ea5c76a977",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "tests/fixtures/mcp_p4_panel_bridge.json#analysis_evidence",
+        "schema": "contracts/evidence.v1.schema.json",
+        "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+        "status": "PASS"
+      },
+      {
+        "errors": [],
+        "instance": "tests/fixtures/mcp_p4_panel_bridge.json#refusal_evidence",
+        "schema": "contracts/evidence.v1.schema.json",
+        "schema_sha256": "9c77d5239687396ddd978b89e67bbee4aa9187c6aeb031cecc8b5d22a307a4a8",
+        "status": "PASS"
+      }
+    ],
+    "role": "qualification-only; not a runtime dependency",
+    "status": "PASS",
+    "validator": "python-jsonschema",
+    "validator_version": "4.19.2"
+  },
+  "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+  "source_file_count": 249,
+  "status": "PASS_EXACT_ARCHIVE_LIMITED_PLATFORM"
+}

@@ -1,0 +1,227 @@
+{
+  "cases": {
+    "lognormal_sigma_0.8_clusters_10_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.942580996155916,
+        0.9679213465882865
+      ],
+      "p4_null_coverage": 0.958,
+      "p4_wilson95": [
+        0.9437155747733968,
+        0.9687791144538346
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.957,
+      "trials": 1000
+    },
+    "lognormal_sigma_0.8_clusters_20_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9528648097546889,
+        0.9755686513367737
+      ],
+      "p4_null_coverage": 0.966,
+      "p4_wilson95": [
+        0.9528648097546889,
+        0.9755686513367737
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.966,
+      "trials": 1000
+    },
+    "lognormal_sigma_0.8_clusters_5_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9681097049387625,
+        0.9862242604320758
+      ],
+      "p4_null_coverage": 0.98,
+      "p4_wilson95": [
+        0.9693099947702822,
+        0.987016317083585
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.979,
+      "trials": 1000
+    },
+    "lognormal_sigma_1.5_clusters_10_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9705155440876868,
+        0.9878031142492091
+      ],
+      "p4_null_coverage": 0.985,
+      "p4_wilson95": [
+        0.9753990230730932,
+        0.9908890211959184
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.981,
+      "trials": 1000
+    },
+    "lognormal_sigma_1.5_clusters_20_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9621761711573101,
+        0.9821960617983837
+      ],
+      "p4_null_coverage": 0.974,
+      "p4_wilson95": [
+        0.9621761711573101,
+        0.9821960617983837
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.974,
+      "trials": 1000
+    },
+    "lognormal_sigma_1.5_clusters_5_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9778855576244203,
+        0.9923871796106489
+      ],
+      "p4_null_coverage": 0.988,
+      "p4_wilson95": [
+        0.9791427315245017,
+        0.9931223521935965
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.987,
+      "trials": 1000
+    },
+    "normal_clusters_10_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9380600619184716,
+        0.9644728948936154
+      ],
+      "p4_null_coverage": 0.956,
+      "p4_wilson95": [
+        0.9414482108495923,
+        0.9670617854115815
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.953,
+      "trials": 1000
+    },
+    "normal_clusters_20_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9346861797557492,
+        0.9618697376072513
+      ],
+      "p4_null_coverage": 0.95,
+      "p4_wilson95": [
+        0.9346861797557492,
+        0.9618697376072513
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.95,
+      "trials": 1000
+    },
+    "normal_clusters_5_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9528648097546889,
+        0.9755686513367737
+      ],
+      "p4_null_coverage": 0.972,
+      "p4_wilson95": [
+        0.9598298168024069,
+        0.9805577231872291
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.966,
+      "trials": 1000
+    },
+    "t4_standardized_clusters_10_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9471306895804986,
+        0.9713410390958196
+      ],
+      "p4_null_coverage": 0.962,
+      "p4_wilson95": [
+        0.9482730796686497,
+        0.9721909954906974
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.961,
+      "trials": 1000
+    },
+    "t4_standardized_clusters_20_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9437155747733968,
+        0.9687791144538346
+      ],
+      "p4_null_coverage": 0.958,
+      "p4_wilson95": [
+        0.9437155747733968,
+        0.9687791144538346
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.958,
+      "trials": 1000
+    },
+    "t4_standardized_clusters_5_per_arm": {
+      "cluster_estimand": "equal-weight average outcome across randomized clusters",
+      "intervals_emitted": 1000,
+      "maximum_anti_conservative_shortfall": 0.0,
+      "oracle_interval_contained_count": 1000,
+      "oracle_wilson95": [
+        0.9505643395327921,
+        0.9738844285926127
+      ],
+      "p4_null_coverage": 0.965,
+      "p4_wilson95": [
+        0.9517133776255466,
+        0.9747277369828871
+      ],
+      "scipy_t_quantile_oracle_coverage": 0.964,
+      "trials": 1000
+    }
+  },
+  "qualification_checks": {
+    "all_p4_coverage_within_0_02_of_scipy_oracle": true,
+    "all_p4_intervals_contain_scipy_oracle_interval": true,
+    "all_p4_wilson_lower_bounds_above_0_90": true,
+    "all_predeclared_distribution_cluster_count_cells_present": true,
+    "every_prequalified_case_emitted_an_interval": true
+  },
+  "qualification_status": "PASS",
+  "reference": "independent SciPy Student-t quantile and separately aggregated cluster outcomes",
+  "schema": "p4-d05-cluster-randomized-benchmark/v1",
+  "scope": "Synthetic complete balanced cluster-randomized null cases, 5/10/20 independent clusters per arm, normal, standardized t(4), and strongly right-skewed standardized lognormal cluster shocks (sigma 0.8 and 1.5). Equal cluster weighting defines the estimand. This does not establish coverage for informative cluster size, arbitrary dependence, untested cluster distributions, or a manufacturing population.",
+  "seed": 20261124,
+  "source_provenance": {
+    "benchmark_script_sha256": "3345f3412ae0cbd0f54483287d213abcf143fcf80de17a4e9b9312542a2241db",
+    "engine_sha256": "13f2df176781c7b4fe09a1050f9de842f9228a141ac6451b087cf0d57f3c4582",
+    "regression_sha256": "bf71c200b7afd7daee2c3878199deb5cb42c6c10f4237e3a9b7c646a9fbb6b75",
+    "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4"
+  },
+  "trials_per_case": 1000
+}

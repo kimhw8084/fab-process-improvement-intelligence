@@ -1,6 +1,6 @@
 {
   "errors": [],
-  "generated_at": "2026-11-24T06:32:09Z",
+  "generated_at": "2026-11-24T23:51:45Z",
   "metrics": {
     "CONFIDENCE.HIGH": 8,
     "CONFIDENCE.LOW": 0,
@@ -10,7 +10,7 @@
     "SEVERITY.LOW": 8,
     "SEVERITY.MEDIUM": 0,
     "SEVERITY.UNDEFINED": 0,
-    "loc": 6632,
+    "loc": 8302,
     "nosec": 0,
     "skipped_tests": 0
   },
@@ -36,7 +36,7 @@
       "test_name": "blacklist"
     },
     {
-      "code": "32         raise DesignError(\"blocks must be positive and no greater than the run count\")\n33     rng = Random(seed)\n34     capacities = [len(runs)//block_count + (1 if i < len(runs) % block_count else 0)\n",
+      "code": "33         raise DesignError(\"blocks must be positive and no greater than the run count\")\n34     rng = Random(seed)\n35     capacities = [len(runs)//block_count + (1 if i < len(runs) % block_count else 0)\n",
       "col_offset": 10,
       "end_col_offset": 22,
       "filename": "products/p4/design.py",
@@ -47,18 +47,18 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 33,
+      "line_number": 34,
       "line_range": [
-        33
+        34
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
     },
     {
-      "code": "150     shuffled_groups = groups[:]\n151     Random(seed).shuffle(shuffled_groups)\n152     evaluation_groups = set(shuffled_groups[:holdout_count])\n",
-      "col_offset": 4,
-      "end_col_offset": 16,
+      "code": "153         shuffled_groups = groups[:]\n154         Random(seed).shuffle(shuffled_groups)\n155         evaluation_groups = set(shuffled_groups[:holdout_count])\n",
+      "col_offset": 8,
+      "end_col_offset": 20,
       "filename": "products/p4/design.py",
       "issue_confidence": "HIGH",
       "issue_cwe": {
@@ -67,16 +67,16 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 151,
+      "line_number": 154,
       "line_range": [
-        151
+        154
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
     },
     {
-      "code": "165     dev_groups = list(development_groups)\n166     Random(seed+1).shuffle(dev_groups)\n167     fold_count = min(5, max(2, len(dev_groups)//5))\n",
+      "code": "225     dev_groups = list(development_groups)\n226     Random(seed+1).shuffle(dev_groups)\n227     fold_count = min(5, max(2, len(dev_groups)//5))\n",
       "col_offset": 4,
       "end_col_offset": 18,
       "filename": "products/p4/design.py",
@@ -87,16 +87,16 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 166,
+      "line_number": 226,
       "line_range": [
-        166
+        226
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
     },
     {
-      "code": "306 def _proposal(strategy, runs, controls, seed, blocks, reason, additional=None, cancel=None):\n307     rng = Random(seed)\n308     rng.shuffle(runs)\n",
+      "code": "373 def _proposal(strategy, runs, controls, seed, blocks, reason, additional=None, cancel=None):\n374     rng = Random(seed)\n375     rng.shuffle(runs)\n",
       "col_offset": 10,
       "end_col_offset": 22,
       "filename": "products/p4/design.py",
@@ -107,16 +107,16 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 307,
+      "line_number": 374,
       "line_range": [
-        307
+        374
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
     },
     {
-      "code": "439 \n440     rng = Random(seed)\n441     runs = []\n",
+      "code": "529 \n530     rng = Random(seed)\n531     runs = []\n",
       "col_offset": 10,
       "end_col_offset": 22,
       "filename": "products/p4/design.py",
@@ -127,16 +127,16 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 440,
+      "line_number": 530,
       "line_range": [
-        440
+        530
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
     },
     {
-      "code": "608             raise DesignError(\"Latin hypercube output is bounded to 10000 runs\")\n609         rng = Random(seed)\n610         samples = {name: [(i+rng.random())/budget for i in range(budget)] for name in controls}\n",
+      "code": "806             raise DesignError(\"Latin hypercube output is bounded to 10000 runs\")\n807         rng = Random(seed)\n808         samples = {name: [(i+rng.random())/budget for i in range(budget)] for name in controls}\n",
       "col_offset": 14,
       "end_col_offset": 26,
       "filename": "products/p4/design.py",
@@ -147,16 +147,16 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 609,
+      "line_number": 807,
       "line_range": [
-        609
+        807
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
       "test_name": "blacklist"
     },
     {
-      "code": "536         return {\"status\": \"REFUSED\", \"reason\": \"seed must be an integer\", \"executed\": False}\n537     Random(seed).shuffle(runs)\n538     block_count = spec.get(\"blocks\", 1)\n",
+      "code": "677         return {\"status\": \"REFUSED\", \"reason\": \"seed must be an integer\", \"executed\": False}\n678     Random(seed).shuffle(runs)\n679     block_count = spec.get(\"blocks\", 1)\n",
       "col_offset": 4,
       "end_col_offset": 16,
       "filename": "products/p4/engine.py",
@@ -167,9 +167,9 @@
       },
       "issue_severity": "LOW",
       "issue_text": "Standard pseudo-random generators are not suitable for security/cryptographic purposes.",
-      "line_number": 537,
+      "line_number": 678,
       "line_range": [
-        537
+        678
       ],
       "more_info": "https://bandit.readthedocs.io/en/1.9.4/blacklists/blacklist_calls.html#b311-random",
       "test_id": "B311",
@@ -191,7 +191,7 @@
         "test_id": "B311"
       }
     ],
-    "product_source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+    "product_source_commit": "c60c6d93651b6977e8bca65a259625508332f78d",
     "scanner_scope": "P4 runtime and product Python sources; excludes tests, fixtures, benchmark, and release tooling.",
     "tool": "Bandit",
     "tool_version": "1.9.4"

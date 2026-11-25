@@ -1,0 +1,762 @@
+{
+  "critical_cases": {
+    "cases": [
+      {
+        "id": "P4-01",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": true,
+        "input_challenge": "factor x=1..4 response=2x",
+        "oracle": "fixed linear arithmetic",
+        "required_result": "observational OLS slope=2",
+        "test": "tests/test_p4_scientific.py::test_p4_01_fixed_slope_oracle"
+      },
+      {
+        "id": "P4-02",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "bounds 1..4, response min5",
+        "oracle": "explicit fixed bounded observations",
+        "required_result": "observed candidate settings only 3,4",
+        "test": "tests/test_p4_scientific.py::test_p4_02_observed_candidates_only"
+      },
+      {
+        "id": "P4-03",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "request to change actual recipe",
+        "oracle": "policy oracle",
+        "required_result": "REFUSED; zero actuation",
+        "test": "tests/test_p4_scientific.py::test_p4_03_actuation_is_refused"
+      },
+      {
+        "id": "P4-04",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "no approved constraints",
+        "oracle": "missing constraints oracle",
+        "required_result": "REFUSED; no candidate settings",
+        "test": "tests/test_p4_scientific.py::test_p4_04_missing_constraints_refuse_candidates"
+      },
+      {
+        "id": "P4-05",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "fully collinear factors",
+        "oracle": "rank-deficient model fixture",
+        "required_result": "cannot identify separate sensitivities",
+        "test": "tests/test_p4_scientific.py::test_p4_05_collinearity_blocks_separate_sensitivities"
+      },
+      {
+        "id": "P4-06",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "unsupported extrapolation beyond data support",
+        "oracle": "out-of-support oracle",
+        "required_result": "reject process window claim",
+        "test": "tests/test_p4_scientific.py::test_p4_06_out_of_support_rows_never_become_candidates"
+      },
+      {
+        "id": "P4-07",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "confounded before/after positive shift",
+        "oracle": "zero-effect confounded fixture",
+        "required_result": "no causal claim",
+        "test": "tests/test_p4_scientific.py::test_p4_07_confounded_before_after_is_not_causal"
+      },
+      {
+        "id": "P4-08",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "true intervention with randomized controls",
+        "oracle": "known intervention oracle",
+        "required_result": "estimated effect + valid uncertainty",
+        "test": "tests/test_p4_scientific.py::test_p4_08_randomized_effect_matches_independent_interval"
+      },
+      {
+        "id": "P4-09",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "no valid control population",
+        "oracle": "missing control fixture",
+        "required_result": "descriptive difference only, causal estimate INCONCLUSIVE",
+        "test": "tests/test_p4_scientific.py::test_p4_09_missing_control_withholds_effect"
+      },
+      {
+        "id": "P4-10",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "physical constraint violation",
+        "oracle": "forbidden-domain oracle",
+        "required_result": "exclude from candidate or refuse experiment",
+        "test": "tests/test_p4_scientific.py::test_p4_10_forbidden_region_excluded_from_window_and_doe"
+      },
+      {
+        "id": "P4-11",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "multiobjective tradeoff with downstream degradation",
+        "oracle": "known Pareto oracle",
+        "required_result": "report both objectives and conflict",
+        "test": "tests/test_p4_scientific.py::test_p4_11_pareto_front_matches_hand_checked_points"
+      },
+      {
+        "id": "P4-12",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "future leakage in split",
+        "oracle": "held-out experiment oracle",
+        "required_result": "time/run-separated validation required",
+        "test": "tests/test_p4_scientific.py::test_p4_12_future_leakage_is_refused"
+      },
+      {
+        "id": "P4-13",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "outcome-dependent missing metrics remove high-response observations",
+        "oracle": "known full-data slope 9 versus selected complete-case slope 5",
+        "required_result": "no complete-case sensitivity claim; refuse with missingness limitation",
+        "test": "tests/test_p4_scientific.py::test_outcome_dependent_missingness_refuses_biased_complete_case_sensitivity"
+      },
+      {
+        "id": "P4-14",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "exact selected setting is observed at a different modeled fixed factor",
+        "oracle": "SYN-PRECOMMITTED-FIXED-CONTROL-001 independent-population fixture",
+        "required_result": "exclude incompatible units from exact-setting held-out evidence and report their count",
+        "test": "tests/test_d01_d02_independent.py::SupportedWindowQualification.test_evaluation_requires_exact_fixed_modeled_controls"
+      },
+      {
+        "id": "P4-15",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "selected candidate set includes an interpolated cell made infeasible by an unseen interaction",
+        "oracle": "fixed hidden-response interaction; 20 of 20 common held-out lots violate at least one selected setting",
+        "required_result": "report selected-set violations on complete independent evaluation units; make no population or multiplicity-adjusted guarantee",
+        "test": "tests/test_d01_d02_independent.py::SupportedWindowQualification.test_unseen_nonlinear_interaction_creates_false_feasible_interpolated_cell"
+      },
+      {
+        "id": "P4-16",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "observation-level measurement uncertainty is supplied to ordinary least squares",
+        "oracle": "explicit unsupported-method refusal",
+        "required_result": "refuse inference rather than silently dropping or under-propagating measurement uncertainty",
+        "test": "tests/test_p4_scientific.py::test_supplied_measurement_uncertainty_is_not_silently_ignored"
+      },
+      {
+        "id": "P4-17",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "30 declared clusters with one cluster contributing over half of all observations",
+        "oracle": "independent 1200-trial null challenge: count-only cluster reference coverage 67.4%; product abstains under the configured threshold",
+        "required_result": "withhold cluster-robust intervals when the inverse-Herfindahl effective count by observation share is below the configured minimum",
+        "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_extreme_cluster_size_imbalance_withholds_nominally_large_cluster_inference"
+      },
+      {
+        "id": "P4-18",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "independent lots share residual shocks across chamber and product groups",
+        "oracle": "independent 1200-trial randomized chamber-product null challenge: one-way Statsmodels lot-cluster false-positive rate 33.5%; two-way chamber-product reference 4.67%; P4 abstains on every diagnostic case",
+        "required_result": "report crossed declared group dimensions, preserve the point estimate, and withhold one-way uncertainty",
+        "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_shared_chamber_and_product_groups_cross_lots_and_withhold_one_way_inference"
+      },
+      {
+        "id": "P4-19",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "held-out exact-setting units match calibration tool/time strata and panel counts, but an unseen chamber has a shifted nonlinear response surface",
+        "oracle": "paired independent-trial response-drift sensitivity challenge with unchanged declared strata and exact panel",
+        "required_result": "score observed exact-panel interval misses as descriptive calibration-transfer counterevidence while preserving selection isolation and making no future coverage claim",
+        "test": "qualification/benchmark_d02_response_drift.py"
+      },
+      {
+        "id": "P4-20",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "two full-rank continuous factors are nearly collinear under a known separate-effect model",
+        "oracle": "250-trial fixed-design known-coefficient challenge across five predictor-separation levels",
+        "required_result": "retain marginal uncertainty but surface elevated or severe QR conditioning warnings as coefficients become unstable; do not call the heuristic an identifiability certificate",
+        "test": "tests/test_d01_d02_independent.py::RobustRegressionQualification.test_full_rank_near_collinear_factors_warn_and_retain_wide_uncertainty"
+      },
+      {
+        "id": "P4-21",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "D04 independent-unit identifiers include a numeric value and a string with the same display form",
+        "oracle": "36 known independent units including numeric/string ID collisions retain all 36 groups and 30 development incumbent units",
+        "required_result": "preserve typed unit identity across development/evaluation splitting, cluster counts, and incumbent aggregation",
+        "test": "tests/test_d04_designs.py::DesignQualification.test_next_best_keeps_numeric_and_string_unit_ids_separate"
+      },
+      {
+        "id": "P4-22",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "cross-step evidence supplies a scalar string containing two approved source IDs instead of an exact source-ID array",
+        "oracle": "exact-list provenance check rejects Python substring-membership false positives and empty paired evidence",
+        "required_result": "withhold the cross-step Pareto comparison and downstream claim; malformed objective and source contracts also fail closed",
+        "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_row_lineage_requires_exact_source_id_array_membership"
+      },
+      {
+        "id": "P4-23",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "rare-event cross-step objective has identical observed values at one or more settings despite known nonzero and increasing population risks",
+        "oracle": "independent fixed-seed Bernoulli challenge with known per-setting defect probabilities",
+        "required_result": "withhold zero-width marginal intervals and uncertainty-separated dominance; report the scope limitation explicitly",
+        "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_constant_observed_metrics_do_not_create_zero_width_population_intervals"
+      },
+      {
+        "id": "P4-24",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "30 balanced-size lots carry a binary cluster-level factor with only 3 exposed lots under heteroskedastic lot means",
+        "oracle": "independent 3000-trial null challenge: ordinary CR1 coverage 90.37% (Wilson95 89.26-91.37%); Welch lot-mean reference 96.23%; P4 abstains on the sparse arm and matches Statsmodels at 10 versus 20 lots",
+        "required_result": "retain the identified point estimate and withhold cluster intervals when either exposure level has fewer than 10 independent lots",
+        "test": "tests/test_p4_scientific.py::P4IndependentChallenges.test_cluster_level_binary_exposure_withholds_sparse_arm_uncertainty_in_dossier"
+      },
+      {
+        "id": "P4-25",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "panel DiD labels observations pre/post without a source timestamp, contradicts the intervention cutoff, or reverses declared preperiod order",
+        "oracle": "independent timezone-aware ISO-8601 cutoff comparison and strict within-unit period ordering",
+        "required_result": "INCONCLUSIVE with no estimate or causal claim; return a specific timing diagnostic",
+        "test": "tests/test_d05_studies.py::EffectivenessQualification.test_did_withholds_estimate_when_timing_is_missing_or_conflicts_with_cutoff"
+      },
+      {
+        "id": "P4-26",
+        "implemented_and_tested": true,
+        "implemented_in_bootstrap": false,
+        "input_challenge": "cross-step settings share a declared population ID but differ in product-family proportions, creating a mix-only Pareto winner",
+        "oracle": "250 seeded trials; exact Fraction proportion oracle; no within-family setting effect; na\u00efve aggregate means create false dominance in every mismatched trial",
+        "required_result": "audit explicitly mapped upstream/downstream strata and withhold the cross-setting Pareto and family-wise comparisons when their observed proportions are missing or mismatched; allow matched proportions across unequal sample sizes",
+        "test": "tests/test_d03_relationships.py::CrossStepTradeoffQualification.test_cross_step_pareto_is_withheld_when_product_mix_changes_across_settings; qualification/benchmark_d03_population_mix.py"
+      }
+    ],
+    "missing_case_evidence": [],
+    "missing_test_names": [],
+    "status": "PASS"
+  },
+  "d01_cluster_exposure_support_benchmark": {
+    "evidence": "qualification/results/D01_CLUSTER_EXPOSURE_SUPPORT_BENCHMARK.json",
+    "rare_arm_one_way_cluster_coverage": 0.9036666666666666,
+    "rare_arm_p4_abstentions": 3000,
+    "rare_arm_welch_coverage": 0.9623333333333334,
+    "runtime_dependencies_added": false,
+    "scope": "randomized equal-size synthetic lot challenge; ten-per-level is a conservative abstention screen, not an inference guarantee",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "ten_per_level_p4_coverage": 0.947,
+    "trials_per_scenario": 3000
+  },
+  "d01_cluster_imbalance_benchmark": {
+    "balanced_product_coverage": 0.9391666666666667,
+    "dominant_cluster_product_abstentions": 1200,
+    "dominant_cluster_reference_false_positive_rate": 0.3258333333333333,
+    "evidence": "qualification/results/D01_CLUSTER_IMBALANCE_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "independent synthetic null challenge; inverse-Herfindahl screen is conservative and does not establish coverage",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials_per_scenario": 1200
+  },
+  "d01_continuous_cluster_support_benchmark": {
+    "20_cluster_five_level_coverage_counterevidence": null,
+    "20_cluster_five_level_coverage_wilson95": null,
+    "20_cluster_five_level_product_abstentions": 1200,
+    "concentrated_product_abstentions": 1200,
+    "concentrated_reference_false_positive_rate": 0.7,
+    "evidence": "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "synthetic numeric cluster-assignment challenge; the information-concentration threshold is abstention-only and does not establish coverage",
+    "source_hash_matches": true,
+    "spread_product_coverage": 0.9483333333333334,
+    "status": "PASS",
+    "trials_per_scenario": 1200
+  },
+  "d01_heavy_tailed_cluster_benchmark": {
+    "coverage_among_inferred": 0.9456066945606695,
+    "coverage_wilson95_monte_carlo": [
+      0.9312617360116379,
+      0.9570959297698288
+    ],
+    "evidence": "qualification/results/D01_HEAVY_TAILED_CLUSTER_BENCHMARK.json",
+    "inferred_trials": 1195,
+    "max_estimate_se_or_interval_difference": 5.1493082242615174e-08,
+    "refused_trials": 5,
+    "scope": "fixed synthetic independent-lot t4 intercept challenge and Statsmodels CR1 parity; Monte Carlo interval is not a general coverage guarantee",
+    "source_hash_matches": true,
+    "statsmodels_reference_coverage_all_trials": 0.9458333333333333,
+    "status": "PASS",
+    "trials": 1200
+  },
+  "d02_actual_selector_interpolation_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
+    "interpolated_review_action_consistent_trials": 250,
+    "p4_candidate_cell_false_feasible_fraction": 0.2329105399034684,
+    "p4_candidate_family_false_feasible_trial_rate": 0.988,
+    "p4_interpolation_false_feasible_trial_rate": 0.988,
+    "paired_model_form_identifiability": {
+      "decision": "Do not add a data-only model-disagreement score as evidence against this hidden mechanism; new exact-setting experiments or an approved mechanistic prior are needed.",
+      "hidden_surface_false_feasible_candidates": 12,
+      "hidden_surface_false_feasible_interpolations": 12,
+      "latent_mechanisms": [
+        "smooth quadratic baseline",
+        "same baseline plus zero-on-measured-grid harmonic"
+      ],
+      "observation_sha256": "a71f3d60acd46835d0ecf3debeabeb172aa102f9344ad4cfa39a489738964a20",
+      "observations_exactly_equal": true,
+      "safe_surface_false_feasible_candidates": 0,
+      "scope": "paired synthetic identifiability counterexample; not a manufacturing rate, coverage estimate, or recipe-safety claim",
+      "seed": 8000,
+      "selected_candidate_count": 41,
+      "selector_output_sha256": "0d95d96b2485dd4e1eb760b89fa41ff13fa92a78829d5ad4a41cdf18e1282b84",
+      "selector_outputs_exactly_equal": true,
+      "status": "PASS_NONIDENTIFIABILITY_DEMONSTRATED"
+    },
+    "predeclared_center_false_feasible_trial_rate": 0.0,
+    "scope": "direct actual-selector synthetic model-form challenge; diagnostic execution is not a production risk or coverage qualification",
+    "source_hash_matches": true,
+    "status": "PASS_DIAGNOSTIC_EXECUTED",
+    "trials": 250
+  },
+  "d02_adaptive_selection_benchmark": {
+    "adaptive_minimum_radius_coverage": 0.7866,
+    "adaptive_minimum_radius_wilson95": [
+      0.7784606093988927,
+      0.7945192827350352
+    ],
+    "benchmark_script_hash_matches": true,
+    "calibration_units": 20,
+    "candidate_settings": 76,
+    "evidence": "qualification/results/D02_ADAPTIVE_SELECTION_76X20.json",
+    "fixed_setting_coverage": 0.9525,
+    "predeclared_panel_coverage": 0.9527,
+    "product_candidate_scope_and_warning_checked": true,
+    "runtime_dependencies_added": false,
+    "scope": "iid adversarial selection-hazard screen at 76 settings/20 calibration units; minimum-radius selector is not P4's exact candidate rule and results do not establish manufacturing coverage",
+    "source_hash_matches": true,
+    "status": "PASS"
+  },
+  "d02_replicate_shift_benchmark": {
+    "coverage_by_future_observations_per_setting": {
+      "1": 0.9456,
+      "2": 0.8978,
+      "4": 0.8194
+    },
+    "evidence": "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "independent iid finite-panel oracle; replication-shift challenge only",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials": 5000
+  },
+  "d02_simultaneous_coverage_benchmark": {
+    "evidence": "qualification/results/D02_SIMULTANEOUS_COVERAGE_BENCHMARK.json",
+    "joint_panel_coverage": 0.966,
+    "joint_panel_miss_wilson95": [
+      0.024431348663226313,
+      0.04713519024531107
+    ],
+    "post_selection_false_feasible_unconditional": 0.0,
+    "runtime_dependencies_added": false,
+    "scope": "independent nonlinear correlated-lot synthetic challenge under complete-panel assumptions",
+    "source_hash_matches": true,
+    "status": "PASS",
+    "trials": 1000
+  },
+  "d03_bounded_mean_benchmark": {
+    "bonferroni_t_joint_coverage_by_sample_size": {
+      "30": 0.918,
+      "60": 0.96
+    },
+    "bounded_joint_coverage_wilson95_lower_by_sample_size": {
+      "30": 0.9923756595384479,
+      "60": 0.9923756595384479
+    },
+    "bounded_to_t_mean_width_ratio_by_sample_size": {
+      "30": 3.0107757009383342,
+      "60": 3.580704753633478
+    },
+    "evidence": "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json",
+    "runtime_dependencies_added": false,
+    "scope": "independent skewed bounded synthetic challenge with correlated repeated lots; finite evidence only",
+    "source_fingerprint_matches": true,
+    "status": "PASS",
+    "trials_by_sample_size": {
+      "30": 500,
+      "60": 500
+    }
+  },
+  "d03_familywise_selection_benchmark": {
+    "adaptive_full_family_refusal_fraction": 1.0,
+    "adaptive_selection_trials": 500,
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_FAMILYWISE_BENCHMARK.json",
+    "fixed_family_joint_coverage": {
+      "correlated_heavy_t5": 0.968,
+      "correlated_normal": 0.958
+    },
+    "legacy_selected_setting_interval_coverage": 0.914,
+    "product_source_hash_matches": true,
+    "scope": "synthetic correlated-family and adaptive-omission challenge; precommit evidence remains caller-supplied and unauthenticated",
+    "selected_only_interval_release_fraction": 0.0,
+    "status": "PASS"
+  },
+  "d03_population_mix_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_POPULATION_MIX_BENCHMARK.json",
+    "matched_mix_front_available_rate": 1.0,
+    "naive_mix_only_false_dominance_rate": 1.0,
+    "p4_mismatch_refusal_rate": 1.0,
+    "product_source_hash_matches": true,
+    "scope": "fixed synthetic product-family Simpson reversal; exact declared-stratum proportions are descriptive compatibility evidence, not proof of exchangeability or causality",
+    "status": "PASS",
+    "trials": 250
+  },
+  "d03_zero_variance_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json",
+    "legacy_zero_width_false_preference_pairs": 760,
+    "product_reported_zero_width_false_preference_pairs": 0,
+    "product_source_hash_matches": true,
+    "runtime_dependencies_added": false,
+    "scope": "independent synthetic rare-event stress; demonstrates an interval failure mode on the specified generator only",
+    "status": "PASS",
+    "trials": 1000,
+    "zero_variance_defect_interval_withholding_fraction": 1.0
+  },
+  "d04_oss_benchmark": {
+    "confirmation_power_domain": {
+      "minimum_power_margin": 2.034536918216201e-05,
+      "out_of_domain_refusals": 5,
+      "status": "PASS",
+      "tested_cases": 560,
+      "underpowered_cases": 0
+    },
+    "d_optimal_efficiency_percent": 99.99999999999997,
+    "evidence": [
+      "release/D04_OSS_COMPARISON.json",
+      "qualification/results/D04_TIME_HOLDOUT_BENCHMARK.json",
+      "qualification/benchmark_d04_aliasing.py",
+      "qualification/results/D04_ALIASING_BENCHMARK.json",
+      "qualification/benchmark_d04_confirmation_domain.py",
+      "qualification/results/D04_CONFIRMATION_DOMAIN_BENCHMARK.json"
+    ],
+    "multimodal_next_best_acceptance_fraction": 0.0,
+    "off_grid_aliasing": {
+      "blind_designs": {
+        "central_composite": 0.0,
+        "d_optimal": 0.0,
+        "full_factorial": 0.0
+      },
+      "four_factor_blind_designs": {
+        "central_composite": 0.0,
+        "d_optimal": 0.0,
+        "fractional_factorial": 0.0,
+        "full_factorial": 0.0
+      },
+      "four_factor_latin_hypercube_trial_signal_fraction": 1.0,
+      "latin_hypercube_trial_signal_fraction": 1.0,
+      "statistical_power_evaluated": false,
+      "status": "PASS",
+      "trials": 200
+    },
+    "p4_latin_hypercube_all_seeds_stratified": 1.0,
+    "runtime_dependencies_added": false,
+    "status": "PASS",
+    "temporal_holdout": {
+      "random_group_false_acceptance_fraction": 0.74,
+      "status": "PASS",
+      "time_ordered_acceptance_count": 0
+    }
+  },
+  "d05_cluster_dependence_benchmark": {
+    "cluster_mean_reference_coverage": 0.959,
+    "cluster_randomized_qualification": {
+      "cases": {
+        "lognormal_sigma_0.8_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.958,
+          "scipy_reference_coverage": 0.957,
+          "wilson95": [
+            0.9437155747733968,
+            0.9687791144538346
+          ]
+        },
+        "lognormal_sigma_0.8_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.966,
+          "scipy_reference_coverage": 0.966,
+          "wilson95": [
+            0.9528648097546889,
+            0.9755686513367737
+          ]
+        },
+        "lognormal_sigma_0.8_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.98,
+          "scipy_reference_coverage": 0.979,
+          "wilson95": [
+            0.9693099947702822,
+            0.987016317083585
+          ]
+        },
+        "lognormal_sigma_1.5_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.985,
+          "scipy_reference_coverage": 0.981,
+          "wilson95": [
+            0.9753990230730932,
+            0.9908890211959184
+          ]
+        },
+        "lognormal_sigma_1.5_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.974,
+          "scipy_reference_coverage": 0.974,
+          "wilson95": [
+            0.9621761711573101,
+            0.9821960617983837
+          ]
+        },
+        "lognormal_sigma_1.5_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.988,
+          "scipy_reference_coverage": 0.987,
+          "wilson95": [
+            0.9791427315245017,
+            0.9931223521935965
+          ]
+        },
+        "normal_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.956,
+          "scipy_reference_coverage": 0.953,
+          "wilson95": [
+            0.9414482108495923,
+            0.9670617854115815
+          ]
+        },
+        "normal_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.95,
+          "scipy_reference_coverage": 0.95,
+          "wilson95": [
+            0.9346861797557492,
+            0.9618697376072513
+          ]
+        },
+        "normal_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.972,
+          "scipy_reference_coverage": 0.966,
+          "wilson95": [
+            0.9598298168024069,
+            0.9805577231872291
+          ]
+        },
+        "t4_standardized_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.962,
+          "scipy_reference_coverage": 0.961,
+          "wilson95": [
+            0.9482730796686497,
+            0.9721909954906974
+          ]
+        },
+        "t4_standardized_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.958,
+          "scipy_reference_coverage": 0.958,
+          "wilson95": [
+            0.9437155747733968,
+            0.9687791144538346
+          ]
+        },
+        "t4_standardized_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.965,
+          "scipy_reference_coverage": 0.964,
+          "wilson95": [
+            0.9517133776255466,
+            0.9747277369828871
+          ]
+        }
+      },
+      "source_hashes_match": true,
+      "status": "PASS"
+    },
+    "declared_dependence_intervals_emitted": 0,
+    "evidence": [
+      "qualification/benchmark_d05_cluster_dependence.py",
+      "qualification/results/D05_CLUSTER_DEPENDENCE_BENCHMARK.json",
+      "qualification/benchmark_d05_cluster_randomized.py",
+      "qualification/results/D05_CLUSTER_RANDOMIZED_BENCHMARK.json"
+    ],
+    "naive_unit_welch_coverage": 0.526,
+    "scope": "fixed synthetic nested-cluster null challenge; declared grouping causes inferential refusal, and undeclared dependence remains undetected",
+    "source_hashes_match": true,
+    "status": "PASS"
+  },
+  "d05_hidden_confounder_benchmark": {
+    "evidence": [
+      "qualification/benchmark_d05_confounding.py",
+      "qualification/results/D05_CONFOUNDING_BENCHMARK.json"
+    ],
+    "observational_causal_claims": 0,
+    "scope": "synthetic hidden-post-confounder challenge; numeric gates are not causal eligibility and supplied sensitivity-bound adequacy remains unverified",
+    "source_hashes_match": true,
+    "status": "PASS",
+    "underbound_numerical_gate_wrong_direction": 626
+  },
+  "dependency_audit": {
+    "evidence": "release/DEPENDENCY_AUDIT.json",
+    "scope": "optional benchmark dependency tree; product runtime has no third-party Python packages",
+    "status": "PASS",
+    "vulnerabilities_found": 0
+  },
+  "frozen_shared_contracts": {
+    "fingerprints_match_starter": {
+      "contracts/SHARED_ARCHITECTURE.md": true,
+      "contracts/adapter-operations.v1.json": true,
+      "contracts/evidence.v1.schema.json": true,
+      "contracts/product-manifest.v1.schema.json": true
+    },
+    "status": "PASS"
+  },
+  "integrated_demo": {
+    "D02_empirical_calibration": {
+      "calibration_units": 20,
+      "candidate_count": 76,
+      "candidate_scope": "MODEL_BASED_ADVISORY_SCREENING_ONLY",
+      "coverage_guarantee": "none; this local score rank establishes neither conditional nor simultaneous coverage",
+      "grid_cells": 225,
+      "qualification": "PASS",
+      "selection_warning_present": true,
+      "status": "VALID",
+      "training_units": 30
+    },
+    "capabilities": [
+      "D01",
+      "D02",
+      "D03",
+      "D04",
+      "D05"
+    ],
+    "capability_statuses": {
+      "D01": "VALID",
+      "D02": "VALID",
+      "D03": "LIMITED_SCOPE",
+      "D04": "PROPOSED",
+      "D05": "ESTIMATED"
+    },
+    "command": "python -m fabintel analyze --input fixtures/full_workflow_demo.json --output release/full_workflow_demo_evidence.json",
+    "evidence": "release/full_workflow_demo_evidence.json",
+    "mode": "SYNTHETIC_DEMO",
+    "qualification_scope": "D01-D05 execution and evidence assembly; reported PARTIAL/LIMITED_SCOPE states remain scientific limitations, not workflow errors",
+    "result_status": "PARTIAL",
+    "return_code": 0,
+    "status": "PASS"
+  },
+  "mcp_sdk_offline_qualification": {
+    "evidence": "release/MCP_SDK_QUALIFICATION.json",
+    "protocol_tests": 7,
+    "status": "PASS",
+    "version": "2.3.0"
+  },
+  "schema_validation": {
+    "evidence": "release/SCHEMA_VALIDATION.json",
+    "status": "PASS"
+  },
+  "scientific_performance_benchmark": {
+    "evidence": "release/BENCHMARK_REPORT.json",
+    "integrated_demo_independent_lots": 100,
+    "integrated_demo_observations": 900,
+    "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
+    "package_source_snapshot": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+    "product_code_unchanged_after_benchmark": true,
+    "product_source_manifest_matches": true,
+    "product_source_manifest_sha256": "67626edf697dc156f665dd78d67aa2361323da2a16ac15fc66bba668ae7f8c96",
+    "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+    "status": "PASS"
+  },
+  "source_security_scan": {
+    "evidence": "release/SOURCE_SECURITY_SCAN.json",
+    "finding_count": 8,
+    "high_or_medium_findings": 0,
+    "independent_human_review": "PENDING",
+    "status": "PASS_LIMITED_SCOPE",
+    "tool": "Bandit",
+    "version": "1.9.4"
+  },
+  "state": "PASS",
+  "synthetic_mcp_external_mock": {
+    "evidence": "requirements/synthetic-mcp-mapping.v1.json",
+    "result": {
+      "discovered_tool_count": 6,
+      "internal_qualification": "PENDING_INTERNAL",
+      "operations": {
+        "audit": true,
+        "cancel": true,
+        "discover": true,
+        "read_bounded": true,
+        "relationships": true,
+        "semantics": true
+      },
+      "protocol_version": "2025-11-25",
+      "scope": "synthetic MCP server and synthetic semantic mappings only; no company endpoint or data was contacted",
+      "status": "SYNTHETIC_TRANSPORT_PASS"
+    },
+    "status": "PASS"
+  },
+  "ui_module_qualification": {
+    "checks": {
+      "accessible_table_alternative_present": true,
+      "advisory_text_visible": true,
+      "all_d01_d05_headings": true,
+      "capability_evidence_lazy_until_requested": true,
+      "capability_evidence_opens_on_request": true,
+      "capability_results_text_length": 908,
+      "configured_mcp_acquisition_completed": true,
+      "configured_mcp_all_capabilities_present": true,
+      "configured_mcp_audit_receipt_present": true,
+      "configured_mcp_evidence_exported": true,
+      "configured_mcp_status_pending_internal": true,
+      "d01_d05_headings": {
+        "D01 \u00b7 Factor sensitivity": true,
+        "D02 \u00b7 Supported process region": true,
+        "D03 \u00b7 Objective tradeoffs": true,
+        "D04 \u00b7 Next experiment": true,
+        "D05 \u00b7 Intervention evaluation": true
+      },
+      "evidence_export_downloaded": true,
+      "full_evidence_opens_on_request": true,
+      "keyboard_analysis_activation": true,
+      "keyboard_demo_activation": true,
+      "keyboard_skip_link": true,
+      "mcp_disabled_without_config": true,
+      "table_alternative_count": 2
+    },
+    "evidence": "release/P4_STANDALONE_UI_BROWSER.json",
+    "formal_screen_reader_and_wcag_audit": "PENDING",
+    "scope": "P4 standalone local application only; no P1 or other product host",
+    "source_bound_to_evaluated_commit": true,
+    "source_hashes_match": true,
+    "status": "PASS_STANDALONE_INTERACTION_LIMITED_SCOPE"
+  },
+  "unit_tests": {
+    "command": "python -m unittest discover -s tests -v",
+    "duration_seconds": 18.002,
+    "log": "release/TEST_LOG.txt",
+    "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
+    "return_code": 0,
+    "status": "PASS",
+    "tests_run": 275,
+    "tests_skipped": 0
+  }
+}

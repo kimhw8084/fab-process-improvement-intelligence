@@ -1,36 +1,35 @@
 {
   "active_uncommitted_changes": [
-    "Generated release/ and qualification/results/ sidecars are not source; builder excludes the declared paths.",
-    "progress/ checkpoint files are workspace evidence and intentionally excluded from the transfer bundle."
+    "release/ contains exact-source qualification outputs and the final local candidate; these are generated sidecars.",
+    "qualification/results/ and qualification/evidence/legacy/ are excluded from the candidate source inventory.",
+    "progress/candidate_history/ preserves prior verified candidate bytes and is excluded from the product archive."
   ],
-  "as_of_source_commit": "ac67074b6c9156d8b2169380dc2c2d1edef8ab6a",
+  "as_of_source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
   "date": "2026-11-24",
   "internal_dependencies": [
-    "Samsung source permissions and approved semantic mappings",
-    "authoritative company requirement corpus",
-    "company-approved target OS and network policies",
-    "real manufacturing data and engineer ROI baseline",
-    "company legal, security and production approvals",
-    "P1 owner/source revision and authoritative suite capability contract"
+    "Authorized company MCP source permissions and administrator-approved semantic mappings",
+    "Company-approved target OS, host, and network policy",
+    "Company legal/security/production approval and ownership/licensing review",
+    "Real engineering data, engineer acceptance, and ROI baseline"
   ],
   "last_release_runner": {
-    "python_tests": "See release/TEST_RESULTS.json",
-    "qualification": {
+    "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+    "python_tests": "275 PASS, 0 skipped",
+    "gates": {
       "E01": "PASS",
       "E02": "PASS",
       "E03": "PASS",
       "E04": "PASS",
       "E05": "PENDING_INTERNAL",
       "E06": "PASS",
-      "E07": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY",
+      "E07": "PASS_LIMITED_SCOPE",
       "E08": "PENDING_TARGET_OS",
       "E09": "PENDING_LICENSE_AND_INDEPENDENT_SECURITY_REVIEW",
       "E10": "PASS",
       "E11": "PENDING_ENGINEER_BASELINE",
       "E12": "PENDING_INTERNAL"
     },
-    "source_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
-    "status": "CANDIDATE; E01-E04/E06/E10 PASS; internal/host/target/security/ROI gates pending"
+    "status": "CANDIDATE; no public distribution authorization"
   },
   "latest_checkpoint": {
     "D05_cluster_randomized": {
@@ -55,22 +54,26 @@
     },
     "exact_release": {
       "archive": "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
-      "sha256": "768273a9f2613e00797b4f06d95f3eecca98ff8d0be6630e9ef3562ee579cafb",
-      "bytes": 9327718,
-      "source_files": 223,
-      "source_manifest_sha256": "f553bf1950c67360f8ee934d1c79a2232d88e0073b8211082546b5b24a1d3958",
-      "two_clean_builds": "PASS; exact SHA and source manifest matched",
+      "sha256": "ff530921608011cd74ef20b8abc5ceb9956d6d75f96b6a228cc6d8e63e5b8789",
+      "bytes": 9347897,
+      "source_files": 229,
+      "source_manifest_sha256": "3a38b6a06d1ee7a2b32255e3ef2184a9b03691b69e44170f5f10751941cccc33",
+      "two_clean_builds": "PASS; identical archive and manifest",
       "fresh_no_pip_network_denied_extraction": "PASS; macOS ARM64/Python 3.11.7 only",
       "e10": "PASS",
       "transfer_state": "CANDIDATE; no distribution authorization"
     },
     "p1_current_host_overlay": {
       "workspace_authoritative": false,
-      "proposed_change": "Align the two synthetic P4 relationship metric labels in P1 peer; refresh registry peer hash.",
+      "proposed_change": "Align two synthetic P4 relationship metric labels in the P1 peer; refresh registry peer hash.",
       "proposed_synthetic_peer_sha256": "214efd103181659e872680386219f25a2021f96afe768a55ae93ede59115588e",
-      "host_tests": "32 PASS in disposable overlay; includes audited P4 acquisition and P1/P4 cancellation",
-      "ui_tests": "64 frontend PASS; strict TypeScript PASS; P4 component 29 PASS (previous current-source verification)",
-      "limitation": "P1 unversioned; no P1 edits or owner acceptance; synthetic mapping only",
+      "host_tests": "32 PASS in disposable overlay",
+      "frontend_tests": "65 PASS",
+      "typecheck": "PASS",
+      "production_build": "PASS; 840.18 kB JS / 270.15 kB gzip",
+      "browser_success": "900 observations acquired; P4 analysis completed PARTIAL with evidence",
+      "browser_refusal": "REFUSED; NOT_ACCESSED; positive findings withheld",
+      "limitation": "Unversioned P1 snapshot; no P1 edits/owner acceptance, formal accessibility or target-host qualification",
       "proposal": "progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md"
     },
     "D02_subgroup_resolved_holdout": {
@@ -192,6 +195,98 @@
       "source_commit": "ac67074b6c9156d8b2169380dc2c2d1edef8ab6a",
       "status": "PASS_CANDIDATE; E10 archive rebuild required; no publication",
       "ui": "30 component tests and strict TypeScript PASS; disposable P1 fingerprint stale"
+    },
+    "exact_archive_e5f74fa": {
+      "source_commit": "e5f74fa3839b7a2993fb70a0daec2a1afb029485",
+      "archive_sha256": "b9158cfd01c493a993c32abdadb5d39bff79f67008203588d649d57e9aa5ba17",
+      "manifest_sha256": "a5c8b061c0348d41455c963913264eaa5d30c0227094238724e590c647b446a6",
+      "source_files": 228,
+      "archive_bytes": 9344054,
+      "clean_rebuilds": "2 identical detached worktrees",
+      "offline": "fresh extraction; no pip; all source verified; sandbox network probe DENIED",
+      "host": "macOS 26.6.2 ARM64 / CPython 3.11.7",
+      "tests": "265 PASS, 0 skipped",
+      "passing_gates": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E10"
+      ],
+      "pending_gates": [
+        "E05",
+        "E07",
+        "E08",
+        "E09",
+        "E11",
+        "E12"
+      ],
+      "status": "PASS_CANDIDATE; no public distribution"
+    },
+    "D04_confirmation_power_scope": {
+      "discovery": "8/165 underpowered in stringent-alpha sweep; 9/350 underpowered when alpha <0.01 and/or target power >0.90",
+      "repair": "Refuse alpha outside [0.01,0.10] and target power outside [0.80,0.90]; label power approximate; engine 1.2.6",
+      "oracle_cases": 560,
+      "underpowered_cases": 0,
+      "minimum_achieved_power_margin": 2.034536918216201e-05,
+      "out_of_domain_cases_refused_without_runs": 5,
+      "focused_tests": "D04 + MCP bridge 36 PASS",
+      "full_python_tests": "267 PASS, 0 skipped",
+      "bridge_fixture_sha256": "995babfb7ae772e360316cf509d9747d99a66c8d17214b863fa288b35f6e6a8d",
+      "limitations": "Finite normal-theory grid; SD/MDE/population validity, normality and independence remain caller/engineer assumptions; not a universal power guarantee.",
+      "status": "IMPLEMENTED_AND_COMMITTED; exact-source release runner and archive rebinding pending",
+      "source_commit": "62c91c2dbb550dffb8f3b4b811e6f9c634bd5f29"
+    },
+    "D04_exact_archive_62c91c2": {
+      "archive_sha256": "ff530921608011cd74ef20b8abc5ceb9956d6d75f96b6a228cc6d8e63e5b8789",
+      "manifest_sha256": "3a38b6a06d1ee7a2b32255e3ef2184a9b03691b69e44170f5f10751941cccc33",
+      "source_files": 229,
+      "archive_bytes": 9347897,
+      "clean_rebuilds": "2 detached worktrees identical",
+      "offline": "fresh extraction, no pip, all source verified, socket denied by OS sandbox",
+      "host": "macOS 26.6.2 ARM64 / CPython 3.11.7",
+      "tests": "267 PASS, 0 skipped",
+      "passing_gates": [
+        "E01",
+        "E02",
+        "E03",
+        "E04",
+        "E06",
+        "E10"
+      ],
+      "pending_gates": [
+        "E05",
+        "E07",
+        "E08",
+        "E09",
+        "E11",
+        "E12"
+      ],
+      "status": "PASS_CANDIDATE; not public; no internal authorization"
+    },
+    "p1_focus_preflight": {
+      "current_stylesheet_screen": "FAIL_SCREEN; 1.804:1 body and 1.9397:1 white card/navigation",
+      "disposable_css_proposal": "PASS_SCREEN for all 10 selected pairs using dual white/navy ring",
+      "status": "PENDING_P1_OWNER_AND_RENDERED_ACCESSIBILITY",
+      "scope": "source-level screen only; not WCAG or rendered keyboard-focus verification"
+    },
+    "P4_independent_completion_2026_11_24": {
+      "D03": "Independent familywise benchmark covers correlated objectives/settings under normal and t(5); current Bonferroni intervals passed 95% familywise oracle in 95.8\u201396.8%. Added full-engine missing-objective and contradictory-bound refusal tests; no unsupported Pareto claim.",
+      "standalone_UI": "Current-source Chromium verified local demo and synthetic MCP acquisition, disabled-unconfigured state, PENDING_INTERNAL synthetic profile, 900-row audited read, D01\u2013D05 results, keyboard navigation, tables, lazy evidence, export, and zero external requests.",
+      "onboarding": "Automated synthetic discovery/review/draft and alternate renamed schema end-to-end pass. Misleading descriptors, incompatible units, invalid factor/outcome reuse, missing experiment context, and unapproved relationships remain review/refusal cases.",
+      "verification": "275 Python PASS, 0 skipped; source-bound benchmark and schema runner PASS; browser report source-hash matches HEAD.",
+      "candidate": {
+        "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
+        "sha256": "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec",
+        "bytes": 9378600,
+        "source_files": 236,
+        "manifest_sha256": "05297a68ced626b4826bb2c5ce4f9d74b52ffdebd1cc7cbd9bc4449565876bd4",
+        "two_detached_rebuilds": "PASS",
+        "fresh_no_pip_macos_network_denial": "PASS"
+      },
+      "scope": "P4-only; all P1-only bridge/shared-host/accessibility tests are preserved under excluded qualification/evidence/legacy and are not active P4 gates.",
+      "distribution": "NOT_PUBLISHED; company permissions, target OS, ownership/licenses, independent security review and ROI remain pending."
     }
   },
   "prior_checkpoint_history": {
@@ -542,40 +637,61 @@
     "claim conditional or simultaneous D02 coverage without a valid design",
     "create a competing product UI shell"
   ],
-  "next_action": "Commit tests/fixtures/mcp_p4_panel_bridge.json and the progress checkpoint locally; rerun the pinned release runner at the resulting HEAD; build the ZIP, reproduce it in two clean detached worktrees, and fresh-extract/qualify with no pip and network denial. Then continue the next independent D02/D04/D05 scientific gap.",
-  "next_executable_action": "Commit tests/fixtures/mcp_p4_panel_bridge.json and the progress checkpoint locally; rerun the pinned release runner at the resulting HEAD; build the ZIP, reproduce it in two clean detached worktrees, and fresh-extract/qualify with no pip and network denial. Then continue the next independent D02/D04/D05 scientific gap.",
+  "next_action": "No externally achievable product engineering gap remains in the current local macOS ARM64 scope. Proceed only with authorized company-side onboarding and acceptance.",
+  "next_executable_action": "After formal transfer authorization: extract release/final/P4_INTERNAL_TRANSFER_CANDIDATE.zip, open the extracted directory in approved internal OpenCode, and send the @p4-internal-onboarding instruction in docs/INTERNAL_COMPANY_FIRST_RUN.md.",
   "ordered_queue": [
     {
       "priority": 1,
-      "status": "NEXT",
-      "task": "D01: inspect measurement uncertainty/identifiability and clustered inference; independently benchmark a failure that can change a claim or refusal."
+      "status": "COMPLETE",
+      "task": "D03 uncertainty, missing-objective, contradictory-bound and correlated-outcome challenges; pass on exact source 885447f."
     },
     {
       "priority": 2,
-      "status": "NEXT",
-      "task": "D03: challenge objective direction, compatible populations, and uncertainty reversal across observed/predicted tradeoffs."
+      "status": "COMPLETE",
+      "task": "P4 standalone browser workflow: demo and synthetic MCP acquisition through audited D01\u2013D05 analysis and evidence export."
     },
     {
       "priority": 3,
-      "status": "PENDING_EXTERNAL",
-      "task": "P1 owner/versioned host acceptance and formal accessibility; exact proposed synthetic MCP metric mapping remains in progress/P1_P4_MCP_HOST_COMPATIBILITY_PROPOSAL.md."
+      "status": "COMPLETE",
+      "task": "Automated synthetic MCP onboarding across baseline and structurally different schemas; owner approval remains external."
     },
     {
       "priority": 4,
+      "status": "COMPLETE_EXTERNAL_GATES",
+      "task": "Full P4 regression, scientific gates, reproducible offline archive and fresh network-denied install."
+    },
+    {
+      "priority": 5,
       "status": "PENDING_INTERNAL",
-      "task": "Authorized company sources/semantics, approved target host and policy, security/legal/production approvals, real engineer ROI."
+      "task": "Run authorized company configuration, owner-reviewed mappings, target-host qualification, security/legal review, engineer acceptance and ROI study."
     }
   ],
   "outcomes": {
-    "EXTERNAL_TRANSFER_READY": "NOT_ESTABLISHED; E05/E07/E08/E09/E11/E12 remain pending.",
-    "INTERNAL_QUALIFICATION_PENDING": true,
-    "PRODUCT_IMPLEMENTATION_COMPLETE": "NOT_ESTABLISHED; D01-D05 are synthetically qualified within explicit method limits, no real fab capability or ROI verified.",
-    "SUITE_INTEGRATION_COMPLETE": "PENDING authoritative versioned P1 host/owner acceptance and formal accessibility."
+    "PRODUCT_IMPLEMENTATION_COMPLETE": "COMPLETE_FOR_VERIFIED_OFFLINE_SYNTHETIC_P4_SCOPE; D01-D05 retained and exact candidate workflow qualified.",
+    "SUITE_INTEGRATION_COMPLETE": "NOT_APPLICABLE; this P4 is intentionally independent of P1-P3.",
+    "EXTERNAL_TRANSFER_READY": "NOT_AUTHORIZED; exact local artifact is qualified but E05, formal E07/E09 review, company target host, E11, and E12 remain pending.",
+    "INTERNAL_QUALIFICATION_PENDING": true
   },
   "product_state": "CANDIDATE",
   "schema": "p4-next-actions/v1",
-  "source_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
-  "worktree_state": "Current code at ac67074; regenerated MCP bridge fixture and exact-source runner PASS; evidence fixture/progress need local commit; release outputs are mutable sidecars; no public distribution.",
-  "evidence_commit": "abe0bb9d8c9425c831245c585ec9c9fb1771477b",
-  "next_executable_command": "rtk /tmp/p4-qualification-env/bin/python qualification/run_release_checks.py"
+  "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+  "worktree_state": "Product source committed; exact-candidate and security qualification are local sidecars; historical candidate preserved under release/BASELINE_885447f/",
+  "evidence_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+  "next_executable_command": "python -m fabintel mcp-config-validate --config <site-config> --output config-review.json",
+  "final_candidate": {
+    "archive": "release/final/P4_INTERNAL_TRANSFER_CANDIDATE.zip",
+    "sha256": "23cba15ba3bfb3219837f0c6f833da93103506f2833a9eefdfa136d750d8ca80",
+    "source_commit": "0dc3105652ac2a7928d7424a96be4cbf4fea2840",
+    "source_files": 249,
+    "exact_archive_status": "PASS_EXACT_ARCHIVE_LIMITED_PLATFORM",
+    "python_core_targets": [
+      "macOS ARM64 CPython 3.11.7",
+      "macOS ARM64 CPython 3.12.9",
+      "macOS ARM64 CPython 3.13.13",
+      "macOS ARM64 CPython 3.14.5"
+    ],
+    "offline_reproducible_builds": "two identical clean detached builds",
+    "baseline_sha256": "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec",
+    "external_authorization": "PENDING_OWNER_AND_LEGAL_REVIEW"
+  }
 }

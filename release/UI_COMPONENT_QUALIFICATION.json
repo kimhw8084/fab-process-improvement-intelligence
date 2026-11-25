@@ -9,10 +9,10 @@
   },
   "component_tests": {
     "diagnostic": null,
-    "expected_test_count": 27,
+    "expected_test_count": 30,
     "return_code": 0,
     "test_file": "products/p4/ui/P4Panel.test.tsx",
-    "tests_passed": 27
+    "tests_passed": 30
   },
   "contract_sha256": {
     "suite-chart.v1.schema.json": "286ed1800d2a43b16dfe3ac0ec0bbe69a5badd87053261cd82c3b557583ee346",
@@ -21,16 +21,16 @@
   "contract_snapshot_match": true,
   "integration_status": "PENDING_P1_HOST_AND_CAPABILITY_CONTRACT_CHANGE",
   "p4_source_sha256": {
-    "products/p4/ui/P4Panel.test.tsx": "178604cebe756049669ee3dc0c0c63b468fb6ba072b1e203282d04986d721114",
-    "products/p4/ui/P4Panel.tsx": "6a9023429ca5b63b5ee8388ee33a2702904800f52de33f1650f48f275b0f2313",
-    "tests/fixtures/mcp_p4_panel_bridge.json": "ba244b3eab1d467b3cde3b37729d0d12c2feaa158d554f9ea0ef6c6f29c70ee6"
+    "products/p4/ui/P4Panel.test.tsx": "d586a6c3ea92a6ac18f1912b2dec395bf129a01a88eb72c8d566aec74f19f474",
+    "products/p4/ui/P4Panel.tsx": "84169685d5744a67b9c3bf545522fb9a9725102a9b5c4d92868137ee6dbdab25",
+    "tests/fixtures/mcp_p4_panel_bridge.json": "aaa48c1dd7b3be84896f57df0de89e92c2066c93b7e960cb2580db07d84d15f1"
   },
   "scope": "headless P4 React module against local P1 schemas and P1 test toolchain; no suite host or target OS tested",
   "status": "PASS_LOCAL_MODULE_ONLY",
   "suite_commit": null,
   "suite_git_metadata": "unavailable in extracted P1 folder",
   "suite_package_lock_sha256": "db97d1d2418aa6da6677dad1a00adb952ab0567a41b5b163aae8320aac32f36c",
-  "suite_root_name": "p4-p1-host-current",
+  "suite_root_name": "FAB_INTELLIGENCE_P1_CODEX_LAUNCHKIT_2026-11-22",
   "suite_tool_versions": {
     "react": "^19.2.0",
     "typescript": "5.9.3",

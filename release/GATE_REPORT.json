@@ -29,7 +29,7 @@
   },
   "d01_conditioning_benchmark": {
     "evidence": "qualification/results/D01_CONDITIONING_BENCHMARK.json",
-    "near_collinear_interval_width_ratio_lower_bound": 70.23272197852576,
+    "near_collinear_interval_width_ratio_lower_bound": 70.23272197852575,
     "near_collinear_median_proxy": 102612.63789675332,
     "near_collinear_wrong_sign_fractions": {
       "x": 0.448,
@@ -43,11 +43,9 @@
     "well_conditioned_median_proxy": 16.905842933964248
   },
   "d01_continuous_cluster_support_benchmark": {
-    "20_cluster_five_level_coverage_counterevidence": 0.9358333333333333,
-    "20_cluster_five_level_coverage_wilson95": [
-      0.9205303087066316,
-      0.9483548691013176
-    ],
+    "20_cluster_five_level_coverage_counterevidence": null,
+    "20_cluster_five_level_coverage_wilson95": null,
+    "20_cluster_five_level_product_abstentions": 1200,
     "concentrated_product_abstentions": 1200,
     "concentrated_reference_false_positive_rate": 0.7,
     "evidence": "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
@@ -74,6 +72,22 @@
       0.060115615250606366
     ]
   },
+  "d01_heavy_tailed_cluster_benchmark": {
+    "coverage_among_inferred": 0.9456066945606695,
+    "coverage_wilson95_monte_carlo": [
+      0.9312617360116379,
+      0.9570959297698288
+    ],
+    "evidence": "qualification/results/D01_HEAVY_TAILED_CLUSTER_BENCHMARK.json",
+    "inferred_trials": 1195,
+    "max_estimate_se_or_interval_difference": 5.1493082242615174e-08,
+    "refused_trials": 5,
+    "scope": "fixed synthetic independent-lot t4 intercept challenge and Statsmodels CR1 parity; Monte Carlo interval is not a general coverage guarantee",
+    "source_hash_matches": true,
+    "statsmodels_reference_coverage_all_trials": 0.9458333333333333,
+    "status": "PASS",
+    "trials": 1200
+  },
   "d02_actual_selector_interpolation_benchmark": {
     "benchmark_script_hash_matches": true,
     "evidence": "qualification/results/D02_ACTUAL_SELECTOR_INTERPOLATION.json",
@@ -81,6 +95,24 @@
     "p4_candidate_cell_false_feasible_fraction": 0.2329105399034684,
     "p4_candidate_family_false_feasible_trial_rate": 0.988,
     "p4_interpolation_false_feasible_trial_rate": 0.988,
+    "paired_model_form_identifiability": {
+      "decision": "Do not add a data-only model-disagreement score as evidence against this hidden mechanism; new exact-setting experiments or an approved mechanistic prior are needed.",
+      "hidden_surface_false_feasible_candidates": 12,
+      "hidden_surface_false_feasible_interpolations": 12,
+      "latent_mechanisms": [
+        "smooth quadratic baseline",
+        "same baseline plus zero-on-measured-grid harmonic"
+      ],
+      "observation_sha256": "a71f3d60acd46835d0ecf3debeabeb172aa102f9344ad4cfa39a489738964a20",
+      "observations_exactly_equal": true,
+      "safe_surface_false_feasible_candidates": 0,
+      "scope": "paired synthetic identifiability counterexample; not a manufacturing rate, coverage estimate, or recipe-safety claim",
+      "seed": 8000,
+      "selected_candidate_count": 41,
+      "selector_output_sha256": "0d95d96b2485dd4e1eb760b89fa41ff13fa92a78829d5ad4a41cdf18e1282b84",
+      "selector_outputs_exactly_equal": true,
+      "status": "PASS_NONIDENTIFIABILITY_DEMONSTRATED"
+    },
     "predeclared_center_false_feasible_trial_rate": 0.0,
     "scope": "direct actual-selector synthetic model-form challenge; diagnostic execution is not a production risk or coverage qualification",
     "source_hash_matches": true,
@@ -173,6 +205,19 @@
     "status": "PASS",
     "trials": 1000
   },
+  "d02_subgroup_miss_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D02_SUBGROUP_MISSES_BENCHMARK.json",
+    "heldout_miss_fractions": {
+      "A": 0.0052,
+      "B": 1.0,
+      "pooled": 0.024705882352941175
+    },
+    "runtime_dependencies_added": false,
+    "scope": "fixed synthetic hidden within-stratum quadratic drift; per-stratum held-out misses are descriptive counterevidence, not conditional coverage validation",
+    "source_hash_matches": true,
+    "status": "PASS"
+  },
   "d03_bounded_mean_benchmark": {
     "bonferroni_t_joint_coverage_by_sample_size": {
       "30": 0.918,
@@ -196,6 +241,32 @@
       "60": 500
     }
   },
+  "d03_familywise_selection_benchmark": {
+    "adaptive_full_family_refusal_fraction": 1.0,
+    "adaptive_selection_trials": 500,
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_FAMILYWISE_BENCHMARK.json",
+    "fixed_family_joint_coverage": {
+      "correlated_heavy_t5": 0.968,
+      "correlated_normal": 0.958
+    },
+    "legacy_selected_setting_interval_coverage": 0.914,
+    "product_source_hash_matches": true,
+    "scope": "synthetic correlated-family and adaptive-omission challenge; precommit evidence remains caller-supplied and unauthenticated",
+    "selected_only_interval_release_fraction": 0.0,
+    "status": "PASS"
+  },
+  "d03_population_mix_benchmark": {
+    "benchmark_script_hash_matches": true,
+    "evidence": "qualification/results/D03_POPULATION_MIX_BENCHMARK.json",
+    "matched_mix_front_available_rate": 1.0,
+    "naive_mix_only_false_dominance_rate": 1.0,
+    "p4_mismatch_refusal_rate": 1.0,
+    "product_source_hash_matches": true,
+    "scope": "fixed synthetic product-family Simpson reversal; exact declared-stratum proportions are descriptive compatibility evidence, not proof of exchangeability or causality",
+    "status": "PASS",
+    "trials": 250
+  },
   "d03_zero_variance_benchmark": {
     "benchmark_script_hash_matches": true,
     "evidence": "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json",
@@ -209,12 +280,188 @@
     "zero_variance_defect_interval_withholding_fraction": 1.0
   },
   "d04_oss_benchmark": {
+    "confirmation_power_domain": {
+      "minimum_power_margin": 2.034536918216201e-05,
+      "out_of_domain_refusals": 5,
+      "status": "PASS",
+      "tested_cases": 560,
+      "underpowered_cases": 0
+    },
     "d_optimal_efficiency_percent": 99.99999999999997,
-    "evidence": "release/D04_OSS_COMPARISON.json",
+    "evidence": [
+      "release/D04_OSS_COMPARISON.json",
+      "qualification/results/D04_TIME_HOLDOUT_BENCHMARK.json",
+      "qualification/benchmark_d04_aliasing.py",
+      "qualification/results/D04_ALIASING_BENCHMARK.json",
+      "qualification/benchmark_d04_confirmation_domain.py",
+      "qualification/results/D04_CONFIRMATION_DOMAIN_BENCHMARK.json"
+    ],
     "multimodal_next_best_acceptance_fraction": 0.0,
+    "off_grid_aliasing": {
+      "blind_designs": {
+        "central_composite": 0.0,
+        "d_optimal": 0.0,
+        "full_factorial": 0.0
+      },
+      "four_factor_blind_designs": {
+        "central_composite": 0.0,
+        "d_optimal": 0.0,
+        "fractional_factorial": 0.0,
+        "full_factorial": 0.0
+      },
+      "four_factor_latin_hypercube_trial_signal_fraction": 1.0,
+      "latin_hypercube_trial_signal_fraction": 1.0,
+      "statistical_power_evaluated": false,
+      "status": "PASS",
+      "trials": 200
+    },
     "p4_latin_hypercube_all_seeds_stratified": 1.0,
     "runtime_dependencies_added": false,
+    "status": "PASS",
+    "temporal_holdout": {
+      "random_group_false_acceptance_fraction": 0.74,
+      "status": "PASS",
+      "time_ordered_acceptance_count": 0
+    }
+  },
+  "d05_cluster_dependence_benchmark": {
+    "cluster_mean_reference_coverage": 0.959,
+    "cluster_randomized_qualification": {
+      "cases": {
+        "lognormal_sigma_0.8_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.958,
+          "scipy_reference_coverage": 0.957,
+          "wilson95": [
+            0.9437155747733968,
+            0.9687791144538346
+          ]
+        },
+        "lognormal_sigma_0.8_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.966,
+          "scipy_reference_coverage": 0.966,
+          "wilson95": [
+            0.9528648097546889,
+            0.9755686513367737
+          ]
+        },
+        "lognormal_sigma_0.8_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.98,
+          "scipy_reference_coverage": 0.979,
+          "wilson95": [
+            0.9693099947702822,
+            0.987016317083585
+          ]
+        },
+        "lognormal_sigma_1.5_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.985,
+          "scipy_reference_coverage": 0.981,
+          "wilson95": [
+            0.9753990230730932,
+            0.9908890211959184
+          ]
+        },
+        "lognormal_sigma_1.5_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.974,
+          "scipy_reference_coverage": 0.974,
+          "wilson95": [
+            0.9621761711573101,
+            0.9821960617983837
+          ]
+        },
+        "lognormal_sigma_1.5_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.988,
+          "scipy_reference_coverage": 0.987,
+          "wilson95": [
+            0.9791427315245017,
+            0.9931223521935965
+          ]
+        },
+        "normal_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.956,
+          "scipy_reference_coverage": 0.953,
+          "wilson95": [
+            0.9414482108495923,
+            0.9670617854115815
+          ]
+        },
+        "normal_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.95,
+          "scipy_reference_coverage": 0.95,
+          "wilson95": [
+            0.9346861797557492,
+            0.9618697376072513
+          ]
+        },
+        "normal_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.972,
+          "scipy_reference_coverage": 0.966,
+          "wilson95": [
+            0.9598298168024069,
+            0.9805577231872291
+          ]
+        },
+        "t4_standardized_clusters_10_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.962,
+          "scipy_reference_coverage": 0.961,
+          "wilson95": [
+            0.9482730796686497,
+            0.9721909954906974
+          ]
+        },
+        "t4_standardized_clusters_20_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.958,
+          "scipy_reference_coverage": 0.958,
+          "wilson95": [
+            0.9437155747733968,
+            0.9687791144538346
+          ]
+        },
+        "t4_standardized_clusters_5_per_arm": {
+          "oracle_intervals_contained": 1000,
+          "p4_coverage": 0.965,
+          "scipy_reference_coverage": 0.964,
+          "wilson95": [
+            0.9517133776255466,
+            0.9747277369828871
+          ]
+        }
+      },
+      "source_hashes_match": true,
+      "status": "PASS"
+    },
+    "declared_dependence_intervals_emitted": 0,
+    "evidence": [
+      "qualification/benchmark_d05_cluster_dependence.py",
+      "qualification/results/D05_CLUSTER_DEPENDENCE_BENCHMARK.json",
+      "qualification/benchmark_d05_cluster_randomized.py",
+      "qualification/results/D05_CLUSTER_RANDOMIZED_BENCHMARK.json"
+    ],
+    "naive_unit_welch_coverage": 0.526,
+    "scope": "fixed synthetic nested-cluster null challenge; declared grouping causes inferential refusal, and undeclared dependence remains undetected",
+    "source_hashes_match": true,
     "status": "PASS"
+  },
+  "d05_hidden_confounder_benchmark": {
+    "evidence": [
+      "qualification/benchmark_d05_confounding.py",
+      "qualification/results/D05_CONFOUNDING_BENCHMARK.json"
+    ],
+    "observational_causal_claims": 0,
+    "scope": "synthetic hidden-post-confounder challenge; numeric gates are not causal eligibility and supplied sensitivity-bound adequacy remains unverified",
+    "source_hashes_match": true,
+    "status": "PASS",
+    "underbound_numerical_gate_wrong_direction": 626
   },
   "dependency_audit": {
     "evidence": "release/DEPENDENCY_AUDIT.json",
@@ -222,7 +469,7 @@
     "status": "PASS",
     "vulnerabilities_found": 0
   },
-  "evaluated_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+  "evaluated_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
   "frozen_shared_contracts": {
     "fingerprints_match_starter": {
       "contracts/SHARED_ARCHITECTURE.md": true,
@@ -261,6 +508,8 @@
         "qualification/results/D01_CONDITIONING_BENCHMARK.json",
         "qualification/benchmark_d01_continuous_cluster_support.py",
         "qualification/results/D01_CONTINUOUS_CLUSTER_SUPPORT_BENCHMARK.json",
+        "qualification/benchmark_d01_heavy_tailed_clusters.py",
+        "qualification/results/D01_HEAVY_TAILED_CLUSTER_BENCHMARK.json",
         "qualification/benchmark_d02_replicate_shift.py",
         "qualification/results/D02_REPLICATION_SHIFT_BENCHMARK.json",
         "qualification/benchmark_d02_adaptive_selection.py",
@@ -275,15 +524,31 @@
         "qualification/results/D02_RESPONSE_DRIFT_BENCHMARK.json",
         "qualification/benchmark_d02_stratified_calibration.py",
         "qualification/results/D02_STRATIFIED_CALIBRATION_BENCHMARK.json",
+        "qualification/benchmark_d02_subgroup_misses.py",
+        "qualification/results/D02_SUBGROUP_MISSES_BENCHMARK.json",
         "qualification/benchmark_d03_bounded_mean.py",
         "qualification/results/D03_BOUNDED_MEAN_BENCHMARK.json",
         "qualification/benchmark_d03_zero_variance.py",
         "qualification/results/D03_ZERO_VARIANCE_BENCHMARK.json",
+        "qualification/benchmark_d03_familywise.py",
+        "qualification/results/D03_FAMILYWISE_BENCHMARK.json",
+        "qualification/benchmark_d03_population_mix.py",
+        "qualification/results/D03_POPULATION_MIX_BENCHMARK.json",
+        "qualification/benchmark_d04_time_holdout.py",
+        "qualification/results/D04_TIME_HOLDOUT_BENCHMARK.json",
+        "qualification/benchmark_d04_aliasing.py",
+        "qualification/results/D04_ALIASING_BENCHMARK.json",
+        "qualification/benchmark_d05_confounding.py",
+        "qualification/results/D05_CONFOUNDING_BENCHMARK.json",
+        "qualification/benchmark_d05_cluster_dependence.py",
+        "qualification/results/D05_CLUSTER_DEPENDENCE_BENCHMARK.json",
+        "qualification/benchmark_d05_cluster_randomized.py",
+        "qualification/results/D05_CLUSTER_RANDOMIZED_BENCHMARK.json",
         "release/D04_OSS_COMPARISON.json",
         "release/BENCHMARK_REPORT.json",
         "release/TEST_RESULTS.json"
       ],
-      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary and concentrated continuous exposure, crossed-dependence and near-collinearity instability challenges, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS benchmarks",
+      "scope": "fixed numeric oracles, 100 seeded slope cases, held-out nonlinear/confounded/correlated/OOD cases, D01 cluster-size, sparse binary and concentrated continuous exposure, crossed-dependence and near-collinearity instability challenges, heavy-tailed independent-lot cluster inference challenge, D02 replicate-count/correlated-lot panel, tool/time and same-strata hidden-response transfer challenges, predeclared-stratum high-variance shift coverage challenge, held-out stratum-local nonlinear miss-dilution diagnostic, direct actual-selector hidden-harmonic interpolation stress (diagnostic only), D03 fixed-family correlated mean envelope, adaptive-setting omission refusal, population-mix Simpson reversal and abstention, skewed bounded-familywise and rare-event zero-variance challenges, multiobjective and failed-experiment cases, invalid-assumption refusals, independent statsmodels references, and fixed synthetic D04 OSS, two- and four-factor DOE aliasing including fractional factorial, and D05 hidden-confounder, clustered-dependence refusal, and cluster-randomized Welch oracle benchmarks",
       "status": "PASS"
     },
     "E03": {
@@ -323,13 +588,11 @@
     },
     "E07": {
       "evidence": [
-        "release/UI_COMPONENT_QUALIFICATION.json",
-        "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-        "products/p4/ui/P4Panel.test.tsx",
-        "products/p4/ui/P4Panel.tsx"
+        "release/P4_STANDALONE_UI_BROWSER.json",
+        "qualification/standalone_ui_browser.py"
       ],
-      "reason": "the disposable P1 source and bridge hashes match the current P4 overlay, but the recorded browser observation is stale and provides no current-source browser evidence; authoritative P1 ownership, formal accessibility, and target-host behavior remain pending",
-      "status": "PENDING_HOST_AND_FORMAL_ACCESSIBILITY"
+      "scope": "P4 standalone local application interaction only; keyboard path and evidence export verified in local Chromium. Formal screen-reader/WCAG review and company host qualification remain pending.",
+      "status": "PASS_LIMITED_SCOPE"
     },
     "E08": {
       "evidence": [
@@ -353,12 +616,15 @@
     },
     "E10": {
       "evidence": [
+        "release/FAB_INTELLIGENCE_P4_CANDIDATE.zip",
         "release/TRANSFER_BUNDLE.sha256",
+        "release/SOURCE_MANIFEST.sha256",
         "release/BUILD_REPRODUCIBILITY.json",
-        "release/OFFLINE_QUALIFICATION.json",
-        "qualification/build_transfer_bundle.py"
+        "release/OFFLINE_QUALIFICATION.json"
       ],
-      "scope": "exact current local archive, clean-source reproducible build and fresh extracted offline runtime",
+      "scope": "exact local candidate, two independent detached clean-source rebuilds, and fresh no-pip extraction under macOS network denial",
+      "sha256": "ba7ef4fea8847f1563963772275dea3f0940737ea06fd421a97f464f33ff67ec",
+      "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
       "status": "PASS"
     },
     "E11": {
@@ -417,8 +683,7 @@
     "unverified": [
       "real MCP and auth scopes",
       "source semantics and joins",
-      "authoritative P1 source/version/registration and owner-accepted D01-D05 capability contract",
-      "company target OS and approved host",
+      "company target OS and approved standalone host",
       "company data pilot",
       "engineer acceptance",
       "owner/legal transfer approval",
@@ -427,14 +692,13 @@
   },
   "known_critical_defects": [],
   "product": "p4",
-  "product_source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+  "product_source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
   "release_blockers": [
     "no actual authorized MCP connector",
-    "disposable P1 composition compatibility was demonstrated; authoritative P1 source/version/registration ownership and owner acceptance remain pending",
-    "formal accessibility and target-host behavior remain unqualified",
+    "formal screen-reader/WCAG review and company target-host behavior remain unqualified",
     "license ownership and distribution rights are not declared",
     "independent source security review not completed",
-    "company target OS and formal UX/user baselines not supplied"
+    "company target OS and engineer ROI baseline not supplied"
   ],
   "schema_validation": {
     "command_return_code": 0,
@@ -446,11 +710,11 @@
     "integrated_demo_independent_lots": 100,
     "integrated_demo_observations": 900,
     "maximum_statsmodels_ols_coefficient_difference": 2.842170943040401e-14,
-    "package_source_snapshot": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+    "package_source_snapshot": "885447fdea4da45b26a8b35ddf1841b0341153f4",
     "product_code_unchanged_after_benchmark": true,
     "product_source_manifest_matches": true,
-    "product_source_manifest_sha256": "2fc5f1fd4a59f1a5f87ad9aa095e8d8eb2997bc41db9534e39e6333ac4bee03b",
-    "source_commit": "b0e30118ada66b202f981a04931f33d6f0e60a00",
+    "product_source_manifest_sha256": "67626edf697dc156f665dd78d67aa2361323da2a16ac15fc66bba668ae7f8c96",
+    "source_commit": "885447fdea4da45b26a8b35ddf1841b0341153f4",
     "status": "PASS"
   },
   "source_security_scan": {
@@ -487,30 +751,48 @@
     "status": "PASS"
   },
   "ui_module_qualification": {
-    "component_tests": 24,
-    "disposable_host_evidence": {
-      "browser_evidence_matches_current_p4_commit": false,
-      "current_p4_source_hashes_match": true,
-      "evidence": "qualification/evidence/p1-disposable-host-qualification-2026-11-23.json",
-      "formal_accessibility": "PENDING",
-      "p1_owner_and_source_version": "PENDING",
-      "scope": "Current synthetic P1 host route and P4 module checks plus a historical browser workflow; P1 source is unversioned, and the browser observation is stale for the latest P4 source.",
-      "status": "NOT_RUN_OR_FAIL"
+    "checks": {
+      "accessible_table_alternative_present": true,
+      "advisory_text_visible": true,
+      "all_d01_d05_headings": true,
+      "capability_evidence_lazy_until_requested": true,
+      "capability_evidence_opens_on_request": true,
+      "capability_results_text_length": 908,
+      "configured_mcp_acquisition_completed": true,
+      "configured_mcp_all_capabilities_present": true,
+      "configured_mcp_audit_receipt_present": true,
+      "configured_mcp_evidence_exported": true,
+      "configured_mcp_status_pending_internal": true,
+      "d01_d05_headings": {
+        "D01 \u00b7 Factor sensitivity": true,
+        "D02 \u00b7 Supported process region": true,
+        "D03 \u00b7 Objective tradeoffs": true,
+        "D04 \u00b7 Next experiment": true,
+        "D05 \u00b7 Intervention evaluation": true
+      },
+      "evidence_export_downloaded": true,
+      "full_evidence_opens_on_request": true,
+      "keyboard_analysis_activation": true,
+      "keyboard_demo_activation": true,
+      "keyboard_skip_link": true,
+      "mcp_disabled_without_config": true,
+      "table_alternative_count": 2
     },
-    "evidence": "release/UI_COMPONENT_QUALIFICATION.json",
-    "host_integration": "NOT_RUN_OR_FAIL",
-    "source_declared_tests": 24,
-    "status": "PASS_LOCAL_MODULE_ONLY",
-    "typecheck": "PASS"
+    "evidence": "release/P4_STANDALONE_UI_BROWSER.json",
+    "formal_screen_reader_and_wcag_audit": "PENDING",
+    "scope": "P4 standalone local application only; no P1 or other product host",
+    "source_bound_to_evaluated_commit": true,
+    "source_hashes_match": true,
+    "status": "PASS_STANDALONE_INTERACTION_LIMITED_SCOPE"
   },
   "unit_tests": {
     "command": "python -m unittest discover -s tests -v",
-    "duration_seconds": 14.084,
+    "duration_seconds": 18.002,
     "log": "release/TEST_LOG.txt",
     "optional_qualification_dependencies": "qualification/benchmark-requirements.txt",
     "return_code": 0,
     "status": "PASS",
-    "tests_run": 219,
+    "tests_run": 275,
     "tests_skipped": 0
   }
 }
